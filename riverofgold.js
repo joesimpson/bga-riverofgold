@@ -76,14 +76,14 @@ function (dojo, declare) {
         getSettingsConfig() {
             return {
                 boardWidth: {
-                  default: 30,
+                  default: 100,
                   name: _('River board width'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,
                     padding: 0,
                     range: {
-                      min: [10],
+                      min: [30],
                       max: [100],
                     },
                   },
@@ -140,7 +140,7 @@ function (dojo, declare) {
             const ROOT = document.documentElement;
     
             const WIDTH = $('rog_main_zone').getBoundingClientRect()['width'];
-            const BOARD_WIDTH = 1127;
+            const BOARD_WIDTH = 2726;
     
             let widthScale = ((this.settings.boardWidth / 100) * WIDTH) / BOARD_WIDTH,
             scale = widthScale;

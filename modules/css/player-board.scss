@@ -1,10 +1,34 @@
 
 #rog_main_zone{
 
-    .rog_resizable_board {
-        width: calc(var(--rog_board_display_scale) * 1127px);
-        height: calc(var(--rog_board_display_scale) * 1176px);
+    #rog_resizable_river_board {
+        width: calc(var(--rog_board_display_scale) * 2726px);
+        height: calc(var(--rog_board_display_scale) * 4000px);
         margin-bottom: 10px;
  
+        #rog_river_board_container{
+            /* prevents vertical invisible overflow on BGA bottom elements*/
+            height: inherit;
+            
+            #rog_river_board{
+                transform: scale(var(--rog_board_display_scale));
+                transform-origin: top left;
+                border-radius: 10px;
+                border: 2px solid black;
+                box-shadow: 1px 1px 10px black;
+                position: relative;
+        
+                display: flex;
+                flex-wrap: wrap;
+
+                background-size: 100% auto;
+                background-repeat: no-repeat;
+                width: 2726px;
+                height: 4000px;
+
+                background-image: url('img/board.jpg');
+            }
+        }
     } 
+    
 } 
