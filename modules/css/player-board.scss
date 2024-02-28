@@ -1,0 +1,10 @@
+
+#rog_main_zone{
+
+    .rog_resizable_board {
+        width: calc(var(--rog_board_display_scale) * 1127px);
+        height: calc(var(--rog_board_display_scale) * 1176px);
+        margin-bottom: 10px;
+ 
+    } 
+} 

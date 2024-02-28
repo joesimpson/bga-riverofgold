@@ -2,7 +2,7 @@
  /**
   *------
   * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
-  * RiverOfGold implementation : © <Your name here> <Your email address here>
+  * RiverOfGold implementation : © joesimpson <1324811+joesimpson@users.noreply.github.com>
   * 
   * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
   * See http://en.boardgamearena.com/#!doc/Studio for more information.
@@ -16,12 +16,33 @@
   *
   */
 
+$swdNamespaceAutoload = function ($class) {
+    $classParts = explode('\\', $class);
+    if ($classParts[0] == 'ROG') {
+      array_shift($classParts);
+      $file = dirname(__FILE__) . '/modules/php/' . implode(DIRECTORY_SEPARATOR, $classParts) . '.php';
+      if (file_exists($file)) {
+        require_once $file;
+      } else {
+        var_dump('Cannot find file : ' . $file);
+      }
+    }
+};
+spl_autoload_register($swdNamespaceAutoload, true, true);
 
 require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
+
+use ROG\Core\Globals;
+use ROG\Core\Preferences;
+use ROG\Managers\Players;
 
 
 class RiverOfGold extends Table
 {
+    use ROG\DebugTrait;
+    use ROG\States\SetupTrait;
+
+    public static $instance = null;
 	function __construct( )
 	{
         // Your global variables labels:
@@ -31,16 +52,15 @@ class RiverOfGold extends Table
         //  the corresponding ID in gameoptions.inc.php.
         // Note: afterwards, you can get/set the global variables with getGameStateValue/setGameStateInitialValue/setGameStateValue
         parent::__construct();
-        
+        self::$instance = $this;
         self::initGameStateLabels( array( 
-            //    "my_first_global_variable" => 10,
-            //    "my_second_global_variable" => 11,
-            //      ...
-            //    "my_first_game_variant" => 100,
-            //    "my_second_game_variant" => 101,
-            //      ...
+            'logging' => 10,
         ) );        
 	}
+    public static function get()
+    {
+      return self::$instance;
+    }
 	
     protected function getGameName( )
     {
@@ -107,17 +127,15 @@ class RiverOfGold extends Table
     */
     protected function getAllDatas()
     {
-        $result = array();
-    
-        $current_player_id = self::getCurrentPlayerId();    // !! We must only return informations visible by this player !!
-    
-        // Get information about players
-        // Note: you can retrieve some extra field you added for "player" table in "dbmodel.sql" if you need it.
-        $sql = "SELECT player_id id, player_score score FROM player ";
-        $result['players'] = self::getCollectionFromDb( $sql );
-  
-        // TODO: Gather all information about current game situation (visible by player $current_player_id).
-  
+        $current_player_id = self::getCurrentPId();    // !! We must only return informations visible by this player !!
+        // Gather all information about current game situation (visible by player $current_player_id).
+        $firstPlayer = Globals::getFirstPlayer();
+        $result = [
+          'prefs' => Preferences::getUiData($current_player_id),
+          'players' => Players::getUiData($current_player_id),
+          'turn' => Globals::getTurn(),
+          'firstPlayer' => $firstPlayer,
+        ];
         return $result;
     }
 
@@ -147,6 +165,11 @@ class RiverOfGold extends Table
         In this space, you can put any utility methods useful for your game logic
     */
 
+    function actChangePreference($pref, $value)
+    {
+      Preferences::set($this->getCurrentPId(), $pref, $value);
+    }
+
 
 
 //////////////////////////////////////////////////////////////////////////////
@@ -158,32 +181,7 @@ class RiverOfGold extends Table
         (note: each method below must match an input method in riverofgold.action.php)
     */
 
-    /*
-    
-    Example:
-
-    function playCard( $card_id )
-    {
-        // Check that this is the player's turn and that it is a "possible action" at this game state (see states.inc.php)
-        self::checkAction( 'playCard' ); 
-        
-        $player_id = self::getActivePlayerId();
-        
-        // Add your game logic to play a card there 
-        ...
-        
-        // Notify all players about the card played
-        self::notifyAllPlayers( "cardPlayed", clienttranslate( '${player_name} plays ${card_name}' ), array(
-            'player_id' => $player_id,
-            'player_name' => self::getActivePlayerName(),
-            'card_name' => $card_name,
-            'card_id' => $card_id
-        ) );
-          
-    }
-    
-    */
-
+//-> See States package
     
 //////////////////////////////////////////////////////////////////////////////
 //////////// Game state arguments
@@ -195,22 +193,7 @@ class RiverOfGold extends Table
         game state.
     */
 
-    /*
-    
-    Example for game state "MyGameState":
-    
-    function argMyGameState()
-    {
-        // Get some values from the current game situation in database...
-    
-        // return values:
-        return array(
-            'variable1' => $value1,
-            'variable2' => $value2,
-            ...
-        );
-    }    
-    */
+//-> See States package
 
 //////////////////////////////////////////////////////////////////////////////
 //////////// Game state actions
@@ -221,19 +204,7 @@ class RiverOfGold extends Table
         The action method of state X is called everytime the current game state is set to X.
     */
     
-    /*
-    
-    Example for game state "MyGameState":
-
-    function stMyGameState()
-    {
-        // Do some stuff ...
-        
-        // (very often) go to another gamestate
-        $this->gamestate->nextState( 'some_gamestate_transition' );
-    }    
-    */
-
+//-> See States package
 //////////////////////////////////////////////////////////////////////////////
 //////////// Zombie
 ////////////
@@ -317,4 +288,14 @@ class RiverOfGold extends Table
 
 
     }    
+     
+    /////////////////////////////////////////////////////////////
+    // Exposing protected methods, please use at your own risk //
+    /////////////////////////////////////////////////////////////
+
+    // Exposing protected method getCurrentPlayerId
+    public static function getCurrentPId($bReturnNullIfNotLogged = false)
+    {
+        return self::getCurrentPlayerId($bReturnNullIfNotLogged);
+    }
 }

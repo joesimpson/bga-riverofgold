@@ -1,0 +1,38 @@
+/**
+ *------
+ * BGA framework: Gregory Isabelli & Emmanuel Colin & BoardGameArena
+ * River of Gold implementation : © joesimpson <1324811+joesimpson@users.noreply.github.com>
+ *
+ * This code has been produced on the BGA studio platform for use on http://boardgamearena.com.
+ * See http://en.boardgamearena.com/#!doc/Studio for more information.
+ * -----
+ *
+ * riverofgold.scss
+ *
+ * River of Gold stylesheet
+ *
+ */
+
+@import "modules/css/variables";
+@import "modules/css/player-panel";
+@import "modules/css/player-board";
+@import "modules/css/settings";
+@import "modules/css/nouislider";
+/**
+    PREFIX FOR THIS GAME PROJECT : "rog"
+*/
+#rog_main_zone{
+    
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+}
+
+// For animations : 
+.phantom {
+    visibility: hidden;
+} 
+.rog_hidden{
+    visibility: hidden;
+}
+ 
