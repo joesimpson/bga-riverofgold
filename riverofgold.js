@@ -27,6 +27,10 @@ define([
     g_gamethemeurl + 'modules/js/Core/modal.js',
 ],
 function (dojo, declare) {
+
+    const CARD_LOCATION_DELIVERED = 'dd';
+    const CARD_LOCATION_HAND = 'h';
+    
     return declare("bgagame.riverofgold", [customgame.game], {
         constructor: function(){
             debug('riverofgold constructor');
@@ -69,6 +73,7 @@ function (dojo, declare) {
             
             this.setupPlayers();
             this.setupInfoPanel();
+            this.setupCards();
             
             debug( "Ending specific game setup" );
 
@@ -90,10 +95,27 @@ function (dojo, declare) {
                     },
                   },
                 }, 
+                handWidth: {
+                  default: 100,
+                  name: _('Hand width'),
+                  type: 'slider',
+                  sliderConfig: {
+                    step: 2,
+                    padding: 0,
+                    range: {
+                      min: [30],
+                      max: [100],
+                    },
+                  },
+                }, 
             };
         },
         
         onChangeBoardWidthSetting(val) {
+            this.updateLayout();
+        },
+        onChangeHandWidthSetting(val) {
+            document.documentElement.style.setProperty('--rog_hand_scale', val/100);
             this.updateLayout();
         },
        
@@ -156,6 +178,11 @@ function (dojo, declare) {
             let widthScale = ((this.settings.boardWidth / 100) * WIDTH) / BOARD_WIDTH,
             scale = widthScale;
             ROOT.style.setProperty('--rog_board_display_scale', scale);
+                    
+            //const PLAYER_HAND_WIDTH = 300;
+            //let remainingWidth = WIDTH - $('rog_resizable_river_board').getBoundingClientRect()['width'];
+            //widthScale = ((this.settings.handWidth / 100) * remainingWidth) / PLAYER_HAND_WIDTH;
+            //ROOT.style.setProperty('--rog_hand_scale', widthScale);
         },
 
         ////////////////////////////////////////////////////////////
@@ -189,6 +216,7 @@ function (dojo, declare) {
                 let isCurrent = player.id == this.player_id;
                 let divPanel = `player_panel_content_${player.color}`;
                 this.place('tplPlayerPanel', player, divPanel, 'after');
+                if(isCurrent) this.place('tplPlayerHand', player, 'rog_player_boards');
                 
                 let pId = player.id;
                 this._counters[pId] = {
@@ -320,6 +348,80 @@ function (dojo, declare) {
                 });
             }
         },
+            
+        ////////////////////////////////////////////////////////
+        //    ____              _
+        //   / ___|__ _ _ __ __| |___
+        //  | |   / _` | '__/ _` / __|
+        //  | |__| (_| | | | (_| \__ \
+        //   \____\__,_|_|  \__,_|___/
+        //////////////////////////////////////////////////////////
+
+        setupCards() {
+            // This function is refreshUI compatible
+            let cardIds = this.gamedatas.cards.map((card) => {
+                if (!$(`rog_card-${card.id}`)) {
+                    this.addCard(card);
+                }
+        
+                let o = $(`rog_card-${card.id}`);
+                if (!o) return null;
+        
+                let container = this.getCardContainer(card);
+                if (o.parentNode != $(container)) {
+                    dojo.place(o, container);
+                }
+                o.dataset.state = card.state;
+        
+                return card.id;
+            });
+            document.querySelectorAll('.rog_card[id^="card-"]').forEach((oCard) => {
+                if (!cardIds.includes(parseInt(oCard.getAttribute('data-id')))) {
+                    this.destroy(oCard);
+                }
+            });
+        },
+    
+        addCard(card, location = null) {
+            if ($('rog_card-' + card.id)) return;
+    
+            let o = this.place('tplCard', card, location == null ? this.getCardContainer(card) : location);
+            let tooltipDesc = this.getCardTooltip(card);
+            if (tooltipDesc != null) {
+                this.addCustomTooltip(o.id, tooltipDesc.map((t) => this.formatString(t)).join('<br/>'));
+            }
+    
+            return o;
+        },
+    
+        getCardTooltip(card) {
+            return null;
+        },
+    
+        tplCard(card) {
+            return `<div class="rog_card" id="rog_card-${card.id}" data-id="${card.id}" data-type="${card.type}">
+                </div>`;
+        },
+    
+        getCardContainer(card) {
+            if (card.location == CARD_LOCATION_HAND) {
+                return $(`rog_cards_hand-${card.pId}`);
+            }
+    
+            console.error('Trying to get container of a card', card);
+            return 'game_play_area';
+        },
+            
+        tplPlayerHand(player) {
+            return `<div class='rog_player_hand_resizable'>
+                <div id='rog_player_hand-${player.id}' class='rog_player_hand' data-color='${player.color}'>
+                    <div class='player-name' style='color:#${player.color}'>${_('My hand')}</div>
+                    <div class='rog_cards_hand' id='rog_cards_hand-${player.id}'></div>
+                </div>
+            </div>`;
+        },
+
+
    });
 });
 //# sourceURL=riverofgold.js

@@ -15,6 +15,7 @@
  */
 :root {
   --rog_board_display_scale: 1;
+  --rog_hand_scale: 1;
 }
 
 .player_board_inner > .player-name {
@@ -101,6 +102,63 @@
   width: 2726px;
   height: 4000px;
   background-image: url("img/board.jpg");
+}
+#rog_main_zone #rog_player_boards {
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: column;
+}
+
+.rog_card {
+  width: 148px;
+  height: 200px;
+  background-image: url("img/cardback.jpg");
+  border: 1px solid black;
+  box-shadow: 1px 1px 5px black;
+  border-radius: 5px;
+  background-size: 100%;
+  background-repeat: no-repeat;
+  position: relative;
+}
+.rog_card.selectable {
+  box-shadow: 0px 0px 7px 2px red;
+  cursor: pointer;
+}
+.rog_card.selectable:hover {
+  transform: scale(1.1);
+}
+.rog_card.selected, .rog_card.selected:hover {
+  box-shadow: 0px 0px 7px 2px green;
+  transform: scale(1.1);
+}
+
+.rog_player_hand_resizable {
+  display: flex;
+  transform: scale(var(--rog_hand_scale));
+  transform-origin: top left;
+  border-radius: 10px;
+  border: 2px solid black;
+  box-shadow: 1px 1px 10px black;
+  background-color: rgba(213, 162, 87, 0.5098039216);
+  position: relative;
+  margin-left: 10px;
+}
+.rog_player_hand_resizable .rog_player_hand {
+  display: flex;
+  flex-flow: column;
+}
+.rog_player_hand_resizable .rog_player_hand .player-name {
+  text-align: center;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand {
+  height: 223px;
+  display: flex;
+  flex-flow: row;
+  align-items: center;
+  padding: 0px 5px;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card {
+  margin: 2px 5px;
 }
 
 /**
