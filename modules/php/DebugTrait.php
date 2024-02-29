@@ -2,6 +2,7 @@
 namespace ROG;
 
 use ROG\Core\Notifications;
+use ROG\Managers\Cards;
 use ROG\Managers\Players;
 
 trait DebugTrait
@@ -23,6 +24,25 @@ trait DebugTrait
     Notifications::message("$json",['json' => $json]);
   }
    
+
+  function debugSetup(){
+    $players = self::loadPlayersBasicInfos();
+    Cards::DB()->delete()->run();
+    Cards::setupNewGame($players,[]);
+  }
+
+  function debugSetupPlayerCards(){
+    $this->debugSetup();
+    $players = Players::getAll();
+    foreach($players as $pid => $player){
+
+      $cards = Cards::pickForLocation(NB_CARDS_PER_PLAYER, CARD_LOCATION_DECK, CARD_LOCATION_HAND );
+      //Cards::DB()->update(['player_id'=>$pid],$cards->getIds());
+      foreach($cards as $card){
+        $card->setPId($pid);
+      }
+    }
+  }
 
   function debugMoney(){
     $player = Players::getCurrent();

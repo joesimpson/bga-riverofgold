@@ -34,6 +34,7 @@ require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 
 use ROG\Core\Globals;
 use ROG\Core\Preferences;
+use ROG\Managers\Cards;
 use ROG\Managers\Players;
 
 
@@ -133,6 +134,7 @@ class RiverOfGold extends Table
         $result = [
           'prefs' => Preferences::getUiData($current_player_id),
           'players' => Players::getUiData($current_player_id),
+          'cards' => Cards::getUiData($current_player_id),
           'turn' => Globals::getTurn(),
           'firstPlayer' => $firstPlayer,
         ];

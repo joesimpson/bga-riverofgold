@@ -3,7 +3,25 @@
 /*
  * Game Constants
  */
- 
+ const REGION_1 =  1;
+ const REGION_2 =  2;
+ const REGION_3 =  3;
+ const REGION_4 =  4;
+ const REGION_5 =  5;
+ const REGION_6 =  6;
+
+ const CUSTOMER_TYPE_ARTISAN =  1;
+ const CUSTOMER_TYPE_ELDER =    2;
+ const CUSTOMER_TYPE_MERCHANT = 3;
+ const CUSTOMER_TYPE_MONK =     4;
+ const CUSTOMER_TYPE_NOBLE =    5;
+
+
+ const CARD_LOCATION_DECK = 'deck';
+ const CARD_LOCATION_DELIVERED = 'dd';
+ const CARD_LOCATION_HAND = 'h';
+ //! Warning one clan patron will have more cards (3)
+ const NB_CARDS_PER_PLAYER = 2;
 /*
  * Game options
  */ 
