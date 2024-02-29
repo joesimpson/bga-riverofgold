@@ -1,11 +1,11 @@
 <?php
 
-namespace COAL\Helpers;
+namespace ROG\Helpers;
 
-use COAL\Core\Game;
-use COAL\Core\Globals;
-use COAL\Core\Notifications;
-use COAL\Managers\Players;
+use ROG\Core\Game;
+use ROG\Core\Globals;
+use ROG\Core\Notifications;
+use ROG\Managers\Players;
 
 /**
  * Class that allows to log DB change: useful for undo feature

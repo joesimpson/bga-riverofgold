@@ -195,22 +195,16 @@ class Stats extends \ROG\Helpers\DB_Manager
   /*********************
    **********************
    *********************/
-  public static function setupNewGame()
+  /**
+   * @param Collection $players
+   */
+  public static function setupNewGame($players)
   {
     Stats::checkExistence();
-    
-  }
-  public static function setupNewRound($players,$schema)
-  {
-    Stats::checkExistence();
-    Stats::setSchema($schema->id);
-    Stats::setDifficulty($schema->difficulty);
-    Stats::setFlower_type($schema->type);
-
     foreach ($players as $pId => $player) {
-      Stats::setTokens_deck($pId, 0);
-      Stats::setTokens_recruit($pId, 0);
-      Stats::setTokens_board($pId, 0);
+      Stats::inc( "moneyReceived", $pId, $player->getMoney() );
+      Stats::inc( "moneyLeft", $pId, $player->getMoney() );
     }
+    
   }
 }

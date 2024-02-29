@@ -4,6 +4,21 @@ namespace ROG\Core;
 
 class Notifications
 { 
+  
+  public static function giveMoney($player, $money)
+  {
+    self::notifyAll('giveMoney', clienttranslate('${player_name} receives ${n} Koku'), [
+      'player' => $player,
+      'n' => $money,
+    ]);
+  }
+  public static function spendMoney($player, $money)
+  {
+    self::notifyAll('spendMoney', clienttranslate('${player_name} spends ${n} Koku'), [
+      'player' => $player,
+      'n' => $money,
+    ]);
+  }
   /*************************
    **** GENERIC METHODS ****
    *************************/

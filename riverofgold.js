@@ -37,6 +37,8 @@ function (dojo, declare) {
             this._counters = {};
             
             this._notifications = [
+                ['giveMoney', 1300],
+                ['spendMoney', 1300],
             ];
         },
         
@@ -121,6 +123,15 @@ function (dojo, declare) {
         //    
         //////////////////////////////////////////////////////////////
  
+        notif_spendMoney(n) {
+            debug('Notif: spending money', n);
+            this.gainPayMoney(n.args.player_id, -n.args.n);
+          },
+      
+          notif_giveMoney(n) {
+            debug('Notif: gaining money', n);
+            this.gainPayMoney(n.args.player_id, n.args.n);
+          },
         
         ///////////////////////////////////////////////////
         //    _    _ _   _ _     
@@ -155,7 +166,13 @@ function (dojo, declare) {
         // |_|  \___/|_|  |_| |_| |_|\__,_|\__|\__|_|_| |_|\__, |
         //                                                 |___/
         ////////////////////////////////////////////////////////////
-        
+        formatIcon(name, n = null) {
+            let type = name;
+            let text = n == null ? '' : `<span>${n}</span>`;
+            return `<div class="rog_icon_container rog_icon_container_${type}">
+                <div class="rog_icon rog_icon_${type}">${text}</div>
+                </div>`;
+        },
         ////////////////////////////////////////
         //  ____  _
         // |  _ \| | __ _ _   _  ___ _ __ ___
@@ -175,6 +192,7 @@ function (dojo, declare) {
                 
                 let pId = player.id;
                 this._counters[pId] = {
+                    money: this.createCounter(`rog_counter_${pId}_money`, player.money),
                 };
                 nPlayers++;
                 if (isCurrent) currentPlayerNo = player.no;
@@ -253,9 +271,55 @@ function (dojo, declare) {
             return `<div class='rog_panel'>
             <div class="rog_first_player_holder"></div>
             <div class='rog_player_infos'>
+                ${this.tplResourceCounter(player, 'money')}
             </div>
             </div>`;
         },
-   });             
+        /**
+         * Use this tpl for any counters that represent qty of tokens
+         */
+        tplResourceCounter(player, res, nbSubIcons = null, totalValue = null) {
+            let totalText = totalValue ==null ? '' : `<span id='rog_counter_${player.id}_${res}_total' class='rog_resource_${res}_total'></span> `;
+            return `
+            <div class='rog_player_resource rog_resource_${res}'>
+                <span id='rog_counter_${player.id}_${res}' 
+                class='rog_resource_${res}'></span>${totalText}${this.formatIcon(res, nbSubIcons)}
+                <div class='rog_reserve' id='rog_reserve_${player.id}_${res}'></div>
+            </div>
+            `;
+        },
+            
+        gainPayMoney(pId, n, targetSource = null) {
+            if (this.isFastMode()) {
+                this._counters[pId]['money'].incValue(n);
+                return Promise.resolve();
+            }
+    
+            let elem = `<div id='rog_money_animation'>
+                ${Math.abs(n)}
+                <div class="rog_icon_container rog_icon_container_money">
+                    <div class="rog_icon rog_icon_money"></div>
+                </div>
+                </div>`;
+            $('page-content').insertAdjacentHTML('beforeend', elem);
+    
+            if (n > 0) {
+                return this.slide('rog_money_animation', `rog_counter_${pId}_money`, {
+                    from: targetSource || this.getVisibleTitleContainer(),
+                    destroy: true,
+                    phantom: false,
+                    duration: 1200,
+                }).then(() => this._counters[pId]['money'].incValue(n));
+            } else {
+                this._counters[pId]['money'].incValue(n);
+                return this.slide('rog_money_animation', targetSource || this.getVisibleTitleContainer(), {
+                    from: `rog_counter_${pId}_money`,
+                    destroy: true,
+                    phantom: false,
+                    duration: 1200,
+                });
+            }
+        },
+   });
 });
 //# sourceURL=riverofgold.js

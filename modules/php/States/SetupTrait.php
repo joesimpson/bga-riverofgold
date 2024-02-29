@@ -19,10 +19,10 @@ trait SetupTrait
   */
   protected function setupNewGame($players, $options = [])
   {
-    Players::setupNewGame($players, $options);
+    $playersDatas = Players::setupNewGame($players, $options);
     Globals::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $this->player_preferences);
-    Stats::setupNewGame();
+    Stats::setupNewGame($playersDatas);
 
     $this->setGameStateInitialValue('logging', true); 
 

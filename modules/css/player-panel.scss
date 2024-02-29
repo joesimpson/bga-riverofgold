@@ -10,3 +10,64 @@
     }
 
 }  
+
+.rog_panel{
+
+    .rog_player_infos {
+        display: flex;
+        flex-wrap: wrap;
+        font-size: 15px;
+        justify-content: space-around;
+        position: relative;
+        padding: 0.5rem 0;
+    
+        .rog_player_resource {
+            margin: 4px 0px;
+            position: relative;
+            text-align: center;
+            .rog_reserve {
+                position: absolute;
+                top: 0%;
+                left: 0%;
+                width: 100%;
+                height: 100%;
+            }
+    
+            .rog_resource_money {
+                font-size: 22px;
+                font-weight: bold;
+                &::after {
+                    content: " x";
+                }
+            } 
+        }
+    }
+}
+
+.rog_icon_container {
+    display: inline-block;
+    vertical-align: middle;
+    margin: 0 0.5em;
+
+    .rog_icon{
+        &.rog_icon_money {
+            width: 2.5em;
+            height: 3em;
+            background-image: url("img/koku.png");
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+        }
+    }
+}
+
+#rog_money_animation {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-weight: bold;
+    font-size: 22px;
+
+    .rog_icon_container {
+        font-size: 0.8em;
+    }
+}

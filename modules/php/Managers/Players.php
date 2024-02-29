@@ -4,6 +4,9 @@ namespace ROG\Managers;
 
 use ROG\Core\Game;
 use ROG\Core\Globals;
+use ROG\Core\Notifications;
+use ROG\Core\Stats;
+use ROG\Exceptions\UnexpectedException;
 
 /*
  * Players manager : allows to easily access players ...
@@ -19,23 +22,30 @@ class Players extends \ROG\Helpers\DB_Manager
     return new \ROG\Models\Player($row);
   }
 
+  /**
+   * @param array $players
+   * @return Collection $players
+   */
   public static function setupNewGame($players, $options)
   {
     // Create players
     $gameInfos = Game::get()->getGameinfos();
     $colors = $gameInfos['player_colors'];
-    $query = self::DB()->multipleInsert(['player_id', 'player_color', 'player_canal', 'player_name', 'player_avatar']);
+    $query = self::DB()->multipleInsert(['player_id', 'player_color', 'player_canal', 'player_name', 'player_avatar', 'money']);
 
     $values = [];
+    $k =0;
     foreach ($players as $pId => $player) {
       $color = array_shift($colors);
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar']];
+      $initialMoney = $k + 7;
+      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], $initialMoney];
+      $k++;
     }
     $query->values($values);
 
     Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
     Game::get()->reloadPlayersBasicInfos();
-
+    return self::getAll();
   }
 
   /**
@@ -169,4 +179,33 @@ class Players extends \ROG\Helpers\DB_Manager
       $player->startTurn($turn);
     }
   }
+  
+  /**
+   * @param Player $player 
+   * @param int $money 
+   */
+  public static function giveMoney($player,$money){
+    $pId = $player->getId();
+    self::DB()->inc(['money' => $money], $pId);
+    Notifications::giveMoney($player,$money);
+    Stats::inc("moneyReceived",$player,$money);
+    Stats::inc("moneyLeft",$player,$money);
+  }
+  
+  /**
+   * @param Player $player 
+   * @param int $money 
+   */
+  public static function spendMoney($player,$money){
+    $pId = $player->getId();
+    if($player->getMoney() < $money){
+      //Should not happen
+      throw new UnexpectedException(404,"Not enough money to spend");
+    }
+    self::DB()->inc(['money' => 0-$money], $pId);
+    Notifications::spendMoney($player,$money);
+    Stats::inc("moneySpent",$player,$money);
+    Stats::inc("moneyLeft",$player,-$money);
+  }
 }
+

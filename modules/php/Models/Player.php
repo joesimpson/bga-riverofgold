@@ -23,9 +23,9 @@ class Player extends \ROG\Helpers\DB_Model
     'eliminated' => 'player_eliminated',
     'score' => ['player_score', 'int'],
     'scoreAux' => ['player_score_aux', 'int'],
-    'privateState' => ['player_state', 'int'],
     'zombie' => 'player_zombie',
     //GAME SPECIFIC :
+    'money' => ['money', 'int'],
 
   ];
 

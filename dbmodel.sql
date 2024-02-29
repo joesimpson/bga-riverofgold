@@ -19,6 +19,8 @@
 --       you have to restart a game to see your changes in database.
 
 
+-- ADD a money count to each player
+ALTER TABLE `player` ADD `money` INT(3) DEFAULT 0;
 
 -- CORE TABLES from tisaac boilerplate --
 CREATE TABLE IF NOT EXISTS `global_variables` (

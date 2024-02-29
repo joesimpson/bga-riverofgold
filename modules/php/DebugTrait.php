@@ -1,6 +1,9 @@
 <?php
 namespace ROG;
 
+use ROG\Core\Notifications;
+use ROG\Managers\Players;
+
 trait DebugTrait
 {
   /**
@@ -20,4 +23,10 @@ trait DebugTrait
     Notifications::message("$json",['json' => $json]);
   }
    
+
+  function debugMoney(){
+    $player = Players::getCurrent();
+    Notifications::giveMoney($player,55);
+    Notifications::spendMoney($player,23);
+  }
 }
