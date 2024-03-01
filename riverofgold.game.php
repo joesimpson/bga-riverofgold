@@ -36,7 +36,7 @@ use ROG\Core\Globals;
 use ROG\Core\Preferences;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
-
+use ROG\Managers\Tiles;
 
 class RiverOfGold extends Table
 {
@@ -91,6 +91,7 @@ class RiverOfGold extends Table
           'prefs' => Preferences::getUiData($current_player_id),
           'players' => Players::getUiData($current_player_id),
           'cards' => Cards::getUiData($current_player_id),
+          'tiles' => Tiles::getUiData($current_player_id),
           'turn' => Globals::getTurn(),
           'firstPlayer' => $firstPlayer,
         ];

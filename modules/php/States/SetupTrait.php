@@ -7,6 +7,7 @@ use ROG\Core\Preferences;
 use ROG\Core\Stats;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
+use ROG\Managers\Tiles;
 
 trait SetupTrait
 {
@@ -24,6 +25,7 @@ trait SetupTrait
     Globals::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $this->player_preferences);
     Stats::setupNewGame($playersDatas);
+    Tiles::setupNewGame($players,$options);
     Cards::setupNewGame($players,$options);
 
     $this->setGameStateInitialValue('logging', true); 

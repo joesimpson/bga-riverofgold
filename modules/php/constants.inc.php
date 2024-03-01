@@ -16,6 +16,10 @@
  const CUSTOMER_TYPE_MONK =     4;
  const CUSTOMER_TYPE_NOBLE =    5;
 
+ const TILE_TYPE_SCORING = 1;
+ const TILE_TYPE_BUILDING = 2;
+
+const TILE_LOCATION_SCORING = 's';
 
  const CARD_LOCATION_DECK = 'deck';
  const CARD_LOCATION_DELIVERED = 'dd';

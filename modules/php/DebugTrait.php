@@ -4,6 +4,7 @@ namespace ROG;
 use ROG\Core\Notifications;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
+use ROG\Managers\Tiles;
 
 trait DebugTrait
 {
@@ -29,6 +30,8 @@ trait DebugTrait
     $players = self::loadPlayersBasicInfos();
     Cards::DB()->delete()->run();
     Cards::setupNewGame($players,[]);
+    Tiles::DB()->delete()->run();
+    Tiles::setupNewGame($players,[]);
   }
 
   function debugSetupPlayerCards(){
