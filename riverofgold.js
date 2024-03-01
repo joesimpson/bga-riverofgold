@@ -225,6 +225,22 @@ function (dojo, declare) {
                 <div class="rog_icon rog_icon_${type}">${text}</div>
                 </div>`;
         },
+        formatString(str) {
+            debug('formatString', str);
+            const ICONS = [];
+        
+            ICONS.forEach((name) => {
+                // WITH TEXT
+                const regex = new RegExp('<' + name + ':([^>]+)>', 'g');
+                str = str.replaceAll(regex, this.formatIcon(name, '$1'));
+                // WITHOUT TEXT
+                str = str.replaceAll(new RegExp('<' + name + '>', 'g'), this.formatIcon(name));
+            });
+            str = str.replace(/__([^_]+)__/g, '<span class="action-card-name-reference">$1</span>');
+            str = str.replace(/\*\*([^\*]+)\*\*/g, '<b>$1</b>');
+        
+            return str;
+        },
         ////////////////////////////////////////
         //  ____  _
         // |  _ \| | __ _ _   _  ___ _ __ ___
@@ -422,11 +438,14 @@ function (dojo, declare) {
         },
     
         getCardTooltip(card) {
-            return null;
+            let cardDatas = card;
+            let desc = [this.fsr(_('${card_type} ${region}'), { card_type: cardDatas.title, region: cardDatas.region })];
+            let div = this.tplCard(cardDatas,'_tmp');
+            return [`<div class='rog_card_tooltip'><h4>${_(cardDatas.title)}</h4>${desc}${div}</div>`];
         },
     
-        tplCard(card) {
-            return `<div class="rog_card" id="rog_card-${card.id}" data-id="${card.id}" data-type="${card.type}">
+        tplCard(card, prefix ='') {
+            return `<div class="rog_card" id="rog_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}">
                 </div>`;
         },
     

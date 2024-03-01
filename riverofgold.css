@@ -282,6 +282,11 @@
   transform: scale(1.1);
 }
 
+.midSizeDialog .rog_card {
+  width: 385px;
+  height: 532px;
+}
+
 .rog_player_hand_resizable {
   display: flex;
   transform: scale(var(--rog_hand_scale));

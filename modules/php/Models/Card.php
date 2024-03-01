@@ -22,6 +22,8 @@ class Card extends \ROG\Helpers\DB_Model
     ['customerType', 'int'],
     ['region', 'int'],
     ['cost', 'obj'],
+    ['title', 'string'],
+    ['desc', 'string'],
   ];
 
   public function __construct($row, $datas)
