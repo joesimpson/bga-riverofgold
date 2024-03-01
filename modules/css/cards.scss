@@ -6,9 +6,15 @@
     box-shadow: 1px 1px 5px black;
     border-radius: 5px;
 
-    background-size: 100%;
-    background-repeat: no-repeat;
-    //TODO JSA sprite positions
+    //sprite positions
+    background-size: 600% 500%;
+    @for $i from 0 through 29 {
+        &[data-type="#{$i + 1}"] {
+            background-image: url("img/cards.jpg");
+            background-position-x: ($i % 6) * 100% / 5;
+            background-position-y: (($i - ($i % 5)) / 5) * 100% / 4;
+        }
+    }
 
     position: relative; 
     &.selectable {
