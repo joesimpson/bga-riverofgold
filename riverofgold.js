@@ -45,6 +45,7 @@ function (dojo, declare) {
             this._notifications = [
                 ['giveMoney', 1300],
                 ['spendMoney', 1300],
+                ['giveCardTo', 1000],
             ];
         },
         
@@ -172,7 +173,11 @@ function (dojo, declare) {
         //                                                            
         //    
         //////////////////////////////////////////////////////////////
- 
+        notif_giveCardTo(n) {
+            debug('Notif: receiving a new card', n);
+            if (!$(`rog_card-${n.args.card.id}`)) this.addCard(n.args.card, this.getVisibleTitleContainer());
+            this.slide(`rog_card-${n.args.card.id}`, this.getCardContainer(n.args.card));
+        },
         notif_spendMoney(n) {
             debug('Notif: spending money', n);
             this.gainPayMoney(n.args.player_id, -n.args.n);

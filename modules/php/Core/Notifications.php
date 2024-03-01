@@ -5,6 +5,10 @@ namespace ROG\Core;
 class Notifications
 { 
   
+  /**
+   * @param Player $player
+   * @param int $money
+   */
   public static function giveMoney($player, $money)
   {
     self::notifyAll('giveMoney', clienttranslate('${player_name} receives ${n} Koku'), [
@@ -12,6 +16,10 @@ class Notifications
       'n' => $money,
     ]);
   }
+  /**
+   * @param Player $player
+   * @param int $money
+   */
   public static function spendMoney($player, $money)
   {
     self::notifyAll('spendMoney', clienttranslate('${player_name} spends ${n} Koku'), [
@@ -19,6 +27,23 @@ class Notifications
       'n' => $money,
     ]);
   }
+  
+  /**
+   * @param Player $player
+   * @param Card $card
+   */
+  public static function giveCardTo($player, $card)
+  {
+    //Beware this is a private info !
+    self::notify($player,'giveCardTo', '', [
+      'player' => $player,
+      'card' => $card->getUiData(),
+    ]);
+    self::notifyAll('giveCardToPublic', clienttranslate('${player_name} receives a new customer card'), [
+      'player' => $player,
+    ]);
+  }
+
   /*************************
    **** GENERIC METHODS ****
    *************************/

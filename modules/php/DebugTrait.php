@@ -36,6 +36,7 @@ trait DebugTrait
 
   function debugSetupPlayerCards(){
     $this->debugSetup();
+    /*
     $players = Players::getAll();
     foreach($players as $pid => $player){
 
@@ -45,6 +46,8 @@ trait DebugTrait
         $card->setPId($pid);
       }
     }
+    */
+    $this->stPlayerSetup();
   }
   
   function debugLiv(){

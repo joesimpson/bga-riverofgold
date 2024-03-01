@@ -3,6 +3,7 @@
 namespace ROG\States;
 
 use ROG\Core\Globals;
+use ROG\Core\Notifications;
 use ROG\Core\Preferences;
 use ROG\Core\Stats;
 use ROG\Managers\Cards;
@@ -42,7 +43,15 @@ trait SetupTrait
   {
     self::trace("stPlayerSetup()");
 
-    //TODO JSA stPlayerSetup
+    $players = Players::getAll();
+    foreach($players as $pid => $player){
+
+      $cards = Cards::pickForLocation(NB_CARDS_PER_PLAYER, CARD_LOCATION_DECK, CARD_LOCATION_HAND );
+      foreach($cards as $card){
+        $card->setPId($pid);
+        Notifications::giveCardTo($player,$card);
+      }
+    }
 
     $this->gamestate->nextState('next');
   }
