@@ -32,4 +32,16 @@ trait SetupTrait
     $this->activeNextPlayer();
     /************ End of the game initialization *****/
   }
+
+  /**
+   * Set up of players datas/resources depend on their clan
+   */
+  public function stPlayerSetup()
+  {
+    self::trace("stPlayerSetup()");
+
+    //TODO JSA stPlayerSetup
+
+    $this->gamestate->nextState('next');
+  }
 }

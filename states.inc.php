@@ -51,54 +51,147 @@
  
 require_once 'modules/php/constants.inc.php';
 
+/*
+    "Visual" States Diagram :
+
+        SETUP
+        |
+        v
+        clanSelection
+        |
+        v
+        playerSetup
+                |
+                v
+ /<----------- nextTurn     <-------------------------\                                
+ |              |                                     |
+ |              v                                     |
+ |             beforeTurn                             |
+ |                |                                   |
+ |                |                                   |
+ |                v                                   |
+ |                playerTurn -------------------------/
+ v        
+ \-> endGameScoring
+        | 
+        v
+        preEndOfGame
+        | 
+        v
+        END
+*/
+
 $machinestates = array(
 
     // The initial state. Please do not modify.
-    1 => array(
+    ST_GAME_SETUP => array(
         "name" => "gameSetup",
         "description" => "",
         "type" => "manager",
         "action" => "stGameSetup",
-        "transitions" => array( "" => 2 )
+        "transitions" => array( "" => ST_CLAN_SELECTION)
     ),
     
-    // Note: ID=2 => your first state
+    ST_CLAN_SELECTION => array(
+        "name" => "clanSelection",
+        "description" => clienttranslate('Assigning clans to players'),
+        "type" => "game",
+        "action" => "stClanSelection",
+        "transitions" => [ 
+            "next" => ST_PLAYER_SETUP,
+        ],
+    ),
+    
+    ST_PLAYER_SETUP => array(
+        "name" => "playerSetup",
+        "description" => clienttranslate('Setting up players ressources'),
+        "type" => "game",
+        "action" => "stPlayerSetup",
+        "transitions" => [ 
+            "next" => ST_NEXT_TURN,
+        ],
+    ),
+    
+    ST_NEXT_TURN => array(
+        "name" => "nextTurn",
+        "description" => clienttranslate('Next turn'),
+        "type" => "game",
+        "action" => "stNextTurn",
+        "updateGameProgression" => true,
+        "transitions" => [ 
+            "next" => ST_BEFORE_TURN,
+            "end" => ST_END_SCORING,
+        ],
+    ),
 
-    2 => array(
-    		"name" => "playerTurn",
-    		"description" => clienttranslate('${actplayer} must play a card or pass'),
-    		"descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
-    		"type" => "activeplayer",
-    		"possibleactions" => array( "playCard", "pass" ),
-    		"transitions" => array( "playCard" => 2, "pass" => 2 )
+    //Checks before next turn : almost unused, may be used by some clans (Darling)
+    ST_BEFORE_TURN => array(
+        "name" => "beforeTurn",
+        "description" => clienttranslate('${actplayer} may spend favor to choose the die face'),
+        "descriptionmyturn" => clienttranslate('${you} may spend favor to choose the die face'),
+        "type" => "activeplayer",
+        "action" => "stBeforeTurn",
+        "updateGameProgression" => true,
+        "transitions" => [ 
+            "next" => ST_PLAYER_TURN,
+            "zombiePass" => ST_PLAYER_TURN,
+        ],
+    ),
+
+    ST_PLAYER_TURN => array(
+        "name" => "playerTurn",
+        "description" => clienttranslate('${actplayer} must play an action'),
+        "descriptionmyturn" => clienttranslate('${you} must play an action'),
+        "type" => "activeplayer",
+        "possibleactions" => [
+            "actBuild", 
+            "actSail", 
+            "actDeliver", 
+            "actExchange", 
+        ],
+        "transitions" => [ 
+            "next" => ST_NEXT_TURN, 
+            "zombiePass" => ST_NEXT_TURN,
+        ],
+    ),
+
+    ST_END_SCORING => array(
+        "name" => "scoring",
+        "description" => clienttranslate('Scoring'),
+        "type" => "game",
+        "action" => "stScoring",
+        "transitions" => [ 
+            "next" => ST_PRE_END_OF_GAME,
+        ],
     ),
     
-/*
-    Examples:
-    
-    2 => array(
-        "name" => "nextPlayer",
+    ST_PRE_END_OF_GAME => array(
+        "name" => "preEndOfGame",
         "description" => '',
         "type" => "game",
-        "action" => "stNextPlayer",
-        "updateGameProgression" => true,   
-        "transitions" => array( "endGame" => 99, "nextPlayer" => 10 )
+        "action" => "stPreEndOfGame",
+        "transitions" => [ 
+            //"next" => ST_END_GAME,
+            "next" => 96,
+        ],
     ),
-    
-    10 => array(
-        "name" => "playerTurn",
-        "description" => clienttranslate('${actplayer} must play a card or pass'),
-        "descriptionmyturn" => clienttranslate('${you} must play a card or pass'),
-        "type" => "activeplayer",
-        "possibleactions" => array( "playCard", "pass" ),
-        "transitions" => array( "playCard" => 2, "pass" => 2 )
-    ), 
-
-*/    
    
+    //END GAME TESTING STATE
+    96 => [
+        "name" => "playerGameEnd",
+        "description" => ('${actplayer} Game Over'),
+        "descriptionmyturn" => ('${you} Game Over'),
+        "type" => "activeplayer",
+        "args" => "argPlayerTurn",
+        "possibleactions" => ["endGame"],
+        "transitions" => [
+            "next" => ST_END_GAME,
+            "loopback" => 96 
+        ] 
+    ],
     // Final state.
     // Please do not modify (and do not overload action/args methods).
-    99 => array(
+    ST_END_GAME => array(
         "name" => "gameEnd",
         "description" => clienttranslate("End of game"),
         "type" => "manager",

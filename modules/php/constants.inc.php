@@ -38,9 +38,11 @@ const OPTION_EXPANSION_CLANS_ON = 1;
  */
 const ST_GAME_SETUP = 1;
 
-const ST_NEXT_ROUND = 3;
+const ST_CLAN_SELECTION = 3;
+const ST_PLAYER_SETUP = 5;
  
 const ST_NEXT_TURN = 10;
+const ST_BEFORE_TURN = 11;
 
 const ST_PLAYER_TURN = 20;
 
