@@ -1,0 +1,51 @@
+
+#rog_scoring_tiles{
+        
+    .rog_tile {
+        width: 350px;
+        height: 122px;
+
+        //sprite positions
+        background-size: 200% 600%;
+        @for $i from 0 through 11 {
+            &[data-type="#{$i + 1}"] {
+                background-image: url("img/scoringtile.png");
+                background-position-y: ($i % 6) * 100% / 5;
+                background-position-x: (($i - ($i % 6)) / 6) * 100% / 1;
+            }
+        }
+    
+    }
+    #rog_scoring_tile-1{
+        position: absolute;
+        top: 456px;
+        left: 1735px;
+    }
+    #rog_scoring_tile-2{
+        position: absolute;
+        top: 946px;
+        left: 1837px;
+    }
+    #rog_scoring_tile-3{
+        position: absolute;
+        top: 1436px;
+        left: 1899px;
+    }
+    #rog_scoring_tile-4{
+        position: absolute;
+        top: 1929px;
+        left: 1900px;
+    }
+    #rog_scoring_tile-5{
+        position: absolute;
+        top: 2418px;
+        left: 1923px;
+    }
+    #rog_scoring_tile-6{
+        position: absolute;
+        top: 2910px;
+        left: 1815px;
+    }
+
+}
+ 

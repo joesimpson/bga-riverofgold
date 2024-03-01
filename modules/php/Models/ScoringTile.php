@@ -27,8 +27,9 @@ class ScoringTile extends Tile
     //state will be in [0,1,2,3,4,5] after shuffle :
     $data['pos'] = $this->getState() +1 ;
     unset($data['pId']);
-    unset($data['location']);
     unset($data['state']);
+    unset($data['nbPlayers']);
+    unset($data['scores']);
     return $data;
   }
 }

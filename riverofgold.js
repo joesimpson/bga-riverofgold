@@ -28,6 +28,8 @@ define([
 ],
 function (dojo, declare) {
 
+    const TILE_LOCATION_SCORING = 's';
+
     const CARD_LOCATION_DELIVERED = 'dd';
     const CARD_LOCATION_HAND = 'h';
     
@@ -74,6 +76,7 @@ function (dojo, declare) {
             this.setupPlayers();
             this.setupInfoPanel();
             this.setupCards();
+            this.setupTiles();
             
             debug( "Ending specific game setup" );
 
@@ -476,6 +479,56 @@ function (dojo, declare) {
                     <div class='rog_cards_delivered' id='rog_cards_delivered-${player.id}'></div>
                 </div>
             </div>`;
+        },
+
+        ////////////////////////////////////////////////////////
+        //  _____ _ _
+        // |_   _(_) | ___  ___
+        //   | | | | |/ _ \/ __|
+        //   | | | | |  __/\__ \
+        //   |_| |_|_|\___||___/
+        //////////////////////////////////////////////////////////
+
+        setupTiles() {
+            // This function is refreshUI compatible
+            let cardIds = this.gamedatas.tiles.map((card) => {
+                if (!$(`rog_tile-${card.id}`)) {
+                    this.addTile(card);
+                }
+        
+                let o = $(`rog_tile-${card.id}`);
+                if (!o) return null;
+        
+                let container = this.getTileContainer(card);
+                if (o.parentNode != $(container)) {
+                    dojo.place(o, container);
+                }
+                return card.id;
+            });
+            document.querySelectorAll('.rog_tile[id^="tile-"]').forEach((oCard) => {
+                if (!cardIds.includes(parseInt(oCard.getAttribute('data-id')))) {
+                    this.destroy(oCard);
+                }
+            });
+        },
+    
+        addTile(tile, location = null) {
+            if ($('rog_tile-' + tile.id)) return;
+            let o = this.place('tplTile', tile, location == null ? this.getTileContainer(tile) : location);
+            return o;
+        },
+        tplTile(tile, prefix ='') {
+            return `<div class="rog_tile" id="rog_tile${prefix}-${tile.id}" data-id="${tile.id}" data-type="${tile.type}">
+                </div>`;
+        },
+    
+        getTileContainer(tile) {
+            if (tile.location == TILE_LOCATION_SCORING) {
+                return $(`rog_scoring_tile-${tile.pos}`);
+            }
+    
+            console.error('Trying to get container of a tile', tile);
+            return 'game_play_area';
         },
 
 

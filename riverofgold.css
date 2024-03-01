@@ -362,6 +362,102 @@
   margin: 2px 5px;
 }
 
+#rog_scoring_tiles .rog_tile {
+  width: 350px;
+  height: 122px;
+  background-size: 200% 600%;
+}
+#rog_scoring_tiles .rog_tile[data-type="1"] {
+  background-image: url("img/scoringtile.png");
+  background-position-y: 0%;
+  background-position-x: 0%;
+}
+#rog_scoring_tiles .rog_tile[data-type="2"] {
+  background-image: url("img/scoringtile.png");
+  background-position-y: 20%;
+  background-position-x: 0%;
+}
+#rog_scoring_tiles .rog_tile[data-type="3"] {
+  background-image: url("img/scoringtile.png");
+  background-position-y: 40%;
+  background-position-x: 0%;
+}
+#rog_scoring_tiles .rog_tile[data-type="4"] {
+  background-image: url("img/scoringtile.png");
+  background-position-y: 60%;
+  background-position-x: 0%;
+}
+#rog_scoring_tiles .rog_tile[data-type="5"] {
+  background-image: url("img/scoringtile.png");
+  background-position-y: 80%;
+  background-position-x: 0%;
+}
+#rog_scoring_tiles .rog_tile[data-type="6"] {
+  background-image: url("img/scoringtile.png");
+  background-position-y: 100%;
+  background-position-x: 0%;
+}
+#rog_scoring_tiles .rog_tile[data-type="7"] {
+  background-image: url("img/scoringtile.png");
+  background-position-y: 0%;
+  background-position-x: 100%;
+}
+#rog_scoring_tiles .rog_tile[data-type="8"] {
+  background-image: url("img/scoringtile.png");
+  background-position-y: 20%;
+  background-position-x: 100%;
+}
+#rog_scoring_tiles .rog_tile[data-type="9"] {
+  background-image: url("img/scoringtile.png");
+  background-position-y: 40%;
+  background-position-x: 100%;
+}
+#rog_scoring_tiles .rog_tile[data-type="10"] {
+  background-image: url("img/scoringtile.png");
+  background-position-y: 60%;
+  background-position-x: 100%;
+}
+#rog_scoring_tiles .rog_tile[data-type="11"] {
+  background-image: url("img/scoringtile.png");
+  background-position-y: 80%;
+  background-position-x: 100%;
+}
+#rog_scoring_tiles .rog_tile[data-type="12"] {
+  background-image: url("img/scoringtile.png");
+  background-position-y: 100%;
+  background-position-x: 100%;
+}
+#rog_scoring_tiles #rog_scoring_tile-1 {
+  position: absolute;
+  top: 456px;
+  left: 1735px;
+}
+#rog_scoring_tiles #rog_scoring_tile-2 {
+  position: absolute;
+  top: 946px;
+  left: 1837px;
+}
+#rog_scoring_tiles #rog_scoring_tile-3 {
+  position: absolute;
+  top: 1436px;
+  left: 1899px;
+}
+#rog_scoring_tiles #rog_scoring_tile-4 {
+  position: absolute;
+  top: 1929px;
+  left: 1900px;
+}
+#rog_scoring_tiles #rog_scoring_tile-5 {
+  position: absolute;
+  top: 2418px;
+  left: 1923px;
+}
+#rog_scoring_tiles #rog_scoring_tile-6 {
+  position: absolute;
+  top: 2910px;
+  left: 1815px;
+}
+
 /**
  * Player panel settings
  * AUTHOR : © Tisaac
