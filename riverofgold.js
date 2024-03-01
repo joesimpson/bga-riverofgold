@@ -149,6 +149,14 @@ function (dojo, declare) {
             this.inherited(arguments);
             dojo.empty('rog_select_piece_container');
         },
+
+        onEnteringStatePlayerTurn(args){
+            debug('onEnteringStatePlayerTurn', args);
+
+            this.addPrimaryActionButton(`btnBuild`, _('Build') , () =>  { this.takeAction('actBuild'); });
+            this.addPrimaryActionButton(`btnSail`, _('Sail') , () =>  { this.takeAction('actSail'); });
+            this.addPrimaryActionButton(`btnDeliver`, _('Deliver') , () =>  { this.takeAction('actDeliver'); });
+        },
         
         
         //////////////////////////////////////////////////////////////
@@ -165,12 +173,12 @@ function (dojo, declare) {
         notif_spendMoney(n) {
             debug('Notif: spending money', n);
             this.gainPayMoney(n.args.player_id, -n.args.n);
-          },
-      
-          notif_giveMoney(n) {
+        },
+    
+        notif_giveMoney(n) {
             debug('Notif: gaining money', n);
             this.gainPayMoney(n.args.player_id, n.args.n);
-          },
+        },
         
         ///////////////////////////////////////////////////
         //    _    _ _   _ _     

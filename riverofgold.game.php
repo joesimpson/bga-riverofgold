@@ -41,6 +41,10 @@ use ROG\Managers\Players;
 class RiverOfGold extends Table
 {
     use ROG\DebugTrait;
+    use ROG\States\BeforeTurnTrait;
+    use ROG\States\ClanSelectionTrait;
+    use ROG\States\NextTurnTrait;
+    use ROG\States\PlayerTurnTrait;
     use ROG\States\SetupTrait;
 
     public static $instance = null;

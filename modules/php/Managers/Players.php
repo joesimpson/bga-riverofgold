@@ -111,7 +111,7 @@ class Players extends \ROG\Helpers\DB_Manager
    * @param int $player_id
    * @return Player
    */
-  public static function getNextPlayerNotElimininated($player_id)
+  public static function getNextPlayerNotEliminated($player_id)
   {
     $nextPlayer_id = Players::getNextId($player_id);
     $nextPlayer = Players::get($nextPlayer_id);
@@ -120,7 +120,7 @@ class Players extends \ROG\Helpers\DB_Manager
     ){
       return $nextPlayer;
     }
-    return self::getNextPlayerNotElimininated($nextPlayer_id);
+    return self::getNextPlayerNotEliminated($nextPlayer_id);
   }
 
 

@@ -2,6 +2,9 @@
 
 namespace ROG\States;
 
+use ROG\Core\Globals;
+use ROG\Managers\Players;
+
 trait NextTurnTrait
 {
    
@@ -10,6 +13,18 @@ trait NextTurnTrait
     self::trace("stNextTurn()");
 
     //TODO JSA new turn
+    Globals::setupNewTurn();
+    $turn = Globals::getTurn();
+    if($turn==1){
+      $playerId = Globals::getFirstPlayer();
+      $nextPlayer = Players::get($playerId);
+    }
+    else {
+      $activePlayer = Players::getActive();
+      $nextPlayer = Players::getNextPlayerNotEliminated($activePlayer->id);
+    }
+    Players::changeActive($nextPlayer->id);
+    $nextPlayer->giveExtraTime();
 
     $this->gamestate->nextState('next');
   }
