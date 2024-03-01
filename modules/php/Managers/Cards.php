@@ -109,7 +109,7 @@ class Cards extends \ROG\Helpers\Pieces
       3 => $f([CUSTOMER_TYPE_ARTISAN, REGION_3,  clienttranslate('Artisan')   , clienttranslate('Artisan 3'),  ]), 
       4 => $f([CUSTOMER_TYPE_ARTISAN, REGION_4,  clienttranslate('Artisan')   , clienttranslate('Artisan 4'),  ]), 
       5 => $f([CUSTOMER_TYPE_ARTISAN, REGION_5,  clienttranslate('Artisan')   , clienttranslate('Artisan 5'),  ]), 
-      6 => $f([CUSTOMER_TYPE_ARTISAN, REGION_6,  clienttranslate('Elder')   , clienttranslate('Elder 6'),  ]), 
+      6 => $f([CUSTOMER_TYPE_ARTISAN, REGION_6,  clienttranslate('Artisan')   , clienttranslate('Artisan 6'),  ]), 
       7 => $f([CUSTOMER_TYPE_ELDER, REGION_1 ,   clienttranslate('Elder')   , clienttranslate('Elder 1'),  ]), 
       8 => $f([CUSTOMER_TYPE_ELDER, REGION_2 ,   clienttranslate('Elder')   , clienttranslate('Elder 2'),  ]), 
       9 => $f([CUSTOMER_TYPE_ELDER, REGION_3 ,   clienttranslate('Elder')   , clienttranslate('Elder 3'),  ]), 
