@@ -24,6 +24,7 @@ class Preferences extends \ROG\Helpers\DB_Manager
     include dirname(__FILE__) . '/../gameoptions.inc.php';
 
     $values = [];
+    if(count($game_preferences) == 0) return;
     foreach ($game_preferences as $id => $data) {
       $defaultValue = $data['default'] ?? array_keys($data['values'])[0];
 
