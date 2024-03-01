@@ -21,7 +21,9 @@
                 </div>
             </div>
         </div>
-        <div id="rog_player_boards">
+        <div id="rog_players_boards">
+            <div id="rog_players_deliveries">
+            </div>
         </div>
     </div>
 

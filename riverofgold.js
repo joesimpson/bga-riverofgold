@@ -108,6 +108,19 @@ function (dojo, declare) {
                     },
                   },
                 }, 
+                deliveredWidth: {
+                  default: 100,
+                  name: _('Delivered cards width'),
+                  type: 'slider',
+                  sliderConfig: {
+                    step: 2,
+                    padding: 0,
+                    range: {
+                      min: [30],
+                      max: [100],
+                    },
+                  },
+                }, 
             };
         },
         
@@ -116,6 +129,10 @@ function (dojo, declare) {
         },
         onChangeHandWidthSetting(val) {
             document.documentElement.style.setProperty('--rog_hand_scale', val/100);
+            this.updateLayout();
+        },
+        onChangeDeliveredWidthSetting(val) {
+            document.documentElement.style.setProperty('--rog_delivered_scale', val/100);
             this.updateLayout();
         },
        
@@ -216,7 +233,8 @@ function (dojo, declare) {
                 let isCurrent = player.id == this.player_id;
                 let divPanel = `player_panel_content_${player.color}`;
                 this.place('tplPlayerPanel', player, divPanel, 'after');
-                if(isCurrent) this.place('tplPlayerHand', player, 'rog_player_boards');
+                if(isCurrent) this.place('tplPlayerHand', player, 'rog_players_boards', 'first');
+                this.place('tplPlayerDeliveredCards', player, 'rog_players_deliveries');
                 
                 let pId = player.id;
                 this._counters[pId] = {
@@ -232,6 +250,7 @@ function (dojo, declare) {
                 //let 1 space for personal board
                 let order = ((player.no - currentPlayerNo + nPlayers) % nPlayers) + 1;
                 if (isCurrent) order = 1;
+                $(`rog_player_delivered_resizable-${player.id}`).style.order = order;
             });
     
             this.updateFirstPlayer();
@@ -407,6 +426,9 @@ function (dojo, declare) {
             if (card.location == CARD_LOCATION_HAND) {
                 return $(`rog_cards_hand-${card.pId}`);
             }
+            if (card.location == CARD_LOCATION_DELIVERED) {
+                return $(`rog_cards_delivered-${card.pId}`);
+            }
     
             console.error('Trying to get container of a card', card);
             return 'game_play_area';
@@ -417,6 +439,14 @@ function (dojo, declare) {
                 <div id='rog_player_hand-${player.id}' class='rog_player_hand' data-color='${player.color}'>
                     <div class='player-name' style='color:#${player.color}'>${_('My hand')}</div>
                     <div class='rog_cards_hand' id='rog_cards_hand-${player.id}'></div>
+                </div>
+            </div>`;
+        },
+        tplPlayerDeliveredCards(player) {
+            return `<div class='rog_player_delivered_resizable' id='rog_player_delivered_resizable-${player.id}'>
+                <div id='rog_player_delivered-${player.id}' class='rog_player_delivered' data-color='${player.color}'>
+                    <div class='player-name' style='color:#${player.color}'>${player.name}</div>
+                    <div class='rog_cards_delivered' id='rog_cards_delivered-${player.id}'></div>
                 </div>
             </div>`;
         },

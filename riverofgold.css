@@ -16,6 +16,7 @@
 :root {
   --rog_board_display_scale: 1;
   --rog_hand_scale: 1;
+  --rog_delivered_scale: 1;
 }
 
 .player_board_inner > .player-name {
@@ -103,7 +104,7 @@
   height: 4000px;
   background-image: url("img/board.jpg");
 }
-#rog_main_zone #rog_player_boards {
+#rog_main_zone #rog_players_boards {
   display: flex;
   flex-wrap: wrap;
   flex-flow: column;
@@ -136,6 +137,18 @@
   display: flex;
   transform: scale(var(--rog_hand_scale));
   transform-origin: top left;
+}
+
+#rog_players_deliveries {
+  display: flex;
+  flex-flow: column;
+  transform: scale(var(--rog_delivered_scale));
+  transform-origin: top left;
+}
+
+.rog_player_hand_resizable,
+.rog_player_delivered_resizable {
+  display: flex;
   border-radius: 10px;
   border: 2px solid black;
   box-shadow: 1px 1px 10px black;
@@ -143,21 +156,55 @@
   position: relative;
   margin-left: 10px;
 }
-.rog_player_hand_resizable .rog_player_hand {
+.rog_player_hand_resizable .rog_player_hand,
+.rog_player_hand_resizable .rog_player_delivered,
+.rog_player_delivered_resizable .rog_player_hand,
+.rog_player_delivered_resizable .rog_player_delivered {
   display: flex;
   flex-flow: column;
+  min-width: 140px;
+  width: 100%;
 }
-.rog_player_hand_resizable .rog_player_hand .player-name {
+.rog_player_hand_resizable .rog_player_hand .player-name,
+.rog_player_hand_resizable .rog_player_delivered .player-name,
+.rog_player_delivered_resizable .rog_player_hand .player-name,
+.rog_player_delivered_resizable .rog_player_delivered .player-name {
   text-align: center;
 }
-.rog_player_hand_resizable .rog_player_hand .rog_cards_hand {
+.rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffa500"], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffffff"], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#bdd002"],
+.rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#ffa500"],
+.rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#ffffff"],
+.rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#bdd002"],
+.rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#ffa500"],
+.rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#ffffff"],
+.rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#bdd002"],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#ffa500"],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#ffffff"],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#bdd002"] {
+  text-shadow: 2px 0px 2px black, 0px 2px 2px black, -2px 0px 2px black, 0px -2px 2px black;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand,
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered,
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand,
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered,
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand,
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered,
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand,
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered {
   height: 223px;
   display: flex;
   flex-flow: row;
   align-items: center;
   padding: 0px 5px;
 }
-.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card {
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card,
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card,
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card,
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card,
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card,
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card,
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card,
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card {
   margin: 2px 5px;
 }
 
