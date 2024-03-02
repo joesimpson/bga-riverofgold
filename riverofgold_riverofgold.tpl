@@ -15,7 +15,9 @@
     
     <div id="rog_select_piece_container"></div>
     
-    <div id='rog_mastery_cards'></div>
+    <div id="rog_upper_zone">
+        <div id='rog_mastery_cards'></div>
+    </div>
     <div id="rog_main_zone">
         <div id='rog_resizable_river_board'>
             <div id='rog_river_board_container'>

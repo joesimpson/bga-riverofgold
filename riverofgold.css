@@ -108,6 +108,12 @@
   font-size: 0.8em;
 }
 
+#rog_upper_zone {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+}
+
 #rog_main_zone #rog_resizable_river_board {
   width: calc(var(--rog_board_display_scale) * 2726px);
   height: calc(var(--rog_board_display_scale) * 4000px);
@@ -317,8 +323,11 @@
 
 .rog_player_hand_resizable {
   display: flex;
-  transform: scale(var(--rog_hand_scale));
-  transform-origin: top left;
+}
+.rog_player_hand_resizable .rog_card {
+  position: relative;
+  width: calc(var(--rog_hand_scale) * 148px);
+  height: calc(var(--rog_hand_scale) * 200px);
 }
 
 #rog_players_deliveries {
@@ -344,8 +353,6 @@
 .rog_player_delivered_resizable .rog_player_delivered {
   display: flex;
   flex-flow: column;
-  min-width: 140px;
-  width: 100%;
 }
 .rog_player_hand_resizable .rog_player_hand .player-name,
 .rog_player_hand_resizable .rog_player_delivered .player-name,
@@ -373,7 +380,6 @@
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered,
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand,
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered {
-  height: 223px;
   display: flex;
   flex-flow: row;
   align-items: center;
@@ -388,6 +394,15 @@
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card,
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card {
   margin: 2px 5px;
+}
+.rog_player_hand_resizable .rog_player_delivered,
+.rog_player_delivered_resizable .rog_player_delivered {
+  min-width: 140px;
+  width: 100%;
+}
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered,
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered {
+  height: 223px;
 }
 
 #rog_scoring_tiles .rog_tile {
@@ -490,6 +505,8 @@
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
+  margin-left: 5px;
+  margin-bottom: 5px;
 }
 #rog_mastery_cards .rog_tile_holder {
   display: flex;

@@ -86,10 +86,10 @@ function (dojo, declare) {
         {
             debug('SETUP', gamedatas);
             
+            this.setupTiles();
             this.setupPlayers();
             this.setupInfoPanel();
             this.setupCards();
-            this.setupTiles();
             
             debug( "Ending specific game setup" );
 
@@ -111,22 +111,22 @@ function (dojo, declare) {
                     },
                   },
                 }, 
-                boardWidth: {
+                handWidth: {
                   default: 100,
-                  name: _('River board width'),
+                  name: _('Hand width'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,
                     padding: 0,
                     range: {
                       min: [30],
-                      max: [100],
+                      max: [200],
                     },
                   },
                 }, 
-                handWidth: {
+                boardWidth: {
                   default: 100,
-                  name: _('Hand width'),
+                  name: _('River board width'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,
@@ -297,7 +297,7 @@ function (dojo, declare) {
                 let isCurrent = player.id == this.player_id;
                 let divPanel = `player_panel_content_${player.color}`;
                 this.place('tplPlayerPanel', player, divPanel, 'after');
-                if(isCurrent) this.place('tplPlayerHand', player, 'rog_players_boards', 'first');
+                if(isCurrent) this.place('tplPlayerHand', player, 'rog_upper_zone');
                 this.place('tplPlayerDeliveredCards', player, 'rog_players_deliveries');
                 
                 let pId = player.id;
@@ -491,7 +491,7 @@ function (dojo, declare) {
             let cardDatas = card;
             let desc = [this.fsr(_('${card_type} ${region}'), { card_type: cardDatas.title, region: cardDatas.region })];
             let div = this.tplCard(cardDatas,'_tmp');
-            return [`<div class='rog_card_tooltip'><h4>${_(cardDatas.title)}</h4>${desc}${div}</div>`];
+            return [`<div class='rog_card_tooltip'><h1>${desc}</h1>${div}</div>`];
         },
     
         tplCard(card, prefix ='') {
