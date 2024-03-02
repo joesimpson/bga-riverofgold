@@ -485,6 +485,72 @@
   left: 1815px;
 }
 
+#rog_mastery_cards .rog_tile {
+  width: 356px;
+  height: 257px;
+  background-size: 300% 300%;
+}
+#rog_mastery_cards .rog_tile[data-type="1"] {
+  background-image: url("img/masterycards.jpg");
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+#rog_mastery_cards .rog_tile[data-type="2"] {
+  background-image: url("img/masterycards.jpg");
+  background-position-x: 33.3333333333%;
+  background-position-y: 0%;
+}
+#rog_mastery_cards .rog_tile[data-type="3"] {
+  background-image: url("img/masterycards.jpg");
+  background-position-x: 66.6666666667%;
+  background-position-y: 0%;
+}
+#rog_mastery_cards .rog_tile[data-type="4"] {
+  background-image: url("img/masterycards.jpg");
+  background-position-x: 0%;
+  background-position-y: 33.3333333333%;
+}
+#rog_mastery_cards .rog_tile[data-type="5"] {
+  background-image: url("img/masterycards.jpg");
+  background-position-x: 33.3333333333%;
+  background-position-y: 33.3333333333%;
+}
+#rog_mastery_cards .rog_tile[data-type="6"] {
+  background-image: url("img/masterycards.jpg");
+  background-position-x: 66.6666666667%;
+  background-position-y: 33.3333333333%;
+}
+#rog_mastery_cards .rog_tile[data-type="7"] {
+  background-image: url("img/masterycards.jpg");
+  background-position-x: 0%;
+  background-position-y: 66.6666666667%;
+}
+#rog_mastery_cards .rog_tile[data-type="8"] {
+  background-image: url("img/masterycards.jpg");
+  background-position-x: 33.3333333333%;
+  background-position-y: 66.6666666667%;
+}
+#rog_mastery_cards .rog_tile[data-type="9"] {
+  background-image: url("img/masterycards.jpg");
+  background-position-x: 66.6666666667%;
+  background-position-y: 66.6666666667%;
+}
+#rog_mastery_cards .rog_tile[data-type="10"] {
+  background-image: url("img/masterycards.jpg");
+  background-position-x: 0%;
+  background-position-y: 100%;
+}
+#rog_mastery_cards .rog_tile[data-type="11"] {
+  background-image: url("img/masterycards.jpg");
+  background-position-x: 33.3333333333%;
+  background-position-y: 100%;
+}
+#rog_mastery_cards .rog_tile[data-type="12"] {
+  background-image: url("img/masterycards.jpg");
+  background-position-x: 66.6666666667%;
+  background-position-y: 100%;
+}
+
 /**
  * Player panel settings
  * AUTHOR : © Tisaac

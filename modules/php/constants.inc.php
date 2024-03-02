@@ -18,8 +18,17 @@
 
  const TILE_TYPE_SCORING = 1;
  const TILE_TYPE_BUILDING = 2;
+ const TILE_TYPE_MASTERY_CARD = 3;
+
+ const MASTERY_TYPE_AIR    = 1;   
+ const MASTERY_TYPE_COURTS = 2;
+ const MASTERY_TYPE_EARTH  = 3;
+ const MASTERY_TYPE_FIRE   = 4;
+ const MASTERY_TYPE_VOID   = 5;
+ const MASTERY_TYPE_WATER  = 6;
 
 const TILE_LOCATION_SCORING = 's';
+const TILE_LOCATION_MASTERY_CARD = 'm';
 
  const CARD_LOCATION_DECK = 'deck';
  const CARD_LOCATION_DELIVERED = 'dd';

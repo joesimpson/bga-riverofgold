@@ -29,6 +29,7 @@ define([
 function (dojo, declare) {
 
     const TILE_LOCATION_SCORING = 's';
+    const TILE_LOCATION_MASTERY_CARD = 'm';
 
     const CARD_LOCATION_DELIVERED = 'dd';
     const CARD_LOCATION_HAND = 'h';
@@ -555,6 +556,9 @@ function (dojo, declare) {
         getTileContainer(tile) {
             if (tile.location == TILE_LOCATION_SCORING) {
                 return $(`rog_scoring_tile-${tile.pos}`);
+            }
+            if (tile.location == TILE_LOCATION_MASTERY_CARD) {
+                return $(`rog_mastery_cards`);
             }
     
             console.error('Trying to get container of a tile', tile);
