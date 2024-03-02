@@ -42,6 +42,7 @@
 
 .rog_player_hand_resizable {
     display: flex;
+    align-self: baseline;
     //transform: scale(var(--rog_hand_scale));
     //transform-origin: top left;
     //-> resize cards width inside

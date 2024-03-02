@@ -18,6 +18,7 @@
   --rog_hand_scale: 1;
   --rog_delivered_scale: 1;
   --rog_mastery_scale: 0.3;
+  --rog_era_tile_holder_scale: 0.3;
 }
 
 .player_board_inner > .player-name {
@@ -323,6 +324,7 @@
 
 .rog_player_hand_resizable {
   display: flex;
+  align-self: baseline;
 }
 .rog_player_hand_resizable .rog_card {
   position: relative;
@@ -598,6 +600,17 @@
   background-image: url("img/masterycards.jpg");
   background-position-x: 100%;
   background-position-y: 100%;
+}
+
+#rog_era_tile_holder {
+  margin-left: 5px;
+  margin-bottom: 5px;
+  position: relative;
+  width: calc(var(--rog_era_tile_holder_scale) * 1046px);
+  height: calc(var(--rog_era_tile_holder_scale) * 960px);
+  background-repeat: no-repeat;
+  background-image: url("img/eraTileHolder.png");
+  background-size: 100%;
 }
 
 /**

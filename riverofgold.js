@@ -137,9 +137,9 @@ function (dojo, declare) {
                     },
                   },
                 }, 
-                deliveredWidth: {
+                boardWidth: {
                   default: 100,
-                  name: _('Delivered cards width'),
+                  name: _('River board width'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,
@@ -147,6 +147,20 @@ function (dojo, declare) {
                     range: {
                       min: [30],
                       max: [100],
+                    },
+                  },
+                }, 
+                eraTileWidth: {
+                  default: 30,
+                  name: _('Building board size'),
+                  type: 'slider',
+                  sliderConfig: {
+                    step: 2,
+                    padding: 0,
+                    range: {
+                        //relative to big image dimensions
+                      min: [5],
+                      max: [50],
                     },
                   },
                 }, 
@@ -162,6 +176,9 @@ function (dojo, declare) {
         onChangeHandWidthSetting(val) {
             document.documentElement.style.setProperty('--rog_hand_scale', val/100);
             this.updateLayout();
+        },
+        onChangeEraTileWidthSetting(val) {
+            document.documentElement.style.setProperty('--rog_era_tile_holder_scale', val/100);
         },
         onChangeDeliveredWidthSetting(val) {
             document.documentElement.style.setProperty('--rog_delivered_scale', val/100);
@@ -297,7 +314,7 @@ function (dojo, declare) {
                 let isCurrent = player.id == this.player_id;
                 let divPanel = `player_panel_content_${player.color}`;
                 this.place('tplPlayerPanel', player, divPanel, 'after');
-                if(isCurrent) this.place('tplPlayerHand', player, 'rog_upper_zone');
+                if(isCurrent) this.place('tplPlayerHand', player, 'rog_upper_zone','last');
                 this.place('tplPlayerDeliveredCards', player, 'rog_players_deliveries');
                 
                 let pId = player.id;

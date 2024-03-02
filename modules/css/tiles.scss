@@ -56,7 +56,7 @@
     flex-wrap: wrap;
     margin-left: 5px;
     margin-bottom: 5px;
-    
+
     .rog_tile_holder{
         display: flex;
 
@@ -77,4 +77,15 @@
         
         }
     }
+}
+
+#rog_era_tile_holder{
+    margin-left: 5px;
+    margin-bottom: 5px;
+    position: relative;
+    width: calc(var(--rog_era_tile_holder_scale) * 1046px);
+    height: calc(var(--rog_era_tile_holder_scale) * 960px);
+    background-repeat: no-repeat;
+    background-image: url("img/eraTileHolder.png");
+    background-size: 100%;
 }
