@@ -632,6 +632,22 @@
   width: 890px;
   height: 445px;
 }
+#rog_era_tile_resizable #rog_era_tile_holder .rog_deck_size {
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 0 0 50px 50px;
+  color: #fff;
+  font-size: 57px;
+  position: absolute;
+  text-align: center;
+  width: 367px;
+  bottom: 28px;
+}
+#rog_era_tile_resizable #rog_era_tile_holder .rog_deck_size#rog_deck_size-1 {
+  left: 108px;
+}
+#rog_era_tile_resizable #rog_era_tile_holder .rog_deck_size#rog_deck_size-2 {
+  left: 552px;
+}
 
 #rog_building_row .rog_building_slot {
   bottom: 365px;

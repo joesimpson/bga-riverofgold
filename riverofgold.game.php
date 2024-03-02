@@ -93,6 +93,10 @@ class RiverOfGold extends Table
           'cards' => Cards::getUiData($current_player_id),
           'tiles' => Tiles::getUiData($current_player_id),
           'turn' => Globals::getTurn(),
+          'deckSize' => [
+            'era1' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1),
+            'era2' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2),
+          ],
           'firstPlayer' => $firstPlayer,
         ];
         return $result;

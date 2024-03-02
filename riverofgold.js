@@ -579,6 +579,9 @@ function (dojo, declare) {
                     this.destroy(oCard);
                 }
             });
+            this._counters['deckSize1'] = this.createCounter('rog_deck_size-1',this.gamedatas.deckSize.era1);
+            this._counters['deckSize2'] = this.createCounter('rog_deck_size-2',this.gamedatas.deckSize.era2);
+            
         },
     
         addTile(tile, location = null) {
