@@ -79,22 +79,41 @@
     }
 }
 
-#rog_era_tile_holder{
-    margin-left: 5px;
-    margin-bottom: 5px;
-    position: relative;
+#rog_era_tile_resizable {
     width: calc(var(--rog_era_tile_holder_scale) * 1046px);
     height: calc(var(--rog_era_tile_holder_scale) * 960px);
-    background-repeat: no-repeat;
-    background-image: url("img/eraTileHolder.png");
-    background-size: 100%;
+    margin-bottom: 10px;
+    #rog_era_tile_holder{
+        margin-left: 5px;
+        margin-bottom: 5px;
+        position: relative;
+        transform: scale(var(--rog_era_tile_holder_scale));
+        transform-origin: top left;
+        width: 1046px;
+        height: 960px;
+        background-repeat: no-repeat;
+        background-image: url("img/eraTileHolder.png");
+        background-size: 100%;
+
+        .rog_building_slot{
+            top: 250px;
+            &#rog_building_era-1{
+                left: -155px;
+            }
+            &#rog_building_era-2{
+                left: 288px;
+            }
+            .rog_tile{
+                width: 890px;
+                height: 445px;
+            }
+        }
+    }
 }
 
 //Will hold the building tiles to be bought
 #rog_building_row{
-    .rog_building_slot{
-        position: absolute;
-        transform: rotate(-90deg);
+    .rog_building_slot{ 
         bottom: 365px;
         &#rog_building_slot-1{
             right: 354px;
@@ -108,19 +127,24 @@
         &#rog_building_slot-4{
             right: 832px;
         }
+ 
+    }
+} 
+.rog_building_slot{
+    position: absolute;
+    transform: rotate(-90deg); 
 
-        .rog_tile{
-            width: 340px;
-            height: 170px;
-            //sprite positions
-            background-size: 500% 1000%;
-            @for $i from 0 through 45 {
-                &[data-type="#{$i + 1}"] {
-                    background-image: url("img/buildings.png");
-                    background-position-x: ($i % 5) * 100% / 4;
-                    background-position-y: (($i - ($i % 5)) / 5) * 100% / 9;
-                }
+    .rog_tile{
+        width: 340px;
+        height: 170px;
+        //sprite positions
+        background-size: 500% 1000%;
+        @for $i from 0 through 45 {
+            &[data-type="#{$i + 1}"] {
+                background-image: url("img/buildings.png");
+                background-position-x: ($i % 5) * 100% / 4;
+                background-position-y: (($i - ($i % 5)) / 5) * 100% / 9;
             }
         }
     }
-} 
+}

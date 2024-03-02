@@ -2,6 +2,7 @@
 
 namespace ROG\Managers;
 
+use ROG\Helpers\Collection;
 use ROG\Models\Tile;
 
 /* Class to manage all the tiles */
@@ -39,9 +40,13 @@ class Tiles extends \ROG\Helpers\Pieces
    */
   public static function getUiData($currentPlayerId)
   {
+    $nextEra1Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1);
+    $nextEra2Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2);
+
     return self::getInLocation(TILE_LOCATION_SCORING)
       ->merge(self::getInLocation(TILE_LOCATION_MASTERY_CARD))
       ->merge(self::getInLocation(TILE_LOCATION_BUILDING_ROW))
+      ->merge(new Collection([$nextEra1Card, $nextEra2Card]))
       ->ui();
   } 
    

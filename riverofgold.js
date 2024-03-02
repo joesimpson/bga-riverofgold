@@ -615,6 +615,12 @@ function (dojo, declare) {
             if (tile.location == TILE_LOCATION_BUILDING_ROW) {
                 return $(`rog_building_slot-${tile.pos}`);
             }
+            if (tile.location == TILE_LOCATION_BUILDING_DECK_ERA_1) {
+                return $(`rog_building_era-1`);
+            }
+            if (tile.location == TILE_LOCATION_BUILDING_DECK_ERA_2) {
+                return $(`rog_building_era-2`);
+            }
     
             console.error('Trying to get container of a tile', tile);
             return 'game_play_area';
