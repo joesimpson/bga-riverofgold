@@ -89,3 +89,38 @@
     background-image: url("img/eraTileHolder.png");
     background-size: 100%;
 }
+
+//Will hold the building tiles to be bought
+#rog_building_row{
+    .rog_building_slot{
+        position: absolute;
+        transform: rotate(-90deg);
+        bottom: 365px;
+        &#rog_building_slot-1{
+            right: 354px;
+        }
+        &#rog_building_slot-2{
+            right: 513px;
+        }
+        &#rog_building_slot-3{
+            right: 674px;
+        }
+        &#rog_building_slot-4{
+            right: 832px;
+        }
+
+        .rog_tile{
+            width: 340px;
+            height: 170px;
+            //sprite positions
+            background-size: 500% 1000%;
+            @for $i from 0 through 45 {
+                &[data-type="#{$i + 1}"] {
+                    background-image: url("img/buildings.png");
+                    background-position-x: ($i % 5) * 100% / 4;
+                    background-position-y: (($i - ($i % 5)) / 5) * 100% / 9;
+                }
+            }
+        }
+    }
+} 

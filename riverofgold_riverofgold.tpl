@@ -32,10 +32,10 @@
                         <div id='rog_scoring_tile-6'></div>
                     </div>
                     <div id='rog_building_row'>
-                        <div id='rog_building_slot-1'></div>
-                        <div id='rog_building_slot-2'></div>
-                        <div id='rog_building_slot-3'></div>
-                        <div id='rog_building_slot-4'></div>
+                        <div id='rog_building_slot-1' class="rog_building_slot"></div>
+                        <div id='rog_building_slot-2' class="rog_building_slot"></div>
+                        <div id='rog_building_slot-3' class="rog_building_slot"></div>
+                        <div id='rog_building_slot-4' class="rog_building_slot"></div>
                     </div>
                 </div>
             </div>
