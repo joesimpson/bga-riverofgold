@@ -49,6 +49,18 @@
 
 }
  
+.rog_tile_tooltip{//Tooltips
+    h1{
+        text-align: center;
+    }
+    &[data-subtype='2']{//TILE_TYPE_BUILDING
+        .rog_tile {
+            width: 520px;
+            height: 260px;
+        }
+    }
+}
+
 //Will hold the mastery cards (managed as tiles)
 #rog_mastery_cards{
     display: flex;
@@ -154,6 +166,11 @@
     .rog_tile{
         width: 340px;
         height: 170px;
+    }
+}
+.rog_tile_tooltip[data-subtype='2'],//TILE_TYPE_BUILDING
+.rog_building_slot{
+    .rog_tile{
         //sprite positions
         background-size: 500% 1000%;
         @for $i from 0 through 45 {

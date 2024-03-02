@@ -28,6 +28,10 @@ define([
 ],
 function (dojo, declare) {
 
+    const TILE_TYPE_SCORING = 1;
+    const TILE_TYPE_BUILDING = 2;
+    const TILE_TYPE_MASTERY_CARD = 3;
+
     const TILE_LOCATION_SCORING = 's';
     const TILE_LOCATION_MASTERY_CARD = 'm';
     const TILE_LOCATION_BUILDING_DECK = 'bd';
@@ -46,6 +50,18 @@ function (dojo, declare) {
         'silk',//RESOURCE_TYPE_SILK
         'pottery',//RESOURCE_TYPE_POTTERY
         'rice',//RESOURCE_TYPE_RICE
+    ];
+
+    const BUILDING_TYPE_PORT =     1;
+    const BUILDING_TYPE_MARKET =   2;
+    const BUILDING_TYPE_MANOR =    3;
+    const BUILDING_TYPE_SHRINE =   4;
+    const BUILDING_TYPES = [
+        0,
+        _('Port'),//BUILDING_TYPE_PORT
+        _('Market'),//BUILDING_TYPE_MARKET
+        _('Manor'),//BUILDING_TYPE_MANOR
+        _('Shrine'),//BUILDING_TYPE_SHRINE
     ];
     
     return declare("bgagame.riverofgold", [customgame.game], {
@@ -600,7 +616,24 @@ function (dojo, declare) {
             let divId = `rog_tile-${tile.id}`;
             if ($(divId)) return $(divId);
             let o = this.place('tplTile', tile, location == null ? this.getTileContainer(tile) : location);
+            let tooltipDesc = this.getTileTooltip(tile);
+            if (tooltipDesc != null) {
+                this.addCustomTooltip(o.id, tooltipDesc.map((t) => this.formatString(t)).join('<br/>'));
+            }
+    
             return o;
+        },
+        getTileTooltip(tile) {
+            let cardDatas = tile;
+            let typeName = '';
+            let subtype ='';
+            if(cardDatas.buildingType){
+                //building
+                typeName = BUILDING_TYPES[cardDatas.buildingType];
+                subtype = TILE_TYPE_BUILDING;
+            }
+            let div = this.tplTile(cardDatas,'_tmp');
+            return [`<div class='rog_tile_tooltip' data-subtype='${subtype}'><h1>${typeName}</h1>${div}</div>`];
         },
         tplTile(tile, prefix ='') {
             return `<div class="rog_tile" id="rog_tile${prefix}-${tile.id}" data-id="${tile.id}" data-type="${tile.type}">
