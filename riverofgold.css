@@ -33,7 +33,7 @@
 .rog_panel .rog_player_infos {
   display: flex;
   flex-wrap: wrap;
-  font-size: 15px;
+  font-size: 10px;
   justify-content: space-around;
   position: relative;
   padding: 0.5rem 0;
@@ -54,7 +54,7 @@
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_rice,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_pottery,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_money {
-  font-size: 22px;
+  font-size: 15px;
   font-weight: bold;
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_silk::after,

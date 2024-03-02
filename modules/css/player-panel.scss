@@ -16,7 +16,7 @@
     .rog_player_infos {
         display: flex;
         flex-wrap: wrap;
-        font-size: 15px;
+        font-size: 10px;
         justify-content: space-around;
         position: relative;
         padding: 0.5rem 0;
@@ -37,7 +37,7 @@
             .rog_resource_rice,
             .rog_resource_pottery,
             .rog_resource_money {
-                font-size: 22px;
+                font-size: 15px;
                 font-weight: bold;
                 &::after {
                     content: " x";
