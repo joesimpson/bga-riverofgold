@@ -344,6 +344,11 @@ function (dojo, declare) {
                     pottery: this.createCounter(`rog_counter_${pId}_pottery`, player.pottery),
                     rice: this.createCounter(`rog_counter_${pId}_rice`, player.rice),
                 };
+                this.addCustomTooltip(`rog_reserve_${pId}_money`, _('Koku'));
+                this.addCustomTooltip(`rog_reserve_${pId}_rice`, _('Rice'));
+                this.addCustomTooltip(`rog_reserve_${pId}_silk`, _('Silk'));
+                this.addCustomTooltip(`rog_reserve_${pId}_pottery`, _('Pottery'));
+
                 nPlayers++;
                 if (isCurrent) currentPlayerNo = player.no;
             });
