@@ -27,6 +27,7 @@ class Player extends \ROG\Helpers\DB_Model
     'zombie' => 'player_zombie',
     //GAME SPECIFIC :
     'money' => ['money', 'int'],
+    //array of numbers for each trade good
     'resources' => ['resources', 'obj'],
 
   ];
@@ -36,6 +37,9 @@ class Player extends \ROG\Helpers\DB_Model
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
 
+    $data['silk'] = $this->getResource(RESOURCE_TYPE_SILK);
+    $data['rice'] = $this->getResource(RESOURCE_TYPE_RICE);
+    $data['pottery'] = $this->getResource(RESOURCE_TYPE_POTTERY);
     return $data;
   }
 
@@ -57,6 +61,11 @@ class Player extends \ROG\Helpers\DB_Model
     Stats::inc( "score", $this->id, $points );
   }
   
+  /**
+   * Increment resource number of this type
+   * @param int $nb
+   * @param int $type
+   */
   public function giveResource($nb, $type)
   {
     if($nb == 0) return;
@@ -69,6 +78,17 @@ class Player extends \ROG\Helpers\DB_Model
     Notifications::giveResource($this,$nb,$type);
   }
   
+  /**
+   * @param int $type
+   * @return int resource number of this type
+   */
+  public function getResource($type)
+  {
+    $resources = $this->getResources();
+    if(!isset($resources) ) return 0;
+    if(!isset($resources[$type]) ) return 0;
+    return $resources[$type];
+  }
   
   public function setTieBreakerPoints($points)
   {

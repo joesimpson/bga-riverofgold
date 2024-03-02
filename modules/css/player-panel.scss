@@ -33,6 +33,9 @@
                 height: 100%;
             }
     
+            .rog_resource_silk,
+            .rog_resource_rice,
+            .rog_resource_pottery,
             .rog_resource_money {
                 font-size: 22px;
                 font-weight: bold;
@@ -56,6 +59,23 @@
             background-image: url("img/koku.png");
             background-size: 100% auto;
             background-repeat: no-repeat;
+        }
+        &.rog_icon_pottery,
+        &.rog_icon_rice, 
+        &.rog_icon_silk {
+            width: 2.5em;
+            height: 3em;
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+        }
+        &.rog_icon_silk{
+            background-image: url("img/silk.png");
+        }
+        &.rog_icon_rice{
+            background-image: url("img/rice.png");
+        }
+        &.rog_icon_pottery{
+            background-image: url("img/pottery.png");
         }
     }
 }

@@ -271,6 +271,9 @@ function (dojo, declare) {
                 let pId = player.id;
                 this._counters[pId] = {
                     money: this.createCounter(`rog_counter_${pId}_money`, player.money),
+                    silk: this.createCounter(`rog_counter_${pId}_silk`, player.silk),
+                    pottery: this.createCounter(`rog_counter_${pId}_pottery`, player.pottery),
+                    rice: this.createCounter(`rog_counter_${pId}_rice`, player.rice),
                 };
                 nPlayers++;
                 if (isCurrent) currentPlayerNo = player.no;
@@ -351,6 +354,9 @@ function (dojo, declare) {
             <div class="rog_first_player_holder"></div>
             <div class='rog_player_infos'>
                 ${this.tplResourceCounter(player, 'money')}
+                ${this.tplResourceCounter(player, 'silk')}
+                ${this.tplResourceCounter(player, 'rice')}
+                ${this.tplResourceCounter(player, 'pottery')}
             </div>
             </div>`;
         },
