@@ -90,6 +90,9 @@
   background-image: url("img/pottery.png");
 }
 
+#rog_pottery_animation,
+#rog_rice_animation,
+#rog_silk_animation,
 #rog_money_animation {
   display: flex;
   justify-content: center;
@@ -97,6 +100,9 @@
   font-weight: bold;
   font-size: 22px;
 }
+#rog_pottery_animation .rog_icon_container,
+#rog_rice_animation .rog_icon_container,
+#rog_silk_animation .rog_icon_container,
 #rog_money_animation .rog_icon_container {
   font-size: 0.8em;
 }

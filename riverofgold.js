@@ -32,6 +32,16 @@ function (dojo, declare) {
 
     const CARD_LOCATION_DELIVERED = 'dd';
     const CARD_LOCATION_HAND = 'h';
+
+    const RESOURCE_TYPE_SILK = 1;
+    const RESOURCE_TYPE_POTTERY = 2;
+    const RESOURCE_TYPE_RICE = 3;
+    const RESOURCES = [
+        0,
+        'silk',//RESOURCE_TYPE_SILK
+        'pottery',//RESOURCE_TYPE_POTTERY
+        'rice',//RESOURCE_TYPE_RICE
+    ];
     
     return declare("bgagame.riverofgold", [customgame.game], {
         constructor: function(){
@@ -46,6 +56,7 @@ function (dojo, declare) {
                 ['giveMoney', 1300],
                 ['spendMoney', 1300],
                 ['giveCardTo', 1000],
+                ['giveResource', 800],
             ];
         },
         
@@ -177,6 +188,10 @@ function (dojo, declare) {
             debug('Notif: receiving a new card', n);
             if (!$(`rog_card-${n.args.card.id}`)) this.addCard(n.args.card, this.getVisibleTitleContainer());
             this.slide(`rog_card-${n.args.card.id}`, this.getCardContainer(n.args.card));
+        },
+        notif_giveResource(n) {
+            debug('Notif: receiving new resources', n);
+            this.gainPayResource(n.args.player_id, RESOURCES[n.args.res_type], n.args.n);
         },
         notif_spendMoney(n) {
             debug('Notif: spending money', n);
@@ -375,33 +390,37 @@ function (dojo, declare) {
         },
             
         gainPayMoney(pId, n, targetSource = null) {
+            return this.gainPayResource(pId,'money', n, targetSource);
+        },
+        
+        gainPayResource(pId,resourceType, n, targetSource = null) {
             if (this.isFastMode()) {
-                this._counters[pId]['money'].incValue(n);
+                this._counters[pId][resourceType].incValue(n);
                 return Promise.resolve();
             }
     
-            let elem = `<div id='rog_money_animation'>
+            let elem = `<div id='rog_${resourceType}_animation'>
                 ${Math.abs(n)}
-                <div class="rog_icon_container rog_icon_container_money">
-                    <div class="rog_icon rog_icon_money"></div>
+                <div class="rog_icon_container rog_icon_container_${resourceType}">
+                    <div class="rog_icon rog_icon_${resourceType}"></div>
                 </div>
                 </div>`;
             $('page-content').insertAdjacentHTML('beforeend', elem);
     
             if (n > 0) {
-                return this.slide('rog_money_animation', `rog_counter_${pId}_money`, {
+                return this.slide(`rog_${resourceType}_animation`, `rog_counter_${pId}_${resourceType}`, {
                     from: targetSource || this.getVisibleTitleContainer(),
                     destroy: true,
                     phantom: false,
-                    duration: 1200,
-                }).then(() => this._counters[pId]['money'].incValue(n));
+                    duration: 800,
+                }).then(() => this._counters[pId][resourceType].incValue(n));
             } else {
-                this._counters[pId]['money'].incValue(n);
-                return this.slide('rog_money_animation', targetSource || this.getVisibleTitleContainer(), {
-                    from: `rog_counter_${pId}_money`,
+                this._counters[pId][resourceType].incValue(n);
+                return this.slide(`rog_${resourceType}_animation`, targetSource || this.getVisibleTitleContainer(), {
+                    from: `rog_counter_${pId}_${resourceType}`,
                     destroy: true,
                     phantom: false,
-                    duration: 1200,
+                    duration: 800,
                 });
             }
         },
