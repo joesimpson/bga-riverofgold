@@ -36,7 +36,9 @@ class Tiles extends \ROG\Helpers\Pieces
    */
   public static function getUiData($currentPlayerId)
   {
-    return self::getInLocation(TILE_LOCATION_SCORING)->ui();
+    return self::getInLocation(TILE_LOCATION_SCORING)
+      ->merge(self::getInLocation(TILE_LOCATION_MASTERY_CARD))
+      ->ui();
   } 
    
 

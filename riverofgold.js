@@ -98,6 +98,19 @@ function (dojo, declare) {
         
         getSettingsConfig() {
             return {
+                masteryWidth: {
+                  default: 50,
+                  name: _('Mastery cards size'),
+                  type: 'slider',
+                  sliderConfig: {
+                    step: 2,
+                    padding: 0,
+                    range: {
+                      min: [30],
+                      max: [100],
+                    },
+                  },
+                }, 
                 boardWidth: {
                   default: 100,
                   name: _('River board width'),
@@ -140,6 +153,9 @@ function (dojo, declare) {
             };
         },
         
+        onChangeMasteryWidthSetting(val) {
+            document.documentElement.style.setProperty('--rog_mastery_scale', val/100);
+        },
         onChangeBoardWidthSetting(val) {
             this.updateLayout();
         },
@@ -544,7 +560,8 @@ function (dojo, declare) {
         },
     
         addTile(tile, location = null) {
-            if ($('rog_tile-' + tile.id)) return;
+            let divId = `rog_tile-${tile.id}`;
+            if ($(divId)) return $(divId);
             let o = this.place('tplTile', tile, location == null ? this.getTileContainer(tile) : location);
             return o;
         },
@@ -552,13 +569,26 @@ function (dojo, declare) {
             return `<div class="rog_tile" id="rog_tile${prefix}-${tile.id}" data-id="${tile.id}" data-type="${tile.type}">
                 </div>`;
         },
+        addMasteryCardHolder(tile) {
+            debug("addMasteryCardHolder",tile);
+            let divId = `rog_tile_holder-${tile.id}`;
+            if ($(divId)) return $(divId);
+            let elt = this.place('tplMasteryCardHolder', tile, $('rog_mastery_cards'));
+            return elt;
+        },
+        tplMasteryCardHolder(tile) {
+            return `<div class="rog_tile_holder" id="rog_tile_holder-${tile.id}"></div>`;
+        },
     
         getTileContainer(tile) {
             if (tile.location == TILE_LOCATION_SCORING) {
                 return $(`rog_scoring_tile-${tile.pos}`);
             }
             if (tile.location == TILE_LOCATION_MASTERY_CARD) {
-                return $(`rog_mastery_cards`);
+                let holder = this.addMasteryCardHolder(tile);
+                if( holder){
+                    return holder.id;
+                }
             }
     
             console.error('Trying to get container of a tile', tile);

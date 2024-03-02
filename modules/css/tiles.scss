@@ -51,19 +51,30 @@
  
 //Will hold the mastery cards (managed as tiles)
 #rog_mastery_cards{
-    .rog_tile {
-        width: 356px;
-        height: 257px;
-
-        //sprite positions
-        background-size: 300% 300%;
-        @for $i from 0 through 11 {
-            &[data-type="#{$i + 1}"] {
-                background-image: url("img/masterycards.jpg");
-                background-position-x: ($i % 3) * 100% / 3;
-                background-position-y: (($i - ($i % 3)) / 3) * 100% / 3;
-            }
-        }
+    display: flex;
+    flex-flow: row;
+    flex-wrap: wrap;
+    margin-left: 5px;
+    margin-bottom: 5px;
     
+    .rog_tile_holder{
+        display: flex;
+
+        .rog_tile {
+            position: relative;
+            width: calc(var(--rog_mastery_scale) * 356px);
+            height: calc(var(--rog_mastery_scale) * 257px);
+
+            //sprite positions
+            background-size: 300% 400%;
+            @for $i from 0 through 11 {
+                &[data-type="#{$i + 1}"] {
+                    background-image: url("img/masterycards.jpg");
+                    background-position-x: ($i % 3) * 100% / 2;
+                    background-position-y: (($i - ($i % 3)) / 3) * 100% / 3;
+                }
+            }
+        
+        }
     }
 }
