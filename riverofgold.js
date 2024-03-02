@@ -30,6 +30,10 @@ function (dojo, declare) {
 
     const TILE_LOCATION_SCORING = 's';
     const TILE_LOCATION_MASTERY_CARD = 'm';
+    const TILE_LOCATION_BUILDING_DECK = 'bd';
+    const TILE_LOCATION_BUILDING_DECK_ERA_1 = TILE_LOCATION_BUILDING_DECK+'1';
+    const TILE_LOCATION_BUILDING_DECK_ERA_2 = TILE_LOCATION_BUILDING_DECK+'2';
+    const TILE_LOCATION_BUILDING_ROW ='br';
 
     const CARD_LOCATION_DELIVERED = 'dd';
     const CARD_LOCATION_HAND = 'h';
@@ -607,6 +611,9 @@ function (dojo, declare) {
                 if( holder){
                     return holder.id;
                 }
+            }
+            if (tile.location == TILE_LOCATION_BUILDING_ROW) {
+                return $(`rog_building_slot-${tile.pos}`);
             }
     
             console.error('Trying to get container of a tile', tile);

@@ -31,6 +31,12 @@
                         <div id='rog_scoring_tile-5'></div>
                         <div id='rog_scoring_tile-6'></div>
                     </div>
+                    <div id='rog_building_row'>
+                        <div id='rog_building_slot-1'></div>
+                        <div id='rog_building_slot-2'></div>
+                        <div id='rog_building_slot-3'></div>
+                        <div id='rog_building_slot-4'></div>
+                    </div>
                 </div>
             </div>
         </div>
