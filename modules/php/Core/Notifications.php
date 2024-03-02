@@ -43,6 +43,20 @@ class Notifications
       'player' => $player,
     ]);
   }
+  
+  /**
+   * @param Player $player
+   * @param int $n
+   * @param int $resourceType
+   */
+  public static function giveResource($player,$n, $resourceType)
+  {
+    self::notifyAll('giveResource', clienttranslate('${player_name} receives ${n} ${res_type}'), [
+      'player' => $player,
+      'n' => $n,
+      'res_type' => $resourceType,
+    ]);
+  }
 
   /*************************
    **** GENERIC METHODS ****

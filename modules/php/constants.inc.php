@@ -26,6 +26,16 @@ const TILE_LOCATION_SCORING = 's';
  const CARD_LOCATION_HAND = 'h';
  //! Warning one clan patron will have more cards (3)
  const NB_CARDS_PER_PLAYER = 2;
+
+
+const RESOURCE_TYPE_SILK = 1;
+const RESOURCE_TYPE_POTTERY = 2;
+const RESOURCE_TYPE_RICE = 3;
+
+
+
+
+
 /*
  * Game options
  */ 

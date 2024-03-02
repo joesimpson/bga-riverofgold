@@ -3,6 +3,7 @@
 namespace ROG\Models;
 
 use ROG\Core\Game;
+use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Core\Preferences;
 
@@ -26,6 +27,7 @@ class Player extends \ROG\Helpers\DB_Model
     'zombie' => 'player_zombie',
     //GAME SPECIFIC :
     'money' => ['money', 'int'],
+    'resources' => ['resources', 'obj'],
 
   ];
 
@@ -54,6 +56,19 @@ class Player extends \ROG\Helpers\DB_Model
     $this->setScore( $this->getScore() + $points);
     Stats::inc( "score", $this->id, $points );
   }
+  
+  public function giveResource($nb, $type)
+  {
+    if($nb == 0) return;
+    $resources = $this->getResources();
+    if(!isset($resources) ) $resources = [];
+    if(!isset($resources[$type]) ) $resources[$type] = 0;
+    $resources[$type] += $nb;
+    $this->setResources($resources);
+    //TODO JSA stat
+    Notifications::giveResource($this,$nb,$type);
+  }
+  
   
   public function setTieBreakerPoints($points)
   {

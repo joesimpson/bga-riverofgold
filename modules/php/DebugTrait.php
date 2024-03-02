@@ -34,7 +34,7 @@ trait DebugTrait
     Tiles::setupNewGame($players,[]);
   }
 
-  function debugSetupPlayerCards(){
+  function debugSetupPlayer(){
     $this->debugSetup();
     /*
     $players = Players::getAll();

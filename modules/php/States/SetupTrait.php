@@ -46,11 +46,18 @@ trait SetupTrait
     $players = Players::getAll();
     foreach($players as $pid => $player){
 
+      //Draw first cards
       $cards = Cards::pickForLocation(NB_CARDS_PER_PLAYER, CARD_LOCATION_DECK, CARD_LOCATION_HAND );
       foreach($cards as $card){
         $card->setPId($pid);
         Notifications::giveCardTo($player,$card);
       }
+
+      //Get first resources
+      $player->setResources([]);
+      $player->giveResource(1,RESOURCE_TYPE_SILK);
+      $player->giveResource(1,RESOURCE_TYPE_POTTERY);
+      $player->giveResource(1,RESOURCE_TYPE_RICE);
     }
 
     $this->gamestate->nextState('next');
