@@ -354,22 +354,44 @@
   display: flex;
   flex-flow: column;
 }
+.rog_player_hand_resizable .rog_player_hand h3,
+.rog_player_hand_resizable .rog_player_delivered h3,
+.rog_player_delivered_resizable .rog_player_hand h3,
+.rog_player_delivered_resizable .rog_player_delivered h3 {
+  text-align: center;
+}
 .rog_player_hand_resizable .rog_player_hand .player-name,
+.rog_player_hand_resizable .rog_player_hand .playername,
 .rog_player_hand_resizable .rog_player_delivered .player-name,
+.rog_player_hand_resizable .rog_player_delivered .playername,
 .rog_player_delivered_resizable .rog_player_hand .player-name,
-.rog_player_delivered_resizable .rog_player_delivered .player-name {
+.rog_player_delivered_resizable .rog_player_hand .playername,
+.rog_player_delivered_resizable .rog_player_delivered .player-name,
+.rog_player_delivered_resizable .rog_player_delivered .playername {
   text-align: center;
 }
 .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffa500"], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffffff"], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#bdd002"],
+.rog_player_hand_resizable .rog_player_hand .playername[style*="color:#ffa500"],
+.rog_player_hand_resizable .rog_player_hand .playername[style*="color:#ffffff"],
+.rog_player_hand_resizable .rog_player_hand .playername[style*="color:#bdd002"],
 .rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#ffa500"],
 .rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#ffffff"],
 .rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#bdd002"],
+.rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#ffa500"],
+.rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#ffffff"],
+.rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#bdd002"],
 .rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#ffa500"],
 .rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#ffffff"],
 .rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#bdd002"],
+.rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#ffa500"],
+.rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#ffffff"],
+.rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#bdd002"],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#ffa500"],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#ffffff"],
-.rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#bdd002"] {
+.rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#bdd002"],
+.rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#ffa500"],
+.rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#ffffff"],
+.rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#bdd002"] {
   text-shadow: 2px 0px 2px black, 0px 2px 2px black, -2px 0px 2px black, 0px -2px 2px black;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand,

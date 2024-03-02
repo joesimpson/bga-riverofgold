@@ -318,6 +318,7 @@ function (dojo, declare) {
                 let order = ((player.no - currentPlayerNo + nPlayers) % nPlayers) + 1;
                 if (isCurrent) order = 1;
                 $(`rog_player_delivered_resizable-${player.id}`).style.order = order;
+                $(`rog_player_delivered_resizable-${player.id}`).style['border-color'] ='#'+ player.color;
             });
     
             this.updateFirstPlayer();
@@ -522,7 +523,7 @@ function (dojo, declare) {
         tplPlayerDeliveredCards(player) {
             return `<div class='rog_player_delivered_resizable' id='rog_player_delivered_resizable-${player.id}'>
                 <div id='rog_player_delivered-${player.id}' class='rog_player_delivered' data-color='${player.color}'>
-                    <div class='player-name' style='color:#${player.color}'>${player.name}</div>
+                    <h3 ${this.fsr(_('${player_name} delivered'), { player_name:this.coloredPlayerName(player.name)}) }</h3>
                     <div class='rog_cards_delivered' id='rog_cards_delivered-${player.id}'></div>
                 </div>
             </div>`;
