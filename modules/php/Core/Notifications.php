@@ -57,6 +57,17 @@ class Notifications
       'res_type' => $resourceType,
     ]);
   }
+  /**
+   * @param Player $player
+   * @param int $die_face
+   */
+  public static function rollDie($player,$die_face)
+  {
+    self::notifyAll('rollDie', clienttranslate('${player_name} rolls a die and gets ${die_face}'), [
+      'player' => $player,
+      'die_face' => $die_face,
+    ]);
+  }
 
   /*************************
    **** GENERIC METHODS ****

@@ -346,11 +346,13 @@ function (dojo, declare) {
                     silk: this.createCounter(`rog_counter_${pId}_silk`, player.silk),
                     pottery: this.createCounter(`rog_counter_${pId}_pottery`, player.pottery),
                     rice: this.createCounter(`rog_counter_${pId}_rice`, player.rice),
+                    dieFace: this.createCounter(`rog_counter_${pId}_dieFace`, player.die),
                 };
                 this.addCustomTooltip(`rog_reserve_${pId}_money`, _('Koku'));
                 this.addCustomTooltip(`rog_reserve_${pId}_rice`, _('Rice'));
                 this.addCustomTooltip(`rog_reserve_${pId}_silk`, _('Silk'));
                 this.addCustomTooltip(`rog_reserve_${pId}_pottery`, _('Pottery'));
+                this.addCustomTooltip(`rog_reserve_${pId}_dieFace`, _('Die'));
 
                 nPlayers++;
                 if (isCurrent) currentPlayerNo = player.no;
@@ -447,6 +449,7 @@ function (dojo, declare) {
                 ${this.tplResourceCounter(player, 'silk')}
                 ${this.tplResourceCounter(player, 'rice')}
                 ${this.tplResourceCounter(player, 'pottery')}
+                ${this.tplResourceCounter(player, 'dieFace')}
             </div>
             </div>`;
         },

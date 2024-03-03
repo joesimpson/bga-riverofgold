@@ -22,6 +22,7 @@
 -- ADD a money count to each player
 ALTER TABLE `player` ADD `money` INT(3) DEFAULT 0;
 ALTER TABLE `player` ADD `resources` JSON;
+ALTER TABLE `player` ADD `die_face` INT(2) NULL;
 
 CREATE TABLE IF NOT EXISTS `cards` (
   `card_id` int(1) NOT NULL AUTO_INCREMENT,

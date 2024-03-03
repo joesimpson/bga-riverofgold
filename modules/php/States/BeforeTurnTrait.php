@@ -2,6 +2,9 @@
 
 namespace ROG\States;
 
+use ROG\Core\Notifications;
+use ROG\Managers\Players;
+
 trait BeforeTurnTrait
 {
    
@@ -10,6 +13,9 @@ trait BeforeTurnTrait
     self::trace("stBeforeTurn()");
 
     //TODO JSA darling favor
+
+    $activePlayer = Players::getActive();
+    $activePlayer->rollDie();
 
     $this->gamestate->nextState('next');
   }

@@ -29,6 +29,8 @@ class Player extends \ROG\Helpers\DB_Model
     'money' => ['money', 'int'],
     //array of numbers for each trade good
     'resources' => ['resources', 'obj'],
+    //1->6
+    'die' => ['die_face', 'int'],
 
   ];
 
@@ -110,5 +112,16 @@ class Player extends \ROG\Helpers\DB_Model
   
   public function giveExtraTime(){
     Game::get()->giveExtraTime($this->getId());
+  }
+  
+  /**
+   * Rolls a D6
+   * @return int
+   */
+  public function rollDie(){
+    $this->setDie(array_rand([1,2,3,4,5,6]));
+    $die_face = $this->getDie();
+    Notifications::rollDie($this,$die_face);
+    return $die_face;
   }
 }
