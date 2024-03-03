@@ -1,0 +1,181 @@
+
+#rog_main_zone{
+
+    #rog_resizable_river_board {
+        width: calc(var(--rog_board_display_scale) * 2726px);
+        height: calc(var(--rog_board_display_scale) * 4000px);
+        margin-bottom: 10px;
+ 
+        #rog_river_board_container{
+            /* prevents vertical invisible overflow on BGA bottom elements*/
+            height: inherit;
+            
+            #rog_river_board{
+                transform: scale(var(--rog_board_display_scale));
+                transform-origin: top left;
+                border-radius: 10px;
+                border: 2px solid black;
+                box-shadow: 1px 1px 10px black;
+                position: relative;
+        
+                display: flex;
+                flex-wrap: wrap;
+
+                background-size: 100% auto;
+                background-repeat: no-repeat;
+                width: 2726px;
+                height: 4000px;
+
+                background-image: url('img/board.jpg');
+            }
+        }
+    } 
+
+} 
+
+
+.rog_shore_space{
+    &#rog_shore_space-1{
+        left: 1166px;
+        top: 251px;
+    }
+    &#rog_shore_space-2{
+        left: 543px;
+        top: 312px;
+    }
+    &#rog_shore_space-3{
+        left: 1113px;
+        top: 415px;
+    }
+    &#rog_shore_space-4{
+        left: 410px;
+        top: 526px;
+    }
+    &#rog_shore_space-5{
+        left: 1009px;
+        top: 589px;
+    }
+    &#rog_shore_space-6{
+        //first imperial market space
+        left: 400px;
+        top: 750px;
+    }
+    &#rog_shore_space-7{
+        left: 1058px;
+        top: 773px;
+    }
+    &#rog_shore_space-8{
+        left: 402px;
+        top: 932px;
+    }
+    &#rog_shore_space-9{
+        left: 1081px;
+        top: 1012px;
+    }
+    &#rog_shore_space-10{
+        left: 467px;
+        top: 1118px;
+    }
+    &#rog_shore_space-11{
+        left: 1170px;
+        top: 1227px;
+    }
+    &#rog_shore_space-12{
+        left: 521px;
+        top: 1325px;
+    }
+    &#rog_shore_space-13{
+        left: 1225px;
+        top: 1469px;
+    }
+    &#rog_shore_space-14{
+        left: 627px;
+        top: 1531px;
+    }
+    &#rog_shore_space-15{
+        left: 1271px;
+        top: 1741px;
+    }
+    &#rog_shore_space-16{
+        left: 619px;
+        top: 1753px;
+    }
+    &#rog_shore_space-17{
+        //2nd imperial market space
+        left: 660px;
+        top: 1996px;
+    }
+    &#rog_shore_space-18{
+        left: 1259px;
+        top: 2020px;
+    }
+    &#rog_shore_space-19{
+        left: 626px;
+        top: 2168px;
+    }
+    &#rog_shore_space-20{
+        left: 1259px;
+        top: 2276px;
+    }
+    &#rog_shore_space-21{
+        left: 662px;
+        top: 2339px;
+    }
+    &#rog_shore_space-22{
+        left: 665px;
+        top: 2601px;
+    }
+    &#rog_shore_space-23{
+        left: 1328px;
+        top: 2608px;
+    }
+    &#rog_shore_space-24{
+        left: 520px;
+        top: 2803px;
+    }
+    &#rog_shore_space-25{
+        left: 1178px;
+        top: 2824px;
+    }
+    &#rog_shore_space-26{
+        left: 397px;
+        top: 2995px;
+    }
+    &#rog_shore_space-27{
+        left: 1047px;
+        top: 3070px;
+    }
+    &#rog_shore_space-28{
+        left: 273px;
+        top: 3205px;
+    }
+    &#rog_shore_space-29{
+        //3rd imperial market space
+        left: 1042px;
+        top: 3274px;
+    }
+    &#rog_shore_space-30{
+        left: 848px;
+        top: 3443px;
+    }
+
+    //Right side of the river:
+    &#rog_shore_space-1,
+    &#rog_shore_space-3,
+    &#rog_shore_space-5,
+    &#rog_shore_space-7,
+    &#rog_shore_space-9,
+    &#rog_shore_space-11,
+    &#rog_shore_space-13,
+    &#rog_shore_space-15,
+    &#rog_shore_space-18,
+    &#rog_shore_space-20,
+    &#rog_shore_space-23,
+    &#rog_shore_space-25,
+    &#rog_shore_space-27,
+    &#rog_shore_space-29,
+    &#rog_shore_space-30{
+        //TODO JSA don't rotate anymore with sprite of tiles back
+        transform: rotate(180deg);
+    }
+}

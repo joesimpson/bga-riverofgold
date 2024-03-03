@@ -38,6 +38,7 @@
                         <div id='rog_scoring_tile-5'></div>
                         <div id='rog_scoring_tile-6'></div>
                     </div>
+                    <div id='rog_shore_spaces'></div>
                     <div id='rog_building_row'>
                         <div id='rog_building_slot-1' class="rog_building_slot"></div>
                         <div id='rog_building_slot-2' class="rog_building_slot"></div>

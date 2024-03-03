@@ -28,6 +28,8 @@ define([
 ],
 function (dojo, declare) {
 
+    const NB_SHORE_SPACES = 30;
+
     const TILE_TYPE_SCORING = 1;
     const TILE_TYPE_BUILDING = 2;
     const TILE_TYPE_MASTERY_CARD = 3;
@@ -38,6 +40,7 @@ function (dojo, declare) {
     const TILE_LOCATION_BUILDING_DECK_ERA_1 = TILE_LOCATION_BUILDING_DECK+'1';
     const TILE_LOCATION_BUILDING_DECK_ERA_2 = TILE_LOCATION_BUILDING_DECK+'2';
     const TILE_LOCATION_BUILDING_ROW ='br';
+    const TILE_LOCATION_BUILDING_SHORE = 'sh';
 
     const CARD_LOCATION_DELIVERED = 'dd';
     const CARD_LOCATION_HAND = 'h';
@@ -592,6 +595,10 @@ function (dojo, declare) {
         //////////////////////////////////////////////////////////
 
         setupTiles() {
+            for(k=1;k<=NB_SHORE_SPACES;k++){
+                if($(`rog_shore_space-${k}`)) continue;
+                this.place(`tplShoreSpace`,k, $(`rog_shore_spaces`));
+            }
             // This function is refreshUI compatible
             let cardIds = this.gamedatas.tiles.map((card) => {
                 if (!$(`rog_tile-${card.id}`)) {
@@ -615,6 +622,9 @@ function (dojo, declare) {
             this._counters['deckSize1'] = this.createCounter('rog_deck_size-1',this.gamedatas.deckSize.era1);
             this._counters['deckSize2'] = this.createCounter('rog_deck_size-2',this.gamedatas.deckSize.era2);
             
+        },
+        tplShoreSpace(position) {
+            return `<div id='rog_shore_space-${position}' class='rog_shore_space'></div>`;
         },
     
         addTile(tile, location = null) {
@@ -673,6 +683,9 @@ function (dojo, declare) {
             }
             if (tile.location == TILE_LOCATION_BUILDING_DECK_ERA_2) {
                 return $(`rog_building_era-2`);
+            }
+            if (tile.location == TILE_LOCATION_BUILDING_SHORE) {
+                return $(`rog_shore_space-${tile.pos}`);
             }
     
             console.error('Trying to get container of a tile', tile);

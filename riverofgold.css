@@ -115,6 +115,12 @@
   flex-wrap: wrap;
 }
 
+#rog_main_zone #rog_players_boards {
+  display: flex;
+  flex-wrap: wrap;
+  flex-flow: column;
+}
+
 #rog_main_zone #rog_resizable_river_board {
   width: calc(var(--rog_board_display_scale) * 2726px);
   height: calc(var(--rog_board_display_scale) * 4000px);
@@ -139,10 +145,129 @@
   height: 4000px;
   background-image: url("img/board.jpg");
 }
-#rog_main_zone #rog_players_boards {
-  display: flex;
-  flex-wrap: wrap;
-  flex-flow: column;
+
+.rog_shore_space#rog_shore_space-1 {
+  left: 1166px;
+  top: 251px;
+}
+.rog_shore_space#rog_shore_space-2 {
+  left: 543px;
+  top: 312px;
+}
+.rog_shore_space#rog_shore_space-3 {
+  left: 1113px;
+  top: 415px;
+}
+.rog_shore_space#rog_shore_space-4 {
+  left: 410px;
+  top: 526px;
+}
+.rog_shore_space#rog_shore_space-5 {
+  left: 1009px;
+  top: 589px;
+}
+.rog_shore_space#rog_shore_space-6 {
+  left: 400px;
+  top: 750px;
+}
+.rog_shore_space#rog_shore_space-7 {
+  left: 1058px;
+  top: 773px;
+}
+.rog_shore_space#rog_shore_space-8 {
+  left: 402px;
+  top: 932px;
+}
+.rog_shore_space#rog_shore_space-9 {
+  left: 1081px;
+  top: 1012px;
+}
+.rog_shore_space#rog_shore_space-10 {
+  left: 467px;
+  top: 1118px;
+}
+.rog_shore_space#rog_shore_space-11 {
+  left: 1170px;
+  top: 1227px;
+}
+.rog_shore_space#rog_shore_space-12 {
+  left: 521px;
+  top: 1325px;
+}
+.rog_shore_space#rog_shore_space-13 {
+  left: 1225px;
+  top: 1469px;
+}
+.rog_shore_space#rog_shore_space-14 {
+  left: 627px;
+  top: 1531px;
+}
+.rog_shore_space#rog_shore_space-15 {
+  left: 1271px;
+  top: 1741px;
+}
+.rog_shore_space#rog_shore_space-16 {
+  left: 619px;
+  top: 1753px;
+}
+.rog_shore_space#rog_shore_space-17 {
+  left: 660px;
+  top: 1996px;
+}
+.rog_shore_space#rog_shore_space-18 {
+  left: 1259px;
+  top: 2020px;
+}
+.rog_shore_space#rog_shore_space-19 {
+  left: 626px;
+  top: 2168px;
+}
+.rog_shore_space#rog_shore_space-20 {
+  left: 1259px;
+  top: 2276px;
+}
+.rog_shore_space#rog_shore_space-21 {
+  left: 662px;
+  top: 2339px;
+}
+.rog_shore_space#rog_shore_space-22 {
+  left: 665px;
+  top: 2601px;
+}
+.rog_shore_space#rog_shore_space-23 {
+  left: 1328px;
+  top: 2608px;
+}
+.rog_shore_space#rog_shore_space-24 {
+  left: 520px;
+  top: 2803px;
+}
+.rog_shore_space#rog_shore_space-25 {
+  left: 1178px;
+  top: 2824px;
+}
+.rog_shore_space#rog_shore_space-26 {
+  left: 397px;
+  top: 2995px;
+}
+.rog_shore_space#rog_shore_space-27 {
+  left: 1047px;
+  top: 3070px;
+}
+.rog_shore_space#rog_shore_space-28 {
+  left: 273px;
+  top: 3205px;
+}
+.rog_shore_space#rog_shore_space-29 {
+  left: 1042px;
+  top: 3274px;
+}
+.rog_shore_space#rog_shore_space-30 {
+  left: 848px;
+  top: 3443px;
+}
+.rog_shore_space#rog_shore_space-1, .rog_shore_space#rog_shore_space-3, .rog_shore_space#rog_shore_space-5, .rog_shore_space#rog_shore_space-7, .rog_shore_space#rog_shore_space-9, .rog_shore_space#rog_shore_space-11, .rog_shore_space#rog_shore_space-13, .rog_shore_space#rog_shore_space-15, .rog_shore_space#rog_shore_space-18, .rog_shore_space#rog_shore_space-20, .rog_shore_space#rog_shore_space-23, .rog_shore_space#rog_shore_space-25, .rog_shore_space#rog_shore_space-27, .rog_shore_space#rog_shore_space-29, .rog_shore_space#rog_shore_space-30 {
+  transform: rotate(180deg);
 }
 
 .rog_card {
@@ -682,280 +807,336 @@
   height: 170px;
 }
 
+.rog_shore_space {
+  position: absolute;
+  transform: rotate(0deg);
+}
+.rog_shore_space .rog_tile {
+  width: 333px;
+  height: 170px;
+}
+
+.rog_shore_space .rog_tile,
 .rog_tile_tooltip[data-subtype="2"] .rog_tile,
 .rog_building_slot .rog_tile {
   background-size: 500% 1000%;
 }
+.rog_shore_space .rog_tile[data-type="1"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="1"],
 .rog_building_slot .rog_tile[data-type="1"] {
   background-image: url("img/buildings.png");
   background-position-x: 0%;
   background-position-y: 0%;
 }
+.rog_shore_space .rog_tile[data-type="2"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="2"],
 .rog_building_slot .rog_tile[data-type="2"] {
   background-image: url("img/buildings.png");
   background-position-x: 25%;
   background-position-y: 0%;
 }
+.rog_shore_space .rog_tile[data-type="3"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="3"],
 .rog_building_slot .rog_tile[data-type="3"] {
   background-image: url("img/buildings.png");
   background-position-x: 50%;
   background-position-y: 0%;
 }
+.rog_shore_space .rog_tile[data-type="4"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="4"],
 .rog_building_slot .rog_tile[data-type="4"] {
   background-image: url("img/buildings.png");
   background-position-x: 75%;
   background-position-y: 0%;
 }
+.rog_shore_space .rog_tile[data-type="5"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="5"],
 .rog_building_slot .rog_tile[data-type="5"] {
   background-image: url("img/buildings.png");
   background-position-x: 100%;
   background-position-y: 0%;
 }
+.rog_shore_space .rog_tile[data-type="6"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="6"],
 .rog_building_slot .rog_tile[data-type="6"] {
   background-image: url("img/buildings.png");
   background-position-x: 0%;
   background-position-y: 11.1111111111%;
 }
+.rog_shore_space .rog_tile[data-type="7"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="7"],
 .rog_building_slot .rog_tile[data-type="7"] {
   background-image: url("img/buildings.png");
   background-position-x: 25%;
   background-position-y: 11.1111111111%;
 }
+.rog_shore_space .rog_tile[data-type="8"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="8"],
 .rog_building_slot .rog_tile[data-type="8"] {
   background-image: url("img/buildings.png");
   background-position-x: 50%;
   background-position-y: 11.1111111111%;
 }
+.rog_shore_space .rog_tile[data-type="9"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="9"],
 .rog_building_slot .rog_tile[data-type="9"] {
   background-image: url("img/buildings.png");
   background-position-x: 75%;
   background-position-y: 11.1111111111%;
 }
+.rog_shore_space .rog_tile[data-type="10"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="10"],
 .rog_building_slot .rog_tile[data-type="10"] {
   background-image: url("img/buildings.png");
   background-position-x: 100%;
   background-position-y: 11.1111111111%;
 }
+.rog_shore_space .rog_tile[data-type="11"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="11"],
 .rog_building_slot .rog_tile[data-type="11"] {
   background-image: url("img/buildings.png");
   background-position-x: 0%;
   background-position-y: 22.2222222222%;
 }
+.rog_shore_space .rog_tile[data-type="12"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="12"],
 .rog_building_slot .rog_tile[data-type="12"] {
   background-image: url("img/buildings.png");
   background-position-x: 25%;
   background-position-y: 22.2222222222%;
 }
+.rog_shore_space .rog_tile[data-type="13"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="13"],
 .rog_building_slot .rog_tile[data-type="13"] {
   background-image: url("img/buildings.png");
   background-position-x: 50%;
   background-position-y: 22.2222222222%;
 }
+.rog_shore_space .rog_tile[data-type="14"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="14"],
 .rog_building_slot .rog_tile[data-type="14"] {
   background-image: url("img/buildings.png");
   background-position-x: 75%;
   background-position-y: 22.2222222222%;
 }
+.rog_shore_space .rog_tile[data-type="15"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="15"],
 .rog_building_slot .rog_tile[data-type="15"] {
   background-image: url("img/buildings.png");
   background-position-x: 100%;
   background-position-y: 22.2222222222%;
 }
+.rog_shore_space .rog_tile[data-type="16"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="16"],
 .rog_building_slot .rog_tile[data-type="16"] {
   background-image: url("img/buildings.png");
   background-position-x: 0%;
   background-position-y: 33.3333333333%;
 }
+.rog_shore_space .rog_tile[data-type="17"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="17"],
 .rog_building_slot .rog_tile[data-type="17"] {
   background-image: url("img/buildings.png");
   background-position-x: 25%;
   background-position-y: 33.3333333333%;
 }
+.rog_shore_space .rog_tile[data-type="18"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="18"],
 .rog_building_slot .rog_tile[data-type="18"] {
   background-image: url("img/buildings.png");
   background-position-x: 50%;
   background-position-y: 33.3333333333%;
 }
+.rog_shore_space .rog_tile[data-type="19"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="19"],
 .rog_building_slot .rog_tile[data-type="19"] {
   background-image: url("img/buildings.png");
   background-position-x: 75%;
   background-position-y: 33.3333333333%;
 }
+.rog_shore_space .rog_tile[data-type="20"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="20"],
 .rog_building_slot .rog_tile[data-type="20"] {
   background-image: url("img/buildings.png");
   background-position-x: 100%;
   background-position-y: 33.3333333333%;
 }
+.rog_shore_space .rog_tile[data-type="21"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="21"],
 .rog_building_slot .rog_tile[data-type="21"] {
   background-image: url("img/buildings.png");
   background-position-x: 0%;
   background-position-y: 44.4444444444%;
 }
+.rog_shore_space .rog_tile[data-type="22"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="22"],
 .rog_building_slot .rog_tile[data-type="22"] {
   background-image: url("img/buildings.png");
   background-position-x: 25%;
   background-position-y: 44.4444444444%;
 }
+.rog_shore_space .rog_tile[data-type="23"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="23"],
 .rog_building_slot .rog_tile[data-type="23"] {
   background-image: url("img/buildings.png");
   background-position-x: 50%;
   background-position-y: 44.4444444444%;
 }
+.rog_shore_space .rog_tile[data-type="24"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="24"],
 .rog_building_slot .rog_tile[data-type="24"] {
   background-image: url("img/buildings.png");
   background-position-x: 75%;
   background-position-y: 44.4444444444%;
 }
+.rog_shore_space .rog_tile[data-type="25"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="25"],
 .rog_building_slot .rog_tile[data-type="25"] {
   background-image: url("img/buildings.png");
   background-position-x: 100%;
   background-position-y: 44.4444444444%;
 }
+.rog_shore_space .rog_tile[data-type="26"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="26"],
 .rog_building_slot .rog_tile[data-type="26"] {
   background-image: url("img/buildings.png");
   background-position-x: 0%;
   background-position-y: 55.5555555556%;
 }
+.rog_shore_space .rog_tile[data-type="27"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="27"],
 .rog_building_slot .rog_tile[data-type="27"] {
   background-image: url("img/buildings.png");
   background-position-x: 25%;
   background-position-y: 55.5555555556%;
 }
+.rog_shore_space .rog_tile[data-type="28"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="28"],
 .rog_building_slot .rog_tile[data-type="28"] {
   background-image: url("img/buildings.png");
   background-position-x: 50%;
   background-position-y: 55.5555555556%;
 }
+.rog_shore_space .rog_tile[data-type="29"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="29"],
 .rog_building_slot .rog_tile[data-type="29"] {
   background-image: url("img/buildings.png");
   background-position-x: 75%;
   background-position-y: 55.5555555556%;
 }
+.rog_shore_space .rog_tile[data-type="30"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="30"],
 .rog_building_slot .rog_tile[data-type="30"] {
   background-image: url("img/buildings.png");
   background-position-x: 100%;
   background-position-y: 55.5555555556%;
 }
+.rog_shore_space .rog_tile[data-type="31"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="31"],
 .rog_building_slot .rog_tile[data-type="31"] {
   background-image: url("img/buildings.png");
   background-position-x: 0%;
   background-position-y: 66.6666666667%;
 }
+.rog_shore_space .rog_tile[data-type="32"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="32"],
 .rog_building_slot .rog_tile[data-type="32"] {
   background-image: url("img/buildings.png");
   background-position-x: 25%;
   background-position-y: 66.6666666667%;
 }
+.rog_shore_space .rog_tile[data-type="33"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="33"],
 .rog_building_slot .rog_tile[data-type="33"] {
   background-image: url("img/buildings.png");
   background-position-x: 50%;
   background-position-y: 66.6666666667%;
 }
+.rog_shore_space .rog_tile[data-type="34"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="34"],
 .rog_building_slot .rog_tile[data-type="34"] {
   background-image: url("img/buildings.png");
   background-position-x: 75%;
   background-position-y: 66.6666666667%;
 }
+.rog_shore_space .rog_tile[data-type="35"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="35"],
 .rog_building_slot .rog_tile[data-type="35"] {
   background-image: url("img/buildings.png");
   background-position-x: 100%;
   background-position-y: 66.6666666667%;
 }
+.rog_shore_space .rog_tile[data-type="36"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="36"],
 .rog_building_slot .rog_tile[data-type="36"] {
   background-image: url("img/buildings.png");
   background-position-x: 0%;
   background-position-y: 77.7777777778%;
 }
+.rog_shore_space .rog_tile[data-type="37"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="37"],
 .rog_building_slot .rog_tile[data-type="37"] {
   background-image: url("img/buildings.png");
   background-position-x: 25%;
   background-position-y: 77.7777777778%;
 }
+.rog_shore_space .rog_tile[data-type="38"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="38"],
 .rog_building_slot .rog_tile[data-type="38"] {
   background-image: url("img/buildings.png");
   background-position-x: 50%;
   background-position-y: 77.7777777778%;
 }
+.rog_shore_space .rog_tile[data-type="39"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="39"],
 .rog_building_slot .rog_tile[data-type="39"] {
   background-image: url("img/buildings.png");
   background-position-x: 75%;
   background-position-y: 77.7777777778%;
 }
+.rog_shore_space .rog_tile[data-type="40"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="40"],
 .rog_building_slot .rog_tile[data-type="40"] {
   background-image: url("img/buildings.png");
   background-position-x: 100%;
   background-position-y: 77.7777777778%;
 }
+.rog_shore_space .rog_tile[data-type="41"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="41"],
 .rog_building_slot .rog_tile[data-type="41"] {
   background-image: url("img/buildings.png");
   background-position-x: 0%;
   background-position-y: 88.8888888889%;
 }
+.rog_shore_space .rog_tile[data-type="42"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="42"],
 .rog_building_slot .rog_tile[data-type="42"] {
   background-image: url("img/buildings.png");
   background-position-x: 25%;
   background-position-y: 88.8888888889%;
 }
+.rog_shore_space .rog_tile[data-type="43"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="43"],
 .rog_building_slot .rog_tile[data-type="43"] {
   background-image: url("img/buildings.png");
   background-position-x: 50%;
   background-position-y: 88.8888888889%;
 }
+.rog_shore_space .rog_tile[data-type="44"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="44"],
 .rog_building_slot .rog_tile[data-type="44"] {
   background-image: url("img/buildings.png");
   background-position-x: 75%;
   background-position-y: 88.8888888889%;
 }
+.rog_shore_space .rog_tile[data-type="45"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="45"],
 .rog_building_slot .rog_tile[data-type="45"] {
   background-image: url("img/buildings.png");
   background-position-x: 100%;
   background-position-y: 88.8888888889%;
 }
+.rog_shore_space .rog_tile[data-type="46"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="46"],
 .rog_building_slot .rog_tile[data-type="46"] {
   background-image: url("img/buildings.png");

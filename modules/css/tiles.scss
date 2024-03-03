@@ -168,6 +168,17 @@
         height: 170px;
     }
 }
+.rog_shore_space{
+    position: absolute;
+    transform: rotate(0deg); 
+
+    .rog_tile{
+        width: 333px;
+        height: 170px;
+    }
+}
+
+.rog_shore_space,
 .rog_tile_tooltip[data-subtype='2'],//TILE_TYPE_BUILDING
 .rog_building_slot{
     .rog_tile{
