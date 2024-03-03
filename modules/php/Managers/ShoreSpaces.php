@@ -110,4 +110,29 @@ class ShoreSpaces
     }
     return $spaceIds;
   }
+  
+  /**
+   * @param int $pRegion the region to search
+   * @return array list of spaces id
+   */
+  public static function getSpacesByRegion($pRegion){
+    $spaceIds = [];
+    $spaces = self::getShoreSpaces();
+    foreach ($spaces as $id => $space) {
+      if($pRegion == $space->region){
+        $spaceIds[] = $space->id;
+      }
+    }
+    return $spaceIds;
+  }
+  
+  /**
+   * @param int $pRegion the region to search
+   * @return array list of spaces id
+   */
+  public static function getEmptySpaces($pRegion){
+    $spaces = ShoreSpaces::getSpacesByRegion($pRegion);
+    $usedSpaces = Tiles::getUsedPositionsOnShore();
+    return array_diff($spaces, $usedSpaces);
+  }
 }

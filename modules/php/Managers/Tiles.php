@@ -18,8 +18,8 @@ class Tiles extends \ROG\Helpers\Pieces
 
   protected static function cast($row)
   {
-    $type = $row['type'];
-    $subtype = $row['subtype'];
+    $type = isset($row['type']) ? $row['type'] : null;
+    $subtype = isset($row['subtype']) ? $row['subtype'] : null;
     switch ($subtype) {
       case TILE_TYPE_SCORING:
         $data = self::getScoringTiles()[$type];
@@ -52,6 +52,20 @@ class Tiles extends \ROG\Helpers\Pieces
       ->ui();
   } 
    
+  /**
+   * @return array of int
+   */
+  public static function getUsedPositionsOnShore()
+  {
+    
+    return self::DB()->select([self::$prefix.'state'])
+      ->where(static::$prefix . 'location', TILE_LOCATION_BUILDING_SHORE)
+      ->get()
+      ->map(function ($tile) {
+        return $tile->state;
+      })
+      ->toArray();
+  } 
 
   /* Creation of the tiles */
   public static function setupNewGame($players, $options)

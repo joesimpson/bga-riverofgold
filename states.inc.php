@@ -150,8 +150,24 @@ $machinestates = array(
             "actExchange", 
         ],
         "transitions" => [ 
+            "build" => ST_PLAYER_TURN_BUILD, 
             "next" => ST_NEXT_TURN, 
             "zombiePass" => ST_NEXT_TURN,
+        ],
+    ),
+    
+    ST_PLAYER_TURN_BUILD => array(
+        "name" => "build",
+        "args" => "argBuild",
+        "description" => clienttranslate('${actplayer} must select a building and a shore space'),
+        "descriptionmyturn" => clienttranslate('${you} must select a building and a shore space'),
+        "type" => "activeplayer",
+        "possibleactions" => [
+            "actBuildSelect", 
+        ],
+        "transitions" => [ 
+            "next" => ST_PLAYER_TURN, 
+            "zombiePass" => ST_PLAYER_TURN,
         ],
     ),
 

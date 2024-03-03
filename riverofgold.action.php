@@ -60,6 +60,14 @@
       self::ajaxResponse();
     }
     
+    public function actBuildSelect()
+    {
+      self::setAjaxMode();
+      $position = self::getArg( "p", AT_posint, true );
+      $tileId = self::getArg( "t", AT_posint, true );
+      $this->game->actBuildSelect($position,$tileId);
+      self::ajaxResponse();
+    }
 
   }
   

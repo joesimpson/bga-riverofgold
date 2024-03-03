@@ -27,10 +27,17 @@ class BuildingTile extends Tile
   public function getUiData()
   {
     $data = parent::getUiData();
-    $data['pos'] = $data['state'];
+    $data['pos'] = $this->getPosition();
     unset($data['ownerReward']);
     unset($data['visitorReward']);
     unset($data['state']);
     return $data;
+  }
+
+  public function setPosition($value){
+    $this->setState($value);
+  }
+  public function getPosition(){
+    return $this->getState();
   }
 }

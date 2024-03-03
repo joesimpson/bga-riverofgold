@@ -9,15 +9,17 @@ trait PlayerTurnTrait
    
   public function actBuild()
   { 
+    self::checkAction('actBuild'); 
     self::trace("actBuild()");
 
     Notifications::message("Building...");
 
-    $this->gamestate->nextState('next');
+    $this->gamestate->nextState('build');
   }
 
   public function actSail()
   { 
+    self::checkAction('actSail'); 
     self::trace("actSail()");
 
     Notifications::message("Sailing...");
@@ -27,6 +29,7 @@ trait PlayerTurnTrait
   
   public function actDeliver()
   { 
+    self::checkAction('actDeliver'); 
     self::trace("actDeliver()");
 
     Notifications::message("Delivering...");
