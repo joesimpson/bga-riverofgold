@@ -36,6 +36,7 @@ use ROG\Core\Globals;
 use ROG\Core\Preferences;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
+use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 
 class RiverOfGold extends Table
@@ -92,6 +93,7 @@ class RiverOfGold extends Table
           'players' => Players::getUiData($current_player_id),
           'cards' => Cards::getUiData($current_player_id),
           'tiles' => Tiles::getUiData($current_player_id),
+          //'shore' => ShoreSpaces::getUiData(),
           'turn' => Globals::getTurn(),
           'deckSize' => [
             'era1' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1),

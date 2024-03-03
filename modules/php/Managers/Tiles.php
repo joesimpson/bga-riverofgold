@@ -2,6 +2,7 @@
 
 namespace ROG\Managers;
 
+use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
 use ROG\Models\Tile;
 
@@ -43,10 +44,11 @@ class Tiles extends \ROG\Helpers\Pieces
     $nextEra1Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1);
     $nextEra2Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2);
 
-    return self::getInLocation(TILE_LOCATION_SCORING)
+    return self::getInLocationOrdered(TILE_LOCATION_SCORING)
       ->merge(self::getInLocation(TILE_LOCATION_MASTERY_CARD))
-      ->merge(self::getInLocation(TILE_LOCATION_BUILDING_ROW))
+      ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_ROW))
       ->merge(new Collection([$nextEra1Card, $nextEra2Card]))
+      ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE))
       ->ui();
   } 
    
@@ -83,7 +85,13 @@ class Tiles extends \ROG\Helpers\Pieces
     foreach ($buildingTiles as $type => $tile) {
       $era = $tile['era'];
       if( $era == 0){
-        //TODO JSA manage starting tiles (with 2 of some)
+        //manage starting tiles (with 2 of some)
+        $tiles[] = [
+          'location' => TILE_LOCATION_BUILDING_SHORE,
+          'type' => $type,
+          'subtype' => TILE_TYPE_BUILDING,
+          'nbr' => $tile['nbr'],
+        ];
       }
       else {
         $tiles[] = [
@@ -98,6 +106,7 @@ class Tiles extends \ROG\Helpers\Pieces
       self::create($tiles);
       self::shuffle(TILE_LOCATION_SCORING);
       self::shuffle(TILE_LOCATION_MASTERY_CARD);
+      self::shuffle(TILE_LOCATION_BUILDING_SHORE);
       self::shuffle(TILE_LOCATION_BUILDING_DECK_ERA_1);
       self::shuffle(TILE_LOCATION_BUILDING_DECK_ERA_2);
 
@@ -107,6 +116,29 @@ class Tiles extends \ROG\Helpers\Pieces
         self::DB()->delete($tileId);
       }
       
+      //Random place for Imperial Markets & starting tiles
+      $startings = self::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE);
+      $marketSpaces = ShoreSpaces::getImperialMarketSpaces();
+      $startingSpaces = ShoreSpaces::getStartingSpaces($nbPlayers);
+      foreach ($startings as $tileId => $tile) {
+        if(BUILDING_TYPE_MARKET == $tile->buildingType){
+          $space = $marketSpaces[array_rand($marketSpaces)];
+          $marketSpaces = array_diff($marketSpaces,[$space] );
+          $tile->setState($space);
+        }
+        else {
+          if(count($startingSpaces) == 0){
+            //no more spaces, let's delete tile
+            self::DB()->delete($tileId);
+          }
+          else{
+            $space = $startingSpaces[array_rand($startingSpaces)];
+            $startingSpaces = array_diff($startingSpaces,[$space] );
+            $tile->setState($space);
+          }
+        }
+      }
+
       //Keep 16 /14/12 era 1 tiles <=> remove 8/10/12 tiles
       $nbBuildingToRemove = [2=>12, 3=>10, 4=>8];
       $buildingTiles = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1,$nbBuildingToRemove[$nbPlayers]);
@@ -128,6 +160,7 @@ class Tiles extends \ROG\Helpers\Pieces
         $k++;
         $tile->setState($k);
       }
+
     }
   }
  
@@ -200,12 +233,13 @@ class Tiles extends \ROG\Helpers\Pieces
         //influence bonus
         'bonus' => $t[1],
         'buildingType' => $t[2],
+        'nbr' => isset($t[3]) ? $t[3] : 1,
       ];
     };
     return [
       //49 various tiles - 46 unique
       // 2 identical starting Blue 
-      1 => $f([ 0, 0  , BUILDING_TYPE_PORT  ]), 
+      1 => $f([ 0, 0  , BUILDING_TYPE_PORT  , 2]), 
       //6 blue
       2 => $f([ 1, 1  , BUILDING_TYPE_PORT  ]), 
       3 => $f([ 1, 0  , BUILDING_TYPE_PORT  ]), 
@@ -257,9 +291,9 @@ class Tiles extends \ROG\Helpers\Pieces
       41 => $f([ 2, 5  , BUILDING_TYPE_SHRINE  ]), 
 
       // 2 identical starting orange 
-      42 => $f([ 0, 0  , BUILDING_TYPE_MANOR  ]), 
+      42 => $f([ 0, 0  , BUILDING_TYPE_MANOR  , 2]), 
       // 2 identical starting red 
-      43 => $f([ 0, 0  , BUILDING_TYPE_SHRINE  ]), 
+      43 => $f([ 0, 0  , BUILDING_TYPE_SHRINE  , 2]), 
       // 3 starting green 
       44 => $f([ 0, 0  , BUILDING_TYPE_MARKET  ]), 
       45 => $f([ 0, 0  , BUILDING_TYPE_MARKET  ]), 
@@ -267,4 +301,18 @@ class Tiles extends \ROG\Helpers\Pieces
     ];
   }
   
+  /**
+   * @param int $pType the type to search
+   * @return array list of types
+   */
+  public static function getTilesTypesByBuilding($pType){
+    $types = [];
+    $buildingTiles = self::getBuildingTiles();
+    foreach ($buildingTiles as $type => $tile) {
+      if($pType == $tile['buildingType']){
+        $types[] = $type;
+      }
+    }
+    return $types;
+  }
 }
