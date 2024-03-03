@@ -38,6 +38,14 @@
 .rog_hidden{
     visibility: hidden;
 }
+//Buttons :
+.rog_selected_button{
+    background-color: rgb(255, 115, 0);
+    &:hover{
+        // overrides BGA default
+        background-color: rgb(255, 115, 0) !important;
+    }
+}
  
 // SAFE MODE --------------------------
 #ebd-body.help-mode {

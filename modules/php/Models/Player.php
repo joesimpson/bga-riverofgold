@@ -119,7 +119,8 @@ class Player extends \ROG\Helpers\DB_Model
    * @return int
    */
   public function rollDie(){
-    $this->setDie(array_rand([1,2,3,4,5,6]));
+    $dieFaces = [1,2,3,4,5,6];
+    $this->setDie($dieFaces[array_rand($dieFaces)]);
     $die_face = $this->getDie();
     Notifications::rollDie($this,$die_face);
     return $die_face;

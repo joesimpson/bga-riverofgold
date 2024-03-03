@@ -47,10 +47,12 @@ trait BuildTrait
     }
     $previousPosition = $tile->getPosition();
 
+    //TODO JSA spend money
+
     $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
     $tile->setPosition($position);
 
-    Notifications::message("Building selection $position, $tileId...");
+    Notifications::build($player,$tile,$previousPosition);
 
     if(BUILDING_ROW_END == $previousPosition){
       //TODO JSA gain 1 divine favor

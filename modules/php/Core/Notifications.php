@@ -2,6 +2,8 @@
 
 namespace ROG\Core;
 
+use ROG\Models\BuildingTile;
+
 class Notifications
 { 
   
@@ -66,6 +68,21 @@ class Notifications
     self::notifyAll('rollDie', clienttranslate('${player_name} rolls a die and gets ${die_face}'), [
       'player' => $player,
       'die_face' => $die_face,
+    ]);
+  }
+  /**
+   * @param Player $player
+   * @param BuildingTile $tile
+   * @param int $previousPosition
+   */
+  public static function build($player,$tile,$previousPosition)
+  {
+    //TODO JSA notify region for master engineer?
+    self::notifyAll('build', clienttranslate('${player_name} builds ${building_tile}'), [
+      'player' => $player,
+      'tile' => $tile->getUiData(),
+      'building_tile' => $tile->getType(),
+      'from' => $previousPosition,
     ]);
   }
 

@@ -81,6 +81,7 @@ function (dojo, declare) {
                 ['spendMoney', 1300],
                 ['giveCardTo', 1000],
                 ['giveResource', 800],
+                ['build', 1300],
             ];
         },
         
@@ -229,6 +230,56 @@ function (dojo, declare) {
             this.addPrimaryActionButton(`btnSail`, _('Sail') , () =>  { this.takeAction('actSail'); });
             this.addPrimaryActionButton(`btnDeliver`, _('Deliver') , () =>  { this.takeAction('actDeliver'); });
         },
+        onEnteringStateBuild(args){
+            debug('onEnteringStateBuild', args);
+
+            this.selectedTileId = null; 
+            this.selectedSpace = null; 
+            let shoreSpacesDiv = $(`rog_shore_spaces`);
+            let buildingRowDiv = $(`rog_building_row`);
+            this.addPrimaryActionButton('btnConfirm', _('Select and pay N Koku'), () => {
+                //let selectedBuilding = buildingRowDiv.querySelector(`.rog_tile.selected`);
+                //let selectedTileId = document.querySelector('.rog_button_building_tile.selected').dataset.id;
+                //let selectedSpace = shoreSpacesDiv.querySelector(`.rog_shore_space.selected`).dataset.pos;
+                this.takeAction('actBuildSelect', { p: this.selectedSpace,  t: this.selectedTileId});
+            }); 
+            //DISABLED by default
+            $(`btnConfirm`).classList.add('disabled');
+
+            Object.values(args.spaces).forEach((space) => {
+                let elt2 = $(`rog_shore_space-${space}`);
+                this.onClick(`${elt2.id}`, (evt) => {
+                    //CLICK SELECT DESTINATION
+                    shoreSpacesDiv.querySelectorAll('.rog_shore_space').forEach((elt) => {
+                        elt.classList.remove('selected');
+                    });
+                    let div = evt.target;
+                    div.classList.add('selected');
+                    this.selectedSpace = div.dataset.pos;
+                    if(this.selectedTileId != null){
+                        $(`btnConfirm`).classList.remove('disabled');
+                    }
+                });
+            });
+            [...buildingRowDiv.querySelectorAll('.rog_tile')].forEach((tile) => {
+                //TODO JSA reverse order
+                let tileId = tile.dataset.id;
+                let buttonId = `btnTile_${tileId}`;
+                this.addImageActionButton(buttonId, `<div class='rog_button_building_tile' data-type='${tile.dataset.type}' data-id='${tileId}'></div>`, () =>  {
+                    document.querySelectorAll('.rog_button_building_tile').forEach( (e) => e.classList.remove('rog_selected_button') );
+                    $(buttonId).classList.toggle('rog_selected_button');
+                    $(`btnConfirm`).classList.add('disabled');
+                    this.selectedTileId = null;
+                    if($(buttonId).classList.contains('rog_selected_button')){
+                        this.selectedTileId = tileId;
+                        if(this.selectedSpace != null){
+                            $(`btnConfirm`).classList.remove('disabled');
+                        }
+                    }
+                });
+                $(buttonId).classList.add('rog_button_building_tile');
+            });
+        },
         
         
         //////////////////////////////////////////////////////////////
@@ -258,6 +309,16 @@ function (dojo, declare) {
         notif_giveMoney(n) {
             debug('Notif: gaining money', n);
             this.gainPayMoney(n.args.player_id, n.args.n);
+        },
+    
+        notif_build(n) {
+            debug('Notif: building a tile to the shore', n);
+            if (!$(`rog_tile-${n.args.tile.id}`)) this.addTile(n.args.tile, this.getVisibleTitleContainer());
+            let fromDiv = $(`rog_building_slot-${n.args.from}`);
+            this.slide(`rog_tile-${n.args.tile.id}`, this.getTileContainer(n.args.tile), {  
+                from: fromDiv.id, 
+                phantom: false,
+            });
         },
         
         ///////////////////////////////////////////////////
@@ -627,7 +688,7 @@ function (dojo, declare) {
             
         },
         tplShoreSpace(position) {
-            return `<div id='rog_shore_space-${position}' class='rog_shore_space'></div>`;
+            return `<div id='rog_shore_space-${position}' class='rog_shore_space' data-pos='${position}'></div>`;
         },
     
         addTile(tile, location = null) {
@@ -644,17 +705,16 @@ function (dojo, declare) {
         getTileTooltip(tile) {
             let cardDatas = tile;
             let typeName = '';
-            let subtype ='';
+            let subtype = tile.subtype;
             if(cardDatas.buildingType){
                 //building
                 typeName = BUILDING_TYPES[cardDatas.buildingType];
-                subtype = TILE_TYPE_BUILDING;
             }
             let div = this.tplTile(cardDatas,'_tmp');
             return [`<div class='rog_tile_tooltip' data-subtype='${subtype}'><h1>${typeName}</h1>${div}</div>`];
         },
         tplTile(tile, prefix ='') {
-            return `<div class="rog_tile" id="rog_tile${prefix}-${tile.id}" data-id="${tile.id}" data-type="${tile.type}">
+            return `<div class="rog_tile" id="rog_tile${prefix}-${tile.id}" data-id="${tile.id}" data-type="${tile.type}" data-subtype="${tile.subtype}">
                 </div>`;
         },
         addMasteryCardHolder(tile) {

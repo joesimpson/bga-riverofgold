@@ -178,10 +178,13 @@
     }
 }
 
-.rog_shore_space,
-.rog_tile_tooltip[data-subtype='2'],//TILE_TYPE_BUILDING
-.rog_building_slot{
-    .rog_tile{
+.rog_tile[data-subtype='2'],//TILE_TYPE_BUILDING
+.rog_shore_space .rog_tile,
+.rog_tile_tooltip[data-subtype='2'] .rog_tile,//TILE_TYPE_BUILDING
+.rog_button_building_tile,
+.rog_building_slot .rog_tile{
+        width: 333px;
+        height: 170px;
         //sprite positions
         background-size: 500% 1000%;
         @for $i from 0 through 45 {
@@ -191,5 +194,23 @@
                 background-position-y: (($i - ($i % 5)) / 5) * 100% / 9;
             }
         }
-    }
+}
+.rog_shore_space.selectable{
+    width: 333px;
+    height: 170px;
+    background-size: 500% 1000%;
+    background-image: url("img/buildings.png");
+    //TODO JSA icon with borders
+    background-position-x: 100%;
+    background-position-y: 100%;
+    outline: 10px solid yellow;
+    cursor: pointer;
+}
+.rog_shore_space.selected{
+    outline: 10px solid green;
+    background-color: rgba(0, 128, 0, 0.26);
+}
+.rog_button_building_tile{
+    width: 200px;
+    height: 100px;
 }
