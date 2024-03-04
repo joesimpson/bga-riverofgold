@@ -36,6 +36,10 @@
             .rog_resource_silk,
             .rog_resource_rice,
             .rog_resource_pottery,
+            .rog_resource_port,
+            .rog_resource_manor,
+            .rog_resource_market,
+            .rog_resource_shrine,
             .rog_resource_money {
                 font-size: 15px;
                 font-weight: bold;
@@ -76,6 +80,35 @@
         }
         &.rog_icon_pottery{
             background-image: url("img/pottery.png");
+        }
+
+        &.rog_icon_port{
+            width: 2.5em;
+            height: 3em;
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+            background-image: url("img/port_owned.png");
+        }
+        &.rog_icon_market{
+            width: 2.5em;
+            height: 3em;
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+            background-image: url("img/market_owned.png");
+        }
+        &.rog_icon_manor{
+            width: 2.5em;
+            height: 3em;
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+            background-image: url("img/manor_owned.png");
+        }
+        &.rog_icon_shrine{
+            width: 2.5em;
+            height: 3em;
+            background-repeat: no-repeat;
+            background-size: 100% auto;
+            background-image: url("img/shrine_owned.png");
         }
     }
 }

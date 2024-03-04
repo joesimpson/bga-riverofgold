@@ -6,6 +6,7 @@ use ROG\Core\Game;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Core\Preferences;
+use ROG\Managers\Meeples;
 
 /*
  * Player: all utility functions concerning a player
@@ -43,6 +44,13 @@ class Player extends \ROG\Helpers\DB_Model
     $data['rice'] = $this->getResource(RESOURCE_TYPE_RICE);
     $data['pottery'] = $this->getResource(RESOURCE_TYPE_POTTERY);
     unset($data['resources']);
+    
+    $data['buildings'] = [
+      BUILDING_TYPE_PORT => Meeples::countPlayerBuildings($this->getId(),BUILDING_TYPE_PORT),
+      BUILDING_TYPE_MARKET => Meeples::countPlayerBuildings($this->getId(),BUILDING_TYPE_MARKET),
+      BUILDING_TYPE_MANOR => Meeples::countPlayerBuildings($this->getId(),BUILDING_TYPE_MANOR),
+      BUILDING_TYPE_SHRINE => Meeples::countPlayerBuildings($this->getId(),BUILDING_TYPE_SHRINE),
+    ];
     return $data;
   }
 

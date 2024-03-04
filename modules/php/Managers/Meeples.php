@@ -46,6 +46,16 @@ class Meeples extends \ROG\Helpers\Pieces
     Notifications::newClanMarker($player,$elt);
     return $elt;
   }
+  
+  /**
+   * @param int $pId
+   * @param int $type of building to search for
+   * @return int number 
+   */
+  public static function countPlayerBuildings($pId, $type)
+  {
+    return self::getFilteredQuery($pId, null, $type)->count();
+  }
 
   
 }

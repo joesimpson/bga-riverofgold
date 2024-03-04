@@ -335,9 +335,12 @@ function (dojo, declare) {
             debug('notif_build: building a tile to the shore', n);
             if (!$(`rog_tile-${n.args.tile.id}`)) this.addTile(n.args.tile, this.getVisibleTitleContainer());
             let fromDiv = $(`rog_building_slot-${n.args.from}`);
+            let buildingType = n.args.tile.buildingType;
             this.slide(`rog_tile-${n.args.tile.id}`, this.getTileContainer(n.args.tile), {  
                 from: fromDiv.id, 
                 phantom: false,
+            }).then( ()=> {
+                this._counters[n.args.player_id].buildings[buildingType].incValue(1);
             });
         },
         notif_newClanMarker(n) {
@@ -368,6 +371,10 @@ function (dojo, declare) {
                 this._counters[pId].pottery.toValue(player.pottery);
                 this._counters[pId].rice.toValue(player.rice);
                 this._counters[pId].dieFace.toValue(player.die);
+                this._counters[pId].buildings[BUILDING_TYPE_PORT    ].toValue(player.buildings[BUILDING_TYPE_PORT]);
+                this._counters[pId].buildings[BUILDING_TYPE_MARKET  ].toValue(player.buildings[BUILDING_TYPE_MARKET]);
+                this._counters[pId].buildings[BUILDING_TYPE_MANOR   ].toValue(player.buildings[BUILDING_TYPE_MANOR]);
+                this._counters[pId].buildings[BUILDING_TYPE_SHRINE  ].toValue(player.buildings[BUILDING_TYPE_SHRINE]);
                 
             });
         },
@@ -470,12 +477,23 @@ function (dojo, declare) {
                     pottery: this.createCounter(`rog_counter_${pId}_pottery`, player.pottery),
                     rice: this.createCounter(`rog_counter_${pId}_rice`, player.rice),
                     dieFace: this.createCounter(`rog_counter_${pId}_dieFace`, player.die),
+                    buildings: [],
                 };
+                this._counters[pId].buildings[BUILDING_TYPE_PORT] = this.createCounter(`rog_counter_${pId}_port`, player.buildings[BUILDING_TYPE_PORT]);
+                this._counters[pId].buildings[BUILDING_TYPE_MARKET] = this.createCounter(`rog_counter_${pId}_market`, player.buildings[BUILDING_TYPE_MARKET]);
+                this._counters[pId].buildings[BUILDING_TYPE_MANOR] = this.createCounter(`rog_counter_${pId}_manor`, player.buildings[BUILDING_TYPE_MANOR]);
+                this._counters[pId].buildings[BUILDING_TYPE_SHRINE] = this.createCounter(`rog_counter_${pId}_shrine`, player.buildings[BUILDING_TYPE_SHRINE]);
+                
                 this.addCustomTooltip(`rog_reserve_${pId}_money`, _('Koku'));
                 this.addCustomTooltip(`rog_reserve_${pId}_rice`, _('Rice'));
                 this.addCustomTooltip(`rog_reserve_${pId}_silk`, _('Silk'));
                 this.addCustomTooltip(`rog_reserve_${pId}_pottery`, _('Pottery'));
                 this.addCustomTooltip(`rog_reserve_${pId}_dieFace`, _('Die'));
+                
+                this.addCustomTooltip(`rog_reserve_${pId}_port`, BUILDING_TYPES[BUILDING_TYPE_PORT]);
+                this.addCustomTooltip(`rog_reserve_${pId}_manor`, BUILDING_TYPES[BUILDING_TYPE_MANOR]);
+                this.addCustomTooltip(`rog_reserve_${pId}_market`, BUILDING_TYPES[BUILDING_TYPE_MARKET]);
+                this.addCustomTooltip(`rog_reserve_${pId}_shrine`, BUILDING_TYPES[BUILDING_TYPE_SHRINE]);
 
                 nPlayers++;
                 if (isCurrent) currentPlayerNo = player.no;
@@ -572,6 +590,10 @@ function (dojo, declare) {
                 ${this.tplResourceCounter(player, 'silk')}
                 ${this.tplResourceCounter(player, 'rice')}
                 ${this.tplResourceCounter(player, 'pottery')}
+                ${this.tplResourceCounter(player, 'port')}
+                ${this.tplResourceCounter(player, 'manor')}
+                ${this.tplResourceCounter(player, 'market')}
+                ${this.tplResourceCounter(player, 'shrine')}
                 ${this.tplResourceCounter(player, 'dieFace')}
             </div>
             </div>`;

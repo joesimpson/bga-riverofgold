@@ -53,6 +53,10 @@
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_silk,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_rice,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_pottery,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_port,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_manor,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_market,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_shrine,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_money {
   font-size: 15px;
   font-weight: bold;
@@ -60,6 +64,10 @@
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_silk::after,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_rice::after,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_pottery::after,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_port::after,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_manor::after,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_market::after,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_shrine::after,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_money::after {
   content: " x";
 }
@@ -90,6 +98,34 @@
 }
 .rog_icon_container .rog_icon.rog_icon_pottery {
   background-image: url("img/pottery.png");
+}
+.rog_icon_container .rog_icon.rog_icon_port {
+  width: 2.5em;
+  height: 3em;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-image: url("img/port_owned.png");
+}
+.rog_icon_container .rog_icon.rog_icon_market {
+  width: 2.5em;
+  height: 3em;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-image: url("img/market_owned.png");
+}
+.rog_icon_container .rog_icon.rog_icon_manor {
+  width: 2.5em;
+  height: 3em;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-image: url("img/manor_owned.png");
+}
+.rog_icon_container .rog_icon.rog_icon_shrine {
+  width: 2.5em;
+  height: 3em;
+  background-repeat: no-repeat;
+  background-size: 100% auto;
+  background-image: url("img/shrine_owned.png");
 }
 
 #rog_pottery_animation,
