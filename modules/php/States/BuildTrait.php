@@ -32,6 +32,7 @@ trait BuildTrait
 
     $player = Players::getCurrent();
     $pId = $player->id;
+    $this->addStep();
 
     $possibleSpaces = $this->listPossibleSpacesToBuild($player);
     if(!in_array($position, $possibleSpaces)){

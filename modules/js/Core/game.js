@@ -40,6 +40,26 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       this._displayRestartButtons = true;
     },
 
+    destroy(elem) {
+      if (this.tooltips[elem.id]) {
+        this.tooltips[elem.id].destroy();
+        delete this.tooltips[elem.id];
+      }
+
+      elem.remove();
+    },
+    
+    empty(container) {
+      container = $(container);
+      container.childNodes.forEach((node) => {
+        if (this.tooltips[node.id]) {
+          this.tooltips[node.id].close();
+          delete this.tooltips[node.id];
+        }
+      });
+      container.innerHTML = '';
+    },
+
     showMessage(msg, type) {
       if (type == 'error') {
         console.error(msg);
@@ -198,11 +218,15 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       if (this[methodName] !== undefined) this[methodName]();
     },
 
-    clearPossible() {
-      debug('clearPossible()' );
+    removeAllActionButtons() {
       this.removeActionButtons();
       dojo.empty('customActions');
       dojo.empty('restartAction');
+    },
+
+    clearPossible() {
+      debug('clearPossible()' );
+      this.removeAllActionButtons();
 
       this._connections.forEach(dojo.disconnect);
       this._connections = [];
@@ -211,6 +235,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       });
       this._selectableNodes = [];
       dojo.query('.unselectable').removeClass('unselectable');
+      dojo.query('.selectable').removeClass('selectable');
     },
 
     /**
@@ -255,6 +280,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
             if (msg != '') {
               $('gameaction_status').innerHTML = msg;
               $('pagemaintitletext').innerHTML = msg;
+              this.removeAllActionButtons();
             }
           }
           let timing = this[functionName](args);

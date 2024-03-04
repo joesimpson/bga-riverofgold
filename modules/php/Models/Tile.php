@@ -14,7 +14,6 @@ class Tile extends \ROG\Helpers\DB_Model
     'id' => ['tile_id', 'int'],
     'state' => ['tile_state', 'int'],
     'location' => 'tile_location',
-    'pId' => ['player_id', 'int'],
     'type' => ['type', 'int'],
   ];
   

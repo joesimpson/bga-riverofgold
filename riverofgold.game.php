@@ -45,6 +45,7 @@ class RiverOfGold extends Table
     use ROG\States\BeforeTurnTrait;
     use ROG\States\BuildTrait;
     use ROG\States\ClanSelectionTrait;
+    use ROG\States\ConfirmUndoTrait;
     use ROG\States\NextTurnTrait;
     use ROG\States\PlayerTurnTrait;
     use ROG\States\SetupTrait;
@@ -84,7 +85,7 @@ class RiverOfGold extends Table
         _ when the game starts
         _ when a player refreshes the game page (F5)
     */
-    protected function getAllDatas()
+    public function getAllDatas()
     {
         $current_player_id = self::getCurrentPId();    // !! We must only return informations visible by this player !!
         // Gather all information about current game situation (visible by player $current_player_id).

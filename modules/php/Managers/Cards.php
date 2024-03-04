@@ -2,6 +2,7 @@
 
 namespace ROG\Managers;
 
+use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
 
 /* Class to manage all the cards */
@@ -55,6 +56,12 @@ class Cards extends \ROG\Helpers\Pieces
   public static function getPlayerHandOrders($pId)
   {
     return self::getFilteredQuery($pId, CARD_LOCATION_HAND)->get();
+  }
+  public static function refreshHands($players)
+  {
+    foreach ($players as $pid => $player) {
+      Notifications::refreshHand($pid,Cards::getPlayerHandOrders($pid));
+    }
   }
   /**
    * Return all delivered cards of this player

@@ -86,6 +86,9 @@ const ST_BEFORE_TURN = 11;
 const ST_PLAYER_TURN = 20;
 const ST_PLAYER_TURN_BUILD = 21;
 
+const ST_CONFIRM_CHOICES = 70;
+const ST_CONFIRM_TURN = 71;
+
 const ST_END_SCORING = 90;
 const ST_PRE_END_OF_GAME = 98;
 const ST_END_GAME = 99;

@@ -48,6 +48,7 @@ trait DebugTrait
     }
     */
     $this->stPlayerSetup();
+    Notifications::refreshUI($this->getAllDatas());
   }
   
   function debugLiv(){
@@ -68,5 +69,9 @@ trait DebugTrait
     $player = Players::getCurrent();
     Notifications::giveMoney($player,55);
     Notifications::spendMoney($player,23);
+  }
+  
+  function debugUI(){
+    Notifications::refreshUI($this->getAllDatas());
   }
 }

@@ -77,6 +77,9 @@ function (dojo, declare) {
             this._counters = {};
             
             this._notifications = [
+                ['clearTurn', 200],
+                ['refreshUI', 200],
+                ['refreshHand', 50],
                 ['giveMoney', 1300],
                 ['spendMoney', 1300],
                 ['giveCardTo', 1000],
@@ -220,7 +223,7 @@ function (dojo, declare) {
           
         onLeavingState(stateName) {
             this.inherited(arguments);
-            dojo.empty('rog_select_piece_container');
+            this.empty('rog_select_piece_container');
         },
 
         onEnteringStatePlayerTurn(args){
@@ -281,6 +284,11 @@ function (dojo, declare) {
             });
         },
         
+        onEnteringStateConfirmTurn(args) {
+            this.addPrimaryActionButton('btnConfirmTurn', _('Confirm'), () => {
+                this.takeAction('actConfirmTurn');
+            });
+        },
         
         //////////////////////////////////////////////////////////////
         //    _   _       _   _  __ _           _   _                 
@@ -320,6 +328,37 @@ function (dojo, declare) {
                 phantom: false,
             });
         },
+        ///////////////////////////////////////////////////
+        notif_clearTurn(n) {
+            debug('Notif: restarting turn/step', n);
+            this.cancelLogs(n.args.notifIds);
+        },
+        notif_refreshUI(n) {
+            debug('Notif: refreshing UI', n);
+            ['players', 'cards', 'tiles'].forEach((value) => {
+                this.gamedatas[value] = n.args.datas[value];
+            });
+    
+            this.setupCards();
+            this.setupTiles();
+    
+            this.forEachPlayer((player) => {
+                let pId = player.id;
+                this.scoreCtrl[pId].toValue(player.score);
+                this._counters[pId].money.toValue(player.money);
+                this._counters[pId].silk.toValue(player.silk);
+                this._counters[pId].pottery.toValue(player.pottery);
+                this._counters[pId].rice.toValue(player.rice);
+                this._counters[pId].dieFace.toValue(player.die);
+                
+            });
+        },
+        notif_refreshHand(n) {
+            debug('Notif: refreshing hand', n);
+            this.gamedatas.cards = this.gamedatas.cards.concat(n.args.hand);
+    
+            this.setupCards(); 
+        },
         
         ///////////////////////////////////////////////////
         //    _    _ _   _ _     
@@ -349,6 +388,11 @@ function (dojo, declare) {
             //let remainingWidth = WIDTH - $('rog_resizable_river_board').getBoundingClientRect()['width'];
             //widthScale = ((this.settings.handWidth / 100) * remainingWidth) / PLAYER_HAND_WIDTH;
             //ROOT.style.setProperty('--rog_hand_scale', widthScale);
+        },
+        
+        undoToStep(stepId) {
+            this.checkAction('actRestart');
+            this.takeAction('actUndoToStep', { stepId }, false);
         },
 
         ////////////////////////////////////////////////////////////
@@ -574,6 +618,10 @@ function (dojo, declare) {
 
         setupCards() {
             // This function is refreshUI compatible
+            //destroy previous cards
+            document.querySelectorAll('.rog_card[id^="rog_card-"]').forEach((oCard) => {
+                this.destroy(oCard);
+            });
             let cardIds = this.gamedatas.cards.map((card) => {
                 if (!$(`rog_card-${card.id}`)) {
                     this.addCard(card);
@@ -590,14 +638,10 @@ function (dojo, declare) {
         
                 return card.id;
             });
-            document.querySelectorAll('.rog_card[id^="card-"]').forEach((oCard) => {
-                if (!cardIds.includes(parseInt(oCard.getAttribute('data-id')))) {
-                    this.destroy(oCard);
-                }
-            });
         },
     
         addCard(card, location = null) {
+            debug('addCard',card);
             if ($('rog_card-' + card.id)) return;
     
             let o = this.place('tplCard', card, location == null ? this.getCardContainer(card) : location);
@@ -663,6 +707,22 @@ function (dojo, declare) {
                 if($(`rog_shore_space-${k}`)) continue;
                 this.place(`tplShoreSpace`,k, $(`rog_shore_spaces`));
             }
+            /*
+            dojo.empty('rog_mastery_cards');
+            dojo.empty('rog_building_era-1');
+            dojo.empty('rog_building_era-2');
+            document.querySelectorAll('#rog_scoring_tiles [id^="rog_scoring_tile-"]').forEach((oCard) => {
+                this.destroy(oCard);
+            });
+            document.querySelectorAll('.rog_building_slot').forEach((oCard) => {
+                dojo.empty(oCard);
+            });
+            */
+            //Destroy previous tiles
+            document.querySelectorAll('.rog_tile[id^="rog_tile-"]').forEach((oCard) => {
+                this.destroy(oCard);
+            });
+
             // This function is refreshUI compatible
             let cardIds = this.gamedatas.tiles.map((card) => {
                 if (!$(`rog_tile-${card.id}`)) {
@@ -678,11 +738,6 @@ function (dojo, declare) {
                 }
                 return card.id;
             });
-            document.querySelectorAll('.rog_tile[id^="tile-"]').forEach((oCard) => {
-                if (!cardIds.includes(parseInt(oCard.getAttribute('data-id')))) {
-                    this.destroy(oCard);
-                }
-            });
             this._counters['deckSize1'] = this.createCounter('rog_deck_size-1',this.gamedatas.deckSize.era1);
             this._counters['deckSize2'] = this.createCounter('rog_deck_size-2',this.gamedatas.deckSize.era2);
             
@@ -692,6 +747,7 @@ function (dojo, declare) {
         },
     
         addTile(tile, location = null) {
+            debug('addTile',tile);
             let divId = `rog_tile-${tile.id}`;
             if ($(divId)) return $(divId);
             let o = this.place('tplTile', tile, location == null ? this.getTileContainer(tile) : location);

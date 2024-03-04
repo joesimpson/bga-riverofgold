@@ -20,6 +20,9 @@ class Globals extends \ROG\Helpers\DB_Manager
     //Last dice roll result
     'lastDie' => 'obj',
 
+    //Undo log module
+    'choices' => 'int',
+
     // Game options
     'optionGameMode' => 'int', 
 
@@ -30,7 +33,6 @@ class Globals extends \ROG\Helpers\DB_Manager
    */
   public static function setupNewGame($players, $options)
   {
-    //TODO update nbRounds according to options when needed
     self::setTurn(0);
     self::setLastDie([]);
 

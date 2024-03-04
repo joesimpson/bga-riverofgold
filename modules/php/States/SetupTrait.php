@@ -60,6 +60,7 @@ trait SetupTrait
       $player->giveResource(1,RESOURCE_TYPE_RICE);
     }
 
+    $this->addCheckpoint(ST_NEXT_TURN);
     $this->gamestate->nextState('next');
   }
 }

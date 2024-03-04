@@ -14,7 +14,7 @@ class Tiles extends \ROG\Helpers\Pieces
   protected static $prefix = 'tile_';
   protected static $autoIncrement = true;
   protected static $autoremovePrefix = false;
-  protected static $customFields = ['player_id', 'type', 'subtype'];
+  protected static $customFields = [ 'type', 'subtype'];
 
   protected static function cast($row)
   {

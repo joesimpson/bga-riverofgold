@@ -166,10 +166,34 @@ $machinestates = array(
             "actBuildSelect", 
         ],
         "transitions" => [ 
-            "next" => ST_PLAYER_TURN, 
-            "zombiePass" => ST_PLAYER_TURN,
+            "next" => ST_CONFIRM_CHOICES, 
+            "zombiePass" => ST_CONFIRM_CHOICES,
         ],
     ),
+
+    ST_CONFIRM_CHOICES => [
+        'name' => 'confirmChoices',
+        'description' => '',
+        'type' => 'game',
+        'action' => 'stConfirmChoices',
+        'transitions' => [
+          '' => ST_CONFIRM_TURN,
+        ],
+    ],
+    
+      ST_CONFIRM_TURN => [
+        'name' => 'confirmTurn',
+        'description' => clienttranslate('${actplayer} must confirm or restart their turn'),
+        'descriptionmyturn' => clienttranslate('${you} must confirm or restart your turn'),
+        'type' => 'activeplayer',
+        'args' => 'argsConfirmTurn',
+        'action' => 'stConfirmTurn',
+        'possibleactions' => ['actConfirmTurn', 'actRestart'],
+        'transitions' => [
+          'confirm' => ST_NEXT_TURN,
+          'zombiePass'=> ST_NEXT_TURN,
+        ],
+    ],
 
     ST_END_SCORING => array(
         "name" => "scoring",

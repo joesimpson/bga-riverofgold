@@ -2,6 +2,7 @@
 
 namespace ROG\Core;
 
+use ROG\Managers\Cards;
 use ROG\Models\BuildingTile;
 
 class Notifications
@@ -146,6 +147,61 @@ class Notifications
       $data['player_id3'] = $data['player3']->getId();
       unset($data['player3']);
     }
+  }
+  
+  /************************************
+   **** UPDATES after confirm/undo ****
+   ***********************************/
+  
+  public static function refreshUI($datas)
+  {
+    // Keep only the things from getAllDatas that matters
+    $players = $datas['players'];
+    $gameDatas = [
+      'players' => $datas['players'],
+      'cards' => $datas['cards'],
+      'tiles' => $datas['tiles'],
+    ];
+
+    foreach ($gameDatas['cards'] as $index=> &$card) {
+      // Hide hand !
+      if( CARD_LOCATION_HAND == $card['location']) unset($gameDatas['cards'][$index]);
+    }
+
+    self::notifyAll('refreshUI', '', [
+      'datas' => $gameDatas,
+    ]);
+    
+    Cards::refreshHands($players);
+  }
+  /**
+   * @param int $playerId
+   * @param Collection $cards
+   */
+  public static function refreshHand($playerId,$cards)
+  {
+    self::notify($playerId, 'refreshHand', '', [
+      'hand' => $cards->ui(),
+    ]);
+  }
+  public static function clearTurn($player, $notifIds)
+  {
+    self::notifyAll('clearTurn', '', [
+      'player' => $player,
+      'notifIds' => $notifIds,
+    ]);
+  }
+  public static function undoStep($player, $stepId)
+  {
+    self::notifyAll('undoStep', clienttranslate('${player_name} undoes their action'), [
+      'player' => $player,
+    ]);
+  }
+  public static function restartTurn($player)
+  {
+    self::notifyAll('restartTurn', clienttranslate('${player_name} restarts their turn'), [
+      'player' => $player,
+    ]);
   }
 
 }

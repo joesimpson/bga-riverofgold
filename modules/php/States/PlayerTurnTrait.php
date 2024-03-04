@@ -12,6 +12,8 @@ trait PlayerTurnTrait
     self::checkAction('actBuild'); 
     self::trace("actBuild()");
 
+    $this->addStep();
+
     Notifications::message("Building...");
 
     $this->gamestate->nextState('build');
@@ -21,6 +23,7 @@ trait PlayerTurnTrait
   { 
     self::checkAction('actSail'); 
     self::trace("actSail()");
+    $this->addStep();
 
     Notifications::message("Sailing...");
 
@@ -31,9 +34,15 @@ trait PlayerTurnTrait
   { 
     self::checkAction('actDeliver'); 
     self::trace("actDeliver()");
+    $this->addStep();
 
     Notifications::message("Delivering...");
 
     $this->gamestate->nextState('next');
+  }
+
+  function stConfirmChoices()
+  {
+    $this->gamestate->nextState('');
   }
 }

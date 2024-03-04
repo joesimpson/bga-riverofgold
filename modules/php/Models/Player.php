@@ -42,6 +42,7 @@ class Player extends \ROG\Helpers\DB_Model
     $data['silk'] = $this->getResource(RESOURCE_TYPE_SILK);
     $data['rice'] = $this->getResource(RESOURCE_TYPE_RICE);
     $data['pottery'] = $this->getResource(RESOURCE_TYPE_POTTERY);
+    unset($data['resources']);
     return $data;
   }
 
