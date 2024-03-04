@@ -67,6 +67,10 @@ function (dojo, declare) {
         _('Shrine'),//BUILDING_TYPE_SHRINE
     ];
     
+    const MEEPLE_TYPE_SHIP = 1;
+    const MEEPLE_TYPE_SHIP_ROYAL = 3;
+    const MEEPLE_TYPE_CLAN_MARKER = 2;
+
     return declare("bgagame.riverofgold", [customgame.game], {
         constructor: function(){
             debug('riverofgold constructor');
@@ -85,6 +89,7 @@ function (dojo, declare) {
                 ['giveCardTo', 1000],
                 ['giveResource', 800],
                 ['build', 1300],
+                ['newClanMarker', 700],
             ];
         },
         
@@ -117,6 +122,7 @@ function (dojo, declare) {
             this.setupPlayers();
             this.setupInfoPanel();
             this.setupCards();
+            this.setupMeeples();
             
             debug( "Ending specific game setup" );
 
@@ -307,26 +313,26 @@ function (dojo, declare) {
         //    
         //////////////////////////////////////////////////////////////
         notif_giveCardTo(n) {
-            debug('Notif: receiving a new card', n);
+            debug('notif_giveCardTo: receiving a new card', n);
             if (!$(`rog_card-${n.args.card.id}`)) this.addCard(n.args.card, this.getVisibleTitleContainer());
             this.slide(`rog_card-${n.args.card.id}`, this.getCardContainer(n.args.card));
         },
         notif_giveResource(n) {
-            debug('Notif: receiving new resources', n);
+            debug('notif_giveResource: receiving new resources', n);
             this.gainPayResource(n.args.player_id, RESOURCES[n.args.res_type], n.args.n);
         },
         notif_spendMoney(n) {
-            debug('Notif: spending money', n);
+            debug('notif_spendMoney: spending money', n);
             this.gainPayMoney(n.args.player_id, -n.args.n);
         },
     
         notif_giveMoney(n) {
-            debug('Notif: gaining money', n);
+            debug('notif_giveMoney: gaining money', n);
             this.gainPayMoney(n.args.player_id, n.args.n);
         },
     
         notif_build(n) {
-            debug('Notif: building a tile to the shore', n);
+            debug('notif_build: building a tile to the shore', n);
             if (!$(`rog_tile-${n.args.tile.id}`)) this.addTile(n.args.tile, this.getVisibleTitleContainer());
             let fromDiv = $(`rog_building_slot-${n.args.from}`);
             this.slide(`rog_tile-${n.args.tile.id}`, this.getTileContainer(n.args.tile), {  
@@ -334,19 +340,25 @@ function (dojo, declare) {
                 phantom: false,
             });
         },
+        notif_newClanMarker(n) {
+            debug('notif_newClanMarker', n);
+            if (!$(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
+            this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { });
+        },
         ///////////////////////////////////////////////////
         notif_clearTurn(n) {
-            debug('Notif: restarting turn/step', n);
+            debug('notif_clearTurn: restarting turn/step', n);
             this.cancelLogs(n.args.notifIds);
         },
         notif_refreshUI(n) {
-            debug('Notif: refreshing UI', n);
+            debug('notif_refreshUI: refreshing UI', n);
             ['players', 'cards', 'tiles'].forEach((value) => {
                 this.gamedatas[value] = n.args.datas[value];
             });
     
             this.setupCards();
             this.setupTiles();
+            this.setupMeeples();
     
             this.forEachPlayer((player) => {
                 let pId = player.id;
@@ -360,7 +372,7 @@ function (dojo, declare) {
             });
         },
         notif_refreshHand(n) {
-            debug('Notif: refreshing hand', n);
+            debug('notif_refreshHand: refreshing hand', n);
             this.gamedatas.cards = this.gamedatas.cards.concat(n.args.hand);
     
             this.setupCards(); 
@@ -814,6 +826,67 @@ function (dojo, declare) {
             }
     
             console.error('Trying to get container of a tile', tile);
+            return 'game_play_area';
+        },
+
+        ////////////////////////////////////////////////////////
+        //  __  __                 _
+        // |  \/  | ___  ___ _ __ | | ___  ___
+        // | |\/| |/ _ \/ _ \ '_ \| |/ _ \/ __|
+        // | |  | |  __/  __/ |_) | |  __/\__ \
+        // |_|  |_|\___|\___| .__/|_|\___||___/
+        //                  |_|
+        //////////////////////////////////////////////////////////
+
+        setupMeeples() {
+            // This function is refreshUI compatible
+            //destroy previous meeples
+            document.querySelectorAll('.rog_meeple[id^="rog_meeple-"]').forEach((e) => {
+                this.destroy(e);
+            });
+            let eltIds = this.gamedatas.meeples.map((meeple) => {
+                if (!$(`rog_meeple-${meeple.id}`)) {
+                    this.addMeeple(meeple);
+                }
+        
+                let o = $(`rog_meeple-${meeple.id}`);
+                if (!o) return null;
+        
+                let container = this.getMeepleContainer(meeple);
+                if (o.parentNode != $(container)) {
+                    dojo.place(o, container);
+                }
+                return meeple.id;
+            });
+        },
+    
+        addMeeple(meeple, location = null) {
+            debug('addMeeple',meeple);
+            if ($('rog_meeple-' + meeple.id)) return;
+    
+            let o = this.place('tplMeeple', meeple, location == null ? this.getMeepleContainer(meeple) : location); 
+            return o;
+        },
+    
+    
+        tplMeeple(meeple, prefix ='') {
+            const PERSONAL = [MEEPLE_TYPE_CLAN_MARKER];
+            let color = PERSONAL.includes(meeple.type) ? ` data-color="${this.getPlayerColor(meeple.pId)}" data-pId="${meeple.pId}" ` : '';
+            return `<div class="rog_meeple" id="rog_meeple${prefix}-${meeple.id}"
+                 data-id="${meeple.id}" 
+                 ${color}
+                 data-type="${meeple.type}">
+                </div>`;
+        },
+    
+        getMeepleContainer(meeple) {
+            let locationParts = meeple.location.split('-');
+            if (locationParts[0] == 'tile') {//MEEPLE_LOCATION_TILE
+                // on tile
+                return $(`rog_tile-${locationParts[1]}`);
+            }
+    
+            console.error('Trying to get container of a meeple', meeple);
             return 'game_play_area';
         },
 

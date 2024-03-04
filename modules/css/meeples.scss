@@ -1,0 +1,45 @@
+.rog_meeple {
+    width: 30px;
+    height: 30px;
+    background: black;
+    border-radius: 50%;
+    box-shadow: 1px 1px 3px black;
+
+    &[data-type='2'] {//MEEPLE_TYPE_CLAN_MARKER
+        background-image: url("img/clans_markers.png");
+        background-size: 1000% 100%;
+        background-color: transparent;
+        border-radius: 0px;
+        box-shadow: none;
+
+        background-position-x: 0%;
+
+        &[data-color="0000ff"] {
+            background-position-x: 11%;
+        }
+        &[data-color="ffffff"] {
+            background-position-x: 55%;
+        }
+        &[data-color="ff0000"] {
+            background-position-x: 77%;
+        }
+    }
+}
+
+.rog_tile{
+    .rog_meeple{
+        position: absolute;
+        left: 119px;
+        top: 34px;
+        width: 75px;
+        height: 75px;
+        transform: translateY(0);
+        transition: transform 0.5s;
+    }
+    &:hover{
+        .rog_meeple{
+            //View behind meeple
+            transform:translateY(-100%);
+        }
+    }
+}

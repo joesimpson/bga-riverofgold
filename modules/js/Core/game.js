@@ -935,6 +935,10 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       const color_bg = player.color_back ? 'background-color:#' + this.gamedatas.players[this.player_id].color_back + ';' : '';
       return '<!--PNS--><span class="playername" style="color:#' + color + ';' + color_bg + '">' + name + '</span><!--PNE-->';
     },
+    
+    getPlayerColor(pId) {
+      return this.gamedatas.players[pId].color;
+    },
 
     /*
      * Overwrite to allow to more player coloration than player_name and player_name2

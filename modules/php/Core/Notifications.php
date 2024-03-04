@@ -172,6 +172,7 @@ class Notifications
     $gameDatas = [
       'players' => $datas['players'],
       'cards' => $datas['cards'],
+      'meeples' => $datas['meeples'],
       'tiles' => $datas['tiles'],
     ];
 
