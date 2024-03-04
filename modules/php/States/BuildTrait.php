@@ -4,6 +4,7 @@ namespace ROG\States;
 
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\Collection;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
@@ -35,8 +36,9 @@ trait BuildTrait
     $this->addStep();
 
     $possibleSpaces = $this->listPossibleSpacesToBuild($player);
-    if(!in_array($position, $possibleSpaces)){
-      throw new UnexpectedException(10,"You cannot build on $position");
+    $possibleSpacesIds = $possibleSpaces->map(function($space) {return $space->id;})->toArray();
+    if(!in_array($position, $possibleSpacesIds)){
+      throw new UnexpectedException(10,"You cannot build on $position, see ids: ".json_encode($possibleSpaces->getIds()));
     }
     $shoreSpace = ShoreSpaces::getShoreSpace($position); 
     $tile = Tiles::get($tileId);
@@ -68,16 +70,32 @@ trait BuildTrait
 
   /**
    * @param Player $player
-   * @return array if int
+   * @return Collection of ShoreSpace
    */
   public function listPossibleSpacesToBuild($player)
   { 
     $region = $player->getDie();
-
-    $possibleSpaces = ShoreSpaces::getEmptySpaces($region);
-    //TODO JSA filter cost
     //TODO JSA canBuild for master engineer
+    $possibleSpaces = new Collection();
+    $emptySpaces = ShoreSpaces::getEmptySpaces($region);
+    foreach($emptySpaces as $key => $spaceId){
+      $space = ShoreSpaces::getShoreSpace($spaceId);
+      if($this->canBuildOnSpace($player,$space)){
+        $possibleSpaces->append($space);
+      }
+    }
     return $possibleSpaces;
+  }
+  
+  /**
+   * @param Player $player
+   * @return ShoreSpace $space
+   */
+  public function canBuildOnSpace($player,$space)
+  { 
+    if($space->cost > $player->getMoney() ) return false;
+
+    return true;
   }
 
 }

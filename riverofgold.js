@@ -240,7 +240,7 @@ function (dojo, declare) {
             this.selectedSpace = null; 
             let shoreSpacesDiv = $(`rog_shore_spaces`);
             let buildingRowDiv = $(`rog_building_row`);
-            this.addPrimaryActionButton('btnConfirm', _('Select and pay N Koku'), () => {
+            this.addPrimaryActionButton('btnConfirm', this.fsr(_('Select and pay ${n} Koku'), { n: 0 }), () => {
                 //let selectedBuilding = buildingRowDiv.querySelector(`.rog_tile.selected`);
                 //let selectedTileId = document.querySelector('.rog_button_building_tile.selected').dataset.id;
                 //let selectedSpace = shoreSpacesDiv.querySelector(`.rog_shore_space.selected`).dataset.pos;
@@ -250,7 +250,7 @@ function (dojo, declare) {
             $(`btnConfirm`).classList.add('disabled');
 
             Object.values(args.spaces).forEach((space) => {
-                let elt2 = $(`rog_shore_space-${space}`);
+                let elt2 = $(`rog_shore_space-${space.id}`);
                 this.onClick(`${elt2.id}`, (evt) => {
                     //CLICK SELECT DESTINATION
                     shoreSpacesDiv.querySelectorAll('.rog_shore_space').forEach((elt) => {
@@ -259,6 +259,7 @@ function (dojo, declare) {
                     let div = evt.target;
                     div.classList.add('selected');
                     this.selectedSpace = div.dataset.pos;
+                    $('btnConfirm').innerHTML = this.fsr(_('Select and pay ${n} Koku'), { n: space.cost });
                     if(this.selectedTileId != null){
                         $(`btnConfirm`).classList.remove('disabled');
                     }
