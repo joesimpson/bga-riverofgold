@@ -17,9 +17,7 @@
         display: flex;
         flex-direction: column;
         font-size: 10px;
-        justify-content: space-around;
         position: relative;
-        padding: 0.5rem 0;
 
         .rog_player_resource_line{
             display: flex;
@@ -27,7 +25,10 @@
             flex-wrap: wrap;
             justify-content: space-around;
             position: relative;
-            padding: 0.5rem 0;
+                
+            &:first-child{
+                font-size: 9px;
+            }
         }
     
         .rog_player_resource {
@@ -49,11 +50,18 @@
             .rog_resource_silk,
             .rog_resource_rice,
             .rog_resource_pottery,
+            .rog_resource_money {
+                font-size: 15px;
+                font-weight: bold;
+                &::after {
+                    //a total is expected after
+                    content: "/";
+                }
+            } 
             .rog_resource_port,
             .rog_resource_manor,
             .rog_resource_market,
-            .rog_resource_shrine,
-            .rog_resource_money {
+            .rog_resource_shrine {
                 font-size: 15px;
                 font-weight: bold;
                 &::after {

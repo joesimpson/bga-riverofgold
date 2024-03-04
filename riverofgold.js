@@ -30,6 +30,9 @@ function (dojo, declare) {
 
     const NB_SHORE_SPACES = 30;
 
+    const NB_MAX_MONEY = 25;
+    const NB_MAX_RESOURCE = 6;
+
     const TILE_TYPE_SCORING = 1;
     const TILE_TYPE_BUILDING = 2;
     const TILE_TYPE_MASTERY_CARD = 3;
@@ -587,10 +590,10 @@ function (dojo, declare) {
             <div class="rog_first_player_holder"></div>
             <div class='rog_player_infos'>
                 <div class='rog_player_resource_line'>
-                    ${this.tplResourceCounter(player, 'money')}
-                    ${this.tplResourceCounter(player, 'silk')}
-                    ${this.tplResourceCounter(player, 'rice')}
-                    ${this.tplResourceCounter(player, 'pottery')}
+                    ${this.tplResourceCounter(player, 'money',  NB_MAX_MONEY)}
+                    ${this.tplResourceCounter(player, 'silk',   NB_MAX_RESOURCE)}
+                    ${this.tplResourceCounter(player, 'rice',   NB_MAX_RESOURCE)}
+                    ${this.tplResourceCounter(player, 'pottery',NB_MAX_RESOURCE)}
                 </div>
                 <div class='rog_player_resource_line'>
                     ${this.tplResourceCounter(player, 'port')}
@@ -605,12 +608,12 @@ function (dojo, declare) {
         /**
          * Use this tpl for any counters that represent qty of tokens
          */
-        tplResourceCounter(player, res, nbSubIcons = null, totalValue = null) {
-            let totalText = totalValue ==null ? '' : `<span id='rog_counter_${player.id}_${res}_total' class='rog_resource_${res}_total'></span> `;
+        tplResourceCounter(player, res, totalValue = null) {
+            let totalText = totalValue ==null ? '' : `<span id='rog_counter_${player.id}_${res}_total' class='rog_resource_${res}_total'>${totalValue}</span> `;
             return `
             <div class='rog_player_resource rog_resource_${res}'>
                 <span id='rog_counter_${player.id}_${res}' 
-                class='rog_resource_${res}'></span>${totalText}${this.formatIcon(res, nbSubIcons)}
+                class='rog_resource_${res}'></span>${totalText}${this.formatIcon(res, null)}
                 <div class='rog_reserve' id='rog_reserve_${player.id}_${res}'></div>
             </div>
             `;
