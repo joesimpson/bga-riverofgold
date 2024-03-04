@@ -19,14 +19,13 @@
  const TILE_TYPE_SCORING = 1;
  const TILE_TYPE_BUILDING = 2;
  const TILE_TYPE_MASTERY_CARD = 3;
-
- const MASTERY_TYPE_AIR    = 1;  
  
  const BUILDING_TYPE_PORT =     1;
  const BUILDING_TYPE_MARKET =   2;
  const BUILDING_TYPE_MANOR =    3;
  const BUILDING_TYPE_SHRINE =   4;
  
+ const MASTERY_TYPE_AIR    = 1; 
  const MASTERY_TYPE_COURTS = 2;
  const MASTERY_TYPE_EARTH  = 3;
  const MASTERY_TYPE_FIRE   = 4;
@@ -59,7 +58,14 @@ const SHORE_SPACE_IMPERIAL_MARKET =         2;
 const SHORE_SPACE_STARTING_BUILDING_FOR_2 = 3;
 const SHORE_SPACE_STARTING_BUILDING_FOR_3 = 4;
 
+/////////////////////////////////////////////////////////
+//          MEEPLES
+/////////////////////////////////////////////////////////
+const MEEPLE_TYPE_SHIP = 1;
+const MEEPLE_TYPE_SHIP_ROYAL = 3;
+const MEEPLE_TYPE_CLAN_MARKER = 2;
 
+const MEEPLE_LOCATION_TILE = 'tile-';
 
 /*
  * Game options

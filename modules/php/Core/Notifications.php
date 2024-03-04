@@ -86,6 +86,18 @@ class Notifications
       'from' => $previousPosition,
     ]);
   }
+    /**
+   * @param Player $player
+   * @param Meeple $meeple
+   */
+  public static function newClanMarker($player,$meeple)
+  {
+    self::notifyAll('newClanMarker', clienttranslate('${player_name} places a new clan marker'), [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
+    ]);
+  }
+
 
   /*************************
    **** GENERIC METHODS ****

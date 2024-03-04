@@ -5,6 +5,7 @@ namespace ROG\States;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Collection;
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
@@ -59,7 +60,7 @@ trait BuildTrait
       Notifications::message("gain 1 divine favor...");
     }
 
-    //TODO JSA Add Meeple clan marker
+    Meeples::addClanMarkerOnShoreSpace($tile,$player);
     //TODO JSA influenceWhenBuild (depends on clan patron)
     $n = $tile->getBonus();
     Notifications::message("gain $n influence...");

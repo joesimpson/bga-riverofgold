@@ -35,6 +35,7 @@ require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 use ROG\Core\Globals;
 use ROG\Core\Preferences;
 use ROG\Managers\Cards;
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
@@ -96,6 +97,7 @@ class RiverOfGold extends Table
           'cards' => Cards::getUiData($current_player_id),
           'tiles' => Tiles::getUiData($current_player_id),
           //'shore' => ShoreSpaces::getUiData(),
+          'meeples' => Meeples::getUiData($current_player_id),
           'turn' => Globals::getTurn(),
           'deckSize' => [
             'era1' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1),
