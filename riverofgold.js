@@ -269,8 +269,10 @@ function (dojo, declare) {
                 //TODO JSA reverse order
                 let tileId = tile.dataset.id;
                 let buttonId = `btnTile_${tileId}`;
-                this.addImageActionButton(buttonId, `<div class='rog_button_building_tile' data-type='${tile.dataset.type}' data-id='${tileId}'></div>`, () =>  {
+                let callbackTileSelection = (evt) => {
                     document.querySelectorAll('.rog_button_building_tile').forEach( (e) => e.classList.remove('rog_selected_button') );
+                    buildingRowDiv.querySelectorAll('.rog_tile').forEach( (e) => e.classList.remove('selected') );
+                    tile.classList.toggle('selected');
                     $(buttonId).classList.toggle('rog_selected_button');
                     $(`btnConfirm`).classList.add('disabled');
                     this.selectedTileId = null;
@@ -280,7 +282,9 @@ function (dojo, declare) {
                             $(`btnConfirm`).classList.remove('disabled');
                         }
                     }
-                });
+                };
+                this.onClick(`${tile.id}`, callbackTileSelection);
+                this.addImageActionButton(buttonId, `<div class='rog_button_building_tile' data-type='${tile.dataset.type}' data-id='${tileId}'></div>`, callbackTileSelection);
                 $(buttonId).classList.add('rog_button_building_tile');
             });
         },
