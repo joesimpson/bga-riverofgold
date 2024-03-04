@@ -138,6 +138,20 @@ function (dojo, declare) {
                     },
                   },
                 }, 
+                eraTileWidth: {
+                  default: 30,
+                  name: _('Building board size'),
+                  type: 'slider',
+                  sliderConfig: {
+                    step: 2,
+                    padding: 0,
+                    range: {
+                        //relative to big image dimensions
+                      min: [5],
+                      max: [50],
+                    },
+                  },
+                }, 
                 handWidth: {
                   default: 100,
                   name: _('Hand width'),
@@ -174,20 +188,6 @@ function (dojo, declare) {
                     range: {
                       min: [30],
                       max: [100],
-                    },
-                  },
-                }, 
-                eraTileWidth: {
-                  default: 30,
-                  name: _('Building board size'),
-                  type: 'slider',
-                  sliderConfig: {
-                    step: 2,
-                    padding: 0,
-                    range: {
-                        //relative to big image dimensions
-                      min: [5],
-                      max: [50],
                     },
                   },
                 }, 
