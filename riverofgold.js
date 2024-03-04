@@ -586,14 +586,18 @@ function (dojo, declare) {
             return `<div class='rog_panel'>
             <div class="rog_first_player_holder"></div>
             <div class='rog_player_infos'>
-                ${this.tplResourceCounter(player, 'money')}
-                ${this.tplResourceCounter(player, 'silk')}
-                ${this.tplResourceCounter(player, 'rice')}
-                ${this.tplResourceCounter(player, 'pottery')}
-                ${this.tplResourceCounter(player, 'port')}
-                ${this.tplResourceCounter(player, 'manor')}
-                ${this.tplResourceCounter(player, 'market')}
-                ${this.tplResourceCounter(player, 'shrine')}
+                <div class='rog_player_resource_line'>
+                    ${this.tplResourceCounter(player, 'money')}
+                    ${this.tplResourceCounter(player, 'silk')}
+                    ${this.tplResourceCounter(player, 'rice')}
+                    ${this.tplResourceCounter(player, 'pottery')}
+                </div>
+                <div class='rog_player_resource_line'>
+                    ${this.tplResourceCounter(player, 'port')}
+                    ${this.tplResourceCounter(player, 'manor')}
+                    ${this.tplResourceCounter(player, 'market')}
+                    ${this.tplResourceCounter(player, 'shrine')}
+                </div>
                 ${this.tplResourceCounter(player, 'dieFace')}
             </div>
             </div>`;

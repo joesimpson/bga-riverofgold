@@ -32,8 +32,16 @@
 
 .rog_panel .rog_player_infos {
   display: flex;
-  flex-wrap: wrap;
+  flex-direction: column;
   font-size: 10px;
+  justify-content: space-around;
+  position: relative;
+  padding: 0.5rem 0;
+}
+.rog_panel .rog_player_infos .rog_player_resource_line {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: space-around;
   position: relative;
   padding: 0.5rem 0;
@@ -49,6 +57,10 @@
   left: 0%;
   width: 100%;
   height: 100%;
+}
+.rog_panel .rog_player_infos .rog_player_resource .rog_reserve.tooltipable:hover {
+  outline: 2px solid green;
+  z-index: 2;
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_silk,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_rice,
@@ -84,7 +96,7 @@
   background-size: 100% auto;
   background-repeat: no-repeat;
 }
-.rog_icon_container .rog_icon.rog_icon_pottery, .rog_icon_container .rog_icon.rog_icon_rice, .rog_icon_container .rog_icon.rog_icon_silk {
+.rog_icon_container .rog_icon.rog_icon_pottery, .rog_icon_container .rog_icon.rog_icon_rice, .rog_icon_container .rog_icon.rog_icon_silk, .rog_icon_container .rog_icon.rog_icon_port, .rog_icon_container .rog_icon.rog_icon_market, .rog_icon_container .rog_icon.rog_icon_manor, .rog_icon_container .rog_icon.rog_icon_shrine {
   width: 2.5em;
   height: 3em;
   background-size: 100% auto;
@@ -100,31 +112,15 @@
   background-image: url("img/pottery.png");
 }
 .rog_icon_container .rog_icon.rog_icon_port {
-  width: 2.5em;
-  height: 3em;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
   background-image: url("img/port_owned.png");
 }
 .rog_icon_container .rog_icon.rog_icon_market {
-  width: 2.5em;
-  height: 3em;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
   background-image: url("img/market_owned.png");
 }
 .rog_icon_container .rog_icon.rog_icon_manor {
-  width: 2.5em;
-  height: 3em;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
   background-image: url("img/manor_owned.png");
 }
 .rog_icon_container .rog_icon.rog_icon_shrine {
-  width: 2.5em;
-  height: 3em;
-  background-repeat: no-repeat;
-  background-size: 100% auto;
   background-image: url("img/shrine_owned.png");
 }
 

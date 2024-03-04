@@ -15,11 +15,20 @@
 
     .rog_player_infos {
         display: flex;
-        flex-wrap: wrap;
+        flex-direction: column;
         font-size: 10px;
         justify-content: space-around;
         position: relative;
         padding: 0.5rem 0;
+
+        .rog_player_resource_line{
+            display: flex;
+            flex-direction: row;
+            flex-wrap: wrap;
+            justify-content: space-around;
+            position: relative;
+            padding: 0.5rem 0;
+        }
     
         .rog_player_resource {
             margin: 4px 0px;
@@ -31,6 +40,10 @@
                 left: 0%;
                 width: 100%;
                 height: 100%;
+                &.tooltipable:hover{
+                    outline: 2px solid green;
+                    z-index: 2;
+                }
             }
     
             .rog_resource_silk,
@@ -66,7 +79,11 @@
         }
         &.rog_icon_pottery,
         &.rog_icon_rice, 
-        &.rog_icon_silk {
+        &.rog_icon_silk,
+        &.rog_icon_port,
+        &.rog_icon_market,
+        &.rog_icon_manor,
+        &.rog_icon_shrine{
             width: 2.5em;
             height: 3em;
             background-size: 100% auto;
@@ -83,31 +100,15 @@
         }
 
         &.rog_icon_port{
-            width: 2.5em;
-            height: 3em;
-            background-repeat: no-repeat;
-            background-size: 100% auto;
             background-image: url("img/port_owned.png");
         }
         &.rog_icon_market{
-            width: 2.5em;
-            height: 3em;
-            background-repeat: no-repeat;
-            background-size: 100% auto;
             background-image: url("img/market_owned.png");
         }
         &.rog_icon_manor{
-            width: 2.5em;
-            height: 3em;
-            background-repeat: no-repeat;
-            background-size: 100% auto;
             background-image: url("img/manor_owned.png");
         }
         &.rog_icon_shrine{
-            width: 2.5em;
-            height: 3em;
-            background-repeat: no-repeat;
-            background-size: 100% auto;
             background-image: url("img/shrine_owned.png");
         }
     }
