@@ -17,8 +17,13 @@
           "name": "Money received",
           "type": "int"
         },
-        "moneyLeft": {
+        "moneySpent": {
           "id": 12,
+          "name": "Money spent",
+          "type": "int"
+        },
+        "moneyLeft": {
+          "id": 13,
           "name": "Money left",
           "type": "int"
         }

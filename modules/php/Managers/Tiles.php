@@ -44,12 +44,13 @@ class Tiles extends \ROG\Helpers\Pieces
     $nextEra1Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1);
     $nextEra2Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2);
 
-    return self::getInLocationOrdered(TILE_LOCATION_SCORING)
+    $cards = self::getInLocationOrdered(TILE_LOCATION_SCORING)
       ->merge(self::getInLocation(TILE_LOCATION_MASTERY_CARD))
       ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_ROW))
-      ->merge(new Collection([$nextEra1Card, $nextEra2Card]))
-      ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE))
-      ->ui();
+      ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE));
+    $cards->append($nextEra1Card);
+    $cards->append($nextEra2Card);
+    return $cards->ui();
   } 
    
   /**

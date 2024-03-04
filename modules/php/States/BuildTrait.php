@@ -38,17 +38,14 @@ trait BuildTrait
     if(!in_array($position, $possibleSpaces)){
       throw new UnexpectedException(10,"You cannot build on $position");
     }
-    $shoreSpace = ShoreSpaces::getShoreSpace($position);
-    if( $shoreSpace->cost > $player->getMoney()){
-      throw new UnexpectedException(11,"You cannot pay this shore space");
-    }
+    $shoreSpace = ShoreSpaces::getShoreSpace($position); 
     $tile = Tiles::get($tileId);
     if( TILE_LOCATION_BUILDING_ROW != $tile->getLocation()){
       throw new UnexpectedException(12,"You cannot build tile $tileId");
     }
     $previousPosition = $tile->getPosition();
 
-    //TODO JSA spend money
+    Players::spendMoney($player,$shoreSpace->cost);
 
     $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
     $tile->setPosition($position);
