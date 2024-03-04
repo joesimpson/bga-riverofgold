@@ -269,6 +269,9 @@
 .rog_shore_space#rog_shore_space-1, .rog_shore_space#rog_shore_space-3, .rog_shore_space#rog_shore_space-5, .rog_shore_space#rog_shore_space-7, .rog_shore_space#rog_shore_space-9, .rog_shore_space#rog_shore_space-11, .rog_shore_space#rog_shore_space-13, .rog_shore_space#rog_shore_space-15, .rog_shore_space#rog_shore_space-18, .rog_shore_space#rog_shore_space-20, .rog_shore_space#rog_shore_space-23, .rog_shore_space#rog_shore_space-25, .rog_shore_space#rog_shore_space-27, .rog_shore_space#rog_shore_space-29, .rog_shore_space#rog_shore_space-30 {
   transform: rotate(180deg);
 }
+.rog_shore_space#rog_shore_space-1.selectable:hover, .rog_shore_space#rog_shore_space-3.selectable:hover, .rog_shore_space#rog_shore_space-5.selectable:hover, .rog_shore_space#rog_shore_space-7.selectable:hover, .rog_shore_space#rog_shore_space-9.selectable:hover, .rog_shore_space#rog_shore_space-11.selectable:hover, .rog_shore_space#rog_shore_space-13.selectable:hover, .rog_shore_space#rog_shore_space-15.selectable:hover, .rog_shore_space#rog_shore_space-18.selectable:hover, .rog_shore_space#rog_shore_space-20.selectable:hover, .rog_shore_space#rog_shore_space-23.selectable:hover, .rog_shore_space#rog_shore_space-25.selectable:hover, .rog_shore_space#rog_shore_space-27.selectable:hover, .rog_shore_space#rog_shore_space-29.selectable:hover, .rog_shore_space#rog_shore_space-30.selectable:hover {
+  transform: rotate(180deg) scale(1.2);
+}
 
 .rog_card {
   width: 148px;
@@ -806,14 +809,6 @@
   width: 340px;
   height: 170px;
 }
-.rog_building_slot .rog_tile.selectable {
-  box-shadow: 0px 0px 10px 2px rgb(26, 1, 248);
-  cursor: pointer;
-}
-.rog_building_slot .rog_tile.selectable:hover, .rog_building_slot .rog_tile.selectable.selected {
-  transform: scale(1.2);
-  z-index: 2;
-}
 
 .rog_shore_space {
   position: absolute;
@@ -1248,19 +1243,40 @@
   background-position-y: 100%;
 }
 
+.rog_building_slot.selectable,
 .rog_shore_space.selectable {
   width: 333px;
   height: 170px;
   background-size: 500% 1000%;
   background-image: url("img/buildings.png");
-  background-position-x: 100%;
+  background-position-x: 50%;
   background-position-y: 100%;
-  outline: 10px solid rgb(0, 4, 255);
+  background-color: rgba(199, 0, 255, 0.431372549);
+  -webkit-clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
+          clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
   cursor: pointer;
 }
-.rog_shore_space.selectable:hover, .rog_shore_space.selectable.selected {
+.rog_building_slot.selectable.selected,
+.rog_shore_space.selectable.selected {
+  background-position-x: 100%;
+}
+.rog_building_slot.selectable:hover,
+.rog_shore_space.selectable:hover {
   transform: scale(1.2);
-  z-index: 2;
+}
+.rog_building_slot.selectable.rog_building_slot,
+.rog_shore_space.selectable.rog_building_slot {
+  background-color: rgb(44, 0, 255);
+  -webkit-clip-path: polygon(82.77% 8.17%, 97.24% 43.78%, 97.67% 61.22%, 83.49% 93.05%, 0.99% 92.71%, -1.23% 7.79%);
+          clip-path: polygon(82.77% 8.17%, 97.24% 43.78%, 97.67% 61.22%, 83.49% 93.05%, 0.99% 92.71%, -1.23% 7.79%);
+}
+.rog_building_slot.selectable.rog_building_slot:hover,
+.rog_shore_space.selectable.rog_building_slot:hover {
+  transform: rotate(-90deg) scale(1.2);
+}
+.rog_building_slot.selectable.rog_building_slot.selected,
+.rog_shore_space.selectable.rog_building_slot.selected {
+  background-color: rgb(0, 162, 0);
 }
 
 .rog_shore_space.selected,

@@ -271,8 +271,9 @@ function (dojo, declare) {
                 let buttonId = `btnTile_${tileId}`;
                 let callbackTileSelection = (evt) => {
                     document.querySelectorAll('.rog_button_building_tile').forEach( (e) => e.classList.remove('rog_selected_button') );
-                    buildingRowDiv.querySelectorAll('.rog_tile').forEach( (e) => e.classList.remove('selected') );
+                    buildingRowDiv.querySelectorAll('.rog_building_slot,.rog_tile').forEach( (e) => e.classList.remove('selected') );
                     tile.classList.toggle('selected');
+                    tile.parentNode.classList.toggle('selected');
                     $(buttonId).classList.toggle('rog_selected_button');
                     $(`btnConfirm`).classList.add('disabled');
                     this.selectedTileId = null;
@@ -283,7 +284,7 @@ function (dojo, declare) {
                         }
                     }
                 };
-                this.onClick(`${tile.id}`, callbackTileSelection);
+                this.onClick(`${tile.parentNode.id}`, callbackTileSelection);
                 this.addImageActionButton(buttonId, `<div class='rog_button_building_tile' data-type='${tile.dataset.type}' data-id='${tileId}'></div>`, callbackTileSelection);
                 $(buttonId).classList.add('rog_button_building_tile');
             });

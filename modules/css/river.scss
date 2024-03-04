@@ -177,5 +177,8 @@
     &#rog_shore_space-30{
         //TODO JSA don't rotate anymore with sprite of tiles back
         transform: rotate(180deg);
+        &.selectable:hover {
+            transform: rotate(180deg) scale(1.2);
+        }
     }
 }
