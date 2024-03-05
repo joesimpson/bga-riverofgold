@@ -216,10 +216,12 @@ class Players extends \ROG\Helpers\DB_Manager
   public static function gainInfluence($player,$region,$amount){
     if($amount == 0) return;
     //TODO JSA influence depends on Scorpion clan patron
-    $currentInfluence = $player->getInfluence($region); 
+    $meeple = Meeples::getInfluenceMarker($player->getId(),$region);
+    $currentInfluence = $meeple->getPosition(); 
     $newInfluence = min(NB_MAX_INLFUENCE,$currentInfluence + $amount);
-
-    Notifications::gainInfluence($player,$region,$amount,$newInfluence);
+    $meeple->setPosition($newInfluence);
+    
+    Notifications::gainInfluence($player,$region,$amount,$newInfluence,$meeple);
   }
 }
 

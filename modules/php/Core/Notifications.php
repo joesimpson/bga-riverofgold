@@ -4,6 +4,8 @@ namespace ROG\Core;
 
 use ROG\Managers\Cards;
 use ROG\Models\BuildingTile;
+use ROG\Models\Meeple;
+use ROG\Models\Player;
 
 class Notifications
 { 
@@ -103,8 +105,9 @@ class Notifications
    * @param int $region 
    * @param int $amount 
    * @param int $influence 
+   * @param Meeple $meeple 
    */
-  public static function gainInfluence($player,$region,$amount,$influence)
+  public static function gainInfluence($player,$region,$amount,$influence,$meeple)
   {
     $message = clienttranslate('${player_name} gets ${n} influence in region ${region} and reaches ${influence}');
     self::notifyAll('gainInfluence', $message, [
@@ -112,6 +115,7 @@ class Notifications
       'region' => $region,
       'n' => $amount,
       'influence' => $influence,
+      'meeple' => $meeple->getUiData(),
     ]);
   }
 

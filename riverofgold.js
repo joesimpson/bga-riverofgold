@@ -109,6 +109,7 @@ function (dojo, declare) {
                 ['giveResource', 800],
                 ['build', 1300],
                 ['newClanMarker', 700],
+                ['gainInfluence', 800],
             ];
         },
         
@@ -367,6 +368,17 @@ function (dojo, declare) {
             if (!$(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
             this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { });
         },
+        notif_gainInfluence(n) {
+            debug('notif_gainInfluence', n);
+            let region = n.args.region;
+            let currentPos = $(`rog_meeple-${n.args.meeple.id}`).parentNode;
+            this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), {  
+                from: currentPos,
+                phantom: false,
+            }).then( ()=> {
+                this._counters[n.args.player_id].influence[region].toValue(n.args.influence);
+            });
+        },
         ///////////////////////////////////////////////////
         notif_clearTurn(n) {
             debug('notif_clearTurn: restarting turn/step', n);
@@ -374,7 +386,7 @@ function (dojo, declare) {
         },
         notif_refreshUI(n) {
             debug('notif_refreshUI: refreshing UI', n);
-            ['players', 'cards', 'tiles'].forEach((value) => {
+            ['players', 'cards', 'tiles', 'meeples'].forEach((value) => {
                 this.gamedatas[value] = n.args.datas[value];
             });
     
@@ -394,7 +406,9 @@ function (dojo, declare) {
                 this._counters[pId].buildings[BUILDING_TYPE_MARKET  ].toValue(player.buildings[BUILDING_TYPE_MARKET]);
                 this._counters[pId].buildings[BUILDING_TYPE_MANOR   ].toValue(player.buildings[BUILDING_TYPE_MANOR]);
                 this._counters[pId].buildings[BUILDING_TYPE_SHRINE  ].toValue(player.buildings[BUILDING_TYPE_SHRINE]);
-                
+                Object.values(REGIONS).forEach((region) =>{
+                    this._counters[pId].influence[region].toValue (player.influence[region]);
+                });
             });
         },
         notif_refreshHand(n) {
