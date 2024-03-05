@@ -9,7 +9,19 @@
  const REGION_4 =  4;
  const REGION_5 =  5;
  const REGION_6 =  6;
+ const REGIONS = [
+    REGION_1,
+    REGION_2,
+    REGION_3,
+    REGION_4,
+    REGION_5,
+    REGION_6,
+ ];
 
+ const NB_MAX_MONEY = 25;
+ const NB_MAX_RESOURCE = 6;
+ const NB_MAX_INLFUENCE = 18;
+ 
  const CUSTOMER_TYPE_ARTISAN =  1;
  const CUSTOMER_TYPE_ELDER =    2;
  const CUSTOMER_TYPE_MERCHANT = 3;
@@ -66,6 +78,7 @@ const MEEPLE_TYPE_SHIP_ROYAL = 3;
 const MEEPLE_TYPE_CLAN_MARKER = 2;
 
 const MEEPLE_LOCATION_TILE = 'tile-';
+CONST MEEPLE_LOCATION_INFLUENCE = 'i-';
 
 /*
  * Game options

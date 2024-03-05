@@ -3,6 +3,7 @@ namespace ROG;
 
 use ROG\Core\Notifications;
 use ROG\Managers\Cards;
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 
@@ -36,17 +37,8 @@ trait DebugTrait
 
   function debugSetupPlayer(){
     $this->debugSetup();
-    /*
-    $players = Players::getAll();
-    foreach($players as $pid => $player){
+    Meeples::DB()->delete()->run();
 
-      $cards = Cards::pickForLocation(NB_CARDS_PER_PLAYER, CARD_LOCATION_DECK, CARD_LOCATION_HAND );
-      //Cards::DB()->update(['player_id'=>$pid],$cards->getIds());
-      foreach($cards as $card){
-        $card->setPId($pid);
-      }
-    }
-    */
     $this->stPlayerSetup();
     Notifications::refreshUI($this->getAllDatas());
   }
@@ -69,6 +61,21 @@ trait DebugTrait
     $player = Players::getCurrent();
     Notifications::giveMoney($player,55);
     Notifications::spendMoney($player,23);
+  }
+  
+  //Simulate a meeple in each influence space to test UI
+  function debugInfluenceMeeples(){
+    Meeples::DB()->delete()->run();
+    $players = Players::getAll();
+    foreach($players as $pid => $player){
+      foreach (REGIONS as $region){
+        for($k=0;$k<=NB_MAX_INLFUENCE;$k++){
+          $meeple = Meeples::addClanMarkerOnInfluence($player, $region,false);
+          $meeple->setPosition($k);
+        }
+      }
+    }
+    Notifications::refreshUI($this->getAllDatas());
   }
   
   function debugUI(){

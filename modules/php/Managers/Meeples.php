@@ -48,13 +48,31 @@ class Meeples extends \ROG\Helpers\Pieces
   }
   
   /**
+   * @param Player $player
+   * @param int $region
+   * @param bool $sendNotif (optional) default true, means send a notif to UI
+   */
+  public static function addClanMarkerOnInfluence($player,$region,$sendNotif = true)
+  {
+    $meeple = [
+      'type' => MEEPLE_TYPE_CLAN_MARKER,
+      'location' => MEEPLE_LOCATION_INFLUENCE.$region,
+      'player_id' => $player->id,
+      'state' => 0,
+    ];
+    $elt = self::singleCreate($meeple);
+    if($sendNotif) Notifications::newClanMarker($player,$elt);
+    return $elt;
+  }
+  
+  /**
    * @param int $pId
    * @param int $type of building to search for
    * @return int number 
    */
   public static function countPlayerBuildings($pId, $type)
   {
-    return self::getFilteredQuery($pId, null, $type)->count();
+    return self::getFilteredQuery($pId, MEEPLE_LOCATION_TILE.'%', $type)->count();
   }
 
   

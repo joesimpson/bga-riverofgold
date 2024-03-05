@@ -28,10 +28,26 @@ define([
 ],
 function (dojo, declare) {
 
+    const REGION_1 =  1;
+    const REGION_2 =  2;
+    const REGION_3 =  3;
+    const REGION_4 =  4;
+    const REGION_5 =  5;
+    const REGION_6 =  6;
+    const REGIONS = [
+       REGION_1,
+       REGION_2,
+       REGION_3,
+       REGION_4,
+       REGION_5,
+       REGION_6,
+    ];
+
     const NB_SHORE_SPACES = 30;
 
     const NB_MAX_MONEY = 25;
     const NB_MAX_RESOURCE = 6;
+    const NB_MAX_INLFUENCE = 18;
 
     const TILE_TYPE_SCORING = 1;
     const TILE_TYPE_BUILDING = 2;
@@ -867,8 +883,11 @@ function (dojo, declare) {
         //                  |_|
         //////////////////////////////////////////////////////////
 
+        /**
+         * This function is refreshUI compatible
+         */
         setupMeeples() {
-            // This function is refreshUI compatible
+            this.addInfluenceTracks();
             //destroy previous meeples
             document.querySelectorAll('.rog_meeple[id^="rog_meeple-"]').forEach((e) => {
                 this.destroy(e);
@@ -914,9 +933,34 @@ function (dojo, declare) {
                 // on tile
                 return $(`rog_tile-${locationParts[1]}`);
             }
+            if (locationParts[0] == 'i') {//MEEPLE_LOCATION_INFLUENCE
+                // on influence track
+                let region = locationParts[1];
+                let position = meeple.pos;
+                return $(`rog_influence_track_space_${region}_${position}`);
+            }
     
             console.error('Trying to get container of a meeple', meeple);
             return 'game_play_area';
+        },
+        
+        addInfluenceTracks() {
+            debug("addInfluenceTracks");
+            Object.values(REGIONS).forEach((region) =>{
+                let influence_track = `rog_influence_track_${region}`;
+                if(!$(influence_track)) this.place(`tplInfluenceTrack`,region, $(`rog_influence_tracks`));
+                for(k=0;k<=NB_MAX_INLFUENCE;k++){
+                    let influence_track_space = `rog_influence_track_space_${region}_${k}`;
+                    if(!$(influence_track_space)) this.place(`tplInfluenceTrackSpace`,{region:region, space:k}, $(influence_track));
+                    this.empty(influence_track_space);
+                }
+            });
+        },
+        tplInfluenceTrack(region) {
+            return `<div class="rog_influence_track" id="rog_influence_track_${region}" data-region='${region}'></div>`;
+        },
+        tplInfluenceTrackSpace(datas) {
+            return `<div class="rog_influence_track_space" id="rog_influence_track_space_${datas.region}_${datas.space}" data-pos='${datas.space}'></div>`;
         },
 
 

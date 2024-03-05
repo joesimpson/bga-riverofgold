@@ -1,6 +1,6 @@
 .rog_meeple {
-    width: 30px;
-    height: 30px;
+    width: 75px;
+    height: 75px;
     background: black;
     border-radius: 50%;
     box-shadow: 1px 1px 3px black;
@@ -21,7 +21,7 @@
             background-position-x: 55%;
         }
         &[data-color="ff0000"] {
-            background-position-x: 77%;
+            background-position-x: 78%;
         }
     }
 }
@@ -31,8 +31,6 @@
         position: absolute;
         left: 119px;
         top: 34px;
-        width: 75px;
-        height: 75px;
         transform: translateY(0);
         transition: transform 0.5s;
     }
@@ -40,6 +38,94 @@
         .rog_meeple{
             //View behind meeple
             transform:translateY(-100%);
+        }
+    }
+}
+.rog_influence_track{
+    position: absolute;
+    grid-template-columns: repeat(7, 1fr);
+    grid-template-rows: repeat(3, 1fr);
+    display: grid;
+    &[data-region='1']{
+        top: 569px;
+        left: 1550px;
+    }
+    &[data-region='2']{
+        top: 1057px;
+        left: 1639px;
+    }
+    &[data-region='3']{
+        top: 1551px;
+        left: 1703px;
+    }
+    &[data-region='4']{
+        top: 2042px;
+        left: 1702px;
+    }
+    &[data-region='5']{
+        top: 2534px;
+        left: 1730px;
+    }
+    &[data-region='6']{
+        top: 3024px;
+        left: 1623px;
+    }
+    .rog_influence_track_space{
+        display: flex;
+        flex-direction: column;
+        position: relative;
+        margin-right: 16px;
+        margin-left: 6px;
+        width: 69px;
+        height: 93px;
+        @for $i from 1 through 6 {
+            //Line 1 from left to right
+            &[data-pos="#{$i - 1}"]{
+                grid-row-start: 1;
+                grid-column-start: $i;
+            }
+        }
+        @for $i from 1 through 6 {
+            //Line 2 from right to left
+            &[data-pos="#{12 - $i}"]{
+                grid-row-start: 2;
+                grid-column-start: $i;
+            }
+        }
+        @for $i from 1 through 7 {
+            //Line 3 from left to right
+            &[data-pos="#{11 + $i}"]{
+                grid-row-start: 3;
+                grid-column-start: $i;
+            }
+        }
+        .rog_meeple{
+            transform: translateY(0);
+            transition: transform 0.5s; 
+            &:nth-child(1){
+                margin-bottom: -60px;
+            }
+            &:nth-child(2){
+                margin-bottom: -65px;
+            }
+            &:nth-child(3){
+                margin-bottom: -68px;
+            }
+        }
+        &:hover .rog_meeple{
+            //View behind meeple
+            &:nth-child(4){
+                transform:translateY(-50%);
+            }
+            &:nth-child(3){
+                transform:translateY(-70%);
+            }
+            &:nth-child(2){
+                transform:translateY(-90%);
+            }
+            &:nth-child(1){
+                transform:translateY(-100%);
+            }
         }
     }
 }

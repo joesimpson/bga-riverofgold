@@ -7,6 +7,7 @@ use ROG\Core\Notifications;
 use ROG\Core\Preferences;
 use ROG\Core\Stats;
 use ROG\Managers\Cards;
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 
@@ -45,6 +46,10 @@ trait SetupTrait
 
     $players = Players::getAll();
     foreach($players as $pid => $player){
+
+      foreach (REGIONS as $region){
+        Meeples::addClanMarkerOnInfluence($player, $region);
+      }
 
       //Draw first cards
       $cards = Cards::pickForLocation(NB_CARDS_PER_PLAYER, CARD_LOCATION_DECK, CARD_LOCATION_HAND );
