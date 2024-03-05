@@ -51,6 +51,10 @@ class Player extends \ROG\Helpers\DB_Model
       BUILDING_TYPE_MANOR => Meeples::countPlayerBuildings($this->getId(),BUILDING_TYPE_MANOR),
       BUILDING_TYPE_SHRINE => Meeples::countPlayerBuildings($this->getId(),BUILDING_TYPE_SHRINE),
     ];
+    $data['influence'] = [];
+    foreach (REGIONS as $region){
+      $data['influence'][$region] = $this->getInfluence($region);
+    }
     return $data;
   }
 
@@ -101,6 +105,17 @@ class Player extends \ROG\Helpers\DB_Model
     return $resources[$type];
   }
   
+  /**
+   * @param int $region
+   * @return int 
+   */
+  public function getInfluence($region)
+  {
+    $meeple = Meeples::getInfluenceMarker($this->getId(),$region);
+    if(!isset($meeple)) return 0;
+    return $meeple->getPosition();
+  }
+
   public function setTieBreakerPoints($points)
   {
     $this->setScoreAux($points);

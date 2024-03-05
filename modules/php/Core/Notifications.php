@@ -98,6 +98,22 @@ class Notifications
     ]);
   }
 
+  /**
+   * @param Player $player 
+   * @param int $region 
+   * @param int $amount 
+   * @param int $influence 
+   */
+  public static function gainInfluence($player,$region,$amount,$influence)
+  {
+    $message = clienttranslate('${player_name} gets ${n} influence in region ${region} and reaches ${influence}');
+    self::notifyAll('gainInfluence', $message, [
+      'player' => $player,
+      'region' => $region,
+      'n' => $amount,
+      'influence' => $influence,
+    ]);
+  }
 
   /*************************
    **** GENERIC METHODS ****

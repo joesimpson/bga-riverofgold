@@ -34,6 +34,7 @@ class Meeples extends \ROG\Helpers\Pieces
   /**
    * @param BuildingTile $tile
    * @param Player $player
+   * @return Meeple
    */
   public static function addClanMarkerOnShoreSpace($tile,$player)
   {
@@ -51,6 +52,7 @@ class Meeples extends \ROG\Helpers\Pieces
    * @param Player $player
    * @param int $region
    * @param bool $sendNotif (optional) default true, means send a notif to UI
+   * @return Meeple
    */
   public static function addClanMarkerOnInfluence($player,$region,$sendNotif = true)
   {
@@ -63,6 +65,16 @@ class Meeples extends \ROG\Helpers\Pieces
     $elt = self::singleCreate($meeple);
     if($sendNotif) Notifications::newClanMarker($player,$elt);
     return $elt;
+  }
+
+  /**
+   * @param int $pId
+   * @param int $region
+   * @return Meeple
+   */
+  public static function getInfluenceMarker($pId, $region)
+  {
+    return self::getFilteredQuery($pId, MEEPLE_LOCATION_INFLUENCE.$region,null)->get()->first();
   }
   
   /**

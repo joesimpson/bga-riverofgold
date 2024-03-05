@@ -497,12 +497,18 @@ function (dojo, declare) {
                     rice: this.createCounter(`rog_counter_${pId}_rice`, player.rice),
                     dieFace: this.createCounter(`rog_counter_${pId}_dieFace`, player.die),
                     buildings: [],
+                    influence: [],
                 };
                 this._counters[pId].buildings[BUILDING_TYPE_PORT] = this.createCounter(`rog_counter_${pId}_port`, player.buildings[BUILDING_TYPE_PORT]);
                 this._counters[pId].buildings[BUILDING_TYPE_MARKET] = this.createCounter(`rog_counter_${pId}_market`, player.buildings[BUILDING_TYPE_MARKET]);
                 this._counters[pId].buildings[BUILDING_TYPE_MANOR] = this.createCounter(`rog_counter_${pId}_manor`, player.buildings[BUILDING_TYPE_MANOR]);
                 this._counters[pId].buildings[BUILDING_TYPE_SHRINE] = this.createCounter(`rog_counter_${pId}_shrine`, player.buildings[BUILDING_TYPE_SHRINE]);
                 
+                Object.values(REGIONS).forEach((region) =>{
+                    this._counters[pId].influence[region] = this.createCounter(`rog_counter_${pId}_influence-${region}`, player.influence[region]);
+                    this.addCustomTooltip(`rog_reserve_${pId}_influence-${region}`, this.fsr(_('Influence in region ${n}'),{n:region}));
+                });
+
                 this.addCustomTooltip(`rog_reserve_${pId}_money`, _('Koku'));
                 this.addCustomTooltip(`rog_reserve_${pId}_rice`, _('Rice'));
                 this.addCustomTooltip(`rog_reserve_${pId}_silk`, _('Silk'));
@@ -616,6 +622,14 @@ function (dojo, declare) {
                     ${this.tplResourceCounter(player, 'manor')}
                     ${this.tplResourceCounter(player, 'market')}
                     ${this.tplResourceCounter(player, 'shrine')}
+                </div>
+                <div class='rog_player_resource_line'>
+                    ${this.tplResourceCounter(player, 'influence-1')}
+                    ${this.tplResourceCounter(player, 'influence-2')}
+                    ${this.tplResourceCounter(player, 'influence-3')}
+                    ${this.tplResourceCounter(player, 'influence-4')}
+                    ${this.tplResourceCounter(player, 'influence-5')}
+                    ${this.tplResourceCounter(player, 'influence-6')}
                 </div>
                 ${this.tplResourceCounter(player, 'dieFace')}
             </div>

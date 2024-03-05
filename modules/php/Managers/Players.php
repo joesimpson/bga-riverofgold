@@ -207,5 +207,19 @@ class Players extends \ROG\Helpers\DB_Manager
     Stats::inc("moneySpent",$player,$money);
     Stats::inc("moneyLeft",$player,-$money);
   }
+  
+  /**
+   * @param Player $player 
+   * @param int $region 
+   * @param int $amount 
+   */
+  public static function gainInfluence($player,$region,$amount){
+    if($amount == 0) return;
+    //TODO JSA influence depends on Scorpion clan patron
+    $currentInfluence = $player->getInfluence($region); 
+    $newInfluence = min(NB_MAX_INLFUENCE,$currentInfluence + $amount);
+
+    Notifications::gainInfluence($player,$region,$amount,$newInfluence);
+  }
 }
 
