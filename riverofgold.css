@@ -119,6 +119,10 @@
   background-size: 100% auto;
   background-repeat: no-repeat;
 }
+.rog_icon_container .rog_icon.rog_icon_port, .rog_icon_container .rog_icon.rog_icon_market, .rog_icon_container .rog_icon.rog_icon_manor, .rog_icon_container .rog_icon.rog_icon_shrine {
+  width: 2.7em;
+  height: 2.5em;
+}
 .rog_icon_container .rog_icon.rog_icon_silk {
   background-image: url("img/silk.png");
 }

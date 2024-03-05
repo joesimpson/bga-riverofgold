@@ -67,6 +67,20 @@ class Tiles extends \ROG\Helpers\Pieces
       })
       ->toArray();
   } 
+  /**
+   * @param array $tilesTypes
+   * @return array of int
+   */
+  public static function getIdsByType($tilesTypes)
+  {
+    return self::DB()->select([self::$prefix.'id'])
+      ->whereIn( 'type', $tilesTypes)
+      ->get()
+      ->map(function ($tile) {
+        return $tile->id;
+      })
+      ->toArray();
+  } 
 
   /* Creation of the tiles */
   public static function setupNewGame($players, $options)

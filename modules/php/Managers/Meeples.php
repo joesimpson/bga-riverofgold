@@ -84,7 +84,15 @@ class Meeples extends \ROG\Helpers\Pieces
    */
   public static function countPlayerBuildings($pId, $type)
   {
-    return self::getFilteredQuery($pId, MEEPLE_LOCATION_TILE.'%', $type)->count();
+    $tilesTypes = Tiles::getTilesTypesByBuilding($type);
+    $tileIds = Tiles::getIdsByType($tilesTypes);
+    $buildingTiles = [];
+    foreach($tileIds as $tileId){
+      $buildingTiles[] = MEEPLE_LOCATION_TILE.$tileId;
+    }
+    return self::DB()->wherePlayer($pId)
+      ->whereIn(self::$prefix.'location', $buildingTiles)
+      ->count();
   }
 
   
