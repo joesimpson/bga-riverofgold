@@ -220,7 +220,8 @@ class Players extends \ROG\Helpers\DB_Manager
     $currentInfluence = $meeple->getPosition(); 
     $newInfluence = min(NB_MAX_INLFUENCE,$currentInfluence + $amount);
     $meeple->setPosition($newInfluence);
-    
+    //TODO JSA earn bonus on track
+
     Notifications::gainInfluence($player,$region,$amount,$newInfluence,$meeple);
   }
 }

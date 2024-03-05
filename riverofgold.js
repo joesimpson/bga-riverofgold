@@ -631,20 +631,27 @@ function (dojo, declare) {
                     ${this.tplResourceCounter(player, 'rice',   NB_MAX_RESOURCE)}
                     ${this.tplResourceCounter(player, 'pottery',NB_MAX_RESOURCE)}
                 </div>
+                <hr>
                 <div class='rog_player_resource_line'>
                     ${this.tplResourceCounter(player, 'port')}
                     ${this.tplResourceCounter(player, 'manor')}
                     ${this.tplResourceCounter(player, 'market')}
                     ${this.tplResourceCounter(player, 'shrine')}
                 </div>
+                <hr>
                 <div class='rog_player_resource_line'>
+                    <div class='rog_icon_influence'></div>
                     ${this.tplResourceCounter(player, 'influence-1')}
                     ${this.tplResourceCounter(player, 'influence-2')}
                     ${this.tplResourceCounter(player, 'influence-3')}
+                </div>
+                <div class='rog_player_resource_line'>
+                    <div class='rog_icon_influence' style='visibility: hidden;'></div>
                     ${this.tplResourceCounter(player, 'influence-4')}
                     ${this.tplResourceCounter(player, 'influence-5')}
                     ${this.tplResourceCounter(player, 'influence-6')}
                 </div>
+                <hr>
                 ${this.tplResourceCounter(player, 'dieFace')}
             </div>
             </div>`;

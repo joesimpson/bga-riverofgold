@@ -19,6 +19,9 @@
         font-size: 10px;
         position: relative;
 
+        hr{
+            width: 100%;
+        }
         .rog_player_resource_line{
             display: flex;
             flex-direction: row;
@@ -68,6 +71,17 @@
                     content: " x";
                 }
             } 
+                
+            .rog_resource_influence-1,
+            .rog_resource_influence-2,
+            .rog_resource_influence-3,
+            .rog_resource_influence-4,
+            .rog_resource_influence-5,
+            .rog_resource_influence-6
+            {
+                font-size: 15px;
+                font-weight: bold;
+            }
         }
     }
 }
@@ -88,6 +102,12 @@
         &.rog_icon_pottery,
         &.rog_icon_rice, 
         &.rog_icon_silk,
+        &.rog_icon_influence-1,
+        &.rog_icon_influence-2,
+        &.rog_icon_influence-3,
+        &.rog_icon_influence-4,
+        &.rog_icon_influence-5,
+        &.rog_icon_influence-6,
         &.rog_icon_port,
         &.rog_icon_market,
         &.rog_icon_manor,
@@ -119,6 +139,25 @@
         &.rog_icon_shrine{
             background-image: url("img/shrine_owned.png");
         }
+        &.rog_icon_influence-1{
+            background-image: url("img/regions/1.png");
+        }
+        &.rog_icon_influence-2{
+            background-image: url("img/regions/2.png");
+        }
+        &.rog_icon_influence-3{
+            background-image: url("img/regions/3.png");
+        }
+        &.rog_icon_influence-4{
+            background-image: url("img/regions/4.png");
+        }
+        &.rog_icon_influence-5{
+            background-image: url("img/regions/5.png");
+        }
+        &.rog_icon_influence-6{
+            background-image: url("img/regions/6.png");
+        }
+
     }
 }
 
@@ -135,4 +174,12 @@
     .rog_icon_container {
         font-size: 0.8em;
     }
+}
+
+.rog_icon_influence{
+    width: 30px;
+    height: 40px;
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    background-image: url("img/icons/influence.png");
 }
