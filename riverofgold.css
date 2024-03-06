@@ -918,6 +918,7 @@
   text-align: center;
   width: 367px;
   bottom: 28px;
+  cursor: help;
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_deck_size#rog_deck_size-1 {
   left: 108px;

@@ -149,7 +149,9 @@ function (dojo, declare) {
             this.setupMeeples();
 
             this.addCustomTooltip('rog_era_tile_resizable', this.getEraTileTooltip());
-            
+            this.addCustomTooltip('rog_deck_size-1', `<h4>${this.fsr(_('Tiles in Era ${n} stack'), { n: 1 })}</h4>`); 
+            this.addCustomTooltip('rog_deck_size-2', `<h4>${this.fsr(_('Tiles in Era ${n} stack'), { n: 2 })}</h4>`); 
+
             debug( "Ending specific game setup" );
 
             this.inherited(arguments);
