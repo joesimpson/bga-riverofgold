@@ -99,6 +99,7 @@ class RiverOfGold extends Table
           //'shore' => ShoreSpaces::getUiData(),
           'meeples' => Meeples::getUiData($current_player_id),
           'turn' => Globals::getTurn(),
+          'era' => Globals::getEra(),
           'deckSize' => [
             'era1' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1),
             'era2' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2),

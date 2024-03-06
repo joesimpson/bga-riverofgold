@@ -16,6 +16,7 @@ class Globals extends \ROG\Helpers\DB_Manager
   protected static $initialized = false;
   protected static $variables = [
     'turn' => 'int',
+    'era' => 'int',
     'firstPlayer' => 'int',
     //Last dice roll result
     'lastDie' => 'obj',
@@ -34,6 +35,7 @@ class Globals extends \ROG\Helpers\DB_Manager
   public static function setupNewGame($players, $options)
   {
     self::setTurn(0);
+    self::setEra(0);
     self::setLastDie([]);
 
     foreach($players as $pId => $player){
