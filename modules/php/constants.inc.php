@@ -53,6 +53,8 @@ const TILE_LOCATION_BUILDING_ROW ='br';
 const TILE_LOCATION_BUILDING_SHORE = 'sh';
 
 const BUILDING_ROW_END = 4;
+//Favor earned when building last tile of the row
+const BUILDING_ROW_END_FAVOR = 1;
 
  const CARD_LOCATION_DECK = 'deck';
  const CARD_LOCATION_DELIVERED = 'dd';

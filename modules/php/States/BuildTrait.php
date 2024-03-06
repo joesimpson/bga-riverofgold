@@ -56,8 +56,7 @@ trait BuildTrait
     Notifications::build($player,$tile,$previousPosition);
 
     if(BUILDING_ROW_END == $previousPosition){
-      //TODO JSA gain 1 divine favor
-      Notifications::message("gain 1 divine favor...");
+      Players::gainDivineFavor($player,BUILDING_ROW_END_FAVOR);
     }
 
     Meeples::addClanMarkerOnShoreSpace($tile,$player);

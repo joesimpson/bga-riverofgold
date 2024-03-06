@@ -7,6 +7,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Models\Player;
 
 /*
  * Players manager : allows to easily access players ...
@@ -223,6 +224,19 @@ class Players extends \ROG\Helpers\DB_Manager
     //TODO JSA earn bonus on track
 
     Notifications::gainInfluence($player,$region,$amount,$newInfluence,$meeple);
+  }
+  
+  /**
+   * @param Player $player 
+   * @param int $amount 
+   */
+  public static function gainDivineFavor($player,$amount){
+    if($amount == 0) return;
+    $current = $player->getResource(RESOURCE_TYPE_SUN); 
+    $max = $player->getResource(RESOURCE_TYPE_MOON); 
+    $new = min($max,$current + $amount);
+    $player->giveResource($new - $current,RESOURCE_TYPE_SUN);
+
   }
 }
 
