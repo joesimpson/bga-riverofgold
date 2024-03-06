@@ -16,9 +16,10 @@ class Notifications
    */
   public static function giveMoney($player, $money)
   {
-    self::notifyAll('giveMoney', clienttranslate('${player_name} receives ${n} Koku'), [
+    self::notifyAll('giveMoney', clienttranslate('${player_name} receives ${n} ${koku}'), [
       'player' => $player,
       'n' => $money,
+      'koku' => 'Koku',
     ]);
   }
   /**
@@ -27,9 +28,10 @@ class Notifications
    */
   public static function spendMoney($player, $money)
   {
-    self::notifyAll('spendMoney', clienttranslate('${player_name} spends ${n} Koku'), [
+    self::notifyAll('spendMoney', clienttranslate('${player_name} spends ${n} ${koku}'), [
       'player' => $player,
       'n' => $money,
+      'koku' => 'Koku',
     ]);
   }
   

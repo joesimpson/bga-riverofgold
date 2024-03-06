@@ -500,6 +500,10 @@ function (dojo, declare) {
                 args.processed = true;
 
                 log = this.formatString(_(log)); 
+                let koku = 'koku';
+                if(koku in args) {
+                    args.koku = this.formatIcon('money',null);
+                }
                 let res_icon = 'res_icon';
                 if(res_icon in args) {
                     args.res_icon = this.formatIcon(RESOURCES[args.res_type],null);
