@@ -47,6 +47,28 @@
         background-color: rgb(255, 115, 0) !important;
     }
 }
+.customimagebutton{
+    border: medium none;
+    display: flex;
+    flex-flow: row;
+    width: fit-content; 
+    
+    .rog_trade{
+        display: flex;
+        align-content: center;
+        align-items: center;
+        .rog_button_qty{
+            font-size: large;
+            margin: 0px 5px;
+        }
+        .rog_icon_favor{
+            &::before{
+                //remove moon from player panel icon
+                content: unset;
+            }
+        }
+    }
+}
  
 // SAFE MODE --------------------------
 #ebd-body.help-mode {

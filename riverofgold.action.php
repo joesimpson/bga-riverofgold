@@ -41,6 +41,20 @@
   	
   	// TODO: defines your action entry points there
  
+    public function actTrade()
+    {
+      self::setAjaxMode();
+      $this->game->actTrade();
+      self::ajaxResponse();
+    }
+    public function actTradeSelect()
+    {
+      self::setAjaxMode();
+      $typeSrc = self::getArg( "src", AT_posint, true );
+      $typeDest = self::getArg( "dest", AT_posint, true );
+      $this->game->actTradeSelect($typeSrc,$typeDest);
+      self::ajaxResponse();
+    }
     public function actBuild()
     {
       self::setAjaxMode();

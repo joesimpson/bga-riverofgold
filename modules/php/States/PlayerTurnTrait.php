@@ -7,14 +7,30 @@ use ROG\Core\Notifications;
 trait PlayerTurnTrait
 {
    
+  public function argPlayerTurn()
+  { 
+    $args = [
+    ];
+    $this->addArgsForUndo($args);
+    return $args;
+  } 
+
+  public function actTrade()
+  { 
+    self::checkAction('actTrade'); 
+    self::trace("actTrade()");
+
+    $this->addStep();
+
+    $this->gamestate->nextState('trade');
+  }
+
   public function actBuild()
   { 
     self::checkAction('actBuild'); 
     self::trace("actBuild()");
 
     $this->addStep();
-
-    Notifications::message("Building...");
 
     $this->gamestate->nextState('build');
   }

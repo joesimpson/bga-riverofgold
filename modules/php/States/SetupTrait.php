@@ -45,6 +45,7 @@ trait SetupTrait
     self::trace("stPlayerSetup()");
 
     $players = Players::getAll();
+    $k =0;
     foreach($players as $pid => $player){
 
       foreach (REGIONS as $region){
@@ -58,13 +59,17 @@ trait SetupTrait
         Notifications::giveCardTo($player,$card);
       }
 
+      //TODO JSA intial money according to first player
+      $initialMoney = $k + 7;
       //Get first resources
       $player->setResources([]);
+      $player->giveResource($initialMoney,RESOURCE_TYPE_MONEY);
       $player->giveResource(1,RESOURCE_TYPE_SILK);
       $player->giveResource(1,RESOURCE_TYPE_POTTERY);
       $player->giveResource(1,RESOURCE_TYPE_RICE);
       $player->giveResource(2,RESOURCE_TYPE_SUN);
       $player->giveResource(3,RESOURCE_TYPE_MOON);
+      $k++;
     }
 
     $this->addCheckpoint(ST_NEXT_TURN);

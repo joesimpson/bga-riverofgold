@@ -27,7 +27,6 @@ class Player extends \ROG\Helpers\DB_Model
     'scoreAux' => ['player_score_aux', 'int'],
     'zombie' => 'player_zombie',
     //GAME SPECIFIC :
-    'money' => ['money', 'int'],
     //array of numbers for each trade good
     'resources' => ['resources', 'obj'],
     //1->6
@@ -40,6 +39,7 @@ class Player extends \ROG\Helpers\DB_Model
     $data = parent::getUiData();
     $current = $this->id == $currentPlayerId;
 
+    $data['money'] = $this->getMoney();
     $data['silk'] = $this->getResource(RESOURCE_TYPE_SILK);
     $data['rice'] = $this->getResource(RESOURCE_TYPE_RICE);
     $data['pottery'] = $this->getResource(RESOURCE_TYPE_POTTERY);
@@ -82,8 +82,9 @@ class Player extends \ROG\Helpers\DB_Model
    * Increment resource number of this type
    * @param int $nb
    * @param int $type
+   * @param bool $sendNotif (Optional) default true
    */
-  public function giveResource($nb, $type)
+  public function giveResource($nb, $type, $sendNotif = true)
   {
     if($nb == 0) return;
     $resources = $this->getResources();
@@ -92,7 +93,7 @@ class Player extends \ROG\Helpers\DB_Model
     $resources[$type] += $nb;
     $this->setResources($resources);
     //TODO JSA stat
-    Notifications::giveResource($this,$nb,$type);
+    if($sendNotif) Notifications::giveResource($this,$nb,$type);
   }
   
   /**
@@ -105,6 +106,11 @@ class Player extends \ROG\Helpers\DB_Model
     if(!isset($resources) ) return 0;
     if(!isset($resources[$type]) ) return 0;
     return $resources[$type];
+  }
+
+  public function getMoney()
+  {
+    return $this->getResource(RESOURCE_TYPE_MONEY);
   }
   
   /**

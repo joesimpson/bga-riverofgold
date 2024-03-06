@@ -58,7 +58,14 @@ class Notifications
    */
   public static function giveResource($player,$n, $resourceType)
   {
-    self::notifyAll('giveResource', clienttranslate('${player_name} receives ${n} ${res_icon}'), [
+    $notif = 'giveResource';
+    $msg = clienttranslate('${player_name} receives ${n} ${res_icon}');
+    if($n < 0){
+      $msg = clienttranslate('${player_name} spends ${n} ${res_icon}');
+      $notif = 'spendResource';
+      $n = -$n;
+    }
+    self::notifyAll($notif, $msg, [
       'player' => $player,
       'n' => $n,
       'preserve'=>['res_type'],

@@ -140,6 +140,7 @@ $machinestates = array(
 
     ST_PLAYER_TURN => array(
         "name" => "playerTurn",
+        "args" => "argPlayerTurn",
         "description" => clienttranslate('${actplayer} must play an action'),
         "descriptionmyturn" => clienttranslate('${you} must play an action'),
         "type" => "activeplayer",
@@ -147,10 +148,12 @@ $machinestates = array(
             "actBuild", 
             "actSail", 
             "actDeliver", 
-            "actExchange", 
+            "actTrade", 
+            'actRestart',
         ],
         "transitions" => [ 
             "build" => ST_PLAYER_TURN_BUILD, 
+            "trade" => ST_PLAYER_TURN_TRADE, 
             "next" => ST_NEXT_TURN, 
             "zombiePass" => ST_NEXT_TURN,
         ],
@@ -164,10 +167,27 @@ $machinestates = array(
         "type" => "activeplayer",
         "possibleactions" => [
             "actBuildSelect", 
+            'actRestart',
         ],
         "transitions" => [ 
             "next" => ST_CONFIRM_CHOICES, 
             "zombiePass" => ST_CONFIRM_CHOICES,
+        ],
+    ),
+    
+    ST_PLAYER_TURN_TRADE => array(
+        "name" => "trade",
+        "args" => "argTrade",
+        "description" => clienttranslate('${actplayer} must select the trade'),
+        "descriptionmyturn" => clienttranslate('${you} must select the trade'),
+        "type" => "activeplayer",
+        "possibleactions" => [
+            "actTradeSelect", 
+            'actRestart',
+        ],
+        "transitions" => [ 
+            "next" => ST_PLAYER_TURN, 
+            "zombiePass" => ST_PLAYER_TURN,
         ],
     ),
 
@@ -181,7 +201,7 @@ $machinestates = array(
         ],
     ],
     
-      ST_CONFIRM_TURN => [
+    ST_CONFIRM_TURN => [
         'name' => 'confirmTurn',
         'description' => clienttranslate('${actplayer} must confirm or restart their turn'),
         'descriptionmyturn' => clienttranslate('${you} must confirm or restart your turn'),

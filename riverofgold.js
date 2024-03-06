@@ -69,6 +69,7 @@ function (dojo, declare) {
     const RESOURCE_TYPE_RICE = 3;
     const RESOURCE_TYPE_MOON = 4;
     const RESOURCE_TYPE_SUN = 5;
+    const RESOURCE_TYPE_MONEY = 6;
     const RESOURCES = [
         0,
         'silk',//RESOURCE_TYPE_SILK
@@ -76,6 +77,7 @@ function (dojo, declare) {
         'rice',//RESOURCE_TYPE_RICE
         'favor_total',//RESOURCE_TYPE_MOON
         'favor',//RESOURCE_TYPE_SUN
+        'money',//RESOURCE_TYPE_MONEY
     ];
 
     const BUILDING_TYPE_PORT =     1;
@@ -111,6 +113,7 @@ function (dojo, declare) {
                 ['spendMoney', 1300],
                 ['giveCardTo', 1000],
                 ['giveResource', 800],
+                ['spendResource', 800],
                 ['build', 1300],
                 ['newClanMarker', 700],
                 ['gainInfluence', 800],
@@ -279,9 +282,30 @@ function (dojo, declare) {
         onEnteringStatePlayerTurn(args){
             debug('onEnteringStatePlayerTurn', args);
 
+            this.addPrimaryActionButton(`btnTrade`, _('Trade') , () =>  { this.takeAction('actTrade'); });
             this.addPrimaryActionButton(`btnBuild`, _('Build') , () =>  { this.takeAction('actBuild'); });
             this.addPrimaryActionButton(`btnSail`, _('Sail') , () =>  { this.takeAction('actSail'); });
             this.addPrimaryActionButton(`btnDeliver`, _('Deliver') , () =>  { this.takeAction('actDeliver'); });
+        },
+        
+        onEnteringStateTrade(args){
+            debug('onEnteringStateTrade', args);
+
+            Object.values(args.p).forEach((trade) => {
+                let src = Object.keys(trade.src)[0];
+                let dest = Object.keys(trade.dest)[0];
+                let qtySrc = Object.values(trade.src)[0];
+                let qtyDest = Object.values(trade.dest)[0];
+                let iconSrc = this.formatIcon(RESOURCES[src],null);
+                let iconDest = this.formatIcon(RESOURCES[dest],null);
+                this.addImageActionButton(`btnTrade_${src}_${dest}`, `<div class='rog_trade'>
+                    <div class='rog_button_qty'>${qtySrc}</div>${iconSrc}
+                    <i class="fa6 fa6-arrow-right"></i>
+                    <div class='rog_button_qty'>${qtyDest}</div>${iconDest}
+                </div>`, () =>  {
+                    this.takeAction('actTradeSelect', {src:src,dest:dest});
+                });
+            });
         },
         onEnteringStateBuild(args){
             debug('onEnteringStateBuild', args);
@@ -367,6 +391,10 @@ function (dojo, declare) {
         notif_giveResource(n) {
             debug('notif_giveResource: receiving new resources', n);
             this.gainPayResource(n.args.player_id, RESOURCES[n.args.res_type], n.args.n);
+        },
+        notif_spendResource(n) {
+            debug('notif_spendResource: receiving new resources', n);
+            this.gainPayResource(n.args.player_id, RESOURCES[n.args.res_type], -n.args.n);
         },
         notif_spendMoney(n) {
             debug('notif_spendMoney: spending money', n);

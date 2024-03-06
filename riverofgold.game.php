@@ -50,6 +50,7 @@ class RiverOfGold extends Table
     use ROG\States\NextTurnTrait;
     use ROG\States\PlayerTurnTrait;
     use ROG\States\SetupTrait;
+    use ROG\States\TradeTrait;
 
     public static $instance = null;
 	function __construct( )

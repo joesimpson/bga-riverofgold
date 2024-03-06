@@ -68,6 +68,7 @@ const RESOURCE_TYPE_POTTERY = 2;
 const RESOURCE_TYPE_RICE = 3;
 const RESOURCE_TYPE_MOON = 4;
 const RESOURCE_TYPE_SUN = 5;
+const RESOURCE_TYPE_MONEY = 6;
 const RESOURCES = [
     0,
    'silk',//RESOURCE_TYPE_SILK
@@ -75,6 +76,16 @@ const RESOURCES = [
    'rice',//RESOURCE_TYPE_RICE
    'favor_total',//RESOURCE_TYPE_MOON
    'favor',//RESOURCE_TYPE_SUN
+   'money',//RESOURCE_TYPE_MONEY
+];
+
+//array of resources and quantity to trade
+const RESOURCES_TO_TRADE = [
+   RESOURCE_TYPE_SILK =>    ['src'=>2,'dest'=>1] ,
+   RESOURCE_TYPE_POTTERY => ['src'=>2,'dest'=>1] ,
+   RESOURCE_TYPE_RICE =>    ['src'=>2,'dest'=>1] ,
+   RESOURCE_TYPE_MONEY =>   ['src'=>5,'dest'=>0] ,
+   RESOURCE_TYPE_SUN =>     ['src'=>0,'dest'=>1] ,
 ];
 
 const SHORE_SPACE_BASE =                    1;
@@ -116,6 +127,7 @@ const ST_BEFORE_TURN = 11;
 
 const ST_PLAYER_TURN = 20;
 const ST_PLAYER_TURN_BUILD = 21;
+const ST_PLAYER_TURN_TRADE = 30;
 
 const ST_CONFIRM_CHOICES = 70;
 const ST_CONFIRM_TURN = 71;

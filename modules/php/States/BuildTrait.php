@@ -20,6 +20,7 @@ trait BuildTrait
     $args = [
       'spaces' => $possibleSpaces,
     ];
+    $this->addArgsForUndo($args);
     return $args;
   } 
    
@@ -87,7 +88,7 @@ trait BuildTrait
   
   /**
    * @param Player $player
-   * @return ShoreSpace $space
+   * @return true
    */
   public function canBuildOnSpace($player,$space)
   { 

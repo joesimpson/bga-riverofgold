@@ -70,6 +70,19 @@ trait DebugTrait
     $this->gamestate->jumpToState(ST_PLAYER_TURN);
   }
   
+  function debugTrade(){
+    $player = Players::getCurrent();
+    $player->setResources([
+      RESOURCE_TYPE_MONEY => 10,
+      RESOURCE_TYPE_SILK => 1,
+      RESOURCE_TYPE_RICE => 2,
+      RESOURCE_TYPE_POTTERY => 3,
+      RESOURCE_TYPE_SUN => 2,
+      RESOURCE_TYPE_MOON => 6,
+    ]);
+    $this->debugUI();
+    $this->gamestate->jumpToState(ST_PLAYER_TURN_TRADE);
+  }
   //Simulate a meeple in each influence space to test UI
   function debugInfluenceMeeples(){
     Meeples::DB()->delete()->run();

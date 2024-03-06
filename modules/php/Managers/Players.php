@@ -32,14 +32,13 @@ class Players extends \ROG\Helpers\DB_Manager
     // Create players
     $gameInfos = Game::get()->getGameinfos();
     $colors = $gameInfos['player_colors'];
-    $query = self::DB()->multipleInsert(['player_id', 'player_color', 'player_canal', 'player_name', 'player_avatar', 'money']);
+    $query = self::DB()->multipleInsert(['player_id', 'player_color', 'player_canal', 'player_name', 'player_avatar']);
 
     $values = [];
     $k =0;
     foreach ($players as $pId => $player) {
       $color = array_shift($colors);
-      $initialMoney = $k + 7;
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'], $initialMoney];
+      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar']];
       $k++;
     }
     $query->values($values);
@@ -187,7 +186,8 @@ class Players extends \ROG\Helpers\DB_Manager
    */
   public static function giveMoney($player,$money){
     $pId = $player->getId();
-    self::DB()->inc(['money' => $money], $pId);
+    //self::DB()->inc(['money' => $money], $pId);
+    $player->giveResource($money,RESOURCE_TYPE_MONEY);
     Notifications::giveMoney($player,$money);
     Stats::inc("moneyReceived",$player,$money);
     Stats::inc("moneyLeft",$player,$money);
@@ -203,8 +203,9 @@ class Players extends \ROG\Helpers\DB_Manager
       //Should not happen
       throw new UnexpectedException(404,"Not enough money to spend");
     }
-    self::DB()->inc(['money' => 0-$money], $pId);
-    Notifications::spendMoney($player,$money);
+    //self::DB()->inc(['money' => 0-$money], $pId);
+    $player->giveResource($money,RESOURCE_TYPE_MONEY,false);
+    Notifications::spendMoney($player,0-$money);
     Stats::inc("moneySpent",$player,$money);
     Stats::inc("moneyLeft",$player,-$money);
   }

@@ -2285,6 +2285,26 @@
   background-color: rgb(255, 115, 0) !important;
 }
 
+.customimagebutton {
+  border: medium none;
+  display: flex;
+  flex-flow: row;
+  width: -moz-fit-content;
+  width: fit-content;
+}
+.customimagebutton .rog_trade {
+  display: flex;
+  align-content: center;
+  align-items: center;
+}
+.customimagebutton .rog_trade .rog_button_qty {
+  font-size: large;
+  margin: 0px 5px;
+}
+.customimagebutton .rog_trade .rog_icon_favor::before {
+  content: unset;
+}
+
 #ebd-body.help-mode .tooltipable {
   cursor: help;
 }
