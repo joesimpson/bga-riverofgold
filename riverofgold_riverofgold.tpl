@@ -18,7 +18,7 @@
     <div id="rog_upper_zone">
         <div id='rog_mastery_cards'></div>
         <div id="rog_era_tile_resizable">
-            <div id="rog_era_tile_holder">
+            <div id="rog_era_tile_holder" class="rog_era_tile_holder">
                 <div id='rog_building_era-1' class="rog_building_slot"></div>
                 <div id='rog_building_era-2' class="rog_building_slot"></div>
                 <div id='rog_deck_size-1' class="rog_deck_size"></div>

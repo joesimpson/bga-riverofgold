@@ -147,6 +147,8 @@ function (dojo, declare) {
             this.setupInfoPanel();
             this.setupCards();
             this.setupMeeples();
+
+            this.addCustomTooltip('rog_era_tile_resizable', this.getEraTileTooltip());
             
             debug( "Ending specific game setup" );
 
@@ -934,6 +936,10 @@ function (dojo, declare) {
     
             console.error('Trying to get container of a tile', tile);
             return 'game_play_area';
+        },
+        getEraTileTooltip() {
+            let title = _('Building Board');
+            return `<div class='rog_era_tile_tooltip'><h1>${title}</h1><div class='rog_era_tile_holder'></div></div>`;
         },
 
         ////////////////////////////////////////////////////////

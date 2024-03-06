@@ -866,6 +866,22 @@
   background-position-y: 100%;
 }
 
+.rog_era_tile_holder {
+  width: 1046px;
+  height: 960px;
+  background-repeat: no-repeat;
+  background-image: url("img/eraTileHolder.png");
+  background-size: 100%;
+}
+
+.rog_era_tile_tooltip h1 {
+  text-align: center;
+}
+.rog_era_tile_tooltip .rog_era_tile_holder {
+  width: 500px;
+  height: 459px;
+}
+
 #rog_era_tile_resizable {
   width: calc(var(--rog_era_tile_holder_scale) * 1046px);
   height: calc(var(--rog_era_tile_holder_scale) * 960px);
@@ -877,14 +893,11 @@
   position: relative;
   transform: scale(var(--rog_era_tile_holder_scale));
   transform-origin: top left;
-  width: 1046px;
-  height: 960px;
-  background-repeat: no-repeat;
-  background-image: url("img/eraTileHolder.png");
-  background-size: 100%;
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_building_slot {
   top: 250px;
+  -webkit-clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
+          clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_building_slot#rog_building_era-1 {
   left: -155px;
