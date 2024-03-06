@@ -79,6 +79,19 @@
 }
 
 //--------------------------------------
+//LOGS
+.log .rog_tile{
+    width: calc(var(--rog_tileLogScale) * 330px);
+    height: calc(var(--rog_tileLogScale) * 170px);
+    display: inline-block;
+    line-height: calc(var(--rog_tileLogScale) * 330px);
+    max-height: calc(var(--rog_tileLogScale) * 170px);
+    text-align: center;
+    vertical-align: middle;
+    border: none;
+    box-shadow: none;
+}
+//--------------------------------------
 /* Cancelled notification messages */
 .log.cancel {
     color: #c62828 !important;

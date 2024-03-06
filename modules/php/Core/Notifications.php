@@ -85,6 +85,7 @@ class Notifications
     //TODO JSA notify region for master engineer?
     self::notifyAll('build', clienttranslate('${player_name} builds ${building_tile}'), [
       'player' => $player,
+      'preserve'=>['tile'],
       'tile' => $tile->getUiData(),
       'building_tile' => $tile->getType(),
       'from' => $previousPosition,

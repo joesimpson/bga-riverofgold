@@ -225,6 +225,19 @@ function (dojo, declare) {
                     },
                   },
                 }, 
+                logTileWidth: {
+                  default: 50,
+                  name: _('Tile width in logs'),
+                  type: 'slider',
+                  sliderConfig: {
+                    step: 2,
+                    padding: 0,
+                    range: {
+                      min: [20],
+                      max: [66],
+                    },
+                  },
+                }, 
             };
         },
         
@@ -240,6 +253,9 @@ function (dojo, declare) {
         },
         onChangeEraTileWidthSetting(val) {
             document.documentElement.style.setProperty('--rog_era_tile_holder_scale', val/100);
+        },
+        onChangeLogTileWidthSetting(val) {
+            document.documentElement.style.setProperty('--rog_tileLogScale', val/100);
         },
         onChangeDeliveredWidthSetting(val) {
             document.documentElement.style.setProperty('--rog_delivered_scale', val/100);
@@ -491,6 +507,11 @@ function (dojo, declare) {
                 let influence = 'influence';
                 if(influence in args) {
                     args.influence = this.formatIcon('influence',args.n2);
+                }
+                let building_tile = 'building_tile';
+                if(building_tile in args) {
+                    //args.building_tile = this.formatIcon('tile_log',args.n2);
+                    args.building_tile = this.tplTile(args.tile,'_log');
                 }
             }
             } catch (e) {
