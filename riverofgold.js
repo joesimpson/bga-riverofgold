@@ -630,7 +630,6 @@ function (dojo, declare) {
             <div class='rog_player_infos'>
                 <div class='rog_player_resource_line'>
                     ${this.tplResourceCounter(player, 'money',  NB_MAX_MONEY)}
-                    ${this.formatIcon('moon')}
                     ${this.tplResourceCounter(player, 'favor',  player.moon)}
                 </div>
                 <hr>

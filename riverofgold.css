@@ -46,8 +46,8 @@
   justify-content: space-around;
   position: relative;
 }
-.rog_panel .rog_player_infos .rog_player_resource_line:first-child {
-  font-size: 9px;
+.rog_panel .rog_player_infos .rog_player_resource_line:nth-child(1), .rog_panel .rog_player_infos .rog_player_resource_line:nth-child(2) {
+  font-size: 12px;
 }
 .rog_panel .rog_player_infos .rog_player_resource {
   margin: 4px 0px;
@@ -65,19 +65,24 @@
   outline: 2px solid green;
   z-index: 2;
 }
-.rog_panel .rog_player_infos .rog_player_resource .rog_resource_silk,
-.rog_panel .rog_player_infos .rog_player_resource .rog_resource_rice,
-.rog_panel .rog_player_infos .rog_player_resource .rog_resource_pottery,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_favor,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_money {
+  font-size: 20px;
+  font-weight: bold;
+}
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_favor::after,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_money::after {
+  content: "/";
+}
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_silk,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_rice,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_pottery {
   font-size: 15px;
   font-weight: bold;
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_silk::after,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_rice::after,
-.rog_panel .rog_player_infos .rog_player_resource .rog_resource_pottery::after,
-.rog_panel .rog_player_infos .rog_player_resource .rog_resource_favor::after,
-.rog_panel .rog_player_infos .rog_player_resource .rog_resource_money::after {
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_pottery::after {
   content: "/";
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_port,
@@ -103,7 +108,7 @@
   font-weight: bold;
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_favor_total {
-  font-size: 15px;
+  font-size: 12px;
 }
 
 .rog_icon_container {
@@ -111,36 +116,40 @@
   vertical-align: middle;
   margin: 0 0.5em;
 }
-.rog_icon_container.rog_icon_container_moon {
-  margin-right: -13em;
-  margin-top: -2em;
+.rog_icon_container .rog_icon {
+  background-size: 100% auto;
+  background-repeat: no-repeat;
 }
 .rog_icon_container .rog_icon.rog_icon_money {
   width: 2.5em;
   height: 3em;
   background-image: url("img/koku.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
 }
-.rog_icon_container .rog_icon.rog_icon_moon, .rog_icon_container .rog_icon.rog_icon_favor, .rog_icon_container .rog_icon.rog_icon_pottery, .rog_icon_container .rog_icon.rog_icon_rice, .rog_icon_container .rog_icon.rog_icon_silk, .rog_icon_container .rog_icon.rog_icon_influence-1, .rog_icon_container .rog_icon.rog_icon_influence-2, .rog_icon_container .rog_icon.rog_icon_influence-3, .rog_icon_container .rog_icon.rog_icon_influence-4, .rog_icon_container .rog_icon.rog_icon_influence-5, .rog_icon_container .rog_icon.rog_icon_influence-6, .rog_icon_container .rog_icon.rog_icon_port, .rog_icon_container .rog_icon.rog_icon_market, .rog_icon_container .rog_icon.rog_icon_manor, .rog_icon_container .rog_icon.rog_icon_shrine {
+.rog_icon_container .rog_icon.rog_icon_favor, .rog_icon_container .rog_icon.rog_icon_influence-1, .rog_icon_container .rog_icon.rog_icon_influence-2, .rog_icon_container .rog_icon.rog_icon_influence-3, .rog_icon_container .rog_icon.rog_icon_influence-4, .rog_icon_container .rog_icon.rog_icon_influence-5, .rog_icon_container .rog_icon.rog_icon_influence-6 {
   width: 2.5em;
   height: 3em;
-  background-size: 100% auto;
-  background-repeat: no-repeat;
+}
+.rog_icon_container .rog_icon.rog_icon_pottery, .rog_icon_container .rog_icon.rog_icon_rice, .rog_icon_container .rog_icon.rog_icon_silk {
+  width: 3em;
+  height: 3em;
 }
 .rog_icon_container .rog_icon.rog_icon_port, .rog_icon_container .rog_icon.rog_icon_market, .rog_icon_container .rog_icon.rog_icon_manor, .rog_icon_container .rog_icon.rog_icon_shrine {
   width: 2.7em;
   height: 2.5em;
 }
-.rog_icon_container .rog_icon.rog_icon_moon {
-  width: 4em;
-  height: 3em;
-  background-image: url("img/icons/moon.png");
-}
 .rog_icon_container .rog_icon.rog_icon_favor {
   width: 3em;
   height: 3em;
   background-image: url("img/icons/sun.png");
+}
+.rog_icon_container .rog_icon.rog_icon_favor::before {
+  content: url("img/icons/moon.png");
+  width: 4em;
+  height: 3em;
+  position: absolute;
+  display: flex;
+  margin-top: -2.5em;
+  margin-left: -0.5em;
 }
 .rog_icon_container .rog_icon.rog_icon_silk {
   background-image: url("img/silk.png");
