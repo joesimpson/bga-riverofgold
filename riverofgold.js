@@ -300,7 +300,6 @@ function (dojo, declare) {
                 });
             });
             [...buildingRowDiv.querySelectorAll('.rog_tile')].forEach((tile) => {
-                //TODO JSA reverse order
                 let tileId = tile.dataset.id;
                 let buttonId = `btnTile_${tileId}`;
                 let callbackTileSelection = (evt) => {
