@@ -314,6 +314,10 @@ function (dojo, declare) {
                         if(this.selectedSpace != null){
                             $(`btnConfirm`).classList.remove('disabled');
                         }
+                        //For hover tile display :
+                        shoreSpacesDiv.querySelectorAll('.rog_shore_space.selectable').forEach((elt) => {
+                            elt.dataset.type = tile.dataset.type;
+                        });
                     }
                 };
                 this.onClick(`${tile.parentNode.id}`, callbackTileSelection);

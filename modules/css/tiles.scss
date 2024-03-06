@@ -203,6 +203,8 @@
 
 .rog_tile[data-subtype='2'],//TILE_TYPE_BUILDING
 .rog_shore_space .rog_tile,
+.rog_shore_space.selectable:hover,
+.rog_shore_space.selectable.selected,
 .rog_tile_tooltip[data-subtype='2'] .rog_tile,//TILE_TYPE_BUILDING
 .rog_button_building_tile,
 .rog_building_slot .rog_tile{
