@@ -29,6 +29,17 @@
 .player_board_inner > .player-name > a[style*="color: #bdd002"] {
   text-shadow: 1px 0px 1px black, 0px 1px 1px black, -1px 0px 1px black, 0px -1px 1px black;
 }
+.player_board_inner .player_score .fa-star {
+  background-image: url("img/icons/vp.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 1.5em;
+  height: 1.5em;
+  margin: -0.5em 0;
+}
+.player_board_inner .player_score .fa-star::before {
+  content: unset;
+}
 
 .rog_panel .rog_player_infos {
   display: flex;
@@ -72,7 +83,7 @@
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_favor::after,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_money::after {
-  content: "/";
+  content: " /";
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_silk,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_rice,

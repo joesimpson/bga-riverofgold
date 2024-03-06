@@ -541,6 +541,7 @@ function (dojo, declare) {
                     this.addCustomTooltip(`rog_reserve_${pId}_influence-${region}`, this.fsr(_('Influence in region ${n}'),{n:region}));
                 });
 
+                this.addCustomTooltip(`icon_point_${pId}`, _('Score'));
                 this.addCustomTooltip(`rog_reserve_${pId}_money`, _('Koku'));
                 this.addCustomTooltip(`rog_reserve_${pId}_rice`, _('Rice'));
                 this.addCustomTooltip(`rog_reserve_${pId}_silk`, _('Silk'));

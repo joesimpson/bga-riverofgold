@@ -1,3 +1,5 @@
+
+
 .player_board_inner{
     >.player-name{
         /** Add a BLACK shadow behind player name in case of bright colors like white/orange*/
@@ -8,7 +10,20 @@
             text-shadow: 1px 0px 1px black, 0px 1px 1px black,-1px 0px 1px black,0px -1px 1px black;        
         }
     }
-
+    .player_score{
+        //Override BGA Default score icon
+        .fa-star{
+            &::before {
+                content: unset;
+            }
+            background-image: url("img/icons/vp.png");
+            background-size: 100% auto;
+            background-repeat: no-repeat;
+            width: 1.5em;
+            height: 1.5em;
+            margin: -0.5em 0;
+        }
+    }
 }  
 
 .rog_panel{
@@ -58,7 +73,7 @@
                 font-weight: bold;
                 &::after {
                     //a total is expected after
-                    content: "/";
+                    content: " /";
                 }
             } 
             .rog_resource_silk,
