@@ -53,6 +53,7 @@
             .rog_resource_silk,
             .rog_resource_rice,
             .rog_resource_pottery,
+            .rog_resource_favor,
             .rog_resource_money {
                 font-size: 15px;
                 font-weight: bold;
@@ -82,6 +83,10 @@
                 font-size: 15px;
                 font-weight: bold;
             }
+
+            .rog_resource_favor_total{
+                font-size: 15px;
+            }
         }
     }
 }
@@ -91,6 +96,11 @@
     vertical-align: middle;
     margin: 0 0.5em;
 
+    &.rog_icon_container_moon{
+        margin-right: -13em;
+        margin-top: -2em;
+    }
+
     .rog_icon{
         &.rog_icon_money {
             width: 2.5em;
@@ -99,6 +109,8 @@
             background-size: 100% auto;
             background-repeat: no-repeat;
         }
+        &.rog_icon_moon,
+        &.rog_icon_favor,
         &.rog_icon_pottery,
         &.rog_icon_rice, 
         &.rog_icon_silk,
@@ -126,6 +138,16 @@
             height: 2.5em;
         }
 
+        &.rog_icon_moon{
+            width: 4em;
+            height: 3em;
+            background-image: url("img/icons/moon.png");
+        }
+        &.rog_icon_favor{
+            width: 3em;
+            height: 3em;
+            background-image: url("img/icons/sun.png");
+        }
         &.rog_icon_silk{
             background-image: url("img/silk.png");
         }

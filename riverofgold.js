@@ -509,6 +509,8 @@ function (dojo, declare) {
                     silk: this.createCounter(`rog_counter_${pId}_silk`, player.silk),
                     pottery: this.createCounter(`rog_counter_${pId}_pottery`, player.pottery),
                     rice: this.createCounter(`rog_counter_${pId}_rice`, player.rice),
+                    favor: this.createCounter(`rog_counter_${pId}_favor`, player.sun),
+                    moon: this.createCounter(`rog_counter_${pId}_moon`, player.moon),
                     dieFace: this.createCounter(`rog_counter_${pId}_dieFace`, player.die),
                     buildings: [],
                     influence: [],
@@ -527,6 +529,7 @@ function (dojo, declare) {
                 this.addCustomTooltip(`rog_reserve_${pId}_rice`, _('Rice'));
                 this.addCustomTooltip(`rog_reserve_${pId}_silk`, _('Silk'));
                 this.addCustomTooltip(`rog_reserve_${pId}_pottery`, _('Pottery'));
+                this.addCustomTooltip(`rog_reserve_${pId}_favor`, _('Divine favor'));
                 this.addCustomTooltip(`rog_reserve_${pId}_dieFace`, _('Die'));
                 
                 this.addCustomTooltip(`rog_reserve_${pId}_port`, BUILDING_TYPES[BUILDING_TYPE_PORT]);
@@ -627,6 +630,11 @@ function (dojo, declare) {
             <div class='rog_player_infos'>
                 <div class='rog_player_resource_line'>
                     ${this.tplResourceCounter(player, 'money',  NB_MAX_MONEY)}
+                    ${this.formatIcon('moon')}
+                    ${this.tplResourceCounter(player, 'favor',  player.moon)}
+                </div>
+                <hr>
+                <div class='rog_player_resource_line'>
                     ${this.tplResourceCounter(player, 'silk',   NB_MAX_RESOURCE)}
                     ${this.tplResourceCounter(player, 'rice',   NB_MAX_RESOURCE)}
                     ${this.tplResourceCounter(player, 'pottery',NB_MAX_RESOURCE)}

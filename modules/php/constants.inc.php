@@ -64,6 +64,8 @@ const BUILDING_ROW_END = 4;
 const RESOURCE_TYPE_SILK = 1;
 const RESOURCE_TYPE_POTTERY = 2;
 const RESOURCE_TYPE_RICE = 3;
+const RESOURCE_TYPE_MOON = 4;
+const RESOURCE_TYPE_SUN = 5;
 
 const SHORE_SPACE_BASE =                    1;
 const SHORE_SPACE_IMPERIAL_MARKET =         2;
