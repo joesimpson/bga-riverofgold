@@ -211,12 +211,8 @@
 #rog_money_animation .rog_icon_container {
   font-size: 0.8em;
 }
-#rog_pottery_animation .rog_icon_container .rog_icon_favor_total,
-#rog_rice_animation .rog_icon_container .rog_icon_favor_total,
-#rog_silk_animation .rog_icon_container .rog_icon_favor_total,
-#rog_favor_total_animation .rog_icon_container .rog_icon_favor_total,
-#rog_favor_animation .rog_icon_container .rog_icon_favor_total,
-#rog_money_animation .rog_icon_container .rog_icon_favor_total {
+
+.rog_icon_favor_total {
   width: 4em;
   height: 3em;
   background-image: url("img/icons/moon.png");

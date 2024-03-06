@@ -467,6 +467,27 @@ function (dojo, declare) {
         // |_|  \___/|_|  |_| |_| |_|\__,_|\__|\__|_|_| |_|\__, |
         //                                                 |___/
         ////////////////////////////////////////////////////////////
+        /**
+         * Format log strings (alias fsr)
+         *  @Override
+         */
+        format_string_recursive(log, args) {
+            try {
+            if (log && args && !args.processed) {
+                args.processed = true;
+
+                log = this.formatString(_(log)); 
+                let res_icon = 'res_icon';
+                if(res_icon in args) {
+                    args.res_icon = this.formatIcon(RESOURCES[args.res_type],null);
+                }
+            }
+            } catch (e) {
+                console.error(log, args, 'Exception thrown', e.stack);
+            }
+
+            return this.inherited(arguments);
+        },
         formatIcon(name, n = null) {
             let type = name;
             let text = n == null ? '' : `<span>${n}</span>`;
@@ -474,20 +495,9 @@ function (dojo, declare) {
                 <div class="rog_icon rog_icon_${type}">${text}</div>
                 </div>`;
         },
+        
         formatString(str) {
             debug('formatString', str);
-            const ICONS = [];
-        
-            ICONS.forEach((name) => {
-                // WITH TEXT
-                const regex = new RegExp('<' + name + ':([^>]+)>', 'g');
-                str = str.replaceAll(regex, this.formatIcon(name, '$1'));
-                // WITHOUT TEXT
-                str = str.replaceAll(new RegExp('<' + name + '>', 'g'), this.formatIcon(name));
-            });
-            str = str.replace(/__([^_]+)__/g, '<span class="action-card-name-reference">$1</span>');
-            str = str.replace(/\*\*([^\*]+)\*\*/g, '<b>$1</b>');
-        
             return str;
         },
         ////////////////////////////////////////

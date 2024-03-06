@@ -66,6 +66,14 @@ const RESOURCE_TYPE_POTTERY = 2;
 const RESOURCE_TYPE_RICE = 3;
 const RESOURCE_TYPE_MOON = 4;
 const RESOURCE_TYPE_SUN = 5;
+const RESOURCES = [
+    0,
+   'silk',//RESOURCE_TYPE_SILK
+   'pottery',//RESOURCE_TYPE_POTTERY
+   'rice',//RESOURCE_TYPE_RICE
+   'favor_total',//RESOURCE_TYPE_MOON
+   'favor',//RESOURCE_TYPE_SUN
+];
 
 const SHORE_SPACE_BASE =                    1;
 const SHORE_SPACE_IMPERIAL_MARKET =         2;

@@ -224,13 +224,19 @@
 
     .rog_icon_container {
         font-size: 0.8em;
-        .rog_icon_favor_total{//moon when receiving resource
-            width: 4em;
-            height: 3em;
-            background-image: url("img/icons/moon.png"); 
-        }
+        
     }
 }
+
+//#rog_favor_total_animation,
+//.notif_giveResource{
+    //moon when receiving resource
+    .rog_icon_favor_total{
+        width: 4em;
+        height: 3em;
+        background-image: url("img/icons/moon.png"); 
+    }
+//}
 
 .rog_icon_influence{
     width: 30px;
