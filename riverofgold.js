@@ -67,11 +67,15 @@ function (dojo, declare) {
     const RESOURCE_TYPE_SILK = 1;
     const RESOURCE_TYPE_POTTERY = 2;
     const RESOURCE_TYPE_RICE = 3;
+    const RESOURCE_TYPE_MOON = 4;
+    const RESOURCE_TYPE_SUN = 5;
     const RESOURCES = [
         0,
         'silk',//RESOURCE_TYPE_SILK
         'pottery',//RESOURCE_TYPE_POTTERY
         'rice',//RESOURCE_TYPE_RICE
+        'favor_total',//RESOURCE_TYPE_MOON
+        'favor',//RESOURCE_TYPE_SUN
     ];
 
     const BUILDING_TYPE_PORT =     1;
@@ -401,6 +405,8 @@ function (dojo, declare) {
                 this._counters[pId].silk.toValue(player.silk);
                 this._counters[pId].pottery.toValue(player.pottery);
                 this._counters[pId].rice.toValue(player.rice);
+                this._counters[pId].favor_total.toValue(player.moon);
+                this._counters[pId].favor.toValue(player.sun);
                 this._counters[pId].dieFace.toValue(player.die);
                 this._counters[pId].buildings[BUILDING_TYPE_PORT    ].toValue(player.buildings[BUILDING_TYPE_PORT]);
                 this._counters[pId].buildings[BUILDING_TYPE_MARKET  ].toValue(player.buildings[BUILDING_TYPE_MARKET]);
@@ -510,7 +516,7 @@ function (dojo, declare) {
                     pottery: this.createCounter(`rog_counter_${pId}_pottery`, player.pottery),
                     rice: this.createCounter(`rog_counter_${pId}_rice`, player.rice),
                     favor: this.createCounter(`rog_counter_${pId}_favor`, player.sun),
-                    moon: this.createCounter(`rog_counter_${pId}_moon`, player.moon),
+                    favor_total: this.createCounter(`rog_counter_${pId}_favor_total`, player.moon),
                     dieFace: this.createCounter(`rog_counter_${pId}_dieFace`, player.die),
                     buildings: [],
                     influence: [],

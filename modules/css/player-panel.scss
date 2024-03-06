@@ -213,6 +213,8 @@
 #rog_pottery_animation,
 #rog_rice_animation,
 #rog_silk_animation,
+#rog_favor_total_animation,
+#rog_favor_animation,
 #rog_money_animation {
     display: flex;
     justify-content: center;
@@ -222,6 +224,11 @@
 
     .rog_icon_container {
         font-size: 0.8em;
+        .rog_icon_favor_total{//moon when receiving resource
+            width: 4em;
+            height: 3em;
+            background-image: url("img/icons/moon.png"); 
+        }
     }
 }
 

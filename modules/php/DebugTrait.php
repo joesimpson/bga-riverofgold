@@ -62,6 +62,13 @@ trait DebugTrait
     Notifications::giveMoney($player,55);
     Notifications::spendMoney($player,23);
   }
+
+  function debugRess(){
+    $player = Players::getCurrent();
+    $player->giveResource(2,RESOURCE_TYPE_SUN);
+    $player->giveResource(3,RESOURCE_TYPE_MOON);
+    $this->gamestate->jumpToState(ST_PLAYER_TURN);
+  }
   
   //Simulate a meeple in each influence space to test UI
   function debugInfluenceMeeples(){
