@@ -116,6 +116,8 @@ class Notifications
       'player' => $player,
       'region' => $region,
       'n' => $amount,
+      'n2' => $influence,
+      'preserve'=>['n2'],
       'influence' => $influence,
       'meeple' => $meeple->getUiData(),
     ]);

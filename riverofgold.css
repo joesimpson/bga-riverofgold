@@ -236,6 +236,20 @@
   background-repeat: no-repeat;
   background-image: url("img/icons/influence.png");
 }
+.rog_icon_influence span {
+  color: white;
+  width: 30px;
+  height: 40px;
+  display: inline-block;
+  line-height: 40px;
+  max-height: 40px;
+  text-align: center;
+  vertical-align: middle;
+  border: none;
+  box-shadow: none;
+  font-weight: bold;
+  font-size: x-large;
+}
 
 #rog_upper_zone {
   display: flex;

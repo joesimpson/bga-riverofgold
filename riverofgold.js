@@ -387,7 +387,7 @@ function (dojo, declare) {
                 from: currentPos,
                 phantom: false,
             }).then( ()=> {
-                this._counters[n.args.player_id].influence[region].toValue(n.args.influence);
+                this._counters[n.args.player_id].influence[region].toValue(n.args.n2);
             });
         },
         ///////////////////////////////////////////////////
@@ -487,6 +487,10 @@ function (dojo, declare) {
                 let res_icon = 'res_icon';
                 if(res_icon in args) {
                     args.res_icon = this.formatIcon(RESOURCES[args.res_type],null);
+                }
+                let influence = 'influence';
+                if(influence in args) {
+                    args.influence = this.formatIcon('influence',args.n2);
                 }
             }
             } catch (e) {
