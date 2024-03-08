@@ -133,13 +133,14 @@ public static function newBoat($player,$meeple)
    */
   public static function gainInfluence($player,$region,$amount,$influence,$meeple)
   {
-    $message = clienttranslate('${player_name} gets ${n} influence in region ${region} and reaches ${influence}');
+    $message = clienttranslate('${player_name} gets ${n} influence in region #${region}${region_icon} and reaches ${influence}');
     self::notifyAll('gainInfluence', $message, [
       'player' => $player,
+      'region_icon' => $region,
       'region' => $region,
       'n' => $amount,
       'n2' => $influence,
-      'preserve'=>['n2'],
+      'preserve'=>['n2','region'],
       'influence' => $influence,
       'meeple' => $meeple->getUiData(),
     ]);

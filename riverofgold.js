@@ -558,6 +558,10 @@ function (dojo, declare) {
                 if(influence in args) {
                     args.influence = this.formatIcon('influence',args.n2);
                 }
+                let region_icon = 'region_icon';
+                if(region_icon in args) {
+                    args.region_icon = this.formatIcon('influence-'+args.region,null);
+                }
                 let building_tile = 'building_tile';
                 if(building_tile in args) {
                     //args.building_tile = this.formatIcon('tile_log',args.n2);
