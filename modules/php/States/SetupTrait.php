@@ -52,8 +52,8 @@ trait SetupTrait
         Meeples::addClanMarkerOnInfluence($player, $region);
       }
 
-      foreach(STARTING_BOATS_SPACES as $k){
-        $boatPosition = $k + $player->rollDie();
+      foreach(STARTING_BOATS_SPACES as $space){
+        $boatPosition = $space + $player->rollDie();
         $meeple = Meeples::addBoatOnRiverSpace($player,$boatPosition);
       }
 
