@@ -2,6 +2,7 @@
 namespace ROG;
 
 use ROG\Core\Notifications;
+use ROG\Helpers\QueryBuilder;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -39,8 +40,9 @@ trait DebugTrait
     $this->debugSetup();
     Meeples::DB()->delete()->run();
 
+    $this->debugCLS();
     $this->stPlayerSetup();
-    Notifications::refreshUI($this->getAllDatas());
+    $this->debugUI();
   }
   
   function debugLiv(){
@@ -95,7 +97,7 @@ trait DebugTrait
         }
       }
     }
-    Notifications::refreshUI($this->getAllDatas());
+    $this->debugUI();
   }
 
   function debugBoatMeeples(){
@@ -106,10 +108,16 @@ trait DebugTrait
         $meeple = Meeples::addBoatOnRiverSpace($player,$k);
       }
     }
-    Notifications::refreshUI($this->getAllDatas());
+    $this->debugUI();
   }
   
   function debugUI(){
     Notifications::refreshUI($this->getAllDatas());
+  }
+
+  //Clear logs
+  function debugCLS(){
+    $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
+    $query->delete()->run();
   }
 }

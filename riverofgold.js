@@ -568,7 +568,7 @@ function (dojo, declare) {
         },
         
         formatString(str) {
-            debug('formatString', str);
+            //debug('formatString', str);
             return str;
         },
         ////////////////////////////////////////
