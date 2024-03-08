@@ -52,6 +52,11 @@ trait SetupTrait
         Meeples::addClanMarkerOnInfluence($player, $region);
       }
 
+      foreach(STARTING_BOATS_SPACES as $k){
+        $boatPosition = $k + $player->rollDie();
+        $meeple = Meeples::addBoatOnRiverSpace($player,$boatPosition);
+      }
+
       //Draw first cards
       $cards = Cards::pickForLocation(NB_CARDS_PER_PLAYER, CARD_LOCATION_DECK, CARD_LOCATION_HAND );
       foreach($cards as $card){
@@ -70,6 +75,8 @@ trait SetupTrait
       $player->giveResource(2,RESOURCE_TYPE_SUN);
       $player->giveResource(3,RESOURCE_TYPE_MOON);
       $k++;
+
+      //TODO JSA first roll
     }
 
     $this->addCheckpoint(ST_NEXT_TURN);

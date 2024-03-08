@@ -39,11 +39,7 @@
                         <div id='rog_scoring_tile-6'></div>
                     </div>
                     <div id='rog_shore_spaces'></div>
-                    <div id='rog_river_spaces'>
-                        <!-- TODO JSA create 14 spaces -->
-                        <div id='rog_river_space_1'></div>
-                        <div id='rog_river_space_2'></div>
-                    </div>
+                    <div id='rog_river_spaces'></div>
                     <div id='rog_influence_tracks'></div>
                     <div id='rog_building_row'>
                         <div id='rog_building_slot-4' class="rog_building_slot"></div>

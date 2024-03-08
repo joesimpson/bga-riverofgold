@@ -21,6 +21,7 @@
  const NB_MAX_MONEY = 25;
  const NB_MAX_RESOURCE = 6;
  const NB_MAX_INLFUENCE = 18;
+ const STARTING_BOATS_SPACES = [1, 8];
  
  const CUSTOMER_TYPE_ARTISAN =  1;
  const CUSTOMER_TYPE_ELDER =    2;

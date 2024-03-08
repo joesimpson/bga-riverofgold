@@ -111,6 +111,17 @@ class Notifications
       'meeple' => $meeple->getUiData(),
     ]);
   }
+  /**
+ * @param Player $player
+ * @param Meeple $meeple
+ */
+public static function newBoat($player,$meeple)
+{
+  self::notifyAll('newBoat', clienttranslate('${player_name} places a new boat on the river'), [
+    'player' => $player,
+    'meeple' => $meeple->getUiData(),
+  ]);
+}
 
   /**
    * @param Player $player 

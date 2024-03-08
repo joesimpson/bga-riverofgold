@@ -44,6 +44,7 @@ function (dojo, declare) {
     ];
 
     const NB_SHORE_SPACES = 30;
+    const NB_RIVER_SPACES = 14;
 
     const NB_MAX_MONEY = 25;
     const NB_MAX_RESOURCE = 6;
@@ -116,6 +117,7 @@ function (dojo, declare) {
                 ['spendResource', 800],
                 ['build', 1300],
                 ['newClanMarker', 700],
+                ['newBoat', 700],
                 ['gainInfluence', 800],
             ];
         },
@@ -420,6 +422,11 @@ function (dojo, declare) {
         },
         notif_newClanMarker(n) {
             debug('notif_newClanMarker', n);
+            if (!$(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
+            this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { });
+        },
+        notif_newBoat(n) {
+            debug('notif_newBoat', n);
             if (!$(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
             this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { });
         },
@@ -1018,6 +1025,10 @@ function (dojo, declare) {
          */
         setupMeeples() {
             this.addInfluenceTracks();
+            for(k=1;k<=NB_RIVER_SPACES;k++){
+                if($(`rog_river_space-${k}`)) continue;
+                this.place(`tplRiverSpace`,k, $(`rog_river_spaces`));
+            }
             //destroy previous meeples
             document.querySelectorAll('.rog_meeple[id^="rog_meeple-"]').forEach((e) => {
                 this.destroy(e);
@@ -1071,13 +1082,17 @@ function (dojo, declare) {
             if (locationParts[0] == 'r') {//MEEPLE_LOCATION_RIVER
                 //(boat) on river
                 let position = meeple.pos;
-                return $(`rog_river_space_${position}`);
+                return $(`rog_river_space-${position}`);
             }
     
             console.error('Trying to get container of a meeple', meeple);
             return 'game_play_area';
         },
         
+        tplRiverSpace(position) {
+            return `<div id='rog_river_space-${position}' class='rog_river_space' data-pos='${position}'></div>`;
+        },
+
         addInfluenceTracks() {
             debug("addInfluenceTracks");
             Object.values(REGIONS).forEach((region) =>{

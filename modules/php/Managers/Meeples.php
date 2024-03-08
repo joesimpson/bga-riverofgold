@@ -70,8 +70,9 @@ class Meeples extends \ROG\Helpers\Pieces
   /**
    * @param Player $player
    * @return Meeple
+   * @param bool $sendNotif (optional) default true, means send a notif to UI
    */
-  public static function addBoatOnRiverSpace($player,$position)
+  public static function addBoatOnRiverSpace($player,$position,$sendNotif = true)
   {
     $meeple = [
       'type' => MEEPLE_TYPE_SHIP,
@@ -80,6 +81,7 @@ class Meeples extends \ROG\Helpers\Pieces
       'state' => $position,
     ];
     $elt = self::singleCreate($meeple);
+    if($sendNotif) Notifications::newBoat($player,$elt);
     return $elt;
   }
 
