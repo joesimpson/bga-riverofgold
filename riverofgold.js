@@ -977,10 +977,12 @@ function (dojo, declare) {
             let divId = `rog_tile_holder-${tile.id}`;
             if ($(divId)) return $(divId);
             let elt = this.place('tplMasteryCardHolder', tile, $('rog_mastery_cards'));
-            return elt;
+            return elt.firstElementChild;
         },
         tplMasteryCardHolder(tile) {
-            return `<div class="rog_tile_holder" id="rog_tile_holder-${tile.id}"></div>`;
+            return `<div class="rog_mastery_cards_resizeable">
+                <div class="rog_tile_holder" id="rog_tile_holder-${tile.id}"></div>
+                </div>`;
         },
     
         getTileContainer(tile) {

@@ -69,13 +69,20 @@
     margin-left: 5px;
     margin-bottom: 5px;
 
+    .rog_mastery_cards_resizeable {
+        display: flex;
+        width: calc(var(--rog_mastery_scale) * 356px);
+        height: calc(var(--rog_mastery_scale) * 257px);
+
     .rog_tile_holder{
         display: flex;
+        transform: scale(var(--rog_mastery_scale));
+        transform-origin: top left;
 
         .rog_tile {
             position: relative;
-            width: calc(var(--rog_mastery_scale) * 356px);
-            height: calc(var(--rog_mastery_scale) * 257px);
+            width: 356px;
+            height: 257px;
 
             //sprite positions
             background-size: 300% 400%;
@@ -118,6 +125,7 @@
                 }
             }
         }
+    }
     }
 }
 .rog_era_tile_holder{
