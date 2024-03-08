@@ -422,6 +422,66 @@
   transform: rotate(180deg) scale(1.2);
 }
 
+.rog_river_space {
+  position: absolute;
+}
+.rog_river_space[data-pos="1"] {
+  top: 0px;
+  left: 0px;
+}
+.rog_river_space[data-pos="2"] {
+  top: 376px;
+  left: -100px;
+}
+.rog_river_space[data-pos="3"] {
+  top: 562px;
+  left: -100px;
+}
+.rog_river_space[data-pos="4"] {
+  top: 770px;
+  left: -100px;
+}
+.rog_river_space[data-pos="5"] {
+  top: 970px;
+  left: 0px;
+}
+.rog_river_space[data-pos="6"] {
+  top: 1170px;
+  left: 100px;
+}
+.rog_river_space[data-pos="7"] {
+  top: 1370px;
+  left: 54px;
+}
+.rog_river_space[data-pos="8"] {
+  top: 1601px;
+  left: 54px;
+}
+.rog_river_space[data-pos="9"] {
+  top: 1901px;
+  left: 85px;
+}
+.rog_river_space[data-pos="10"] {
+  top: 2101px;
+  left: 199px;
+}
+.rog_river_space[data-pos="11"] {
+  top: 2301px;
+  left: 134px;
+}
+.rog_river_space[data-pos="12"] {
+  top: 2527px;
+  left: 13px;
+}
+.rog_river_space[data-pos="13"] {
+  top: 2827px;
+  left: -100px;
+}
+.rog_river_space[data-pos="14"] {
+  top: 3027px;
+  left: -200px;
+}
+
 .rog_card {
   width: 148px;
   height: 200px;

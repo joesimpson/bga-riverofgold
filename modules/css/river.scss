@@ -188,3 +188,69 @@
         }
     }
 }
+
+
+
+.rog_river_space{
+    position: absolute;
+
+    &[data-pos='1']{
+        //STARTING SPACE------------------------
+        top: 0px;
+        left: 0px;
+    }
+    &[data-pos='2']{
+        top: 376px;
+        left: -100px;
+    }
+    &[data-pos='3']{
+        top: 562px;
+        left: -100px;
+    }
+    &[data-pos='4']{
+        top: 770px;
+        left: -100px;
+    }
+    &[data-pos='5']{
+        top: 970px;
+        left: 0px;
+    }
+    &[data-pos='6']{
+        top: 1170px;
+        left: 100px;
+    }
+    &[data-pos='7']{
+        top: 1370px;
+        left: 54px;
+    }
+    &[data-pos='8']{
+        //--------------- MIDDLE --------------
+        top: 1601px;
+        left: 54px;
+    }
+    &[data-pos='9']{
+        top: 1901px;
+        left: 85px;
+    }
+    &[data-pos='10']{
+        top: 2101px;
+        left: 199px;
+    }
+    &[data-pos='11']{
+        top: 2301px;
+        left: 134px;
+    }
+    &[data-pos='12']{
+        top: 2527px;
+        left: 13px;
+    }
+    &[data-pos='13']{
+        top: 2827px;
+        left: -100px;
+    }
+    &[data-pos='14']{
+        top: 3027px;
+        left: -200px;
+    }
+
+}
