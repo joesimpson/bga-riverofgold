@@ -119,6 +119,7 @@ function (dojo, declare) {
                 ['newClanMarker', 700],
                 ['newBoat', 700],
                 ['gainInfluence', 800],
+                ['claimMC', 800],
             ];
         },
         
@@ -423,7 +424,9 @@ function (dojo, declare) {
         notif_newClanMarker(n) {
             debug('notif_newClanMarker', n);
             if (!$(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
-            this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { });
+            this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { }).then(() => {
+                this.notifqueue.setSynchronousDuration(100);
+            });
         },
         notif_newBoat(n) {
             debug('notif_newBoat', n);
@@ -440,6 +443,10 @@ function (dojo, declare) {
             }).then( ()=> {
                 this._counters[n.args.player_id].influence[region].toValue(n.args.n2);
             });
+        },
+        notif_claimMC(n) {
+            debug('notif_claimMC : new score after mastery card', n);
+            this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
         },
         ///////////////////////////////////////////////////
         notif_clearTurn(n) {
@@ -797,6 +804,38 @@ function (dojo, declare) {
                 this._counters[pId][resourceType].incValue(n);
                 return this.slide(`rog_${resourceType}_animation`, targetSource || this.getVisibleTitleContainer(), {
                     from: `rog_counter_${pId}_${resourceType}`,
+                    destroy: true,
+                    phantom: false,
+                    duration: 800,
+                });
+            }
+        },
+        
+        gainPoints(pId,n, targetSource = null) {
+            if (this.isFastMode()) {
+                this.scoreCtrl[pId].incValue(n);
+                return Promise.resolve();
+            }
+    
+            let elem = `<div id='rog_score_animation'>
+                ${Math.abs(n)}
+                <div class="rog_icon_container rog_icon_container_score">
+                    <div class="rog_icon rog_icon_score"></div>
+                </div>
+                </div>`;
+            $('page-content').insertAdjacentHTML('beforeend', elem);
+    
+            if (n > 0) {
+                return this.slide(`rog_score_animation`, `player_score_${pId}`, {
+                    from: targetSource || this.getVisibleTitleContainer(),
+                    destroy: true,
+                    phantom: false,
+                    duration: 800,
+                }).then(() => this.scoreCtrl[pId].incValue(n));
+            } else {
+                this.scoreCtrl[pId].incValue(n);
+                return this.slide(`rog_score_animation`, targetSource || this.getVisibleTitleContainer(), {
+                    from: `player_score_${pId}`,
                     destroy: true,
                     phantom: false,
                     duration: 800,

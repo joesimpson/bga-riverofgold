@@ -43,6 +43,14 @@
   content: unset;
 }
 
+.rog_icon_score {
+  background-image: url("img/icons/vp.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 1.5em;
+  height: 1.5em;
+}
+
 .rog_panel .rog_player_infos {
   display: flex;
   flex-direction: column;
@@ -204,6 +212,7 @@
   background-image: url("img/regions/6.png");
 }
 
+#rog_score_animation,
 #rog_pottery_animation,
 #rog_rice_animation,
 #rog_silk_animation,
@@ -216,6 +225,7 @@
   font-weight: bold;
   font-size: 22px;
 }
+#rog_score_animation .rog_icon_container,
 #rog_pottery_animation .rog_icon_container,
 #rog_rice_animation .rog_icon_container,
 #rog_silk_animation .rog_icon_container,

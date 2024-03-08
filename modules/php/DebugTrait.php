@@ -130,6 +130,7 @@ trait DebugTrait
 
     Players::gainInfluence($player,1,NB_INLUENCE_FLOWER);
     Players::claimMasteries($player);
+    $this->gamestate->jumpToState(ST_PLAYER_TURN);
   }
 
   //----------------------------------------------------------------

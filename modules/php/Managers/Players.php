@@ -290,9 +290,9 @@ class Players extends \ROG\Helpers\DB_Manager
     if($claim){
       $claimPosition = $nbClaimed + 1;
       $nextPlaceScore = $tile->scores[$claimPosition - 1];
-      Meeples::addClanMarkerOnMasteryCard($tile,$player,$claimPosition);
+      $meeple = Meeples::addClanMarkerOnMasteryCard($tile,$player,$claimPosition);
       $player->addPoints($nextPlaceScore);
-      Notifications::claimMasteryCard($player,$nextPlaceScore,$tile);
+      Notifications::claimMasteryCard($player,$nextPlaceScore,$tile,$meeple);
     }
 
   }

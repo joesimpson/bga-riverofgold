@@ -162,14 +162,17 @@ public static function newBoat($player,$meeple)
    * @param Player $player
    * @param int $points
    * @param MasteryCard $masteryCard
+   * @param Meeple $meeple
    */
-  public static function claimMasteryCard($player,$points,$masteryCard){
+  public static function claimMasteryCard($player,$points,$masteryCard, $meeple){
     $msg = clienttranslate('${player_name} scores ${n} points for claiming ${mastery_name}');
     self::notifyAll('claimMC',$msg,[ 
         'i18n' => ['mastery_name'],
         'player' => $player,
         'n' => $points,
         'mastery_name' => $masteryCard->getTitle(),
+        //'meeple_id' => $meeple->getId(),
+        'tile_id' => $masteryCard->getId(),
       ],
     );
   }
