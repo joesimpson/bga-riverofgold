@@ -205,7 +205,7 @@ class Players extends \ROG\Helpers\DB_Manager
     }
     //self::DB()->inc(['money' => 0-$money], $pId);
     $player->giveResource($money,RESOURCE_TYPE_MONEY,false);
-    Notifications::spendMoney($player,0-$money);
+    Notifications::spendMoney($player,$money);
     Stats::inc("moneySpent",$player,$money);
     Stats::inc("moneyLeft",$player,-$money);
   }
