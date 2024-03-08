@@ -25,10 +25,26 @@ class MasteryCard extends Tile
   public function getUiData()
   {
     $data = parent::getUiData();
-    unset($data['pId']);
+    $data['title'] = $this->getTitle();
     unset($data['state']);
     unset($data['nbPlayers']);
     unset($data['scores']);
     return $data;
+  }
+  
+  /**
+   * @return string to be displayed as the title of this card
+   */
+  public function getTitle()
+  {
+    switch($this->getScoringType()){
+      case MASTERY_TYPE_AIR: return clienttranslate('Mastery of Air');
+      case MASTERY_TYPE_COURTS: return clienttranslate('Mastery of the Courts');
+      case MASTERY_TYPE_EARTH: return clienttranslate('Mastery of Earth');
+      case MASTERY_TYPE_FIRE: return clienttranslate('Mastery of Fire');
+      case MASTERY_TYPE_VOID: return clienttranslate('Mastery of Void');
+      case MASTERY_TYPE_WATER: return clienttranslate('Mastery of Water');
+      default: return '';
+    }
   }
 }

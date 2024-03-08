@@ -8,6 +8,7 @@ use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Models\Player;
+use ROG\Models\Tile;
 
 /*
  * Players manager : allows to easily access players ...
@@ -55,7 +56,6 @@ class Players extends \ROG\Helpers\DB_Manager
   public static function setupNewTurn($players,$turn)
   {
     Game::get()->trace("setupNewTurn($turn)");
-    if(!Globals::isModeCompetitive()) return;
 
     $players = $players->filter(function ($player) { 
       return $player->getZombie() ==0 && $player->getEliminated() == 0;
@@ -237,6 +237,63 @@ class Players extends \ROG\Helpers\DB_Manager
     $max = $player->getResource(RESOURCE_TYPE_MOON); 
     $new = min($max,$current + $amount);
     $player->giveResource($new - $current,RESOURCE_TYPE_SUN);
+
+  }
+  
+  /**
+   * check each mastery card to check if player can claim it
+   * @param Player $player 
+   */
+  public static function claimMasteries($player){
+    Game::get()->trace("claimMasteries()");
+    //check each mastery card
+    $masteryCards = Tiles::getMasteryCards();
+    foreach ($masteryCards as $tile) {
+      self::claimMastery($player,$tile);
+    }
+  }
+  
+  /**
+   * check this mastery card to check if player can claim it
+   * @param Player $player 
+   * @param MasteryCard $tile 
+   */
+  public static function claimMastery($player, $tile){
+    $pId = $player->getId();
+    $tileId = $tile->getId();
+    Game::get()->trace("claimMastery($pId, $tileId)"); 
+
+    $clanMarkers = $tile->getMeeples();
+
+    //if already claimed by others, exit
+    $nbClaimed = count($clanMarkers);
+    if($nbClaimed >= count($tile->scores) ) return;
+
+    foreach($clanMarkers as $clanMarker){
+      //if already claimed by this player, exit
+      if($clanMarker->getPId() == $pId) return;
+    }
+
+    $claim = false;
+    switch($tile->scoringType){
+      case MASTERY_TYPE_COURTS:
+        foreach (REGIONS as $region){
+          if($player->getInfluence($region) >= NB_INLUENCE_FLOWER){
+            $claim = true;
+            break;
+          }
+        }
+        break;
+      //TODO JSA all mastery types 
+    }
+
+    if($claim){
+      $claimPosition = $nbClaimed + 1;
+      $nextPlaceScore = $tile->scores[$claimPosition - 1];
+      Meeples::addClanMarkerOnMasteryCard($tile,$player,$claimPosition);
+      $player->addPoints($nextPlaceScore);
+      Notifications::claimMasteryCard($player,$nextPlaceScore,$tile);
+    }
 
   }
 }

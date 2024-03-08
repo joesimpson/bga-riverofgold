@@ -3,6 +3,7 @@
 namespace ROG\Managers;
 
 use ROG\Core\Notifications;
+use ROG\Models\MasteryCard;
 use ROG\Models\ShoreSpace;
 
 /* Class to manage all the meeples (clan markers/ships) */
@@ -48,6 +49,24 @@ class Meeples extends \ROG\Helpers\Pieces
     return $elt;
   }
   
+  /**
+   * @param MasteryCard $tile
+   * @param Player $player
+   * @param int $position
+   * @return Meeple
+   */
+  public static function addClanMarkerOnMasteryCard($tile,$player,$position)
+  {
+    $meeple = [
+      'type' => MEEPLE_TYPE_CLAN_MARKER,
+      'location' => MEEPLE_LOCATION_TILE.$tile->getId(),
+      'player_id' => $player->id,
+      'state' => $position,
+    ];
+    $elt = self::singleCreate($meeple);
+    Notifications::newClanMarker($player,$elt);
+    return $elt;
+  }
   /**
    * @param Player $player
    * @param int $region

@@ -25,7 +25,7 @@ class Tiles extends \ROG\Helpers\Pieces
         $data = self::getScoringTiles()[$type];
         return new \ROG\Models\ScoringTile($row, $data);
       case TILE_TYPE_MASTERY_CARD:
-        $data = self::getMasteryCards()[$type];
+        $data = self::getMasteryCardsTypes()[$type];
         return new \ROG\Models\MasteryCard($row, $data);
       case TILE_TYPE_BUILDING:
         $data = self::getBuildingTiles()[$type];
@@ -81,8 +81,28 @@ class Tiles extends \ROG\Helpers\Pieces
       })
       ->toArray();
   } 
+  /**
+   * @param int $subType
+   * @param array $tilesTypes (array of int)
+   * @return Collection of Tile
+   */
+  public static function getAllByType($subType, $tilesTypes)
+  {
+    return self::DB()
+      ->where( 'subType', $subType)
+      ->whereIn( 'type', $tilesTypes)
+      ->get();
+  } 
+  
+  /**
+   * @return Collection of MasteryCard
+   */
+  public static function getMasteryCards()
+  {
+    return self::getAllByType(TILE_TYPE_MASTERY_CARD,array_keys(self::getMasteryCardsTypes()));
+  } 
 
-  /* Creation of the tiles */
+  /** Creation of the tiles */
   public static function setupNewGame($players, $options)
   {
     $tiles = [];
@@ -99,7 +119,7 @@ class Tiles extends \ROG\Helpers\Pieces
       }
     }
     
-    $masteryCards = self::getMasteryCards();
+    $masteryCards = self::getMasteryCardsTypes();
     foreach ($masteryCards as $type => $tile) {
       if( in_array($nbPlayers,$tile['nbPlayers'])){
         $tiles[] = [
@@ -224,7 +244,7 @@ class Tiles extends \ROG\Helpers\Pieces
   /**
    * @return array of all the different types of Mastery Cards
    */
-  public static function getMasteryCards()
+  public static function getMasteryCardsTypes()
   {
     $f = function ($t) {
       return [

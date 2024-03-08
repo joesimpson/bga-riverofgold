@@ -111,6 +111,28 @@ trait DebugTrait
     $this->debugUI();
   }
   
+  //test mastery cards
+  function debugMC(){
+    $player = Players::getCurrent();
+    $typesToTest = [7,8,9];
+
+    //remove previous claims
+    $masteryCards = Tiles::getMasteryCards();
+    $k = 0;
+    foreach ($masteryCards as $tile) {
+      $clanMarkers = $tile->getMeeples();
+      foreach ($clanMarkers as $clanMarker) {
+        Meeples::DB()->delete($clanMarker->id);
+      }
+      $tile->setType($typesToTest[$k]);
+      $k++;
+    }
+
+    Players::gainInfluence($player,1,NB_INLUENCE_FLOWER);
+    Players::claimMasteries($player);
+  }
+
+  //----------------------------------------------------------------
   function debugUI(){
     Notifications::refreshUI($this->getAllDatas());
   }

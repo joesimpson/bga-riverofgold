@@ -123,6 +123,16 @@ class Player extends \ROG\Helpers\DB_Model
     if(!isset($meeple)) return 0;
     return $meeple->getPosition();
   }
+  /**
+   * @param int $region
+   * @param int $value
+   */
+  public function setInfluence($region,$value)
+  {
+    $meeple = Meeples::getInfluenceMarker($this->getId(),$region);
+    if(!isset($meeple)) return ;
+    $meeple->setPosition($value);
+  }
 
   public function setTieBreakerPoints($points)
   {

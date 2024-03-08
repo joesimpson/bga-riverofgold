@@ -64,6 +64,8 @@ trait BuildTrait
     Players::gainInfluence($player,$shoreSpace->region,$tile->getBonus());
     //TODO JSA scoreWhenBuild (depends on clan patron)
 
+    Players::claimMasteries($player);
+
     $this->gamestate->nextState('next');
   } 
 

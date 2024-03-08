@@ -4,6 +4,7 @@ namespace ROG\Core;
 
 use ROG\Managers\Cards;
 use ROG\Models\BuildingTile;
+use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
 use ROG\Models\Player;
 
@@ -142,6 +143,35 @@ public static function newBoat($player,$meeple)
       'influence' => $influence,
       'meeple' => $meeple->getUiData(),
     ]);
+  }
+  
+  /**
+   * @param Player $player
+   * @param int $points
+   * @param string $msg (optional)
+   */
+  public static function addPoints($player,$points, $msg = null){
+    if(!isset($msg)) $msg = clienttranslate('${player_name} scores ${n} points');
+    self::notifyAll('addPoints',$msg,[ 
+        'player' => $player,
+        'n' => $points,
+      ],
+    );
+  }
+  /**
+   * @param Player $player
+   * @param int $points
+   * @param MasteryCard $masteryCard
+   */
+  public static function claimMasteryCard($player,$points,$masteryCard){
+    $msg = clienttranslate('${player_name} scores ${n} points for claiming ${mastery_name}');
+    self::notifyAll('claimMC',$msg,[ 
+        'i18n' => ['mastery_name'],
+        'player' => $player,
+        'n' => $points,
+        'mastery_name' => $masteryCard->getTitle(),
+      ],
+    );
   }
 
   /*************************

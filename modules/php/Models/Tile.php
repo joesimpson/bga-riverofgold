@@ -2,6 +2,9 @@
 
 namespace ROG\Models;
 
+use ROG\Helpers\Collection;
+use ROG\Managers\Meeples;
+
 /*
  * Tile: all utility functions concerning a tile
  */
@@ -33,4 +36,13 @@ class Tile extends \ROG\Helpers\DB_Model
     $data = parent::getUiData();
     return $data;
   }
+  
+  /**
+   * @return Collection of Meeple
+   */
+  public function getMeeples()
+  {
+    return Meeples::getInLocation(MEEPLE_LOCATION_TILE.$this->getId());
+  }
+
 }
