@@ -31,6 +31,7 @@
   text-shadow: 1px 0px 1px black, 0px 1px 1px black, -1px 0px 1px black, 0px -1px 1px black;
 }
 .player_board_inner .player_score .fa-star {
+  position: relative;
   background-image: url("img/icons/vp.png");
   background-size: 100% auto;
   background-repeat: no-repeat;
@@ -903,6 +904,7 @@
 }
 
 #rog_era_tile_resizable {
+  position: relative;
   width: calc(var(--rog_era_tile_holder_scale) * 1046px);
   height: calc(var(--rog_era_tile_holder_scale) * 960px);
   margin-bottom: 10px;

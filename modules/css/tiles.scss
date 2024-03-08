@@ -108,6 +108,7 @@
 }
 
 #rog_era_tile_resizable {
+    position: relative;
     width: calc(var(--rog_era_tile_holder_scale) * 1046px);
     height: calc(var(--rog_era_tile_holder_scale) * 960px);
     margin-bottom: 10px;

@@ -13,6 +13,8 @@
     .player_score{
         //Override BGA Default score icon
         .fa-star{
+            //for help marker 
+            position: relative;
             &::before {
                 content: unset;
             }
