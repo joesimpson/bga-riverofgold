@@ -132,6 +132,31 @@ trait DebugTrait
     Players::claimMasteries($player);
     $this->gamestate->jumpToState(ST_PLAYER_TURN);
   }
+  
+  //test mastery cards 2
+  function debugMC2(){
+    $player = Players::getCurrent();
+    $typesToTest = [10,11,12];
+
+    //remove previous claims
+    $masteryCards = Tiles::getMasteryCards();
+    $k = 0;
+    foreach ($masteryCards as $tile) {
+      $clanMarkers = $tile->getMeeples();
+      foreach ($clanMarkers as $clanMarker) {
+        Meeples::DB()->delete($clanMarker->id);
+      }
+      $tile->setType($typesToTest[$k]);
+      $k++;
+    }
+    
+    foreach (REGIONS as $region){
+      $player->setInfluence($region, NB_INLUENCE_VOID);
+    }
+    $this->debugUI();
+    Players::claimMasteries($player);
+    $this->gamestate->jumpToState(ST_PLAYER_TURN);
+  }
 
   //----------------------------------------------------------------
   function debugUI(){

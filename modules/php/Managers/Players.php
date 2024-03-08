@@ -276,6 +276,7 @@ class Players extends \ROG\Helpers\DB_Manager
 
     $claim = false;
     switch($tile->scoringType){
+      //----------------------------------------------------------------------
       case MASTERY_TYPE_COURTS:
         foreach (REGIONS as $region){
           if($player->getInfluence($region) >= NB_INLUENCE_FLOWER){
@@ -284,6 +285,17 @@ class Players extends \ROG\Helpers\DB_Manager
           }
         }
         break;
+      //----------------------------------------------------------------------
+      case MASTERY_TYPE_VOID:
+        $claim = true;
+        foreach (REGIONS as $region){
+          if($player->getInfluence($region) < NB_INLUENCE_VOID){
+            $claim = false;
+            break;
+          }
+        }
+        break;
+      //----------------------------------------------------------------------
       //TODO JSA all mastery types 
     }
 
