@@ -546,6 +546,10 @@ function (dojo, declare) {
                 if(koku in args) {
                     args.koku = this.formatIcon('money',null);
                 }
+                let points = 'points';
+                if(points in args) {
+                    args.points = this.formatIcon('score',null);
+                }
                 let res_icon = 'res_icon';
                 if(res_icon in args) {
                     args.res_icon = this.formatIcon(RESOURCES[args.res_type],null);
