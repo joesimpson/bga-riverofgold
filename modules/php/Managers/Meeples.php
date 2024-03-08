@@ -66,6 +66,22 @@ class Meeples extends \ROG\Helpers\Pieces
     if($sendNotif) Notifications::newClanMarker($player,$elt);
     return $elt;
   }
+  
+  /**
+   * @param Player $player
+   * @return Meeple
+   */
+  public static function addBoatOnRiverSpace($player,$position)
+  {
+    $meeple = [
+      'type' => MEEPLE_TYPE_SHIP,
+      'location' => MEEPLE_LOCATION_RIVER,
+      'player_id' => $player->id,
+      'state' => $position,
+    ];
+    $elt = self::singleCreate($meeple);
+    return $elt;
+  }
 
   /**
    * @param int $pId

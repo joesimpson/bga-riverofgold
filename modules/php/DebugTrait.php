@@ -97,6 +97,17 @@ trait DebugTrait
     }
     Notifications::refreshUI($this->getAllDatas());
   }
+
+  function debugBoatMeeples(){
+    Meeples::DB()->delete()->where('type', MEEPLE_TYPE_SHIP)->run();
+    $players = Players::getAll();
+    foreach($players as $pid => $player){
+      for($k=1;$k<=2;$k++){
+        $meeple = Meeples::addBoatOnRiverSpace($player,$k);
+      }
+    }
+    Notifications::refreshUI($this->getAllDatas());
+  }
   
   function debugUI(){
     Notifications::refreshUI($this->getAllDatas());

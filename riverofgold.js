@@ -1046,9 +1046,8 @@ function (dojo, declare) {
             return o;
         },
     
-    
         tplMeeple(meeple, prefix ='') {
-            const PERSONAL = [MEEPLE_TYPE_CLAN_MARKER];
+            const PERSONAL = [MEEPLE_TYPE_SHIP,MEEPLE_TYPE_CLAN_MARKER,MEEPLE_TYPE_SHIP_ROYAL];
             let color = PERSONAL.includes(meeple.type) ? ` data-color="${this.getPlayerColor(meeple.pId)}" data-pId="${meeple.pId}" ` : '';
             return `<div class="rog_meeple" id="rog_meeple${prefix}-${meeple.id}"
                  data-id="${meeple.id}" 
@@ -1068,6 +1067,11 @@ function (dojo, declare) {
                 let region = locationParts[1];
                 let position = meeple.pos;
                 return $(`rog_influence_track_space_${region}_${position}`);
+            }
+            if (locationParts[0] == 'r') {//MEEPLE_LOCATION_RIVER
+                //(boat) on river
+                let position = meeple.pos;
+                return $(`rog_river_space_${position}`);
             }
     
             console.error('Trying to get container of a meeple', meeple);

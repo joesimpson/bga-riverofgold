@@ -102,6 +102,7 @@ const MEEPLE_TYPE_CLAN_MARKER = 2;
 
 const MEEPLE_LOCATION_TILE = 'tile-';
 CONST MEEPLE_LOCATION_INFLUENCE = 'i-';
+const MEEPLE_LOCATION_RIVER = 'r';
 
 /*
  * Game options

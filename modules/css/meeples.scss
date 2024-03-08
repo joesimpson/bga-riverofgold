@@ -5,6 +5,30 @@
     border-radius: 50%;
     box-shadow: 1px 1px 3px black;
 
+    &[data-type='1'] {//MEEPLE_TYPE_SHIP
+        background-image: url("img/boats.png");
+        background-size: 300% 400%;
+        background-color: transparent;
+        box-shadow: none;
+        background-position-x: 0%;
+        border-radius: 0;
+        width: 150px;
+        height: 120px;
+
+        &[data-color="0000ff"] {//blue
+            background-position-y: 0%;
+        }
+        &[data-color="ffffff"] {//white
+            background-position-y: 36%;
+        }
+        &[data-color="008000"] {//green
+            background-position-y: 66%;
+        }
+        &[data-color="ff0000"] {//red
+            background-position-y: 100%;
+        }
+    }
+
     &[data-type='2'] {//MEEPLE_TYPE_CLAN_MARKER
         background-image: url("img/clans_markers.png");
         background-size: 1000% 100%;
@@ -12,15 +36,16 @@
         border-radius: 0px;
         box-shadow: none;
 
+        //green
         background-position-x: 0%;
 
-        &[data-color="0000ff"] {
+        &[data-color="0000ff"] {//blue
             background-position-x: 11%;
         }
-        &[data-color="ffffff"] {
+        &[data-color="ffffff"] {//white
             background-position-x: 55%;
         }
-        &[data-color="ff0000"] {
+        &[data-color="ff0000"] {//red
             background-position-x: 78%;
         }
     }
