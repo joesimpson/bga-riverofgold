@@ -76,7 +76,8 @@ trait SetupTrait
       $player->giveResource(3,RESOURCE_TYPE_MOON);
       $k++;
 
-      //TODO JSA first roll
+      //first turn die roll
+      $player->rollDie();
     }
 
     $this->addCheckpoint(ST_NEXT_TURN);
