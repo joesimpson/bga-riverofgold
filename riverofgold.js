@@ -966,7 +966,10 @@ function (dojo, declare) {
             return [`<div class='rog_tile_tooltip' data-subtype='${subtype}'><h1>${typeName}</h1>${div}</div>`];
         },
         tplTile(tile, prefix ='') {
-            return `<div class="rog_tile" id="rog_tile${prefix}-${tile.id}" data-id="${tile.id}" data-type="${tile.type}" data-subtype="${tile.subtype}">
+            //let nbPlayers = tile.nbPlayers ? tile.nbPlayers[0] : '';
+            let nbPlayers = tile.nbPlayers ? Object.values(this.gamedatas.players).length : '';
+            return `<div class="rog_tile" id="rog_tile${prefix}-${tile.id}" data-id="${tile.id}" data-type="${tile.type}" data-subtype="${tile.subtype}"
+                    data-nbPlayers="${nbPlayers}">
                 </div>`;
         },
         addMasteryCardHolder(tile) {
@@ -1063,7 +1066,8 @@ function (dojo, declare) {
             return `<div class="rog_meeple" id="rog_meeple${prefix}-${meeple.id}"
                  data-id="${meeple.id}" 
                  ${color}
-                 data-type="${meeple.type}">
+                 data-type="${meeple.type}"
+                 data-pos="${meeple.pos}">
                 </div>`;
         },
     
@@ -1071,7 +1075,8 @@ function (dojo, declare) {
             let locationParts = meeple.location.split('-');
             if (locationParts[0] == 'tile') {//MEEPLE_LOCATION_TILE
                 // on tile
-                return $(`rog_tile-${locationParts[1]}`);
+                $tileElt = $(`rog_tile-${locationParts[1]}`);
+                return $tileElt;
             }
             if (locationParts[0] == 'i') {//MEEPLE_LOCATION_INFLUENCE
                 // on influence track

@@ -26,8 +26,8 @@ class MasteryCard extends Tile
   {
     $data = parent::getUiData();
     $data['title'] = $this->getTitle();
+    $data['subtype'] = TILE_TYPE_MASTERY_CARD;
     unset($data['state']);
-    unset($data['nbPlayers']);
     unset($data['scores']);
     return $data;
   }

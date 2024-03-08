@@ -946,6 +946,24 @@
   background-position-x: 100%;
   background-position-y: 100%;
 }
+#rog_mastery_cards .rog_tile_holder .rog_tile .rog_meeple {
+  width: 55px;
+  height: 55px;
+  position: absolute;
+  top: 154px;
+}
+#rog_mastery_cards .rog_tile_holder .rog_tile[data-nbPlayers="2"] .rog_meeple[data-pos="1"] {
+  left: 150px;
+}
+#rog_mastery_cards .rog_tile_holder .rog_tile[data-nbPlayers="3"] .rog_meeple[data-pos="1"], #rog_mastery_cards .rog_tile_holder .rog_tile[data-nbPlayers="4"] .rog_meeple[data-pos="1"] {
+  left: 54px;
+}
+#rog_mastery_cards .rog_tile_holder .rog_tile[data-nbPlayers="3"] .rog_meeple[data-pos="2"], #rog_mastery_cards .rog_tile_holder .rog_tile[data-nbPlayers="4"] .rog_meeple[data-pos="2"] {
+  left: 150px;
+}
+#rog_mastery_cards .rog_tile_holder .rog_tile[data-nbPlayers="3"] .rog_meeple[data-pos="3"], #rog_mastery_cards .rog_tile_holder .rog_tile[data-nbPlayers="4"] .rog_meeple[data-pos="3"] {
+  left: 246px;
+}
 
 .rog_era_tile_holder {
   width: 1046px;

@@ -86,7 +86,37 @@
                     background-position-y: (($i - ($i % 3)) / 3) * 100% / 3;
                 }
             }
-        
+
+            .rog_meeple{
+                width: 55px;
+                height: 55px;
+                position: absolute;
+                top: 154px;
+            }
+
+            &[data-nbPlayers='2']{
+                .rog_meeple {
+                    //1 spot
+                    &[data-pos='1']{
+                        left: 150px;
+                    }
+                }
+            }
+            &[data-nbPlayers='3'],
+            &[data-nbPlayers='4']{
+                //3 spots
+                .rog_meeple{
+                    &[data-pos='1']{
+                        left: 54px;
+                    }
+                    &[data-pos='2']{
+                        left: 150px;
+                    }
+                    &[data-pos='3']{
+                        left: 246px;
+                    }
+                }
+            }
         }
     }
 }
