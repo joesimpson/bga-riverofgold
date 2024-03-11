@@ -285,12 +285,28 @@ function (dojo, declare) {
 
         onEnteringStatePlayerTurn(args){
             debug('onEnteringStatePlayerTurn', args);
-
+            let possibleActions = args.a;
             this.addPrimaryActionButton(`btnSpendFavor`, _('Spend Favor') , () =>  { this.takeAction('actSpendFavor'); });
             this.addPrimaryActionButton(`btnTrade`, _('Trade') , () =>  { this.takeAction('actTrade'); });
             this.addPrimaryActionButton(`btnBuild`, _('Build') , () =>  { this.takeAction('actBuild'); });
             this.addPrimaryActionButton(`btnSail`, _('Sail') , () =>  { this.takeAction('actSail'); });
             this.addPrimaryActionButton(`btnDeliver`, _('Deliver') , () =>  { this.takeAction('actDeliver'); });
+
+            if(!possibleActions.includes('actSpendFavor')){
+                $('btnSpendFavor').classList.add('disabled');
+            }
+            if(!possibleActions.includes('actTrade')){
+                $('btnTrade').classList.add('disabled');
+            }
+            if(!possibleActions.includes('actBuild')){
+                $('btnBuild').classList.add('disabled');
+            }
+            if(!possibleActions.includes('actSail')){
+                $('btnSail').classList.add('disabled');
+            }
+            if(!possibleActions.includes('actDeliver')){
+                $('btnDeliver').classList.add('disabled');
+            }
         },
         
         onEnteringStateSpendFavor (args){

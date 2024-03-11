@@ -3,13 +3,29 @@
 namespace ROG\States;
 
 use ROG\Core\Notifications;
+use ROG\Managers\Players;
 
 trait PlayerTurnTrait
 {
    
   public function argPlayerTurn()
   { 
+    $actions = [];
+    
+    $activePlayer = Players::getActive();
+    if(count($this->listPossibleDieFacesToBuy($activePlayer))>0 ){
+      $actions[] = 'actSpendFavor';
+    }
+    if(count($this->listPossibleTrades($activePlayer))>0 ){
+      $actions[] = 'actTrade';
+    }
+    if(count($this->listPossibleSpacesToBuild($activePlayer))>0 ){
+      $actions[] = 'actBuild';
+    }
+    //$actions[] = 'actSail';
+    //$actions[] = 'actDeliver';
     $args = [
+      'a' => $actions,
     ];
     $this->addArgsForUndo($args);
     return $args;

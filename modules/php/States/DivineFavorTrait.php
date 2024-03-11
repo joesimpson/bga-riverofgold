@@ -73,6 +73,7 @@ trait DivineFavorTrait
     if(!in_array($dieFace,DIE_FACES)) return null;
     $nbFaces = count(DIE_FACES);
     $currentDie = $player->getDie();
+    if($currentDie == $dieFace) return null;
     $diff = abs( $currentDie - $dieFace );
     $cost = $diff;
     if($cost > $nbFaces/2){
