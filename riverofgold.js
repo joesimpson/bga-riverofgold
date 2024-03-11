@@ -285,6 +285,7 @@ function (dojo, declare) {
         onEnteringStatePlayerTurn(args){
             debug('onEnteringStatePlayerTurn', args);
 
+            this.addPrimaryActionButton(`btnSpendFavor`, _('Spend Favor') , () =>  { this.takeAction('actSpendFavor'); });
             this.addPrimaryActionButton(`btnTrade`, _('Trade') , () =>  { this.takeAction('actTrade'); });
             this.addPrimaryActionButton(`btnBuild`, _('Build') , () =>  { this.takeAction('actBuild'); });
             this.addPrimaryActionButton(`btnSail`, _('Sail') , () =>  { this.takeAction('actSail'); });

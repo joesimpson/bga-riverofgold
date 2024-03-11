@@ -41,6 +41,19 @@
   	
   	// TODO: defines your action entry points there
  
+    public function actSpendFavor()
+    {
+      self::setAjaxMode();
+      $this->game->actSpendFavor();
+      self::ajaxResponse();
+    }
+    public function actDFSelect()
+    {
+      self::setAjaxMode();
+      $dieFace = self::getArg( "d", AT_posint, true );
+      $this->game->actDFSelect($dieFace);
+      self::ajaxResponse();
+    }
     public function actTrade()
     {
       self::setAjaxMode();

@@ -87,6 +87,17 @@ class Notifications
   }
   /**
    * @param Player $player
+   * @param int $die_face
+   */
+  public static function setDieFace($player,$die_face)
+  {
+    self::notifyAll('setDie', clienttranslate('${player_name} sets their die to ${die_face}'), [
+      'player' => $player,
+      'die_face' => $die_face,
+    ]);
+  }
+  /**
+   * @param Player $player
    * @param BuildingTile $tile
    * @param int $previousPosition
    */

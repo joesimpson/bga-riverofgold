@@ -3,6 +3,10 @@
 /*
  * Game Constants
  */
+
+ 
+ const DIE_FACES = [1,2,3,4,5,6];
+
  const REGION_1 =  1;
  const REGION_2 =  2;
  const REGION_3 =  3;
@@ -132,6 +136,7 @@ const ST_BEFORE_TURN = 11;
 const ST_PLAYER_TURN = 20;
 const ST_PLAYER_TURN_BUILD = 21;
 const ST_PLAYER_TURN_TRADE = 30;
+const ST_PLAYER_TURN_DIVINE_FAVOR = 31;
 
 const ST_CONFIRM_CHOICES = 70;
 const ST_CONFIRM_TURN = 71;

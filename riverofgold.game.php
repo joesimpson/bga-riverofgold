@@ -47,6 +47,7 @@ class RiverOfGold extends Table
     use ROG\States\BuildTrait;
     use ROG\States\ClanSelectionTrait;
     use ROG\States\ConfirmUndoTrait;
+    use ROG\States\DivineFavorTrait;
     use ROG\States\NextTurnTrait;
     use ROG\States\PlayerTurnTrait;
     use ROG\States\SetupTrait;

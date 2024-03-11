@@ -149,11 +149,13 @@ $machinestates = array(
             "actSail", 
             "actDeliver", 
             "actTrade", 
+            "actSpendFavor", 
             'actRestart',
         ],
         "transitions" => [ 
             "build" => ST_PLAYER_TURN_BUILD, 
             "trade" => ST_PLAYER_TURN_TRADE, 
+            "favor" => ST_PLAYER_TURN_DIVINE_FAVOR, 
             "next" => ST_NEXT_TURN, 
             "zombiePass" => ST_NEXT_TURN,
         ],
@@ -183,6 +185,22 @@ $machinestates = array(
         "type" => "activeplayer",
         "possibleactions" => [
             "actTradeSelect", 
+            'actRestart',
+        ],
+        "transitions" => [ 
+            "next" => ST_PLAYER_TURN, 
+            "zombiePass" => ST_PLAYER_TURN,
+        ],
+    ),
+    
+    ST_PLAYER_TURN_DIVINE_FAVOR => array(
+        "name" => "spendFavor",
+        "args" => "argSpendFavor",
+        "description" => clienttranslate('${actplayer} must select the die face'),
+        "descriptionmyturn" => clienttranslate('${you} must select the die face'),
+        "type" => "activeplayer",
+        "possibleactions" => [
+            "actDFSelect", 
             'actRestart',
         ],
         "transitions" => [ 

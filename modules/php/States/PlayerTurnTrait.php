@@ -15,6 +15,16 @@ trait PlayerTurnTrait
     return $args;
   } 
 
+  public function actSpendFavor()
+  { 
+    self::checkAction('actSpendFavor'); 
+    self::trace("actSpendFavor()");
+
+    $this->addStep();
+
+    $this->gamestate->nextState('favor');
+  }
+
   public function actTrade()
   { 
     self::checkAction('actTrade'); 

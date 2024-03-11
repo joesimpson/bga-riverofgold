@@ -69,8 +69,8 @@ trait TradeTrait
   
   /**
    * @param Player $player
-   * @return int $typeSrc
-   * @return int $typeDest
+   * @param int $typeSrc
+   * @param int $typeDest
    * @return bool true if this player can trade resources from type SRC to DEST
    */
   public function canTrade($player,$typeSrc, $typeDest)
