@@ -113,14 +113,15 @@ function (dojo, declare) {
                 ['giveMoney', 1300],
                 ['spendMoney', 1300],
                 ['giveCardTo', 1000],
-                ['giveResource', 800],
+                ['giveResource', 1000],
                 ['spendResource', 800],
                 ['build', 1300],
                 ['newClanMarker', 700],
                 ['newBoat', 700],
                 ['setDie', 800],
-                ['gainInfluence', 800],
+                ['gainInfluence', 1300],
                 ['claimMC', 800],
+                ['addPoints', 700],
             ];
         },
         
@@ -463,7 +464,7 @@ function (dojo, declare) {
             debug('notif_newClanMarker', n);
             if (!$(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
             this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { }).then(() => {
-                this.notifqueue.setSynchronousDuration(100);
+                //this.notifqueue.setSynchronousDuration(100);
             });
         },
         notif_newBoat(n) {
@@ -485,6 +486,10 @@ function (dojo, declare) {
             }).then( ()=> {
                 this._counters[n.args.player_id].influence[region].toValue(n.args.n2);
             });
+        },
+        notif_addPoints(n) {
+            debug('notif_addPoints : new score', n);
+            this.gainPoints(n.args.player_id,n.args.n);
         },
         notif_claimMC(n) {
             debug('notif_claimMC : new score after mastery card', n);
@@ -843,7 +848,7 @@ function (dojo, declare) {
                 </div>`;
             $('page-content').insertAdjacentHTML('beforeend', elem);
     
-            if (n > 0) {
+            if (n >= 0) {
                 return this.slide(`rog_${resourceType}_animation`, `rog_counter_${pId}_${resourceType}`, {
                     from: targetSource || this.getVisibleTitleContainer(),
                     destroy: true,

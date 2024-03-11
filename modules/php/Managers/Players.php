@@ -204,7 +204,7 @@ class Players extends \ROG\Helpers\DB_Manager
       throw new UnexpectedException(404,"Not enough money to spend");
     }
     //self::DB()->inc(['money' => 0-$money], $pId);
-    $player->giveResource($money,RESOURCE_TYPE_MONEY,false);
+    $player->giveResource(0-$money,RESOURCE_TYPE_MONEY,false);
     Notifications::spendMoney($player,$money);
     Stats::inc("moneySpent",$player,$money);
     Stats::inc("moneyLeft",$player,-$money);

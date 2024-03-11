@@ -86,11 +86,21 @@ class Player extends \ROG\Helpers\DB_Model
    */
   public function giveResource($nb, $type, $sendNotif = true)
   {
+    Game::get()->trace("giveResource($nb, $type, $sendNotif)");
     if($nb == 0) return;
     $resources = $this->getResources();
     if(!isset($resources) ) $resources = [];
     if(!isset($resources[$type]) ) $resources[$type] = 0;
+    $before = $resources[$type];
     $resources[$type] += $nb;
+    $max = NB_MAX_RESOURCE;
+    if(array_key_exists($type,RESOURCES_LIMIT) ) {
+      $max = RESOURCES_LIMIT[$type];
+    } else if(RESOURCE_TYPE_SUN == $type){
+      $max = $resources[RESOURCE_TYPE_MOON]; 
+    }
+    $resources[$type] = min($resources[$type], $max);
+    $nb = $resources[$type] - $before;
     $this->setResources($resources);
     //TODO JSA stat
     if($sendNotif) Notifications::giveResource($this,$nb,$type);

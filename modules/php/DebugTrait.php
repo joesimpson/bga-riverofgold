@@ -158,6 +158,17 @@ trait DebugTrait
     $this->gamestate->jumpToState(ST_PLAYER_TURN);
   }
 
+  function debugPHP(){
+    $keys = array_keys(RESOURCES_LIMIT);
+    Notifications::message(json_encode($keys));
+    $type = RESOURCE_TYPE_MONEY;
+    if(array_key_exists($type,RESOURCES_LIMIT)) {
+    //if(in_array($type,array_keys(RESOURCES_LIMIT)) ) {
+      $max = RESOURCES_LIMIT[$type];
+      Notifications::message("RESOURCES_LIMIT contains $type:".json_encode(RESOURCES_LIMIT));
+    }
+  }
+
   //----------------------------------------------------------------
   function debugUI(){
     Notifications::refreshUI($this->getAllDatas());

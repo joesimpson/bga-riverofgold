@@ -24,6 +24,7 @@
 
  const NB_MAX_MONEY = 25;
  const NB_MAX_RESOURCE = 6;
+ 
  const NB_MAX_INLFUENCE = 18;
  const STARTING_BOATS_SPACES = [1, 8];
  const NB_INLUENCE_FLOWER = 11;
@@ -95,6 +96,13 @@ const RESOURCES_TO_TRADE = [
    RESOURCE_TYPE_RICE =>    ['src'=>2,'dest'=>1] ,
    RESOURCE_TYPE_MONEY =>   ['src'=>5,'dest'=>0] ,
    RESOURCE_TYPE_SUN =>     ['src'=>0,'dest'=>1] ,
+];
+const RESOURCES_LIMIT = [
+  RESOURCE_TYPE_SILK =>    NB_MAX_RESOURCE,
+  RESOURCE_TYPE_POTTERY => NB_MAX_RESOURCE,
+  RESOURCE_TYPE_RICE =>    NB_MAX_RESOURCE,
+  RESOURCE_TYPE_MOON =>    NB_MAX_RESOURCE,
+  RESOURCE_TYPE_MONEY =>   NB_MAX_MONEY,
 ];
 
 const SHORE_SPACE_BASE =                    1;
