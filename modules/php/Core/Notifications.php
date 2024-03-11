@@ -163,10 +163,11 @@ public static function newBoat($player,$meeple)
    * @param string $msg (optional)
    */
   public static function addPoints($player,$points, $msg = null){
-    if(!isset($msg)) $msg = clienttranslate('${player_name} scores ${n} points');
+    if(!isset($msg)) $msg = clienttranslate('${player_name} scores ${n} ${points}');
     self::notifyAll('addPoints',$msg,[ 
         'player' => $player,
         'n' => $points,
+        'points' => 'points',
       ],
     );
   }

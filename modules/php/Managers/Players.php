@@ -222,9 +222,28 @@ class Players extends \ROG\Helpers\DB_Manager
     $currentInfluence = $meeple->getPosition(); 
     $newInfluence = min(NB_MAX_INLFUENCE,$currentInfluence + $amount);
     $meeple->setPosition($newInfluence);
-    //TODO JSA earn bonus on track
-
     Notifications::gainInfluence($player,$region,$amount,$newInfluence,$meeple);
+    
+    //Earn bonus on track :
+    $bonuses = INFLUENCE_TRACK_REWARDS[$region];
+    foreach($bonuses as $influence => $bonus){
+      if($influence > $currentInfluence && $influence<=$newInfluence){
+        //if this position is new, let's win bonus
+        $bonusQuantity = $bonus['n'];
+        $bonusType = $bonus['type'];
+        if(BONUS_TYPE_POINTS == $bonusType){
+          $player->addPoints($bonusQuantity);
+          Notifications::addPoints($player,$bonusQuantity);
+        }
+        else if(BONUS_TYPE_CHOICE == $bonusType){
+          //TODO JSA save datas for new state to ask bonus ?
+
+        }
+        else {
+          $player->giveResource($bonusQuantity,$bonusType);
+        }
+      }
+    }
   }
   
   /**

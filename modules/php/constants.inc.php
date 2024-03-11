@@ -76,6 +76,8 @@ const RESOURCE_TYPE_RICE = 3;
 const RESOURCE_TYPE_MOON = 4;
 const RESOURCE_TYPE_SUN = 5;
 const RESOURCE_TYPE_MONEY = 6;
+const BONUS_TYPE_POINTS = 20;
+const BONUS_TYPE_CHOICE = 21;
 const RESOURCES = [
     0,
    'silk',//RESOURCE_TYPE_SILK
@@ -99,6 +101,55 @@ const SHORE_SPACE_BASE =                    1;
 const SHORE_SPACE_IMPERIAL_MARKET =         2;
 const SHORE_SPACE_STARTING_BUILDING_FOR_2 = 3;
 const SHORE_SPACE_STARTING_BUILDING_FOR_3 = 4;
+
+
+/////////////////////////////////////////////////////////
+//          INFLUENCE TRACK
+/////////////////////////////////////////////////////////
+const INFLUENCE_TRACK_REWARDS = [
+   REGION_1 => [
+      2 => ['n' => 1, 'type' => RESOURCE_TYPE_POTTERY], 
+      5 => ['n' => 2, 'type' => RESOURCE_TYPE_MONEY], 
+      9 => ['n' => 1, 'type' => RESOURCE_TYPE_SUN], 
+      13=> ['n' => 3, 'type' => BONUS_TYPE_POINTS], 
+      18=> ['n' => 1, 'type' => BONUS_TYPE_CHOICE], 
+   ],
+   REGION_2  => [
+      2 => ['n' => 1, 'type' => RESOURCE_TYPE_RICE], 
+      5 => ['n' => 2, 'type' => RESOURCE_TYPE_MONEY], 
+      9 => ['n' => 1, 'type' => RESOURCE_TYPE_SUN], 
+      13=> ['n' => 3, 'type' => BONUS_TYPE_POINTS], 
+      18=> ['n' => 1, 'type' => BONUS_TYPE_CHOICE], 
+   ],
+   REGION_3  => [
+      2 => ['n' => 1, 'type' => RESOURCE_TYPE_SILK], 
+      5 => ['n' => 2, 'type' => RESOURCE_TYPE_MONEY], 
+      9 => ['n' => 1, 'type' => RESOURCE_TYPE_SUN], 
+      13=> ['n' => 3, 'type' => BONUS_TYPE_POINTS], 
+      18=> ['n' => 1, 'type' => BONUS_TYPE_CHOICE], 
+   ],
+   REGION_4  => [
+      2 => ['n' => 1, 'type' => RESOURCE_TYPE_POTTERY], 
+      5 => ['n' => 2, 'type' => RESOURCE_TYPE_MONEY], 
+      9 => ['n' => 1, 'type' => RESOURCE_TYPE_SUN], 
+      13=> ['n' => 3, 'type' => BONUS_TYPE_POINTS], 
+      18=> ['n' => 1, 'type' => BONUS_TYPE_CHOICE], 
+   ],
+   REGION_5  => [
+      2 => ['n' => 1, 'type' => RESOURCE_TYPE_RICE], 
+      5 => ['n' => 2, 'type' => RESOURCE_TYPE_MONEY], 
+      9 => ['n' => 1, 'type' => RESOURCE_TYPE_SUN], 
+      13=> ['n' => 3, 'type' => BONUS_TYPE_POINTS], 
+      18=> ['n' => 1, 'type' => BONUS_TYPE_CHOICE], 
+   ],
+   REGION_6  => [
+      2 => ['n' => 1, 'type' => RESOURCE_TYPE_SILK], 
+      5 => ['n' => 2, 'type' => RESOURCE_TYPE_MONEY], 
+      9 => ['n' => 1, 'type' => RESOURCE_TYPE_SUN], 
+      13=> ['n' => 3, 'type' => BONUS_TYPE_POINTS], 
+      18=> ['n' => 1, 'type' => BONUS_TYPE_CHOICE], 
+   ],
+ ];
 
 /////////////////////////////////////////////////////////
 //          MEEPLES
