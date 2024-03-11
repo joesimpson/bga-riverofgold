@@ -118,6 +118,7 @@ function (dojo, declare) {
                 ['build', 1300],
                 ['newClanMarker', 700],
                 ['newBoat', 700],
+                ['setDie', 800],
                 ['gainInfluence', 800],
                 ['claimMC', 800],
             ];
@@ -292,6 +293,26 @@ function (dojo, declare) {
             this.addPrimaryActionButton(`btnDeliver`, _('Deliver') , () =>  { this.takeAction('actDeliver'); });
         },
         
+        onEnteringStateSpendFavor (args){
+            debug('onEnteringStateSpendFavor', args);
+
+            Object.values(args.p).forEach((possible) => {
+                let dieFace = possible.face;
+                let cost = possible.cost;
+                let iconFace = this.formatIcon("die_face-"+dieFace,dieFace);
+                let iconCost = this.formatIcon("favor",cost);
+                this.addImageActionButton(`btnDF_${dieFace}`, 
+                    `<div class='rog_trade'>
+                        ${iconCost}
+                        <i class="fa6 fa6-arrow-right"></i>
+                        ${iconFace}
+                    </div>`,
+                    () =>  {
+                        this.takeAction('actDFSelect', {d:dieFace});
+                    }
+                );
+            });
+        },
         onEnteringStateTrade(args){
             debug('onEnteringStateTrade', args);
 
@@ -433,6 +454,10 @@ function (dojo, declare) {
             debug('notif_newBoat', n);
             if (!$(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
             this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { });
+        },
+        notif_setDie(n) {
+            debug('notif_setDie', n);
+            this._counters[n.args.player_id].dieFace.toValue(n.args.die_face);
         },
         notif_gainInfluence(n) {
             debug('notif_gainInfluence', n);
@@ -577,7 +602,7 @@ function (dojo, declare) {
         },
         formatIcon(name, n = null) {
             let type = name;
-            let text = n == null ? '' : `<span>${n}</span>`;
+            let text = n == null ? '' : `<span class='rog_icon_qty'>${n}</span>`;
             return `<div class="rog_icon_container rog_icon_container_${type}">
                 <div class="rog_icon rog_icon_${type}">${text}</div>
                 </div>`;

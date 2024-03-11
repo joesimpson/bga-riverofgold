@@ -66,6 +66,28 @@
                 //remove moon from player panel icon
                 content: unset;
             }
+            .rog_icon_qty{
+                //display number over the sun circle
+                padding-top: 10px;
+                color: black;
+                display: inline-block;
+            }
+        }
+        
+        .rog_icon_die_face-1,
+        .rog_icon_die_face-2,
+        .rog_icon_die_face-3,
+        .rog_icon_die_face-4,
+        .rog_icon_die_face-5,
+        .rog_icon_die_face-6
+        {
+            .rog_icon_qty{
+                //display number on the left
+                color: white;
+                display: inline-block;
+                margin-left: -1em;
+                font-size: 2em;
+            }
         }
     }
 }
