@@ -181,10 +181,23 @@
     &#rog_shore_space-27,
     &#rog_shore_space-29,
     &#rog_shore_space-30{
-        //TODO JSA don't rotate anymore with sprite of tiles back
+        /*don't rotate anymore with sprite of tiles back
         transform: rotate(180deg);
         &.selectable:hover {
             transform: rotate(180deg) scale(1.2);
+
+        }*/
+        &.selectable,
+        .rog_tile{
+            margin-left: 8px;
+            background-image: url("img/buildings_back.png");
+            .rog_meeple{
+                margin-left: 8px;
+            }
+        }
+        &.selectable{
+            //Reverse the polygon
+            clip-path: polygon(15.04% 9.19%, 95.78% 7.48%, 96.75% 92.7%, 17.24% 92.25%, 1.49% 59.79%, 1.21% 42.73%);
         }
     }
 }

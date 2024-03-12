@@ -426,10 +426,53 @@
   top: 3443px;
 }
 .rog_shore_space#rog_shore_space-1, .rog_shore_space#rog_shore_space-3, .rog_shore_space#rog_shore_space-5, .rog_shore_space#rog_shore_space-7, .rog_shore_space#rog_shore_space-9, .rog_shore_space#rog_shore_space-11, .rog_shore_space#rog_shore_space-13, .rog_shore_space#rog_shore_space-15, .rog_shore_space#rog_shore_space-18, .rog_shore_space#rog_shore_space-20, .rog_shore_space#rog_shore_space-23, .rog_shore_space#rog_shore_space-25, .rog_shore_space#rog_shore_space-27, .rog_shore_space#rog_shore_space-29, .rog_shore_space#rog_shore_space-30 {
+  /*don't rotate anymore with sprite of tiles back
   transform: rotate(180deg);
+  &.selectable:hover {
+      transform: rotate(180deg) scale(1.2);
+
+  }*/
 }
-.rog_shore_space#rog_shore_space-1.selectable:hover, .rog_shore_space#rog_shore_space-3.selectable:hover, .rog_shore_space#rog_shore_space-5.selectable:hover, .rog_shore_space#rog_shore_space-7.selectable:hover, .rog_shore_space#rog_shore_space-9.selectable:hover, .rog_shore_space#rog_shore_space-11.selectable:hover, .rog_shore_space#rog_shore_space-13.selectable:hover, .rog_shore_space#rog_shore_space-15.selectable:hover, .rog_shore_space#rog_shore_space-18.selectable:hover, .rog_shore_space#rog_shore_space-20.selectable:hover, .rog_shore_space#rog_shore_space-23.selectable:hover, .rog_shore_space#rog_shore_space-25.selectable:hover, .rog_shore_space#rog_shore_space-27.selectable:hover, .rog_shore_space#rog_shore_space-29.selectable:hover, .rog_shore_space#rog_shore_space-30.selectable:hover {
-  transform: rotate(180deg) scale(1.2);
+.rog_shore_space#rog_shore_space-1.selectable,
+.rog_shore_space#rog_shore_space-1 .rog_tile, .rog_shore_space#rog_shore_space-3.selectable,
+.rog_shore_space#rog_shore_space-3 .rog_tile, .rog_shore_space#rog_shore_space-5.selectable,
+.rog_shore_space#rog_shore_space-5 .rog_tile, .rog_shore_space#rog_shore_space-7.selectable,
+.rog_shore_space#rog_shore_space-7 .rog_tile, .rog_shore_space#rog_shore_space-9.selectable,
+.rog_shore_space#rog_shore_space-9 .rog_tile, .rog_shore_space#rog_shore_space-11.selectable,
+.rog_shore_space#rog_shore_space-11 .rog_tile, .rog_shore_space#rog_shore_space-13.selectable,
+.rog_shore_space#rog_shore_space-13 .rog_tile, .rog_shore_space#rog_shore_space-15.selectable,
+.rog_shore_space#rog_shore_space-15 .rog_tile, .rog_shore_space#rog_shore_space-18.selectable,
+.rog_shore_space#rog_shore_space-18 .rog_tile, .rog_shore_space#rog_shore_space-20.selectable,
+.rog_shore_space#rog_shore_space-20 .rog_tile, .rog_shore_space#rog_shore_space-23.selectable,
+.rog_shore_space#rog_shore_space-23 .rog_tile, .rog_shore_space#rog_shore_space-25.selectable,
+.rog_shore_space#rog_shore_space-25 .rog_tile, .rog_shore_space#rog_shore_space-27.selectable,
+.rog_shore_space#rog_shore_space-27 .rog_tile, .rog_shore_space#rog_shore_space-29.selectable,
+.rog_shore_space#rog_shore_space-29 .rog_tile, .rog_shore_space#rog_shore_space-30.selectable,
+.rog_shore_space#rog_shore_space-30 .rog_tile {
+  margin-left: 8px;
+  background-image: url("img/buildings_back.png");
+}
+.rog_shore_space#rog_shore_space-1.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-1 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-3.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-3 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-5.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-5 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-7.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-7 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-9.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-9 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-11.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-11 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-13.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-13 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-15.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-15 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-18.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-18 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-20.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-20 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-23.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-23 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-25.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-25 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-27.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-27 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-29.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-29 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-30.selectable .rog_meeple,
+.rog_shore_space#rog_shore_space-30 .rog_tile .rog_meeple {
+  margin-left: 8px;
+}
+.rog_shore_space#rog_shore_space-1.selectable, .rog_shore_space#rog_shore_space-3.selectable, .rog_shore_space#rog_shore_space-5.selectable, .rog_shore_space#rog_shore_space-7.selectable, .rog_shore_space#rog_shore_space-9.selectable, .rog_shore_space#rog_shore_space-11.selectable, .rog_shore_space#rog_shore_space-13.selectable, .rog_shore_space#rog_shore_space-15.selectable, .rog_shore_space#rog_shore_space-18.selectable, .rog_shore_space#rog_shore_space-20.selectable, .rog_shore_space#rog_shore_space-23.selectable, .rog_shore_space#rog_shore_space-25.selectable, .rog_shore_space#rog_shore_space-27.selectable, .rog_shore_space#rog_shore_space-29.selectable, .rog_shore_space#rog_shore_space-30.selectable {
+  -webkit-clip-path: polygon(15.04% 9.19%, 95.78% 7.48%, 96.75% 92.7%, 17.24% 92.25%, 1.49% 59.79%, 1.21% 42.73%);
+          clip-path: polygon(15.04% 9.19%, 95.78% 7.48%, 96.75% 92.7%, 17.24% 92.25%, 1.49% 59.79%, 1.21% 42.73%);
 }
 
 .rog_river_space {
