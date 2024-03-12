@@ -1111,6 +1111,10 @@ function (dojo, declare) {
                 //building
                 typeName = BUILDING_TYPES[cardDatas.buildingType];
             }
+            else if(cardDatas.title){
+                //building
+                typeName = cardDatas.title;
+            }
             let div = this.tplTile(cardDatas,'_tmp');
             return [`<div class='rog_tile_tooltip' data-subtype='${subtype}'><h1>${typeName}</h1>${div}</div>`];
         },
