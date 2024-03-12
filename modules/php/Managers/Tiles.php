@@ -2,6 +2,7 @@
 
 namespace ROG\Managers;
 
+use ROG\Core\Game;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
 use ROG\Models\Tile;
@@ -212,6 +213,40 @@ class Tiles extends \ROG\Helpers\Pieces
 
     }
   }
+
+  /**
+   * Refill each of the 4 spaces of the building row if the deck is not empty
+   */
+  public static function refillBuildingRow()
+  {
+    Game::get()->trace("refillBuildingRow()");
+    
+    for($k = 1; $k<=4;$k++){
+      $buildingTile = self::getInLocation(TILE_LOCATION_BUILDING_ROW,$k)->first();
+      //Game::get()->trace("Checking to refill $k : buildingTile is ".json_encode($buildingTile));
+      if(!isset($buildingTile)){
+        $buildingTile = self::pickOneForLocation(TILE_LOCATION_BUILDING_DECK_ERA_1,TILE_LOCATION_BUILDING_ROW,$k,false);
+        if(isset($buildingTile)){
+          $nextEra1Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1);
+          $nextEra2Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2);
+          Notifications::refillBuildingRow($buildingTile,$nextEra1Card,$nextEra2Card);
+        }
+      }
+      if(!isset($buildingTile)){
+        Game::get()->trace("Cannot refill $k from Era 1, check Era 2");
+        $buildingTile = self::pickOneForLocation(TILE_LOCATION_BUILDING_DECK_ERA_2,TILE_LOCATION_BUILDING_ROW,$k,false);
+        if(isset($buildingTile)){
+          $nextEra1Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1);
+          $nextEra2Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2);
+          Notifications::refillBuildingRow($buildingTile,$nextEra1Card,$nextEra2Card);
+        }
+        else {
+          Game::get()->trace("Cannot refill $k from Era 2, we must be near the end");
+        }
+      }
+    } 
+  }
+
  
   /**
    * @return array of all the different types of Scoring Tiles

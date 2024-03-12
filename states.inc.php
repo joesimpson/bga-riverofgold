@@ -64,14 +64,22 @@ require_once 'modules/php/constants.inc.php';
                 |
                 v
  /<----------- nextTurn     <-------------------------\                                
- |              |                                     |
+ |              |                                     ^
  |              v                                     |
  |             beforeTurn                             |
- |                |                                   |
- |                |                                   |
- |                v                                   |
- |                playerTurn -------------------------/
- v        
+ |              |                                     |
+ |              |                                     |
+ |              v                                     |
+ |        /---> playerTurn --\                        |
+ |        |     |            |                        |
+ |        |     |            |                        |
+ |        |     v            v                        |
+ |        \--- trade/favor  build                     |
+ |                           |                        |
+ |                           v                        |
+ |                          confirm --> endTurn ----->/
+ |              
+ v  
  \-> endGameScoring
         | 
         v
@@ -156,8 +164,8 @@ $machinestates = array(
             "build" => ST_PLAYER_TURN_BUILD, 
             "trade" => ST_PLAYER_TURN_TRADE, 
             "favor" => ST_PLAYER_TURN_DIVINE_FAVOR, 
-            "next" => ST_NEXT_TURN, 
-            "zombiePass" => ST_NEXT_TURN,
+            //"next" => ST_CONFIRM_CHOICES, 
+            "zombiePass" => ST_CONFIRM_CHOICES,
         ],
     ),
     
@@ -245,10 +253,20 @@ $machinestates = array(
         'action' => 'stConfirmTurn',
         'possibleactions' => ['actConfirmTurn', 'actRestart'],
         'transitions' => [
-          'confirm' => ST_NEXT_TURN,
-          'zombiePass'=> ST_NEXT_TURN,
+          'confirm' => ST_END_TURN,
+          'zombiePass'=> ST_END_TURN,
         ],
     ],
+
+    ST_END_TURN => array(
+        "name" => "endTurn",
+        "description" => clienttranslate('End turn'),
+        "type" => "game",
+        "action" => "stEndTurn",
+        "transitions" => [ 
+            "next" => ST_NEXT_TURN,
+        ],
+    ),
 
     ST_END_SCORING => array(
         "name" => "scoring",

@@ -190,6 +190,20 @@ public static function newBoat($player,$meeple)
       ],
     );
   }
+  /**
+   * @param BuildingTile $buildingTile
+   * @param BuildingTile $nextEra1Card
+   * @param BuildingTile $nextEra2Card
+   */
+  public static function refillBuildingRow($buildingTile,$nextEra1Card,$nextEra2Card){
+    $msg = clienttranslate('The building row is refilled from the building board');
+    self::notifyAll('refillBuildingRow',$msg,[ 
+        'tile' => $buildingTile->getUiData(),
+        'era1' => $nextEra1Card->getUiData(),
+        'era2' => $nextEra2Card->getUiData(),
+      ],
+    );
+  }
 
   /*************************
    **** GENERIC METHODS ****
