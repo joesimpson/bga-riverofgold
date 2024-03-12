@@ -3,6 +3,7 @@
 namespace ROG\Core;
 
 use ROG\Managers\Cards;
+use ROG\Managers\Tiles;
 use ROG\Models\BuildingTile;
 use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
@@ -201,6 +202,10 @@ public static function newBoat($player,$meeple)
         'tile' => $buildingTile->getUiData(),
         'era1' => $nextEra1Card->getUiData(),
         'era2' => $nextEra2Card->getUiData(),
+        'deckSize' => [
+          'era1' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1),
+          'era2' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2),
+        ],
       ],
     );
   }

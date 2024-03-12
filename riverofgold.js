@@ -122,6 +122,7 @@ function (dojo, declare) {
                 ['gainInfluence', 1300],
                 ['claimMC', 800],
                 ['addPoints', 700],
+                ['refillBuildingRow', 800],
             ];
         },
         
@@ -149,6 +150,9 @@ function (dojo, declare) {
         setup: function( gamedatas )
         {
             debug('SETUP', gamedatas);
+            
+            this._counters['deckSize1'] = this.createCounter('rog_deck_size-1',this.gamedatas.deckSize.era1);
+            this._counters['deckSize2'] = this.createCounter('rog_deck_size-2',this.gamedatas.deckSize.era2);
             
             this.setupTiles();
             this.setupPlayers();
@@ -508,6 +512,27 @@ function (dojo, declare) {
         notif_claimMC(n) {
             debug('notif_claimMC : new score after mastery card', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
+        },
+        notif_refillBuildingRow(n) {
+            debug('notif_refillBuildingRow: building tile moved from building board', n);
+            let tileDivId = `rog_tile-${n.args.tile.id}`;
+            if (!$(tileDivId)) this.addTile(n.args.tile, this.getVisibleTitleContainer());
+            this.slide(tileDivId, this.getTileContainer(n.args.tile), { phantom: false,}).then( ()=> {
+                this.animationBlink2Times(tileDivId);
+            });
+            //Era 1/2 stack top tile is updated :
+            [n.args.era1, n.args.era2,].forEach((eraTile) => {
+                let tileEraDivId = `rog_tile-${eraTile.id}`;
+                if (eraTile && !$(tileEraDivId)) {
+                    this.addTile(eraTile, this.getVisibleTitleContainer());
+                    this.slide(tileEraDivId, this.getTileContainer(eraTile), { phantom: false,}).then( ()=> {
+                        this.animationBlink2Times(tileEraDivId);
+                    });
+                }
+            }); 
+            this._counters['deckSize1'].toValue(n.args.deckSize.era1);
+            this._counters['deckSize2'].toValue(n.args.deckSize.era2);
+
         },
         ///////////////////////////////////////////////////
         notif_clearTurn(n) {
@@ -1042,8 +1067,8 @@ function (dojo, declare) {
                 }
                 return card.id;
             });
-            this._counters['deckSize1'] = this.createCounter('rog_deck_size-1',this.gamedatas.deckSize.era1);
-            this._counters['deckSize2'] = this.createCounter('rog_deck_size-2',this.gamedatas.deckSize.era2);
+            this._counters['deckSize1'].toValue(this.gamedatas.deckSize.era1);
+            this._counters['deckSize2'].toValue(this.gamedatas.deckSize.era2);
             
         },
         tplShoreSpace(position) {
