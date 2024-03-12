@@ -23,13 +23,13 @@ class Tiles extends \ROG\Helpers\Pieces
     $subtype = isset($row['subtype']) ? $row['subtype'] : null;
     switch ($subtype) {
       case TILE_TYPE_SCORING:
-        $data = self::getScoringTiles()[$type];
+        $data = self::getScoringTilesTypes()[$type];
         return new \ROG\Models\ScoringTile($row, $data);
       case TILE_TYPE_MASTERY_CARD:
         $data = self::getMasteryCardsTypes()[$type];
         return new \ROG\Models\MasteryCard($row, $data);
       case TILE_TYPE_BUILDING:
-        $data = self::getBuildingTiles()[$type];
+        $data = self::getBuildingTilesTypes()[$type];
         return new \ROG\Models\BuildingTile($row, $data);
     }
     $data = [];
@@ -98,11 +98,25 @@ class Tiles extends \ROG\Helpers\Pieces
   } 
   
   /**
+   * @return Collection of ScoringTile
+   */
+  public static function getScoringTiles()
+  {
+    return self::getAllByType(TILE_TYPE_SCORING,array_keys(self::getScoringTilesTypes()));
+  } 
+  /**
    * @return Collection of MasteryCard
    */
   public static function getMasteryCards()
   {
     return self::getAllByType(TILE_TYPE_MASTERY_CARD,array_keys(self::getMasteryCardsTypes()));
+  } 
+  /**
+   * @return Collection of BuildingTile
+   */
+  public static function getBuildingTiles()
+  {
+    return self::getAllByType(TILE_TYPE_BUILDING,array_keys(self::getBuildingTilesTypes()));
   } 
 
   /** Creation of the tiles */
@@ -111,7 +125,7 @@ class Tiles extends \ROG\Helpers\Pieces
     $tiles = [];
 
     $nbPlayers = count($players);
-    $scoringTiles = self::getScoringTiles();
+    $scoringTiles = self::getScoringTilesTypes();
     foreach ($scoringTiles as $type => $tile) {
       if( in_array($nbPlayers,$tile['nbPlayers'])){
         $tiles[] = [
@@ -133,7 +147,7 @@ class Tiles extends \ROG\Helpers\Pieces
       }
     }
     
-    $buildingTiles = self::getBuildingTiles();
+    $buildingTiles = self::getBuildingTilesTypes();
     foreach ($buildingTiles as $type => $tile) {
       $era = $tile['era'];
       if( $era == 0){
@@ -253,7 +267,7 @@ class Tiles extends \ROG\Helpers\Pieces
   /**
    * @return array of all the different types of Scoring Tiles
    */
-  public static function getScoringTiles()
+  public static function getScoringTilesTypes()
   {
     $f = function ($t) {
       return [
@@ -310,7 +324,7 @@ class Tiles extends \ROG\Helpers\Pieces
   /**
    * @return array of all the different types of Building Tiles
    */
-  public static function getBuildingTiles()
+  public static function getBuildingTilesTypes()
   {
     $f = function ($t) {
       return [
@@ -393,7 +407,7 @@ class Tiles extends \ROG\Helpers\Pieces
    */
   public static function getTilesTypesByBuilding($pType){
     $types = [];
-    $buildingTiles = self::getBuildingTiles();
+    $buildingTiles = self::getBuildingTilesTypes();
     foreach ($buildingTiles as $type => $tile) {
       if($pType == $tile['buildingType']){
         $types[] = $type;

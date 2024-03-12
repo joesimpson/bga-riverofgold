@@ -307,7 +307,7 @@ class Players extends \ROG\Helpers\DB_Manager
     $claim = false;
     switch($tile->scoringType){
       //----------------------------------------------------------------------
-      case MASTERY_TYPE_COURTS:
+      case MASTERY_TYPE_COURTS://flower in 1 region
         foreach (REGIONS as $region){
           if($player->getInfluence($region) >= NB_INLUENCE_FLOWER){
             $claim = true;
@@ -316,11 +316,30 @@ class Players extends \ROG\Helpers\DB_Manager
         }
         break;
       //----------------------------------------------------------------------
-      case MASTERY_TYPE_VOID:
+      case MASTERY_TYPE_EARTH: //1 of each building
+        $claim = true;
+        foreach (BUILDING_TYPES as $bType){
+          if(Meeples::countPlayerBuildings($player->getId(),$bType) < 1){
+            $claim = false;
+            break;
+          }
+        }
+        break;
+      //----------------------------------------------------------------------
+      case MASTERY_TYPE_VOID://influence in each region
         $claim = true;
         foreach (REGIONS as $region){
           if($player->getInfluence($region) < NB_INLUENCE_VOID){
             $claim = false;
+            break;
+          }
+        }
+        break;
+      //----------------------------------------------------------------------
+      case MASTERY_TYPE_WATER: //3 of 1 building
+        foreach (BUILDING_TYPES as $bType){
+          if(Meeples::countPlayerBuildings($player->getId(),$bType) >= NB_BUILDINGS_WATER){
+            $claim = true;
             break;
           }
         }

@@ -47,12 +47,10 @@ class Player extends \ROG\Helpers\DB_Model
     $data['sun'] = $this->getResource(RESOURCE_TYPE_SUN);
     unset($data['resources']);
     
-    $data['buildings'] = [
-      BUILDING_TYPE_PORT => Meeples::countPlayerBuildings($this->getId(),BUILDING_TYPE_PORT),
-      BUILDING_TYPE_MARKET => Meeples::countPlayerBuildings($this->getId(),BUILDING_TYPE_MARKET),
-      BUILDING_TYPE_MANOR => Meeples::countPlayerBuildings($this->getId(),BUILDING_TYPE_MANOR),
-      BUILDING_TYPE_SHRINE => Meeples::countPlayerBuildings($this->getId(),BUILDING_TYPE_SHRINE),
-    ];
+    $data['buildings'] = [];
+    foreach (BUILDING_TYPES as $bType){
+      $data['buildings'][$bType] = Meeples::countPlayerBuildings($this->getId(),$bType);
+    }
     $data['influence'] = [];
     foreach (REGIONS as $region){
       $data['influence'][$region] = $this->getInfluence($region);

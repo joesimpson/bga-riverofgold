@@ -127,6 +127,21 @@ trait DebugTrait
       $tile->setType($typesToTest[$k]);
       $k++;
     }
+    //Remove owned buildings
+    $tiles = Tiles::getBuildingTiles();
+    foreach ($tiles as $tile) {
+      $clanMarkers = $tile->getMeeples();
+      foreach ($clanMarkers as $clanMarker) {
+        Meeples::DB()->delete($clanMarker->id);
+      }
+      $meeple = Meeples::addClanMarkerOnShoreSpace($tile,$player);
+    }
+    
+    //foreach (BUILDING_TYPES as $bType) {
+    //  for($k=1;$k<=NB_BUILDINGS_WATER;$k++){
+    //    $meeple = Meeples::addClanMarkerOnShoreSpace($tile,$player);
+    //  }
+    //}
 
     Players::gainInfluence($player,1,NB_INLUENCE_FLOWER);
     Players::claimMasteries($player);

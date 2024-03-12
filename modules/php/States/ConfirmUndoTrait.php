@@ -53,8 +53,6 @@ trait ConfirmUndoTrait
         if (!$auto) {
             self::checkAction('actConfirmTurn');
         }
-        //TODO JSA refill after turn
-        //Tiles::refillBuildingRow();
         
         $this->gamestate->nextState('confirm');
     }
