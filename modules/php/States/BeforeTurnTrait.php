@@ -12,11 +12,6 @@ trait BeforeTurnTrait
   { 
     self::trace("stBeforeTurn()");
 
-    //TODO JSA darling favor
-
-    $activePlayer = Players::getActive();
-    $activePlayer->rollDie();
-
     $this->addCheckpoint(ST_PLAYER_TURN);
     $this->gamestate->nextState('next');
   }

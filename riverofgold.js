@@ -118,6 +118,7 @@ function (dojo, declare) {
                 ['build', 1300],
                 ['newClanMarker', 700],
                 ['newBoat', 700],
+                ['rollDie', 800],
                 ['setDie', 800],
                 ['gainInfluence', 1300],
                 ['claimMC', 800],
@@ -492,6 +493,10 @@ function (dojo, declare) {
         },
         notif_setDie(n) {
             debug('notif_setDie', n);
+            this._counters[n.args.player_id].dieFace.toValue(n.args.die_face);
+        },
+        notif_rollDie(n) {
+            debug('notif_rollDie', n);
             this._counters[n.args.player_id].dieFace.toValue(n.args.die_face);
         },
         notif_gainInfluence(n) {
