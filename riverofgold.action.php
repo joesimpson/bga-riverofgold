@@ -74,6 +74,13 @@
       $this->game->actBuild();
       self::ajaxResponse();
     }
+    public function actBonus()
+    {
+      self::setAjaxMode();
+      $resourceType = self::getArg( "r", AT_posint, true );
+      $this->game->actBonus($resourceType);
+      self::ajaxResponse();
+    }
     public function actSail()
     {
       self::setAjaxMode();

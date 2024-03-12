@@ -89,11 +89,17 @@ class Players extends \ROG\Helpers\DB_Manager
       ->getSingle();
   }
 
+  /**
+   * @return Player
+   */
   public static function getActive()
   {
     return self::get();
   }
 
+  /**
+   * @return Player
+   */
   public static function getCurrent()
   {
     return self::get(self::getCurrentId());
@@ -214,6 +220,7 @@ class Players extends \ROG\Helpers\DB_Manager
    * @param Player $player 
    * @param int $region 
    * @param int $amount 
+   * @return bool true if player needs to do another choice 
    */
   public static function gainInfluence($player,$region,$amount){
     if($amount == 0) return;
@@ -225,6 +232,7 @@ class Players extends \ROG\Helpers\DB_Manager
     Notifications::gainInfluence($player,$region,$amount,$newInfluence,$meeple);
     
     //Earn bonus on track :
+    $goToBonusChoice = false;
     $bonuses = INFLUENCE_TRACK_REWARDS[$region];
     foreach($bonuses as $influence => $bonus){
       if($influence > $currentInfluence && $influence<=$newInfluence){
@@ -236,14 +244,17 @@ class Players extends \ROG\Helpers\DB_Manager
           Notifications::addPoints($player,$bonusQuantity);
         }
         else if(BONUS_TYPE_CHOICE == $bonusType){
-          //TODO JSA save datas for new state to ask bonus ?
-
+          //3 points + bonus
+          $goToBonusChoice = true;
+          $player->addPoints(3);
+          Notifications::addPoints($player,3);
         }
         else {
           $player->giveResource($bonusQuantity,$bonusType);
         }
       }
     }
+    return $goToBonusChoice;
   }
   
   /**

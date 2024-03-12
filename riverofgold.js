@@ -409,6 +409,20 @@ function (dojo, declare) {
             });
         },
         
+        onEnteringStateBonusChoice(args){
+            debug('onEnteringStateBonusChoice', args);
+
+            Object.values(args.p).forEach((resourceType) => {
+                let qtyDest = 1;
+                let iconResource = this.formatIcon(RESOURCES[resourceType],null);
+                this.addImageActionButton(`btnBonus_${resourceType}`, `<div class='rog_trade'>
+                    <div class='rog_button_qty'>${qtyDest}</div>${iconResource}
+                </div>`, () =>  {
+                    this.takeAction('actBonus', {r:resourceType});
+                });
+            });
+        },
+
         onEnteringStateConfirmTurn(args) {
             this.addPrimaryActionButton('btnConfirmTurn', _('Confirm'), () => {
                 this.takeAction('actConfirmTurn');

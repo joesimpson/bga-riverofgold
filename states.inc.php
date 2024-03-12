@@ -172,11 +172,28 @@ $machinestates = array(
             'actRestart',
         ],
         "transitions" => [ 
+            "bonus" => ST_BONUS_CHOICE, 
             "next" => ST_CONFIRM_CHOICES, 
             "zombiePass" => ST_CONFIRM_CHOICES,
         ],
     ),
     
+    ST_BONUS_CHOICE => [
+        'name' => 'bonusChoice',
+        'description' => clienttranslate('${actplayer} must select a bonus'),
+        'descriptionmyturn' => clienttranslate('${you} must select a bonus'),
+        'type' => 'activeplayer',
+        'args' => 'argBonusChoice',
+        'possibleactions' => [
+            'actBonus', 
+            'actRestart'
+        ],
+        'transitions' => [
+            'next' => ST_CONFIRM_CHOICES,
+            'zombiePass'=> ST_CONFIRM_CHOICES,
+        ],
+    ],
+
     ST_PLAYER_TURN_TRADE => array(
         "name" => "trade",
         "args" => "argTrade",
