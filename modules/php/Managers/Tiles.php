@@ -69,12 +69,14 @@ class Tiles extends \ROG\Helpers\Pieces
       ->toArray();
   } 
   /**
+   * @param int $subType
    * @param array $tilesTypes
    * @return array of int
    */
-  public static function getIdsByType($tilesTypes)
+  public static function getIdsByType($subType,$tilesTypes)
   {
     return self::DB()->select([self::$prefix.'id'])
+      ->where( 'subType', $subType)
       ->whereIn( 'type', $tilesTypes)
       ->get()
       ->map(function ($tile) {

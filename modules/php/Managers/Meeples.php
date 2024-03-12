@@ -122,7 +122,7 @@ class Meeples extends \ROG\Helpers\Pieces
   public static function countPlayerBuildings($pId, $type)
   {
     $tilesTypes = Tiles::getTilesTypesByBuilding($type);
-    $tileIds = Tiles::getIdsByType($tilesTypes);
+    $tileIds = Tiles::getIdsByType(TILE_TYPE_BUILDING,$tilesTypes);
     $buildingTiles = [];
     foreach($tileIds as $tileId){
       $buildingTiles[] = MEEPLE_LOCATION_TILE.$tileId;
