@@ -31,6 +31,8 @@ class Player extends \ROG\Helpers\DB_Model
     'resources' => ['resources', 'obj'],
     //1->6
     'die' => ['die_face', 'int'],
+    //1->4
+    'clan' => ['player_clan', 'int'],
 
   ];
 

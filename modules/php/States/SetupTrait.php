@@ -72,8 +72,8 @@ trait SetupTrait
       $player->giveResource(1,RESOURCE_TYPE_SILK);
       $player->giveResource(1,RESOURCE_TYPE_POTTERY);
       $player->giveResource(1,RESOURCE_TYPE_RICE);
-      $player->giveResource(2,RESOURCE_TYPE_SUN);
       $player->giveResource(3,RESOURCE_TYPE_MOON);
+      $player->giveResource(2,RESOURCE_TYPE_SUN);
       $k++;
 
       //first turn die roll

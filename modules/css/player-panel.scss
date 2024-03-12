@@ -1,5 +1,4 @@
 
-
 .player_board_inner{
     >.player-name{
         /** Add a BLACK shadow behind player name in case of bright colors like white/orange*/
@@ -241,6 +240,44 @@
         &.rog_icon_die_face-6,
         &.rog_icon_influence-6{
             background-image: url("img/regions/6.png");
+        }
+
+        &.rog_icon_clan-1,
+        &.rog_icon_clan-2,
+        &.rog_icon_clan-3,
+        &.rog_icon_clan-4
+        {
+            width: 35px;
+            height: 30px;
+            background-size: math.percentage(calc(math.div(1488px, 75px ))) math.percentage(math.div(2080px,70px ));
+            background-repeat: repeat;
+            background-image: url("img/clans/clans.jpg");
+                
+            &.rog_icon_clan-1{
+                background-position-x: -13px;
+                background-position-y: -183px;
+            }
+            &.rog_icon_clan-2{
+                background-position-x: 160px;
+                background-position-y: -183px;
+            }
+            &.rog_icon_clan-3{
+                background-position-x: -13px;
+                background-position-y: 263px;
+            }
+            &.rog_icon_clan-4{
+                background-position-x: 167px;
+                background-position-y: 263px;
+            }
+            .rog_icon_qty{
+                //display text on the right
+                margin-left: 35px;
+                color: rgb(0, 0, 0);
+                font-size: 15px;
+                position: relative;
+                display: flex;
+                flex-wrap: wrap;
+            }
         }
 
     }

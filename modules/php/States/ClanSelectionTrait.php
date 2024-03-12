@@ -2,6 +2,8 @@
 
 namespace ROG\States;
 
+use ROG\Managers\Players;
+
 trait ClanSelectionTrait
 {
    
@@ -11,7 +13,13 @@ trait ClanSelectionTrait
 
     //TODO JSA when expansion -> go to a activeplayer state to select OR random clan
 
-    //TODO JSA give clan colors to players 
+    //give clan colors to players 
+    $players = Players::getAll();
+    $k = 0;
+    foreach($players as $player){
+      $player->setClan(CLANS_COLORS[$player->getColor()]);
+      $k++;
+    }
 
     $this->gamestate->nextState('next');
   }

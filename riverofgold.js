@@ -97,6 +97,13 @@ function (dojo, declare) {
     const MEEPLE_TYPE_SHIP_ROYAL = 3;
     const MEEPLE_TYPE_CLAN_MARKER = 2;
 
+    const CLANS_NAMES =  new Map([
+        [1, _('Crab Clan')],
+        [2, _('Mantis Clan')],
+        [3, _('Crane Clan')],
+        [4, _('Scorpion Clan')],
+    ]);
+
     return declare("bgagame.riverofgold", [customgame.game], {
         constructor: function(){
             debug('riverofgold constructor');
@@ -867,7 +874,10 @@ function (dojo, declare) {
                     ${this.tplResourceCounter(player, 'influence-6')}
                 </div>
                 <hr>
-                ${this.tplResourceCounter(player, 'dieFace')}
+                <div class='rog_player_resource_line'>
+                    ${this.formatIcon('clan-'+player.clan,CLANS_NAMES.get(player.clan))}
+                    ${this.tplResourceCounter(player, 'dieFace')}
+                </div>
             </div>
             </div>`;
         },

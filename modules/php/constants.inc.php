@@ -177,6 +177,18 @@ const MEEPLE_LOCATION_TILE = 'tile-';
 CONST MEEPLE_LOCATION_INFLUENCE = 'i-';
 const MEEPLE_LOCATION_RIVER = 'r';
 
+const CLANS_COLORS = [
+   //blue
+   '0000ff' => 1,
+   //green
+   '008000' => 2,
+   //white
+   'ffffff' => 3,
+   //red
+   'ff0000' => 4,
+];
+
+
 /*
  * Game options
  */ 
