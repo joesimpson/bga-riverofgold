@@ -819,71 +819,74 @@
   height: 223px;
 }
 
+.rog_tile_tooltip[data-subtype="1"] .rog_tile,
 #rog_scoring_tiles .rog_tile {
   width: 350px;
   height: 122px;
   background-size: 200% 600%;
+  background-image: url("img/scoringtile.png");
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="1"],
 #rog_scoring_tiles .rog_tile[data-type="1"] {
-  background-image: url("img/scoringtile.png");
   background-position-y: 0%;
   background-position-x: 0%;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="2"],
 #rog_scoring_tiles .rog_tile[data-type="2"] {
-  background-image: url("img/scoringtile.png");
   background-position-y: 20%;
   background-position-x: 0%;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="3"],
 #rog_scoring_tiles .rog_tile[data-type="3"] {
-  background-image: url("img/scoringtile.png");
   background-position-y: 40%;
   background-position-x: 0%;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="4"],
 #rog_scoring_tiles .rog_tile[data-type="4"] {
-  background-image: url("img/scoringtile.png");
   background-position-y: 60%;
   background-position-x: 0%;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="5"],
 #rog_scoring_tiles .rog_tile[data-type="5"] {
-  background-image: url("img/scoringtile.png");
   background-position-y: 80%;
   background-position-x: 0%;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="6"],
 #rog_scoring_tiles .rog_tile[data-type="6"] {
-  background-image: url("img/scoringtile.png");
   background-position-y: 100%;
   background-position-x: 0%;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="7"],
 #rog_scoring_tiles .rog_tile[data-type="7"] {
-  background-image: url("img/scoringtile.png");
   background-position-y: 0%;
   background-position-x: 100%;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="8"],
 #rog_scoring_tiles .rog_tile[data-type="8"] {
-  background-image: url("img/scoringtile.png");
   background-position-y: 20%;
   background-position-x: 100%;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="9"],
 #rog_scoring_tiles .rog_tile[data-type="9"] {
-  background-image: url("img/scoringtile.png");
   background-position-y: 40%;
   background-position-x: 100%;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="10"],
 #rog_scoring_tiles .rog_tile[data-type="10"] {
-  background-image: url("img/scoringtile.png");
   background-position-y: 60%;
   background-position-x: 100%;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="11"],
 #rog_scoring_tiles .rog_tile[data-type="11"] {
-  background-image: url("img/scoringtile.png");
   background-position-y: 80%;
   background-position-x: 100%;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="12"],
 #rog_scoring_tiles .rog_tile[data-type="12"] {
-  background-image: url("img/scoringtile.png");
   background-position-y: 100%;
   background-position-x: 100%;
 }
+
 #rog_scoring_tiles #rog_scoring_tile-1 {
   position: absolute;
   top: 456px;
@@ -918,13 +921,17 @@
 .rog_tile_tooltip h1 {
   text-align: center;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_tile {
+  width: 500px;
+  height: 174px;
+}
 .rog_tile_tooltip[data-subtype="2"] .rog_tile {
   width: 520px;
   height: 260px;
 }
 .rog_tile_tooltip[data-subtype="3"] .rog_tile {
-  width: 520px;
-  height: 375px;
+  width: 500px;
+  height: 360px;
 }
 
 #rog_mastery_cards {

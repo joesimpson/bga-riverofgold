@@ -1,4 +1,6 @@
 
+
+.rog_tile_tooltip[data-subtype='1'],//TILE_TYPE_SCORING
 #rog_scoring_tiles{
         
     .rog_tile {
@@ -7,15 +9,17 @@
 
         //sprite positions
         background-size: 200% 600%;
+        background-image: url("img/scoringtile.png");
         @for $i from 0 through 11 {
             &[data-type="#{$i + 1}"] {
-                background-image: url("img/scoringtile.png");
                 background-position-y: ($i % 6) * 100% / 5;
                 background-position-x: (($i - ($i % 6)) / 6) * 100% / 1;
             }
         }
     
     }
+}
+#rog_scoring_tiles{
     #rog_scoring_tile-1{
         position: absolute;
         top: 456px;
@@ -52,6 +56,12 @@
 .rog_tile_tooltip{//Tooltips
     h1{
         text-align: center;
+    }
+    &[data-subtype='1']{//TILE_TYPE_SCORING
+        .rog_tile {
+            width: 500px;
+            height: 174px;
+        }
     }
     &[data-subtype='2']{//TILE_TYPE_BUILDING
         .rog_tile {

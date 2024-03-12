@@ -1107,16 +1107,20 @@ function (dojo, declare) {
             let cardDatas = tile;
             let typeName = '';
             let subtype = tile.subtype;
+            let titleSize = 'h1';
             if(cardDatas.buildingType){
                 //building
                 typeName = BUILDING_TYPES[cardDatas.buildingType];
             }
             else if(cardDatas.title){
-                //building
                 typeName = cardDatas.title;
             }
+            else if(cardDatas.subtype=TILE_TYPE_SCORING){
+                titleSize = 'h2';
+                typeName = this.fsr( _('Final scoring tile for influence in region ${n}'),{n:cardDatas.pos} );
+            }
             let div = this.tplTile(cardDatas,'_tmp');
-            return [`<div class='rog_tile_tooltip' data-subtype='${subtype}'><h1>${typeName}</h1>${div}</div>`];
+            return [`<div class='rog_tile_tooltip' data-subtype='${subtype}'><${titleSize}>${typeName}</${titleSize}>${div}</div>`];
         },
         tplTile(tile, prefix ='') {
             //let nbPlayers = tile.nbPlayers ? tile.nbPlayers[0] : '';
