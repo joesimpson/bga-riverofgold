@@ -614,6 +614,17 @@ function (dojo, declare) {
             this.checkAction('actRestart');
             this.takeAction('actUndoToStep', { stepId }, false);
         },
+            
+        clearPossible() {
+            //Clear game specific remaining variables
+            this.selectedTileId = null; 
+            this.selectedSpace = null; 
+            $(`rog_shore_spaces`).querySelectorAll('.rog_shore_space.selectable').forEach((elt) => {
+                elt.removeAttribute('data-type');
+            });
+            
+            this.inherited(arguments);
+        },
 
         ////////////////////////////////////////////////////////////
         // _____                          _   _   _
