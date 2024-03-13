@@ -49,6 +49,17 @@
             background-position-x: 78%;
         }
     }
+
+    &.selectable{
+        outline: 10px solid blue;
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.2);
+        }
+    }
+    &.selected{
+        outline: 10px solid #ff04cc;
+    }
 }
 
 .rog_tile{

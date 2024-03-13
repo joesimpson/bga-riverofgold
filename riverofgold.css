@@ -335,6 +335,18 @@
   left: 909px;
   top: 250px;
 }
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selectable {
+  width: 150px;
+  height: 120px;
+  outline: 10px solid blue;
+  cursor: pointer;
+}
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selectable:hover {
+  transform: scale(1.2);
+}
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selected {
+  outline: 10px solid #ff04cc;
+}
 
 .rog_shore_space#rog_shore_space-1 {
   left: 1166px;
@@ -1778,6 +1790,16 @@
 }
 .rog_meeple[data-type="2"][data-color=ff0000] {
   background-position-x: 78%;
+}
+.rog_meeple.selectable {
+  outline: 10px solid blue;
+  cursor: pointer;
+}
+.rog_meeple.selectable:hover {
+  transform: scale(1.2);
+}
+.rog_meeple.selected {
+  outline: 10px solid #ff04cc;
 }
 
 .rog_tile .rog_meeple {

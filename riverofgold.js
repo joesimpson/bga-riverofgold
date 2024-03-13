@@ -123,6 +123,7 @@ function (dojo, declare) {
                 ['giveResource', 1000],
                 ['spendResource', 800],
                 ['build', 1300],
+                ['sail', 1300],
                 ['newClanMarker', 700],
                 ['newBoat', 700],
                 ['rollDie', 800],
@@ -435,6 +436,64 @@ function (dojo, declare) {
             });
         },
 
+        onEnteringStateSail(args){
+            debug('onEnteringStateSail', args);
+
+            this.selectedShipId = null; 
+            this.selectedSpace = null; 
+            let riverSpacesDiv = $(`rog_river_spaces`);
+            let confirmMessage = _('Sail to river space #${n}');
+            this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {n:0}), () => {
+                this.takeAction('actSailSelect', { s: this.selectedShipId,r: this.selectedSpace});
+            }); 
+            //DISABLED by default
+            $(`btnConfirm`).classList.add('disabled');
+
+            let possibleMoves = args.spaces;
+            Object.keys(possibleMoves).forEach((shipId) => {
+                //Click ship origin
+                this.onClick(`rog_meeple-${shipId}`, (evt) => {
+
+                    //disable confirm while we don't know destination
+                    $(`btnConfirm`).classList.add('disabled');
+                    $('btnConfirm').innerHTML = this.fsr(confirmMessage, { n: 0 });
+                    [...riverSpacesDiv.querySelectorAll('.rog_river_space')].forEach((elt) => { 
+                        elt.classList.remove('selectable'); 
+                        elt.classList.remove('selected');
+                    });
+                    let divShip = evt.target;
+                    if(divShip.classList.contains('selected')){
+                        //UNSELECT
+                        this.selectedShipId = null;
+                        this.selectedSpace = null; 
+                        divShip.classList.remove('selected');
+                        return;
+                    }else {
+                        //SELECT
+                        [...riverSpacesDiv.querySelectorAll('.rog_river_space .rog_meeple')].forEach((elt) => { 
+                            elt.classList.remove('selected');
+                        });
+                        divShip.classList.add('selected');
+                        this.selectedShipId = shipId;
+                        this.selectedSpace = null; 
+                    }
+
+                    Object.values(possibleMoves[shipId]).forEach((space) => {
+                        let elt2 = $(`rog_river_space-${space}`);
+                        this.onClick(`${elt2.id}`, (evt) => {
+                            //CLICK SHIP DESTINATION
+                            [...riverSpacesDiv.querySelectorAll('.rog_river_space')].forEach((elt) => { elt.classList.remove('selected');});
+                            let div = evt.target;
+                            div.classList.add('selected');
+                            this.selectedSpace = div.dataset.pos;
+                            $(`btnConfirm`).classList.remove('disabled');
+                            $('btnConfirm').innerHTML = this.fsr(confirmMessage, { n: this.selectedSpace });
+                        });
+                    });
+                });
+            });
+        },
+
         onEnteringStateConfirmTurn(args) {
             this.addPrimaryActionButton('btnConfirmTurn', _('Confirm'), () => {
                 this.takeAction('actConfirmTurn');
@@ -497,6 +556,17 @@ function (dojo, declare) {
             debug('notif_newBoat', n);
             if (!$(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
             this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { });
+        },
+        
+        notif_sail(n) {
+            debug('notif_sail: ship is moved', n);
+            let ship = n.args.ship;
+            let divShip = $(`rog_meeple-${ship.id}`);
+            let fromDiv = divShip.parentNode;
+            this.slide(divShip.id, this.getMeepleContainer(ship), {  
+                from: fromDiv.id, 
+                phantom: false,
+            }).then( ()=> { });
         },
         notif_setDie(n) {
             debug('notif_setDie', n);

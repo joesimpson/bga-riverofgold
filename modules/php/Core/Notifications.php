@@ -121,9 +121,10 @@ class Notifications
    */
   public static function sail($player,$ship,$riverSpace)
   {
-    self::notifyAll('sail', clienttranslate('${player_name} sails and moves a ship'), [
+    self::notifyAll('sail', clienttranslate('${player_name} sails and moves a ship to river space #${n}'), [
       'player' => $player,
       'ship' => $ship->getUiData(),
+      'n' => $riverSpace,
     ]);
   }
     /**
