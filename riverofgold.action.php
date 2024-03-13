@@ -87,6 +87,14 @@
       $this->game->actSail();
       self::ajaxResponse();
     }
+    public function actSailSelect()
+    {
+      self::setAjaxMode();
+      $shipId = self::getArg( "s", AT_posint, true );
+      $riverSpace = self::getArg( "r", AT_posint, true );
+      $this->game->actSailSelect($shipId,$riverSpace);
+      self::ajaxResponse();
+    }
     public function actDeliver()
     {
       self::setAjaxMode();

@@ -113,6 +113,19 @@ class Notifications
       'from' => $previousPosition,
     ]);
   }
+  
+  /**
+   * @param Player $player
+   * @param Meeple $ship
+   * @param int $riverSpace
+   */
+  public static function sail($player,$ship,$riverSpace)
+  {
+    self::notifyAll('sail', clienttranslate('${player_name} sails and moves a ship'), [
+      'player' => $player,
+      'ship' => $ship->getUiData(),
+    ]);
+  }
     /**
    * @param Player $player
    * @param Meeple $meeple

@@ -106,6 +106,14 @@ class Meeples extends \ROG\Helpers\Pieces
 
   /**
    * @param int $pId
+   * @return Collection of Meeple
+   */
+  public static function getBoats($pId)
+  {
+    return self::getFilteredQuery($pId, MEEPLE_LOCATION_RIVER,null)->get();
+  }
+  /**
+   * @param int $pId
    * @param int $region
    * @return Meeple
    */

@@ -22,7 +22,8 @@ trait PlayerTurnTrait
     if(count($this->listPossibleSpacesToBuild($activePlayer))>0 ){
       $actions[] = 'actBuild';
     }
-    //$actions[] = 'actSail';
+    //Sail always possible
+    $actions[] = 'actSail';
     //$actions[] = 'actDeliver';
     $args = [
       'a' => $actions,
@@ -67,9 +68,7 @@ trait PlayerTurnTrait
     self::trace("actSail()");
     $this->addStep();
 
-    Notifications::message("Sailing...");
-
-    $this->gamestate->nextState('next');
+    $this->gamestate->nextState('sail');
   }
   
   public function actDeliver()

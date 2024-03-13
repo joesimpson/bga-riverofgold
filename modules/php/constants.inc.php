@@ -22,6 +22,7 @@
     REGION_6,
  ];
 
+ const NB_RIVER_SPACES = 14;
  const NB_MAX_MONEY = 25;
  const NB_MAX_RESOURCE = 6;
  
@@ -214,6 +215,7 @@ const ST_BEFORE_TURN = 11;
 const ST_PLAYER_TURN = 20;
 const ST_PLAYER_TURN_BUILD = 21;
 const ST_BONUS_CHOICE = 22;
+const ST_PLAYER_TURN_SAIL = 23;
 const ST_PLAYER_TURN_TRADE = 30;
 const ST_PLAYER_TURN_DIVINE_FAVOR = 31;
 

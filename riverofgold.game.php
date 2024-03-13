@@ -52,6 +52,7 @@ class RiverOfGold extends Table
     use ROG\States\EndTurnTrait;
     use ROG\States\NextTurnTrait;
     use ROG\States\PlayerTurnTrait;
+    use ROG\States\SailTrait;
     use ROG\States\SetupTrait;
     use ROG\States\TradeTrait;
 
