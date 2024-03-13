@@ -6,6 +6,7 @@ use ROG\Core\Game;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Core\Preferences;
+use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 
 /*
@@ -176,5 +177,14 @@ class Player extends \ROG\Helpers\DB_Model
     $die_face = $this->getDie();
     Notifications::rollDie($this,$die_face);
     return $die_face;
+  }
+
+  
+  /**
+   * @return int 
+   */
+  public function getNbDeliveredCustomer()
+  {
+    return Cards::countPlayerCards($this->getId(),CARD_LOCATION_DELIVERED);
   }
 }

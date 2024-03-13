@@ -3,6 +3,7 @@
 namespace ROG\Models;
 
 use ROG\Core\Notifications;
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 
 class RewardEntry implements \JsonSerializable
@@ -63,6 +64,25 @@ class RewardEntry implements \JsonSerializable
       case RESOURCE_TYPE_SUN:
       case RESOURCE_TYPE_MONEY:
         $player->giveResource($this->number,$this->type);
+        return;
+      case BONUS_TYPE_MONEY_PER_CUSTOMER:
+        $player->giveResource($this->number * $player->getNbDeliveredCustomer(),RESOURCE_TYPE_MONEY);
+        return;
+      case BONUS_TYPE_MONEY_PER_PORT:
+        $nbBuildings = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_PORT);
+        $player->giveResource($this->number * $nbBuildings,RESOURCE_TYPE_MONEY);
+        return;
+      case BONUS_TYPE_MONEY_PER_MANOR:
+        $nbBuildings = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_MANOR);
+        $player->giveResource($this->number * $nbBuildings,RESOURCE_TYPE_MONEY);
+        return;
+      case BONUS_TYPE_MONEY_PER_MARKET:
+        $nbBuildings = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_MARKET);
+        $player->giveResource($this->number * $nbBuildings,RESOURCE_TYPE_MONEY);
+        return;
+      case BONUS_TYPE_MONEY_PER_SHRINE:
+        $nbBuildings = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_SHRINE);
+        $player->giveResource($this->number * $nbBuildings,RESOURCE_TYPE_MONEY);
         return;
     }
     //TODO JSA SAIling : specific visitor rewards types : BONUS_TYPE_CHOICE / BONUS_TYPE_DRAW

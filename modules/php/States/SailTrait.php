@@ -53,6 +53,10 @@ trait SailTrait
 
     $adjacentSpaces = ShoreSpaces::getAdjacentSpaces($riverSpace);
     self::trace("actSailSelect($shipId,$riverSpace) adjacent spaces :".json_encode($adjacentSpaces));
+
+    $players = Players::getAll();
+
+    Notifications::message("Checking visitor rewards...");
     foreach($adjacentSpaces as $adjacentSpace){
       $tile = Tiles::getTileOnShoreSpace($adjacentSpace);
       if(!isset($tile)){
@@ -62,12 +66,28 @@ trait SailTrait
         $shoreSpace = ShoreSpaces::getShoreSpace($tile->getPosition());
         $region = $shoreSpace->region;
 
+        //Visitor rewards
         $rewards = $tile->visitorReward;
         foreach($rewards->entries as $reward){
           //TODO JSA if market AND noble 1 AND royal ship: replace reward resource type by BONUS_TYPE_CHOICE
           $reward->rewardPlayer($player,$region);
         }
-        //TODO JSA SAIling : owner rewards
+      }
+    }
+    
+    Notifications::message("Checking owner rewards...");
+    foreach($adjacentSpaces as $adjacentSpace){
+      $tile = Tiles::getTileOnShoreSpace($adjacentSpace);
+      if(isset($tile)){
+        //Owner rewards : sometimes 2 owners (or 2 times the same)
+        foreach($tile->ownerReward->entries as $reward){
+          $clanMarkers = $tile->getMeeples();
+          foreach($clanMarkers as $clanMarker){
+            $owner = $players[$clanMarker->getPId()];
+            $reward->rewardPlayer($owner,$region);
+          }
+        }
+
         //TODO JSA SAIling : royal ship rewards 
       }
     }
