@@ -69,6 +69,14 @@ class Tiles extends \ROG\Helpers\Pieces
       ->toArray();
   } 
   /**
+   * @param int $position
+   * @return ?BuildingTile tile or null
+   */
+  public static function getTileOnShoreSpace($position)
+  {
+    return self::getInLocation(TILE_LOCATION_BUILDING_SHORE,$position)->first();
+  }
+  /**
    * @param int $subType
    * @param array $tilesTypes
    * @return array of int

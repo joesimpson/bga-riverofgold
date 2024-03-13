@@ -135,4 +135,43 @@ class ShoreSpaces
     $usedSpaces = Tiles::getUsedPositionsOnShore();
     return array_diff($spaces, $usedSpaces);
   }
+  
+  /**
+   * Search the 4 adjacent spaces to a given river space
+   * @param int $riverSpace the space ON the river
+   * @return array list of spaces id
+   */
+  public static function getAdjacentSpaces($riverSpace){
+    switch($riverSpace){
+      case 1://Top Starting space
+        return [1,2,3,4];
+      case 2:
+        return [3,4,5,7];
+      case 3:
+        return [4,6,7,9];
+      case 4:
+        return [6,8,9,10];
+      case 5:
+        return [9,10,11,12];
+      case 6:
+        return [11,12,13,15];
+      case 7:
+        return [11,14,15,16];
+      case 8://Middle Starting space
+        return [15,16,17,18];
+      case 9:
+        return [17,18,19,21];
+      case 10:
+        return [18,20,21,23];
+      case 11:
+        return [21,22,23,25];
+      case 12:
+        return [22,24,25,26];
+      case 13:
+        return [25,26,27,29];
+      case 14:
+        return [26,28,29,30];
+    }
+    return [];
+  }
 }

@@ -194,7 +194,7 @@ class Players extends \ROG\Helpers\DB_Manager
     $pId = $player->getId();
     //self::DB()->inc(['money' => $money], $pId);
     $player->giveResource($money,RESOURCE_TYPE_MONEY);
-    Notifications::giveMoney($player,$money);
+    //Notifications::giveMoney($player,$money);
     Stats::inc("moneyReceived",$player,$money);
     Stats::inc("moneyLeft",$player,$money);
   }

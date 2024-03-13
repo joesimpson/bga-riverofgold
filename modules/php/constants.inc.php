@@ -31,6 +31,8 @@
  const NB_INLUENCE_FLOWER = 11;
  const NB_INLUENCE_VOID = 1;
  const NB_BUILDINGS_WATER = 3;
+ //RULE : empty space => 1 Koku
+ const EMPTY_SPACE_REWARD = 1;
  
  const CUSTOMER_TYPE_ARTISAN =  1;
  const CUSTOMER_TYPE_ELDER =    2;

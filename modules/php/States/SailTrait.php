@@ -6,6 +6,8 @@ use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
+use ROG\Managers\ShoreSpaces;
+use ROG\Managers\Tiles;
 use ROG\Models\Meeple;
 
 trait SailTrait
@@ -48,9 +50,19 @@ trait SailTrait
     $ship->setPosition($riverSpace);
     Notifications::sail($player,$ship,$riverSpace);
 
-    //TODO JSA SAIling : visitor rewards
-    //TODO JSA SAIling : owner rewards
-    //TODO JSA SAIling : royal ship rewards 
+    $adjacentSpaces = ShoreSpaces::getAdjacentSpaces($riverSpace);
+    self::trace("actSailSelect($shipId,$riverSpace) adjacent spaces :".json_encode($adjacentSpaces));
+    foreach($adjacentSpaces as $adjacentSpace){
+      $tile = Tiles::getTileOnShoreSpace($adjacentSpace);
+      if(!isset($tile)){
+        Players::giveMoney($player,EMPTY_SPACE_REWARD);
+      }
+      else {
+        //TODO JSA SAIling : visitor rewards
+        //TODO JSA SAIling : owner rewards
+        //TODO JSA SAIling : royal ship rewards 
+      }
+    }
 
 
     $this->gamestate->nextState('next');
