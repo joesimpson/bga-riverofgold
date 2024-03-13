@@ -5,6 +5,7 @@ namespace ROG\Managers;
 use ROG\Core\Game;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
+use ROG\Models\Reward;
 use ROG\Models\Tile;
 
 /* Class to manage all the tiles */
@@ -341,71 +342,73 @@ class Tiles extends \ROG\Helpers\Pieces
         //influence bonus
         'bonus' => $t[1],
         'buildingType' => $t[2],
-        'nbr' => isset($t[3]) ? $t[3] : 1,
+        'ownerRewardArray' => $t[3],
+        'visitorRewardArray' => $t[4],
+        'nbr' => isset($t[5]) ? $t[5] : 1,
       ];
     };
     return [
       //49 various tiles - 46 unique
       // 2 identical starting Blue 
-      1 => $f([ 0, 0  , BUILDING_TYPE_PORT  , 2]), 
+      1 => $f([ 0, 0  , BUILDING_TYPE_PORT,   [], [RESOURCE_TYPE_MONEY=>3], 2]), 
       //6 blue
-      2 => $f([ 1, 1  , BUILDING_TYPE_PORT  ]), 
-      3 => $f([ 1, 0  , BUILDING_TYPE_PORT  ]), 
-      4 => $f([ 1, 4  , BUILDING_TYPE_PORT  ]), 
-      5 => $f([ 1, 3  , BUILDING_TYPE_PORT  ]), 
-      6 => $f([ 1, 3  , BUILDING_TYPE_PORT  ]), 
-      7 => $f([ 1, 1  , BUILDING_TYPE_PORT  ]), 
+      2 => $f([ 1, 1  , BUILDING_TYPE_PORT,   [], [RESOURCE_TYPE_MONEY=>3],  ]), 
+      3 => $f([ 1, 0  , BUILDING_TYPE_PORT,   [], [RESOURCE_TYPE_MONEY=>3],  ]), 
+      4 => $f([ 1, 4  , BUILDING_TYPE_PORT,   [], [RESOURCE_TYPE_MONEY=>3],  ]), 
+      5 => $f([ 1, 3  , BUILDING_TYPE_PORT,   [], [RESOURCE_TYPE_MONEY=>3],  ]), 
+      6 => $f([ 1, 3  , BUILDING_TYPE_PORT,   [], [RESOURCE_TYPE_MONEY=>3],  ]), 
+      7 => $f([ 1, 1  , BUILDING_TYPE_PORT,   [], [RESOURCE_TYPE_MONEY=>3],  ]), 
       //6 green
-      8  => $f([ 1, 4  , BUILDING_TYPE_MARKET  ]), 
-      9  => $f([ 1, 1  , BUILDING_TYPE_MARKET  ]), 
-      10 => $f([ 1, 2  , BUILDING_TYPE_MARKET  ]), 
-      11 => $f([ 1, 3  , BUILDING_TYPE_MARKET  ]), 
-      12 => $f([ 1, 4  , BUILDING_TYPE_MARKET  ]), 
-      13 => $f([ 1, 3  , BUILDING_TYPE_MARKET  ]), 
+      8  => $f([ 1, 4  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_SILK=>1],      ]), 
+      9  => $f([ 1, 1  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_RICE=>1],      ]), 
+      10 => $f([ 1, 2  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_POTTERY=>1],   ]), 
+      11 => $f([ 1, 3  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_SILK=>1],      ]), 
+      12 => $f([ 1, 4  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_RICE=>1],      ]), 
+      13 => $f([ 1, 3  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_POTTERY=>1],   ]), 
       //6 orange
-      14 => $f([ 1, 1  , BUILDING_TYPE_MANOR  ]), 
-      15 => $f([ 1, 0  , BUILDING_TYPE_MANOR  ]), 
-      16 => $f([ 1, 4  , BUILDING_TYPE_MANOR  ]), 
-      17 => $f([ 1, 3  , BUILDING_TYPE_MANOR  ]), 
-      18 => $f([ 1, 4  , BUILDING_TYPE_MANOR  ]), 
-      19 => $f([ 1, 3  , BUILDING_TYPE_MANOR  ]), 
+      14 => $f([ 1, 1  , BUILDING_TYPE_MANOR ,[], [BONUS_TYPE_INFLUENCE=>2], ]), 
+      15 => $f([ 1, 0  , BUILDING_TYPE_MANOR ,[], [BONUS_TYPE_INFLUENCE=>2], ]),
+      16 => $f([ 1, 4  , BUILDING_TYPE_MANOR ,[], [BONUS_TYPE_INFLUENCE=>2], ]),
+      17 => $f([ 1, 3  , BUILDING_TYPE_MANOR ,[], [BONUS_TYPE_INFLUENCE=>2], ]),
+      18 => $f([ 1, 4  , BUILDING_TYPE_MANOR ,[], [BONUS_TYPE_INFLUENCE=>2], ]),
+      19 => $f([ 1, 3  , BUILDING_TYPE_MANOR ,[], [BONUS_TYPE_INFLUENCE=>2], ]),
       //6 red
-      20 => $f([ 1, 1  , BUILDING_TYPE_SHRINE  ]), 
-      21 => $f([ 1, 0  , BUILDING_TYPE_SHRINE  ]), 
-      22 => $f([ 1, 4  , BUILDING_TYPE_SHRINE  ]), 
-      23 => $f([ 1, 3  , BUILDING_TYPE_SHRINE  ]), 
-      24 => $f([ 1, 2  , BUILDING_TYPE_SHRINE  ]), 
-      25 => $f([ 1, 3  , BUILDING_TYPE_SHRINE  ]), 
+      20 => $f([ 1, 1  , BUILDING_TYPE_SHRINE,[], [BONUS_TYPE_POINTS=>2], ]), 
+      21 => $f([ 1, 0  , BUILDING_TYPE_SHRINE,[], [BONUS_TYPE_POINTS=>2], ]), 
+      22 => $f([ 1, 4  , BUILDING_TYPE_SHRINE,[], [BONUS_TYPE_POINTS=>2], ]), 
+      23 => $f([ 1, 3  , BUILDING_TYPE_SHRINE,[], [BONUS_TYPE_POINTS=>2], ]), 
+      24 => $f([ 1, 2  , BUILDING_TYPE_SHRINE,[], [BONUS_TYPE_POINTS=>2], ]), 
+      25 => $f([ 1, 3  , BUILDING_TYPE_SHRINE,[], [BONUS_TYPE_POINTS=>2], ]), 
       
       //4 blue ERA 2
-      26 => $f([ 2, 3  , BUILDING_TYPE_PORT  ]), 
-      27 => $f([ 2, 4  , BUILDING_TYPE_PORT  ]), 
-      28 => $f([ 2, 4  , BUILDING_TYPE_PORT  ]), 
-      29 => $f([ 2, 2  , BUILDING_TYPE_PORT  ]), 
+      26 => $f([ 2, 3  , BUILDING_TYPE_PORT,  [], [RESOURCE_TYPE_MONEY=>5],  ]),
+      27 => $f([ 2, 4  , BUILDING_TYPE_PORT,  [], [RESOURCE_TYPE_MONEY=>5],  ]),
+      28 => $f([ 2, 4  , BUILDING_TYPE_PORT,  [], [RESOURCE_TYPE_MONEY=>5],  ]),
+      29 => $f([ 2, 2  , BUILDING_TYPE_PORT,  [], [RESOURCE_TYPE_MONEY=>5],  ]),
       //4 green ERA 2
-      30 => $f([ 2, 5  , BUILDING_TYPE_MARKET  ]), 
-      31 => $f([ 2, 5  , BUILDING_TYPE_MARKET  ]), 
-      32 => $f([ 2, 2  , BUILDING_TYPE_MARKET  ]), 
-      33 => $f([ 2, 3  , BUILDING_TYPE_MARKET  ]), 
+      30 => $f([ 2, 5  , BUILDING_TYPE_MARKET,[], [BONUS_TYPE_CHOICE=>1],  ]),
+      31 => $f([ 2, 5  , BUILDING_TYPE_MARKET,[], [BONUS_TYPE_CHOICE=>1],  ]),
+      32 => $f([ 2, 2  , BUILDING_TYPE_MARKET,[], [BONUS_TYPE_CHOICE=>1],  ]),
+      33 => $f([ 2, 3  , BUILDING_TYPE_MARKET,[], [BONUS_TYPE_CHOICE=>1],  ]),
       //4 orange ERA 2
-      34 => $f([ 2, 5  , BUILDING_TYPE_MANOR  ]), 
-      35 => $f([ 2, 4  , BUILDING_TYPE_MANOR  ]), 
-      36 => $f([ 2, 3  , BUILDING_TYPE_MANOR  ]), 
-      37 => $f([ 2, 2  , BUILDING_TYPE_MANOR  ]), 
+      34 => $f([ 2, 5  , BUILDING_TYPE_MANOR, [], [BONUS_TYPE_INFLUENCE=>3], ]),
+      35 => $f([ 2, 4  , BUILDING_TYPE_MANOR, [], [BONUS_TYPE_INFLUENCE=>3], ]),
+      36 => $f([ 2, 3  , BUILDING_TYPE_MANOR, [], [BONUS_TYPE_INFLUENCE=>3], ]),
+      37 => $f([ 2, 2  , BUILDING_TYPE_MANOR, [], [BONUS_TYPE_INFLUENCE=>3], ]),
       //4 red ERA 2
-      38 => $f([ 2, 5  , BUILDING_TYPE_SHRINE  ]), 
-      39 => $f([ 2, 5  , BUILDING_TYPE_SHRINE  ]), 
-      40 => $f([ 2, 4  , BUILDING_TYPE_SHRINE  ]), 
-      41 => $f([ 2, 5  , BUILDING_TYPE_SHRINE  ]), 
+      38 => $f([ 2, 5  , BUILDING_TYPE_SHRINE,[], [BONUS_TYPE_POINTS=>3], ]), 
+      39 => $f([ 2, 5  , BUILDING_TYPE_SHRINE,[], [BONUS_TYPE_POINTS=>3], ]), 
+      40 => $f([ 2, 4  , BUILDING_TYPE_SHRINE,[], [BONUS_TYPE_POINTS=>3], ]), 
+      41 => $f([ 2, 5  , BUILDING_TYPE_SHRINE,[], [BONUS_TYPE_POINTS=>3], ]), 
 
       // 2 identical starting orange 
-      42 => $f([ 0, 0  , BUILDING_TYPE_MANOR  , 2]), 
+      42 => $f([ 0, 0  , BUILDING_TYPE_MANOR, [], [BONUS_TYPE_INFLUENCE=>2], 2]), 
       // 2 identical starting red 
-      43 => $f([ 0, 0  , BUILDING_TYPE_SHRINE  , 2]), 
+      43 => $f([ 0, 0  , BUILDING_TYPE_SHRINE,[], [BONUS_TYPE_POINTS=>2], 2]), 
       // 3 starting green 
-      44 => $f([ 0, 0  , BUILDING_TYPE_MARKET  ]), 
-      45 => $f([ 0, 0  , BUILDING_TYPE_MARKET  ]), 
-      46 => $f([ 0, 0  , BUILDING_TYPE_MARKET  ]), 
+      44 => $f([ 0, 0  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_POTTERY=>1,RESOURCE_TYPE_SUN=>1]  ]), 
+      45 => $f([ 0, 0  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_SUN=>1]     ]), 
+      46 => $f([ 0, 0  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_SILK=>1,BONUS_TYPE_DRAW =>1]      ]), 
     ];
   }
   

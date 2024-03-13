@@ -9,18 +9,23 @@ namespace ROG\Models;
 class BuildingTile extends Tile
 {
   
+  public Reward $ownerReward;
+  public Reward $visitorReward;
+
   protected $staticAttributes = [
     ['bonus', 'int'],
     ['buildingType', 'int'],
     ['era', 'int'],
-    ['ownerReward', 'obj'],
-    ['visitorReward', 'obj'],
+    'ownerRewardArray',
+    'visitorRewardArray',
   ];
 
   
   public function __construct($row, $datas)
   {
     parent::__construct($row, $datas);
+    $this->ownerReward = new Reward($datas['ownerRewardArray']);
+    $this->visitorReward = new Reward($datas['visitorRewardArray']);
   }
   
 

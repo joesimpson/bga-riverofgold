@@ -9,6 +9,7 @@ use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 use ROG\Models\Meeple;
+use ROG\Models\BuildingTile;
 
 trait SailTrait
 {
@@ -58,12 +59,20 @@ trait SailTrait
         Players::giveMoney($player,EMPTY_SPACE_REWARD);
       }
       else {
-        //TODO JSA SAIling : visitor rewards
+        $shoreSpace = ShoreSpaces::getShoreSpace($tile->getPosition());
+        $region = $shoreSpace->region;
+
+        $rewards = $tile->visitorReward;
+        foreach($rewards->entries as $reward){
+          //TODO JSA if market AND noble 1 AND royal ship: replace reward resource type by BONUS_TYPE_CHOICE
+          $reward->rewardPlayer($player,$region);
+        }
         //TODO JSA SAIling : owner rewards
         //TODO JSA SAIling : royal ship rewards 
       }
     }
 
+    Players::claimMasteries($player);
 
     $this->gamestate->nextState('next');
   } 
@@ -75,7 +84,7 @@ trait SailTrait
   public function listPossibleSpacesToSail($player)
   { 
     $nbMoves = $player->getDie();
-    //TODO JSA canSail for noble 5 : +1/-1
+    //TODO JSA canSail for noble 5 AND royal ship : +1/-1
     $possibleSpaces = [];
     $boats = Meeples::getBoats($player->getId());
     foreach($boats as $boat){
