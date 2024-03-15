@@ -50,6 +50,19 @@ function (dojo, declare) {
     const NB_MAX_RESOURCE = 6;
     const NB_MAX_INLFUENCE = 18;
 
+    const CUSTOMER_TYPE_ARTISAN =  1;
+    const CUSTOMER_TYPE_ELDER =    2;
+    const CUSTOMER_TYPE_MERCHANT = 3;
+    const CUSTOMER_TYPE_MONK =     4;
+    const CUSTOMER_TYPE_NOBLE =    5;
+    const CUSTOMER_TYPES =  new Map([
+        [CUSTOMER_TYPE_ARTISAN , _('Artisan')],
+        [CUSTOMER_TYPE_ELDER   , _('Elder')],
+        [CUSTOMER_TYPE_MERCHANT, _('Merchant')],
+        [CUSTOMER_TYPE_MONK    , _('Monk')],
+        [CUSTOMER_TYPE_NOBLE   , _('Noble')],
+    ]);
+
     const TILE_TYPE_SCORING = 1;
     const TILE_TYPE_BUILDING = 2;
     const TILE_TYPE_MASTERY_CARD = 3;
@@ -648,6 +661,10 @@ function (dojo, declare) {
                 Object.values(REGIONS).forEach((region) =>{
                     this._counters[pId].influence[region].toValue (player.influence[region]);
                 });
+                CUSTOMER_TYPES.forEach((value, key, map) =>{
+                    let customer = key;
+                    this._counters[pId].customers[customer].toValue(player.customers[customer]);
+                });
             });
         },
         notif_refreshHand(n) {
@@ -795,6 +812,7 @@ function (dojo, declare) {
                     dieFace: this.createCounter(`rog_counter_${pId}_dieFace`, player.die),
                     buildings: [],
                     influence: [],
+                    customers: [],
                 };
                 this._counters[pId].buildings[BUILDING_TYPE_PORT] = this.createCounter(`rog_counter_${pId}_port`, player.buildings[BUILDING_TYPE_PORT]);
                 this._counters[pId].buildings[BUILDING_TYPE_MARKET] = this.createCounter(`rog_counter_${pId}_market`, player.buildings[BUILDING_TYPE_MARKET]);
@@ -804,6 +822,13 @@ function (dojo, declare) {
                 Object.values(REGIONS).forEach((region) =>{
                     this._counters[pId].influence[region] = this.createCounter(`rog_counter_${pId}_influence-${region}`, player.influence[region]);
                     this.addCustomTooltip(`rog_reserve_${pId}_influence-${region}`, this.fsr(_('Influence in region ${n}'),{n:region}));
+                });
+                CUSTOMER_TYPES.forEach((value, key, map) =>{
+                    //let customerName = CUSTOMER_TYPES.get(customer);
+                    let customer = key;
+                    let customerName = value;
+                    this._counters[pId].customers[customer] = this.createCounter(`rog_counter_${pId}_customer-${customer}`, player.customers[customer]);
+                    this.addCustomTooltip(`rog_reserve_${pId}_customer-${customer}`, this.fsr(_('Deliveries to ${customer}'),{customer:customerName}));
                 });
 
                 this.addCustomTooltip(`icon_point_${pId}`, _('Score'));
@@ -942,6 +967,14 @@ function (dojo, declare) {
                     ${this.tplResourceCounter(player, 'influence-4')}
                     ${this.tplResourceCounter(player, 'influence-5')}
                     ${this.tplResourceCounter(player, 'influence-6')}
+                </div>
+                <hr>
+                <div class='rog_player_resource_line'>
+                    ${this.tplResourceCounter(player, 'customer-1')}
+                    ${this.tplResourceCounter(player, 'customer-2')}
+                    ${this.tplResourceCounter(player, 'customer-3')}
+                    ${this.tplResourceCounter(player, 'customer-4')}
+                    ${this.tplResourceCounter(player, 'customer-5')}
                 </div>
                 <hr>
                 <div class='rog_player_resource_line'>

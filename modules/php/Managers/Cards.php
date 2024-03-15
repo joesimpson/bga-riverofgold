@@ -39,13 +39,14 @@ class Cards extends \ROG\Helpers\Pieces
  
   /**
    * @param int $pId
-   * @param string $location
+   * @param string $location (optional)
+   * @param int $type (optional)
    * @return int number of ALL CARDS owned by that player and in that $location,
    *   or ALL CARDS owned by that player if location not given
    */
-  public static function countPlayerCards($pId, $location = null)
+  public static function countPlayerCards($pId, $location = null,$type = null)
   {
-    return self::getFilteredQuery($pId, $location)->count();
+    return self::getFilteredQuery($pId, $location,$type)->count();
   }
   
   /**

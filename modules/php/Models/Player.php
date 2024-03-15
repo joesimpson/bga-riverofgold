@@ -58,6 +58,10 @@ class Player extends \ROG\Helpers\DB_Model
     foreach (REGIONS as $region){
       $data['influence'][$region] = $this->getInfluence($region);
     }
+    $data['customers'] = [];
+    foreach (CUSTOMER_TYPES as $customer){
+      $data['customers'][$customer] = $this->getNbDeliveredCustomerByType($customer);
+    }
     return $data;
   }
 
@@ -186,5 +190,14 @@ class Player extends \ROG\Helpers\DB_Model
   public function getNbDeliveredCustomer()
   {
     return Cards::countPlayerCards($this->getId(),CARD_LOCATION_DELIVERED);
+  }
+  
+  /**
+   * @param int $customerType
+   * @return int 
+   */
+  public function getNbDeliveredCustomerByType($customerType)
+  {
+    return Cards::countPlayerCards($this->getId(),CARD_LOCATION_DELIVERED,$customerType);
   }
 }

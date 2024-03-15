@@ -115,6 +115,18 @@
                 font-size: 15px;
                 font-weight: bold;
             }
+            
+            .rog_resource_customer-1,
+            .rog_resource_customer-2,
+            .rog_resource_customer-3,
+            .rog_resource_customer-4,
+            .rog_resource_customer-5,
+            .rog_resource_customer-6
+            {
+                font-size: 15px;
+                font-weight: bold;
+                vertical-align: middle;
+            }
 
             .rog_resource_favor_total{
                 font-size: 12px;
@@ -127,6 +139,15 @@
     display: inline-block;
     vertical-align: middle;
     margin: 0 0.5em;
+
+    &.rog_icon_container_customer-1,
+    &.rog_icon_container_customer-2,
+    &.rog_icon_container_customer-3,
+    &.rog_icon_container_customer-4,
+    &.rog_icon_container_customer-5{
+        margin-left: 0.2em;
+        margin-right: 0.1em;
+    }
 
     //&.rog_icon_container_moon{
     //    margin-right: -13em;
@@ -241,6 +262,40 @@
         &.rog_icon_influence-6{
             background-image: url("img/regions/6.png");
         }
+        
+        &.rog_icon_customer-1,
+        &.rog_icon_customer-2,
+        &.rog_icon_customer-3,
+        &.rog_icon_customer-4,
+        &.rog_icon_customer-5{
+            width: 3em;
+            height: 3em;
+            border-radius: 50%;
+            border: 1px solid black;
+            background-image: url("img/icons/heads.jpg");
+            background-size: 300% 200%;
+        }
+        &.rog_icon_customer-1{//CUSTOMER_TYPE_ARTISAN
+            background-position-x: 0%;
+            background-position-y: 0%;
+        }
+        &.rog_icon_customer-2{//CUSTOMER_TYPE_ELDER
+            background-position-x: 50%;
+            background-position-y: 0%;
+        }
+        &.rog_icon_customer-3{//CUSTOMER_TYPE_MERCHANT
+            background-position-x: 50%;
+            background-position-y: 100%;
+        }
+        &.rog_icon_customer-4{//CUSTOMER_TYPE_MONK
+            background-position-x: 100%;
+            background-position-y: 100%;
+        }
+        &.rog_icon_customer-5{//CUSTOMER_TYPE_NOBLE
+            background-position-x: 0%;
+            background-position-y: 100%;
+        }
+
 
         &.rog_icon_clan-1,
         &.rog_icon_clan-2,
