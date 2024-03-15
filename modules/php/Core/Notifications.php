@@ -52,6 +52,18 @@ class Notifications
       'player' => $player,
     ]);
   }
+  /**
+   * @param Player $player
+   * @param Card $card
+   */
+  public static function deliver($player, $card)
+  { 
+    self::notifyAll('deliver', clienttranslate('${player_name} delivers a customer card : ${customer_name}'), [
+      'player' => $player,
+      'card' => $card->getUiData(),
+      'customer_name' => $card->getDesc(),
+    ]);
+  }
   
   /**
    * @param Player $player

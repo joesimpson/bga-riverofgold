@@ -15,6 +15,7 @@ trait EndTurnTrait
     $this->addCheckpoint(ST_END_TURN);
 
     Tiles::refillBuildingRow();
+    //TODO JSA Refill hand after delivery : but this is a choice to ask !
 
     //TODO JSA run Emperor Visit at end of Era 1
 

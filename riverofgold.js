@@ -133,6 +133,7 @@ function (dojo, declare) {
                 ['giveMoney', 1300],
                 ['spendMoney', 1300],
                 ['giveCardTo', 1000],
+                ['deliver', 1000],
                 ['giveResource', 1000],
                 ['spendResource', 800],
                 ['build', 1300],
@@ -551,6 +552,11 @@ function (dojo, declare) {
         //////////////////////////////////////////////////////////////
         notif_giveCardTo(n) {
             debug('notif_giveCardTo: receiving a new card', n);
+            if (!$(`rog_card-${n.args.card.id}`)) this.addCard(n.args.card, this.getVisibleTitleContainer());
+            this.slide(`rog_card-${n.args.card.id}`, this.getCardContainer(n.args.card));
+        },
+        notif_deliver(n) {
+            debug('notif_deliver: a player shows a card to all !', n);
             if (!$(`rog_card-${n.args.card.id}`)) this.addCard(n.args.card, this.getVisibleTitleContainer());
             this.slide(`rog_card-${n.args.card.id}`, this.getCardContainer(n.args.card));
         },

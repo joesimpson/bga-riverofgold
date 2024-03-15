@@ -6,7 +6,7 @@ use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
-use ROG\Models\Card;
+use ROG\Models\CustomerCard;
 
 trait DeliverTrait
 {
@@ -41,12 +41,21 @@ trait DeliverTrait
     $player = Players::getCurrent();
     $this->addStep();
 
-    $possibleCards = $this->listPossibleCardsToDeliver($player);
-    if(!in_array($cardId, $possibleCards)){
-      throw new UnexpectedException(30,"You cannot Deliver card $cardId, see : ".json_encode($possibleCards));
+    $card = Cards::get($cardId);
+    if(CARD_LOCATION_HAND != $card->getLocation() || $player->getId() != $card->getPId()){
+      throw new UnexpectedException(30,"You cannot Deliver this card");
+    }
+    if(!$this->isPossibleCardToDeliver($player,$card)){
+      throw new UnexpectedException(31,"You cannot Deliver card $cardId");
     }  
 
-    //TODO JSA DELIVERY
+    $card->setLocation(CARD_LOCATION_DELIVERED);
+    Notifications::deliver($player,$card);
+
+    foreach($card->getCost() as $neededType => $neededAmount){
+      $player->giveResource(-$neededAmount,$neededType);
+    }
+    $card->playDeliveryAbility($player);
 
     Players::claimMasteries($player);
 

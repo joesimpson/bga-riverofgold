@@ -198,6 +198,6 @@ class Player extends \ROG\Helpers\DB_Model
    */
   public function getNbDeliveredCustomerByType($customerType)
   {
-    return Cards::countPlayerCards($this->getId(),CARD_LOCATION_DELIVERED,$customerType);
+    return Cards::countDeliveredCardsByCustomerType($this->getId(),$customerType);
   }
 }
