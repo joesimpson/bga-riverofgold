@@ -557,8 +557,10 @@ function (dojo, declare) {
         },
         notif_deliver(n) {
             debug('notif_deliver: a player shows a card to all !', n);
-            if (!$(`rog_card-${n.args.card.id}`)) this.addCard(n.args.card, this.getVisibleTitleContainer());
-            this.slide(`rog_card-${n.args.card.id}`, this.getCardContainer(n.args.card));
+            let card = n.args.card;
+            if (!$(`rog_card-${card.id}`)) this.addCard(card, this.getVisibleTitleContainer());
+            this.slide(`rog_card-${card.id}`, this.getCardContainer(card));
+            this._counters[card.pId].customers[card.customerType].incValue(+1);
         },
         notif_giveResource(n) {
             debug('notif_giveResource: receiving new resources', n);
