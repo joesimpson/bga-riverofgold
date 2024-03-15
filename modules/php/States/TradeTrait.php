@@ -40,7 +40,7 @@ trait TradeTrait
     $qtySrc = RESOURCES_TO_TRADE[$typeSrc]['src'];
     $qtyDest = RESOURCES_TO_TRADE[$typeDest]['dest'];
     if( RESOURCE_TYPE_MONEY== $typeSrc){
-      Players::spendMoney($player,-$qtySrc);
+      Players::spendMoney($player,$qtySrc);
     }
     else {
       $player->giveResource(-$qtySrc,$typeSrc);
