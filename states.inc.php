@@ -163,6 +163,7 @@ $machinestates = array(
         "transitions" => [ 
             "build" => ST_PLAYER_TURN_BUILD, 
             "sail" => ST_PLAYER_TURN_SAIL, 
+            "deliver" => ST_PLAYER_TURN_DELIVER, 
             "trade" => ST_PLAYER_TURN_TRADE, 
             "favor" => ST_PLAYER_TURN_DIVINE_FAVOR, 
             //"next" => ST_CONFIRM_CHOICES, 
@@ -208,6 +209,22 @@ $machinestates = array(
         "args" => "argSail",
         "description" => clienttranslate('Sail : ${actplayer} must select a ship and a river space'),
         "descriptionmyturn" => clienttranslate('Sail : ${you} must select a ship and a river space'),
+        "type" => "activeplayer",
+        "possibleactions" => [
+            "actSailSelect", 
+            'actRestart',
+        ],
+        "transitions" => [ 
+            "next" => ST_CONFIRM_CHOICES, 
+            "zombiePass" => ST_CONFIRM_CHOICES,
+        ],
+    ),
+    
+    ST_PLAYER_TURN_DELIVER => array(
+        "name" => "deliver",
+        "args" => "argDeliver",
+        "description" => clienttranslate('Deliver : ${actplayer} must select a customer card'),
+        "descriptionmyturn" => clienttranslate('Deliver : ${you} must select a customer card in your hand'),
         "type" => "activeplayer",
         "possibleactions" => [
             "actSailSelect", 

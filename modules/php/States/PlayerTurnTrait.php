@@ -24,7 +24,9 @@ trait PlayerTurnTrait
     }
     //Sail always possible
     $actions[] = 'actSail';
-    //$actions[] = 'actDeliver';
+    if(count($this->listPossibleCardsToDeliver($activePlayer))>0 ){
+      $actions[] = 'actDeliver';
+    }
     $args = [
       'a' => $actions,
     ];
@@ -77,9 +79,7 @@ trait PlayerTurnTrait
     self::trace("actDeliver()");
     $this->addStep();
 
-    Notifications::message("Delivering...");
-
-    $this->gamestate->nextState('next');
+    $this->gamestate->nextState('deliver');
   }
 
   function stConfirmChoices()
