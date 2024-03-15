@@ -85,7 +85,12 @@ trait TradeTrait
     if($currentSrc < RESOURCES_TO_TRADE[$typeSrc]['src']) return false;
 
     $currentDest = $player->getResource($typeDest);
-    if($currentDest >= NB_MAX_RESOURCE) return false;
+    if(array_key_exists($typeDest,RESOURCES_LIMIT) ) {
+      $maxDest = RESOURCES_LIMIT[$typeDest];
+    } else if(RESOURCE_TYPE_SUN == $typeDest){
+      $maxDest = $player->getResource(RESOURCE_TYPE_MOON); 
+    }
+    if($currentDest >= $maxDest) return false;
 
     return true;
   }
