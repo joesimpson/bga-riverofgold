@@ -14,9 +14,17 @@ trait DeliverTrait
   public function argDeliver()
   { 
     $activePlayer = Players::getActive();
+    $player_id = $activePlayer->getId();
+    $privateDatas = array ();
+
     $cards = $this->listPossibleCardsToDeliver($activePlayer);
-    $args = [
+    //Beware cards in hand are private !
+    $privateDatas[$player_id] = array(
       'c' => $cards,
+    );
+
+    $args = [
+      '_private' => $privateDatas,
     ];
     $this->addArgsForUndo($args);
     return $args;

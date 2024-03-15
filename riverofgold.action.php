@@ -101,6 +101,13 @@
       $this->game->actDeliver();
       self::ajaxResponse();
     }
+    public function actDeliverSelect()
+    {
+      self::setAjaxMode();
+      $cardId = self::getArg( "c", AT_posint, true );
+      $this->game->actDeliverSelect($cardId);
+      self::ajaxResponse();
+    }
     
     public function actBuildSelect()
     {

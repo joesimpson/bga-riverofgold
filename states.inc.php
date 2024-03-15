@@ -227,7 +227,7 @@ $machinestates = array(
         "descriptionmyturn" => clienttranslate('Deliver : ${you} must select a customer card in your hand'),
         "type" => "activeplayer",
         "possibleactions" => [
-            "actSailSelect", 
+            "actDeliverSelect", 
             'actRestart',
         ],
         "transitions" => [ 

@@ -146,6 +146,9 @@ function (dojo, declare) {
                 ['addPoints', 700],
                 ['refillBuildingRow', 800],
             ];
+
+            //Filter states where we don't want other players to display state actions
+            this._activeStates = ['deliver'];
         },
         
         ///////////////////////////////////////////////////
@@ -502,6 +505,30 @@ function (dojo, declare) {
                             $('btnConfirm').innerHTML = this.fsr(confirmMessage, { n: this.selectedSpace });
                         });
                     });
+                });
+            });
+        },
+
+        onEnteringStateDeliver(args){
+            debug('onEnteringStateDeliver', args);
+
+            this.selectedCardId = null;
+            let confirmMessage = _('Deliver to ${customer_name}');
+            this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {customer_name:''}), () => {
+                this.takeAction('actDeliverSelect', { c: this.selectedCardId});
+            }); 
+            //DISABLED by default
+            $(`btnConfirm`).classList.add('disabled');
+
+            let cards = args._private.c;
+            Object.values(cards).forEach((cardId) => {
+                let div = $(`rog_card-${cardId}`);
+                this.onClick(`${div.id}`, (evt) => {
+                    [...$(`rog_player_hand-${this.player_id}`).querySelectorAll('.rog_card')].forEach((elt) => { elt.classList.remove('selected');});
+                    div.classList.add('selected');
+                    this.selectedCardId = cardId;
+                    $(`btnConfirm`).classList.remove('disabled');
+                    $('btnConfirm').innerHTML = this.fsr(confirmMessage, { customer_name: div.dataset.customer_name });
                 });
             });
         },
@@ -1112,13 +1139,17 @@ function (dojo, declare) {
     
         getCardTooltip(card) {
             let cardDatas = card;
-            let desc = [this.fsr(_('${card_type} ${region}'), { card_type: cardDatas.title, region: cardDatas.region })];
+            let desc = this.getCardCustomerName(cardDatas);
             let div = this.tplCard(cardDatas,'_tmp');
             return [`<div class='rog_card_tooltip'><h1>${desc}</h1>${div}</div>`];
         },
+        getCardCustomerName(cardDatas) {
+            return [this.fsr(_('${card_type} ${region}'), { card_type: cardDatas.title, region: cardDatas.region })];
+        },
     
         tplCard(card, prefix ='') {
-            return `<div class="rog_card" id="rog_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}">
+            let customerName = this.getCardCustomerName(card);
+            return `<div class="rog_card" id="rog_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-customer_name="${customerName}">
                 </div>`;
         },
     

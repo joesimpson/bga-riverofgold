@@ -792,7 +792,7 @@
   background-position-y: 100%;
 }
 .rog_card.selectable {
-  box-shadow: 0px 0px 7px 2px red;
+  box-shadow: 0px 0px 7px 2px blue;
   cursor: pointer;
 }
 .rog_card.selectable:hover {
@@ -801,6 +801,7 @@
 .rog_card.selected, .rog_card.selected:hover {
   box-shadow: 0px 0px 7px 2px green;
   transform: scale(1.1);
+  z-index: 2;
 }
 
 .midSizeDialog .rog_card {
@@ -904,6 +905,17 @@
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card,
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card {
   margin: 2px 5px;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card.selectable,
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card.selectable,
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card.selectable,
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card.selectable,
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card.selectable,
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card.selectable,
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card.selectable,
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card.selectable {
+  margin-top: 15px;
+  margin-bottom: 15px;
 }
 .rog_player_hand_resizable .rog_player_delivered,
 .rog_player_delivered_resizable .rog_player_delivered {
