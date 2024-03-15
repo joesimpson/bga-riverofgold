@@ -56,11 +56,18 @@
             &:nth-child(2){
                 //first lines
                 font-size: 12px;
+                .rog_player_resource {
+                    margin: 4px 0px;
+                }
+            }
+                        
+            &#rog_player_resource_line_i1,
+            &#rog_player_resource_line_i2{
+                line-height: 2em;
             }
         }
     
         .rog_player_resource {
-            margin: 4px 0px;
             position: relative;
             text-align: center;
             .rog_reserve {
@@ -130,6 +137,11 @@
 
             .rog_resource_favor_total{
                 font-size: 12px;
+            }
+            
+            .rog_resource_dieFace{
+                font-size: 15px;
+                font-weight: bold;
             }
         }
     }
@@ -370,6 +382,8 @@
 .rog_icon_influence{
     width: 30px;
     height: 40px;
+    width: 2.1em;
+    height: 3em;
     background-size: 100% auto;
     background-repeat: no-repeat;
     background-image: url("img/icons/influence.png");

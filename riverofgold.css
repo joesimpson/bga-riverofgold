@@ -70,8 +70,13 @@
 .rog_panel .rog_player_infos .rog_player_resource_line:nth-child(1), .rog_panel .rog_player_infos .rog_player_resource_line:nth-child(2) {
   font-size: 12px;
 }
-.rog_panel .rog_player_infos .rog_player_resource {
+.rog_panel .rog_player_infos .rog_player_resource_line:nth-child(1) .rog_player_resource, .rog_panel .rog_player_infos .rog_player_resource_line:nth-child(2) .rog_player_resource {
   margin: 4px 0px;
+}
+.rog_panel .rog_player_infos .rog_player_resource_line#rog_player_resource_line_i1, .rog_panel .rog_player_infos .rog_player_resource_line#rog_player_resource_line_i2 {
+  line-height: 2em;
+}
+.rog_panel .rog_player_infos .rog_player_resource {
   position: relative;
   text-align: center;
 }
@@ -140,6 +145,10 @@
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_favor_total {
   font-size: 12px;
+}
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_dieFace {
+  font-size: 15px;
+  font-weight: bold;
 }
 
 .rog_icon_container {
@@ -317,6 +326,8 @@
 .rog_icon_influence {
   width: 30px;
   height: 40px;
+  width: 2.1em;
+  height: 3em;
   background-size: 100% auto;
   background-repeat: no-repeat;
   background-image: url("img/icons/influence.png");

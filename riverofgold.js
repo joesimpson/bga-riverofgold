@@ -834,7 +834,7 @@ function (dojo, declare) {
                 this.addCustomTooltip(`rog_reserve_${pId}_money`, _('Koku'));
                 this.addCustomTooltip(`rog_reserve_${pId}_rice`, _('Rice'));
                 this.addCustomTooltip(`rog_reserve_${pId}_silk`, _('Silk'));
-                this.addCustomTooltip(`rog_reserve_${pId}_pottery`, _('Pottery'));
+                this.addCustomTooltip(`rog_reserve_${pId}_pottery`, _('Porcelain'));
                 this.addCustomTooltip(`rog_reserve_${pId}_favor`, _('Divine favor'));
                 this.addCustomTooltip(`rog_reserve_${pId}_dieFace`, _('Die'));
                 
@@ -955,13 +955,13 @@ function (dojo, declare) {
                     ${this.tplResourceCounter(player, 'shrine')}
                 </div>
                 <hr>
-                <div class='rog_player_resource_line'>
+                <div class='rog_player_resource_line' id='rog_player_resource_line_i1'>
                     <div class='rog_icon_influence'></div>
                     ${this.tplResourceCounter(player, 'influence-1')}
                     ${this.tplResourceCounter(player, 'influence-2')}
                     ${this.tplResourceCounter(player, 'influence-3')}
                 </div>
-                <div class='rog_player_resource_line'>
+                <div class='rog_player_resource_line' id='rog_player_resource_line_i2'>
                     <div class='rog_icon_influence' style='visibility: hidden;'></div>
                     ${this.tplResourceCounter(player, 'influence-4')}
                     ${this.tplResourceCounter(player, 'influence-5')}
