@@ -474,7 +474,7 @@ function (dojo, declare) {
                         elt.classList.remove('selectable'); 
                         elt.classList.remove('selected');
                     });
-                    let divShip = evt.target;
+                    let divShip = $(`rog_meeple-${shipId}`);
                     if(divShip.classList.contains('selected')){
                         //UNSELECT
                         this.selectedShipId = null;
@@ -492,11 +492,10 @@ function (dojo, declare) {
                     }
 
                     Object.values(possibleMoves[shipId]).forEach((space) => {
-                        let elt2 = $(`rog_river_space-${space}`);
-                        this.onClick(`${elt2.id}`, (evt) => {
+                        let div = $(`rog_river_space-${space}`);
+                        this.onClick(`${div.id}`, (evt) => {
                             //CLICK SHIP DESTINATION
                             [...riverSpacesDiv.querySelectorAll('.rog_river_space')].forEach((elt) => { elt.classList.remove('selected');});
-                            let div = evt.target;
                             div.classList.add('selected');
                             this.selectedSpace = div.dataset.pos;
                             $(`btnConfirm`).classList.remove('disabled');
