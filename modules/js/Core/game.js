@@ -492,7 +492,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           $('preference_fontrol_' + pref).value = newValue;
         }
         data = { pref: pref, lock: false, value: newValue, player: this.player_id };
-        this.takeAction('actChangePref', data, false, false);
+        if (!this.isReadOnly()) this.takeAction('actChangePref', data, false, false);
         this.onPreferenceChange(pref, newValue);
       });
     },
@@ -822,11 +822,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
             dojo.removeClass(mobileElt, 'phantom');
             mobile = mobileElt;
           }
-          if (config.changeParent) {
+          if (config.destroy) dojo.destroy(mobile);
+          else if (config.changeParent) {
             if (config.phantomEnd) dojo.place(mobile, targetId, 'replace');
             else this.changeParent(mobile, newParent);
           }
-          if (config.destroy) dojo.destroy(mobile);
           if (config.clearPos && !config.destroy) dojo.style(mobile, { top: null, left: null, position: null });
           resolve();
         });
