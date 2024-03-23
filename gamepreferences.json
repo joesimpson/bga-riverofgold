@@ -1,1 +1,16 @@
-{}
+{
+    "100": {
+        "name": "Player panel details",
+        "needReload": false,
+        "values": {
+            "1": {
+                "name": "Detailed"
+            },
+            "2": {
+                "name": "Compact"
+            }
+        },
+        "default": 1,
+        "attribute": "rog_panel_details"
+    }
+}

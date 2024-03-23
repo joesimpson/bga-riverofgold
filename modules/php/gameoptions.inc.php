@@ -50,4 +50,14 @@ $game_options = [
 
 $game_preferences = [
 
+  PREF_PLAYER_PANEL_DETAILS => [
+    'name' => totranslate('Player panel details'),
+    'needReload' => false,
+    'values' => [
+      PREF_PLAYER_PANEL_DETAILS_FULL => [ 'name' => totranslate('Detailed') ],
+      PREF_PLAYER_PANEL_DETAILS_COMPACT => [ 'name' => totranslate('Compact')],
+    ],
+    "default"=> PREF_PLAYER_PANEL_DETAILS_FULL,
+    'attribute' => 'rog_panel_details',
+  ],
 ];

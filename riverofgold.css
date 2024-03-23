@@ -347,6 +347,13 @@
   font-size: x-large;
 }
 
+body[data-rog_panel_details="2"] #rog_player_resource_line_buildings,
+body[data-rog_panel_details="2"] #rog_player_resource_line_i1,
+body[data-rog_panel_details="2"] #rog_player_resource_line_i2,
+body[data-rog_panel_details="2"] #rog_player_resource_line_customers {
+  display: none;
+}
+
 #rog_upper_zone {
   display: flex;
   flex-flow: row;
