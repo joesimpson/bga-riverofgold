@@ -103,6 +103,7 @@ trait DebugTrait
         }
         $meeple = Meeples::addClanMarkerOnArtisanSpace($player, $region);
         $meeple = Meeples::addClanMarkerOnElderSpace($player, $region);
+        $meeple = Meeples::addClanMarkerOnMerchantSpace($player);
       }
     }
     $this->debugUI();

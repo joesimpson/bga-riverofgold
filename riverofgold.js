@@ -1476,6 +1476,9 @@ function (dojo, declare) {
                 let region = locationParts[1];
                 return $(`rog_elder_space_${region}`);
             }
+            if (locationParts[0] == 'merchant') {//MEEPLE_LOCATION_MERCHANT
+                return $(`rog_merchant_space`);
+            }
     
             console.error('Trying to get container of a meeple', meeple);
             return 'game_play_area';

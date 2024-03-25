@@ -2175,6 +2175,41 @@ body[data-rog_panel_details="2"] #rog_player_resource_line_customers {
   transform: translateY(-100%);
 }
 
+#rog_merchant_space {
+  left: 436px;
+  top: 3630px;
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 72px;
+  height: 72px;
+}
+#rog_merchant_space .rog_meeple {
+  transform: translateY(0);
+  transition: transform 0.5s;
+}
+#rog_merchant_space .rog_meeple:nth-child(1) {
+  margin-bottom: -60px;
+}
+#rog_merchant_space .rog_meeple:nth-child(2) {
+  margin-bottom: -65px;
+}
+#rog_merchant_space .rog_meeple:nth-child(3) {
+  margin-bottom: -68px;
+}
+#rog_merchant_space:hover .rog_meeple:nth-child(4) {
+  transform: translateY(-50%);
+}
+#rog_merchant_space:hover .rog_meeple:nth-child(3) {
+  transform: translateY(-70%);
+}
+#rog_merchant_space:hover .rog_meeple:nth-child(2) {
+  transform: translateY(-90%);
+}
+#rog_merchant_space:hover .rog_meeple:nth-child(1) {
+  transform: translateY(-100%);
+}
+
 /**
  * Player panel settings
  * AUTHOR : © Tisaac
