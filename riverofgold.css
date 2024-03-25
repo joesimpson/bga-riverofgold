@@ -872,6 +872,21 @@ body[data-rog_panel_details="2"] #rog_player_resource_line_customers {
   transform: scale(1.1);
   z-index: 2;
 }
+.rog_card.selected.rog_selectedToDiscard .rog_card_wrapper::before, .rog_card.selected:hover.rog_selectedToDiscard .rog_card_wrapper::before {
+  align-items: center;
+  background: rgba(209, 209, 209, 0.7450980392);
+  bottom: 0;
+  content: "\f1f8";
+  display: flex;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: calc(var(--rog_hand_scale) * 60px);
+  justify-content: center;
+  left: 0;
+  position: absolute;
+  right: 0;
+  top: 0;
+  z-index: 10;
+}
 
 .midSizeDialog .rog_card {
   width: 385px;

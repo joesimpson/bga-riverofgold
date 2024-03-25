@@ -554,8 +554,12 @@ function (dojo, declare) {
             Object.values(cards).forEach((cardId) => {
                 let div = $(`rog_card-${cardId}`);
                 this.onClick(`${div.id}`, (evt) => {
-                    [...handDiv.querySelectorAll('.rog_card')].forEach((elt) => { elt.classList.remove('selected');});
+                    [...handDiv.querySelectorAll('.rog_card')].forEach((elt) => { 
+                        elt.classList.remove('selected'); 
+                        elt.classList.remove('rog_selectedToDiscard');
+                    });
                     div.classList.add('selected');
+                    div.classList.add('rog_selectedToDiscard');
                     this.selectedCardId = cardId;
                     $(`btnConfirm`).classList.remove('disabled');
                     $('btnConfirm').innerHTML = this.fsr(confirmMessage, { customer_name: div.dataset.customer_name });
@@ -1222,6 +1226,7 @@ function (dojo, declare) {
         tplCard(card, prefix ='') {
             let customerName = this.getCardCustomerName(card);
             return `<div class="rog_card" id="rog_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-customer_name="${customerName}">
+                    <div class="rog_card_wrapper"></div>
                 </div>`;
         },
     
