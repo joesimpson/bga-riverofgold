@@ -49,6 +49,7 @@ class RiverOfGold extends Table
     use ROG\States\ClanSelectionTrait;
     use ROG\States\ConfirmUndoTrait;
     use ROG\States\DeliverTrait;
+    use ROG\States\DiscardTrait;
     use ROG\States\DivineFavorTrait;
     use ROG\States\EndTurnTrait;
     use ROG\States\NextTurnTrait;

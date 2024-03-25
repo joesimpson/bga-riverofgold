@@ -6,6 +6,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Log;
+use ROG\Managers\Cards;
 use ROG\Managers\Players;
 
 trait ConfirmUndoTrait
@@ -52,6 +53,22 @@ trait ConfirmUndoTrait
     {
         if (!$auto) {
             self::checkAction('actConfirmTurn');
+        }
+
+        $player = Players::getCurrent();
+        $pId = $player->getId();
+        $nbCardsToMoveToHand = Cards::countPlayerCards($pId,CARD_LOCATION_WAIT_FOR_HAND);
+        if($nbCardsToMoveToHand>0){
+            $cards = Cards::getPlayerFutureHandOrders($pId);
+            foreach($cards as $card){
+                $card->setLocation(CARD_LOCATION_HAND);
+                Notifications::giveCardTo($player,$card);
+            }
+
+            //Refill is almost done, the player needs to make a choice
+            $this->addCheckpoint(ST_DISCARD_CARD);
+            $this->gamestate->nextState('refillHand');
+            return;
         }
         
         $this->gamestate->nextState('confirm');

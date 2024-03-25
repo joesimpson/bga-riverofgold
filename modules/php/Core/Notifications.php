@@ -67,6 +67,23 @@ class Notifications
   
   /**
    * @param Player $player
+   * @param Card $card
+   */
+  public static function discard($player, $card)
+  { 
+    //Beware this is a private info !
+    self::notify($player,'discard', clienttranslate('You discard ${customer_name}'), [
+      'player' => $player,
+      'card' => $card->getUiData(),
+      'customer_name' => $card->getDesc(),
+    ]);
+    self::notifyAll('discardPublic', clienttranslate('${player_name} discards a customer card'), [
+      'player' => $player,
+    ]);
+  }
+  
+  /**
+   * @param Player $player
    * @param int $n
    * @param int $resourceType
    */

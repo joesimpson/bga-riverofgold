@@ -4,6 +4,7 @@ namespace ROG\Managers;
 
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
+use ROG\Models\Player;
 
 /* Class to manage all the cards */
 
@@ -14,6 +15,8 @@ class Cards extends \ROG\Helpers\Pieces
   protected static $autoIncrement = true;
   protected static $autoremovePrefix = false;
   protected static $customFields = ['player_id', 'type'];
+  protected static $autoreshuffle = true;
+  protected static $autoreshuffleCustom = [CARD_LOCATION_DECK => CARD_LOCATION_DISCARD];
 
   protected static function cast($row)
   {
@@ -72,6 +75,15 @@ class Cards extends \ROG\Helpers\Pieces
   {
     return self::getFilteredQuery($pId, CARD_LOCATION_HAND)->get();
   }
+  
+  /**
+   * @param int $pId
+   * @return Collection
+   */
+  public static function getPlayerFutureHandOrders($pId)
+  {
+    return self::getFilteredQuery($pId, CARD_LOCATION_WAIT_FOR_HAND)->get();
+  }
   public static function refreshHands($players)
   {
     foreach ($players as $pid => $player) {
@@ -86,6 +98,19 @@ class Cards extends \ROG\Helpers\Pieces
   public static function getPlayerDeliveredOrders($pId)
   {
     return self::getFilteredQuery($pId, CARD_LOCATION_DELIVERED)->get();
+  }
+
+  /**
+   * @param Player $player
+   * @param int $nbCards
+   */
+  public static function prepareCardsToRefillHand($player,$nbCards)
+  {
+    $cards = self::pickForLocation($nbCards, CARD_LOCATION_DECK, CARD_LOCATION_WAIT_FOR_HAND,0,true);
+    foreach($cards as $card){
+      $card->setPId($player->getId());
+    }
+    return $cards;
   }
 
   /* Creation of the cards */

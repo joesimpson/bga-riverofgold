@@ -84,9 +84,11 @@ const BUILDING_ROW_END = 4;
 //Favor earned when building last tile of the row
 const BUILDING_ROW_END_FAVOR = 1;
 
+const CARD_LOCATION_DISCARD = 'discard';
  const CARD_LOCATION_DECK = 'deck';
  const CARD_LOCATION_DELIVERED = 'dd';
  const CARD_LOCATION_HAND = 'h';
+ const CARD_LOCATION_WAIT_FOR_HAND = 'wait';
  //! Warning one clan patron will have more cards (3)
  const NB_CARDS_PER_PLAYER = 2;
 
@@ -241,6 +243,8 @@ const ST_PLAYER_TURN_SAIL = 23;
 const ST_PLAYER_TURN_DELIVER = 24;
 const ST_PLAYER_TURN_TRADE = 30;
 const ST_PLAYER_TURN_DIVINE_FAVOR = 31;
+
+const ST_DISCARD_CARD = 60;
 
 const ST_CONFIRM_CHOICES = 70;
 const ST_CONFIRM_TURN = 71;

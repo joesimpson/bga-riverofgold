@@ -74,11 +74,13 @@ require_once 'modules/php/constants.inc.php';
  |        |     |            |                        |
  |        |     |            |                        |
  |        |     v            v                        |
- |        \--- trade/favor  build                     |
+ |        \--- trade/favor  build/sail/deliver        |
  |                           |                        |
  |                           v                        |
  |                          confirm --> endTurn ----->/
- |              
+ |                           |             ^
+ |                           v             |
+ |                          discardCard -->/
  v  
  \-> endGameScoring
         | 
@@ -278,6 +280,22 @@ $machinestates = array(
         ],
     ],
     
+    ST_DISCARD_CARD => [
+        'name' => 'discardCard',
+        'args' => 'argDiscardCard',
+        'description' => clienttranslate('${actplayer} must select a card to discard'),
+        'descriptionmyturn' => clienttranslate('${you} must select a card to discard'),
+        'type' => 'activeplayer',
+        'possibleactions' => [
+            'actDiscardCard', 
+            'actRestart',
+        ],
+        'transitions' => [
+          'next' => ST_CONFIRM_CHOICES,
+          'zombiePass'=> ST_CONFIRM_CHOICES,
+        ],
+    ],
+
     ST_CONFIRM_TURN => [
         'name' => 'confirmTurn',
         'description' => clienttranslate('${actplayer} must confirm or restart their turn'),
@@ -289,6 +307,7 @@ $machinestates = array(
         'transitions' => [
           'confirm' => ST_END_TURN,
           'zombiePass'=> ST_END_TURN,
+          'refillHand' => ST_DISCARD_CARD,
         ],
     ],
 

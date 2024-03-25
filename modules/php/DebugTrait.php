@@ -45,6 +45,7 @@ trait DebugTrait
     $this->debugUI();
   }
   
+  //Fake deliveries for UI
   function debugLiv(){
     $players = Players::getAll();
     Cards::moveAllInLocation(CARD_LOCATION_DELIVERED,CARD_LOCATION_DECK);
@@ -57,6 +58,11 @@ trait DebugTrait
       }
       $k++;
     }
+  }
+
+  //To be called before clicking 'Deliver'
+  function debugDeliverReshuffle(){
+    Cards::moveAllInLocation(CARD_LOCATION_DECK,CARD_LOCATION_DISCARD);
   }
 
   function debugMoney(){

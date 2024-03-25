@@ -136,6 +136,7 @@ function (dojo, declare) {
                 ['spendMoney', 1300],
                 ['giveCardTo', 1000],
                 ['deliver', 1000],
+                ['discard', 1000],
                 ['giveResource', 1000],
                 ['spendResource', 800],
                 ['build', 1300],
@@ -151,7 +152,7 @@ function (dojo, declare) {
             ];
 
             //Filter states where we don't want other players to display state actions
-            this._activeStates = ['deliver'];
+            this._activeStates = ['deliver','discardCard'];
         },
         
         ///////////////////////////////////////////////////
@@ -536,6 +537,31 @@ function (dojo, declare) {
                 });
             });
         },
+        
+        onEnteringStateDiscardCard(args){
+            debug('onEnteringStateDiscardCard', args);
+
+            this.selectedCardId = null;
+            let confirmMessage = _('Discard ${customer_name}');
+            this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {customer_name:''}), () => {
+                this.takeAction('actDiscardCard', { c: this.selectedCardId});
+            }); 
+            //DISABLED by default
+            $(`btnConfirm`).classList.add('disabled');
+
+            let handDiv = $(`rog_player_hand-${this.player_id}`);
+            let cards = args._private.c;
+            Object.values(cards).forEach((cardId) => {
+                let div = $(`rog_card-${cardId}`);
+                this.onClick(`${div.id}`, (evt) => {
+                    [...handDiv.querySelectorAll('.rog_card')].forEach((elt) => { elt.classList.remove('selected');});
+                    div.classList.add('selected');
+                    this.selectedCardId = cardId;
+                    $(`btnConfirm`).classList.remove('disabled');
+                    $('btnConfirm').innerHTML = this.fsr(confirmMessage, { customer_name: div.dataset.customer_name });
+                });
+            });
+        },
 
         onEnteringStateConfirmTurn(args) {
             this.addPrimaryActionButton('btnConfirmTurn', _('Confirm'), () => {
@@ -564,6 +590,15 @@ function (dojo, declare) {
             if (!$(`rog_card-${card.id}`)) this.addCard(card, this.getVisibleTitleContainer());
             this.slide(`rog_card-${card.id}`, this.getCardContainer(card));
             this._counters[card.pId].customers[card.customerType].incValue(+1);
+        },
+        notif_discard(n) {
+            debug('notif_discard: discarding a private card', n);
+            if (!$(`rog_card-${n.args.card.id}`)) return;
+            this.slide(`rog_card-${n.args.card.id}`, this.getVisibleTitleContainer(), {
+                destroy: true,
+                phantom: false,
+                duration: 800,
+            });
         },
         notif_giveResource(n) {
             debug('notif_giveResource: receiving new resources', n);

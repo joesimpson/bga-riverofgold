@@ -59,6 +59,9 @@ trait DeliverTrait
 
     Players::claimMasteries($player);
 
+    //Draw 2 cards
+    Cards::prepareCardsToRefillHand($player,2);
+
     $this->gamestate->nextState('next');
   } 
 
