@@ -42,7 +42,7 @@ class CustomerCard extends Card
         break;
       case CUSTOMER_TYPE_MERCHANT:
         $bonusChoice = Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_MERCHANT);
-        //TODO JSA Add clan marker on merchant space (only the first time)
+        Meeples::addClanMarkerOnMerchantSpace($player);
         break;
       case CUSTOMER_TYPE_MONK:
         $player->giveResource(1,RESOURCE_TYPE_MOON);

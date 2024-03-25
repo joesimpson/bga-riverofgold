@@ -4,6 +4,7 @@ namespace ROG\Managers;
 
 use ROG\Core\Notifications;
 use ROG\Models\MasteryCard;
+use ROG\Models\Meeple;
 use ROG\Models\Player;
 use ROG\Models\ShoreSpace;
 
@@ -122,6 +123,26 @@ class Meeples extends \ROG\Helpers\Pieces
     Notifications::newClanMarker($player,$elt);
     return $elt;
   }
+  /**
+   * Add a marker if not already placed
+   * @param Player $player
+   * @return Meeple
+   */
+  public static function addClanMarkerOnMerchantSpace($player)
+  {
+    //Add clan marker on merchant space (only the first time)
+    $meeple = self::getMarkerOnMerchantSpace($player->getId());
+    if( isset($meeple)) return;
+    $meeple = [
+      'type' => MEEPLE_TYPE_CLAN_MARKER,
+      'location' => MEEPLE_LOCATION_MERCHANT,
+      'player_id' => $player->getId(),
+      'state' => 0,
+    ];
+    $elt = self::singleCreate($meeple);
+    Notifications::newClanMarker($player,$elt);
+    return $elt;
+  }
   
   /**
    * @param Player $player
@@ -159,6 +180,14 @@ class Meeples extends \ROG\Helpers\Pieces
     return self::getFilteredQuery($pId, MEEPLE_LOCATION_INFLUENCE.$region,null)->get()->first();
   }
   
+  /**
+   * @param int $pId
+   * @return Meeple
+   */
+  public static function getMarkerOnMerchantSpace($pId)
+  {
+    return self::getFilteredQuery($pId, MEEPLE_LOCATION_MERCHANT)->get()->first();
+  }
   /**
    * @param int $pId
    * @param int $type of building to search for

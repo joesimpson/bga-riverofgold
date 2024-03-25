@@ -200,6 +200,7 @@ CONST MEEPLE_LOCATION_INFLUENCE = 'i-';//To be followed by region number
 const MEEPLE_LOCATION_RIVER = 'r';
 CONST MEEPLE_LOCATION_ARTISAN = 'artisan-';//To be followed by region number
 CONST MEEPLE_LOCATION_ELDER = 'elder-';//To be followed by region number
+CONST MEEPLE_LOCATION_MERCHANT = 'merchant';
 
 const CLANS_COLORS = [
    //blue
