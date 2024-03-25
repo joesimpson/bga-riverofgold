@@ -101,6 +101,8 @@ trait DebugTrait
           $meeple = Meeples::addClanMarkerOnInfluence($player, $region,false);
           $meeple->setPosition($k);
         }
+        $meeple = Meeples::addClanMarkerOnArtisanSpace($player, $region);
+        $meeple = Meeples::addClanMarkerOnElderSpace($player, $region);
       }
     }
     $this->debugUI();

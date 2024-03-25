@@ -1468,6 +1468,14 @@ function (dojo, declare) {
                 let position = meeple.pos;
                 return $(`rog_river_space-${position}`);
             }
+            if (locationParts[0] == 'artisan') {//MEEPLE_LOCATION_ARTISAN
+                let region = locationParts[1];
+                return $(`rog_artisan_space_${region}`);
+            }
+            if (locationParts[0] == 'elder') {//MEEPLE_LOCATION_ELDER
+                let region = locationParts[1];
+                return $(`rog_elder_space_${region}`);
+            }
     
             console.error('Trying to get container of a meeple', meeple);
             return 'game_play_area';
@@ -1487,6 +1495,11 @@ function (dojo, declare) {
                     if(!$(influence_track_space)) this.place(`tplInfluenceTrackSpace`,{region:region, space:k}, $(influence_track));
                     this.empty(influence_track_space);
                 }
+                
+                if(!$(`rog_artisan_space_${region}`)) this.place(`tplArtisanSpace`,region, $(`rog_artisan_spaces`));
+                if(!$(`rog_elder_space_${region}`)) this.place(`tplElderSpace`,region, $(`rog_elder_spaces`));
+                this.empty(`rog_artisan_space_${region}`);
+                this.empty(`rog_elder_space_${region}`);
             });
         },
         tplInfluenceTrack(region) {
@@ -1494,6 +1507,12 @@ function (dojo, declare) {
         },
         tplInfluenceTrackSpace(datas) {
             return `<div class="rog_influence_track_space" id="rog_influence_track_space_${datas.region}_${datas.space}" data-pos='${datas.space}'></div>`;
+        },
+        tplArtisanSpace(region) {
+            return `<div class="rog_artisan_space" id="rog_artisan_space_${region}" data-region='${region}'></div>`;
+        },
+        tplElderSpace(region) {
+            return `<div class="rog_elder_space" id="rog_elder_space_${region}" data-region='${region}'></div>`;
         },
 
 

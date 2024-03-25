@@ -77,6 +77,79 @@
         }
     }
 }
+.rog_artisan_space,
+.rog_elder_space{
+    position: absolute;
+    display: flex;
+    flex-direction: column; 
+    width: 72px;
+    height: 72px;
+    .rog_meeple{
+        transform: translateY(0);
+        transition: transform 0.5s; 
+        &:nth-child(1){
+            margin-bottom: -60px;
+        }
+    }
+    &:hover .rog_meeple{
+        //View behind meeple 
+        &:nth-child(1){
+            transform:translateY(-100%);
+        }
+    }
+}
+.rog_artisan_space{
+    &#rog_artisan_space_1{
+        top: 610px;
+        left: 2102px;
+    }
+    &#rog_artisan_space_2{
+        top: 1108px;
+        left: 2199px;
+    }
+    &#rog_artisan_space_3{
+        top: 1594px;
+        left: 2258px;
+    }
+    &#rog_artisan_space_4{
+        top: 2091px;
+        left: 2262px;
+    }
+    &#rog_artisan_space_5{
+        top: 2577px;
+        left: 2285px;
+    }
+    &#rog_artisan_space_6{
+        top: 3071px;
+        left: 2180px;
+    }
+}
+.rog_elder_space{
+    &#rog_elder_space_1{
+        top: 476px;
+        left: 2102px;
+    }
+    &#rog_elder_space_2{
+        top: 975px;
+        left: 2199px;
+    }
+    &#rog_elder_space_3{
+        top: 1466px;
+        left: 2258px;
+    }
+    &#rog_elder_space_4{
+        top: 1955px;
+        left: 2262px;
+    }
+    &#rog_elder_space_5{
+        top: 2442px;
+        left: 2285px;
+    }
+    &#rog_elder_space_6{
+        top: 2939px;
+        left: 2180px;
+    }
+}
 .rog_influence_track{
     position: absolute;
     grid-template-columns: repeat(7, 1fr);

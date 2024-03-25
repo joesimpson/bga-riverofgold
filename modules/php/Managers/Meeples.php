@@ -107,6 +107,24 @@ class Meeples extends \ROG\Helpers\Pieces
   
   /**
    * @param Player $player
+   * @param int $region
+   * @return Meeple
+   */
+  public static function addClanMarkerOnElderSpace($player,$region)
+  {
+    $meeple = [
+      'type' => MEEPLE_TYPE_CLAN_MARKER,
+      'location' => MEEPLE_LOCATION_ELDER.$region,
+      'player_id' => $player->getId(),
+      'state' => 0,
+    ];
+    $elt = self::singleCreate($meeple);
+    Notifications::newClanMarker($player,$elt);
+    return $elt;
+  }
+  
+  /**
+   * @param Player $player
    * @return Meeple
    * @param bool $sendNotif (optional) default true, means send a notif to UI
    */
