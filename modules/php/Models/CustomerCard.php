@@ -2,6 +2,7 @@
 
 namespace ROG\Models;
 
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 
 /**
@@ -34,10 +35,10 @@ class CustomerCard extends Card
       case CUSTOMER_TYPE_ARTISAN:
         $bonusChoice = Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_ARTISAN);
         //TODO JSA how to display bonus ?
-        //TODO JSA Add clan marker on artisan space
+        Meeples::addClanMarkerOnArtisanSpace($player,$this->getRegion());
         break;
       case CUSTOMER_TYPE_ELDER:
-        //TODO JSA Add clan marker on elder space
+        Meeples::addClanMarkerOnElderSpace($player,$this->getRegion());
         break;
       case CUSTOMER_TYPE_MERCHANT:
         $bonusChoice = Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_MERCHANT);

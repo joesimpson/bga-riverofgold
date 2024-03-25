@@ -195,9 +195,11 @@ const MEEPLE_TYPE_SHIP = 1;
 const MEEPLE_TYPE_SHIP_ROYAL = 3;
 const MEEPLE_TYPE_CLAN_MARKER = 2;
 
-const MEEPLE_LOCATION_TILE = 'tile-';
-CONST MEEPLE_LOCATION_INFLUENCE = 'i-';
+const MEEPLE_LOCATION_TILE = 'tile-';//To be followed by tile id
+CONST MEEPLE_LOCATION_INFLUENCE = 'i-';//To be followed by region number
 const MEEPLE_LOCATION_RIVER = 'r';
+CONST MEEPLE_LOCATION_ARTISAN = 'artisan-';//To be followed by region number
+CONST MEEPLE_LOCATION_ELDER = 'elder-';//To be followed by region number
 
 const CLANS_COLORS = [
    //blue
