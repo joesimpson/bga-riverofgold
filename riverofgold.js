@@ -620,11 +620,11 @@ function (dojo, declare) {
         },
         notif_setDie(n) {
             debug('notif_setDie', n);
-            this._counters[n.args.player_id].dieFace.toValue(n.args.die_face);
+            this.updatePlayerDieFace(n.args.player_id,n.args.die_face,true);
         },
         notif_rollDie(n) {
             debug('notif_rollDie', n);
-            this._counters[n.args.player_id].dieFace.toValue(n.args.die_face);
+            this.updatePlayerDieFace(n.args.player_id,n.args.die_face,true);
         },
         notif_gainInfluence(n) {
             debug('notif_gainInfluence', n);
@@ -690,7 +690,7 @@ function (dojo, declare) {
                 this._counters[pId].rice.toValue(player.rice);
                 this._counters[pId].favor_total.toValue(player.moon);
                 this._counters[pId].favor.toValue(player.sun);
-                this._counters[pId].dieFace.toValue(player.die);
+                this.updatePlayerDieFace(pId,player.die);
                 this._counters[pId].buildings[BUILDING_TYPE_PORT    ].toValue(player.buildings[BUILDING_TYPE_PORT]);
                 this._counters[pId].buildings[BUILDING_TYPE_MARKET  ].toValue(player.buildings[BUILDING_TYPE_MARKET]);
                 this._counters[pId].buildings[BUILDING_TYPE_MANOR   ].toValue(player.buildings[BUILDING_TYPE_MANOR]);
@@ -851,6 +851,7 @@ function (dojo, declare) {
                     influence: [],
                     customers: [],
                 };
+                this.updatePlayerDieFace(pId,player.die);
                 this._counters[pId].buildings[BUILDING_TYPE_PORT] = this.createCounter(`rog_counter_${pId}_port`, player.buildings[BUILDING_TYPE_PORT]);
                 this._counters[pId].buildings[BUILDING_TYPE_MARKET] = this.createCounter(`rog_counter_${pId}_market`, player.buildings[BUILDING_TYPE_MARKET]);
                 this._counters[pId].buildings[BUILDING_TYPE_MANOR] = this.createCounter(`rog_counter_${pId}_manor`, player.buildings[BUILDING_TYPE_MANOR]);
@@ -1103,6 +1104,31 @@ function (dojo, declare) {
             }
         },
             
+        updatePlayerDieFace(pId,dieFace, animate = false) {
+            debug("updatePlayerDieFace",pId,dieFace);
+            let counter = this._counters[pId].dieFace;
+            counter.toValue(dieFace);
+            let icon = counter.span.nextSibling.firstElementChild;
+            icon.dataset.face = dieFace;
+            
+            if(animate && !this.isFastMode()){
+                let elem = `<div id='rog_dieFace_animation'>
+                    ${dieFace}
+                    <div class="rog_icon_container rog_icon_container_dieFace">
+                        <div class="rog_icon rog_icon_die_face-${dieFace}"></div>
+                    </div>
+                    </div>`;
+                $('page-content').insertAdjacentHTML('beforeend', elem);
+
+                this.slide(`rog_dieFace_animation`, `rog_reserve_${pId}_dieFace`, {
+                    from: this.getVisibleTitleContainer(),
+                    destroy: true,
+                    phantom: false,
+                    duration: 800,
+                });
+            }
+        },
+
         ////////////////////////////////////////////////////////
         //    ____              _
         //   / ___|__ _ _ __ __| |___

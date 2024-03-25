@@ -51,6 +51,78 @@
   height: 1.5em;
 }
 
+.rog_icon_die_face-1,
+.rog_icon_dieFace[data-face="1"] {
+  width: 3em;
+  height: 3em;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px black;
+  background-image: url("img/dice.jpg");
+  background-size: 600% 100% !important;
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+
+.rog_icon_die_face-2,
+.rog_icon_dieFace[data-face="2"] {
+  width: 3em;
+  height: 3em;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px black;
+  background-image: url("img/dice.jpg");
+  background-size: 600% 100% !important;
+  background-position-x: 20%;
+  background-position-y: 0%;
+}
+
+.rog_icon_die_face-3,
+.rog_icon_dieFace[data-face="3"] {
+  width: 3em;
+  height: 3em;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px black;
+  background-image: url("img/dice.jpg");
+  background-size: 600% 100% !important;
+  background-position-x: 40%;
+  background-position-y: 0%;
+}
+
+.rog_icon_die_face-4,
+.rog_icon_dieFace[data-face="4"] {
+  width: 3em;
+  height: 3em;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px black;
+  background-image: url("img/dice.jpg");
+  background-size: 600% 100% !important;
+  background-position-x: 60%;
+  background-position-y: 0%;
+}
+
+.rog_icon_die_face-5,
+.rog_icon_dieFace[data-face="5"] {
+  width: 3em;
+  height: 3em;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px black;
+  background-image: url("img/dice.jpg");
+  background-size: 600% 100% !important;
+  background-position-x: 80%;
+  background-position-y: 0%;
+}
+
+.rog_icon_die_face-6,
+.rog_icon_dieFace[data-face="6"] {
+  width: 3em;
+  height: 3em;
+  border-radius: 5px;
+  box-shadow: 1px 1px 5px black;
+  background-image: url("img/dice.jpg");
+  background-size: 600% 100% !important;
+  background-position-x: 100%;
+  background-position-y: 0%;
+}
+
 .rog_panel .rog_player_infos {
   display: flex;
   flex-direction: column;
@@ -169,7 +241,7 @@
   height: 3em;
   background-image: url("img/koku.png");
 }
-.rog_icon_container .rog_icon.rog_icon_favor, .rog_icon_container .rog_icon.rog_icon_influence-1, .rog_icon_container .rog_icon.rog_icon_influence-2, .rog_icon_container .rog_icon.rog_icon_influence-3, .rog_icon_container .rog_icon.rog_icon_influence-4, .rog_icon_container .rog_icon.rog_icon_influence-5, .rog_icon_container .rog_icon.rog_icon_influence-6, .rog_icon_container .rog_icon.rog_icon_die_face-1, .rog_icon_container .rog_icon.rog_icon_die_face-2, .rog_icon_container .rog_icon.rog_icon_die_face-3, .rog_icon_container .rog_icon.rog_icon_die_face-4, .rog_icon_container .rog_icon.rog_icon_die_face-5, .rog_icon_container .rog_icon.rog_icon_die_face-6 {
+.rog_icon_container .rog_icon.rog_icon_favor, .rog_icon_container .rog_icon.rog_icon_influence-1, .rog_icon_container .rog_icon.rog_icon_influence-2, .rog_icon_container .rog_icon.rog_icon_influence-3, .rog_icon_container .rog_icon.rog_icon_influence-4, .rog_icon_container .rog_icon.rog_icon_influence-5, .rog_icon_container .rog_icon.rog_icon_influence-6 {
   width: 2.5em;
   height: 3em;
 }
@@ -216,23 +288,20 @@
 .rog_icon_container .rog_icon.rog_icon_shrine {
   background-image: url("img/shrine_owned.png");
 }
-.rog_icon_container .rog_icon.rog_icon_die_face-1, .rog_icon_container .rog_icon.rog_icon_influence-1 {
+.rog_icon_container .rog_icon.rog_icon_influence-1 {
   background-image: url("img/regions/1.png");
 }
-.rog_icon_container .rog_icon.rog_icon_die_face-2, .rog_icon_container .rog_icon.rog_icon_influence-2 {
+.rog_icon_container .rog_icon.rog_icon_influence-2 {
   background-image: url("img/regions/2.png");
 }
-.rog_icon_container .rog_icon.rog_icon_die_face-3, .rog_icon_container .rog_icon.rog_icon_influence-3 {
+.rog_icon_container .rog_icon.rog_icon_influence-3 {
   background-image: url("img/regions/3.png");
 }
-.rog_icon_container .rog_icon.rog_icon_die_face-4, .rog_icon_container .rog_icon.rog_icon_influence-4 {
+.rog_icon_container .rog_icon.rog_icon_influence-4 {
   background-image: url("img/regions/4.png");
 }
-.rog_icon_container .rog_icon.rog_icon_die_face-5, .rog_icon_container .rog_icon.rog_icon_influence-5 {
+.rog_icon_container .rog_icon.rog_icon_influence-5 {
   background-image: url("img/regions/5.png");
-}
-.rog_icon_container .rog_icon.rog_icon_die_face-6, .rog_icon_container .rog_icon.rog_icon_influence-6 {
-  background-image: url("img/regions/6.png");
 }
 .rog_icon_container .rog_icon.rog_icon_customer-1, .rog_icon_container .rog_icon.rog_icon_customer-2, .rog_icon_container .rog_icon.rog_icon_customer-3, .rog_icon_container .rog_icon.rog_icon_customer-4, .rog_icon_container .rog_icon.rog_icon_customer-5 {
   width: 3em;
@@ -294,6 +363,7 @@
   flex-wrap: wrap;
 }
 
+#rog_dieFace_animation,
 #rog_score_animation,
 #rog_pottery_animation,
 #rog_rice_animation,
@@ -307,6 +377,7 @@
   font-weight: bold;
   font-size: 22px;
 }
+#rog_dieFace_animation .rog_icon_container,
 #rog_score_animation .rog_icon_container,
 #rog_pottery_animation .rog_icon_container,
 #rog_rice_animation .rog_icon_container,
@@ -2627,6 +2698,7 @@ body[data-rog_panel_details="2"] #rog_player_resource_line_customers {
   display: inline-block;
   margin-left: -1em;
   font-size: 2em;
+  display: none;
 }
 
 #ebd-body.help-mode .tooltipable {
