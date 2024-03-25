@@ -9,6 +9,7 @@ use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
+use ROG\Models\ShoreSpace;
 
 trait BuildTrait
 {
@@ -49,7 +50,8 @@ trait BuildTrait
     }
     $previousPosition = $tile->getPosition();
 
-    Players::spendMoney($player,$shoreSpace->cost);
+    $cost = $this->buildingCost($player,$shoreSpace);
+    Players::spendMoney($player,$cost);
 
     $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
     $tile->setPosition($position);
@@ -88,6 +90,8 @@ trait BuildTrait
     foreach($emptySpaces as $key => $spaceId){
       $space = ShoreSpaces::getShoreSpace($spaceId);
       if($this->canBuildOnSpace($player,$space)){
+        //update cost for UI
+        $space->cost = $this->buildingCost($player,$space);
         $possibleSpaces->append($space);
       }
     }
@@ -96,13 +100,30 @@ trait BuildTrait
   
   /**
    * @param Player $player
+   * @param ShoreSpace $space
    * @return true
    */
   public function canBuildOnSpace($player,$space)
   { 
-    if($space->cost > $player->getMoney() ) return false;
+    $cost = $this->buildingCost($player,$space);
+    if($cost > $player->getMoney() ) return false;
 
     return true;
   }
 
+  /**
+   * @param Player $player
+   * @param ShoreSpace $space
+   * @return int
+   */
+  public function buildingCost($player,$space)
+  { 
+    $cost = $space->cost;
+    $region = $space->region;
+    $artisanMarker = Meeples::getMarkerOnArtisanSpace($player->getId(),$region);
+    if(isset($artisanMarker)){
+      $cost = max(0, $cost - ARTISAN_COST_REDUCTION);
+    }
+    return $cost;
+  }
 }

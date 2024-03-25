@@ -184,6 +184,22 @@ class Meeples extends \ROG\Helpers\Pieces
    * @param int $pId
    * @return Meeple
    */
+  public static function getMarkerOnArtisanSpace($pId, $region)
+  {
+    return self::getFilteredQuery($pId, MEEPLE_LOCATION_ARTISAN.$region,)->get()->first();
+  }
+  /**
+   * @param int $pId
+   * @return Meeple
+   */
+  public static function getMarkerOnElderSpace($pId, $region)
+  {
+    return self::getFilteredQuery($pId, MEEPLE_LOCATION_ELDER.$region,)->get()->first();
+  }
+  /**
+   * @param int $pId
+   * @return Meeple
+   */
   public static function getMarkerOnMerchantSpace($pId)
   {
     return self::getFilteredQuery($pId, MEEPLE_LOCATION_MERCHANT)->get()->first();
