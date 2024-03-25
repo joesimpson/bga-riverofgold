@@ -258,15 +258,6 @@
   height: 3em;
   background-image: url("img/icons/sun.png");
 }
-.rog_icon_container .rog_icon.rog_icon_favor::before {
-  content: url("img/icons/moon.png");
-  width: 4em;
-  height: 3em;
-  position: absolute;
-  display: flex;
-  margin-top: -2.5em;
-  margin-left: -0.5em;
-}
 .rog_icon_container .rog_icon.rog_icon_silk {
   background-image: url("img/silk.png");
 }
@@ -2679,9 +2670,6 @@ body[data-rog_panel_details="2"] #rog_player_resource_line_customers {
 .customimagebutton .rog_trade .rog_button_qty {
   font-size: large;
   margin: 0px 5px;
-}
-.customimagebutton .rog_trade .rog_icon_favor::before {
-  content: unset;
 }
 .customimagebutton .rog_trade .rog_icon_favor .rog_icon_qty {
   padding-top: 10px;
