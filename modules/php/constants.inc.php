@@ -52,6 +52,9 @@
    CUSTOMER_TYPE_NOBLE   ,
  ];
 
+ const CARD_TYPE_CUSTOMER = 1;
+ const CARD_TYPE_CLAN_PATRON = 2;
+
  const TILE_TYPE_SCORING = 1;
  const TILE_TYPE_BUILDING = 2;
  const TILE_TYPE_MASTERY_CARD = 3;
@@ -94,6 +97,10 @@ const CARD_LOCATION_DISCARD = 'discard';
  //! Warning one clan patron will have more cards (3)
  const NB_CARDS_PER_PLAYER = 2;
 
+ const CARD_CLAN_LOCATION_DECK = 'clans_deck_';//To be followed by clan id
+ const CARD_CLAN_LOCATION_DRAFT = 'clans_draft';
+ const CARD_CLAN_LOCATION_DISCARD = 'clans_discard';
+ const CARD_CLAN_LOCATION_ASSIGNED = 'clans_assigned';
 
 const RESOURCE_TYPE_SILK = 1;
 const RESOURCE_TYPE_POTTERY = 2;
@@ -204,15 +211,19 @@ CONST MEEPLE_LOCATION_ARTISAN = 'artisan-';//To be followed by region number
 CONST MEEPLE_LOCATION_ELDER = 'elder-';//To be followed by region number
 CONST MEEPLE_LOCATION_MERCHANT = 'merchant';
 
+const CLAN_CRAB =    1;
+const CLAN_MANTIS =  2;
+const CLAN_CRANE =   3;
+const CLAN_SCORPION = 4;
 const CLANS_COLORS = [
    //blue
-   '0000ff' => 1,
+   '0000ff' => CLAN_CRAB,
    //green
-   '008000' => 2,
+   '008000' => CLAN_MANTIS,
    //white
-   'ffffff' => 3,
+   'ffffff' => CLAN_CRANE,
    //red
-   'ff0000' => 4,
+   'ff0000' => CLAN_SCORPION,
 ];
 
 
@@ -221,7 +232,8 @@ const CLANS_COLORS = [
  */ 
 const OPTION_EXPANSION_CLANS = 110;
 const OPTION_EXPANSION_CLANS_OFF = 0;
-const OPTION_EXPANSION_CLANS_ON = 1;
+const OPTION_EXPANSION_CLANS_DRAFT = 1;
+const OPTION_EXPANSION_CLANS_ALTERNATIVE = 2;
 /*
  * User preferences
  */  
@@ -236,7 +248,9 @@ const PREF_PLAYER_PANEL_DETAILS_COMPACT = 2;
 const ST_GAME_SETUP = 1;
 
 const ST_CLAN_SELECTION = 3;
-const ST_PLAYER_SETUP = 5;
+const ST_DRAFT_PLAYER = 4;
+const ST_DRAFT_NEXT_PLAYER = 5;
+const ST_PLAYER_SETUP = 6;
  
 const ST_NEXT_TURN = 10;
 const ST_BEFORE_TURN = 11;

@@ -35,10 +35,15 @@ $game_options = [
         'name' => 'Disabled', 
         'description' => 'No specific clans for players', 
       ],
-      OPTION_EXPANSION_CLANS_ON => [
-        'name' => 'Enabled', 
-        'description' => 'Clans Patrons give powerful new unique abilities to each clan', 
+      OPTION_EXPANSION_CLANS_DRAFT => [
+        'name' => 'Draft Setup', 
+        'description' => 'Clans patrons give powerful new unique abilities to each clan : 1 random patron card is available for each of the 4 clans', 
         'tmdisplay' => 'Clans Patrons',
+      ],
+      OPTION_EXPANSION_CLANS_ALTERNATIVE => [
+        'name' => 'Alternative Setup', 
+        'description' => 'Clans patrons give powerful new unique abilities to each clan : each player receive a clan and then choose 1 of its patron cards', 
+        'tmdisplay' => 'Clans Patrons Alternative',
       ],
     ],
     'default' => OPTION_EXPANSION_CLANS_OFF,

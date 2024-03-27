@@ -5,6 +5,7 @@ namespace ROG\Core;
 use ROG\Managers\Cards;
 use ROG\Managers\Tiles;
 use ROG\Models\BuildingTile;
+use ROG\Models\ClanPatronCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
 use ROG\Models\Player;
@@ -37,6 +38,20 @@ class Notifications
     ]);
   }
   
+  /**
+   * @param Player $player
+   * @param ClanPatronCard $card
+   */
+  public static function giveClanCardTo($player, $card)
+  {
+    self::notifyAll('giveClanCardTo', clienttranslate('${player_name} receives a new clan patron : ${patron_name} ( ${clan_name} )'), [
+      'i18n' => array( 'patron_name','clan_name' ),
+      'player' => $player,
+      'card' => $card->getUiData(),
+      'patron_name' => $card->getName(),
+      'clan_name' => $card->getClanName(),
+    ]);
+  }
   /**
    * @param Player $player
    * @param Card $card

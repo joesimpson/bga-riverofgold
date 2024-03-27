@@ -17,15 +17,7 @@ class Card extends \ROG\Helpers\DB_Model
     'pId' => ['player_id', 'int'],
     'type' => ['type', 'int'],
   ];
-  
-  protected $staticAttributes = [
-    ['customerType', 'int'],
-    ['region', 'int'],
-    ['cost', 'obj'],
-    ['title', 'string'],
-    ['desc', 'string'],
-  ];
-
+   
   public function __construct($row, $datas)
   {
     parent::__construct($row);

@@ -58,8 +58,14 @@ require_once 'modules/php/constants.inc.php';
         |
         v
         clanSelection
-        |
-        v
+        |   |
+        |   v
+        |   draft   <------\
+        |   |              |
+        |   v              /
+        |   draftNextPlayer
+        |   |
+        v   v
         playerSetup
                 |
                 v
@@ -104,13 +110,40 @@ $machinestates = array(
     
     ST_CLAN_SELECTION => array(
         "name" => "clanSelection",
+        "action" => "stClanSelection",
         "description" => clienttranslate('Assigning clans to players'),
         "type" => "game",
-        "action" => "stClanSelection",
         "transitions" => [ 
             "next" => ST_PLAYER_SETUP,
+            "draft" => ST_DRAFT_PLAYER,
         ],
     ),
+        
+    ST_DRAFT_PLAYER => [
+        'name' => 'draft',
+        'args' => 'argDraft',
+        'description' => clienttranslate('${actplayer} must choose a clan patron to play with'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a clan patron to play with'),
+        'possibleactions' => ['actTakeCard'],
+        'type' => 'activeplayer',
+        'transitions' => [
+            'next' => ST_DRAFT_NEXT_PLAYER,
+            'zombiePass'=> ST_DRAFT_NEXT_PLAYER,
+        ],
+    ],
+
+    ST_DRAFT_NEXT_PLAYER => [
+        'name' => 'draftNextPlayer',
+        'description' => '',
+        'type' => 'game',
+        'action' => 'stDraftNextPlayer',
+        'transitions' => [
+            'next' => ST_DRAFT_PLAYER,
+            'end' => ST_PLAYER_SETUP,
+        ],
+    ],
+
+    //TODO JSA multipleactiveplayer state for Alternative setup
     
     ST_PLAYER_SETUP => array(
         "name" => "playerSetup",

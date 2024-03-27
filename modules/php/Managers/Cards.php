@@ -2,8 +2,12 @@
 
 namespace ROG\Managers;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
+use ROG\Models\Card;
+use ROG\Models\ClanPatronCard;
+use ROG\Models\CustomerCard;
 use ROG\Models\Player;
 
 /* Class to manage all the cards */
@@ -14,14 +18,24 @@ class Cards extends \ROG\Helpers\Pieces
   protected static $prefix = 'card_';
   protected static $autoIncrement = true;
   protected static $autoremovePrefix = false;
-  protected static $customFields = ['player_id', 'type'];
+  protected static $customFields = ['player_id', 'type', 'subtype'];
   protected static $autoreshuffle = true;
   protected static $autoreshuffleCustom = [CARD_LOCATION_DECK => CARD_LOCATION_DISCARD];
 
   protected static function cast($row)
   {
-    $data = self::getCards()[$row['type']];
-    return new \ROG\Models\CustomerCard($row, $data);
+    $type = isset($row['type']) ? $row['type'] : null;
+    $subtype = isset($row['subtype']) ? $row['subtype'] : null;
+    switch ($subtype) {
+      case CARD_TYPE_CUSTOMER:
+        $data = self::getCustomerCardsTypes()[$type];
+        return new CustomerCard($row, $data);
+      case CARD_TYPE_CLAN_PATRON:
+        $data = self::getClanPatronCardsTypes()[$type];
+        return new ClanPatronCard($row, $data);
+    }
+    $data = [];
+    return new Card($row, $data);
   }
 
   /**
@@ -112,37 +126,65 @@ class Cards extends \ROG\Helpers\Pieces
     }
     return $cards;
   }
+  
+  /**
+   * Move a card to a player
+   * @param Player $player
+   * @param ClanPatronCard $card
+   */
+  public static function giveClanCardTo($player, $card)
+  {
+    $card->setLocation(CARD_CLAN_LOCATION_ASSIGNED);
+    $card->setPId($player->getId());
+    Notifications::giveClanCardTo($player, $card);
+  }
 
-  /* Creation of the cards */
+  /**
+   * Init the face up cards to be drafted with 1 of each clan
+   */
+  public static function initClanPatronsDraft()
+  {
+    foreach (CLANS_COLORS as $color => $clan_id) {
+      $deck = CARD_CLAN_LOCATION_DECK.$clan_id;
+      self::shuffle($deck);
+      self::pickOneForLocation($deck, CARD_CLAN_LOCATION_DRAFT);
+    }
+  }
+
+  /** Creation of the cards */
   public static function setupNewGame($players, $options)
   {
     $cards = [];
 
-    foreach (self::getCards() as $type => $card) {
+    foreach (self::getCustomerCardsTypes() as $type => $card) {
       $cards[] = [
         'location' => CARD_LOCATION_DECK,
         'type' => $type,
+        'subtype' => CARD_TYPE_CUSTOMER,
       ];
+    }
+    
+    if(!Globals::isExpansionClansDisabled()){
+      foreach (self::getClanPatronCardsTypes() as $type => $card) {
+        $cards[] = [
+          'location' => CARD_CLAN_LOCATION_DECK. $card['clan'],
+          'type' => $type,
+          'subtype' => CARD_TYPE_CLAN_PATRON,
+        ];
+      }
     }
 
     self::create($cards);
     self::shuffle(CARD_LOCATION_DECK);
   }
-
-  /**
-   * @return array of all the different types of Customer Cards
-   */
-  public static function getCards()
-  { 
-    return self::getCustomerCards();
-  }
+ 
   /**
    * @param int $customerType the CUSTOMER type to search
    * @return array list of CARD types
    */
   public static function getCardsTypesByCustomer($customerType){
     $types = [];
-    $customerCards = self::getCustomerCards();
+    $customerCards = self::getCustomerCardsTypes();
     foreach ($customerCards as $type => $customerCard) {
       if($customerType == $customerCard['customerType']){
         $types[] = $type;
@@ -153,7 +195,7 @@ class Cards extends \ROG\Helpers\Pieces
   /**
    * @return array of all the different types of Customer Cards
    */
-  public static function getCustomerCards()
+  public static function getCustomerCardsTypes()
   {
     $f = function ($t) {
       return [
@@ -199,4 +241,30 @@ class Cards extends \ROG\Helpers\Pieces
     ];
   }
   
+  
+  /**
+   * @return array of all the different types of Clan Patron Cards
+   */
+  public static function getClanPatronCardsTypes()
+  {
+    $f = function ($t) {
+      return [
+        'clan' => $t[0],
+        'name' => $t[1],
+        'ability_name' => $t[2],
+        'desc' => $t[3],
+      ];
+    };
+    return [
+      // 8 unique Clan Patron cards
+      1 => $f([CLAN_CRAB,     'Kaiu Shihobu',   clienttranslate('Master Engineer'),                 '',  ]), 
+      2 => $f([CLAN_CRAB,     'Yasuki Taka',    clienttranslate('Wily Trader'),                     '',  ]), 
+      3 => $f([CLAN_MANTIS,   'Yoritomo',       clienttranslate('Son of Storms'),                   '',  ]), 
+      4 => $f([CLAN_MANTIS,   'Kudaka',         clienttranslate('Priestess of tempest and Tides'),  '',  ]), 
+      5 => $f([CLAN_CRANE,    'Daidoji Uji',    clienttranslate('The Iron Crane'),                  '',  ]), 
+      6 => $f([CLAN_CRANE,    'Kakita Ryoku',   clienttranslate('Darling of the Courts'),           '',  ]),
+      7 => $f([CLAN_SCORPION, 'Shosuro Hyobu',  clienttranslate('Governor of the City of lies'),    '',  ]),  
+      8 => $f([CLAN_SCORPION, 'Bayushi Kashiko',clienttranslate('Lady of Whispers'),                '',  ]),  
+    ];
+  }
 }

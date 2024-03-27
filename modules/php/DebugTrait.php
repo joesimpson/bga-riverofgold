@@ -45,6 +45,11 @@ trait DebugTrait
     $this->debugUI();
   }
   
+  function debugGoToDraft()
+  {
+    $this->gamestate->jumpToState(ST_CLAN_SELECTION);
+  }
+  
   //Fake deliveries for UI
   function debugLiv(){
     $players = Players::getAll();

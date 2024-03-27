@@ -51,6 +51,7 @@ class RiverOfGold extends Table
     use ROG\States\DeliverTrait;
     use ROG\States\DiscardTrait;
     use ROG\States\DivineFavorTrait;
+    use ROG\States\DraftTrait;
     use ROG\States\EndTurnTrait;
     use ROG\States\NextTurnTrait;
     use ROG\States\PlayerTurnTrait;

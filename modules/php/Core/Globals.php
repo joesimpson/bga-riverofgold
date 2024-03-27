@@ -25,7 +25,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     'choices' => 'int',
 
     // Game options
-    'optionGameMode' => 'int', 
+    'optionClanPatrons' => 'int', 
 
   ];
  
@@ -49,6 +49,25 @@ class Globals extends \ROG\Helpers\DB_Manager
     //GAME OPTIONS  --------------------------------------------
     //              --------------------------------------------
 
+    self::setOptionClanPatrons($options[OPTION_EXPANSION_CLANS]);
+  }
+
+  /**
+   * @return bool
+   */
+  public static function isExpansionClansDisabled()
+  {
+    $option = self::getOptionClanPatrons();
+    return OPTION_EXPANSION_CLANS_OFF == $option;
+  }
+
+  /**
+   * @return bool
+   */
+  public static function isExpansionClansDraft()
+  {
+    $option = self::getOptionClanPatrons();
+    return OPTION_EXPANSION_CLANS_DRAFT == $option;
   }
    
   /**
