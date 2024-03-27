@@ -31,22 +31,22 @@
 
     &[data-type='2'] {//MEEPLE_TYPE_CLAN_MARKER
         background-image: url("img/clans_markers.png");
-        background-size: 1000% 100%;
+        background-size: 400% 100%;
         background-color: transparent;
         border-radius: 0px;
         box-shadow: none;
 
-        //green
-        background-position-x: 0%;
-
+        &[data-color="008000"] {//green
+            background-position-x: 0%;
+        }
         &[data-color="0000ff"] {//blue
-            background-position-x: 11%;
+            background-position-x: 33%;
         }
         &[data-color="ffffff"] {//white
-            background-position-x: 55%;
+            background-position-x: 66%;
         }
         &[data-color="ff0000"] {//red
-            background-position-x: 78%;
+            background-position-x: 100%;
         }
     }
 
