@@ -47,6 +47,7 @@ class Notifications
     self::notifyAll('giveClanCardTo', clienttranslate('${player_name} receives a new clan patron : ${patron_name} ( ${clan_name} )'), [
       'i18n' => array( 'patron_name','clan_name' ),
       'player' => $player,
+      'player_color' => $player->getColor(),
       'card' => $card->getUiData(),
       'patron_name' => $card->getName(),
       'clan_name' => $card->getClanName(),

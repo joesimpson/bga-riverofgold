@@ -605,7 +605,9 @@ function (dojo, declare) {
         notif_giveClanCardTo(n) {
             debug('notif_giveClanCardTo: receiving a new clan card', n);
             if (!$(`rog_clan_card-${n.args.card.id}`)) this.addClanCard(n.args.card, this.getVisibleTitleContainer());
-            let rog_player_clan_panel =  `rog_player_clan_panel-${n.args.player_id}`;
+            let pid = n.args.player_id;
+            let color = n.args.player_color;
+            let rog_player_clan_panel =  `rog_player_clan_panel-${pid}`;
             this.slide(`rog_clan_card-${n.args.card.id}`, rog_player_clan_panel, {
                 from: this.getVisibleTitleContainer(),
                 destroy: true,
@@ -613,7 +615,11 @@ function (dojo, declare) {
             }).then( () => {
                 let clanIconDiv = this.formatIcon('clan-'+n.args.card.clan,CLANS_NAMES.get(n.args.card.clan));
                 dojo.place(clanIconDiv,rog_player_clan_panel,'first');
-                //TODO JSA update player color
+                //update player color :
+                this.gamedatas.players[pid].color = color;
+                this.gamedatas.players[pid].color_back = (color == "ffffff") ? "bbbbbb" : null;
+                let divName = $(`overall_player_board_${pid}`).querySelector(`#player_name_${pid}`).querySelector(`a:first-child` );
+                divName.style.color = "#"+color;
             });
         },
         notif_giveCardTo(n) {

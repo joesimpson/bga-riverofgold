@@ -52,7 +52,6 @@ trait DraftTrait
     $player_color = array_search($card->getClan(),CLANS_COLORS);
     $player->setColor($player_color);
     self::reloadPlayersBasicInfos();
-    //TODO JSA NOTIFIY new color
     Cards::giveClanCardTo($player,$card);
 
 
