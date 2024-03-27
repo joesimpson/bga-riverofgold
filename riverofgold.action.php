@@ -118,6 +118,13 @@
       self::ajaxResponse();
     }
 
+    public function actTakeCard()
+    {
+      self::setAjaxMode();
+      $cardId = self::getArg( "c", AT_posint, true );
+      $this->game->actTakeCard($cardId);
+      self::ajaxResponse();
+    }
     public function actDiscardCard()
     {
       self::setAjaxMode();

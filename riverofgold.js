@@ -134,6 +134,7 @@ function (dojo, declare) {
                 ['refreshHand', 50],
                 ['giveMoney', 1300],
                 ['spendMoney', 1300],
+                ['giveClanCardTo', 1000],
                 ['giveCardTo', 1000],
                 ['deliver', 1000],
                 ['discard', 1000],
@@ -316,6 +317,24 @@ function (dojo, declare) {
         onLeavingState(stateName) {
             this.inherited(arguments);
             this.empty('rog_select_piece_container');
+        },
+            
+        onEnteringStateDraft(args) {
+            debug('onEnteringStateDraft', args);
+            let selectedCard = null;
+            Object.values(args.cards).forEach((card) => {
+                this.addClanCard(card, $('rog_select_piece_container'));
+                if (this.isCurrentPlayerActive()) {
+                    this.onClick(`rog_clan_card-${card.id}`, () => {
+                        if (selectedCard) $(`rog_clan_card-${selectedCard}`).classList.remove('selected');
+                        selectedCard = card.id;
+                        $(`rog_clan_card-${selectedCard}`).classList.add('selected');
+                        this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
+                            this.takeAction('actTakeCard', { c: selectedCard })
+                        );
+                    });
+                }
+            });
         },
 
         onEnteringStatePlayerTurn(args){
@@ -583,6 +602,20 @@ function (dojo, declare) {
         //                                                            
         //    
         //////////////////////////////////////////////////////////////
+        notif_giveClanCardTo(n) {
+            debug('notif_giveClanCardTo: receiving a new clan card', n);
+            if (!$(`rog_clan_card-${n.args.card.id}`)) this.addClanCard(n.args.card, this.getVisibleTitleContainer());
+            let rog_player_clan_panel =  `rog_player_clan_panel-${n.args.player_id}`;
+            this.slide(`rog_clan_card-${n.args.card.id}`, rog_player_clan_panel, {
+                from: this.getVisibleTitleContainer(),
+                destroy: true,
+                phantom: false,
+            }).then( () => {
+                let clanIconDiv = this.formatIcon('clan-'+n.args.card.clan,CLANS_NAMES.get(n.args.card.clan));
+                dojo.place(clanIconDiv,rog_player_clan_panel,'first');
+                //TODO JSA update player color
+            });
+        },
         notif_giveCardTo(n) {
             debug('notif_giveCardTo: receiving a new card', n);
             if (!$(`rog_card-${n.args.card.id}`)) this.addCard(n.args.card, this.getVisibleTitleContainer());
@@ -872,8 +905,12 @@ function (dojo, declare) {
             let nPlayers = 0;
             this.forEachPlayer((player) => {
                 let isCurrent = player.id == this.player_id;
-                let divPanel = `player_panel_content_${player.color}`;
-                this.place('tplPlayerPanel', player, divPanel, 'after');
+                //BEWARE if we change color of a player during first phase of the game, some players may have the same color
+                //let divPanel = $(`overall_player_board_${player.id}`).querySelector(`.player_panel_content`).id;
+                //this.place('tplPlayerPanel', player, divPanel, 'after');
+                let divPanel = $(`overall_player_board_${player.id}`).querySelector(`.player_panel_content`);
+                divPanel.insertAdjacentHTML('beforeend', this.tplPlayerPanel(player));
+
                 if(isCurrent) this.place('tplPlayerHand', player, 'rog_upper_zone','last');
                 this.place('tplPlayerDeliveredCards', player, 'rog_players_deliveries');
                 
@@ -1055,7 +1092,9 @@ function (dojo, declare) {
                 </div>
                 <hr>
                 <div class='rog_player_resource_line' id='rog_player_resource_line_clan'>
-                    ${this.formatIcon('clan-'+player.clan,CLANS_NAMES.get(player.clan))}
+                    <div id='rog_player_clan_panel-${player.id}'>
+                        ${player.clan ? this.formatIcon('clan-'+player.clan,CLANS_NAMES.get(player.clan)) :''}
+                    </div>
                     ${this.tplResourceCounter(player, 'dieFace')}
                 </div>
             </div>
@@ -1257,6 +1296,37 @@ function (dojo, declare) {
                     <div class='rog_cards_delivered' id='rog_cards_delivered-${player.id}'></div>
                 </div>
             </div>`;
+        },
+
+        ////////////////////////////////////////////////////////
+        // Clan cards
+        ////////////////////////////////////////////////////////
+        addClanCard(card, location = null) {
+            debug('addClanCard',card);
+            if ($('rog_clan_card-' + card.id)) return;
+    
+            let o = this.place('tplClanCard', card, location == null ? this.getCardContainer(card) : location);
+            let tooltipDesc = this.getClanCardTooltip(card);
+            if (tooltipDesc != null) {
+                this.addCustomTooltip(o.id, tooltipDesc.map((t) => this.formatString(t)).join('<br/>'));
+            }
+    
+            return o;
+        },
+        tplClanCard(card, prefix ='') {
+            let patron_name = card.patron_name;
+            let card_side = 0;
+            return `<div class="rog_clan_card" id="rog_clan_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-side="${card_side}">
+                    <div class="rog_clan_card_wrapper"></div>
+                </div>`;
+        },
+        
+        getClanCardTooltip(card) {
+            let cardDatas = card;
+            let patron_name = cardDatas.name;
+            let div = this.tplClanCard(cardDatas,'_tmp');
+            //TODO JSA display other side on tooltip ?
+            return [`<div class='rog_card_tooltip'><h1>${patron_name}</h1>${div}</div>`];
         },
 
         ////////////////////////////////////////////////////////

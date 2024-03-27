@@ -20,6 +20,7 @@
   --rog_mastery_scale: 0.3;
   --rog_era_tile_holder_scale: 0.3;
   --rog_tileLogScale: 0.3;
+  --rog_takeCardScale: 0.2;
 }
 
 .player_board_inner > .player-name {
@@ -888,9 +889,97 @@ body[data-rog_panel_details="2"] #rog_player_resource_line_customers {
   z-index: 10;
 }
 
+.rog_clan_card {
+  width: 154px;
+  height: 213px;
+  background-image: url("img/clans/clans.jpg");
+  border: 1px solid black;
+  box-shadow: 1px 1px 5px black;
+  border-radius: 5px;
+  background-size: 400% 400%;
+  position: relative;
+}
+.rog_clan_card[data-type="1"], .rog_clan_card[data-type="5"] {
+  background-position-x: 0%;
+}
+.rog_clan_card[data-type="2"], .rog_clan_card[data-type="6"] {
+  background-position-x: 33%;
+}
+.rog_clan_card[data-type="3"], .rog_clan_card[data-type="7"] {
+  background-position-x: 66%;
+}
+.rog_clan_card[data-type="4"], .rog_clan_card[data-type="8"] {
+  background-position-x: 100%;
+}
+.rog_clan_card[data-type="1"][data-side="0"], .rog_clan_card[data-type="2"][data-side="0"], .rog_clan_card[data-type="3"][data-side="0"], .rog_clan_card[data-type="4"][data-side="0"] {
+  background-position-y: 0%;
+}
+.rog_clan_card[data-type="1"][data-side="1"], .rog_clan_card[data-type="2"][data-side="1"], .rog_clan_card[data-type="3"][data-side="1"], .rog_clan_card[data-type="4"][data-side="1"] {
+  background-position-y: 33%;
+}
+.rog_clan_card[data-type="5"][data-side="0"], .rog_clan_card[data-type="6"][data-side="0"], .rog_clan_card[data-type="7"][data-side="0"], .rog_clan_card[data-type="8"][data-side="0"] {
+  background-position-y: 66%;
+}
+.rog_clan_card[data-type="5"][data-side="1"], .rog_clan_card[data-type="6"][data-side="1"], .rog_clan_card[data-type="7"][data-side="1"], .rog_clan_card[data-type="8"][data-side="1"] {
+  background-position-y: 100%;
+}
+.rog_clan_card.selectable {
+  box-shadow: 0px 0px 7px 2px blue;
+  cursor: pointer;
+}
+.rog_clan_card.selectable:hover {
+  transform: scale(1.1);
+}
+.rog_clan_card.selected, .rog_clan_card.selected:hover {
+  box-shadow: 0px 0px 7px 2px green;
+  transform: scale(1.1);
+  z-index: 2;
+}
+
+#rog_select_piece_container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 10px;
+}
+#rog_select_piece_container .rog_clan_card {
+  margin: 5px 0px;
+  width: calc(var(--rog_takeCardScale) * 770px);
+  height: calc(var(--rog_takeCardScale) * 1065px);
+}
+#rog_select_piece_container .rog_clan_card[data-type="1"] {
+  order: 0;
+}
+#rog_select_piece_container .rog_clan_card[data-type="2"] {
+  order: 1;
+}
+#rog_select_piece_container .rog_clan_card[data-type="3"] {
+  order: 2;
+}
+#rog_select_piece_container .rog_clan_card[data-type="4"] {
+  order: 3;
+}
+#rog_select_piece_container .rog_clan_card[data-type="5"] {
+  order: 4;
+}
+#rog_select_piece_container .rog_clan_card[data-type="6"] {
+  order: 5;
+}
+#rog_select_piece_container .rog_clan_card[data-type="7"] {
+  order: 6;
+}
+#rog_select_piece_container .rog_clan_card[data-type="8"] {
+  order: 7;
+}
+
 .midSizeDialog .rog_card {
   width: 385px;
   height: 532px;
+}
+.midSizeDialog .rog_clan_card {
+  width: 385px;
+  height: 532.5px;
 }
 
 .rog_player_hand_resizable {

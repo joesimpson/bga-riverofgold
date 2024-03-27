@@ -25,6 +25,12 @@ class CustomerCard extends Card
     parent::__construct($row, $datas);
   } 
   
+  public function getUiData()
+  {
+    $data = parent::getUiData();
+    return $data;
+  }
+  
   /**
    * Play  the instantaneous effect of this card
    * @param Player $player

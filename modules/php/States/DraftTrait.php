@@ -14,7 +14,7 @@ trait DraftTrait
   { 
     $cards = Cards::getInLocation(CARD_CLAN_LOCATION_DRAFT);
     $args = [
-      'cards' => $cards,
+      'cards' => $cards->ui(),
     ];
     return $args;
   }
@@ -48,7 +48,13 @@ trait DraftTrait
     }
 
     $player = Players::getActive();
+    $player->setClan($card->getClan());
+    $player_color = array_search($card->getClan(),CLANS_COLORS);
+    $player->setColor($player_color);
+    self::reloadPlayersBasicInfos();
+    //TODO JSA NOTIFIY new color
     Cards::giveClanCardTo($player,$card);
+
 
     $this->gamestate->nextState('next');
   }

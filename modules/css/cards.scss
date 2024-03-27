@@ -52,11 +52,111 @@
     }
  
 }
+.rog_clan_card {
+    width: calc(0.2 * 770px);
+    height: calc(0.2 * 1065px);
+    background-image: url("img/clans/clans.jpg");
+    border: 1px solid black;
+    box-shadow: 1px 1px 5px black;
+    border-radius: 5px;
+
+    //sprite positions
+    background-size: 400% 400%;
+    //@for $i from 0 through 7 {
+    //    &[data-type="#{$i + 1}"] {
+    //        background-position-x: math.div(($i % 4) * 100%, 3);
+    //        &[data-side="0"] {//Back with image
+    //            background-position-y: math.div(math.div(($i - ($i % 4)) , 4) * 100%, 3) + math.round(math.div($i,4)) * 66%;
+    //        }
+    //        &[data-side="1"] {//Front with details
+    //            background-position-y: math.div(math.div(($i - ($i % 4)) , 4) * 100%, 3) + math.round(math.div($i,4)) * 66% + 33%;
+    //        }
+    //    }
+    //}
+        
+    &[data-type="1"],
+    &[data-type="5"] {
+        background-position-x: 0%;
+    } 
+    &[data-type="2"],
+    &[data-type="6"] {
+        background-position-x: 33%;
+    } 
+    &[data-type="3"],
+    &[data-type="7"] {
+        background-position-x: 66%;
+    } 
+    &[data-type="4"],
+    &[data-type="8"] {
+        background-position-x: 100%;
+    } 
+    &[data-type="1"],
+    &[data-type="2"],
+    &[data-type="3"],
+    &[data-type="4"] {
+        &[data-side="0"] {//Back with image
+            background-position-y: 0%;
+        }
+        &[data-side="1"] {//Front with details
+            background-position-y: 33%;
+        }
+    } 
+    &[data-type="5"],
+    &[data-type="6"],
+    &[data-type="7"],
+    &[data-type="8"] {
+        &[data-side="0"] {//Back with image
+            background-position-y: 66%;
+        }
+        &[data-side="1"] {//Front with details
+            background-position-y: 100%;
+        }
+    } 
+
+    position: relative; 
+    &.selectable {
+        box-shadow: 0px 0px 7px 2px blue;
+        cursor: pointer;
+        &:hover {
+            transform: scale(1.1);
+        }
+    }
+
+    &.selected,
+    &.selected:hover {
+        box-shadow: 0px 0px 7px 2px green;
+        transform: scale(1.1);
+        z-index: 2;
+    }
+ 
+}
+#rog_select_piece_container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    
+    .rog_clan_card {
+        margin: 5px 0px;
+        width: calc(var(--rog_takeCardScale) * 770px);
+        height: calc(var(--rog_takeCardScale) * 1065px);
+
+        @for $i from 0 through 7 {
+            &[data-type="#{$i + 1}"] {
+                order: $i;
+            }
+        }
+    }
+}
 .midSizeDialog{//Tooltips
     .rog_card {
         width: 385px;
         height: 532px;
-
+    }
+    .rog_clan_card {
+        width: calc(0.5 * 770px);
+        height: calc(0.5 * 1065px);
     }
 }
 
