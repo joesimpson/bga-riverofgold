@@ -155,12 +155,11 @@ class Cards extends \ROG\Helpers\Pieces
   /**
    * Init the face up cards to be choosed between 2 of 1 clan
    * @param Player $player
-   * @param int $clan_id
    */
-  public static function initClanPatronsAlternative($player, $clan_id)
+  public static function initClanPatronsAlternative($player)
   { 
     //Cards::moveAllInLocation(CARD_CLAN_LOCATION_DECK.$clan_id, CARD_CLAN_LOCATION_DRAFT);
-    $cards = self::getInLocation(CARD_CLAN_LOCATION_DECK.$clan_id);
+    $cards = self::getInLocation(CARD_CLAN_LOCATION_DECK.$player->getClan());
     foreach ($cards as $card) {
       $card->setLocation(CARD_CLAN_LOCATION_DRAFT);
       $card->setPId($player->getId());

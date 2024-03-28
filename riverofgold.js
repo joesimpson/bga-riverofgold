@@ -613,6 +613,7 @@ function (dojo, declare) {
                 destroy: true,
                 phantom: false,
             }).then( () => {
+                if($(rog_player_clan_panel).querySelector(`.rog_icon_clan-${n.args.card.clan}`)) return;
                 let clanIconDiv = this.formatIcon('clan-'+n.args.card.clan,CLANS_NAMES.get(n.args.card.clan));
                 dojo.place(clanIconDiv,rog_player_clan_panel,'first');
             });

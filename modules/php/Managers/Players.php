@@ -33,7 +33,7 @@ class Players extends \ROG\Helpers\DB_Manager
     // Create players
     $gameInfos = Game::get()->getGameinfos();
     $colors = $gameInfos['player_colors'];
-    $query = self::DB()->multipleInsert(['player_id', 'player_color', 'player_canal', 'player_name', 'player_avatar']);
+    $query = self::DB()->multipleInsert(['player_id', 'player_color', 'player_canal', 'player_name', 'player_avatar','player_clan']);
 
     $values = [];
     $k =0;
@@ -41,14 +41,21 @@ class Players extends \ROG\Helpers\DB_Manager
     foreach ($players as $pId => $player) {
       $color = array_shift($colors);
       //Force BLACK at setup if color is selected by players !
-      if($forceAllBlack) $color = '000000';
+      if($forceAllBlack){
+        $color = '000000';
+        $player_clan = null;
+      }
+      else {
+        $player_clan = CLANS_COLORS[$color];
+      }
 
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar']];
+      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'],$player_clan];
       $k++;
     }
     $query->values($values);
 
-    if(!$forceAllBlack) Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
+    //Don't use player pref for color when color has POWER !
+    if(Globals::isExpansionClansDisabled()) Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
     Game::get()->reloadPlayersBasicInfos();
     return self::getAll();
   }

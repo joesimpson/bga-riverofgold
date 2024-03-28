@@ -22,21 +22,11 @@ trait ClanSelectionTrait
       return;
     }
 
-    //give clan colors to players 
-    $players = Players::getAll();
-    $k = 0;
-    foreach($players as $player){
-      $clan_id = CLANS_COLORS[$player->getColor()];
-      $player->setClan($clan_id);
-      $k++;
-        
-      if(Globals::isExpansionClansAlternative()){
-        Cards::initClanPatronsAlternative($player, $clan_id);
-      }
-    }
-    //TODO JSA notify clan (for waiting screen)
-
     if(Globals::isExpansionClansAlternative()){
+      $players = Players::getAll();
+      foreach($players as $player){
+        Cards::initClanPatronsAlternative($player);
+      }
       //Alternative setup : clan is random at start, but player can choose the patron card
       $this->gamestate->nextState('draftMulti');
       return;
