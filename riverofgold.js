@@ -758,7 +758,8 @@ function (dojo, declare) {
                 this.gamedatas[value] = n.args.datas[value];
             });
     
-            this.setupCards();
+            //keep hand untouched, another notif will take care about it
+            this.setupCards(true);
             this.setupTiles();
             this.setupMeeples();
     
@@ -1250,10 +1251,11 @@ function (dojo, declare) {
         //   \____\__,_|_|  \__,_|___/
         //////////////////////////////////////////////////////////
 
-        setupCards() {
+        setupCards(keepHand = false) {
             // This function is refreshUI compatible
             //destroy previous cards
             document.querySelectorAll('.rog_card[id^="rog_card-"], .rog_clan_card[id^="rog_clan_card-"]').forEach((oCard) => {
+                if(keepHand && oCard.parentNode.classList.contains('rog_cards_hand')) return;
                 this.destroy(oCard);
             });
             let cardIds = this.gamedatas.cards.map((card) => {
