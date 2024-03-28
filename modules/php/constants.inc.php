@@ -104,6 +104,15 @@ const CARD_LOCATION_DISCARD = 'discard';
  const CARD_CLAN_LOCATION_DISCARD = 'clans_discard';
  const CARD_CLAN_LOCATION_ASSIGNED = 'clans_assigned';
 
+ const PATRON_MASTER_ENGINEER = 1;
+ const PATRON_TRADER          = 2;
+ const PATRON_SON_OF_STORM    = 3;
+ const PATRON_PRIESTESS       = 4;
+ const PATRON_IRON_CRANE      = 5;
+ const PATRON_DARLING         = 6;
+ const PATRON_GOVERNOR        = 7;
+ const PATRON_LADY            = 8;
+
 const RESOURCE_TYPE_SILK = 1;
 const RESOURCE_TYPE_POTTERY = 2;
 const RESOURCE_TYPE_RICE = 3;

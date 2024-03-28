@@ -64,8 +64,12 @@ trait SetupTrait
         Notifications::giveCardTo($player,$card);
       }
 
-      //TODO JSA intial money according to first player
+      //intial money according to first player
       $initialMoney = $k + 7;
+      $playerPatron = $player->getPatron();
+      if(isset($playerPatron) && PATRON_MASTER_ENGINEER == $playerPatron->getType()){
+        $initialMoney += 10;
+      }
       //Get first resources
       $player->setResources([]);
       $player->giveResource($initialMoney,RESOURCE_TYPE_MONEY);

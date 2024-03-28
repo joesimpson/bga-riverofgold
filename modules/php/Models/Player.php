@@ -123,6 +123,9 @@ class Player extends \ROG\Helpers\DB_Model
     return $resources[$type];
   }
 
+  /**
+   * @return int 
+   */
   public function getMoney()
   {
     return $this->getResource(RESOURCE_TYPE_MONEY);
@@ -199,5 +202,13 @@ class Player extends \ROG\Helpers\DB_Model
   public function getNbDeliveredCustomerByType($customerType)
   {
     return Cards::countDeliveredCardsByCustomerType($this->getId(),$customerType);
+  }
+
+  /**
+   * @return ?ClanPatronCard 
+   */
+  public function getPatron()
+  {
+    return Cards::getPatron($this);
   }
 }
