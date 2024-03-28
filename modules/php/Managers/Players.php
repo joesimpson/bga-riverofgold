@@ -311,6 +311,26 @@ class Players extends \ROG\Helpers\DB_Manager
     $claim = false;
     switch($tile->scoringType){
       //----------------------------------------------------------------------
+      case MASTERY_TYPE_AIR: //1 of 3 customers
+        $countCustomers = 0;
+        foreach (CUSTOMER_TYPES as $customer){
+          if($player->getNbDeliveredCustomerByType($customer) >= 1) $countCustomers++;
+          if($countCustomers >= NB_CUSTOMERS_FOR_AIR){
+            $claim = true;
+            break;
+          }
+        }
+        break;
+      //----------------------------------------------------------------------
+      case MASTERY_TYPE_FIRE: //2 of same customer
+        foreach (CUSTOMER_TYPES as $customer){
+          if($player->getNbDeliveredCustomerByType($customer) >= NB_CUSTOMERS_FOR_FIRE){
+            $claim = true;
+            break;
+          }
+        }
+        break;
+      //----------------------------------------------------------------------
       case MASTERY_TYPE_COURTS://flower in 1 region
         foreach (REGIONS as $region){
           if($player->getInfluence($region) >= NB_INLUENCE_FLOWER){

@@ -54,15 +54,19 @@ trait DebugTrait
   function debugLiv(){
     $players = Players::getAll();
     Cards::moveAllInLocation(CARD_LOCATION_DELIVERED,CARD_LOCATION_DECK);
-    $k =1;
+    Cards::shuffle(CARD_LOCATION_DECK);
+    $k =6;
     foreach($players as $pid => $player){
 
       $cards = Cards::pickForLocation($k, CARD_LOCATION_DECK, CARD_LOCATION_DELIVERED );
       foreach($cards as $card){
         $card->setPId($pid);
       }
-      $k++;
+      $k--;
     }
+    $player = Players::getCurrent();
+    Players::claimMasteries($player);
+    $this->debugUI();
   }
 
   //To be called before clicking 'Deliver'

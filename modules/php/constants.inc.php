@@ -34,6 +34,8 @@
  const NB_INLUENCE_FLOWER = 11;
  const NB_INLUENCE_VOID = 1;
  const NB_BUILDINGS_WATER = 3;
+ const NB_CUSTOMERS_FOR_AIR = 3;
+ const NB_CUSTOMERS_FOR_FIRE = 2;
  //RULE : empty space => 1 Koku
  const EMPTY_SPACE_REWARD = 1;
 
