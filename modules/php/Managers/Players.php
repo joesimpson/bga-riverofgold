@@ -37,14 +37,18 @@ class Players extends \ROG\Helpers\DB_Manager
 
     $values = [];
     $k =0;
+    $forceAllBlack = Globals::isExpansionClansDraft();
     foreach ($players as $pId => $player) {
       $color = array_shift($colors);
+      //Force BLACK at setup if color is selected by players !
+      if($forceAllBlack) $color = '000000';
+
       $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar']];
       $k++;
     }
     $query->values($values);
 
-    Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
+    if(!$forceAllBlack) Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
     Game::get()->reloadPlayersBasicInfos();
     return self::getAll();
   }

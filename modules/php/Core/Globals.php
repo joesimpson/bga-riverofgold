@@ -39,10 +39,8 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::setLastDie([]);
 
     foreach($players as $pId => $player){
-      if($player['player_table_order'] == 1){
-        self::setFirstPlayer($pId);
-        break;
-      }
+      self::setFirstPlayer($pId);
+      break;
     }
 
     //              --------------------------------------------

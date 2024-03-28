@@ -23,8 +23,8 @@ trait SetupTrait
   */
   protected function setupNewGame($players, $options = [])
   {
-    $playersDatas = Players::setupNewGame($players, $options);
     Globals::setupNewGame($players, $options);
+    $playersDatas = Players::setupNewGame($players, $options);
     Preferences::setupNewGame($players, $this->player_preferences);
     Stats::setupNewGame($playersDatas);
     Tiles::setupNewGame($players,$options);
