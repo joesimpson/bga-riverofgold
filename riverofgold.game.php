@@ -129,9 +129,15 @@ class RiverOfGold extends Table
     */
     function getGameProgression()
     {
-        // TODO: compute and return the game progression
+        $nbPlayers = Players::count();
+        $initialDeckSizes = [ 2 =>21, 3=>25, 4=>29 ];
+        $initialDeckSize = $initialDeckSizes[$nbPlayers];
+        $deckSize = Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1) 
+            + Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2)
+            + Tiles::countInLocation(TILE_LOCATION_BUILDING_ROW);
+        $progress = ($initialDeckSize - $deckSize) / $initialDeckSize;
 
-        return 0;
+        return $progress * 100;
     }
 
 
