@@ -158,7 +158,7 @@ function (dojo, declare) {
             ];
 
             //Filter states where we don't want other players to display state actions
-            this._activeStates = ['deliver','discardCard'];
+            this._activeStates = ['deliver','discardCard','draftMulti'];
         },
         
         ///////////////////////////////////////////////////
@@ -326,20 +326,12 @@ function (dojo, declare) {
             
         onEnteringStateDraft(args) {
             debug('onEnteringStateDraft', args);
-            let selectedCard = null;
-            Object.values(args.cards).forEach((card) => {
-                this.addClanCard(card, $('rog_select_piece_container'));
-                if (this.isCurrentPlayerActive()) {
-                    this.onClick(`rog_clan_card-${card.id}`, () => {
-                        if (selectedCard) $(`rog_clan_card-${selectedCard}`).classList.remove('selected');
-                        selectedCard = card.id;
-                        $(`rog_clan_card-${selectedCard}`).classList.add('selected');
-                        this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
-                            this.takeAction('actTakeCard', { c: selectedCard })
-                        );
-                    });
-                }
-            });
+            this.initCardSelection(args.cards);
+        },
+        
+        onEnteringStateDraftMulti(args) {
+            debug('onEnteringStateDraftMulti', args);
+            this.initCardSelection(args._private.cards);
         },
 
         onEnteringStatePlayerTurn(args){
@@ -838,6 +830,23 @@ function (dojo, declare) {
             });
             
             this.inherited(arguments);
+        },
+
+        initCardSelection(cards) {
+            let selectedCard = null;
+            Object.values(cards).forEach((card) => {
+                this.addClanCard(card, $('rog_select_piece_container'));
+                if (this.isCurrentPlayerActive()) {
+                    this.onClick(`rog_clan_card-${card.id}`, () => {
+                        if (selectedCard) $(`rog_clan_card-${selectedCard}`).classList.remove('selected');
+                        selectedCard = card.id;
+                        $(`rog_clan_card-${selectedCard}`).classList.add('selected');
+                        this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
+                            this.takeAction('actTakeCard', { c: selectedCard })
+                        );
+                    });
+                }
+            });
         },
 
         ////////////////////////////////////////////////////////////

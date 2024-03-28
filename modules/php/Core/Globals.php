@@ -67,6 +67,14 @@ class Globals extends \ROG\Helpers\DB_Manager
     $option = self::getOptionClanPatrons();
     return OPTION_EXPANSION_CLANS_DRAFT == $option;
   }
+  /**
+   * @return bool
+   */
+  public static function isExpansionClansAlternative()
+  {
+    $option = self::getOptionClanPatrons();
+    return OPTION_EXPANSION_CLANS_ALTERNATIVE == $option;
+  }
    
   /**
    * Setup new game turn

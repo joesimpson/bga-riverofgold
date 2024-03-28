@@ -116,6 +116,7 @@ $machinestates = array(
         "transitions" => [ 
             "next" => ST_PLAYER_SETUP,
             "draft" => ST_DRAFT_PLAYER,
+            "draftMulti" => ST_DRAFT_PLAYER_MULTIACTIVE,
         ],
     ),
         
@@ -143,7 +144,19 @@ $machinestates = array(
         ],
     ],
 
-    //TODO JSA multipleactiveplayer state for Alternative setup
+    //multipleactiveplayer state for Alternative setup
+    ST_DRAFT_PLAYER_MULTIACTIVE => [
+        'name' => 'draftMulti',
+        'args' => 'argDraftMulti',
+        "action" => "stDraftMulti",
+        'description' => clienttranslate('Players must choose a clan patron to play with'),
+        'descriptionmyturn' => clienttranslate('${you} must choose a clan patron to play with'),
+        'possibleactions' => ['actTakeCard'],
+        'type' => 'multipleactiveplayer',
+        'transitions' => [
+            'next' => ST_PLAYER_SETUP,
+        ],
+    ],
     
     ST_PLAYER_SETUP => array(
         "name" => "playerSetup",

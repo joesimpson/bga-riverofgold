@@ -49,15 +49,24 @@ trait DraftTrait
     self::trace("actTakeCard($cardId)");
     
     $card = Cards::get($cardId);
+    $player = Players::getCurrent();
+    $isModeMultiActive =  ST_DRAFT_PLAYER_MULTIACTIVE == intval($this->gamestate->state_id());
 
     //ANTICHEAT :
     if($card->getLocation() != CARD_CLAN_LOCATION_DRAFT){
       throw new UnexpectedException(405,"Card $cardId is not selectable");
     }
+    if( $isModeMultiActive && $card->getPId() != $player->getId()){
+      throw new UnexpectedException(406,"Card $cardId is not selectable");
+    }
 
-    $player = Players::getActive();
     $this->assignClanPatron($player,$card);
 
+    if( $isModeMultiActive){
+      $this->gamestate->setPlayerNonMultiactive($player->getId(), 'next');
+      return;
+    }
+    //ELSE classic ST_DRAFT_PLAYER is expected
     $this->gamestate->nextState('next');
   }
   
@@ -72,5 +81,42 @@ trait DraftTrait
     self::reloadPlayersBasicInfos();
     Notifications::newPlayerColor($player);
     Cards::giveClanCardTo($player,$card);
+  }
+
+  //////////////////////////////////////////////////////////////
+  // MULTIACTIVE VERSION
+  //////////////////////////////////////////////////////////////
+
+  public function argDraftMulti()
+  { 
+    $privateDatas = array ();
+    $players = Players::getAll();
+
+    $cards = Cards::getInLocation(CARD_CLAN_LOCATION_DRAFT);
+    
+    foreach($players as $player_id => $player){
+      $privateDatas[$player_id] = [
+        'cards' => $cards->filter( function($card) use($player_id) { return $card->getPId() == $player_id;} )->ui(),
+      ];
+    }
+
+    $args = [
+      '_private' => $privateDatas,
+    ];
+    return $args;
+  }
+
+  /**
+   * Activation of everyone for clan selection
+   */
+  function stDraftMulti()
+  { 
+      self::trace("stDraftMulti()");
+      
+      $this->gamestate->setAllPlayersMultiactive();
+      $players = Players::getAll();
+      foreach($players as $player_id => $player){ 
+        $player->giveExtraTime();
+      }
   }
 }
