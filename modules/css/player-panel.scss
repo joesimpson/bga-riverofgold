@@ -175,6 +175,22 @@
                 font-weight: bold;
             }
         }
+        .rog_clan_card{
+            border-radius: 50%;
+            border: 1px solid black;
+            width: 35px;
+            height: 35px;
+            .rog_patron_name{
+                display: none;
+            }
+            .rog_patron_ability{
+                margin-left: 45px;
+                font-size: 15px;
+                position: relative;
+                display: flex;
+                flex-wrap: wrap;
+            }
+        }
     }
 }
 

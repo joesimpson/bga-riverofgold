@@ -47,6 +47,7 @@ class Cards extends \ROG\Helpers\Pieces
     $privateCards = self::getPlayerHandOrders($currentPlayerId);
 
     return self::getInLocation(CARD_LOCATION_DELIVERED)
+      ->merge(self::getInLocation(CARD_CLAN_LOCATION_ASSIGNED))
       ->merge($privateCards)
       ->map(function ($card) {
         return $card->getUiData();

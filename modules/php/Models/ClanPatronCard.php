@@ -25,6 +25,7 @@ class ClanPatronCard extends Card
   {
     $data = parent::getUiData();
     unset($data['state']);
+    $data['subtype'] = CARD_TYPE_CLAN_PATRON;
     return $data;
   }
 

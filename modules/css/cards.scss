@@ -130,6 +130,47 @@
     }
  
 }
+.rog_panel{
+
+    .rog_clan_card{
+        background-size: math.percentage(calc(math.div(1488px, 220px ))) math.percentage(math.div(2080px,220px ));
+        background-repeat: repeat;
+        //Hand made values to match ZOOM image of character...
+        &[data-type="1"] {
+            background-position-x: 6%;
+            background-position-y: 33%;
+        } 
+        &[data-type="2"] {
+            background-position-x: 35%;
+            background-position-y: 33%;
+        } 
+        &[data-type="3"] {
+            background-position-x: 65%;
+            background-position-y: 32%;
+        } 
+        &[data-type="4"] {
+            background-position-x: 94%;
+            background-position-y: 32%;
+        }
+        &[data-type="5"] {
+            background-position-x: 5%;
+            background-position-y: 88%;
+        }
+        &[data-type="6"] {
+            background-position-x: 35%;
+            background-position-y: 88%;
+        }
+        &[data-type="7"] {
+            background-position-x: 65%;
+            background-position-y: 88%;
+        }
+        &[data-type="8"] {
+            background-position-x: 94%;
+            background-position-y: 88%;
+        }
+    }
+
+}
 #rog_select_piece_container {
     display: flex;
     flex-wrap: wrap;

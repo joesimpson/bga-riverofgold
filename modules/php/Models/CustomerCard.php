@@ -28,6 +28,7 @@ class CustomerCard extends Card
   public function getUiData()
   {
     $data = parent::getUiData();
+    $data['subtype'] = CARD_TYPE_CUSTOMER;
     return $data;
   }
   

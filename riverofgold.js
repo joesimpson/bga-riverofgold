@@ -63,6 +63,9 @@ function (dojo, declare) {
         [CUSTOMER_TYPE_NOBLE   , _('Noble')],
     ]);
 
+    const CARD_TYPE_CUSTOMER = 1;
+    const CARD_TYPE_CLAN_PATRON = 2;
+
     const TILE_TYPE_SCORING = 1;
     const TILE_TYPE_BUILDING = 2;
     const TILE_TYPE_MASTERY_CARD = 3;
@@ -77,6 +80,7 @@ function (dojo, declare) {
 
     const CARD_LOCATION_DELIVERED = 'dd';
     const CARD_LOCATION_HAND = 'h';
+    const CARD_CLAN_LOCATION_ASSIGNED = 'clans_assigned';
 
     const RESOURCE_TYPE_SILK = 1;
     const RESOURCE_TYPE_POTTERY = 2;
@@ -1125,6 +1129,9 @@ function (dojo, declare) {
                     </div>
                     ${this.tplResourceCounter(player, 'dieFace')}
                 </div>
+                <div class='rog_player_resource_line rog_player_resource_line_clan_patron'
+                     id='rog_player_patron-${player.id}'>
+                </div>
             </div>
             </div>`;
         },
@@ -1246,29 +1253,30 @@ function (dojo, declare) {
         setupCards() {
             // This function is refreshUI compatible
             //destroy previous cards
-            document.querySelectorAll('.rog_card[id^="rog_card-"]').forEach((oCard) => {
+            document.querySelectorAll('.rog_card[id^="rog_card-"], .rog_clan_card[id^="rog_clan_card-"]').forEach((oCard) => {
                 this.destroy(oCard);
             });
             let cardIds = this.gamedatas.cards.map((card) => {
-                if (!$(`rog_card-${card.id}`)) {
+                let divCardId = `rog_card-${card.id}`;
+                if(card.subtype == CARD_TYPE_CLAN_PATRON ) divCardId = `rog_clan_card-${card.id}`;
+                if (!$(divCardId)) {
                     this.addCard(card);
                 }
         
-                let o = $(`rog_card-${card.id}`);
+                let o = $(divCardId);
                 if (!o) return null;
         
                 let container = this.getCardContainer(card);
                 if (o.parentNode != $(container)) {
                     dojo.place(o, container);
                 }
-                o.dataset.state = card.state;
-        
                 return card.id;
             });
         },
     
         addCard(card, location = null) {
             debug('addCard',card);
+            if(card.subtype == CARD_TYPE_CLAN_PATRON ) return this.addClanCard(card, location);
             if ($('rog_card-' + card.id)) return;
     
             let o = this.place('tplCard', card, location == null ? this.getCardContainer(card) : location);
@@ -1303,6 +1311,9 @@ function (dojo, declare) {
             }
             if (card.location == CARD_LOCATION_DELIVERED) {
                 return $(`rog_cards_delivered-${card.pId}`);
+            }
+            if (card.location == CARD_CLAN_LOCATION_ASSIGNED) {
+                return $(`rog_player_patron-${card.pId}`);
             }
     
             console.error('Trying to get container of a card', card);
@@ -1342,10 +1353,13 @@ function (dojo, declare) {
             return o;
         },
         tplClanCard(card, prefix ='') {
-            let patron_name = card.patron_name;
+            let patron_name = card.name;
             let card_side = 0;
             return `<div class="rog_clan_card" id="rog_clan_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-side="${card_side}">
-                    <div class="rog_clan_card_wrapper"></div>
+                    <div class="rog_clan_card_wrapper">
+                        <span class='rog_patron_name'>${patron_name}</span>
+                        <span class='rog_patron_ability'>${card.ability_name}</span>
+                    </div>
                 </div>`;
         },
         
