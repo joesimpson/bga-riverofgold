@@ -589,6 +589,14 @@ function (dojo, declare) {
             });
         },
         
+        onUpdateActivityDraftMulti: function(args)
+        {
+            debug( 'onUpdateActivityDraftMulti() ', args );
+            if( !this.isCurrentPlayerActive() ){
+                this.clearPossible();
+            }
+        }, 
+        
         //////////////////////////////////////////////////////////////
         //    _   _       _   _  __ _           _   _                 
         //   | \ | |     | | (_)/ _(_)         | | (_)                
@@ -613,6 +621,8 @@ function (dojo, declare) {
                 destroy: true,
                 phantom: false,
             }).then( () => {
+                //Re add after destroy
+                this.addClanCard(n.args.card, this.getCardContainer(n.args.card));
                 if($(rog_player_clan_panel).querySelector(`.rog_icon_clan-${n.args.card.clan}`)) return;
                 let clanIconDiv = this.formatIcon('clan-'+n.args.card.clan,CLANS_NAMES.get(n.args.card.clan));
                 dojo.place(clanIconDiv,rog_player_clan_panel,'first');
@@ -829,6 +839,7 @@ function (dojo, declare) {
             $(`rog_shore_spaces`).querySelectorAll('.rog_shore_space.selectable').forEach((elt) => {
                 elt.removeAttribute('data-type');
             });
+            this.empty("rog_select_piece_container");
             
             this.inherited(arguments);
         },
