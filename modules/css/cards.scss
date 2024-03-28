@@ -231,6 +231,10 @@
     position: relative;
     margin-left: 10px;
 
+    .rog_player_hand{
+        min-width: calc(var(--rog_hand_scale) * 148px);
+        min-height: calc(var(--rog_hand_scale) * 200px);
+    }
     .rog_player_hand,
     .rog_player_delivered{
         display: flex;

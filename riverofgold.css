@@ -1079,6 +1079,11 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   margin-left: 10px;
 }
 .rog_player_hand_resizable .rog_player_hand,
+.rog_player_delivered_resizable .rog_player_hand {
+  min-width: calc(var(--rog_hand_scale) * 148px);
+  min-height: calc(var(--rog_hand_scale) * 200px);
+}
+.rog_player_hand_resizable .rog_player_hand,
 .rog_player_hand_resizable .rog_player_delivered,
 .rog_player_delivered_resizable .rog_player_hand,
 .rog_player_delivered_resizable .rog_player_delivered {
