@@ -29,7 +29,10 @@ trait DraftTrait
     //END DRAFT CONDITIONS
     $nbDraftCards = Cards::countInLocation(CARD_CLAN_LOCATION_DRAFT);
     if($nbDraftCards == 1){
-      //TODO JSA auto assign last card (possible in a 4p game)
+      //auto assign last card (possible in a 4p game)
+      $card = Cards::getTopOf(CARD_CLAN_LOCATION_DRAFT);
+      $player = Players::getActive();
+      $this->assignClanPatron($player,$card);
       $this->gamestate->nextState('end');
       return;
     }
@@ -37,6 +40,10 @@ trait DraftTrait
     $this->gamestate->nextState('next');
   }
   
+  /**
+   * USer action
+   * @param int $cardId
+   */
   function actTakeCard($cardId){
     self::checkAction( 'actTakeCard' ); 
     self::trace("actTakeCard($cardId)");
@@ -49,14 +56,21 @@ trait DraftTrait
     }
 
     $player = Players::getActive();
+    $this->assignClanPatron($player,$card);
+
+    $this->gamestate->nextState('next');
+  }
+  
+  /**
+   * @param Player $player
+   * @param Card $card
+   */
+  function assignClanPatron($player,$card){
     $player->setClan($card->getClan());
     $player_color = array_search($card->getClan(),CLANS_COLORS);
     $player->setColor($player_color);
     self::reloadPlayersBasicInfos();
     Notifications::newPlayerColor($player);
     Cards::giveClanCardTo($player,$card);
-
-
-    $this->gamestate->nextState('next');
   }
 }
