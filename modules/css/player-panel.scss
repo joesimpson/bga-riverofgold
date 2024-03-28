@@ -92,8 +92,8 @@
                 }
             }
                         
-            &#rog_player_resource_line_i1,
-            &#rog_player_resource_line_i2{
+            &.rog_player_resource_line_i1,
+            &.rog_player_resource_line_i2{
                 line-height: 2em;
             }
         }
@@ -444,11 +444,11 @@ body[data-rog_panel_details='1']{//PREF_PLAYER_PANEL_DETAILS_FULL
 }
 body[data-rog_panel_details='2']{//PREF_PLAYER_PANEL_DETAILS_COMPACT
     //Hide some lines (informations already elsewhere)
-    #rog_player_resource_line_buildings,
-    #rog_player_resource_line_i1,
-    #rog_player_resource_line_i2,
-    #rog_player_resource_line_customers
+    .rog_player_resource_line_buildings,
+    .rog_player_resource_line_i1,
+    .rog_player_resource_line_i2,
+    .rog_player_resource_line_customers
     {
-        display: none;
+        display: none !important;
     }
 }

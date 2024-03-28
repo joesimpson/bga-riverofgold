@@ -162,7 +162,7 @@
 .rog_panel .rog_player_infos .rog_player_resource_line:nth-child(1) .rog_player_resource, .rog_panel .rog_player_infos .rog_player_resource_line:nth-child(2) .rog_player_resource {
   margin: 4px 0px;
 }
-.rog_panel .rog_player_infos .rog_player_resource_line#rog_player_resource_line_i1, .rog_panel .rog_player_infos .rog_player_resource_line#rog_player_resource_line_i2 {
+.rog_panel .rog_player_infos .rog_player_resource_line.rog_player_resource_line_i1, .rog_panel .rog_player_infos .rog_player_resource_line.rog_player_resource_line_i2 {
   line-height: 2em;
 }
 .rog_panel .rog_player_infos .rog_player_resource {
@@ -442,11 +442,11 @@
   font-size: x-large;
 }
 
-body[data-rog_panel_details="2"] #rog_player_resource_line_buildings,
-body[data-rog_panel_details="2"] #rog_player_resource_line_i1,
-body[data-rog_panel_details="2"] #rog_player_resource_line_i2,
-body[data-rog_panel_details="2"] #rog_player_resource_line_customers {
-  display: none;
+body[data-rog_panel_details="2"] .rog_player_resource_line_buildings,
+body[data-rog_panel_details="2"] .rog_player_resource_line_i1,
+body[data-rog_panel_details="2"] .rog_player_resource_line_i2,
+body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
+  display: none !important;
 }
 
 #rog_upper_zone {

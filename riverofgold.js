@@ -1084,37 +1084,37 @@ function (dojo, declare) {
             return `<div class='rog_panel'>
             <div class="rog_first_player_holder"></div>
             <div class='rog_player_infos'>
-                <div class='rog_player_resource_line' id='rog_player_resource_line_money'>
+                <div class='rog_player_resource_line rog_player_resource_line_money'>
                     ${this.tplResourceCounter(player, 'money',  NB_MAX_MONEY)}
                     ${this.tplResourceCounter(player, 'favor',  player.moon)}
                 </div>
-                <div class='rog_player_resource_line' id='rog_player_resource_line_materials'>
+                <div class='rog_player_resource_line rog_player_resource_line_materials'>
                     <hr>
                     ${this.tplResourceCounter(player, 'silk',   NB_MAX_RESOURCE)}
                     ${this.tplResourceCounter(player, 'rice',   NB_MAX_RESOURCE)}
                     ${this.tplResourceCounter(player, 'pottery',NB_MAX_RESOURCE)}
                 </div>
-                <div class='rog_player_resource_line' id='rog_player_resource_line_buildings'>
+                <div class='rog_player_resource_line rog_player_resource_line_buildings'>
                     <hr>
                     ${this.tplResourceCounter(player, 'port')}
                     ${this.tplResourceCounter(player, 'manor')}
                     ${this.tplResourceCounter(player, 'market')}
                     ${this.tplResourceCounter(player, 'shrine')}
                 </div>
-                <div class='rog_player_resource_line' id='rog_player_resource_line_i1'>
+                <div class='rog_player_resource_line rog_player_resource_line_i1'>
                     <hr>
                     <div class='rog_icon_influence'></div>
                     ${this.tplResourceCounter(player, 'influence-1')}
                     ${this.tplResourceCounter(player, 'influence-2')}
                     ${this.tplResourceCounter(player, 'influence-3')}
                 </div>
-                <div class='rog_player_resource_line' id='rog_player_resource_line_i2'>
+                <div class='rog_player_resource_line rog_player_resource_line_i2'>
                     <div class='rog_icon_influence' style='visibility: hidden;'></div>
                     ${this.tplResourceCounter(player, 'influence-4')}
                     ${this.tplResourceCounter(player, 'influence-5')}
                     ${this.tplResourceCounter(player, 'influence-6')}
                 </div>
-                <div class='rog_player_resource_line' id='rog_player_resource_line_customers'>
+                <div class='rog_player_resource_line rog_player_resource_line_customers'>
                     <hr>
                     ${this.tplResourceCounter(player, 'customer-1')}
                     ${this.tplResourceCounter(player, 'customer-2')}
@@ -1123,7 +1123,7 @@ function (dojo, declare) {
                     ${this.tplResourceCounter(player, 'customer-5')}
                 </div>
                 <hr>
-                <div class='rog_player_resource_line' id='rog_player_resource_line_clan'>
+                <div class='rog_player_resource_line rog_player_resource_line_clan'>
                     <div id='rog_player_clan_panel-${player.id}'>
                         ${player.clan ? this.formatIcon('clan-'+player.clan,CLANS_NAMES.get(player.clan)) :''}
                     </div>
