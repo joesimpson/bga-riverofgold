@@ -327,6 +327,9 @@
 .rog_icon_container .rog_icon.rog_icon_influence-5 {
   background-image: url("img/regions/5.png");
 }
+.rog_icon_container .rog_icon.rog_icon_influence-6 {
+  background-image: url("img/regions/6.png");
+}
 .rog_icon_container .rog_icon.rog_icon_customer-1, .rog_icon_container .rog_icon.rog_icon_customer-2, .rog_icon_container .rog_icon.rog_icon_customer-3, .rog_icon_container .rog_icon.rog_icon_customer-4, .rog_icon_container .rog_icon.rog_icon_customer-5 {
   width: 3em;
   height: 3em;
