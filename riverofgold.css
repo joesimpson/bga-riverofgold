@@ -23,12 +23,28 @@
   --rog_takeCardScale: 0.2;
 }
 
+#player_boards > .player-board {
+  box-shadow: 1px 1px 10px black;
+}
+#player_boards > .player-board[data-color=ff0000] {
+  box-shadow: 1px 1px 10px #ff0000;
+}
+#player_boards > .player-board[data-color="008000"] {
+  box-shadow: 1px 1px 10px #008000;
+}
+#player_boards > .player-board[data-color="0000ff"] {
+  box-shadow: 1px 1px 10px #0000ff;
+}
+#player_boards > .player-board[data-color=ffffff] {
+  box-shadow: 1px 1px 5px black, 1px 1px 10px 5px #fff;
+}
+
 .player_board_inner > .player-name {
   /** Add a BLACK shadow behind player name in case of bright colors like white/orange*/
 }
-.player_board_inner > .player-name > a[style*="color: #ffa500"],
-.player_board_inner > .player-name > a[style*="color: #ffffff"],
-.player_board_inner > .player-name > a[style*="color: #bdd002"] {
+.player_board_inner > .player-name > a[style*="color: #ffa500"], .player_board_inner > .player-name > a[data-color=ffa500],
+.player_board_inner > .player-name > a[style*="color: #ffffff"], .player_board_inner > .player-name > a[data-color=ffffff],
+.player_board_inner > .player-name > a[style*="color: #bdd002"], .player_board_inner > .player-name > a[data-color=bdd002] {
   text-shadow: 1px 0px 1px black, 0px 1px 1px black, -1px 0px 1px black, 0px -1px 1px black;
 }
 .player_board_inner .player_score .fa-star {
@@ -1016,10 +1032,10 @@ body[data-rog_panel_details="2"] #rog_player_resource_line_customers {
   display: flex;
   flex-flow: column;
 }
-.rog_player_hand_resizable .rog_player_hand h3,
-.rog_player_hand_resizable .rog_player_delivered h3,
-.rog_player_delivered_resizable .rog_player_hand h3,
-.rog_player_delivered_resizable .rog_player_delivered h3 {
+.rog_player_hand_resizable .rog_player_hand .rog_title,
+.rog_player_hand_resizable .rog_player_delivered .rog_title,
+.rog_player_delivered_resizable .rog_player_hand .rog_title,
+.rog_player_delivered_resizable .rog_player_delivered .rog_title {
   text-align: center;
 }
 .rog_player_hand_resizable .rog_player_hand .player-name,
@@ -1032,28 +1048,49 @@ body[data-rog_panel_details="2"] #rog_player_resource_line_customers {
 .rog_player_delivered_resizable .rog_player_delivered .playername {
   text-align: center;
 }
-.rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffa500"], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffffff"], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#bdd002"],
+.rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffa500"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color=ffa500], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffffff"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color=ffffff], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#bdd002"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color=bdd002],
 .rog_player_hand_resizable .rog_player_hand .playername[style*="color:#ffa500"],
+.rog_player_hand_resizable .rog_player_hand .playername[data-color=ffa500],
 .rog_player_hand_resizable .rog_player_hand .playername[style*="color:#ffffff"],
+.rog_player_hand_resizable .rog_player_hand .playername[data-color=ffffff],
 .rog_player_hand_resizable .rog_player_hand .playername[style*="color:#bdd002"],
+.rog_player_hand_resizable .rog_player_hand .playername[data-color=bdd002],
 .rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#ffa500"],
+.rog_player_hand_resizable .rog_player_delivered .player-name[data-color=ffa500],
 .rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#ffffff"],
+.rog_player_hand_resizable .rog_player_delivered .player-name[data-color=ffffff],
 .rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#bdd002"],
+.rog_player_hand_resizable .rog_player_delivered .player-name[data-color=bdd002],
 .rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#ffa500"],
+.rog_player_hand_resizable .rog_player_delivered .playername[data-color=ffa500],
 .rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#ffffff"],
+.rog_player_hand_resizable .rog_player_delivered .playername[data-color=ffffff],
 .rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#bdd002"],
+.rog_player_hand_resizable .rog_player_delivered .playername[data-color=bdd002],
 .rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#ffa500"],
+.rog_player_delivered_resizable .rog_player_hand .player-name[data-color=ffa500],
 .rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#ffffff"],
+.rog_player_delivered_resizable .rog_player_hand .player-name[data-color=ffffff],
 .rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#bdd002"],
+.rog_player_delivered_resizable .rog_player_hand .player-name[data-color=bdd002],
 .rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#ffa500"],
+.rog_player_delivered_resizable .rog_player_hand .playername[data-color=ffa500],
 .rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#ffffff"],
+.rog_player_delivered_resizable .rog_player_hand .playername[data-color=ffffff],
 .rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#bdd002"],
+.rog_player_delivered_resizable .rog_player_hand .playername[data-color=bdd002],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#ffa500"],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[data-color=ffa500],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#ffffff"],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[data-color=ffffff],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#bdd002"],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[data-color=bdd002],
 .rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#ffa500"],
+.rog_player_delivered_resizable .rog_player_delivered .playername[data-color=ffa500],
 .rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#ffffff"],
-.rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#bdd002"] {
+.rog_player_delivered_resizable .rog_player_delivered .playername[data-color=ffffff],
+.rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#bdd002"],
+.rog_player_delivered_resizable .rog_player_delivered .playername[data-color=bdd002] {
   text-shadow: 2px 0px 2px black, 0px 2px 2px black, -2px 0px 2px black, 0px -2px 2px black;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand,

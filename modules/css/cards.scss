@@ -194,15 +194,15 @@
     .rog_player_delivered{
         display: flex;
         flex-flow: column;
-        h3{
+        .rog_title{
             text-align: center;
         }
         .player-name,
         .playername{
             text-align: center;
-            &[style*='color:#ffa500'],
-            &[style*='color:#ffffff'],
-            &[style*='color:#bdd002']
+            &[style*='color:#ffa500'], &[data-color='ffa500'],
+            &[style*='color:#ffffff'], &[data-color='ffffff'],
+            &[style*='color:#bdd002'], &[data-color='bdd002']
             {
                 text-shadow: 2px 0px 2px black, 
                     0px 2px 2px black,

@@ -3,6 +3,7 @@
 namespace ROG\States;
 
 use ROG\Core\Globals;
+use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
@@ -52,6 +53,7 @@ trait DraftTrait
     $player_color = array_search($card->getClan(),CLANS_COLORS);
     $player->setColor($player_color);
     self::reloadPlayersBasicInfos();
+    Notifications::newPlayerColor($player);
     Cards::giveClanCardTo($player,$card);
 
 

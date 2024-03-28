@@ -132,6 +132,7 @@ function (dojo, declare) {
                 ['clearTurn', 200],
                 ['refreshUI', 200],
                 ['refreshHand', 50],
+                ['newPlayerColor', 10],
                 ['giveMoney', 1300],
                 ['spendMoney', 1300],
                 ['giveClanCardTo', 1000],
@@ -602,11 +603,14 @@ function (dojo, declare) {
         //                                                            
         //    
         //////////////////////////////////////////////////////////////
+        notif_newPlayerColor(n) {
+            debug('notif_newPlayerColor: receiving a new color', n);
+            this.refreshPlayerColor(n.args.player_id,n.args.player_color);
+        },
         notif_giveClanCardTo(n) {
             debug('notif_giveClanCardTo: receiving a new clan card', n);
             if (!$(`rog_clan_card-${n.args.card.id}`)) this.addClanCard(n.args.card, this.getVisibleTitleContainer());
             let pid = n.args.player_id;
-            let color = n.args.player_color;
             let rog_player_clan_panel =  `rog_player_clan_panel-${pid}`;
             this.slide(`rog_clan_card-${n.args.card.id}`, rog_player_clan_panel, {
                 from: this.getVisibleTitleContainer(),
@@ -615,11 +619,6 @@ function (dojo, declare) {
             }).then( () => {
                 let clanIconDiv = this.formatIcon('clan-'+n.args.card.clan,CLANS_NAMES.get(n.args.card.clan));
                 dojo.place(clanIconDiv,rog_player_clan_panel,'first');
-                //update player color :
-                this.gamedatas.players[pid].color = color;
-                this.gamedatas.players[pid].color_back = (color == "ffffff") ? "bbbbbb" : null;
-                let divName = $(`overall_player_board_${pid}`).querySelector(`#player_name_${pid}`).querySelector(`a:first-child` );
-                divName.style.color = "#"+color;
             });
         },
         notif_giveCardTo(n) {
@@ -761,6 +760,7 @@ function (dojo, declare) {
     
             this.forEachPlayer((player) => {
                 let pId = player.id;
+                this.refreshPlayerColor(pId,player.color);
                 this.scoreCtrl[pId].toValue(player.score);
                 this._counters[pId].money.toValue(player.money);
                 this._counters[pId].silk.toValue(player.silk);
@@ -921,6 +921,7 @@ function (dojo, declare) {
                 this.place('tplPlayerDeliveredCards', player, 'rog_players_deliveries');
                 
                 let pId = player.id;
+                this.refreshPlayerColor(pId,player.color);
                 this._counters[pId] = {
                     money: this.createCounter(`rog_counter_${pId}_money`, player.money),
                     silk: this.createCounter(`rog_counter_${pId}_silk`, player.silk),
@@ -994,6 +995,27 @@ function (dojo, declare) {
         // |___|_| |_|_|  \___/  |_|   \__,_|_| |_|\___|_|
         ////////////////////////////////////////////////////////
         
+        refreshPlayerColor(pid,color) {
+            debug("refreshPlayerColor",pid,color);
+            //update player color :
+            this.gamedatas.players[pid].color = color;
+            this.gamedatas.players[pid].color_back = (color == "ffffff") ? "bbbbbb" : null;
+            let divSidePanel = $(`overall_player_board_${pid}`);
+            divSidePanel.dataset.color = color;
+            let divName = divSidePanel.querySelector(`#player_name_${pid}`).querySelector(`a:first-child` );
+            divName.style.color = ` #${color}`;
+            divName.dataset.color = color;
+            let divHand =  $(`rog_player_hand-${pid}`);
+            if(divHand){
+                //if current player
+                divHand.dataset.color = color;
+                divHand.querySelector(`.player-name`).style.color = `#${color}`;
+                divHand.querySelector(`.player-name`).dataset.color = color;
+            }
+            let divDelivered =  $(`rog_player_delivered-${pid}`);
+            divDelivered.dataset.color = color;
+            divDelivered.querySelector(`.rog_title`).innerHTML = this.fsr(_('${player_name} delivered'), { player_name:this.coloredPlayerName(this.gamedatas.players[pid].name)});
+        },
         updatePlayerOrdering() {
             debug("updatePlayerOrdering");
             this.inherited(arguments);
@@ -1290,7 +1312,7 @@ function (dojo, declare) {
         tplPlayerHand(player) {
             return `<div class='rog_player_hand_resizable'>
                 <div id='rog_player_hand-${player.id}' class='rog_player_hand' data-color='${player.color}'>
-                    <div class='player-name' style='color:#${player.color}'>${_('My hand')}</div>
+                    <div class='player-name' style='color:#${player.color}' data-color='${player.color}'>${_('My hand')}</div>
                     <div class='rog_cards_hand' id='rog_cards_hand-${player.id}'></div>
                 </div>
             </div>`;
@@ -1298,7 +1320,7 @@ function (dojo, declare) {
         tplPlayerDeliveredCards(player) {
             return `<div class='rog_player_delivered_resizable' id='rog_player_delivered_resizable-${player.id}'>
                 <div id='rog_player_delivered-${player.id}' class='rog_player_delivered' data-color='${player.color}'>
-                    <h3 ${this.fsr(_('${player_name} delivered'), { player_name:this.coloredPlayerName(player.name)}) }</h3>
+                    <h3 class='rog_title' >${this.fsr(_('${player_name} delivered'), { player_name:this.coloredPlayerName(player.name)}) }</h3>
                     <div class='rog_cards_delivered' id='rog_cards_delivered-${player.id}'></div>
                 </div>
             </div>`;

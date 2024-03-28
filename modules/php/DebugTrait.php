@@ -200,6 +200,8 @@ trait DebugTrait
 
   //----------------------------------------------------------------
   function debugUI(){
+    //players colors are not reloaded after using LOAD/SAVE buttons
+    self::reloadPlayersBasicInfos();
     Notifications::refreshUI($this->getAllDatas());
   }
 
