@@ -44,6 +44,11 @@ trait DebugTrait
     $this->stPlayerSetup();
     $this->debugUI();
   }
+
+  function debugGoToPlayerSetup()
+  {
+    $this->gamestate->jumpToState(ST_PLAYER_SETUP);
+  }
   
   function debugGoToDraft()
   {

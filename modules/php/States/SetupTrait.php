@@ -47,6 +47,7 @@ trait SetupTrait
     $players = Players::getAll();
     $k =0;
     foreach($players as $pid => $player){
+      $playerPatron = $player->getPatron();
 
       foreach (REGIONS as $region){
         Meeples::addClanMarkerOnInfluence($player, $region);
@@ -58,7 +59,11 @@ trait SetupTrait
       }
 
       //Draw first cards
-      $cards = Cards::pickForLocation(NB_CARDS_PER_PLAYER, CARD_LOCATION_DECK, CARD_LOCATION_HAND );
+      $startingCards = NB_CARDS_PER_PLAYER;
+      if(isset($playerPatron) && PATRON_SON_OF_STORM == $playerPatron->getType()){
+        $startingCards = NB_CARDS_FOR_YORITOMO;
+      }
+      $cards = Cards::pickForLocation($startingCards, CARD_LOCATION_DECK, CARD_LOCATION_HAND );
       foreach($cards as $card){
         $card->setPId($pid);
         Notifications::giveCardTo($player,$card);
@@ -66,7 +71,6 @@ trait SetupTrait
 
       //intial money according to first player
       $initialMoney = $k + 7;
-      $playerPatron = $player->getPatron();
       if(isset($playerPatron) && PATRON_MASTER_ENGINEER == $playerPatron->getType()){
         $initialMoney += 10;
       }

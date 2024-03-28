@@ -98,6 +98,7 @@ const CARD_LOCATION_DISCARD = 'discard';
  const CARD_LOCATION_WAIT_FOR_HAND = 'wait';
  //! Warning one clan patron will have more cards (3)
  const NB_CARDS_PER_PLAYER = 2;
+ const NB_CARDS_FOR_YORITOMO = 3;
 
  const CARD_CLAN_LOCATION_DECK = 'clans_deck_';//To be followed by clan id
  const CARD_CLAN_LOCATION_DRAFT = 'clans_draft';
