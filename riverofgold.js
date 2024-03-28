@@ -1031,7 +1031,7 @@ function (dojo, declare) {
                     
             dojo.place(this.tplConfigPlayerBoard(), 'player_boards', 'first');
             this._counters['era'] = this.createCounter('rog_counter_era',this.gamedatas.era);
-            this._counters['turn'] = this.createCounter('rog_counter_turn',this.gamedatas.turn);
+            //this._counters['turn'] = this.createCounter('rog_counter_turn',this.gamedatas.turn);
             
             let chk = $('help-mode-chk');
             dojo.connect(chk, 'onchange', () => this.toggleHelpMode(chk.checked));
@@ -1057,8 +1057,7 @@ function (dojo, declare) {
             <div class='player-board' id="player_board_config">
                 <div id="player_config" class="player_board_content">
                 <div class="player_config_row" id="turn_counter_wrapper">
-                  ${_('Turn')} <span id='rog_counter_turn'>${turn}</span>
-                 / ${_('Era')} <span id='rog_counter_era'>${era}</span>
+                    ${_('Era')} <span id='rog_counter_era'>${era}</span>
                 </div>
                 <div class="player_config_row">
                     <div id="help-mode-switch">
