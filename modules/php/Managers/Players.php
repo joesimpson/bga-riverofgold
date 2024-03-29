@@ -376,7 +376,6 @@ class Players extends \ROG\Helpers\DB_Manager
         }
         break;
       //----------------------------------------------------------------------
-      //TODO JSA all mastery types 
     }
 
     if($claim){

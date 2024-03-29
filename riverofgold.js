@@ -113,6 +113,7 @@ function (dojo, declare) {
     const MEEPLE_TYPE_SHIP = 1;
     const MEEPLE_TYPE_SHIP_ROYAL = 3;
     const MEEPLE_TYPE_CLAN_MARKER = 2;
+    const MEEPLE_TYPE_SCORE_MARKER = 9;
 
     const CLANS_NAMES =  new Map([
         [1, _('Crab Clan')],
@@ -1224,6 +1225,9 @@ function (dojo, declare) {
                 </div>`;
             $('page-content').insertAdjacentHTML('beforeend', elem);
     
+            this.gamedatas.players[pId].score += n;
+            this.moveScoreMarker(this.gamedatas.players[pId]);
+            
             if (n > 0) {
                 return this.slide(`rog_score_animation`, `player_score_${pId}`, {
                     from: targetSource || this.getVisibleTitleContainer(),
@@ -1567,6 +1571,8 @@ function (dojo, declare) {
                 }
                 return meeple.id;
             });
+
+            this.addScoreTrackSpaces();
         },
     
         addMeeple(meeple, location = null) {
@@ -1578,7 +1584,7 @@ function (dojo, declare) {
         },
     
         tplMeeple(meeple, prefix ='') {
-            const PERSONAL = [MEEPLE_TYPE_SHIP,MEEPLE_TYPE_CLAN_MARKER,MEEPLE_TYPE_SHIP_ROYAL];
+            const PERSONAL = [MEEPLE_TYPE_SHIP,MEEPLE_TYPE_CLAN_MARKER,MEEPLE_TYPE_SHIP_ROYAL,MEEPLE_TYPE_SCORE_MARKER];
             let color = PERSONAL.includes(meeple.type) ? ` data-color="${this.getPlayerColor(meeple.pId)}" data-pId="${meeple.pId}" ` : '';
             return `<div class="rog_meeple" id="rog_meeple${prefix}-${meeple.id}"
                  data-id="${meeple.id}" 
@@ -1625,7 +1631,37 @@ function (dojo, declare) {
         tplRiverSpace(position) {
             return `<div id='rog_river_space-${position}' class='rog_river_space' data-pos='${position}'></div>`;
         },
+        addScoreTrackSpaces(){
+            for(let k=0; k<100;k++){
+                if(!$(`rog_score_track_space_${k}`)) this.place(`tplScoreTrackSpace`,k, $(`rog_score_track`));
+                /*For debugging, lets add a meeple in each : 
+                this.forEachPlayer((player) => {
+                    if(isDebug) this.addMeeple({id:`debug_score_${player.id}_${k}`,pId:player.id,type:MEEPLE_TYPE_SCORE_MARKER,pos:k},$(`rog_score_track_space_${k}`));
+                });
+                */
+            }
+            this.forEachPlayer((player) => {
+                this.addScoreMarker(player);
+            });
+        },
+        addScoreMarker(player){
+            debug("addScoreMarker",player);
+            let position = player.score % 100;
+            let meeple = this.addMeeple({id:`score_${player.id}`,pId:player.id,type:MEEPLE_TYPE_SCORE_MARKER,pos:position},$(`rog_score_track_space_${position}`));
+            meeple.classList.add("rog_score_meeple");
+        },
+        moveScoreMarker(player){
+            debug("moveScoreMarker",player);
+            let position = player.score % 100;
+            let meeple_id = `score_${player.id}`;
+            let currentPos = $(`rog_meeple-${meeple_id}`).parentNode;
+            this.slide(`rog_meeple-${meeple_id}`, $(`rog_score_track_space_${position}`), {  
+                from: currentPos,
+                phantom: false,
+            }).then( ()=> {
+            });
 
+        },
         addInfluenceTracks() {
             debug("addInfluenceTracks");
             Object.values(REGIONS).forEach((region) =>{
@@ -1648,6 +1684,9 @@ function (dojo, declare) {
         },
         tplInfluenceTrackSpace(datas) {
             return `<div class="rog_influence_track_space" id="rog_influence_track_space_${datas.region}_${datas.space}" data-pos='${datas.space}'></div>`;
+        },
+        tplScoreTrackSpace(space) {
+            return `<div class="rog_score_track_space" id="rog_score_track_space_${space}" data-pos='${space}'></div>`;
         },
         tplArtisanSpace(region) {
             return `<div class="rog_artisan_space" id="rog_artisan_space_${region}" data-region='${region}'></div>`;

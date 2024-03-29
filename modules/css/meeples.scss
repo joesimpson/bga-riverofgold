@@ -49,6 +49,29 @@
             background-position-x: 100%;
         }
     }
+    
+    &[data-type='9'] {//MEEPLE_TYPE_SCORE_MARKER
+        background-image: url("img/score_markers.png");
+        background-size: 400% 100%;
+        background-color: transparent;
+        border-radius: 0px;
+        box-shadow: none;
+        width: calc(0.6 * 95px);
+        height: calc(0.6 * 190px);
+
+        &[data-color="008000"] {//green
+            background-position-x: 0%;
+        }
+        &[data-color="0000ff"] {//blue
+            background-position-x: 33%;
+        }
+        &[data-color="ffffff"] {//white
+            background-position-x: 66%;
+        }
+        &[data-color="ff0000"] {//red
+            background-position-x: 100%;
+        }
+    }
 
     &.selectable{
         outline: 10px solid blue;

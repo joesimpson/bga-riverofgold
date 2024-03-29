@@ -54,6 +54,82 @@
 
 } 
 
+#rog_score_track{
+    position: absolute;
+    grid-template-columns: repeat(20, 1fr);
+    grid-template-rows: repeat(32, 1fr);
+    display: grid;
+    top: 117px;
+    left: 116px;
+    .rog_score_track_space{
+        display: flex;
+        flex-direction: row;
+        position: relative;
+        width: 125px;
+        height: 118px;
+
+        //For debugging:
+        //outline: 1px solid red;
+
+        //LEFT Line from bottom to top
+        @for $i from 1 through 32 {
+            &[data-pos="#{$i - 1}"]{
+                grid-row-start: (32 - $i + 1);
+                grid-column-start: 1;
+            }
+        }
+        //upper Line from left to right
+        @for $i from 1 through 20 {
+            &[data-pos="#{30 + $i}"]{
+                grid-row-start: 1;
+                grid-column-start: $i;
+            }
+        }
+        //RIGHT Line from top to bottom
+        @for $i from 1 through 32 {
+            &[data-pos="#{50 + $i - 1}"]{
+                grid-row-start: $i;
+                grid-column-start: 20;
+            }
+        }
+        //Bottom Line from right to left
+        @for $i from 1 through 20 {
+            &[data-pos="#{101 - $i}"]{
+                grid-row-start: 32;
+                grid-column-start: $i;
+            }
+        }
+        .rog_meeple{
+            transform: translateY(0);
+            transition: transform 0.5s; 
+            &:nth-child(1){
+                margin-bottom: -60px;
+            }
+            &:nth-child(2){
+                margin-bottom: -65px;
+            }
+            &:nth-child(3){
+                margin-bottom: -68px;
+            }
+        }
+        &:hover .rog_meeple{
+            //View behind meeple
+            &:nth-child(4){
+                transform:translateY(-50%);
+            }
+            &:nth-child(3){
+                transform:translateY(-70%);
+            }
+            &:nth-child(2){
+                transform:translateY(-90%);
+            }
+            &:nth-child(1){
+                transform:translateY(-100%);
+            }
+        }
+    }
+}
+
 
 .rog_shore_space{
     &#rog_shore_space-1{
