@@ -704,11 +704,11 @@ function (dojo, declare) {
         },
         notif_setDie(n) {
             debug('notif_setDie', n);
-            this.updatePlayerDieFace(n.args.player_id,n.args.die_face,true);
+            this.updatePlayerDieFace(n.args.player_id,n.args.die_value,true);
         },
         notif_rollDie(n) {
             debug('notif_rollDie', n);
-            this.updatePlayerDieFace(n.args.player_id,n.args.die_face,true);
+            this.updatePlayerDieFace(n.args.player_id,n.args.die_value,true);
         },
         notif_gainInfluence(n) {
             debug('notif_gainInfluence', n);
@@ -903,6 +903,10 @@ function (dojo, declare) {
                 if(building_tile in args) {
                     //args.building_tile = this.formatIcon('tile_log',args.n2);
                     args.building_tile = this.tplTile(args.tile,'_log');
+                }
+                let die_face = 'die_face';
+                if(die_face in args) {
+                    args.die_face = this.formatIcon('die_face-'+args.die_face);
                 }
             }
             } catch (e) {

@@ -138,6 +138,8 @@ class Notifications
     self::notifyAll('rollDie', clienttranslate('${player_name} rolls a die and gets ${die_face}'), [
       'player' => $player,
       'die_face' => $die_face,
+      'preserve'=>['die_value'],
+      'die_value' => $die_face,
     ]);
   }
   /**
@@ -149,6 +151,8 @@ class Notifications
     self::notifyAll('setDie', clienttranslate('${player_name} sets their die to ${die_face}'), [
       'player' => $player,
       'die_face' => $die_face,
+      'preserve'=>['die_value'],
+      'die_value' => $die_face,
     ]);
   }
   /**
