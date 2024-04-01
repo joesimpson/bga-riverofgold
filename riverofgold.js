@@ -160,6 +160,8 @@ function (dojo, declare) {
 
             //Filter states where we don't want other players to display state actions
             this._activeStates = ['deliver','discardCard','draftMulti'];
+            
+            this._hideNotifsWhenMultiActive = true;
         },
         
         ///////////////////////////////////////////////////
