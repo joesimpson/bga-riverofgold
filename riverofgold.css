@@ -1502,13 +1502,19 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   order: 7;
 }
 
-.midSizeDialog .rog_card {
+.rog_card_tooltip .rog_card {
   width: 385px;
   height: 532px;
 }
-.midSizeDialog .rog_clan_card {
-  width: 385px;
-  height: 532.5px;
+.rog_card_tooltip .rog_clan_card {
+  width: 269.5px;
+  height: 372.75px;
+}
+.rog_card_tooltip .rog_card_front_back {
+  display: flex;
+  flex-wrap: row;
+  justify-content: center;
+  align-items: center;
 }
 
 .rog_player_hand_resizable {

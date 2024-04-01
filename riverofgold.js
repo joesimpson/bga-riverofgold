@@ -1401,9 +1401,8 @@ function (dojo, declare) {
     
             return o;
         },
-        tplClanCard(card, prefix ='') {
+        tplClanCard(card, card_side = 0, prefix ='') {
             let patron_name = card.name;
-            let card_side = 0;
             return `<div class="rog_clan_card" id="rog_clan_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-side="${card_side}">
                     <div class="rog_clan_card_wrapper">
                         <span class='rog_patron_name'>${patron_name}</span>
@@ -1414,10 +1413,13 @@ function (dojo, declare) {
         
         getClanCardTooltip(card) {
             let cardDatas = card;
-            let patron_name = cardDatas.name;
-            let div = this.tplClanCard(cardDatas,'_tmp');
-            //TODO JSA display other side on tooltip ?
-            return [`<div class='rog_card_tooltip'><h1>${patron_name}</h1>${div}</div>`];
+            let divFront = this.tplClanCard(cardDatas,0,'_tmp_front');
+            let divBack = this.tplClanCard(cardDatas,1,'_tmp_back');
+            return [`<div class='rog_card_tooltip'>
+                        <h1>${cardDatas.name}</h1>
+                        <h1>${cardDatas.ability_name}</h1>
+                        <div class='rog_card_front_back'>${divFront}${divBack}</div>
+                </div>`];
         },
 
         ////////////////////////////////////////////////////////

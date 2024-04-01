@@ -190,14 +190,20 @@
         }
     }
 }
-.midSizeDialog{//Tooltips
+.rog_card_tooltip{//Tooltips
     .rog_card {
         width: 385px;
         height: 532px;
     }
     .rog_clan_card {
-        width: calc(0.5 * 770px);
-        height: calc(0.5 * 1065px);
+        width: calc(0.35 * 770px);
+        height: calc(0.35 * 1065px);
+    }
+    .rog_card_front_back{
+        display: flex;
+        flex-wrap: row;
+        justify-content: center;
+        align-items: center;
     }
 }
 
