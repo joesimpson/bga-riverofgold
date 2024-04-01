@@ -27,9 +27,16 @@ trait DraftTrait
     self::giveExtraTime( $player_id );
 
     //END DRAFT CONDITIONS
+    $nbPlayers = Players::count();
     $nbDraftCards = Cards::countInLocation(CARD_CLAN_LOCATION_DRAFT);
-    if($nbDraftCards == 1){
-      //auto assign last card (possible in a 4p game)
+    $nbCardsToAssign = $nbPlayers - Cards::countInLocation(CARD_CLAN_LOCATION_ASSIGNED);
+    if($nbCardsToAssign < 1){
+      //When everyone has a card
+      $this->gamestate->nextState('end');
+      return;
+    }
+    else if($nbDraftCards == 1 && $nbCardsToAssign == 1){
+      //auto assign last card (possible in a 4p game, but not 2p/3p)
       $card = Cards::getTopOf(CARD_CLAN_LOCATION_DRAFT);
       $player = Players::getActive();
       $this->assignClanPatron($player,$card);
