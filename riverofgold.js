@@ -770,6 +770,9 @@ function (dojo, declare) {
             this.forEachPlayer((player) => {
                 let pId = player.id;
                 this.refreshPlayerColor(pId,player.color);
+                if(!player.clan){//should not be necessary except in DEV/DEBUG
+                    this.empty(`rog_player_clan_panel-${pId}`);
+                }
                 this.scoreCtrl[pId].toValue(player.score);
                 this._counters[pId].money.toValue(player.money);
                 this._counters[pId].silk.toValue(player.silk);
@@ -1414,8 +1417,8 @@ function (dojo, declare) {
                 if($(`rog_shore_space-${k}`)) continue;
                 this.place(`tplShoreSpace`,k, $(`rog_shore_spaces`));
             }
+            this.empty('rog_mastery_cards');
             /*
-            dojo.empty('rog_mastery_cards');
             dojo.empty('rog_building_era-1');
             dojo.empty('rog_building_era-2');
             document.querySelectorAll('#rog_scoring_tiles [id^="rog_scoring_tile-"]').forEach((oCard) => {

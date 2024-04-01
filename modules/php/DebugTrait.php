@@ -1,7 +1,10 @@
 <?php
 namespace ROG;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Core\Stats;
+use ROG\Helpers\Log;
 use ROG\Helpers\QueryBuilder;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
@@ -26,7 +29,6 @@ trait DebugTrait
     //Formatting prefs as json -> copy the DOM of this log : \n
     Notifications::message("$json",['json' => $json]);
   }
-   
 
   function debugSetup(){
     $players = self::loadPlayersBasicInfos();
@@ -43,6 +45,31 @@ trait DebugTrait
     $this->debugCLS();
     $this->stPlayerSetup();
     $this->debugUI();
+  }
+  ////////////////////////////////////////////////////
+  //Reset game TABLE almost like setupNewGame
+  ////////////////////////////////////////////////////
+  function debugRESET(){
+    Log::disable();
+    $this->debugClearLogs();
+    $options = ["DEBUG"=> true, 
+      //OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+      OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_DRAFT,
+      //OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_ALTERNATIVE
+    ];
+    $players = self::loadPlayersBasicInfos();
+    Globals::DB()->delete()->run();
+    Players::DB()->delete()->run();
+    Stats::DB()->delete()->run();
+    Tiles::DB()->delete()->run();
+    Cards::DB()->delete()->run();
+    Meeples::DB()->delete()->run();
+    $this->setGameStateValue('logging', 1);
+    $this->player_preferences =[];
+    $this->setupNewGame($players,$options);
+    $this->debugUI();
+    $this->gamestate->jumpToState(ST_CLAN_SELECTION);
+    Log::enable();
   }
 
   function debugGoToPlayerSetup()
@@ -218,5 +245,16 @@ trait DebugTrait
   function debugCLS(){
     $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
     $query->delete()->run();
+  }
+  
+  /**
+   * Clear all logs
+   */
+  public static function debugClearLogs()
+  {
+      $query = new QueryBuilder('log', null, 'id');
+      $query->delete()->run();
+      $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
+      $query->delete()->run();
   }
 }

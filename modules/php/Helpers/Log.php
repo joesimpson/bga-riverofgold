@@ -21,16 +21,15 @@ use ROG\Managers\Players;
 
 class Log extends \APP_DbObject
 {
-    public function enable()
+    public static function enable()
     {
         Game::get()->setGameStateValue('logging', 1);
     }
 
-    public function disable()
+    public static function disable()
     {
         Game::get()->setGameStateValue('logging', 0);
     }
-
     /**
      * Add an entry
      */
