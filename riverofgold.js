@@ -1062,6 +1062,7 @@ function (dojo, declare) {
             let divDelivered =  $(`rog_player_delivered-${pid}`);
             divDelivered.dataset.color = color;
             divDelivered.querySelector(`.rog_title`).innerHTML = this.fsr(_('${player_name} delivered'), { player_name:this.coloredPlayerName(this.gamedatas.players[pid].name)});
+            this.updateScoreMarkerColor(pid,color);
         },
         updatePlayerOrdering() {
             debug("updatePlayerOrdering");
@@ -1676,7 +1677,12 @@ function (dojo, declare) {
                 phantom: false,
             }).then( ()=> {
             });
-
+        },
+        updateScoreMarkerColor(pid,color){
+            debug("updateScoreMarkerColor",pid,color);
+            let meeple_id = `score_${pid}`;
+            let meeple = $(`rog_meeple-${meeple_id}`);
+            if(meeple) meeple.dataset.color = color;
         },
         addInfluenceTracks() {
             debug("addInfluenceTracks");
