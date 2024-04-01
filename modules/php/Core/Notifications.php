@@ -191,7 +191,9 @@ class Notifications
    */
   public static function newClanMarker($player,$meeple)
   {
-    self::notifyAll('newClanMarker', clienttranslate('${player_name} places a new clan marker'), [
+    //$msg = clienttranslate('${player_name} places a new clan marker');
+    $msg = '';//avoid spoiling notifs
+    self::notifyAll('newClanMarker', $msg, [
       'player' => $player,
       'meeple' => $meeple->getUiData(),
     ]);

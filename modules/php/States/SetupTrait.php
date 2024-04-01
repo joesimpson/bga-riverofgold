@@ -89,7 +89,12 @@ trait SetupTrait
       $k++;
 
       //first turn die roll
-      $player->rollDie();
+      if(isset($playerPatron) && PATRON_DARLING == $playerPatron->getType()){
+        //no setup roll for darling
+      }
+      else {
+        $player->rollDie();
+      }
     }
 
     $this->addCheckpoint(ST_NEXT_TURN);

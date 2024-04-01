@@ -19,10 +19,16 @@ trait EndTurnTrait
     //TODO JSA run Emperor Visit at end of Era 1
 
     //RULE : roll your die at the end of your turn, before others play
-    //TODO JSA darling favor may act before rolling die
     $activePlayer = Players::getActive();
-    $activePlayer->rollDie();
-
+    $playerPatron = $activePlayer->getPatron();
+    if(isset($playerPatron) && PATRON_DARLING == $playerPatron->getType()){
+      //TODO JSA darling may decide to not roll the die
+      $activePlayer->rollDie();
+    }
+    else {
+      $activePlayer->rollDie();
+    }
+    
     $this->addCheckpoint(ST_NEXT_TURN);
     $this->gamestate->nextState('next');
   }

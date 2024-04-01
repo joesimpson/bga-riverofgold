@@ -18,8 +18,6 @@ class Globals extends \ROG\Helpers\DB_Manager
     'turn' => 'int',
     'era' => 'int',
     'firstPlayer' => 'int',
-    //Last dice roll result
-    'lastDie' => 'obj',
 
     //Undo log module
     'choices' => 'int',
@@ -36,7 +34,6 @@ class Globals extends \ROG\Helpers\DB_Manager
   {
     self::setTurn(0);
     self::setEra(0);
-    self::setLastDie([]);
 
     foreach($players as $pId => $player){
       self::setFirstPlayer($pId);

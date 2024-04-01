@@ -183,11 +183,17 @@ $machinestates = array(
     //Checks before next turn : almost unused, may be used by some clans (Darling)
     ST_BEFORE_TURN => array(
         "name" => "beforeTurn",
-        "description" => clienttranslate('${actplayer} may spend favor to choose the die face'),
-        "descriptionmyturn" => clienttranslate('${you} may spend favor to choose the die face'),
+        "args" => "argBeforeTurn",
+        "description" => clienttranslate('Special ability : ${actplayer} may spend favor to choose the next die face'),
+        "descriptionmyturn" => clienttranslate('Special ability : ${you} may spend favor to choose the next die face'),
         "type" => "activeplayer",
         "action" => "stBeforeTurn",
         "updateGameProgression" => true,
+        "possibleactions" => [
+            "actDarlingFavor", 
+            "actSkip", 
+            'actRestart',
+        ],
         "transitions" => [ 
             "next" => ST_PLAYER_TURN,
             "zombiePass" => ST_PLAYER_TURN,

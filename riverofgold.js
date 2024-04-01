@@ -361,25 +361,18 @@ function (dojo, declare) {
             }
         },
         
+        onEnteringStateBeforeTurn(args){
+            debug('onEnteringStateBeforeTurn', args);
+            this.initFavorSelection(args.p,'actDarlingFavor');
+            this.addPrimaryActionButton(`btnPass`, _('Skip') , () =>  {
+                this.confirmationDialog(_('Are you sure to skip and roll your die ?'), () => {
+                    this.takeAction('actSkip', {});
+                });
+            });
+        },
         onEnteringStateSpendFavor (args){
             debug('onEnteringStateSpendFavor', args);
-
-            Object.values(args.p).forEach((possible) => {
-                let dieFace = possible.face;
-                let cost = possible.cost;
-                let iconFace = this.formatIcon("die_face-"+dieFace,dieFace);
-                let iconCost = this.formatIcon("favor",cost);
-                this.addImageActionButton(`btnDF_${dieFace}`, 
-                    `<div class='rog_trade'>
-                        ${iconCost}
-                        <i class="fa6 fa6-arrow-right"></i>
-                        ${iconFace}
-                    </div>`,
-                    () =>  {
-                        this.takeAction('actDFSelect', {d:dieFace});
-                    }
-                );
-            });
+            this.initFavorSelection(args.p,'actDFSelect');
         },
         onEnteringStateTrade(args){
             debug('onEnteringStateTrade', args);
@@ -862,6 +855,26 @@ function (dojo, declare) {
                         );
                     });
                 }
+            });
+        },
+
+        initFavorSelection(possibles,actionName) {
+            debug('initFavorSelection', possibles);
+            Object.values(possibles).forEach((possible) => {
+                let dieFace = possible.face;
+                let cost = possible.cost;
+                let iconFace = this.formatIcon("die_face-"+dieFace,dieFace);
+                let iconCost = this.formatIcon("favor",cost);
+                this.addImageActionButton(`btnDF_${dieFace}`, 
+                    `<div class='rog_trade'>
+                        ${iconCost}
+                        <i class="fa6 fa6-arrow-right"></i>
+                        ${iconFace}
+                    </div>`,
+                    () =>  {
+                        this.takeAction(actionName, {d:dieFace});
+                    }
+                );
             });
         },
 
