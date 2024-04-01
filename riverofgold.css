@@ -1410,7 +1410,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   background-position-y: 33%;
 }
 .rog_clan_card[data-type="5"][data-side="0"], .rog_clan_card[data-type="6"][data-side="0"], .rog_clan_card[data-type="7"][data-side="0"], .rog_clan_card[data-type="8"][data-side="0"] {
-  background-position-y: 66%;
+  background-position-y: 67%;
 }
 .rog_clan_card[data-type="5"][data-side="1"], .rog_clan_card[data-type="6"][data-side="1"], .rog_clan_card[data-type="7"][data-side="1"], .rog_clan_card[data-type="8"][data-side="1"] {
   background-position-y: 100%;
