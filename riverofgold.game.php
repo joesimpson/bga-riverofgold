@@ -45,6 +45,7 @@ class RiverOfGold extends Table
     use ROG\DebugTrait;
     use ROG\States\BeforeTurnTrait;
     use ROG\States\BonusChoiceTrait;
+    use ROG\States\BonusResourceTrait;
     use ROG\States\BuildTrait;
     use ROG\States\ClanSelectionTrait;
     use ROG\States\ConfirmUndoTrait;

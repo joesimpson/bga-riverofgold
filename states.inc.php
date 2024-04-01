@@ -83,6 +83,9 @@ require_once 'modules/php/constants.inc.php';
  |        \--- trade/favor  build/sail/deliver        |
  |                           |                        |
  |                           v                        |
+ |                          bonusChoice               |
+ |                           |                        |
+ |                           v                        |
  |                          confirm --> endTurn ----->/
  |                           |             ^
  |                           v             |
@@ -244,12 +247,28 @@ $machinestates = array(
     
     ST_BONUS_CHOICE => [
         'name' => 'bonusChoice',
+        'args' => 'argBonusChoice',
         'description' => clienttranslate('${actplayer} must select a bonus'),
         'descriptionmyturn' => clienttranslate('${you} must select a bonus'),
         'type' => 'activeplayer',
-        'args' => 'argBonusChoice',
         'possibleactions' => [
             'actBonus', 
+            'actRestart'
+        ],
+        'transitions' => [
+            'bonusResource' => ST_BONUS_CHOICE_RESOURCE,
+            'zombiePass'=> ST_CONFIRM_CHOICES,
+        ],
+    ],
+    
+    ST_BONUS_CHOICE_RESOURCE => [
+        'name' => 'bonusResource',
+        'args' => 'argBonusResource',
+        'description' => clienttranslate('${actplayer} must select a bonus resource'),
+        'descriptionmyturn' => clienttranslate('${you} must select a bonus resource'),
+        'type' => 'activeplayer',
+        'possibleactions' => [
+            'actBonusResource', 
             'actRestart'
         ],
         'transitions' => [
@@ -285,6 +304,7 @@ $machinestates = array(
             'actRestart',
         ],
         "transitions" => [ 
+            "bonus" => ST_BONUS_CHOICE,
             "next" => ST_CONFIRM_CHOICES, 
             "zombiePass" => ST_CONFIRM_CHOICES,
         ],

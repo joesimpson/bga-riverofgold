@@ -2,6 +2,7 @@
 
 namespace ROG\States;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Cards;
@@ -61,6 +62,12 @@ trait DeliverTrait
 
     //Draw 2 cards
     Cards::prepareCardsToRefillHand($player,2);
+
+    $playerBonuses = Globals::getBonuses();
+    if(isset($playerBonuses)){
+      $this->gamestate->nextState('bonus');
+      return;
+    }
 
     $this->gamestate->nextState('next');
   } 

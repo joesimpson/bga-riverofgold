@@ -2883,6 +2883,27 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   transform: translateY(-100%);
 }
 
+.rog_icon_bonus-21 {
+  background-image: url("img/icons/wild.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 57.6px;
+  height: 54px;
+}
+
+.rog_icon_bonus-24 {
+  background-image: url("img/icons/royalupgrade.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 64.5px;
+  height: 34px;
+}
+
+.customimagebutton .rog_icon_bonus-21 {
+  background-color: white;
+  border-radius: 15%;
+}
+
 /**
  * Player panel settings
  * AUTHOR : © Tisaac

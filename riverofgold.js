@@ -458,13 +458,28 @@ function (dojo, declare) {
         onEnteringStateBonusChoice(args){
             debug('onEnteringStateBonusChoice', args);
 
+            let k=0;
+            Object.values(args.p).forEach((bonusType) => {
+                let iconBonus = this.formatIcon('bonus-'+bonusType);
+                this.addImageActionButton(`btnBonus_${k}_${bonusType}`, `<div class='rog_trade'>
+                    ${iconBonus}
+                </div>`, () =>  {
+                    this.takeAction('actBonus', {t:bonusType});
+                });
+                k++;
+            });
+        },
+
+        onEnteringStateBonusResource(args){
+            debug('onEnteringStateBonusResource', args);
+
             Object.values(args.p).forEach((resourceType) => {
                 let qtyDest = 1;
                 let iconResource = this.formatIcon(RESOURCES[resourceType],null);
                 this.addImageActionButton(`btnBonus_${resourceType}`, `<div class='rog_trade'>
                     <div class='rog_button_qty'>${qtyDest}</div>${iconResource}
                 </div>`, () =>  {
-                    this.takeAction('actBonus', {r:resourceType});
+                    this.takeAction('actBonusResource', {r:resourceType});
                 });
             });
         },

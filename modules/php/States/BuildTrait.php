@@ -2,6 +2,7 @@
 
 namespace ROG\States;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Collection;
@@ -70,6 +71,7 @@ trait BuildTrait
     Players::claimMasteries($player);
     
     if($bonusChoice){
+      Globals::addBonus($player,BONUS_TYPE_CHOICE);
       $this->gamestate->nextState('bonus');
       return;
     }

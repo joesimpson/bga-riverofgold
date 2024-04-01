@@ -211,4 +211,15 @@ class Player extends \ROG\Helpers\DB_Model
   {
     return Cards::getPatron($this);
   }
+
+  /**
+   * @return ?Meeple the royal ship currently on the river, or null
+   */
+  public function getRoyalShip()
+  {
+    return Meeples::getBoats($this->getId())->filter( function($ship) { 
+      return MEEPLE_TYPE_SHIP_ROYAL ==$ship->getType(); 
+    })->first();
+  }
+
 }

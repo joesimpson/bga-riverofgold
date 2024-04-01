@@ -90,8 +90,16 @@
     public function actBonus()
     {
       self::setAjaxMode();
+      $bonusType = self::getArg( "t", AT_posint, true );
+      $this->game->actBonus($bonusType);
+      self::ajaxResponse();
+    }
+    
+    public function actBonusResource()
+    {
+      self::setAjaxMode();
       $resourceType = self::getArg( "r", AT_posint, true );
-      $this->game->actBonus($resourceType);
+      $this->game->actBonusResource($resourceType);
       self::ajaxResponse();
     }
     public function actSail()

@@ -2,6 +2,7 @@
 
 namespace ROG\States;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Players;
@@ -13,7 +14,7 @@ trait BonusChoiceTrait
   public function argBonusChoice()
   { 
     $activePlayer = Players::getActive();
-    $possibles = $this->listPossibleBonusResources($activePlayer);
+    $possibles = $this->listPossibleBonusTypes($activePlayer);
     $args = [
       'p' => $possibles,
     ];
@@ -22,52 +23,51 @@ trait BonusChoiceTrait
   } 
    
   /**
-   * @param int $resourceType
+   * @param int $bonusType
    */
-  public function actBonus($resourceType)
+  public function actBonus($bonusType)
   { 
     self::checkAction('actBonus'); 
-    self::trace("actBonus($resourceType)");
+    self::trace("actBonus($bonusType)");
 
     $player = Players::getCurrent();
     $this->addStep();
-    
-    $player->giveResource(1,$resourceType);
 
-    $this->gamestate->nextState('next');
+    if(!$this->canSelectBonusType($player,$bonusType)){
+      throw new UnexpectedException(405,"You don't have this bonus $bonusType");
+    }
+
+    switch($bonusType){
+      case BONUS_TYPE_CHOICE:
+        $nextState = 'bonusResource';
+        break;
+      default:
+        throw new UnexpectedException(900,"Not supported bonus type $bonusType");
+    }
+
+    $this->gamestate->nextState($nextState);
   } 
 
   /**
    * @param Player $player
    * @return array of int
    */
-  public function listPossibleBonusResources($player)
+  public function listPossibleBonusTypes($player)
   { 
-    $possibles = [];
-    foreach ([RESOURCE_TYPE_SILK,RESOURCE_TYPE_RICE, RESOURCE_TYPE_POTTERY] as $res) {
-      if( $this->canReceiveResource($player,$res)){
-        $possibles[] = $res;
-      }
-    }
-    return $possibles;
+    return Globals::getBonuses();
   }
   
   /**
    * @param Player $player
-   * @param int $resourceType
-   * @return bool true if this player can receive another resource of this type,
+   * @param int $bonusType
+   * @return bool true 
    * false otherwise
    * 
    */
-  public function canReceiveResource($player,$resourceType)
+  public function canSelectBonusType($player,$bonusType)
   { 
-    if(!in_array($resourceType,[RESOURCE_TYPE_SILK, RESOURCE_TYPE_POTTERY,RESOURCE_TYPE_RICE] )) return false;
-    $max = NB_MAX_RESOURCE;
-    if(array_key_exists($resourceType,RESOURCES_LIMIT) ) {
-      $max = RESOURCES_LIMIT[$resourceType];
-    }
-    $current = $player->getResource($resourceType);
-    if($current >=$max) return false;
+    $bonuses = $this->listPossibleBonusTypes($player);
+    if(!in_array($bonusType,$bonuses) ) return false;
 
     return true;
   }

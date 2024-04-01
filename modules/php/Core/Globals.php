@@ -18,6 +18,9 @@ class Globals extends \ROG\Helpers\DB_Manager
     'turn' => 'int',
     'era' => 'int',
     'firstPlayer' => 'int',
+    
+    //array of Bonuses to be earned by selection of something
+    'bonuses' => 'obj',
 
     //Undo log module
     'choices' => 'int',
@@ -34,6 +37,7 @@ class Globals extends \ROG\Helpers\DB_Manager
   {
     self::setTurn(0);
     self::setEra(0);
+    self::setBonuses([]);
 
     foreach($players as $pId => $player){
       self::setFirstPlayer($pId);
@@ -79,7 +83,21 @@ class Globals extends \ROG\Helpers\DB_Manager
   public static function setupNewTurn()
   {
     self::incTurn(1);
+    self::setBonuses([]);
   }
+
+  /**
+   * @param Player $player
+   * @param int $type
+   */
+  public static function addBonus($player, $type)
+  {
+    $bonuses = self::getBonuses();
+    $bonuses[] = $type;
+    self::setBonuses($bonuses);
+  }
+
+  //////////////////////////////////////////////////////////////////////////////////////
 
   protected static $table = 'global_variables';
   protected static $primary = 'name';

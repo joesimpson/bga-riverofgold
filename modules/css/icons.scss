@@ -1,0 +1,23 @@
+
+.rog_icon_bonus-21{//BONUS_TYPE_CHOICE
+    background-image: url("img/icons/wild.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    width: calc( 0.9 * 64px);
+    height: calc( 0.9 * 60px);
+}
+.rog_icon_bonus-24{//BONUS_TYPE_UPGRADE_SHIP
+    background-image: url("img/icons/royalupgrade.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    width: calc( 0.5 * 129px);
+    height: calc( 0.5 * 68px);
+}
+
+// In buttons ///////////////////////////
+.customimagebutton{
+    .rog_icon_bonus-21{
+        background-color: white;
+        border-radius: 15%;
+    }
+}
