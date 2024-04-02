@@ -2,6 +2,7 @@
 
 namespace ROG\States;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Players;
@@ -31,8 +32,13 @@ trait BonusResourceTrait
 
     $player = Players::getCurrent();
     $this->addStep();
+
+    if(!$this->canReceiveResource($player,$resourceType)){
+      throw new UnexpectedException(405,"You cannot receive this resource ($resourceType)");
+    }
     
     $player->giveResource(1,$resourceType);
+    
 
     $this->gamestate->nextState('next');
   } 

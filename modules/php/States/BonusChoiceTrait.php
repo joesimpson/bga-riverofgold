@@ -11,6 +11,15 @@ use ROG\Models\Player;
 trait BonusChoiceTrait
 {
    
+  public function stBonusChoice()
+  {  
+    self::trace("stBonusChoice()");
+    $nbPossibleActions = count($this->argBonusChoice()['p']);
+    if($nbPossibleActions == 0){
+      $this->gamestate->nextState('next');
+      return;
+    }
+  } 
   public function argBonusChoice()
   { 
     $activePlayer = Players::getActive();
@@ -47,6 +56,7 @@ trait BonusChoiceTrait
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }
+    Globals::removeBonus($player,$bonusType);
 
     $this->gamestate->nextState($nextState);
   } 

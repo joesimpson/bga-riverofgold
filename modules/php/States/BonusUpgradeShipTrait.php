@@ -42,7 +42,6 @@ trait BonusUpgradeShipTrait
 
     $ship->setType(MEEPLE_TYPE_SHIP_ROYAL);
     Notifications::upgradeShip($player,$ship);
-    Globals::removeBonus($player,BONUS_TYPE_UPGRADE_SHIP);
     
     $this->gamestate->nextState('next');
   } 

@@ -247,6 +247,7 @@ $machinestates = array(
     
     ST_BONUS_CHOICE => [
         'name' => 'bonusChoice',
+        'action' => 'stBonusChoice',
         'args' => 'argBonusChoice',
         'description' => clienttranslate('${actplayer} must select a bonus'),
         'descriptionmyturn' => clienttranslate('${you} must select a bonus'),
