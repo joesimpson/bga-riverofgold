@@ -37,14 +37,16 @@ class Meeples extends \ROG\Helpers\Pieces
   /**
    * @param BuildingTile $tile
    * @param Player $player
+   * @param int $position (Optional) default 1
    * @return Meeple
    */
-  public static function addClanMarkerOnShoreSpace($tile,$player)
+  public static function addClanMarkerOnShoreSpace($tile,$player,$position = 1)
   {
     $meeple = [
       'type' => MEEPLE_TYPE_CLAN_MARKER,
       'location' => MEEPLE_LOCATION_TILE.$tile->id,
       'player_id' => $player->getId(),
+      'state' => $position,
     ];
     $elt = self::singleCreate($meeple);
     Notifications::newClanMarker($player,$elt);

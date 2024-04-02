@@ -48,7 +48,7 @@ trait BonusSecondMarkerTrait
       throw new UnexpectedException(405,"You cannot second build this tile");
     }
 
-    Meeples::addClanMarkerOnShoreSpace($tile,$player);
+    Meeples::addClanMarkerOnShoreSpace($tile,$player,2);
     Players::claimMasteries($player);
     
     $this->gamestate->nextState('next');

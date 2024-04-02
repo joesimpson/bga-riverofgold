@@ -101,11 +101,21 @@
         top: 34px;
         transform: translateY(0);
         transition: transform 0.5s;
+        &[data-pos='1']{//First clan marker on building
+            z-index: 1;
+        }
+        &[data-pos='2']{//Second clan marker on building
+            top: 14px;
+            z-index: 2;
+        }
     }
     &:hover{
         .rog_meeple{
             //View behind meeple
-            transform:translateY(-100%);
+            transform:translateY(-90%);
+            &[data-pos='2']{//Second clan marker on building
+                transform:translateY(-100%);
+            }
         }
     }
 }

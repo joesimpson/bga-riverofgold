@@ -109,6 +109,14 @@
       $this->game->actBonusUpgrade($shipId);
       self::ajaxResponse();
     }
+    
+    public function actBonusSecondMarker()
+    {
+      self::setAjaxMode();
+      $tileId = self::getArg( "t", AT_posint, true );
+      $this->game->actBonusSecondMarker($tileId);
+      self::ajaxResponse();
+    }
     public function actSail()
     {
       self::setAjaxMode();

@@ -519,6 +519,30 @@ function (dojo, declare) {
                 });
             });
         },
+        
+        onEnteringStateBonusSecondMarker(args){
+            debug('onEnteringStateBonusSecondMarker', args);
+  
+            this.selectedTileId = null; 
+            let shoreSpacesDiv = $(`rog_shore_spaces`);
+            this.addPrimaryActionButton('btnConfirm', this.fsr(_('Confirm'), {}), () => {
+                this.takeAction('actBonusSecondMarker', { t: this.selectedTileId});
+            }); 
+            //DISABLED by default
+            $(`btnConfirm`).classList.add('disabled');
+
+            Object.values(args.p).forEach((tileId) => {
+                let tileDiv = $(`rog_tile-${tileId}`);
+                this.onClick(`${tileDiv.id}`, (evt) => {
+                    shoreSpacesDiv.querySelectorAll('.rog_tile').forEach((elt) => {
+                        elt.classList.remove('selected');
+                    });
+                    tileDiv.classList.add('selected');
+                    this.selectedTileId = tileId;
+                    $(`btnConfirm`).classList.remove('disabled');
+                });
+            });
+        },
 
         onEnteringStateSail(args){
             debug('onEnteringStateSail', args);
