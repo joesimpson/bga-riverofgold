@@ -42,7 +42,7 @@ class CustomerCard extends Card
     switch($this->getCustomerType()){
       case CUSTOMER_TYPE_ARTISAN:
         $bonusChoice = Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_ARTISAN);
-        //TODO JSA how to display bonus ?
+        if($bonusChoice) Globals::addBonus($player,BONUS_TYPE_CHOICE);
         Meeples::addClanMarkerOnArtisanSpace($player,$this->getRegion());
         break;
       case CUSTOMER_TYPE_ELDER:
@@ -50,12 +50,17 @@ class CustomerCard extends Card
         break;
       case CUSTOMER_TYPE_MERCHANT:
         $bonusChoice = Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_MERCHANT);
+        if($bonusChoice) Globals::addBonus($player,BONUS_TYPE_CHOICE);
         Meeples::addClanMarkerOnMerchantSpace($player);
         break;
       case CUSTOMER_TYPE_MONK:
         $player->giveResource(1,RESOURCE_TYPE_MOON);
         $player->giveResource(2,RESOURCE_TYPE_SUN);
-        //TODO JSA ASK player choice to add a marker on a building
+        //ASK player choice to add a marker on a building
+        $monkType = $this->getMonkType();
+        //TODO JSA check there is a building to select
+        if(MONK_TYPE_OWN_BUILDING == $monkType) Globals::addBonus($player,BONUS_TYPE_SECOND_MARKER_ON_BUILDING);
+        else if(MONK_TYPE_OPPONENT_BUILDING == $monkType) Globals::addBonus($player,BONUS_TYPE_SECOND_MARKER_ON_OPPONENT);
         break;
       case CUSTOMER_TYPE_NOBLE:
         $bonusChoice = Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_NOBLE);
@@ -65,5 +70,23 @@ class CustomerCard extends Card
         if(!isset($royalShip)) Globals::addBonus($player,BONUS_TYPE_UPGRADE_SHIP);
         break;
     }
+  } 
+  
+  /**
+   * @return int
+   */
+  public function getMonkType()
+  {
+    switch($this->getType()){
+      case 19://TODO JSA CONSTANTS
+      case 21:
+      case 23:
+        return MONK_TYPE_OWN_BUILDING;
+      case 20:
+      case 22:
+      case 24:
+        return MONK_TYPE_OPPONENT_BUILDING;
+    }
+    return null;
   } 
 }

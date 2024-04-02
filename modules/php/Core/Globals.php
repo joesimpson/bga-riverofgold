@@ -22,6 +22,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     //Trade is possible in many states, thus we need to keep a trace of the previous state
     'stateBeforeTrade' => 'int',
 
+    'currentBonus' => 'int',
     //array of Bonuses to be earned by selection of something
     'bonuses' => 'obj',
 
@@ -41,6 +42,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::setTurn(0);
     self::setEra(0);
     self::setBonuses([]);
+    self::setCurrentBonus(null);
     self::setStateBeforeTrade(null);
 
     foreach($players as $pId => $player){
@@ -88,6 +90,7 @@ class Globals extends \ROG\Helpers\DB_Manager
   {
     self::incTurn(1);
     self::setBonuses([]);
+    self::setCurrentBonus(null);
   }
 
   /**

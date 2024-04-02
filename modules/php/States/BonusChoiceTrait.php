@@ -14,6 +14,7 @@ trait BonusChoiceTrait
   public function stBonusChoice()
   {  
     self::trace("stBonusChoice()");
+    Globals::setCurrentBonus(null);
     $nbPossibleActions = count($this->argBonusChoice()['p']);
     if($nbPossibleActions == 0){
       $this->gamestate->nextState('next');
@@ -58,9 +59,14 @@ trait BonusChoiceTrait
       case BONUS_TYPE_UPGRADE_SHIP:
         $nextState = 'bonusUpgrade';
         break;
+      case BONUS_TYPE_SECOND_MARKER_ON_BUILDING:
+      case BONUS_TYPE_SECOND_MARKER_ON_OPPONENT:
+        $nextState = 'bonusBuilding';
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }
+    Globals::setCurrentBonus($bonusType);
     Globals::removeBonus($player,$bonusType);
 
     $this->gamestate->nextState($nextState);

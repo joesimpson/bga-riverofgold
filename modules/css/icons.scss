@@ -13,6 +13,20 @@
     width: calc( 0.5 * 129px);
     height: calc( 0.5 * 68px);
 }
+.rog_icon_bonus-25{//BONUS_TYPE_SECOND_MARKER_ON_BUILDING
+    background-image: url("img/icons/playerbt.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    width: calc( 0.9 * 57px);
+    height: calc( 0.9 * 34px);
+}
+.rog_icon_bonus-26{//BONUS_TYPE_SECOND_MARKER_ON_OPPONENT
+    background-image: url("img/icons/oppbt.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    width: calc( 0.9 * 57px);
+    height: calc( 0.9 * 29px);
+}
 
 // In buttons ///////////////////////////
 .customimagebutton{

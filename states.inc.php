@@ -260,6 +260,7 @@ $machinestates = array(
         'transitions' => [
             'bonusResource' => ST_BONUS_CHOICE_RESOURCE,
             'bonusUpgrade' => ST_BONUS_UPGRADE_SHIP,
+            'bonusBuilding' => ST_BONUS_SECOND_MARKER_ON_BUILDING,
             "trade" => ST_PLAYER_TURN_TRADE, 
             'next' => ST_CONFIRM_CHOICES,
             'zombiePass'=> ST_CONFIRM_CHOICES,
@@ -289,6 +290,21 @@ $machinestates = array(
         'type' => 'activeplayer',
         'possibleactions' => [
             'actBonusUpgrade', 
+            'actRestart'
+        ],
+        'transitions' => [
+            'next' => ST_BONUS_CHOICE,
+            'zombiePass'=> ST_BONUS_CHOICE,
+        ],
+    ],
+    ST_BONUS_SECOND_MARKER_ON_BUILDING => [
+        'name' => 'bonusSecondMarker',
+        'args' => 'argBonusSecondMarker',
+        'description' => clienttranslate('${actplayer} must select a building to add a clan marker on'),
+        'descriptionmyturn' => clienttranslate('${you} must select a building to add a clan marker on'),
+        'type' => 'activeplayer',
+        'possibleactions' => [
+            'actBonusSecondMarker', 
             'actRestart'
         ],
         'transitions' => [

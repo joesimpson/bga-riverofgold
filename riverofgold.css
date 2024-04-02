@@ -2907,6 +2907,22 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   height: 34px;
 }
 
+.rog_icon_bonus-25 {
+  background-image: url("img/icons/playerbt.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 51.3px;
+  height: 30.6px;
+}
+
+.rog_icon_bonus-26 {
+  background-image: url("img/icons/oppbt.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 51.3px;
+  height: 26.1px;
+}
+
 .customimagebutton .rog_icon_bonus-21 {
   background-color: white;
   border-radius: 15%;
