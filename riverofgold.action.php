@@ -102,6 +102,13 @@
       $this->game->actBonusResource($resourceType);
       self::ajaxResponse();
     }
+    public function actBonusUpgrade()
+    {
+      self::setAjaxMode();
+      $shipId = self::getArg( "s", AT_posint, true );
+      $this->game->actBonusUpgrade($shipId);
+      self::ajaxResponse();
+    }
     public function actSail()
     {
       self::setAjaxMode();

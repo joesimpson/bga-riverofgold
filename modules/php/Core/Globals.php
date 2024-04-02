@@ -96,6 +96,18 @@ class Globals extends \ROG\Helpers\DB_Manager
     $bonuses[] = $type;
     self::setBonuses($bonuses);
   }
+  /**
+   * @param Player $player
+   * @param int $type
+   */
+  public static function removeBonus($player, $type)
+  {
+    $bonuses = self::getBonuses();
+    $key = array_search($type,$bonuses);
+    if(!isset($key)) return;
+    unset($bonuses[$key]);
+    self::setBonuses($bonuses);
+  }
 
   //////////////////////////////////////////////////////////////////////////////////////
 

@@ -257,6 +257,8 @@ $machinestates = array(
         ],
         'transitions' => [
             'bonusResource' => ST_BONUS_CHOICE_RESOURCE,
+            'bonusUpgrade' => ST_BONUS_UPGRADE_SHIP,
+            'next' => ST_CONFIRM_CHOICES,
             'zombiePass'=> ST_CONFIRM_CHOICES,
         ],
     ],
@@ -272,8 +274,23 @@ $machinestates = array(
             'actRestart'
         ],
         'transitions' => [
-            'next' => ST_CONFIRM_CHOICES,
-            'zombiePass'=> ST_CONFIRM_CHOICES,
+            'next' => ST_BONUS_CHOICE,
+            'zombiePass'=> ST_BONUS_CHOICE,
+        ],
+    ],
+    ST_BONUS_UPGRADE_SHIP => [
+        'name' => 'bonusUpgrade',
+        'args' => 'argBonusUpgrade',
+        'description' => clienttranslate('${actplayer} must select a ship to upgrade'),
+        'descriptionmyturn' => clienttranslate('${you} must select a ship to upgrade'),
+        'type' => 'activeplayer',
+        'possibleactions' => [
+            'actBonusUpgrade', 
+            'actRestart'
+        ],
+        'transitions' => [
+            'next' => ST_BONUS_CHOICE,
+            'zombiePass'=> ST_BONUS_CHOICE,
         ],
     ],
 

@@ -60,7 +60,7 @@ class CustomerCard extends Card
       case CUSTOMER_TYPE_NOBLE:
         $bonusChoice = Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_NOBLE);
         if($bonusChoice) Globals::addBonus($player,BONUS_TYPE_CHOICE);
-        //TODO JSA Ask player to choose a ship to become ROYAL (only the first time)
+        //Ask player to choose a ship to become ROYAL (only the first time)
         $royalShip = $player->getRoyalShip();
         if(!isset($royalShip)) Globals::addBonus($player,BONUS_TYPE_UPGRADE_SHIP);
         break;

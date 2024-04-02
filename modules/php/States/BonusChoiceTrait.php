@@ -41,6 +41,9 @@ trait BonusChoiceTrait
       case BONUS_TYPE_CHOICE:
         $nextState = 'bonusResource';
         break;
+      case BONUS_TYPE_UPGRADE_SHIP:
+        $nextState = 'bonusUpgrade';
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }

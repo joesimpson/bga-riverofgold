@@ -483,6 +483,36 @@ function (dojo, declare) {
                 });
             });
         },
+        
+        onEnteringStateBonusUpgrade(args){
+            debug('onEnteringStateBonusUpgrade', args);
+ 
+            this.selectedShipId = null; 
+            let riverSpacesDiv = $(`rog_river_spaces`);
+            let confirmMessage = _('Upgrade ship on river space #${n}');
+            this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {n:0}), () => {
+                this.takeAction('actBonusUpgrade', { s: this.selectedShipId});
+            }); 
+            //DISABLED by default
+            $(`btnConfirm`).classList.add('disabled');
+
+            let possibleShips = args.p;
+            Object.values(possibleShips).forEach((shipId) => {
+                //Click SELECT ship
+                this.onClick(`rog_meeple-${shipId}`, (evt) => {
+
+                    [...riverSpacesDiv.querySelectorAll('.rog_river_space .rog_meeple')].forEach((elt) => { 
+                        elt.classList.remove('selected');
+                    });
+                    let divShip = $(`rog_meeple-${shipId}`);
+                    divShip.classList.add('selected');
+                    this.selectedShipId = shipId;
+                    this.selectedSpace = divShip.dataset.pos;
+                    $(`btnConfirm`).classList.remove('disabled');
+                    $('btnConfirm').innerHTML = this.fsr(confirmMessage, { n: this.selectedSpace });
+                });
+            });
+        },
 
         onEnteringStateSail(args){
             debug('onEnteringStateSail', args);

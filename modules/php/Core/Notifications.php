@@ -199,16 +199,29 @@ class Notifications
     ]);
   }
   /**
- * @param Player $player
- * @param Meeple $meeple
- */
-public static function newBoat($player,$meeple)
-{
-  self::notifyAll('newBoat', clienttranslate('${player_name} places a new boat on the river'), [
-    'player' => $player,
-    'meeple' => $meeple->getUiData(),
-  ]);
-}
+   * @param Player $player
+   * @param Meeple $meeple
+   */
+  public static function newBoat($player,$meeple)
+  {
+    self::notifyAll('newBoat', clienttranslate('${player_name} places a ship on the river (at space #${space})'), [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
+      'space' => $meeple->getPosition(),
+    ]);
+  }
+  /**
+   * @param Player $player
+   * @param Meeple $meeple
+   */
+  public static function upgradeShip($player,$meeple)
+  {
+    self::notifyAll('upgradeShip', clienttranslate('${player_name} upgrade a standard ship (at space #${space})'), [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
+      'space' => $meeple->getPosition(),
+    ]);
+  }
 
   /**
    * @param Player $player 
