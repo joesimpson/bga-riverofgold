@@ -2551,7 +2551,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   border-radius: 50%;
   box-shadow: 1px 1px 3px black;
 }
-.rog_meeple[data-type="1"] {
+.rog_meeple[data-type="1"], .rog_meeple[data-type="3"] {
   background-image: url("img/boats.png");
   background-size: 300% 400%;
   background-color: transparent;
@@ -2561,17 +2561,20 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   width: 150px;
   height: 120px;
 }
-.rog_meeple[data-type="1"][data-color="0000ff"] {
+.rog_meeple[data-type="1"][data-color="0000ff"], .rog_meeple[data-type="3"][data-color="0000ff"] {
   background-position-y: 0%;
 }
-.rog_meeple[data-type="1"][data-color=ffffff] {
+.rog_meeple[data-type="1"][data-color=ffffff], .rog_meeple[data-type="3"][data-color=ffffff] {
   background-position-y: 36%;
 }
-.rog_meeple[data-type="1"][data-color="008000"] {
+.rog_meeple[data-type="1"][data-color="008000"], .rog_meeple[data-type="3"][data-color="008000"] {
   background-position-y: 66%;
 }
-.rog_meeple[data-type="1"][data-color=ff0000] {
+.rog_meeple[data-type="1"][data-color=ff0000], .rog_meeple[data-type="3"][data-color=ff0000] {
   background-position-y: 100%;
+}
+.rog_meeple[data-type="1"][data-type="3"], .rog_meeple[data-type="3"][data-type="3"] {
+  background-position-x: 100%;
 }
 .rog_meeple[data-type="2"] {
   background-image: url("img/clans_markers.png");
@@ -2612,6 +2615,11 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 .rog_meeple[data-type="9"][data-color=ff0000] {
   background-position-x: 100%;
+}
+.rog_meeple.tooltipable:hover {
+  outline: 10px solid black;
+  z-index: 2;
+  cursor: help;
 }
 .rog_meeple.selectable {
   outline: 10px solid blue;

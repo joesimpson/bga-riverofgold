@@ -150,6 +150,7 @@ function (dojo, declare) {
                 ['sail', 1300],
                 ['newClanMarker', 700],
                 ['newBoat', 700],
+                ['upgradeShip', 700],
                 ['rollDie', 800],
                 ['setDie', 800],
                 ['gainInfluence', 1300],
@@ -731,6 +732,16 @@ function (dojo, declare) {
             debug('notif_newBoat', n);
             if (!$(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
             this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { });
+        },
+        notif_upgradeShip(n) {
+            debug('notif_upgradeShip', n);
+            if ($(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
+            $(`rog_meeple-${n.args.meeple.id}`).dataset.type = n.args.meeple.type;
+            this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), {  
+                from: this.getVisibleTitleContainer(), 
+                phantom: false,
+            }).then( ()=> {
+            });
         },
         
         notif_sail(n) {
@@ -1646,7 +1657,18 @@ function (dojo, declare) {
             if ($('rog_meeple-' + meeple.id)) return;
     
             let o = this.place('tplMeeple', meeple, location == null ? this.getMeepleContainer(meeple) : location); 
+            let tooltipDesc = this.getMeepleTooltip(meeple);
+            if (tooltipDesc != null) {
+                this.addCustomTooltip(o.id, tooltipDesc);
+            }
             return o;
+        },
+        getMeepleTooltip(meeple) {
+            if(meeple.type == MEEPLE_TYPE_SHIP_ROYAL){
+                let desc = _('Royal Ship');
+                return [`<div class='rog_meeple_tooltip'><h3>${desc}</h3></div>`];
+            }
+            return null;
         },
     
         tplMeeple(meeple, prefix ='') {

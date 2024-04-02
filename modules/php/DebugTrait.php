@@ -29,6 +29,7 @@ trait DebugTrait
     //Formatting prefs as json -> copy the DOM of this log : \n
     Notifications::message("$json",['json' => $json]);
   }
+  ////////////////////////////////////////////////////
 
   function debugSetup(){
     $players = self::loadPlayersBasicInfos();
@@ -148,6 +149,18 @@ trait DebugTrait
       }
     }
     $this->debugUI();
+  }
+
+  function debugBonusChoice(){
+    $player = Players::getCurrent();
+    $royalShip = $player->getRoyalShip();
+    if(isset($royalShip)) $royalShip->setType(MEEPLE_TYPE_SHIP);
+    $this->debugUI();
+
+    Globals::addBonus($player,BONUS_TYPE_CHOICE);
+    Globals::addBonus($player,BONUS_TYPE_UPGRADE_SHIP);
+    Globals::addBonus($player,BONUS_TYPE_CHOICE);
+    $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
 
   function debugBoatMeeples(){

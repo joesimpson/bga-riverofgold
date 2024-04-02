@@ -5,7 +5,9 @@
     border-radius: 50%;
     box-shadow: 1px 1px 3px black;
 
-    &[data-type='1'] {//MEEPLE_TYPE_SHIP
+    &[data-type='1'], //MEEPLE_TYPE_SHIP
+    &[data-type='3'] //MEEPLE_TYPE_SHIP_ROYAL
+    {
         background-image: url("img/boats.png");
         background-size: 300% 400%;
         background-color: transparent;
@@ -26,6 +28,9 @@
         }
         &[data-color="ff0000"] {//red
             background-position-y: 100%;
+        }
+        &[data-type='3'] {
+            background-position-x: 100%;
         }
     }
 
@@ -72,7 +77,11 @@
             background-position-x: 100%;
         }
     }
-
+    &.tooltipable:hover{
+        outline: 10px solid black;
+        z-index: 2;
+        cursor:help;
+    }
     &.selectable{
         outline: 10px solid blue;
         cursor: pointer;
