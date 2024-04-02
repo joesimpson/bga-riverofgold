@@ -32,7 +32,9 @@ trait ConfirmUndoTrait
 
     public function argsConfirmTurn()
     {
+        $activePlayer = Players::getActive();
         $data = [];
+        $data['trade'] = count($this->listPossibleTrades($activePlayer))>0;
         $this->addArgsForUndo($data);
         return $data;
     }

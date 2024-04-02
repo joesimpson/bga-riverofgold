@@ -24,8 +24,13 @@ trait BonusChoiceTrait
   { 
     $activePlayer = Players::getActive();
     $possibles = $this->listPossibleBonusTypes($activePlayer);
+    $trade = false;
+    if(count($this->listPossibleTrades($activePlayer))>0 ){
+      $trade = true;
+    }
     $args = [
       'p' => $possibles,
+      'trade' => $trade,
     ];
     $this->addArgsForUndo($args);
     return $args;

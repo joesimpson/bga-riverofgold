@@ -254,11 +254,13 @@ $machinestates = array(
         'type' => 'activeplayer',
         'possibleactions' => [
             'actBonus', 
+            "actTrade", 
             'actRestart'
         ],
         'transitions' => [
             'bonusResource' => ST_BONUS_CHOICE_RESOURCE,
             'bonusUpgrade' => ST_BONUS_UPGRADE_SHIP,
+            "trade" => ST_PLAYER_TURN_TRADE, 
             'next' => ST_CONFIRM_CHOICES,
             'zombiePass'=> ST_CONFIRM_CHOICES,
         ],
@@ -339,6 +341,8 @@ $machinestates = array(
             'actRestart',
         ],
         "transitions" => [ 
+            "backToBonus" => ST_BONUS_CHOICE, 
+            "backToConfirm" => ST_CONFIRM_TURN, 
             "next" => ST_PLAYER_TURN, 
             "zombiePass" => ST_PLAYER_TURN,
         ],
@@ -393,8 +397,13 @@ $machinestates = array(
         'type' => 'activeplayer',
         'args' => 'argsConfirmTurn',
         'action' => 'stConfirmTurn',
-        'possibleactions' => ['actConfirmTurn', 'actRestart'],
+        'possibleactions' => [
+            'actTrade',
+            'actConfirmTurn', 
+            'actRestart'
+        ],
         'transitions' => [
+            "trade" => ST_PLAYER_TURN_TRADE, 
           'confirm' => ST_END_TURN,
           'zombiePass'=> ST_END_TURN,
           'refillHand' => ST_DISCARD_CARD,

@@ -2,6 +2,7 @@
 
 namespace ROG\States;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Players;
@@ -47,7 +48,21 @@ trait TradeTrait
     }
     $player->giveResource(+$qtyDest,$typeDest);
 
-    $this->gamestate->nextState('next');
+    //LOOK for the state we where before player clicked 'Trade'
+    $previousState = Globals::getStateBeforeTrade();
+    switch($previousState){
+      case ST_BONUS_CHOICE:
+        $nextState = 'backToBonus';
+        break;
+      case ST_CONFIRM_TURN:
+        $nextState = 'backToConfirm';
+        break;
+      default:
+        $nextState = 'next';
+        break;
+    }
+    $this->gamestate->nextState($nextState);
+
   } 
 
   /**

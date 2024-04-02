@@ -2,6 +2,7 @@
 
 namespace ROG\States;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Managers\Players;
 
@@ -50,6 +51,8 @@ trait PlayerTurnTrait
     self::trace("actTrade()");
 
     $this->addStep();
+    $currentState = $this->gamestate->state_id();
+    Globals::setStateBeforeTrade($currentState);
 
     $this->gamestate->nextState('trade');
   }

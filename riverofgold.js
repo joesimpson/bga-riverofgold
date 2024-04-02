@@ -459,6 +459,11 @@ function (dojo, declare) {
         onEnteringStateBonusChoice(args){
             debug('onEnteringStateBonusChoice', args);
 
+            this.addPrimaryActionButton(`btnTrade`, _('Trade') , () =>  { this.takeAction('actTrade'); });
+            if(!args.trade){
+                $('btnTrade').classList.add('disabled');
+            }
+
             let k=0;
             Object.values(args.p).forEach((bonusType) => {
                 let iconBonus = this.formatIcon('bonus-'+bonusType);
@@ -626,6 +631,11 @@ function (dojo, declare) {
         },
 
         onEnteringStateConfirmTurn(args) {
+            this.addPrimaryActionButton(`btnTrade`, _('Trade') , () =>  { this.takeAction('actTrade'); });
+            if(!args.trade){
+                $('btnTrade').classList.add('disabled');
+            }
+
             this.addPrimaryActionButton('btnConfirmTurn', _('Confirm'), () => {
                 this.takeAction('actConfirmTurn');
             });
