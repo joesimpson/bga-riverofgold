@@ -4,6 +4,8 @@ namespace ROG\States;
 
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\Utils;
+use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
@@ -104,12 +106,20 @@ trait SailTrait
   public function listPossibleSpacesToSail($player)
   { 
     $nbMoves = $player->getDie();
-    //TODO JSA canSail for noble 5 AND royal ship : +1/-1
     $possibleSpaces = [];
     $boats = Meeples::getBoats($player->getId());
     foreach($boats as $boat){
       //ship position is between 1 and NB_RIVER_SPACES, and comes back at 1 after completing the journey
-      $possibleSpaces[$boat->getId()][] = ($boat->getPosition() + $nbMoves -1) % NB_RIVER_SPACES +1;
+      $diePosition = $boat->getPosition() + $nbMoves -1;
+      $possibleSpaces[$boat->getId()][] = $diePosition % NB_RIVER_SPACES +1;
+      if(MEEPLE_TYPE_SHIP_ROYAL == $boat->getType()){
+        //Royal Ship: +1/-1 space
+        if(Cards::hasPlayerDeliveredOrder($player->getId(), CARD_NOBLE_5)){
+          $possibleSpaces[$boat->getId()][] = ($diePosition +1) % NB_RIVER_SPACES +1;
+          $possibleSpaces[$boat->getId()][] = ($diePosition -1) % NB_RIVER_SPACES +1;
+        }
+
+      }
     }
     return $possibleSpaces;
   }

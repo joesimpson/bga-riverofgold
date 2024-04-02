@@ -83,10 +83,11 @@ class Notifications
    */
   public static function deliver($player, $card)
   { 
-    self::notifyAll('deliver', clienttranslate('${player_name} delivers a customer card : ${customer_name}'), [
+    self::notifyAll('deliver', clienttranslate('${player_name} delivers a customer card : ${card_type} ${region}'), [
       'player' => $player,
       'card' => $card->getUiData(),
-      'customer_name' => $card->getDesc(),
+      'card_type' => $card->getTitle(),
+      'region' => $card->getRegion(),
     ]);
   }
   
@@ -97,10 +98,11 @@ class Notifications
   public static function discard($player, $card)
   { 
     //Beware this is a private info !
-    self::notify($player,'discard', clienttranslate('You discard ${customer_name}'), [
+    self::notify($player,'discard', clienttranslate('You discard ${card_type} ${region}'), [
       'player' => $player,
       'card' => $card->getUiData(),
-      'customer_name' => $card->getDesc(),
+      'card_type' => $card->getTitle(),
+      'region' => $card->getRegion(),
     ]);
     self::notifyAll('discardPublic', clienttranslate('${player_name} discards a customer card'), [
       'player' => $player,

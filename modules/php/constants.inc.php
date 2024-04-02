@@ -53,6 +53,38 @@
    CUSTOMER_TYPE_MONK    ,
    CUSTOMER_TYPE_NOBLE   ,
  ];
+ 
+// 30 Customer cards
+const CARD_ARTISAN_1 = 1 ;
+const CARD_ARTISAN_2 = 2 ;
+const CARD_ARTISAN_3 = 3 ;
+const CARD_ARTISAN_4 = 4 ;
+const CARD_ARTISAN_5 = 5 ;
+const CARD_ARTISAN_6 = 6 ;
+const CARD_ELDER_1 = 7 ;
+const CARD_ELDER_2 = 8 ;
+const CARD_ELDER_3 = 9 ;
+const CARD_ELDER_4 = 10;
+const CARD_ELDER_5 = 11;
+const CARD_ELDER_6 = 12;
+const CARD_MERCHANT_1 = 13;
+const CARD_MERCHANT_2 = 14;
+const CARD_MERCHANT_3 = 15;
+const CARD_MERCHANT_4 = 16;
+const CARD_MERCHANT_5 = 17;
+const CARD_MERCHANT_6 = 18;
+const CARD_MONK_1 = 19;
+const CARD_MONK_2 = 20;
+const CARD_MONK_3 = 21;
+const CARD_MONK_4 = 22;
+const CARD_MONK_5 = 23;
+const CARD_MONK_6 = 24;
+const CARD_NOBLE_1 = 25;
+const CARD_NOBLE_2 = 26;
+const CARD_NOBLE_3 = 27;
+const CARD_NOBLE_4 = 28;
+const CARD_NOBLE_5 = 29;
+const CARD_NOBLE_6 = 30;
 
 const MONK_TYPE_OWN_BUILDING = 1;
 const MONK_TYPE_OPPONENT_BUILDING = 2;

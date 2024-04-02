@@ -78,15 +78,15 @@ class CustomerCard extends Card
   public function getMonkType()
   {
     switch($this->getType()){
-      case 19://TODO JSA CONSTANTS
-      case 21:
-      case 23:
+      case CARD_MONK_1:
+      case CARD_MONK_3:
+      case CARD_MONK_5:
         return MONK_TYPE_OWN_BUILDING;
-      case 20:
-      case 22:
-      case 24:
+      case CARD_MONK_2:
+      case CARD_MONK_4:
+      case CARD_MONK_6:
         return MONK_TYPE_OPPONENT_BUILDING;
     }
     return null;
-  } 
+  }
 }
