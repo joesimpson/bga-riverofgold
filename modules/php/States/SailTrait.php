@@ -59,7 +59,10 @@ trait SailTrait
       Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);
 
       //TODO JSA REMOVE LAST TILE
-      //TODO JSA ADD MERCHANT bonus
+      //TODO JSA ADD MERCHANT Ongoing ability bonus
+      if(Cards::hasPlayerDeliveredOrder($player->getId(),CARD_MERCHANT_3)){
+        Globals::addBonus($player,BONUS_TYPE_CHOICE);
+      }
 
     }
 
