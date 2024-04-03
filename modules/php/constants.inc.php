@@ -39,6 +39,9 @@
  //RULE : empty space => 1 Koku
  const EMPTY_SPACE_REWARD = 1;
 
+ const NB_POINTS_NOBLE_4 = 1;
+ const NB_POINTS_NOBLE_6 = 1;
+
  const ARTISAN_COST_REDUCTION = 2;
  
  const CUSTOMER_TYPE_ARTISAN =  1;

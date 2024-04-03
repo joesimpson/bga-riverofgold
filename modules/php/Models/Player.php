@@ -76,11 +76,16 @@ class Player extends \ROG\Helpers\DB_Model
     return Stats::$name($this->id);
   }
   
-  public function addPoints($points)
+  /**
+   * @param int $points
+   * @param bool $sendNotif (Default true)
+   */
+  public function addPoints($points, $sendNotif = true)
   {
     if($points == 0) return;
     $this->setScore( $this->getScore() + $points);
     Stats::inc( "score", $this->id, $points );
+    if($sendNotif) Notifications::addPoints($this,$points);
   }
   
   /**

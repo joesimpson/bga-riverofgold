@@ -252,13 +252,11 @@ class Players extends \ROG\Helpers\DB_Manager
         $bonusType = $bonus['type'];
         if(BONUS_TYPE_POINTS == $bonusType){
           $player->addPoints($bonusQuantity);
-          Notifications::addPoints($player,$bonusQuantity);
         }
         else if(BONUS_TYPE_CHOICE == $bonusType){
           //3 points + bonus
           $goToBonusChoice = true;
           $player->addPoints(3);
-          Notifications::addPoints($player,3);
         }
         else {
           $player->giveResource($bonusQuantity,$bonusType);
@@ -382,7 +380,7 @@ class Players extends \ROG\Helpers\DB_Manager
       $claimPosition = $nbClaimed + 1;
       $nextPlaceScore = $tile->scores[$claimPosition - 1];
       $meeple = Meeples::addClanMarkerOnMasteryCard($tile,$player,$claimPosition);
-      $player->addPoints($nextPlaceScore);
+      $player->addPoints($nextPlaceScore,false);
       Notifications::claimMasteryCard($player,$nextPlaceScore,$tile,$meeple);
     }
 

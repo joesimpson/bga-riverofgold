@@ -50,7 +50,6 @@ class RewardEntry implements \JsonSerializable
     switch($this->type){
       case BONUS_TYPE_POINTS:
         $player->addPoints($this->number);
-        Notifications::addPoints($player,$this->number);
         return;
       case BONUS_TYPE_INFLUENCE:
         $bonusChoice = Players::gainInfluence($player,$region,$this->number);

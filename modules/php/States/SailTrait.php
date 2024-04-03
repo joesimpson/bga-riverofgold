@@ -72,12 +72,12 @@ trait SailTrait
         //Visitor rewards
         $rewards = $tile->visitorReward;
         foreach($rewards->entries as $reward){
+          //noble 1 Ongoing Ability :if market AND royal ship: replace reward resource type by a choice
           if(MEEPLE_TYPE_SHIP_ROYAL == $ship->getType() 
             && BUILDING_TYPE_MARKET == $tile->getBuildingType() 
             && in_array($reward->type,[RESOURCE_TYPE_SILK,RESOURCE_TYPE_POTTERY,RESOURCE_TYPE_RICE])
             && Cards::hasPlayerDeliveredOrder($player->getId(),CARD_NOBLE_1)
           ){
-            //noble 1 Ongoing Ability :if market AND royal ship: replace reward resource type by a choice
             Globals::addBonus($player,BONUS_TYPE_CHOICE);
           }
           else {
@@ -88,6 +88,8 @@ trait SailTrait
     }
     
     Notifications::message("Checking owner rewards...");
+    $ownBuilding = false;
+    $opponentBuilding = false;
     foreach($adjacentSpaces as $adjacentSpace){
       $tile = Tiles::getTileOnShoreSpace($adjacentSpace);
       if(isset($tile)){
@@ -97,10 +99,23 @@ trait SailTrait
           foreach($clanMarkers as $clanMarker){
             $owner = $players[$clanMarker->getPId()];
             $reward->rewardPlayer($owner,$region);
+            $ownBuilding = $ownBuilding || $clanMarker->getPId() == $player->getId();
+            $opponentBuilding = $opponentBuilding || $clanMarker->getPId() != $player->getId();
           }
         }
+      }
+    }
 
-        //TODO JSA SAIling : royal ship rewards 
+    //TODO JSA SAIling : royal ship rewards 
+    if(MEEPLE_TYPE_SHIP_ROYAL == $ship->getType()){
+      Notifications::message("Checking royal ship abilities...");
+      //noble 4 Ongoing Ability : +1 point IF 1 or more opponent buildings
+      if($opponentBuilding && Cards::hasPlayerDeliveredOrder($player->getId(),CARD_NOBLE_4)){
+        $player->addPoints(NB_POINTS_NOBLE_4);
+      }
+      //noble 6 Ongoing Ability : +1 point IF 1 or more owned buildings
+      if($ownBuilding && Cards::hasPlayerDeliveredOrder($player->getId(),CARD_NOBLE_6)){
+        $player->addPoints(NB_POINTS_NOBLE_6);
       }
     }
 
