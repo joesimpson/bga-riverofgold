@@ -324,6 +324,7 @@ $machinestates = array(
             'actRestart',
         ],
         "transitions" => [ 
+            "bonus" => ST_BONUS_CHOICE,
             "next" => ST_CONFIRM_CHOICES, 
             "zombiePass" => ST_CONFIRM_CHOICES,
         ],

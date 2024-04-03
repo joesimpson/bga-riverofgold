@@ -2,6 +2,7 @@
 
 namespace ROG\States;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Utils;
@@ -71,8 +72,17 @@ trait SailTrait
         //Visitor rewards
         $rewards = $tile->visitorReward;
         foreach($rewards->entries as $reward){
-          //TODO JSA if market AND noble 1 AND royal ship: replace reward resource type by BONUS_TYPE_CHOICE
-          $reward->rewardPlayer($player,$region);
+          if(MEEPLE_TYPE_SHIP_ROYAL == $ship->getType() 
+            && BUILDING_TYPE_MARKET == $tile->getBuildingType() 
+            && in_array($reward->type,[RESOURCE_TYPE_SILK,RESOURCE_TYPE_POTTERY,RESOURCE_TYPE_RICE])
+            && Cards::hasPlayerDeliveredOrder($player->getId(),CARD_NOBLE_1)
+          ){
+            //noble 1 Ongoing Ability :if market AND royal ship: replace reward resource type by a choice
+            Globals::addBonus($player,BONUS_TYPE_CHOICE);
+          }
+          else {
+            $reward->rewardPlayer($player,$region);
+          }
         }
       }
     }
@@ -96,7 +106,13 @@ trait SailTrait
 
     Players::claimMasteries($player);
 
-    $this->gamestate->nextState('next');
+    if(Globals::getBonuses()){
+      //Manage bonus for active player
+      $this->gamestate->nextState('bonus');
+    }
+    else {
+      $this->gamestate->nextState('next');
+    }
   } 
 
   /**
