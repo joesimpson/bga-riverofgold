@@ -2644,9 +2644,8 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_meeple[data-type="9"][data-color=ff0000] {
   background-position-x: 100%;
 }
-.rog_meeple.tooltipable:hover {
+.rog_meeple.tooltipable:not(.selectable):hover {
   outline: 10px solid black;
-  z-index: 2;
   cursor: help;
 }
 .rog_meeple.selectable {

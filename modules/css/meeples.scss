@@ -77,10 +77,9 @@
             background-position-x: 100%;
         }
     }
-    &.tooltipable:hover{
+    &.tooltipable:not(.selectable):hover{
         outline: 10px solid black;
-        z-index: 2;
-        cursor:help;
+        cursor: help;
     }
     &.selectable{
         outline: 10px solid blue;
