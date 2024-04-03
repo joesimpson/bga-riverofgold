@@ -28,6 +28,14 @@
     height: calc( 0.9 * 29px);
 }
 
+.rog_icon_ship-3{//MEEPLE_TYPE_SHIP_ROYAL
+    background-image: url("img/icons/royalship.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    width: calc( 0.7 * 57px);
+    height: calc( 0.7 * 58px);
+}
+
 // In buttons ///////////////////////////
 .customimagebutton{
     .rog_icon_bonus-21{

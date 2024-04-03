@@ -2960,6 +2960,14 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   height: 26.1px;
 }
 
+.rog_icon_ship-3 {
+  background-image: url("img/icons/royalship.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 39.9px;
+  height: 40.6px;
+}
+
 .customimagebutton .rog_icon_bonus-21 {
   background-color: white;
   border-radius: 15%;

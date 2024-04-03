@@ -1017,6 +1017,10 @@ function (dojo, declare) {
                 if(die_face in args) {
                     args.die_face = this.formatIcon('die_face-'+args.die_face);
                 }
+                let ship_type = 'ship_type';
+                if(ship_type in args) {
+                    args.ship_type = this.formatIcon("ship-"+args.ship_type);
+                }
             }
             } catch (e) {
                 console.error(log, args, 'Exception thrown', e.stack);
