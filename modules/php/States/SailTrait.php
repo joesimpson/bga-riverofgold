@@ -5,6 +5,7 @@ namespace ROG\States;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -107,12 +108,18 @@ trait SailTrait
       }
     }
 
-    //TODO JSA SAIling : royal ship rewards 
     if(MEEPLE_TYPE_SHIP_ROYAL == $ship->getType()){
       Notifications::message("Checking royal ship abilities...");
       //noble 2 Ongoing Ability : +1 coin for empty space
       if(Cards::hasPlayerDeliveredOrder($player->getId(),CARD_NOBLE_2)){
         Players::giveMoney($player,EMPTY_SPACE_REWARD * $nbEmptySpaces);
+      }
+      //noble 3 Ongoing Ability : gain influence in adjacent regions
+      if(Cards::hasPlayerDeliveredOrder($player->getId(),CARD_NOBLE_3)){
+        $regions = ShoreSpaces::getAdjacentRegions($riverSpace);
+        foreach($regions as $regionNear){
+          Players::gainInfluence($player,$regionNear,NB_INLUENCE_NOBLE_3);
+        }
       }
       //noble 4 Ongoing Ability : +1 point IF 1 or more opponent buildings
       if($opponentBuilding && Cards::hasPlayerDeliveredOrder($player->getId(),CARD_NOBLE_4)){

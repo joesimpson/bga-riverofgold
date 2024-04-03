@@ -39,6 +39,7 @@
  //RULE : empty space => 1 Koku
  const EMPTY_SPACE_REWARD = 1;
 
+ const NB_INLUENCE_NOBLE_3 = 1;
  const NB_POINTS_NOBLE_4 = 1;
  const NB_POINTS_NOBLE_6 = 1;
 

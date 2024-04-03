@@ -174,4 +174,43 @@ class ShoreSpaces
     }
     return [];
   }
+  
+  /**
+   * Search the adjacent regions to a given river space
+   * @param int $riverSpace the space ON the river
+   * @return array list of regions id
+   */
+  public static function getAdjacentRegions($riverSpace){
+    switch($riverSpace){
+      case 1://Top Starting space
+        return [REGION_1];
+      case 2:
+        return [REGION_1,REGION_2];
+      case 3:
+        return [REGION_1,REGION_2];
+      case 4:
+        return [REGION_2];
+      case 5:
+        return [REGION_2,REGION_3];
+      case 6:
+        return [REGION_3];
+      case 7:
+        return [REGION_3,REGION_4];
+      case 8://Middle Starting space
+        return [REGION_3,REGION_4];
+      case 9:
+        return [REGION_4,REGION_5];
+      case 10:
+        return [REGION_4,REGION_5];
+      case 11:
+        return [REGION_5];
+      case 12:
+        return [REGION_5,REGION_6];
+      case 13:
+        return [REGION_5,REGION_6];
+      case 14:
+        return [REGION_6];
+    }
+    return [];
+  }
 }
