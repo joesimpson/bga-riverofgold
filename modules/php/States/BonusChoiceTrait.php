@@ -66,6 +66,9 @@ trait BonusChoiceTrait
       case BONUS_TYPE_MONEY_OR_GOOD:
         $nextState = 'bonusMoneyOrGood';
         break;
+      case BONUS_TYPE_SELL_GOODS:
+        $nextState = 'bonusSellGoods';
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }

@@ -78,7 +78,7 @@ trait TradeTrait
             $possibleTrades[] = ['src' => [$typeSrc =>$quantity1['src'] ], 'dest' => [$typeDest =>$quantity2['dest'] ]] ;
         }
       }
-  }
+    }
     return $possibleTrades;
   }
   

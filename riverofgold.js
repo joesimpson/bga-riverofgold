@@ -562,6 +562,29 @@ function (dojo, declare) {
                 });
             });
         },
+        
+        onEnteringStateBonusSellGoods(args){
+            debug('onEnteringStateBonusSellGoods', args);
+   
+            Object.values(args.p).forEach((trade) => {
+                let src = Object.keys(trade.src)[0];
+                let dest = Object.keys(trade.dest)[0];
+                let qtySrc = Object.values(trade.src)[0];
+                let qtyDest = Object.values(trade.dest)[0];
+                let iconSrc = this.formatIcon(RESOURCES[src],null);
+                let iconDest = this.formatIcon(RESOURCES[dest],null);
+                this.addImageActionButton(`btnTrade_${src}_${dest}`, `<div class='rog_trade'>
+                    <div class='rog_button_qty'>${qtySrc}</div>${iconSrc}
+                    <i class="fa6 fa6-arrow-right"></i>
+                    <div class='rog_button_qty'>${qtyDest}</div>${iconDest}
+                </div>`, () =>  {
+                    this.takeAction('actSell', {src:src});
+                });
+            });
+            this.addPrimaryActionButton('btnEnd', this.fsr(_('End selling'), {}), () => {
+                this.takeAction('actStop', { });
+            });
+        },
 
         onEnteringStateSail(args){
             debug('onEnteringStateSail', args);

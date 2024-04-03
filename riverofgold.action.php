@@ -47,6 +47,12 @@
       $this->game->actSkip();
       self::ajaxResponse();
     }
+    public function actStop()
+    {
+      self::setAjaxMode();
+      $this->game->actStop();
+      self::ajaxResponse();
+    }
     public function actDarlingFavor()
     {
       self::setAjaxMode();
@@ -79,6 +85,14 @@
       $typeSrc = self::getArg( "src", AT_posint, true );
       $typeDest = self::getArg( "dest", AT_posint, true );
       $this->game->actTradeSelect($typeSrc,$typeDest);
+      self::ajaxResponse();
+    }
+    
+    public function actSell()
+    {
+      self::setAjaxMode();
+      $typeSrc = self::getArg( "src", AT_posint, true );
+      $this->game->actSell($typeSrc);
       self::ajaxResponse();
     }
     public function actBuild()
