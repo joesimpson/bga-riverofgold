@@ -5,7 +5,6 @@ namespace ROG\States;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
-use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -60,9 +59,11 @@ trait SailTrait
     $players = Players::getAll();
 
     Notifications::message("Checking visitor rewards...");
+    $nbEmptySpaces = 0;
     foreach($adjacentSpaces as $adjacentSpace){
       $tile = Tiles::getTileOnShoreSpace($adjacentSpace);
       if(!isset($tile)){
+        $nbEmptySpaces++;
         Players::giveMoney($player,EMPTY_SPACE_REWARD);
       }
       else {
@@ -109,6 +110,10 @@ trait SailTrait
     //TODO JSA SAIling : royal ship rewards 
     if(MEEPLE_TYPE_SHIP_ROYAL == $ship->getType()){
       Notifications::message("Checking royal ship abilities...");
+      //noble 2 Ongoing Ability : +1 coin for empty space
+      if(Cards::hasPlayerDeliveredOrder($player->getId(),CARD_NOBLE_2)){
+        Players::giveMoney($player,EMPTY_SPACE_REWARD * $nbEmptySpaces);
+      }
       //noble 4 Ongoing Ability : +1 point IF 1 or more opponent buildings
       if($opponentBuilding && Cards::hasPlayerDeliveredOrder($player->getId(),CARD_NOBLE_4)){
         $player->addPoints(NB_POINTS_NOBLE_4);
