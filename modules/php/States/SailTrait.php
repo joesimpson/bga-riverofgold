@@ -13,6 +13,7 @@ use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 use ROG\Models\Meeple;
 use ROG\Models\BuildingTile;
+use ROG\Models\CustomerCard;
 
 trait SailTrait
 {
@@ -59,9 +60,11 @@ trait SailTrait
       Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);
 
       //TODO JSA REMOVE LAST TILE
-      //TODO JSA ADD MERCHANT Ongoing ability bonus
-      if(Cards::hasPlayerDeliveredOrder($player->getId(),CARD_MERCHANT_3)){
-        Globals::addBonus($player,BONUS_TYPE_CHOICE);
+
+      foreach(MERCHANT_TYPES as $merchantType){
+        if(Cards::hasPlayerDeliveredOrder($player->getId(),$merchantType)){
+          CustomerCard::playOngoingMerchantAbility($player,$merchantType);
+        }
       }
 
     }

@@ -208,7 +208,7 @@ class Player extends \ROG\Helpers\DB_Model
   /**
    * @return int 
    */
-  public function getNbDeliveredCustomer()
+  public function getNbDeliveredCustomers()
   {
     return Cards::countPlayerCards($this->getId(),CARD_LOCATION_DELIVERED);
   }

@@ -224,5 +224,13 @@ class Meeples extends \ROG\Helpers\Pieces
       ->count();
   }
 
+  /**
+   * @param int $pId
+   * @return Collection
+   */
+  public static function getPlayerBuildingsMarkers($pId)
+  {
+    return self::getFilteredQuery($pId, MEEPLE_LOCATION_TILE.'%')->get();
+  }
   
 }

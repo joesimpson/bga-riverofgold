@@ -3,8 +3,11 @@
 namespace ROG\Models;
 
 use ROG\Core\Globals;
+use ROG\Core\Notifications;
+use ROG\Helpers\Utils;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
+use ROG\Managers\Tiles;
 
 /**
  * CustomerCard: all utility functions concerning a Customer card
@@ -85,5 +88,39 @@ class CustomerCard extends Card
         return MONK_TYPE_OPPONENT_BUILDING;
     }
     return null;
+  }
+  
+  /**
+   * @param Player $player
+   * @param int $type
+   */
+  public static function playOngoingMerchantAbility($player,$type)
+  {
+    switch($type){
+      case CARD_MERCHANT_1://+ 1 Influence in built regions
+        $markersOnBuildings = Meeples::getPlayerBuildingsMarkers($player->getId());
+        $regions = array_unique( $markersOnBuildings->map( function($meeple) { 
+          return $meeple->getBuildingRegion();
+        })->toArray());
+        foreach($regions as $region){
+          Players::gainInfluence($player,$region,NB_INLUENCE_MERCHANT_1);
+        }
+        break;
+      case CARD_MERCHANT_2://+1 point per card
+        $player->addPoints($player->getNbDeliveredCustomers());
+        break;
+      case CARD_MERCHANT_3:
+        Globals::addBonus($player,BONUS_TYPE_CHOICE);
+        break;
+      case CARD_MERCHANT_4://bonus to sell goods
+        Globals::addBonus($player,BONUS_TYPE_SELL_GOODS);
+        break;
+      case CARD_MERCHANT_5://+1 Sun
+        $player->giveResource(1,RESOURCE_TYPE_SUN);
+        break;
+      case CARD_MERCHANT_6://+3 Koku
+        $player->giveResource(3,RESOURCE_TYPE_MONEY);
+        break;
+    }
   }
 }

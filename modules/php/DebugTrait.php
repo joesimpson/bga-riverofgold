@@ -10,6 +10,7 @@ use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
+use ROG\Models\CustomerCard;
 
 trait DebugTrait
 {
@@ -235,6 +236,19 @@ trait DebugTrait
     Players::claimMasteries($player);
     $this->gamestate->jumpToState(ST_PLAYER_TURN);
   }
+  
+  function debugMerchants(){
+    $player = Players::getCurrent();
+    Globals::setBonuses([]);
+    CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_1);
+    CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_2);
+    CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_3);
+    CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_4);
+    CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_5);
+    CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_6);
+    $this->gamestate->jumpToState(ST_BONUS_CHOICE);
+  }
+
 
   function debugPHP(){
     $keys = array_keys(RESOURCES_LIMIT);

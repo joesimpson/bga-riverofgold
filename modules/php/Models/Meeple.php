@@ -2,6 +2,9 @@
 
 namespace ROG\Models;
 
+use ROG\Managers\ShoreSpaces;
+use ROG\Managers\Tiles;
+
 /*
  * Meeple: all utility functions concerning a Meeple 
  */
@@ -42,5 +45,22 @@ class Meeple extends \ROG\Helpers\DB_Model
   }
   public function getPosition(){
     return $this->getState();
+  }
+  
+  /**
+   * @return int region where this meeple is (when on building tile),
+   * null otherwise
+   */
+  public function getBuildingRegion(){
+    $location = $this->getLocation();
+    if (preg_match("/^" . MEEPLE_LOCATION_TILE . "(?P<tile>\d+)$/", $location, $matches) == 1) {
+      $tileId = $matches['tile'];
+      $tile = Tiles::get($tileId);
+      if($tile instanceof BuildingTile){
+        $shoreSpace = ShoreSpaces::getShoreSpace($tile->getPosition()); 
+        return $shoreSpace->region;
+      }
+    }
+    return null;
   }
 }

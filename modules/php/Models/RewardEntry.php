@@ -62,7 +62,7 @@ class RewardEntry implements \JsonSerializable
         $player->giveResource($this->number,$this->type);
         return;
       case BONUS_TYPE_MONEY_PER_CUSTOMER:
-        $player->giveResource($this->number * $player->getNbDeliveredCustomer(),RESOURCE_TYPE_MONEY);
+        $player->giveResource($this->number * $player->getNbDeliveredCustomers(),RESOURCE_TYPE_MONEY);
         return;
       case BONUS_TYPE_MONEY_PER_PORT:
         $nbBuildings = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_PORT);
