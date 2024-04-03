@@ -102,6 +102,12 @@
       $this->game->actBonusResource($resourceType);
       self::ajaxResponse();
     }
+    public function actBonus3Money()
+    {
+      self::setAjaxMode();
+      $this->game->actBonus3Money();
+      self::ajaxResponse();
+    }
     public function actBonusUpgrade()
     {
       self::setAjaxMode();

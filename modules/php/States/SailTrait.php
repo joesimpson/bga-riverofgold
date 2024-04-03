@@ -50,9 +50,18 @@ trait SailTrait
       throw new UnexpectedException(21,"You cannot Sail to $riverSpace, see : ".json_encode($possibleShipsDest));
     } 
     $ship = Meeples::get($shipId);
-    //TODO JSA SAIL : completing the journey - pause game to select bonus
+    $fromPosition = $ship->getPosition();
     $ship->setPosition($riverSpace);
     Notifications::sail($player,$ship,$riverSpace);
+    if($riverSpace < $fromPosition){
+      //completing the journey - add bonuses to select
+      Notifications::reachRiverEnd($player,$ship);
+      Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);
+
+      //TODO JSA REMOVE LAST TILE
+      //TODO JSA ADD MERCHANT bonus
+
+    }
 
     $adjacentSpaces = ShoreSpaces::getAdjacentSpaces($riverSpace);
     self::trace("actSailSelect($shipId,$riverSpace) adjacent spaces :".json_encode($adjacentSpaces));

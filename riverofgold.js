@@ -489,6 +489,25 @@ function (dojo, declare) {
                 });
             });
         },
+        onEnteringStateBonusMoneyGood(args){
+            debug('onEnteringStateBonusMoneyGood', args);
+
+            //Same selection as previous state +1 button
+        
+            let qtyDest = 3;
+            let resourceType = RESOURCE_TYPE_MONEY;
+            let iconResource = this.formatIcon(RESOURCES[resourceType],null);
+            this.addImageActionButton(`btnBonus_money_3`, `<div class='rog_trade'>
+                <div class='rog_button_qty'>${qtyDest}</div>${iconResource}
+            </div>`, () =>  {
+                this.takeAction('actBonus3Money', {});
+            });
+            if(!args.money3){
+                $(`btnBonus_money_3`).classList.add('disabled');
+            }
+
+            this.onEnteringStateBonusResource(args);
+        },
         
         onEnteringStateBonusUpgrade(args){
             debug('onEnteringStateBonusUpgrade', args);

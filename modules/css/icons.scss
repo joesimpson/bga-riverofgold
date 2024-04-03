@@ -28,6 +28,18 @@
     height: calc( 0.9 * 29px);
 }
 
+.rog_icon_bonus-27{//BONUS_TYPE_MONEY_OR_GOOD
+    //look for an extract of the board (see bottom left)
+    background-image: url("img/board.jpg");
+    background-size: math.percentage(calc(math.div(2726px, 217px ))) math.percentage(math.div(4000px,75px )) !important;
+    background-repeat: repeat !important;
+    width: calc( 0.6 * 217px);
+    height: calc( 0.6 * 75px);
+    background-position-x: calc( 0.6 * -307px);
+    background-position-y: calc( 0.6 * -3545px);
+    border-radius: 10px;
+}
+
 .rog_icon_ship-3{//MEEPLE_TYPE_SHIP_ROYAL
     background-image: url("img/icons/royalship.png");
     background-size: 100% auto;

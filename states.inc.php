@@ -261,6 +261,7 @@ $machinestates = array(
             'bonusResource' => ST_BONUS_CHOICE_RESOURCE,
             'bonusUpgrade' => ST_BONUS_UPGRADE_SHIP,
             'bonusBuilding' => ST_BONUS_SECOND_MARKER_ON_BUILDING,
+            'bonusMoneyOrGood' => ST_BONUS_MONEY_OR_GOOD,
             "trade" => ST_PLAYER_TURN_TRADE, 
             'next' => ST_CONFIRM_CHOICES,
             'zombiePass'=> ST_CONFIRM_CHOICES,
@@ -305,6 +306,23 @@ $machinestates = array(
         'type' => 'activeplayer',
         'possibleactions' => [
             'actBonusSecondMarker', 
+            'actRestart'
+        ],
+        'transitions' => [
+            'next' => ST_BONUS_CHOICE,
+            'zombiePass'=> ST_BONUS_CHOICE,
+        ],
+    ],
+    
+    ST_BONUS_MONEY_OR_GOOD => [
+        'name' => 'bonusMoneyGood',
+        'args' => 'argBonusMoneyGood',
+        'description' => clienttranslate('${actplayer} must select a bonus resource'),
+        'descriptionmyturn' => clienttranslate('${you} must select a bonus resource'),
+        'type' => 'activeplayer',
+        'possibleactions' => [
+            'actBonusResource', 
+            'actBonus3Money', 
             'actRestart'
         ],
         'transitions' => [

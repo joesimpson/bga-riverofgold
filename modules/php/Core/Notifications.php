@@ -188,6 +188,17 @@ class Notifications
       'n' => $riverSpace,
     ]);
   }
+  
+  /**
+   * @param Player $player
+   * @param Meeple $ship
+   */
+  public static function reachRiverEnd($player,$ship)
+  {
+    self::notifyAll('reachRiverEnd', clienttranslate('${player_name} ship completed its journey by reaching the end of the river'), [
+      'player' => $player,
+    ]);
+  }
     /**
    * @param Player $player
    * @param Meeple $meeple

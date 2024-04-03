@@ -135,6 +135,19 @@ class Player extends \ROG\Helpers\DB_Model
   {
     return $this->getResource(RESOURCE_TYPE_MONEY);
   }
+  /**
+   * @return bool 
+   */
+  public function canReceiveMoney()
+  {
+    $money = $this->getMoney();
+    $max = 1000;
+    if(array_key_exists(RESOURCE_TYPE_MONEY,RESOURCES_LIMIT) ) {
+      $max = RESOURCES_LIMIT[RESOURCE_TYPE_MONEY];
+    }
+    if($money < $max) return true;
+    return false;
+  }
   
   /**
    * @param int $region

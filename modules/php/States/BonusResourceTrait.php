@@ -38,7 +38,6 @@ trait BonusResourceTrait
     }
     
     $player->giveResource(1,$resourceType);
-    
 
     $this->gamestate->nextState('next');
   } 
@@ -78,5 +77,40 @@ trait BonusResourceTrait
     return true;
   }
 
+  //////////////////////////////////////////////////////////////////
+  
+  public function argBonusMoneyGood()
+  { 
+    $activePlayer = Players::getActive();
+    $possibles = $this->listPossibleBonusResources($activePlayer);
+    $money3 = $activePlayer->canReceiveMoney();
+
+    $args = [
+      'p' => $possibles,
+      'money3' => $money3,
+    ];
+    $this->addArgsForUndo($args);
+    return $args;
+  } 
+  
+  /**
+   * Additional Action to use when receiving end of journey bonus
+   */
+  public function actBonus3Money()
+  { 
+    self::checkAction('actBonus3Money'); 
+    self::trace("actBonus3Money()");
+
+    $player = Players::getCurrent();
+    $this->addStep();
+
+    if(!$player->canReceiveMoney()){
+      throw new UnexpectedException(405,"You cannot receive money");
+    }
+
+    $player->giveResource(3,RESOURCE_TYPE_MONEY);
+
+    $this->gamestate->nextState('next');
+  } 
+
 }
-;
