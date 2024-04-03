@@ -52,10 +52,7 @@ class RewardEntry implements \JsonSerializable
         $player->addPoints($this->number);
         return;
       case BONUS_TYPE_INFLUENCE:
-        $bonusChoice = Players::gainInfluence($player,$region,$this->number);
-        if($bonusChoice){
-          //TODO JSA how to add another reward ?
-        }
+        Players::gainInfluence($player,$region,$this->number);
         return;
       case RESOURCE_TYPE_SILK:
       case RESOURCE_TYPE_POTTERY:

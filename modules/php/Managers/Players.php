@@ -263,6 +263,7 @@ class Players extends \ROG\Helpers\DB_Manager
         }
       }
     }
+    if($goToBonusChoice) Globals::addBonus($player,BONUS_TYPE_CHOICE);
     return $goToBonusChoice;
   }
   

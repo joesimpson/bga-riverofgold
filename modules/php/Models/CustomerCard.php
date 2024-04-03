@@ -41,16 +41,14 @@ class CustomerCard extends Card
   {
     switch($this->getCustomerType()){
       case CUSTOMER_TYPE_ARTISAN:
-        $bonusChoice = Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_ARTISAN);
-        if($bonusChoice) Globals::addBonus($player,BONUS_TYPE_CHOICE);
+        Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_ARTISAN);
         Meeples::addClanMarkerOnArtisanSpace($player,$this->getRegion());
         break;
       case CUSTOMER_TYPE_ELDER:
         Meeples::addClanMarkerOnElderSpace($player,$this->getRegion());
         break;
       case CUSTOMER_TYPE_MERCHANT:
-        $bonusChoice = Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_MERCHANT);
-        if($bonusChoice) Globals::addBonus($player,BONUS_TYPE_CHOICE);
+        Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_MERCHANT);
         Meeples::addClanMarkerOnMerchantSpace($player);
         break;
       case CUSTOMER_TYPE_MONK:
@@ -63,8 +61,7 @@ class CustomerCard extends Card
         else if(MONK_TYPE_OPPONENT_BUILDING == $monkType) Globals::addBonus($player,BONUS_TYPE_SECOND_MARKER_ON_OPPONENT);
         break;
       case CUSTOMER_TYPE_NOBLE:
-        $bonusChoice = Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_NOBLE);
-        if($bonusChoice) Globals::addBonus($player,BONUS_TYPE_CHOICE);
+        Players::gainInfluence($player,$this->getRegion(),NB_INLUENCE_NOBLE);
         //Ask player to choose a ship to become ROYAL (only the first time)
         $royalShip = $player->getRoyalShip();
         if(!isset($royalShip)) Globals::addBonus($player,BONUS_TYPE_UPGRADE_SHIP);
