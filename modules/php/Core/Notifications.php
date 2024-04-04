@@ -356,6 +356,16 @@ class Notifications
       ],
     );
   }
+  
+  /**
+   * @param Player $player
+   */
+  public static function endTurn($player)
+  {
+    self::notifyAll('endTurn', clienttranslate('End of ${player_name} turn'), [
+      'player' => $player,
+    ]);
+  }
 
   /*************************
    **** GENERIC METHODS ****
@@ -455,6 +465,11 @@ class Notifications
       'hand' => $cards->ui(),
     ]);
   }
+  
+  /**
+   * @param Player $player
+   * @param array $notifIds
+   */
   public static function clearTurn($player, $notifIds)
   {
     self::notifyAll('clearTurn', '', [
@@ -462,12 +477,20 @@ class Notifications
       'notifIds' => $notifIds,
     ]);
   }
+  
+  /**
+   * @param Player $player
+   * @param int $stepId
+   */
   public static function undoStep($player, $stepId)
   {
     self::notifyAll('undoStep', clienttranslate('${player_name} undoes their action'), [
       'player' => $player,
     ]);
   }
+  /**
+   * @param Player $player
+   */
   public static function restartTurn($player)
   {
     self::notifyAll('restartTurn', clienttranslate('${player_name} restarts their turn'), [

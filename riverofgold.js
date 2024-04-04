@@ -494,6 +494,12 @@ function (dojo, declare) {
                 });
                 k++;
             });
+
+            this.addPrimaryActionButton(`btnSkip`, _('Skip') , () =>  { 
+                this.confirmationDialog(_('Are you sure to skip bonuses ?'), () => {
+                    this.takeAction('actSkipBonuses', {});
+                });
+            });
         },
 
         onEnteringStateBonusResource(args){

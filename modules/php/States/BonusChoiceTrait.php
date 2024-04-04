@@ -39,6 +39,17 @@ trait BonusChoiceTrait
   } 
    
   /**
+   */
+  public function actSkipBonuses()
+  { 
+    self::checkAction('actSkipBonuses'); 
+    self::trace("actSkipBonuses()");
+    $this->addStep();
+    $player = Players::getCurrent();
+    $player->setBonuses([]);
+    $this->gamestate->nextState('next');
+  } 
+  /**
    * @param int $bonusType
    */
   public function actBonus($bonusType)

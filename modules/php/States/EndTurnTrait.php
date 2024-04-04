@@ -3,6 +3,7 @@
 namespace ROG\States;
 
 use ROG\Core\Globals;
+use ROG\Core\Notifications;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 
@@ -24,7 +25,7 @@ trait EndTurnTrait
     }
 
     $turnPlayer = Players::get($turnPlayerId);
-
+    Notifications::endTurn($turnPlayer);
     Tiles::refillBuildingRow();
 
     //TODO JSA run Emperor Visit at end of Era 1

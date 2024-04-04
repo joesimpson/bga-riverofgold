@@ -252,6 +252,7 @@ $machinestates = array(
         'possibleactions' => [
             'actBonus', 
             "actTrade", 
+            'actSkipBonuses', 
             'actRestart'
         ],
         'transitions' => [
