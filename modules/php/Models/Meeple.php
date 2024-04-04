@@ -57,8 +57,7 @@ class Meeple extends \ROG\Helpers\DB_Model
       $tileId = $matches['tile'];
       $tile = Tiles::get($tileId);
       if($tile instanceof BuildingTile){
-        $shoreSpace = ShoreSpaces::getShoreSpace($tile->getPosition()); 
-        return $shoreSpace->region;
+        return $tile->getRegion();
       }
     }
     return null;

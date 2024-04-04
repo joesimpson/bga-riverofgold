@@ -43,7 +43,7 @@ class Globals extends \ROG\Helpers\DB_Manager
   public static function setupNewGame($players, $options)
   {
     self::setTurn(0);
-    self::setEra(0);
+    self::setEra(1);
     //self::setBonuses([]);
     self::setCurrentBonus(null);
     self::setStateBeforeTrade(null);

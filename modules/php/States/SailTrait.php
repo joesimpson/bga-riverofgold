@@ -71,8 +71,7 @@ trait SailTrait
         Players::giveMoney($player,EMPTY_SPACE_REWARD);
       }
       else {
-        $shoreSpace = ShoreSpaces::getShoreSpace($tile->getPosition());
-        $region = $shoreSpace->region;
+        $region = $tile->getRegion();
 
         //Visitor rewards
         $rewards = $tile->visitorReward;
@@ -98,9 +97,9 @@ trait SailTrait
     foreach($adjacentSpaces as $adjacentSpace){
       $tile = Tiles::getTileOnShoreSpace($adjacentSpace);
       if(isset($tile)){
+        $clanMarkers = $tile->getMeeples();
         //Owner rewards : sometimes 2 owners (or 2 times the same)
         foreach($tile->ownerReward->entries as $reward){
-          $clanMarkers = $tile->getMeeples();
           foreach($clanMarkers as $clanMarker){
             $owner = $players[$clanMarker->getPId()];
             $reward->rewardPlayer($owner,$region);

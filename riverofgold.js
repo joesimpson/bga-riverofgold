@@ -161,6 +161,7 @@ function (dojo, declare) {
                 ['discardBuildingRow', 500],
                 ['slideBuildingRow', 600],
                 ['refillBuildingRow', 800],
+                ['emperorVisit', 50],
             ];
 
             //Filter states where we don't want other players to display state actions
@@ -919,17 +920,25 @@ function (dojo, declare) {
             });
             //Era 1/2 stack top tile is updated :
             [n.args.era1, n.args.era2,].forEach((eraTile) => {
+                if(!eraTile) return;
                 let tileEraDivId = `rog_tile-${eraTile.id}`;
-                if (eraTile && !$(tileEraDivId)) {
+                if (!$(tileEraDivId)) {
+                    /*No need to slide to represent a moving piece, because in physical game, this is a stack of pieces
                     this.addTile(eraTile, this.getVisibleTitleContainer());
                     this.slide(tileEraDivId, this.getTileContainer(eraTile), { phantom: false,}).then( ()=> {
                         this.animationBlink2Times(tileEraDivId);
                     });
+                    */
+                    this.addTile(eraTile, this.getTileContainer(eraTile));
                 }
             }); 
             this._counters['deckSize1'].toValue(n.args.deckSize.era1);
             this._counters['deckSize2'].toValue(n.args.deckSize.era2);
 
+        },
+        notif_emperorVisit(n) {
+            debug('notif_emperorVisit: new era !', n);
+            this._counters['era'].toValue(n.args.era);
         },
         
         ///////////////////////////////////////////////////
@@ -939,9 +948,11 @@ function (dojo, declare) {
         },
         notif_refreshUI(n) {
             debug('notif_refreshUI: refreshing UI', n);
-            ['players', 'cards', 'tiles', 'meeples'].forEach((value) => {
+            ['players', 'cards', 'tiles', 'meeples','deckSize','era'].forEach((value) => {
                 this.gamedatas[value] = n.args.datas[value];
             });
+
+            this._counters['era'].toValue(this.gamedatas.era);
     
             //keep hand untouched, another notif will take care about it
             this.setupCards(true);

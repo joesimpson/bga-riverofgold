@@ -316,8 +316,8 @@ class Notifications
     $msg = clienttranslate('The building row is refilled from the building board');
     self::notifyAll('refillBuildingRow',$msg,[ 
         'tile' => $buildingTile->getUiData(),
-        'era1' => $nextEra1Card->getUiData(),
-        'era2' => $nextEra2Card->getUiData(),
+        'era1' => isset($nextEra1Card) ? $nextEra1Card->getUiData() : null,
+        'era2' => isset($nextEra2Card) ? $nextEra2Card->getUiData() : null,
         'deckSize' => [
           'era1' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1),
           'era2' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2),
@@ -364,6 +364,15 @@ class Notifications
   {
     self::notifyAll('endTurn', clienttranslate('End of ${player_name} turn'), [
       'player' => $player,
+    ]);
+  }
+  /**
+   * @param int $era
+   */
+  public static function emperorVisit($era)
+  {
+    self::notifyAll('emperorVisit', clienttranslate('Emperor\'s Visit has been triggered !'), [
+      'era' => $era,
     ]);
   }
 
@@ -442,6 +451,9 @@ class Notifications
       'cards' => $datas['cards'],
       'meeples' => $datas['meeples'],
       'tiles' => $datas['tiles'],
+      //If we rollback Emperor visit :
+      'era' => $datas['era'],
+      'deckSize' => $datas['deckSize'],
     ];
 
     foreach ($gameDatas['cards'] as $index=> &$card) {

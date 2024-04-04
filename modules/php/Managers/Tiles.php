@@ -50,8 +50,8 @@ class Tiles extends \ROG\Helpers\Pieces
       ->merge(self::getInLocation(TILE_LOCATION_MASTERY_CARD))
       ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_ROW))
       ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE));
-    $cards->append($nextEra1Card);
-    $cards->append($nextEra2Card);
+    if(isset($nextEra1Card)) $cards->append($nextEra1Card);
+    if(isset($nextEra2Card)) $cards->append($nextEra2Card);
     return $cards->ui();
   } 
    
@@ -253,11 +253,14 @@ class Tiles extends \ROG\Helpers\Pieces
 
   /**
    * Refill each of the 4 spaces of the building row if the deck is not empty
+   * @return bool true when last Era 1 tile is moved to the row,
+   * false otherwise
    */
   public static function refillBuildingRow()
   {
     Game::get()->trace("refillBuildingRow()");
     
+    $lastEra1TileMoved = false;
     $slidedTiles = [];
     for($k = BUILDING_ROW_END; $k>0;$k--){
       $buildingTile = self::getInLocation(TILE_LOCATION_BUILDING_ROW,$k)->first();
@@ -287,6 +290,9 @@ class Tiles extends \ROG\Helpers\Pieces
           $nextEra1Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1);
           $nextEra2Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2);
           Notifications::refillBuildingRow($buildingTile,$nextEra1Card,$nextEra2Card);
+          if(!isset($nextEra1Card)){
+            $lastEra1TileMoved = true;
+          }
         }
       }
       if(!isset($buildingTile)){
@@ -301,6 +307,7 @@ class Tiles extends \ROG\Helpers\Pieces
           Game::get()->trace("Cannot refill $k from Era 2, we must be near the end");
         }
       }
+    return $lastEra1TileMoved;
   }
 
  

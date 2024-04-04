@@ -249,7 +249,11 @@ trait DebugTrait
     CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_6);
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
-
+  
+  function debugEmperorVisit(){
+    $player = Players::getCurrent(); 
+    $this->runEmperorVisit();
+  }
   
   function debugRefillRow(){
     $player = Players::getCurrent();

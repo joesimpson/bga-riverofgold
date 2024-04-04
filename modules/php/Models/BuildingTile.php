@@ -2,6 +2,8 @@
 
 namespace ROG\Models;
 
+use ROG\Managers\ShoreSpaces;
+
 /*
  * BuildingTile: all utility functions concerning a Building tile
  */
@@ -40,10 +42,25 @@ class BuildingTile extends Tile
     return $data;
   }
 
+  /**
+   * @param int $value
+   */
   public function setPosition($value){
     $this->setState($value);
   }
+  /**
+   * @return int
+   */
   public function getPosition(){
     return $this->getState();
+  }
+  /**
+   * @return int region where this tile is built
+   */
+  public function getRegion(){
+    $pos = $this->getPosition();
+    if($pos <1) return null;
+    $shoreSpace = ShoreSpaces::getShoreSpace($pos); 
+    return $shoreSpace->region;
   }
 }

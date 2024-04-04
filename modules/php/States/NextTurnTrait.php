@@ -12,8 +12,6 @@ trait NextTurnTrait
   { 
     self::trace("stNextTurn()");
 
-    //TODO JSA new turn -> next era
-    Globals::setEra(1);
     Globals::setupNewTurn();
     $turn = Globals::getTurn();
     if($turn==1){
