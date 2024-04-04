@@ -249,6 +249,15 @@ trait DebugTrait
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
 
+  
+  function debugRefillRow(){
+    $player = Players::getCurrent();
+    Tiles::refillBuildingRow();
+    //for testing notif sync, send other notifs:
+    $player->addPoints(12);
+    $player->addPoints(4);
+    $player->addPoints(9);
+  }
 
   function debugPHP(){
     $keys = array_keys(RESOURCES_LIMIT);

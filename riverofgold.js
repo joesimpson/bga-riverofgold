@@ -156,8 +156,9 @@ function (dojo, declare) {
                 ['gainInfluence', 1300],
                 ['claimMC', 800],
                 ['addPoints', 700],
-                ['refillBuildingRow', 800],
                 ['discardBuildingRow', 500],
+                ['slideBuildingRow', 600],
+                ['refillBuildingRow', 800],
             ];
 
             //Filter states where we don't want other players to display state actions
@@ -858,6 +859,33 @@ function (dojo, declare) {
             debug('notif_claimMC : new score after mastery card', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
         },
+        notif_discardBuildingRow(n) {
+            debug('notif_discardBuildingRow: building tile discarded from building row', n);
+            let tileDivId = `rog_tile-${n.args.tile.id}`;
+            if ($(tileDivId)){
+                this.slide(tileDivId, this.getVisibleTitleContainer(), { phantom: false, destroy: true}).then( ()=> {
+                }); 
+            }
+        },
+        notif_slideBuildingRow(n) {
+            debug('notif_slideBuildingRow: building tiles slide on building row', n);
+            Promise.all(
+                [...$(n.args.tiles)].map((data, i) => {
+                    let tile = data.tile;
+                    let tileDivId = `rog_tile-${tile.id}`;
+                    if (!$(tileDivId)) return;
+                    let tileDiv = $(tileDivId);
+                    let fromDiv = `rog_building_slot-${data.from}`;//tileDiv.parentNode.id;
+                    return this.wait(200 * i).then(
+                        () => this.slide(tileDivId, this.getTileContainer(tile), { from: fromDiv, phantom: false,}).then( ()=> {
+                            tileDiv.dataset.pos = tile.pos;
+                        })
+                    );
+                })
+            ).then(() => {
+                //this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
+            });
+        },
         notif_refillBuildingRow(n) {
             debug('notif_refillBuildingRow: building tile moved from building board', n);
             let tileDivId = `rog_tile-${n.args.tile.id}`;
@@ -880,14 +908,6 @@ function (dojo, declare) {
 
         },
         
-        notif_discardBuildingRow(n) {
-            debug('notif_discardBuildingRow: building tile discarded from building row', n);
-            let tileDivId = `rog_tile-${n.args.tile.id}`;
-            if ($(tileDivId)){
-                this.slide(tileDivId, this.getVisibleTitleContainer(), { phantom: false, destroy: true}).then( ()=> {
-                }); 
-            }
-        },
         ///////////////////////////////////////////////////
         notif_clearTurn(n) {
             debug('notif_clearTurn: restarting turn/step', n);

@@ -323,6 +323,24 @@ class Notifications
       ],
     );
   }
+  
+  /**
+   * @param array $slidedTiles
+   */
+  public static function slideBuildingRow($slidedTiles){
+    $msg = '';
+    $buildingTilesUi = [];
+    foreach($slidedTiles as $fromPosition => $buildingTile){
+      $buildingTilesUi[] = [
+        'from' => $fromPosition,
+        'tile' => $buildingTile->getUiData(),
+      ];
+    }
+    self::notifyAll('slideBuildingRow',$msg,[ 
+        'tiles' => $buildingTilesUi,
+      ],
+    );
+  }
 
   /*************************
    **** GENERIC METHODS ****

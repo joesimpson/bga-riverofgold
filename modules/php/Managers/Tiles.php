@@ -258,8 +258,28 @@ class Tiles extends \ROG\Helpers\Pieces
   {
     Game::get()->trace("refillBuildingRow()");
     
-    for($k = 1; $k<=4;$k++){
+    $slidedTiles = [];
+    for($k = BUILDING_ROW_END; $k>0;$k--){
       $buildingTile = self::getInLocation(TILE_LOCATION_BUILDING_ROW,$k)->first();
+      if($k > 1){
+        //WE MUST SLIDE TILES FROM RIGHT TO LEFT ! Only 1 tile must be missing at a time
+        if(!isset($buildingTile)){
+          $rightPos = $k -1;
+          $buildingTileRight = self::getInLocation(TILE_LOCATION_BUILDING_ROW,$rightPos )->first();
+          if(isset($buildingTileRight)){
+            $buildingTileRight->setPosition($k);
+            $slidedTiles[$rightPos] = $buildingTileRight;
+            Game::get()->trace("refillBuildingRow() : sliding from $rightPos to $k");
+          }
+        }
+      }
+    }
+
+    if($slidedTiles) Notifications::slideBuildingRow($slidedTiles);
+    
+    //REFILL MISSING TILE #1 from building board
+    $k = 1;
+    $buildingTile = self::getInLocation(TILE_LOCATION_BUILDING_ROW,$k)->first();
       //Game::get()->trace("Checking to refill $k : buildingTile is ".json_encode($buildingTile));
       if(!isset($buildingTile)){
         $buildingTile = self::pickOneForLocation(TILE_LOCATION_BUILDING_DECK_ERA_1,TILE_LOCATION_BUILDING_ROW,$k,false);
@@ -281,7 +301,6 @@ class Tiles extends \ROG\Helpers\Pieces
           Game::get()->trace("Cannot refill $k from Era 2, we must be near the end");
         }
       }
-    } 
   }
 
  
