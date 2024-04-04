@@ -17,6 +17,8 @@ class Globals extends \ROG\Helpers\DB_Manager
   protected static $variables = [
     'turn' => 'int',
     'era' => 'int',
+    //save player whose turn is playing, even when others may take decisions
+    'turnPlayer' => 'int',
     'firstPlayer' => 'int',
     
     //Trade is possible in many states, thus we need to keep a trace of the previous state
@@ -48,6 +50,7 @@ class Globals extends \ROG\Helpers\DB_Manager
 
     foreach($players as $pId => $player){
       self::setFirstPlayer($pId);
+      self::setTurnPlayer($pId);
       break;
     }
 

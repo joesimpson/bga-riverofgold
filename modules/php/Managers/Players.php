@@ -139,6 +139,32 @@ class Players extends \ROG\Helpers\DB_Manager
     }
     return self::getNextPlayerNotEliminated($nextPlayer_id);
   }
+  
+  /**
+   * @param int $player_id
+   * @return Player (null if no player match)
+   */
+  public static function getNextPlayerWithBonusToChoose($player_id)
+  {
+    $nextPlayerTable = Game::get()->getNextPlayerTable();
+    $k=0;
+    $current_id = $player_id;
+    while($k<count($nextPlayerTable )){
+        $nextPlayer_id = $nextPlayerTable[$current_id];
+        $nextPlayer = Players::get($nextPlayer_id);
+        if(isset($nextPlayer) 
+          && $nextPlayer->getZombie() != 1 && $nextPlayer->getEliminated() == 0
+        ){
+          $bonuses = $nextPlayer->getBonuses();
+          if(isset($bonuses)) return $nextPlayer;
+        }
+        //ELSE continue loop
+        $current_id = $nextPlayer_id;
+        $k++;
+    }
+    return null;
+  }
+  
 
 
   /*

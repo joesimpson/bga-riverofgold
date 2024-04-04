@@ -90,6 +90,9 @@ trait TradeTrait
    */
   public function canTrade($player,$typeSrc, $typeDest)
   { 
+    //Opponent cannot trade during a player turn, even when receiving bonus resources
+    if($player->getId() != Globals::getTurnPlayer()) return false;
+
     if($typeSrc == $typeDest) return false;
     if(RESOURCE_TYPE_MONEY == $typeSrc && RESOURCE_TYPE_SUN != $typeDest ) return false;
     if(RESOURCE_TYPE_MONEY != $typeSrc && RESOURCE_TYPE_SUN == $typeDest ) return false;

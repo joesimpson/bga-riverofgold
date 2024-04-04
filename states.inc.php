@@ -83,13 +83,10 @@ require_once 'modules/php/constants.inc.php';
  |        \--- trade/favor  build/sail/deliver        |
  |                           |                        |
  |                           v                        |
- |                          bonusChoice               |
- |                           |                        |
- |                           v                        |
+ |                          bonusChoice <----\        |
+ |                           |               ^        |
+ |                           v               |        |
  |                          confirm --> endTurn ----->/
- |                           |             ^
- |                           v             |
- |                          discardCard -->/
  v  
  \-> endGameScoring
         | 
@@ -471,6 +468,8 @@ $machinestates = array(
         "type" => "game",
         "action" => "stEndTurn",
         "transitions" => [ 
+            //go to bonus for another player before ending
+            "bonus" => ST_BONUS_CHOICE, 
             "next" => ST_NEXT_TURN,
         ],
     ),

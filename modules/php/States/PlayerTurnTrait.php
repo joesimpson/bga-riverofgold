@@ -94,14 +94,22 @@ trait PlayerTurnTrait
   /**
    * Go to bonus transition after current turn action
    * @param Player $player
+   * @param bool $changeActivePlayer (Default false) 
    * @return bool true if state changed
    */
-  function goToBonusStepIfNeeded($player)
+  function goToBonusStepIfNeeded($player, $changeActivePlayer = false)
   {
+    if(!isset($player)) return false;
     //refresh datas
     $player = Players::get($player->getId());
     $bonuses = $player->getBonuses();
-    if(isset($bonuses)){
+    if(isset($bonuses) && count($bonuses)>0){
+      if($changeActivePlayer){
+        //Change active player when in a game state !
+        Players::changeActive($player->getId());
+        $this->addCheckpoint(ST_BONUS_CHOICE);
+      }
+      $player->giveExtraTime();
       $this->gamestate->nextState('bonus');
       return true;
     }

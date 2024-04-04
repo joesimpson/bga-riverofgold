@@ -21,11 +21,14 @@ trait NextTurnTrait
       $nextPlayer = Players::get($playerId);
     }
     else {
-      $activePlayer = Players::getActive();
-      $nextPlayer = Players::getNextPlayerNotEliminated($activePlayer->id);
+      //$activePlayer = Players::getActive();
+      //Current active player is not always the player whose turn ended because of bonuses choice
+      $activePlayerId = Globals::getTurnPlayer();
+      $nextPlayer = Players::getNextPlayerNotEliminated($activePlayerId);
     }
     Players::changeActive($nextPlayer->id);
     $nextPlayer->giveExtraTime();
+    Globals::setTurnPlayer($nextPlayer->id);
 
     $this->addCheckpoint(ST_BEFORE_TURN);
     $this->gamestate->nextState('next');
