@@ -89,4 +89,22 @@ trait PlayerTurnTrait
   {
     $this->gamestate->nextState('');
   }
+
+  
+  /**
+   * Go to bonus transition after current turn action
+   * @param Player $player
+   * @return bool true if state changed
+   */
+  function goToBonusStepIfNeeded($player)
+  {
+    //refresh datas
+    $player = Players::get($player->getId());
+    $bonuses = $player->getBonuses();
+    if(isset($bonuses)){
+      $this->gamestate->nextState('bonus');
+      return true;
+    }
+    return false;
+  }
 }

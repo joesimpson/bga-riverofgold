@@ -131,6 +131,21 @@ class Notifications
       'res_type' => $resourceType,
     ]);
   }
+  
+  /**
+   * @param Player $player
+   * @param int $type
+   */
+  public static function addBonus($player,$type)
+  {
+    $msg = clienttranslate('${player_name} receives a bonus decision ${bonus_type}');
+    self::notifyAll('addBonus', $msg, [
+      'player' => $player,
+      //'preserve'=>['bonus_type'],
+      //'bonus_icon' => $type,
+      'bonus_type' => $type,
+    ]);
+  }
   /**
    * @param Player $player
    * @param int $die_face

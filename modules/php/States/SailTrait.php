@@ -136,13 +136,8 @@ trait SailTrait
 
     Players::claimMasteries($player);
 
-    if($player->getBonuses()){
-      //Manage bonus for active player
-      $this->gamestate->nextState('bonus');
-    }
-    else {
-      $this->gamestate->nextState('next');
-    }
+    if($this->goToBonusStepIfNeeded($player)) return;
+    $this->gamestate->nextState('next');
   } 
 
   /**

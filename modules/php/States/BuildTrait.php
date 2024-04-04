@@ -70,11 +70,7 @@ trait BuildTrait
     Players::gainInfluence($player,$shoreSpace->region,$tile->getBonus());
     Players::claimMasteries($player);
     
-    if($player->getBonuses()){
-      $this->gamestate->nextState('bonus');
-      return;
-    }
-
+    if($this->goToBonusStepIfNeeded($player)) return;
     $this->gamestate->nextState('next');
   } 
 

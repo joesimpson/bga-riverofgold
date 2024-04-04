@@ -1111,6 +1111,10 @@ function (dojo, declare) {
                 if(ship_type in args) {
                     args.ship_type = this.formatIcon("ship-"+args.ship_type);
                 }
+                let bonus_type = 'bonus_type';
+                if(bonus_type in args) {
+                    args.bonus_type = this.formatIcon('bonus-'+args.bonus_type);
+                }
             }
             } catch (e) {
                 console.error(log, args, 'Exception thrown', e.stack);

@@ -101,10 +101,10 @@ class Globals extends \ROG\Helpers\DB_Manager
    */
   public static function addBonus($player, $type)
   {
-    //TODO JSA manage opponent choice 
     $bonuses = $player->getBonuses();
     $bonuses[] = $type;
     $player->setBonuses($bonuses);
+    Notifications::addBonus($player, $type);
   }
   /**
    * @param Player $player

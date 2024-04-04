@@ -74,6 +74,8 @@ trait ConfirmUndoTrait
             return;
         }
         */
+
+        //TOO JSA manage opponent bonuses
         
         $this->gamestate->nextState('confirm');
     }
