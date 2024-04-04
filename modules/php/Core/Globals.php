@@ -23,8 +23,9 @@ class Globals extends \ROG\Helpers\DB_Manager
     'stateBeforeTrade' => 'int',
 
     'currentBonus' => 'int',
-    //array of Bonuses to be earned by selection of something
-    'bonuses' => 'obj',
+    //array of Bonuses to be earned by selection of something -> moved to player table
+    //'bonuses' => 'obj',
+
 
     //Undo log module
     'choices' => 'int',
@@ -41,7 +42,7 @@ class Globals extends \ROG\Helpers\DB_Manager
   {
     self::setTurn(0);
     self::setEra(0);
-    self::setBonuses([]);
+    //self::setBonuses([]);
     self::setCurrentBonus(null);
     self::setStateBeforeTrade(null);
 
@@ -89,7 +90,8 @@ class Globals extends \ROG\Helpers\DB_Manager
   public static function setupNewTurn()
   {
     self::incTurn(1);
-    self::setBonuses([]);
+    //self::setBonuses([]);
+    //TODO JSA players resetBonus
     self::setCurrentBonus(null);
   }
 
@@ -100,9 +102,9 @@ class Globals extends \ROG\Helpers\DB_Manager
   public static function addBonus($player, $type)
   {
     //TODO JSA manage opponent choice 
-    $bonuses = self::getBonuses();
+    $bonuses = $player->getBonuses();
     $bonuses[] = $type;
-    self::setBonuses($bonuses);
+    $player->setBonuses($bonuses);
   }
   /**
    * @param Player $player
@@ -110,11 +112,11 @@ class Globals extends \ROG\Helpers\DB_Manager
    */
   public static function removeBonus($player, $type)
   {
-    $bonuses = self::getBonuses();
+    $bonuses = $player->getBonuses();
     $key = array_search($type,$bonuses);
     if(!isset($key)) return;
     unset($bonuses[$key]);
-    self::setBonuses($bonuses);
+    $player->setBonuses($bonuses);
   }
 
   //////////////////////////////////////////////////////////////////////////////////////

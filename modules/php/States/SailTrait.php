@@ -5,7 +5,6 @@ namespace ROG\States;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
-use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -137,7 +136,7 @@ trait SailTrait
 
     Players::claimMasteries($player);
 
-    if(Globals::getBonuses()){
+    if($player->getBonuses()){
       //Manage bonus for active player
       $this->gamestate->nextState('bonus');
     }

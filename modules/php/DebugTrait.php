@@ -239,7 +239,8 @@ trait DebugTrait
   
   function debugMerchants(){
     $player = Players::getCurrent();
-    Globals::setBonuses([]);
+    //Globals::setBonuses([]);
+    $player->setBonuses([]);
     CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_1);
     CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_2);
     CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_3);

@@ -27,6 +27,7 @@ class Player extends \ROG\Helpers\DB_Model
     'score' => ['player_score', 'int'],
     'scoreAux' => ['player_score_aux', 'int'],
     'zombie' => 'player_zombie',
+
     //GAME SPECIFIC :
     //array of numbers for each trade good
     'resources' => ['resources', 'obj'],
@@ -34,6 +35,8 @@ class Player extends \ROG\Helpers\DB_Model
     'die' => ['die_face', 'int'],
     //1->4
     'clan' => ['player_clan', 'int'],
+    //array of bonus types (int)
+    'bonuses' => ['bonuses', 'obj'],
 
   ];
 
@@ -49,6 +52,7 @@ class Player extends \ROG\Helpers\DB_Model
     $data['moon'] = $this->getResource(RESOURCE_TYPE_MOON);
     $data['sun'] = $this->getResource(RESOURCE_TYPE_SUN);
     unset($data['resources']);
+    unset($data['bonuses']);
     
     $data['buildings'] = [];
     foreach (BUILDING_TYPES as $bType){

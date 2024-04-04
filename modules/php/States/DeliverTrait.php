@@ -63,7 +63,7 @@ trait DeliverTrait
     //Delay Draw 2 cards
     Globals::addBonus($player,BONUS_TYPE_REFILL_HAND);
 
-    $playerBonuses = Globals::getBonuses();
+    $playerBonuses = $player->getBonuses();
     if(isset($playerBonuses)){
       $this->gamestate->nextState('bonus');
       return;

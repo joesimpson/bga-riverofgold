@@ -98,7 +98,7 @@ trait BonusChoiceTrait
    */
   public function listPossibleBonusTypes($player)
   { 
-    return Globals::getBonuses();
+    return $player->getBonuses();
   }
   
   /**
