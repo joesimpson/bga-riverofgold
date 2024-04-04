@@ -128,6 +128,18 @@ class Tiles extends \ROG\Helpers\Pieces
     return self::getAllByType(TILE_TYPE_BUILDING,array_keys(self::getBuildingTilesTypes()));
   } 
 
+  /**
+   */
+  public static function removeLastInBuildingRow()
+  {
+    $tile = self::getInLocation(TILE_LOCATION_BUILDING_ROW,BUILDING_ROW_END)->first();
+    if(isset($tile)){
+      Notifications::discardBuildingRow($tile);
+      //self::DB()->delete($tile->getId())->run();
+      $tile->setLocation(TILE_LOCATION_DISCARD);
+    }
+  } 
+  //////////////////////////////////////////////////////////////////////
   /** Creation of the tiles */
   public static function setupNewGame($players, $options)
   {

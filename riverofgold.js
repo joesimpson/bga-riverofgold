@@ -157,6 +157,7 @@ function (dojo, declare) {
                 ['claimMC', 800],
                 ['addPoints', 700],
                 ['refillBuildingRow', 800],
+                ['discardBuildingRow', 500],
             ];
 
             //Filter states where we don't want other players to display state actions
@@ -877,6 +878,15 @@ function (dojo, declare) {
             this._counters['deckSize1'].toValue(n.args.deckSize.era1);
             this._counters['deckSize2'].toValue(n.args.deckSize.era2);
 
+        },
+        
+        notif_discardBuildingRow(n) {
+            debug('notif_discardBuildingRow: building tile discarded from building row', n);
+            let tileDivId = `rog_tile-${n.args.tile.id}`;
+            if ($(tileDivId)){
+                this.slide(tileDivId, this.getVisibleTitleContainer(), { phantom: false, destroy: true}).then( ()=> {
+                }); 
+            }
         },
         ///////////////////////////////////////////////////
         notif_clearTurn(n) {

@@ -55,18 +55,7 @@ trait SailTrait
     $ship->setPosition($riverSpace);
     Notifications::sail($player,$ship,$riverSpace);
     if($riverSpace < $fromPosition){
-      //completing the journey - add bonuses to select
-      Notifications::reachRiverEnd($player,$ship);
-      Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);
-
-      //TODO JSA REMOVE LAST TILE
-
-      foreach(MERCHANT_TYPES as $merchantType){
-        if(Cards::hasPlayerDeliveredOrder($player->getId(),$merchantType)){
-          CustomerCard::playOngoingMerchantAbility($player,$merchantType);
-        }
-      }
-
+      $this->completeJourney($player,$ship);
     }
 
     $adjacentSpaces = ShoreSpaces::getAdjacentSpaces($riverSpace);
@@ -180,6 +169,26 @@ trait SailTrait
       }
     }
     return $possibleSpaces;
+  }
+
+  
+  /**
+   * completing the journey - add bonuses to select
+   * @param Player $player
+   * @param Meeple $ship
+   */
+  public function completeJourney($player,$ship)
+  {
+    Notifications::reachRiverEnd($player,$ship);
+    Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);
+
+    Tiles::removeLastInBuildingRow();
+
+    foreach(MERCHANT_TYPES as $merchantType){
+      if(Cards::hasPlayerDeliveredOrder($player->getId(),$merchantType)){
+        CustomerCard::playOngoingMerchantAbility($player,$merchantType);
+      }
+    }
   }
 
 }

@@ -310,6 +310,19 @@ class Notifications
       ],
     );
   }
+  
+  /**
+   * @param BuildingTile $buildingTile
+   */
+  public static function discardBuildingRow($buildingTile){
+    $msg = clienttranslate('The last tile of the building row is discarded : ${building_tile}');
+    self::notifyAll('discardBuildingRow',$msg,[ 
+        'preserve'=>['tile'],
+        'building_tile' => $buildingTile->getType(),
+        'tile' => $buildingTile->getUiData(),
+      ],
+    );
+  }
 
   /*************************
    **** GENERIC METHODS ****
