@@ -92,6 +92,7 @@ class Cards extends \ROG\Helpers\Pieces
   }
   
   /**
+   * @deprecated use bonus BONUS_TYPE_REFILL_HAND instead
    * @param int $pId
    * @return Collection
    */
@@ -128,12 +129,27 @@ class Cards extends \ROG\Helpers\Pieces
   /**
    * @param Player $player
    * @param int $nbCards
+   * @deprecated use bonus BONUS_TYPE_REFILL_HAND instead
    */
   public static function prepareCardsToRefillHand($player,$nbCards)
   {
     $cards = self::pickForLocation($nbCards, CARD_LOCATION_DECK, CARD_LOCATION_WAIT_FOR_HAND,0,true);
     foreach($cards as $card){
       $card->setPId($player->getId());
+    }
+    return $cards;
+  }
+  
+  /**
+   * @param Player $player
+   * @param int $nbCards
+   */
+  public static function drawCardsToHand($player,$nbCards)
+  {
+    $cards = self::pickForLocation($nbCards, CARD_LOCATION_DECK, CARD_LOCATION_HAND,0,true);
+    foreach($cards as $card){
+      $card->setPId($player->getId());
+      Notifications::giveCardTo($player,$card);
     }
     return $cards;
   }

@@ -88,6 +88,8 @@ function (dojo, declare) {
     const RESOURCE_TYPE_MOON = 4;
     const RESOURCE_TYPE_SUN = 5;
     const RESOURCE_TYPE_MONEY = 6;
+    const BONUS_TYPE_DRAW = 23;
+    const BONUS_TYPE_REFILL_HAND = 29;
     const RESOURCES = [
         0,
         'silk',//RESOURCE_TYPE_SILK
@@ -469,10 +471,26 @@ function (dojo, declare) {
             let k=0;
             Object.values(args.p).forEach((bonusType) => {
                 let iconBonus = this.formatIcon('bonus-'+bonusType);
-                this.addImageActionButton(`btnBonus_${k}_${bonusType}`, `<div class='rog_trade'>
+                let buttonText = '';
+                if(BONUS_TYPE_REFILL_HAND == bonusType) buttonText = _('Refill hand');
+                this.addImageActionButton(`btnBonus_${k}_${bonusType}`, `${buttonText}<div class='rog_trade'>
                     ${iconBonus}
                 </div>`, () =>  {
-                    this.takeAction('actBonus', {t:bonusType});
+                    let confirmMessage = null;
+                    if(BONUS_TYPE_DRAW == bonusType){
+                        confirmMessage = this.fsr(_('Are you sure to draw ${n} cards now ?'), { n: 1 });
+                    }
+                    if(BONUS_TYPE_REFILL_HAND == bonusType){
+                        confirmMessage = this.fsr(_('Are you sure to draw ${n} cards now ?'), { n: 2 });
+                    }
+                    if(confirmMessage){
+                        this.confirmationDialog(confirmMessage, () => {
+                            this.takeAction('actBonus', {t:bonusType});
+                        });
+                    }
+                    else {
+                        this.takeAction('actBonus', {t:bonusType});
+                    }
                 });
                 k++;
             });

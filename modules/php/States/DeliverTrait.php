@@ -60,8 +60,8 @@ trait DeliverTrait
 
     Players::claimMasteries($player);
 
-    //Draw 2 cards
-    Cards::prepareCardsToRefillHand($player,2);
+    //Delay Draw 2 cards
+    Globals::addBonus($player,BONUS_TYPE_REFILL_HAND);
 
     $playerBonuses = Globals::getBonuses();
     if(isset($playerBonuses)){

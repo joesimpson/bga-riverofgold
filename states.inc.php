@@ -263,6 +263,7 @@ $machinestates = array(
             'bonusBuilding' => ST_BONUS_SECOND_MARKER_ON_BUILDING,
             'bonusMoneyOrGood' => ST_BONUS_MONEY_OR_GOOD,
             'bonusSellGoods' => ST_BONUS_SELL_GOODS,
+            'bonusDraw' => ST_DISCARD_CARD,
             "trade" => ST_PLAYER_TURN_TRADE, 
             'next' => ST_CONFIRM_CHOICES,
             'zombiePass'=> ST_CONFIRM_CHOICES,
@@ -439,8 +440,8 @@ $machinestates = array(
             'actRestart',
         ],
         'transitions' => [
-          'next' => ST_CONFIRM_CHOICES,
-          'zombiePass'=> ST_CONFIRM_CHOICES,
+          'next' => ST_BONUS_CHOICE,
+          'zombiePass'=> ST_BONUS_CHOICE,
         ],
     ],
 

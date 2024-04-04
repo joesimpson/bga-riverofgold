@@ -192,12 +192,15 @@
             }
         }
     }
+        
+    .rog_icon_container {
+        margin: 0 0.5em;
+    }
 }
 
 .rog_icon_container {
     display: inline-block;
     vertical-align: middle;
-    margin: 0 0.5em;
 
     &.rog_icon_container_customer-1,
     &.rog_icon_container_customer-2,

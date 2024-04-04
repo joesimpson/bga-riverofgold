@@ -23,7 +23,7 @@ class ShoreSpace implements \JsonSerializable
   public int $cost;
   
   /** Tile built on it */
-  public ?BuildingTile $tile;
+  //public ?BuildingTile $tile;
   /** Players who built on it */
   public array $playerIds;
 
@@ -43,7 +43,7 @@ class ShoreSpace implements \JsonSerializable
     $this->type = $type;
     $this->region = $region;
     $this->cost = $cost;
-    $this->tile = null;
+    //$this->tile = null;
     $this->playerIds = [];
   }
   
@@ -63,9 +63,9 @@ class ShoreSpace implements \JsonSerializable
   public function getUiData()
   {
     $data = $this->jsonSerialize();
-    if(isset($this->tile)){
-      $data['tile'] = $this->tile->getUiData();
-    }
+    //if(isset($this->tile)){
+    //  $data['tile'] = $this->tile->getUiData();
+    //}
     return $data;
   }
 }

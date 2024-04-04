@@ -59,6 +59,7 @@ trait ConfirmUndoTrait
 
         $player = Players::getCurrent();
         $pId = $player->getId();
+        /*
         $nbCardsToMoveToHand = Cards::countPlayerCards($pId,CARD_LOCATION_WAIT_FOR_HAND);
         if($nbCardsToMoveToHand>0){
             $cards = Cards::getPlayerFutureHandOrders($pId);
@@ -72,6 +73,7 @@ trait ConfirmUndoTrait
             $this->gamestate->nextState('refillHand');
             return;
         }
+        */
         
         $this->gamestate->nextState('confirm');
     }

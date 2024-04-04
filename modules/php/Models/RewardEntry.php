@@ -2,6 +2,7 @@
 
 namespace ROG\Models;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -61,6 +62,9 @@ class RewardEntry implements \JsonSerializable
       case RESOURCE_TYPE_MONEY:
         $player->giveResource($this->number,$this->type);
         return;
+      case BONUS_TYPE_CHOICE:
+        Globals::addBonus($player,BONUS_TYPE_CHOICE);
+        return;
       case BONUS_TYPE_MONEY_PER_CUSTOMER:
         $player->giveResource($this->number * $player->getNbDeliveredCustomers(),RESOURCE_TYPE_MONEY);
         return;
@@ -80,8 +84,11 @@ class RewardEntry implements \JsonSerializable
         $nbBuildings = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_SHRINE);
         $player->giveResource($this->number * $nbBuildings,RESOURCE_TYPE_MONEY);
         return;
+      case BONUS_TYPE_DRAW:
+        Globals::addBonus($player,BONUS_TYPE_DRAW);
+        return;
+      default :
+        Notifications::message("Not supported reward ".$this->type);
     }
-    //TODO JSA SAIling : specific visitor rewards types : BONUS_TYPE_CHOICE / BONUS_TYPE_DRAW
-    Notifications::message("TODO reward ".json_encode($this));
   }
 }

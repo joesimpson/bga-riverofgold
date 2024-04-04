@@ -5,6 +5,7 @@ namespace ROG\States;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Managers\Cards;
 use ROG\Managers\Players;
 use ROG\Models\Player;
 
@@ -52,6 +53,9 @@ trait BonusChoiceTrait
       throw new UnexpectedException(405,"You don't have this bonus $bonusType");
     }
 
+    Globals::setCurrentBonus($bonusType);
+    Globals::removeBonus($player,$bonusType);
+
     switch($bonusType){
       case BONUS_TYPE_CHOICE:
         $nextState = 'bonusResource';
@@ -69,11 +73,21 @@ trait BonusChoiceTrait
       case BONUS_TYPE_SELL_GOODS:
         $nextState = 'bonusSellGoods';
         break;
+      case BONUS_TYPE_DRAW:
+        $nextState = 'bonusDraw';
+        Cards::drawCardsToHand($player,1);
+        //ACTION IS NOT UNDOABLE
+        $this->addCheckpoint(ST_DISCARD_CARD);
+        break;
+      case BONUS_TYPE_REFILL_HAND://Draw 2 and discard 1
+        $nextState = 'bonusDraw';
+        Cards::drawCardsToHand($player,2);
+        //ACTION IS NOT UNDOABLE
+        $this->addCheckpoint(ST_DISCARD_CARD);
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }
-    Globals::setCurrentBonus($bonusType);
-    Globals::removeBonus($player,$bonusType);
 
     $this->gamestate->nextState($nextState);
   } 
