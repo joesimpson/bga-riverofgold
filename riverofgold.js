@@ -156,8 +156,10 @@ function (dojo, declare) {
                 ['rollDie', 800],
                 ['setDie', 800],
                 ['gainInfluence', 1300],
-                ['claimMC', 800],
-                ['addPoints', 700],
+                ['claimMC', 1200],
+                ['scoreDeliveries', 1200],
+                ['scoreInfluence', 1200],
+                ['addPoints', 1200],
                 ['discardBuildingRow', 500],
                 ['slideBuildingRow', 600],
                 ['refillBuildingRow', 800],
@@ -882,6 +884,14 @@ function (dojo, declare) {
         },
         notif_claimMC(n) {
             debug('notif_claimMC : new score after mastery card', n);
+            this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
+        },
+        notif_scoreDeliveries(n) {
+            debug('notif_scoreDeliveries', n);
+            this.gainPoints(n.args.player_id,n.args.n);
+        },
+        notif_scoreInfluence(n) {
+            debug('notif_scoreInfluence : new score for influence track', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
         },
         notif_discardBuildingRow(n) {

@@ -3,7 +3,11 @@
 namespace ROG\States;
 
 use ROG\Core\Notifications;
+use ROG\Exceptions\UnexpectedException;
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
+use ROG\Managers\Tiles;
+use ROG\Models\Meeple;
 
 trait ScoringTrait
 {
@@ -29,8 +33,32 @@ trait ScoringTrait
   {
     self::trace("computeFinalScore()");
     Notifications::message("Computing final scoring...");
+    //Query influence meeples before looping
+    $influenceMarkers = [];
+    $scoringTiles = Tiles::getInLocationOrdered(TILE_LOCATION_SCORING);
+    foreach(REGIONS as $region){
+      $influenceMarkers[$region] = Meeples::getAllInfluenceMarkers($region);
+    }
+
     foreach($players as $pid => $player){
       //RULE 1 : REGIONAL INFLUENCE
+      foreach(REGIONS as $region){
+        $all = $influenceMarkers[$region];
+        $opponentPositions = [];
+        $playerPosition = 0;
+        foreach($all as $meeple){
+          if($meeple->getPId() == $pid) $playerPosition = $meeple->getPosition();
+          else $opponentPositions[] = $meeple->getPosition();
+        }
+        $scoringTile = $scoringTiles->filter(function($tile) use ($region) {return $region == $tile->getRegion();})->first();
+        if(!isset($scoringTile)) throw new UnexpectedException(404,"Missing scoring tile for region $region");
+        $influenceScore = $scoringTile->computeScore($playerPosition,$opponentPositions);
+        if($influenceScore>0){
+          $player->addPoints($influenceScore,false);
+          Notifications::scoreInfluence($player,$scoringTile,$region,$influenceScore,$playerPosition);
+        }
+        //TODO JSA check Elder space to double
+      }
 
       //RULE 2 : CUSTOMERS
       $nbDeliveries = $player->getNbDeliveredCustomers();

@@ -183,6 +183,15 @@ class Meeples extends \ROG\Helpers\Pieces
   }
   
   /**
+   * @param int $region
+   * @return Collection of Meeple
+   */
+  public static function getAllInfluenceMarkers($region)
+  {
+    return self::getFilteredQuery(null, MEEPLE_LOCATION_INFLUENCE.$region,null)->get();
+  }
+  
+  /**
    * @param int $pId
    * @return Meeple
    */

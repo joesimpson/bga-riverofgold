@@ -314,12 +314,33 @@ class Notifications
    * @param int $nbDeliveries
    */
   public static function scoreDeliveries($player,$points,$nbDeliveries){
-    if(!isset($msg)) $msg = clienttranslate('${player_name} scores ${n} ${points} with ${n2} deliveries');
+    $msg = clienttranslate('${player_name} scores ${n} ${points} with ${n2} deliveries');
     self::notifyAll('scoreDeliveries',$msg,[ 
         'player' => $player,
         'n' => $points,
         'points' => 'points',
         'n2' => $nbDeliveries,
+      ],
+    );
+  }
+  
+  /**
+   * @param Player $player
+   * @param ScoringTile $scoringTile
+   * @param int $region
+   * @param int $points
+   * @param int $playerInfluence
+   */
+  public static function scoreInfluence($player,$scoringTile,$region,$points,$playerInfluence){
+    $msg = clienttranslate('${player_name} scores ${n} ${points} with ${n2} influence in region #${region}${region_icon}');
+    self::notifyAll('scoreInfluence',$msg,[ 
+        'player' => $player,
+        'n' => $points,
+        'points' => 'points',
+        'n2' => $playerInfluence,
+        'region' => $region,
+        'region_icon' => $region,
+        'tile_id' => $scoringTile->getId(),
       ],
     );
   }
