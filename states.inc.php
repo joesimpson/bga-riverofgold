@@ -491,12 +491,13 @@ $machinestates = array(
         "type" => "game",
         "action" => "stPreEndOfGame",
         "transitions" => [ 
-            //"next" => ST_END_GAME,
-            "next" => 96,
+            "next" => ST_END_GAME,
+            //"next" => 96,
         ],
     ),
    
     //END GAME TESTING STATE
+    /*
     96 => [
         "name" => "playerGameEnd",
         "description" => ('${actplayer} Game Over'),
@@ -509,6 +510,7 @@ $machinestates = array(
             "loopback" => 96 
         ] 
     ],
+    */
     // Final state.
     // Please do not modify (and do not overload action/args methods).
     ST_END_GAME => array(
