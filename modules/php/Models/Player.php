@@ -37,6 +37,8 @@ class Player extends \ROG\Helpers\DB_Model
     'clan' => ['player_clan', 'int'],
     //array of bonus types (int)
     'bonuses' => ['bonuses', 'obj'],
+    //is last turn played ?
+    'lastTurnPlayed' => ['last_turn_played', 'bool'],
 
   ];
 

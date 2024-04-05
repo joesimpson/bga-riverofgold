@@ -52,6 +52,8 @@
  const NB_POINTS_NOBLE_4 = 1;
  const NB_POINTS_NOBLE_6 = 1;
 
+ const NB_POINTS_FOR_GAME_END = 5;
+
  const ARTISAN_COST_REDUCTION = 2;
  
  const CUSTOMER_TYPE_ARTISAN =  1;

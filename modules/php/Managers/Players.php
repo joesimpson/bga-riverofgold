@@ -418,5 +418,17 @@ class Players extends \ROG\Helpers\DB_Manager
     }
 
   }
+  
+  /**
+   * @return bool true when every expected player has played the last turn
+   */
+  public static function everyOnePlayedLastTurn(){
+    $players = Players::getAll();
+    foreach($players as $player){
+      if($player->getZombie() == 1 || $player->getEliminated() == 1) continue;
+      if(!$player->isLastTurnPlayed()) return false;
+    }
+    return true;
+  }
 }
 

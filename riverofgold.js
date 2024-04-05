@@ -168,6 +168,7 @@ function (dojo, declare) {
                 ['slideBuildingRow', 600],
                 ['refillBuildingRow', 800],
                 ['emperorVisit', 50],
+                ['triggerLastTurn', 3000],
             ];
 
             //Filter states where we don't want other players to display state actions
@@ -970,6 +971,10 @@ function (dojo, declare) {
             debug('notif_emperorVisit: new era !', n);
             this._counters['era'].toValue(n.args.era);
         },
+        notif_triggerLastTurn(n) {
+            debug('notif_triggerLastTurn', n);
+            $('rog_end_warning').classList.remove('rog_nodisplay');
+        },
         
         ///////////////////////////////////////////////////
         notif_clearTurn(n) {
@@ -1333,11 +1338,13 @@ function (dojo, declare) {
         tplConfigPlayerBoard() {
             let turn = this.gamedatas.turn;
             let era = this.gamedatas.era;
+            let gameLastTurns = this.gamedatas.endTriggered;
             return `
             <div class='player-board' id="player_board_config">
                 <div id="player_config" class="player_board_content">
                 <div class="player_config_row" id="turn_counter_wrapper">
                     ${_('Era')} <span id='rog_counter_era'>${era}</span>
+                    <span id='rog_end_warning' class='${ gameLastTurns ? "":"rog_nodisplay"}'><hr>${_('Last turns !')}</span>
                 </div>
                 <div class="player_config_row">
                     <div id="help-mode-switch">

@@ -3,6 +3,7 @@
 namespace ROG\States;
 
 use ROG\Core\Globals;
+use ROG\Core\Notifications;
 use ROG\Managers\Players;
 
 trait NextTurnTrait
@@ -11,6 +12,14 @@ trait NextTurnTrait
   public function stNextTurn()
   { 
     self::trace("stNextTurn()");
+
+    if(Players::everyOnePlayedLastTurn()){
+      //END GAME TRIGGER
+      Notifications::triggerEnd();
+      $this->addCheckpoint(ST_END_SCORING);
+      $this->gamestate->nextState('end');
+      return;
+    }
 
     Globals::setupNewTurn();
     $turn = Globals::getTurn();

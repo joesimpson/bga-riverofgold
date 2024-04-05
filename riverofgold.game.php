@@ -104,6 +104,7 @@ class RiverOfGold extends Table
         $current_player_id = self::getCurrentPId();    // !! We must only return informations visible by this player !!
         // Gather all information about current game situation (visible by player $current_player_id).
         $firstPlayer = Globals::getFirstPlayer();
+
         $result = [
           'prefs' => Preferences::getUiData($current_player_id),
           'players' => Players::getUiData($current_player_id),
@@ -118,6 +119,7 @@ class RiverOfGold extends Table
             'era2' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2),
           ],
           'firstPlayer' => $firstPlayer,
+          'endTriggered' => Globals::isLastTurnTriggered(),
         ];
         return $result;
     }

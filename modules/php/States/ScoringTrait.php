@@ -18,7 +18,7 @@ trait ScoringTrait
   public function stPreEndOfGame()
   {
     self::trace("stPreEndOfGame()");
-    $this->gamestate->nextState('loopback');
+    $this->gamestate->nextState('next');
   }
 
   public function stScoring()

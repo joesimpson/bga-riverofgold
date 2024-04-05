@@ -454,6 +454,11 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   display: none !important;
 }
 
+#rog_end_warning {
+  color: red;
+  font-style: italic;
+}
+
 #rog_upper_zone {
   display: flex;
   flex-flow: row;
@@ -3544,6 +3549,10 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   display: flex;
   justify-content: center;
   flex-wrap: wrap;
+}
+
+.rog_nodisplay {
+  display: none;
 }
 
 .phantom {

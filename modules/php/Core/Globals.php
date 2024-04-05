@@ -20,6 +20,8 @@ class Globals extends \ROG\Helpers\DB_Manager
     //save player whose turn is playing, even when others may take decisions
     'turnPlayer' => 'int',
     'firstPlayer' => 'int',
+    //save player who ended the game
+    'endPlayer' => 'int',
     
     //Trade is possible in many states, thus we need to keep a trace of the previous state
     'stateBeforeTrade' => 'int',
@@ -47,6 +49,8 @@ class Globals extends \ROG\Helpers\DB_Manager
     //self::setBonuses([]);
     self::setCurrentBonus(null);
     self::setStateBeforeTrade(null);
+
+    self::setEndPlayer(null);
 
     foreach($players as $pId => $player){
       self::setFirstPlayer($pId);
@@ -120,6 +124,15 @@ class Globals extends \ROG\Helpers\DB_Manager
     if(!isset($key)) return;
     unset($bonuses[$key]);
     $player->setBonuses($bonuses);
+  }
+  
+  /**
+   * @return bool
+   */
+  public static function isLastTurnTriggered()
+  {
+    $endingPlayer = self::getEndPlayer();
+    return isset($endingPlayer) && $endingPlayer >0;
   }
 
   //////////////////////////////////////////////////////////////////////////////////////

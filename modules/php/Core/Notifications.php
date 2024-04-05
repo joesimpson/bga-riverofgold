@@ -487,6 +487,22 @@ class Notifications
       'era' => $era,
     ]);
   }
+  /**
+   * @param Player $player
+   */
+  public static function triggerLastTurn($player)
+  {
+    self::notifyAll('triggerLastTurn', clienttranslate('Start of the end of the game is triggered by ${player_name} !'), [
+      'player' => $player,
+    ]);
+  }
+  /**
+   */
+  public static function triggerEnd()
+  {
+    self::notifyAll('triggerEnd', clienttranslate('End of the game !'), [
+    ]);
+  }
 
   /*************************
    **** GENERIC METHODS ****

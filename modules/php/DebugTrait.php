@@ -255,6 +255,17 @@ trait DebugTrait
     $this->runEmperorVisit();
   }
   
+  //To be called before Confirming turn
+  function debugTriggerLastTurn(){
+    $player = Players::getCurrent(); 
+    Tiles::moveAllInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1,TILE_LOCATION_DISCARD);
+    //Keep 1 card in ERA 2 :
+    Tiles::moveAllInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2,TILE_LOCATION_DISCARD);
+    Tiles::getTopOf(TILE_LOCATION_DISCARD)->setLocation(TILE_LOCATION_BUILDING_DECK_ERA_2);
+    $this->debugUI();
+    //$this->gamestate->jumpToState(ST_CONFIRM_CHOICES);
+  }
+  
   function debugScoring(){
     $players = Players::getAll();
     $player = Players::getCurrent(); 

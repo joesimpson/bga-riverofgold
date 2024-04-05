@@ -25,7 +25,9 @@ trait EndTurnTrait
     
     $turnPlayer = Players::get($turnPlayerId);
     Notifications::endTurn($turnPlayer);
-    $lastEra1TileMoved = Tiles::refillBuildingRow();
+    $refillResult = Tiles::refillBuildingRow();
+    $lastEra1TileMoved = $refillResult[1];
+    $lastEra2TileMoved = $refillResult[2];
     if($lastEra1TileMoved){
       //run Emperor Visit at end of Era 1 + starts Era 2
       $this->runEmperorVisit();
@@ -35,12 +37,22 @@ trait EndTurnTrait
         return;
       }
     }
+    if($lastEra2TileMoved){
+      $this->triggerLastTurn($turnPlayer);
+    }
+    if(Globals::isLastTurnTriggered()){
+      //Save this player played for last time
+      $turnPlayer->setLastTurnPlayed(true);
+    }
     //Checkpoint after Emperor, because turn player could decide to cancel their turn if they realize, there is an Emperor visit ?
     $this->addCheckpoint(ST_END_TURN);
 
     //RULE : roll your die at the end of your turn, before others play
     $playerPatron = $turnPlayer->getPatron();
-    if(isset($playerPatron) && PATRON_DARLING == $playerPatron->getType()){
+    if(Globals::isLastTurnTriggered()){
+      //NO DIE ROLL because no future turn
+    }
+    else if(isset($playerPatron) && PATRON_DARLING == $playerPatron->getType()){
       //TODO JSA darling may decide to not roll the die
       $turnPlayer->rollDie();
     }
@@ -76,5 +88,15 @@ trait EndTurnTrait
         }
       }
     }
+  }
+  
+  /**
+   * @param Player $player
+   */
+  public function triggerLastTurn($player)
+  { 
+    $player->addPoints(NB_POINTS_FOR_GAME_END);
+    Globals::setEndPlayer($player->getId());
+    Notifications::triggerLastTurn($player);
   }
 }
