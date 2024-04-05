@@ -97,6 +97,7 @@ class Globals extends \ROG\Helpers\DB_Manager
   public static function setupNewTurn()
   {
     self::incTurn(1);
+    Stats::inc("turns_number");
     //self::setBonuses([]);
     //TODO JSA players resetBonus
     self::setCurrentBonus(null);

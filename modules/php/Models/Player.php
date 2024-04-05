@@ -118,7 +118,16 @@ class Player extends \ROG\Helpers\DB_Model
     $resources[$type] = min($resources[$type], $max);
     $nb = $resources[$type] - $before;
     $this->setResources($resources);
-    //TODO JSA stat
+    //Stats :
+    if(RESOURCE_TYPE_MONEY == $type){
+      Stats::set("moneyLeft",$this,$resources[$type]);
+      if($nb>0){
+        Stats::inc("moneyReceived",$this,$nb);
+      }
+      else if($nb<0){
+        Stats::inc("moneySpent",$this,-$nb);
+      }
+    }
     if($sendNotif) Notifications::giveResource($this,$nb,$type);
   }
   
