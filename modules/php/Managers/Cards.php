@@ -310,7 +310,8 @@ class Cards extends \ROG\Helpers\Pieces
     };
     return [
       // 8 unique Clan Patron cards
-      PATRON_MASTER_ENGINEER => $f([CLAN_CRAB,     'Kaiu Shihobu',   clienttranslate('Master Engineer'),                 '',  ]), 
+      //BEWARE Strings are copied in STATS
+      PATRON_MASTER_ENGINEER => $f([CLAN_CRAB,    'Kaiu Shihobu',   clienttranslate('Master Engineer'),                 '',  ]), 
       PATRON_TRADER         => $f([CLAN_CRAB,     'Yasuki Taka',    clienttranslate('Wily Trader'),                     '',  ]), 
       PATRON_SON_OF_STORM   => $f([CLAN_MANTIS,   'Yoritomo',       clienttranslate('Son of Storms'),                   '',  ]), 
       PATRON_PRIESTESS      => $f([CLAN_MANTIS,   'Kudaka',         clienttranslate('Priestess of tempest and Tides'),  '',  ]), 

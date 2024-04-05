@@ -1,32 +1,85 @@
 {
-    "table": {
-        "turns_number": {
-          "id": 10,
-          "name": "Number of turns",
-          "type": "int"
-        }
+  "table": {
+      "turns_number": {
+        "id": 10,
+        "name": "Number of turns",
+        "type": "int"
+      }
+  },
+  "player": {
+    "score": {
+      "id": 10,
+      "name": "Score",
+      "type": "int"
     },
-    "player": {
-        "score": {
-          "id": 10,
-          "name": "Score",
-          "type": "int"
-        },
-        "moneyReceived": {
-          "id": 11,
-          "name": "Money received",
-          "type": "int"
-        },
-        "moneySpent": {
-          "id": 12,
-          "name": "Money spent",
-          "type": "int"
-        },
-        "moneyLeft": {
-          "id": 13,
-          "name": "Money left",
-          "type": "int"
-        }
+    "endPlayer": {
+      "id": 11,
+      "name": "Player ended the game",
+      "type": "int"
+    },
+    "playedClan": {
+      "id": 12,
+      "name": "Played clan",
+      "type": "int"
+    },
+    "playedClanPatron": {
+      "id": 13,
+      "name": "Played clan patron",
+      "type": "int"
+    },
+    "nbActionsBuild": {
+      "id": 20,
+      "name": "Build actions",
+      "type": "int"
+    },
+    "nbActionsSail": {
+      "id": 21,
+      "name": "Sail actions",
+      "type": "int"
+    },
+    "nbActionsDeliver": {
+      "id": 22,
+      "name": "Deliver actions",
+      "type": "int"
+    },
+    "moneyReceived": {
+      "id": 30,
+      "name": "Money received",
+      "type": "int"
+    },
+    "moneySpent": {
+      "id": 31,
+      "name": "Money spent",
+      "type": "int"
+    },
+    "moneyLeft": {
+      "id": 32,
+      "name": "Money left",
+      "type": "int"
     }
-
+  },
+  "value_labels": {
+    "11": [
+      {"0": "No"},
+      {"1": "Yes"}
+    ],
+    "12": [
+      {"0": ""},
+      {"1": "Crab Clan"},
+      {"2": "Mantis Clan"},
+      {"3": "Crane Clan"},
+      {"4": "Scorpion Clan"}
+    ],
+    "13": [
+      {"0": ""},
+      {"1": "Master Engineer"},
+      {"2": "Wily Trader"},
+      {"3": "Son of Storms"},
+      {"4": "Priestess of tempest and Tides"},
+      {"5": "The Iron Crane"},
+      {"6": "Darling of the Courts"},
+      {"7": "Governor of the City of lies"},
+      {"8": "Lady of Whispers"}
+    ]
+  }
 }

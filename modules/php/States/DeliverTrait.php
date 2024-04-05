@@ -4,6 +4,7 @@ namespace ROG\States;
 
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
@@ -62,6 +63,8 @@ trait DeliverTrait
 
     //Delay Draw 2 cards
     Globals::addBonus($player,BONUS_TYPE_REFILL_HAND);
+    
+    Stats::inc("nbActionsDeliver", $player->getId());
 
     if($this->goToBonusStepIfNeeded($player)) return;
     $this->gamestate->nextState('next');

@@ -4,6 +4,7 @@ namespace ROG\States;
 
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Collection;
 use ROG\Managers\Meeples;
@@ -58,6 +59,7 @@ trait BuildTrait
     $tile->setPosition($position);
 
     Notifications::build($player,$tile,$previousPosition);
+    Stats::inc("nbActionsBuild", $player->getId());
 
     if(BUILDING_ROW_END == $previousPosition){
       Players::gainDivineFavor($player,BUILDING_ROW_END_FAVOR);

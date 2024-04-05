@@ -56,8 +56,8 @@ trait DebugTrait
     $this->debugClearLogs();
     $options = ["DEBUG"=> true, 
       //OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
-      //OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_DRAFT,
-      OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_ALTERNATIVE
+      OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_DRAFT,
+      //OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_ALTERNATIVE
     ];
     $players = self::loadPlayersBasicInfos();
     Globals::DB()->delete()->run();

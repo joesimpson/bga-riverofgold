@@ -4,6 +4,7 @@ namespace ROG\States;
 
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Core\Stats;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 
@@ -97,6 +98,7 @@ trait EndTurnTrait
   { 
     $player->addPoints(NB_POINTS_FOR_GAME_END);
     Globals::setEndPlayer($player->getId());
+    Stats::set( "endPlayer", $player->getId(), 1);
     Notifications::triggerLastTurn($player);
   }
 }

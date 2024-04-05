@@ -4,6 +4,7 @@ namespace ROG\States;
 
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
@@ -88,6 +89,8 @@ trait DraftTrait
     self::reloadPlayersBasicInfos();
     Notifications::newPlayerColor($player);
     Cards::giveClanCardTo($player,$card);
+    Stats::set("playedClan",$player,$card->getClan());
+    Stats::set("playedClanPatron",$player,$card->getType());
   }
 
   //////////////////////////////////////////////////////////////

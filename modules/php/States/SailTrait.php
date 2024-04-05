@@ -4,6 +4,7 @@ namespace ROG\States;
 
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
@@ -134,6 +135,8 @@ trait SailTrait
     }
 
     Players::claimMasteries($player);
+    
+    Stats::inc("nbActionsSail", $player->getId());
 
     if($this->goToBonusStepIfNeeded($player)) return;
     $this->gamestate->nextState('next');
