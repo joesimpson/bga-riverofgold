@@ -83,7 +83,15 @@ trait ScoringTrait
       $player->addPoints($scoreForNbDeliveries,false);
       Notifications::scoreDeliveries($player,$scoreForNbDeliveries,$nbDeliveries);
 
-      //RULE 3 : CUSTOMER BONUSES
+      //RULE 3 : CUSTOMER BONUSES : artisans, merchants, nobles
+      //3.1 ARTISANS score remaining trade goods :
+      $nbResources = $player->getResource(RESOURCE_TYPE_SILK) + $player->getResource(RESOURCE_TYPE_RICE)+ $player->getResource(RESOURCE_TYPE_POTTERY);
+      $nbArtisans = $player->getNbDeliveredCustomerByType(CUSTOMER_TYPE_ARTISAN);
+      $scoreForRemainingGoods = $nbArtisans * round( $nbResources / NB_RESOURCES_FOR_1POINT_WITH_ARTISAN,0,PHP_ROUND_HALF_DOWN);
+      if($scoreForRemainingGoods>0) {
+        $player->addPoints($scoreForRemainingGoods,false);
+        Notifications::scoreArtisans($player,$nbArtisans,$nbResources,$scoreForRemainingGoods);
+      }
 
 
       //TODO JSA TIE BREAKER : DIVINE FAVOR 

@@ -160,6 +160,7 @@ function (dojo, declare) {
                 ['scoreDeliveries', 1200],
                 ['scoreInfluence', 1200],
                 ['scoreElder', 1200],
+                ['scoreArtisans', 1200],
                 ['addPoints', 1200],
                 ['discardBuildingRow', 500],
                 ['slideBuildingRow', 600],
@@ -898,6 +899,10 @@ function (dojo, declare) {
         notif_scoreElder(n) {
             debug('notif_scoreElder : new score for influence track by Elder', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
+        },
+        notif_scoreArtisans(n) {
+            debug('notif_scoreArtisans', n);
+            this.gainPoints(n.args.player_id,n.args.n);
         },
         notif_discardBuildingRow(n) {
             debug('notif_discardBuildingRow: building tile discarded from building row', n);

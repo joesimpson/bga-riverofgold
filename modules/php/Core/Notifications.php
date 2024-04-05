@@ -353,13 +353,31 @@ class Notifications
    */
   public static function scoreElder($player,$scoringTile,$region,$points){
     $msg = clienttranslate('${player_name} scores ${n} ${points} with an elder in region #${region}${region_icon}');
-    self::notifyAll('scoreInfluence',$msg,[ 
+    self::notifyAll('scoreElder',$msg,[ 
         'player' => $player,
         'n' => $points,
         'points' => 'points',
         'region' => $region,
         'region_icon' => $region,
         'tile_id' => $scoringTile->getId(),
+      ],
+    );
+  }
+  
+  /**
+   * @param Player $player
+   * @param int $nbArtisans
+   * @param int $nbResources
+   * @param int $points
+   */
+  public static function scoreArtisans($player,$nbArtisans,$nbResources,$points){
+    $msg = clienttranslate('${player_name} scores ${n} ${points} with ${n2} artisans and ${n3} remaining trade goods');
+    self::notifyAll('scoreArtisans',$msg,[ 
+        'player' => $player,
+        'n' => $points,
+        'points' => 'points',
+        'n2' => $nbArtisans,
+        'n3' => $nbResources,
       ],
     );
   }
