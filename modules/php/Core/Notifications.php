@@ -381,6 +381,24 @@ class Notifications
       ],
     );
   }
+  
+  /**
+   * @param Player $player
+   * @param int $nbMerchants
+   * @param int $money
+   * @param int $points
+   */
+  public static function scoreMerchants($player,$nbMerchants,$money,$points){
+    $msg = clienttranslate('${player_name} scores ${n} ${points} with ${n2} merchants and ${n3} remaining Koku');
+    self::notifyAll('scoreMerchants',$msg,[ 
+        'player' => $player,
+        'n' => $points,
+        'points' => 'points',
+        'n2' => $nbMerchants,
+        'n3' => $money,
+      ],
+    );
+  }
   /**
    * @param BuildingTile $buildingTile
    * @param BuildingTile $nextEra1Card

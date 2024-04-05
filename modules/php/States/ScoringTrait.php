@@ -92,6 +92,14 @@ trait ScoringTrait
         $player->addPoints($scoreForRemainingGoods,false);
         Notifications::scoreArtisans($player,$nbArtisans,$nbResources,$scoreForRemainingGoods);
       }
+      //3.2 : Merchants score remaining money :
+      $money = $player->getMoney();
+      $nbMerchants = $player->getNbDeliveredCustomerByType(CUSTOMER_TYPE_ARTISAN);
+      $scoreForRemainingMoney = $nbMerchants * round( $money / NB_RESOURCES_FOR_1POINT_WITH_MERCHANT,0,PHP_ROUND_HALF_DOWN);
+      if($scoreForRemainingMoney>0) {
+        $player->addPoints($scoreForRemainingMoney,false);
+        Notifications::scoreMerchants($player,$nbMerchants,$money,$scoreForRemainingMoney);
+      }
 
 
       //TODO JSA TIE BREAKER : DIVINE FAVOR 

@@ -161,6 +161,7 @@ function (dojo, declare) {
                 ['scoreInfluence', 1200],
                 ['scoreElder', 1200],
                 ['scoreArtisans', 1200],
+                ['scoreMerchants', 1200],
                 ['addPoints', 1200],
                 ['discardBuildingRow', 500],
                 ['slideBuildingRow', 600],
@@ -902,6 +903,10 @@ function (dojo, declare) {
         },
         notif_scoreArtisans(n) {
             debug('notif_scoreArtisans', n);
+            this.gainPoints(n.args.player_id,n.args.n);
+        },
+        notif_scoreMerchants(n) {
+            debug('notif_scoreMerchants', n);
             this.gainPoints(n.args.player_id,n.args.n);
         },
         notif_discardBuildingRow(n) {
