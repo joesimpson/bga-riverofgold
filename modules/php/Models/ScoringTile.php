@@ -12,6 +12,7 @@ class ScoringTile extends Tile
   protected $staticAttributes = [
     ['nbPlayers', 'obj'],
     ['scores', 'obj'],
+    ['checkSpacesBetween', 'int'],
   ];
 
   
@@ -50,27 +51,33 @@ class ScoringTile extends Tile
   {
     $nbBetterPositions = 0;
     $nbSamePositions = 0;
+    $bestOpponent = 0;
 
     //Minimum influence to score : 1
     if($playerPosition < 1 ) return 0;
 
     foreach($opponentPositions as $opponentPosition){
-      if($opponentPosition > $playerPosition) $nbBetterPositions++;
+      if($opponentPosition > $playerPosition){
+        $nbBetterPositions++;
+        $bestOpponent = max($bestOpponent, $opponentPosition);
+      }
       else if($opponentPosition == $playerPosition) $nbSamePositions++;
     }
     
     $scoresToGive = $this->getScores();
     if($nbBetterPositions > count($scoresToGive) ) return 0;
 
-    //if($nbBetterPositions == 0 && $nbSamePositions == 0){
-    //  //PLAYER IS FIRST
-    //  return $scoresToGive[0];
-    //}
+    //RULE : 2 Player regional Tiles
+    $maxSpaces = $this->getCheckSpacesBetween();
+    $assignSecondPlace = ( !isset($maxSpaces)
+       || ($bestOpponent - $playerPosition) <= $maxSpaces
+      );
 
     if($nbSamePositions == 0){
       //LOOK FOR EACH Scored position matching lonely player 
       foreach($scoresToGive as $scorePos => $score){
         if($nbBetterPositions == $scorePos){
+          if(!$assignSecondPlace && $scorePos ==1) break;
           return $score;
         }
       }

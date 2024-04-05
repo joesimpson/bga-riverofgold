@@ -39,6 +39,9 @@
  //RULE : empty space => 1 Koku
  const EMPTY_SPACE_REWARD = 1;
 
+ //5 spaces between 2p
+ const NB_SPACES_BETWEEN_2P_SCORINGTILE = 5;
+
  const NB_INLUENCE_MERCHANT_1 = 1;
  const NB_MONEY_FOR_SELLING_MERCHANT_4 = 5;
  const NB_RESOURCE_FOR_SELLING_MERCHANT_4 = 1;

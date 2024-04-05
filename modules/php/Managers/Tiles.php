@@ -320,22 +320,23 @@ class Tiles extends \ROG\Helpers\Pieces
       return [
         'nbPlayers' => $t[0],
         'scores' => $t[1],
+        'checkSpacesBetween' => $t[2],
       ];
     };
     return [
       // 12 unique 
-      1 => $f([ [2],   [3,]      ]), 
-      2 => $f([ [2],   [5,2]     ]), 
-      3 => $f([ [2],   [4,2]     ]), 
-      4 => $f([ [2],   [8,4]     ]), 
-      5 => $f([ [2],   [6,3]     ]), 
-      6 => $f([ [2],   [7,3]     ]), 
-      7 => $f([ [3,4], [7,3]     ]), 
-      8 => $f([ [3,4], [9,5]     ]), 
-      9 => $f([ [3,4], [8,4]     ]), 
-      10 => $f([[3,4], [12,8,4]  ]), 
-      11 => $f([[3,4], [10,6,2]  ]), 
-      12 => $f([[3,4], [11,7,3]  ]), 
+      1 => $f([ [2],   [3,]     ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 
+      2 => $f([ [2],   [5,2]    ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 
+      3 => $f([ [2],   [4,2]    ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 
+      4 => $f([ [2],   [8,4]    ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 
+      5 => $f([ [2],   [6,3]    ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 
+      6 => $f([ [2],   [7,3]    ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 
+      7 => $f([ [3,4], [7,3]    ,null ]), 
+      8 => $f([ [3,4], [9,5]    ,null ]), 
+      9 => $f([ [3,4], [8,4]    ,null ]), 
+      10 => $f([[3,4], [12,8,4] ,null ]), 
+      11 => $f([[3,4], [10,6,2] ,null ]), 
+      12 => $f([[3,4], [11,7,3] ,null ]), 
     ];
   }
   
