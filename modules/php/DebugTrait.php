@@ -257,6 +257,12 @@ trait DebugTrait
   
   function debugScoring(){
     $players = Players::getAll();
+    $player = Players::getCurrent(); 
+    $testElderOnRegion = REGION_5;
+    $elder = Meeples::getMarkerOnElderSpace($player->getId(),$testElderOnRegion);
+    if(!isset($elder)){
+      Meeples::addClanMarkerOnElderSpace($player,$testElderOnRegion);
+    }
     $this->computeFinalScore($players);
   }
   

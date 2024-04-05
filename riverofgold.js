@@ -159,6 +159,7 @@ function (dojo, declare) {
                 ['claimMC', 1200],
                 ['scoreDeliveries', 1200],
                 ['scoreInfluence', 1200],
+                ['scoreElder', 1200],
                 ['addPoints', 1200],
                 ['discardBuildingRow', 500],
                 ['slideBuildingRow', 600],
@@ -892,6 +893,10 @@ function (dojo, declare) {
         },
         notif_scoreInfluence(n) {
             debug('notif_scoreInfluence : new score for influence track', n);
+            this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
+        },
+        notif_scoreElder(n) {
+            debug('notif_scoreElder : new score for influence track by Elder', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
         },
         notif_discardBuildingRow(n) {

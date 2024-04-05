@@ -56,8 +56,14 @@ trait ScoringTrait
         if($influenceScore>0){
           $player->addPoints($influenceScore,false);
           Notifications::scoreInfluence($player,$scoringTile,$region,$influenceScore,$playerPosition);
+          
+          //check Elder space to double influence score
+          $elder = Meeples::getMarkerOnElderSpace($player->getId(),$region);
+          if(isset($elder)){
+            $player->addPoints($influenceScore,false);
+            Notifications::scoreElder($player,$scoringTile,$region,$influenceScore);
+          }
         }
-        //TODO JSA check Elder space to double
       }
 
       //RULE 2 : CUSTOMERS

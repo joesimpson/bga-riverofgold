@@ -344,6 +344,25 @@ class Notifications
       ],
     );
   }
+  
+  /**
+   * @param Player $player
+   * @param ScoringTile $scoringTile
+   * @param int $region
+   * @param int $points
+   */
+  public static function scoreElder($player,$scoringTile,$region,$points){
+    $msg = clienttranslate('${player_name} scores ${n} ${points} with an elder in region #${region}${region_icon}');
+    self::notifyAll('scoreInfluence',$msg,[ 
+        'player' => $player,
+        'n' => $points,
+        'points' => 'points',
+        'region' => $region,
+        'region_icon' => $region,
+        'tile_id' => $scoringTile->getId(),
+      ],
+    );
+  }
   /**
    * @param BuildingTile $buildingTile
    * @param BuildingTile $nextEra1Card
