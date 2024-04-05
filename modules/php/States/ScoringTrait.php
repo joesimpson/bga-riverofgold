@@ -110,7 +110,8 @@ trait ScoringTrait
         //Specific notif has been sent
       }
 
-      //TODO JSA TIE BREAKER : DIVINE FAVOR 
+      //TIE BREAKER : DIVINE FAVOR 
+      $player->setScoreAux($player->getResource(RESOURCE_TYPE_SUN));
     }
   }
 
