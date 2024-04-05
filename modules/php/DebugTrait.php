@@ -255,6 +255,11 @@ trait DebugTrait
     $this->runEmperorVisit();
   }
   
+  function debugScoring(){
+    $players = Players::getAll();
+    $this->computeFinalScore($players);
+  }
+  
   function debugRefillRow(){
     $player = Players::getCurrent();
     Tiles::refillBuildingRow();

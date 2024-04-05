@@ -307,6 +307,22 @@ class Notifications
       ],
     );
   }
+  
+  /**
+   * @param Player $player
+   * @param int $points
+   * @param int $nbDeliveries
+   */
+  public static function scoreDeliveries($player,$points,$nbDeliveries){
+    if(!isset($msg)) $msg = clienttranslate('${player_name} scores ${n} ${points} with ${n2} deliveries');
+    self::notifyAll('scoreDeliveries',$msg,[ 
+        'player' => $player,
+        'n' => $points,
+        'points' => 'points',
+        'n2' => $nbDeliveries,
+      ],
+    );
+  }
   /**
    * @param BuildingTile $buildingTile
    * @param BuildingTile $nextEra1Card
