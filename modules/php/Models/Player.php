@@ -244,4 +244,15 @@ class Player extends \ROG\Helpers\DB_Model
     })->first();
   }
 
+  /**
+   * @return array of int, id of regions with own buildings
+   */
+  public function getBuiltRegions()
+  {
+    $markersOnBuildings = Meeples::getPlayerBuildingsMarkers($this->getId());
+    $regions = array_unique( $markersOnBuildings->map( function($meeple) { 
+      return $meeple->getBuildingRegion();
+    })->toArray());
+    return $regions;
+  }
 }

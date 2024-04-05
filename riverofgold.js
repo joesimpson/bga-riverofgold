@@ -162,6 +162,7 @@ function (dojo, declare) {
                 ['scoreElder', 1200],
                 ['scoreArtisans', 1200],
                 ['scoreMerchants', 1200],
+                ['scoreCustomer', 1200],
                 ['addPoints', 1200],
                 ['discardBuildingRow', 500],
                 ['slideBuildingRow', 600],
@@ -908,6 +909,10 @@ function (dojo, declare) {
         notif_scoreMerchants(n) {
             debug('notif_scoreMerchants', n);
             this.gainPoints(n.args.player_id,n.args.n);
+        },
+        notif_scoreCustomer(n) {
+            debug('notif_scoreCustomer', n);
+            this.gainPoints(n.args.player_id,n.args.n,$(`rog_card-${n.args.card_id}`));
         },
         notif_discardBuildingRow(n) {
             debug('notif_discardBuildingRow: building tile discarded from building row', n);

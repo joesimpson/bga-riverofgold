@@ -98,10 +98,7 @@ class CustomerCard extends Card
   {
     switch($type){
       case CARD_MERCHANT_1://+ 1 Influence in built regions
-        $markersOnBuildings = Meeples::getPlayerBuildingsMarkers($player->getId());
-        $regions = array_unique( $markersOnBuildings->map( function($meeple) { 
-          return $meeple->getBuildingRegion();
-        })->toArray());
+        $regions = $player->getBuiltRegions();
         foreach($regions as $region){
           Players::gainInfluence($player,$region,NB_INLUENCE_MERCHANT_1);
         }
@@ -122,5 +119,44 @@ class CustomerCard extends Card
         $player->giveResource(3,RESOURCE_TYPE_MONEY);
         break;
     }
+  }
+
+  
+  /**
+   * Compute END score for a specific card
+   * @param Player $player
+   * @return int score for this player
+   */
+  public function computeScore($player)
+  {
+    $score = 0;
+    switch($this->getType()){
+      case CARD_NOBLE_1://1 point per market
+        $score = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_MARKET);
+        break;
+      case CARD_NOBLE_2://1 point per port
+        $score = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_PORT);
+        break;
+      case CARD_NOBLE_3://1 point per manor
+        $score = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_MANOR);
+        break;
+      case CARD_NOBLE_4://1 point per shrine
+        $score = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_SHRINE);
+        break;
+      case CARD_NOBLE_5://1 point per different type of buildings
+        $nbType = 0;
+        foreach(BUILDING_TYPES as $type){
+          if(Meeples::countPlayerBuildings($player->getId(),$type) >0) $nbType++;
+        }
+        $score = $nbType;
+        break;
+      case CARD_NOBLE_6://1 point per different region of buildings
+        $score = count($player->getBuiltRegions());
+        break;
+    }
+    if($score>0){
+      Notifications::scoreCustomer($player,$this,$score);
+    }
+    return $score;
   }
 }

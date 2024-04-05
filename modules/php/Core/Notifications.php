@@ -6,6 +6,7 @@ use ROG\Managers\Cards;
 use ROG\Managers\Tiles;
 use ROG\Models\BuildingTile;
 use ROG\Models\ClanPatronCard;
+use ROG\Models\CustomerCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
 use ROG\Models\Player;
@@ -396,6 +397,25 @@ class Notifications
         'points' => 'points',
         'n2' => $nbMerchants,
         'n3' => $money,
+      ],
+    );
+  }
+  
+  /**
+   * @param Player $player
+   * @param CustomerCard $card
+   * @param int $points
+   */
+  public static function scoreCustomer($player,$card,$points){
+    $msg = clienttranslate('${player_name} scores ${n} ${points} with ${card_type} ${region}');
+    self::notifyAll('scoreCustomer',$msg,[ 
+        'i18n' => ['card_type'],
+        'player' => $player,
+        'n' => $points,
+        'points' => 'points',
+        'card_id' => $card->getId(),
+        'card_type' => $card->getTitle(),
+        'region' => $card->getRegion(),
       ],
     );
   }

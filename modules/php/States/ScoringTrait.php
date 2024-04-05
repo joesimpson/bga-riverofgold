@@ -4,10 +4,12 @@ namespace ROG\States;
 
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\Meeple;
+use ROG\Models\CustomerCard;
 
 trait ScoringTrait
 {
@@ -100,7 +102,13 @@ trait ScoringTrait
         $player->addPoints($scoreForRemainingMoney,false);
         Notifications::scoreMerchants($player,$nbMerchants,$money,$scoreForRemainingMoney);
       }
-
+      //3.3 : Noble score is specific :
+      $delivered = Cards::getPlayerDeliveredOrders($player->getId());
+      $deliveredNobles = $delivered->filter(function($card) {return CUSTOMER_TYPE_NOBLE == $card->getCustomerType();});
+      foreach($deliveredNobles as $deliveredNoble){
+        $scoreNoble = $deliveredNoble->computeScore($player);
+        //Specific notif has been sent
+      }
 
       //TODO JSA TIE BREAKER : DIVINE FAVOR 
     }
