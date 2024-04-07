@@ -104,12 +104,12 @@ trait PlayerTurnTrait
     $player = Players::get($player->getId());
     $bonuses = $player->getBonuses();
     if(isset($bonuses) && count($bonuses)>0){
+      $player->giveExtraTime();
       if($changeActivePlayer){
         //Change active player when in a game state !
         Players::changeActive($player->getId());
         $this->addCheckpoint(ST_BONUS_CHOICE);
       }
-      $player->giveExtraTime();
       $this->gamestate->nextState('bonus');
       return true;
     }
