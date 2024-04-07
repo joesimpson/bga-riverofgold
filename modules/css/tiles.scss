@@ -9,7 +9,7 @@
 
         //sprite positions
         background-size: 200% 600%;
-        background-image: url("img/scoringtile.png");
+        background-image: url("img/tiles/scoringtile.png");
         @for $i from 0 through 11 {
             &[data-type="#{$i + 1}"] {
                 background-position-y: ($i % 6) * 100% / 5;
@@ -139,7 +139,7 @@
 #rog_mastery_cards{ 
     .rog_tile {
 
-        background-image: url("img/masterycards.jpg");
+        background-image: url("img/cards/masterycards.jpg");
         //sprite positions
         background-size: 300% 400%;
         @for $i from 0 through 11 {
@@ -155,7 +155,7 @@
     width: 1046px;
     height: 960px;
     background-repeat: no-repeat;
-    background-image: url("img/eraTileHolder.png");
+    background-image: url("img/tiles/eraTileHolder.png");
     background-size: 100%;
 }
 .rog_era_tile_tooltip{
@@ -291,7 +291,7 @@
         background-size: 500% 1000%;
         @for $i from 0 through 45 {
             &[data-type="#{$i + 1}"] {
-                background-image: url("img/buildings.png");
+                background-image: url("img/tiles/buildings.png");
                 background-position-x: ($i % 5) * 100% / 4;
                 background-position-y: (($i - ($i % 5)) / 5) * 100% / 9;
             }
@@ -302,7 +302,7 @@
     width: 333px;
     height: 170px;
     background-size: 500% 1000%;
-    background-image: url("img/buildings.png");
+    background-image: url("img/tiles/buildings.png");
     //coord of yellow border
     background-position-x: 50%;
     background-position-y: 100%;

@@ -9,7 +9,7 @@
     background-size: 600% 500%;
     @for $i from 0 through 29 {
         &[data-type="#{$i + 1}"] {
-            background-image: url("img/cards.jpg");
+            background-image: url("img/cards/customers.jpg");
             background-position-x: ($i % 6) * 100% / 5;
             background-position-y: (($i - ($i % 6)) / 6) * 100% / 4;
         }

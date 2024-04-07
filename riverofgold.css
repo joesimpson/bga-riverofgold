@@ -1115,7 +1115,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space#rog_shore_space-29 .rog_tile, .rog_shore_space#rog_shore_space-30.selectable,
 .rog_shore_space#rog_shore_space-30 .rog_tile {
   margin-left: 8px;
-  background-image: url("img/buildings_back.png");
+  background-image: url("img/tiles/buildings_back.png");
 }
 .rog_shore_space#rog_shore_space-1.selectable .rog_meeple,
 .rog_shore_space#rog_shore_space-1 .rog_tile .rog_meeple, .rog_shore_space#rog_shore_space-3.selectable .rog_meeple,
@@ -1225,152 +1225,152 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   position: relative;
 }
 .rog_card[data-type="1"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 0%;
   background-position-y: 0%;
 }
 .rog_card[data-type="2"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 20%;
   background-position-y: 0%;
 }
 .rog_card[data-type="3"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 40%;
   background-position-y: 0%;
 }
 .rog_card[data-type="4"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 60%;
   background-position-y: 0%;
 }
 .rog_card[data-type="5"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 80%;
   background-position-y: 0%;
 }
 .rog_card[data-type="6"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 100%;
   background-position-y: 0%;
 }
 .rog_card[data-type="7"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 0%;
   background-position-y: 25%;
 }
 .rog_card[data-type="8"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 20%;
   background-position-y: 25%;
 }
 .rog_card[data-type="9"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 40%;
   background-position-y: 25%;
 }
 .rog_card[data-type="10"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 60%;
   background-position-y: 25%;
 }
 .rog_card[data-type="11"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 80%;
   background-position-y: 25%;
 }
 .rog_card[data-type="12"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 100%;
   background-position-y: 25%;
 }
 .rog_card[data-type="13"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 0%;
   background-position-y: 50%;
 }
 .rog_card[data-type="14"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 20%;
   background-position-y: 50%;
 }
 .rog_card[data-type="15"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 40%;
   background-position-y: 50%;
 }
 .rog_card[data-type="16"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 60%;
   background-position-y: 50%;
 }
 .rog_card[data-type="17"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 80%;
   background-position-y: 50%;
 }
 .rog_card[data-type="18"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 100%;
   background-position-y: 50%;
 }
 .rog_card[data-type="19"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 0%;
   background-position-y: 75%;
 }
 .rog_card[data-type="20"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 20%;
   background-position-y: 75%;
 }
 .rog_card[data-type="21"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 40%;
   background-position-y: 75%;
 }
 .rog_card[data-type="22"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 60%;
   background-position-y: 75%;
 }
 .rog_card[data-type="23"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 80%;
   background-position-y: 75%;
 }
 .rog_card[data-type="24"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 100%;
   background-position-y: 75%;
 }
 .rog_card[data-type="25"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 0%;
   background-position-y: 100%;
 }
 .rog_card[data-type="26"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 20%;
   background-position-y: 100%;
 }
 .rog_card[data-type="27"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 40%;
   background-position-y: 100%;
 }
 .rog_card[data-type="28"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 60%;
   background-position-y: 100%;
 }
 .rog_card[data-type="29"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 80%;
   background-position-y: 100%;
 }
 .rog_card[data-type="30"] {
-  background-image: url("img/cards.jpg");
+  background-image: url("img/cards/customers.jpg");
   background-position-x: 100%;
   background-position-y: 100%;
 }
@@ -1687,7 +1687,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   width: 350px;
   height: 122px;
   background-size: 200% 600%;
-  background-image: url("img/scoringtile.png");
+  background-image: url("img/tiles/scoringtile.png");
 }
 .rog_tile_tooltip[data-subtype="1"] .rog_tile[data-type="1"],
 #rog_scoring_tiles .rog_tile[data-type="1"] {
@@ -1840,7 +1840,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 
 .rog_tile_tooltip[data-subtype="3"] .rog_tile,
 #rog_mastery_cards .rog_tile {
-  background-image: url("img/masterycards.jpg");
+  background-image: url("img/cards/masterycards.jpg");
   background-size: 300% 400%;
 }
 .rog_tile_tooltip[data-subtype="3"] .rog_tile[data-type="1"],
@@ -1908,7 +1908,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   width: 1046px;
   height: 960px;
   background-repeat: no-repeat;
-  background-image: url("img/eraTileHolder.png");
+  background-image: url("img/tiles/eraTileHolder.png");
   background-size: 100%;
 }
 
@@ -2031,7 +2031,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="1"],
 .rog_button_building_tile[data-type="1"],
 .rog_building_slot .rog_tile[data-type="1"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
   background-position-y: 0%;
 }
@@ -2042,7 +2042,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="2"],
 .rog_button_building_tile[data-type="2"],
 .rog_building_slot .rog_tile[data-type="2"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
   background-position-y: 0%;
 }
@@ -2053,7 +2053,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="3"],
 .rog_button_building_tile[data-type="3"],
 .rog_building_slot .rog_tile[data-type="3"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
   background-position-y: 0%;
 }
@@ -2064,7 +2064,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="4"],
 .rog_button_building_tile[data-type="4"],
 .rog_building_slot .rog_tile[data-type="4"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
   background-position-y: 0%;
 }
@@ -2075,7 +2075,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="5"],
 .rog_button_building_tile[data-type="5"],
 .rog_building_slot .rog_tile[data-type="5"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
   background-position-y: 0%;
 }
@@ -2086,7 +2086,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="6"],
 .rog_button_building_tile[data-type="6"],
 .rog_building_slot .rog_tile[data-type="6"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
   background-position-y: 11.1111111111%;
 }
@@ -2097,7 +2097,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="7"],
 .rog_button_building_tile[data-type="7"],
 .rog_building_slot .rog_tile[data-type="7"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
   background-position-y: 11.1111111111%;
 }
@@ -2108,7 +2108,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="8"],
 .rog_button_building_tile[data-type="8"],
 .rog_building_slot .rog_tile[data-type="8"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
   background-position-y: 11.1111111111%;
 }
@@ -2119,7 +2119,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="9"],
 .rog_button_building_tile[data-type="9"],
 .rog_building_slot .rog_tile[data-type="9"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
   background-position-y: 11.1111111111%;
 }
@@ -2130,7 +2130,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="10"],
 .rog_button_building_tile[data-type="10"],
 .rog_building_slot .rog_tile[data-type="10"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
   background-position-y: 11.1111111111%;
 }
@@ -2141,7 +2141,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="11"],
 .rog_button_building_tile[data-type="11"],
 .rog_building_slot .rog_tile[data-type="11"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
   background-position-y: 22.2222222222%;
 }
@@ -2152,7 +2152,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="12"],
 .rog_button_building_tile[data-type="12"],
 .rog_building_slot .rog_tile[data-type="12"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
   background-position-y: 22.2222222222%;
 }
@@ -2163,7 +2163,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="13"],
 .rog_button_building_tile[data-type="13"],
 .rog_building_slot .rog_tile[data-type="13"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
   background-position-y: 22.2222222222%;
 }
@@ -2174,7 +2174,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="14"],
 .rog_button_building_tile[data-type="14"],
 .rog_building_slot .rog_tile[data-type="14"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
   background-position-y: 22.2222222222%;
 }
@@ -2185,7 +2185,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="15"],
 .rog_button_building_tile[data-type="15"],
 .rog_building_slot .rog_tile[data-type="15"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
   background-position-y: 22.2222222222%;
 }
@@ -2196,7 +2196,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="16"],
 .rog_button_building_tile[data-type="16"],
 .rog_building_slot .rog_tile[data-type="16"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
   background-position-y: 33.3333333333%;
 }
@@ -2207,7 +2207,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="17"],
 .rog_button_building_tile[data-type="17"],
 .rog_building_slot .rog_tile[data-type="17"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
   background-position-y: 33.3333333333%;
 }
@@ -2218,7 +2218,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="18"],
 .rog_button_building_tile[data-type="18"],
 .rog_building_slot .rog_tile[data-type="18"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
   background-position-y: 33.3333333333%;
 }
@@ -2229,7 +2229,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="19"],
 .rog_button_building_tile[data-type="19"],
 .rog_building_slot .rog_tile[data-type="19"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
   background-position-y: 33.3333333333%;
 }
@@ -2240,7 +2240,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="20"],
 .rog_button_building_tile[data-type="20"],
 .rog_building_slot .rog_tile[data-type="20"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
   background-position-y: 33.3333333333%;
 }
@@ -2251,7 +2251,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="21"],
 .rog_button_building_tile[data-type="21"],
 .rog_building_slot .rog_tile[data-type="21"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
   background-position-y: 44.4444444444%;
 }
@@ -2262,7 +2262,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="22"],
 .rog_button_building_tile[data-type="22"],
 .rog_building_slot .rog_tile[data-type="22"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
   background-position-y: 44.4444444444%;
 }
@@ -2273,7 +2273,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="23"],
 .rog_button_building_tile[data-type="23"],
 .rog_building_slot .rog_tile[data-type="23"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
   background-position-y: 44.4444444444%;
 }
@@ -2284,7 +2284,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="24"],
 .rog_button_building_tile[data-type="24"],
 .rog_building_slot .rog_tile[data-type="24"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
   background-position-y: 44.4444444444%;
 }
@@ -2295,7 +2295,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="25"],
 .rog_button_building_tile[data-type="25"],
 .rog_building_slot .rog_tile[data-type="25"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
   background-position-y: 44.4444444444%;
 }
@@ -2306,7 +2306,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="26"],
 .rog_button_building_tile[data-type="26"],
 .rog_building_slot .rog_tile[data-type="26"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
   background-position-y: 55.5555555556%;
 }
@@ -2317,7 +2317,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="27"],
 .rog_button_building_tile[data-type="27"],
 .rog_building_slot .rog_tile[data-type="27"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
   background-position-y: 55.5555555556%;
 }
@@ -2328,7 +2328,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="28"],
 .rog_button_building_tile[data-type="28"],
 .rog_building_slot .rog_tile[data-type="28"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
   background-position-y: 55.5555555556%;
 }
@@ -2339,7 +2339,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="29"],
 .rog_button_building_tile[data-type="29"],
 .rog_building_slot .rog_tile[data-type="29"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
   background-position-y: 55.5555555556%;
 }
@@ -2350,7 +2350,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="30"],
 .rog_button_building_tile[data-type="30"],
 .rog_building_slot .rog_tile[data-type="30"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
   background-position-y: 55.5555555556%;
 }
@@ -2361,7 +2361,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="31"],
 .rog_button_building_tile[data-type="31"],
 .rog_building_slot .rog_tile[data-type="31"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
   background-position-y: 66.6666666667%;
 }
@@ -2372,7 +2372,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="32"],
 .rog_button_building_tile[data-type="32"],
 .rog_building_slot .rog_tile[data-type="32"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
   background-position-y: 66.6666666667%;
 }
@@ -2383,7 +2383,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="33"],
 .rog_button_building_tile[data-type="33"],
 .rog_building_slot .rog_tile[data-type="33"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
   background-position-y: 66.6666666667%;
 }
@@ -2394,7 +2394,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="34"],
 .rog_button_building_tile[data-type="34"],
 .rog_building_slot .rog_tile[data-type="34"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
   background-position-y: 66.6666666667%;
 }
@@ -2405,7 +2405,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="35"],
 .rog_button_building_tile[data-type="35"],
 .rog_building_slot .rog_tile[data-type="35"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
   background-position-y: 66.6666666667%;
 }
@@ -2416,7 +2416,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="36"],
 .rog_button_building_tile[data-type="36"],
 .rog_building_slot .rog_tile[data-type="36"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
   background-position-y: 77.7777777778%;
 }
@@ -2427,7 +2427,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="37"],
 .rog_button_building_tile[data-type="37"],
 .rog_building_slot .rog_tile[data-type="37"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
   background-position-y: 77.7777777778%;
 }
@@ -2438,7 +2438,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="38"],
 .rog_button_building_tile[data-type="38"],
 .rog_building_slot .rog_tile[data-type="38"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
   background-position-y: 77.7777777778%;
 }
@@ -2449,7 +2449,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="39"],
 .rog_button_building_tile[data-type="39"],
 .rog_building_slot .rog_tile[data-type="39"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
   background-position-y: 77.7777777778%;
 }
@@ -2460,7 +2460,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="40"],
 .rog_button_building_tile[data-type="40"],
 .rog_building_slot .rog_tile[data-type="40"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
   background-position-y: 77.7777777778%;
 }
@@ -2471,7 +2471,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="41"],
 .rog_button_building_tile[data-type="41"],
 .rog_building_slot .rog_tile[data-type="41"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
   background-position-y: 88.8888888889%;
 }
@@ -2482,7 +2482,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="42"],
 .rog_button_building_tile[data-type="42"],
 .rog_building_slot .rog_tile[data-type="42"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
   background-position-y: 88.8888888889%;
 }
@@ -2493,7 +2493,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="43"],
 .rog_button_building_tile[data-type="43"],
 .rog_building_slot .rog_tile[data-type="43"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
   background-position-y: 88.8888888889%;
 }
@@ -2504,7 +2504,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="44"],
 .rog_button_building_tile[data-type="44"],
 .rog_building_slot .rog_tile[data-type="44"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
   background-position-y: 88.8888888889%;
 }
@@ -2515,7 +2515,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="45"],
 .rog_button_building_tile[data-type="45"],
 .rog_building_slot .rog_tile[data-type="45"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
   background-position-y: 88.8888888889%;
 }
@@ -2526,7 +2526,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="46"],
 .rog_button_building_tile[data-type="46"],
 .rog_building_slot .rog_tile[data-type="46"] {
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
   background-position-y: 100%;
 }
@@ -2536,7 +2536,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   width: 333px;
   height: 170px;
   background-size: 500% 1000%;
-  background-image: url("img/buildings.png");
+  background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
   background-position-y: 100%;
   background-color: rgba(199, 0, 255, 0.431372549);
