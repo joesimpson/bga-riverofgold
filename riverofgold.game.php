@@ -34,6 +34,7 @@ require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
 
 use ROG\Core\Globals;
 use ROG\Core\Preferences;
+use ROG\Exceptions\UserException;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -120,6 +121,7 @@ class RiverOfGold extends Table
           ],
           'firstPlayer' => $firstPlayer,
           'endTriggered' => Globals::isLastTurnTriggered(),
+          'version'=> intval($this->gamestate->table_globals[BGA_GAMESTATE_GAMEVERSION]),
         ];
         return $result;
     }
@@ -161,7 +163,16 @@ class RiverOfGold extends Table
       Preferences::set($this->getCurrentPId(), $pref, $value);
     }
 
-
+    /**
+    * Check Server version to compare with client version : throw an error in case it 's not the same
+    * From https://en.doc.boardgamearena.com/BGA_Studio_Cookbook#Force_players_to_refresh_after_new_deploy
+    */
+    public function checkVersion(int $clientVersion)
+    {
+        if ($clientVersion != intval($this->gamestate->table_globals[BGA_GAMESTATE_GAMEVERSION])) {
+            throw new UserException('!!!checkVersion');
+        }
+    }
 
 //////////////////////////////////////////////////////////////////////////////
 //////////// Player actions
@@ -288,5 +299,10 @@ class RiverOfGold extends Table
     public static function getCurrentPId($bReturnNullIfNotLogged = false)
     {
         return self::getCurrentPlayerId($bReturnNullIfNotLogged);
+    }
+    // Exposing protected method translation
+    public static function translate($text)
+    {
+        return self::_($text);
     }
 }

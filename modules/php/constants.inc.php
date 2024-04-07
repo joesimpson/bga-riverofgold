@@ -1,9 +1,10 @@
 <?php
  
+const BGA_GAMESTATE_GAMEVERSION = 300;
+
 /*
  * Game Constants
  */
-
  
  const DIE_FACES = [1,2,3,4,5,6];
 

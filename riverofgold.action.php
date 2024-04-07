@@ -40,10 +40,18 @@
   	} 
   	
   	// TODO: defines your action entry points there
+
+    /* Check Helper, not a real action */
+    private function checkVersion()
+    {
+      $clientVersion = (int) self::getArg('version', AT_int, false);
+      $this->game->checkVersion($clientVersion);
+    }
  
     public function actSkip()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $this->game->actSkip();
       self::ajaxResponse();
     }
@@ -51,18 +59,21 @@
     public function actSkipBonuses()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $this->game->actSkipBonuses();
       self::ajaxResponse();
     }
     public function actStop()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $this->game->actStop();
       self::ajaxResponse();
     }
     public function actDarlingFavor()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $dieFace = self::getArg( "d", AT_posint, true );
       $this->game->actDarlingFavor($dieFace);
       self::ajaxResponse();
@@ -70,12 +81,14 @@
     public function actSpendFavor()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $this->game->actSpendFavor();
       self::ajaxResponse();
     }
     public function actDFSelect()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $dieFace = self::getArg( "d", AT_posint, true );
       $this->game->actDFSelect($dieFace);
       self::ajaxResponse();
@@ -83,12 +96,14 @@
     public function actTrade()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $this->game->actTrade();
       self::ajaxResponse();
     }
     public function actTradeSelect()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $typeSrc = self::getArg( "src", AT_posint, true );
       $typeDest = self::getArg( "dest", AT_posint, true );
       $this->game->actTradeSelect($typeSrc,$typeDest);
@@ -98,6 +113,7 @@
     public function actSell()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $typeSrc = self::getArg( "src", AT_posint, true );
       $this->game->actSell($typeSrc);
       self::ajaxResponse();
@@ -105,12 +121,14 @@
     public function actBuild()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $this->game->actBuild();
       self::ajaxResponse();
     }
     public function actBonus()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $bonusType = self::getArg( "t", AT_posint, true );
       $this->game->actBonus($bonusType);
       self::ajaxResponse();
@@ -119,6 +137,7 @@
     public function actBonusResource()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $resourceType = self::getArg( "r", AT_posint, true );
       $this->game->actBonusResource($resourceType);
       self::ajaxResponse();
@@ -126,12 +145,14 @@
     public function actBonus3Money()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $this->game->actBonus3Money();
       self::ajaxResponse();
     }
     public function actBonusUpgrade()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $shipId = self::getArg( "s", AT_posint, true );
       $this->game->actBonusUpgrade($shipId);
       self::ajaxResponse();
@@ -140,6 +161,7 @@
     public function actBonusSecondMarker()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $tileId = self::getArg( "t", AT_posint, true );
       $this->game->actBonusSecondMarker($tileId);
       self::ajaxResponse();
@@ -147,12 +169,14 @@
     public function actSail()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $this->game->actSail();
       self::ajaxResponse();
     }
     public function actSailSelect()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $shipId = self::getArg( "s", AT_posint, true );
       $riverSpace = self::getArg( "r", AT_posint, true );
       $this->game->actSailSelect($shipId,$riverSpace);
@@ -161,12 +185,14 @@
     public function actDeliver()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $this->game->actDeliver();
       self::ajaxResponse();
     }
     public function actDeliverSelect()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $cardId = self::getArg( "c", AT_posint, true );
       $this->game->actDeliverSelect($cardId);
       self::ajaxResponse();
@@ -175,6 +201,7 @@
     public function actBuildSelect()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $position = self::getArg( "p", AT_posint, true );
       $tileId = self::getArg( "t", AT_posint, true );
       $this->game->actBuildSelect($position,$tileId);
@@ -184,6 +211,7 @@
     public function actTakeCard()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $cardId = self::getArg( "c", AT_posint, true );
       $this->game->actTakeCard($cardId);
       self::ajaxResponse();
@@ -191,6 +219,7 @@
     public function actDiscardCard()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $cardId = self::getArg( "c", AT_posint, true );
       $this->game->actDiscardCard($cardId);
       self::ajaxResponse();
@@ -205,6 +234,7 @@
     public function actConfirmTurn()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $this->game->actConfirmTurn();
       self::ajaxResponse();
     }
@@ -212,6 +242,7 @@
     public function actRestart()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $this->game->actRestart();
       self::ajaxResponse();
     }
@@ -219,6 +250,7 @@
     public function actUndoToStep()
     {
       self::setAjaxMode();
+      self::checkVersion();
       $stepId = self::getArg('stepId', AT_posint, false);
       $this->game->actUndoToStep($stepId);
       self::ajaxResponse();
