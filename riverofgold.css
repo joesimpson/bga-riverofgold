@@ -274,7 +274,7 @@
 .rog_icon_container .rog_icon.rog_icon_money {
   width: 3em;
   height: 3em;
-  background-image: url("img/koku.png");
+  background-image: url("img/icons/koku.png");
 }
 .rog_icon_container .rog_icon.rog_icon_favor, .rog_icon_container .rog_icon.rog_icon_influence-1, .rog_icon_container .rog_icon.rog_icon_influence-2, .rog_icon_container .rog_icon.rog_icon_influence-3, .rog_icon_container .rog_icon.rog_icon_influence-4, .rog_icon_container .rog_icon.rog_icon_influence-5, .rog_icon_container .rog_icon.rog_icon_influence-6 {
   width: 2.5em;
@@ -294,43 +294,43 @@
   background-image: url("img/icons/sun.png");
 }
 .rog_icon_container .rog_icon.rog_icon_silk {
-  background-image: url("img/silk.png");
+  background-image: url("img/icons/silk.png");
 }
 .rog_icon_container .rog_icon.rog_icon_rice {
-  background-image: url("img/rice.png");
+  background-image: url("img/icons/rice.png");
 }
 .rog_icon_container .rog_icon.rog_icon_pottery {
-  background-image: url("img/pottery.png");
+  background-image: url("img/icons/pottery.png");
 }
 .rog_icon_container .rog_icon.rog_icon_port {
-  background-image: url("img/port_owned.png");
+  background-image: url("img/icons/port_owned.png");
 }
 .rog_icon_container .rog_icon.rog_icon_market {
-  background-image: url("img/market_owned.png");
+  background-image: url("img/icons/market_owned.png");
 }
 .rog_icon_container .rog_icon.rog_icon_manor {
-  background-image: url("img/manor_owned.png");
+  background-image: url("img/icons/manor_owned.png");
 }
 .rog_icon_container .rog_icon.rog_icon_shrine {
-  background-image: url("img/shrine_owned.png");
+  background-image: url("img/icons/shrine_owned.png");
 }
 .rog_icon_container .rog_icon.rog_icon_influence-1 {
-  background-image: url("img/regions/1.png");
+  background-image: url("img/icons/regions/1.png");
 }
 .rog_icon_container .rog_icon.rog_icon_influence-2 {
-  background-image: url("img/regions/2.png");
+  background-image: url("img/icons/regions/2.png");
 }
 .rog_icon_container .rog_icon.rog_icon_influence-3 {
-  background-image: url("img/regions/3.png");
+  background-image: url("img/icons/regions/3.png");
 }
 .rog_icon_container .rog_icon.rog_icon_influence-4 {
-  background-image: url("img/regions/4.png");
+  background-image: url("img/icons/regions/4.png");
 }
 .rog_icon_container .rog_icon.rog_icon_influence-5 {
-  background-image: url("img/regions/5.png");
+  background-image: url("img/icons/regions/5.png");
 }
 .rog_icon_container .rog_icon.rog_icon_influence-6 {
-  background-image: url("img/regions/6.png");
+  background-image: url("img/icons/regions/6.png");
 }
 .rog_icon_container .rog_icon.rog_icon_customer-1, .rog_icon_container .rog_icon.rog_icon_customer-2, .rog_icon_container .rog_icon.rog_icon_customer-3, .rog_icon_container .rog_icon.rog_icon_customer-4, .rog_icon_container .rog_icon.rog_icon_customer-5 {
   width: 3em;
@@ -1218,7 +1218,6 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_card {
   width: 148px;
   height: 200px;
-  background-image: url("img/cardback.jpg");
   border: 1px solid black;
   box-shadow: 1px 1px 5px black;
   border-radius: 5px;
