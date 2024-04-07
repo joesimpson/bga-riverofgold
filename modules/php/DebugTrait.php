@@ -12,6 +12,9 @@ use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\CustomerCard;
 
+/**
+ * Debugging functions to be called in chat window in BGA Studio
+ */
 trait DebugTrait
 {
   /**
@@ -31,7 +34,7 @@ trait DebugTrait
     Notifications::message("$json",['json' => $json]);
   }
   ////////////////////////////////////////////////////
-
+  /*
   function debugSetup(){
     $players = self::loadPlayersBasicInfos();
     Cards::DB()->delete()->run();
@@ -296,23 +299,21 @@ trait DebugTrait
       Notifications::message("RESOURCES_LIMIT contains $type:".json_encode(RESOURCES_LIMIT));
     }
   }
-
+  */
   //----------------------------------------------------------------
   function debugUI(){
     //players colors are not reloaded after using LOAD/SAVE buttons
     self::reloadPlayersBasicInfos();
     Notifications::refreshUI($this->getAllDatas());
   }
-
+  /*
   //Clear logs
   function debugCLS(){
     $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
     $query->delete()->run();
   }
   
-  /**
-   * Clear all logs
-   */
+  //Clear all logs
   public static function debugClearLogs()
   {
       $query = new QueryBuilder('log', null, 'id');
@@ -320,4 +321,5 @@ trait DebugTrait
       $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
       $query->delete()->run();
   }
+  */
 }
