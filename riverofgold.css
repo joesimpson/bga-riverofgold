@@ -463,6 +463,8 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
 }
 
 #rog_main_zone #rog_players_boards {
