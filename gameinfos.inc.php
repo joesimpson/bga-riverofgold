@@ -105,6 +105,8 @@ $gameinfos = array(
     'max' => null
 ),
 
+//Disable 3d
+'enable_3d' => false,
 
 //////// BGA SANDBOX ONLY PARAMETERS (DO NOT MODIFY)
 
