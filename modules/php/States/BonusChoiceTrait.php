@@ -92,6 +92,7 @@ trait BonusChoiceTrait
         break;
       case BONUS_TYPE_REFILL_HAND://Draw 2 and discard 1
         $nextState = 'bonusDraw';
+        Notifications::refillHand($player);
         Cards::drawCardsToHand($player,2);
         //ACTION IS NOT UNDOABLE
         $this->addCheckpoint(ST_DISCARD_CARD);

@@ -106,13 +106,15 @@ class Globals extends \ROG\Helpers\DB_Manager
   /**
    * @param Player $player
    * @param int $type
+   * @param string $typeText (optional)
+   * @param bool $sendNotif (optional)
    */
-  public static function addBonus($player, $type)
+  public static function addBonus($player, $type, $typeText = '', $sendNotif = true)
   {
     $bonuses = $player->getBonuses();
     $bonuses[] = $type;
     $player->setBonuses($bonuses);
-    Notifications::addBonus($player, $type);
+    if($sendNotif) Notifications::addBonus($player, $type, $typeText);
   }
   /**
    * @param Player $player

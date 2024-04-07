@@ -49,6 +49,16 @@ class Notifications
       'player_color' => $player->getColor(),
     ]);
   }
+  
+  /**
+   * @param Player $player
+   */
+  public static function refillHand($player)
+  {
+    self::notifyAll('refillHand', clienttranslate('${player_name} decides to refill their hand now'), [
+      'player' => $player,
+    ]);
+  }
   /**
    * @param Player $player
    * @param ClanPatronCard $card
@@ -136,16 +146,18 @@ class Notifications
   /**
    * @param Player $player
    * @param int $type
+   * @param string $typeText (optional)
    */
-  public static function addBonus($player,$type)
+  public static function addBonus($player,$type,$typeText = '')
   {
-    $msg = clienttranslate('${player_name} receives a bonus decision ${bonus_type}');
+    $msg = clienttranslate('${player_name} receives a bonus decision ${bonus_icon}${bonus_text}');
     self::notifyAll('addBonus', $msg, [
+      'i18n'=>['bonus_text'],
       'player' => $player,
-      //'preserve'=>['bonus_type'],
-      //'bonus_icon' => $type,
-      'bonus_type' => $type,
+      'bonus_icon' => $type,
+      'bonus_text' => $typeText,
     ]);
+    
   }
   /**
    * @param Player $player

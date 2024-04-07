@@ -110,7 +110,7 @@ class CustomerCard extends Card
         Globals::addBonus($player,BONUS_TYPE_CHOICE);
         break;
       case CARD_MERCHANT_4://bonus to sell goods
-        Globals::addBonus($player,BONUS_TYPE_SELL_GOODS);
+        Globals::addBonus($player,BONUS_TYPE_SELL_GOODS,clienttranslate("Sell goods"));
         break;
       case CARD_MERCHANT_5://+1 Sun
         $player->giveResource(1,RESOURCE_TYPE_SUN);

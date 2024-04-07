@@ -62,7 +62,7 @@ trait DeliverTrait
     Players::claimMasteries($player);
 
     //Delay Draw 2 cards
-    Globals::addBonus($player,BONUS_TYPE_REFILL_HAND);
+    Globals::addBonus($player,BONUS_TYPE_REFILL_HAND,'',false);
     
     Stats::inc("nbActionsDeliver", $player->getId());
 

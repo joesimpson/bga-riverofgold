@@ -89,6 +89,7 @@ function (dojo, declare) {
     const RESOURCE_TYPE_SUN = 5;
     const RESOURCE_TYPE_MONEY = 6;
     const BONUS_TYPE_DRAW = 23;
+    const BONUS_TYPE_SELL_GOODS = 28;
     const BONUS_TYPE_REFILL_HAND = 29;
     const RESOURCES = [
         0,
@@ -481,6 +482,7 @@ function (dojo, declare) {
                 let iconBonus = this.formatIcon('bonus-'+bonusType);
                 let buttonText = '';
                 if(BONUS_TYPE_REFILL_HAND == bonusType) buttonText = _('Refill hand');
+                if(BONUS_TYPE_SELL_GOODS == bonusType) buttonText = _('Sell goods');
                 this.addImageActionButton(`btnBonus_${k}_${bonusType}`, `${buttonText}<div class='rog_trade'>
                     ${iconBonus}
                 </div>`, () =>  {
@@ -1163,9 +1165,9 @@ function (dojo, declare) {
                 if(ship_type in args) {
                     args.ship_type = this.formatIcon("ship-"+args.ship_type);
                 }
-                let bonus_type = 'bonus_type';
-                if(bonus_type in args) {
-                    args.bonus_type = this.formatIcon('bonus-'+args.bonus_type);
+                let bonus_icon = 'bonus_icon';
+                if(bonus_icon in args) {
+                    args.bonus_icon = this.formatIcon('bonus-'+args.bonus_icon);
                 }
             }
             } catch (e) {
