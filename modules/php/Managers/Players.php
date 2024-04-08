@@ -374,7 +374,7 @@ class Players extends \ROG\Helpers\DB_Manager
         }
         break;
       //----------------------------------------------------------------------
-      case MASTERY_TYPE_EARTH: //1 of each building
+      case MASTERY_TYPE_WATER: //1 of each building
         $claim = true;
         foreach (BUILDING_TYPES as $bType){
           if(Meeples::countPlayerBuildings($player->getId(),$bType) < 1){
@@ -394,7 +394,7 @@ class Players extends \ROG\Helpers\DB_Manager
         }
         break;
       //----------------------------------------------------------------------
-      case MASTERY_TYPE_WATER: //3 of 1 building
+      case MASTERY_TYPE_EARTH: //3 of 1 building
         foreach (BUILDING_TYPES as $bType){
           if(Meeples::countPlayerBuildings($player->getId(),$bType) >= NB_BUILDINGS_WATER){
             $claim = true;
