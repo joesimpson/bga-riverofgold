@@ -59,27 +59,27 @@
     }
   },
   "value_labels": {
-    "11": [
-      {"0": "No"},
-      {"1": "Yes"}
-    ],
-    "12": [
-      {"0": ""},
-      {"1": "Crab Clan"},
-      {"2": "Mantis Clan"},
-      {"3": "Crane Clan"},
-      {"4": "Scorpion Clan"}
-    ],
-    "13": [
-      {"0": ""},
-      {"1": "Master Engineer"},
-      {"2": "Wily Trader"},
-      {"3": "Son of Storms"},
-      {"4": "Priestess of tempest and Tides"},
-      {"5": "The Iron Crane"},
-      {"6": "Darling of the Courts"},
-      {"7": "Governor of the City of lies"},
-      {"8": "Lady of Whispers"}
-    ]
+    "11": {
+      "0": "No",
+      "1": "Yes"
+    },
+    "12": {
+      "0": "",
+      "1": "Crab Clan",
+      "2": "Mantis Clan",
+      "3": "Crane Clan",
+      "4": "Scorpion Clan"
+    },
+    "13": {
+      "0": "",
+      "1": "Master Engineer",
+      "2": "Wily Trader",
+      "3": "Son of Storms",
+      "4": "Priestess of tempest and Tides",
+      "5": "The Iron Crane",
+      "6": "Darling of the Courts",
+      "7": "Governor of the City of lies",
+      "8": "Lady of Whispers"
+    }
   }
 }
