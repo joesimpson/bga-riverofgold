@@ -107,6 +107,7 @@ trait ScoringTrait
       $deliveredNobles = $delivered->filter(function($card) {return CUSTOMER_TYPE_NOBLE == $card->getCustomerType();});
       foreach($deliveredNobles as $deliveredNoble){
         $scoreNoble = $deliveredNoble->computeScore($player);
+        $player->addPoints($scoreNoble,false);
         //Specific notif has been sent
       }
 

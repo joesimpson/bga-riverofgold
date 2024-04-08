@@ -2,6 +2,7 @@
 
 namespace ROG\Models;
 
+use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Managers\Meeples;
@@ -88,6 +89,7 @@ class RewardEntry implements \JsonSerializable
         Globals::addBonus($player,BONUS_TYPE_DRAW);
         return;
       default :
+        Game::get()->error("Not supported reward ".$this->type);
         Notifications::message("Not supported reward ".$this->type);
     }
   }
