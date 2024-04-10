@@ -71,11 +71,49 @@
                         }
                     }
                 }
+                
+                #rog_score_customers{
+                    //Used for tooltip only
+                    position: absolute;
+                    top: 300px;
+                    left: 1650px;
+                    width: 541px;
+                    height: 121px;
+                    &.tooltipable:hover{
+                        cursor: help;
+                        outline: 10px solid black;
+                    }
+                }
             }
         }
     } 
 
 } 
+
+.rog_tooltip{
+    #rog_score_customers_table{
+        border: 1px solid rgba(0,0,0,.2);
+        th {
+            border: 1px solid rgba(0,0,0,.2);
+            height: 20px;
+            min-width: 20px;
+            text-align: center;
+            vertical-align: middle;
+            font-size: 20px;
+            div{
+                display: inline-block;
+            } 
+        }  
+        td{
+            border: 1px solid rgba(0,0,0,.2);
+            word-wrap: anywhere;
+            font-size: 20px;
+            padding: 5px 8px;
+            text-align: center;
+            vertical-align: middle;
+        }
+    }
+}
 
 #rog_score_track{
     position: absolute;

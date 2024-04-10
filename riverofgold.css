@@ -528,6 +528,40 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 #rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selected .rog_river_shape:hover {
   background-color: rgba(8, 255, 0, 0.431372549);
 }
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_score_customers {
+  position: absolute;
+  top: 300px;
+  left: 1650px;
+  width: 541px;
+  height: 121px;
+}
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_score_customers.tooltipable:hover {
+  cursor: help;
+  outline: 10px solid black;
+}
+
+.rog_tooltip #rog_score_customers_table {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+}
+.rog_tooltip #rog_score_customers_table th {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  height: 20px;
+  min-width: 20px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 20px;
+}
+.rog_tooltip #rog_score_customers_table th div {
+  display: inline-block;
+}
+.rog_tooltip #rog_score_customers_table td {
+  border: 1px solid rgba(0, 0, 0, 0.2);
+  word-wrap: anywhere;
+  font-size: 20px;
+  padding: 5px 8px;
+  text-align: center;
+  vertical-align: middle;
+}
 
 #rog_score_track {
   position: absolute;

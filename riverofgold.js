@@ -212,6 +212,7 @@ function (dojo, declare) {
             this.setupCards();
             this.setupMeeples();
 
+            this.addCustomTooltip('rog_score_customers', this.getScoreCustomersTooltip());
             this.addCustomTooltip('rog_era_tile_resizable', this.getEraTileTooltip());
             this.addCustomTooltip('rog_deck_size-1', `<h4>${this.fsr(_('Tiles in Era ${n} stack'), { n: 1 })}</h4>`); 
             this.addCustomTooltip('rog_deck_size-2', `<h4>${this.fsr(_('Tiles in Era ${n} stack'), { n: 2 })}</h4>`); 
@@ -1113,6 +1114,34 @@ function (dojo, declare) {
                 );
             });
         },
+        getScoreCustomersTooltip() {
+            let title = _('Final scoring for number of customers you have delivered to');
+            let titleLine1 = _('Number of Customers');
+            let titleLine2 = _('Score');
+            let table = `<table id="rog_score_customers_table">
+                <tbody>
+                    <tr>
+                        <th>${titleLine1}</th>
+                        <td>1</td>
+                        <td>2</td>
+                        <td>3</td>
+                        <td>4</td>
+                        <td>5</td>
+                        <td>6+</td>
+                    </tr>
+                    <tr>
+                        <th>${titleLine2}</th>
+                        <td>2</td>
+                        <td>5</td>
+                        <td>6</td>
+                        <td>14</td>
+                        <td>20</td>
+                        <td>27</td>
+                    </tr>
+                </tbody>
+                </table>`;
+            return `<div class='rog_tooltip'><h2>${title}</h2>${table}</div>`;
+        },
 
         ////////////////////////////////////////////////////////////
         // _____                          _   _   _
@@ -1541,7 +1570,6 @@ function (dojo, declare) {
         //  | |__| (_| | | | (_| \__ \
         //   \____\__,_|_|  \__,_|___/
         //////////////////////////////////////////////////////////
-
         setupCards(keepHand = false) {
             // This function is refreshUI compatible
             //destroy previous cards
