@@ -222,8 +222,13 @@
 #rog_players_deliveries {
     display: flex;
     flex-flow: column;
-    transform: scale(var(--rog_delivered_scale));
-    transform-origin: top left;
+    //transform: scale(var(--rog_delivered_scale));
+    //transform-origin: top left;
+    .rog_card{
+        position: relative;
+        width: calc(var(--rog_delivered_scale) * 148px);
+        height: calc(var(--rog_delivered_scale) * 200px);
+    }
 }
 .rog_player_hand_resizable,
 .rog_player_delivered_resizable {
@@ -239,6 +244,10 @@
     .rog_player_hand{
         min-width: calc(var(--rog_hand_scale) * 148px);
         min-height: calc(var(--rog_hand_scale) * 200px);
+    }
+    .rog_player_delivered{
+        min-width: calc(var(--rog_delivered_scale) * 148px);
+        min-height: calc(var(--rog_delivered_scale) * 200px);
     }
     .rog_player_hand,
     .rog_player_delivered{
@@ -276,11 +285,11 @@
             }
         }
     }
-    .rog_player_delivered{
-        min-width: 140px;
-        width: 100%;
-        .rog_cards_delivered {
-            height: 223px;
-        }
-    }
+    //.rog_player_delivered{
+    //    min-width: 140px;
+    //    width: 100%;
+    //    .rog_cards_delivered {
+    //        height: 223px;
+    //    }
+    //}
 }

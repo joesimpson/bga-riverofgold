@@ -280,19 +280,20 @@ function (dojo, declare) {
                     },
                   },
                 }, 
-                boardWidth: {
-                  default: 100,
-                  name: _('River board width'),
+                deliveredWidth: {
+                  default: 50,
+                  name: _('Delivered cards size'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,
                     padding: 0,
                     range: {
                       min: [30],
-                      max: [100],
+                      max: [200],
                     },
                   },
                 }, 
+                playerPanelDetails: { type: 'pref', prefId: PREF_PLAYER_PANEL_DETAILS },
                 logTileWidth: {
                   default: 50,
                   name: _('Tile width in logs'),
@@ -306,7 +307,6 @@ function (dojo, declare) {
                     },
                   },
                 }, 
-                playerPanelDetails: { type: 'pref', prefId: PREF_PLAYER_PANEL_DETAILS },
             };
         },
         
@@ -318,6 +318,10 @@ function (dojo, declare) {
         },
         onChangeHandWidthSetting(val) {
             document.documentElement.style.setProperty('--rog_hand_scale', val/100);
+            this.updateLayout();
+        },
+        onChangeDeliveredWidthSetting(val) {
+            document.documentElement.style.setProperty('--rog_delivered_scale', val/100);
             this.updateLayout();
         },
         onChangeEraTileWidthSetting(val) {
@@ -1062,6 +1066,14 @@ function (dojo, declare) {
             //let remainingWidth = WIDTH - $('rog_resizable_river_board').getBoundingClientRect()['width'];
             //widthScale = ((this.settings.handWidth / 100) * remainingWidth) / PLAYER_HAND_WIDTH;
             //ROOT.style.setProperty('--rog_hand_scale', widthScale);
+
+            //Update player deliveries zone (with their 10px margin) with remaining space :
+            let maxDeliveriesWidthOnRiverRight = WIDTH -10*2 - widthScale*BOARD_WIDTH;
+            let maxDeliveriesWidthOnRiverBottom = WIDTH -10*2;
+            let maxDeliveriesWidth = (maxDeliveriesWidthOnRiverRight>400) ? maxDeliveriesWidthOnRiverRight : maxDeliveriesWidthOnRiverBottom;
+            [...document.querySelectorAll(".rog_player_delivered_resizable")].forEach((zone) => {
+                zone.style.setProperty('max-width', `${maxDeliveriesWidth}px`);
+            });
         },
         
         undoToStep(stepId) {

@@ -14,5 +14,14 @@
         display: flex;
         flex-wrap: wrap;
         flex-flow: column;
+        
+        .rog_player_delivered{
+            align-content: center;
+            align-items: center;
+            width: 100%;
+            .rog_cards_delivered{
+                flex-wrap: wrap;
+            }
+        }
     }
 } 

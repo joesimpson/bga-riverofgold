@@ -476,6 +476,14 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   flex-wrap: wrap;
   flex-flow: column;
 }
+#rog_main_zone #rog_players_boards .rog_player_delivered {
+  align-content: center;
+  align-items: center;
+  width: 100%;
+}
+#rog_main_zone #rog_players_boards .rog_player_delivered .rog_cards_delivered {
+  flex-wrap: wrap;
+}
 
 #rog_main_zone #rog_resizable_river_board {
   width: calc(var(--rog_board_display_scale) * 2726px);
@@ -1741,8 +1749,11 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 #rog_players_deliveries {
   display: flex;
   flex-flow: column;
-  transform: scale(var(--rog_delivered_scale));
-  transform-origin: top left;
+}
+#rog_players_deliveries .rog_card {
+  position: relative;
+  width: calc(var(--rog_delivered_scale) * 148px);
+  height: calc(var(--rog_delivered_scale) * 200px);
 }
 
 .rog_player_hand_resizable,
@@ -1759,6 +1770,11 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_player_delivered_resizable .rog_player_hand {
   min-width: calc(var(--rog_hand_scale) * 148px);
   min-height: calc(var(--rog_hand_scale) * 200px);
+}
+.rog_player_hand_resizable .rog_player_delivered,
+.rog_player_delivered_resizable .rog_player_delivered {
+  min-width: calc(var(--rog_delivered_scale) * 148px);
+  min-height: calc(var(--rog_delivered_scale) * 200px);
 }
 .rog_player_hand_resizable .rog_player_hand,
 .rog_player_hand_resizable .rog_player_delivered,
@@ -1861,15 +1877,6 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card.selectable {
   margin-top: 15px;
   margin-bottom: 15px;
-}
-.rog_player_hand_resizable .rog_player_delivered,
-.rog_player_delivered_resizable .rog_player_delivered {
-  min-width: 140px;
-  width: 100%;
-}
-.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered,
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered {
-  height: 223px;
 }
 
 .rog_tile_tooltip[data-subtype="1"] .rog_tile,
