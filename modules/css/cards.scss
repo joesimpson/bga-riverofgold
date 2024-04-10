@@ -282,6 +282,12 @@
                     margin-top: 15px;
                     margin-bottom: 15px;
                 }
+                //ORDER CARDS by type :
+                @for $i from 1 through 30 {
+                    &[data-type="#{$i}"] {
+                        order: $i;
+                    }
+                }
             }
         }
     }
