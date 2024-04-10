@@ -55,13 +55,6 @@ function (dojo, declare) {
     const CUSTOMER_TYPE_MERCHANT = 3;
     const CUSTOMER_TYPE_MONK =     4;
     const CUSTOMER_TYPE_NOBLE =    5;
-    const CUSTOMER_TYPES =  new Map([
-        [CUSTOMER_TYPE_ARTISAN , _('Artisan')],
-        [CUSTOMER_TYPE_ELDER   , _('Elder')],
-        [CUSTOMER_TYPE_MERCHANT, _('Merchant')],
-        [CUSTOMER_TYPE_MONK    , _('Monk')],
-        [CUSTOMER_TYPE_NOBLE   , _('Noble')],
-    ]);
 
     const CARD_TYPE_CUSTOMER = 1;
     const CARD_TYPE_CLAN_PATRON = 2;
@@ -105,26 +98,12 @@ function (dojo, declare) {
     const BUILDING_TYPE_MARKET =   2;
     const BUILDING_TYPE_MANOR =    3;
     const BUILDING_TYPE_SHRINE =   4;
-    const BUILDING_TYPES = [
-        0,
-        _('Port'),//BUILDING_TYPE_PORT
-        _('Market'),//BUILDING_TYPE_MARKET
-        _('Manor'),//BUILDING_TYPE_MANOR
-        _('Shrine'),//BUILDING_TYPE_SHRINE
-    ];
     
     const MEEPLE_TYPE_SHIP = 1;
     const MEEPLE_TYPE_SHIP_ROYAL = 3;
     const MEEPLE_TYPE_CLAN_MARKER = 2;
     const MEEPLE_TYPE_SCORE_MARKER = 9;
 
-    const CLANS_NAMES =  new Map([
-        [1, _('Crab Clan')],
-        [2, _('Mantis Clan')],
-        [3, _('Crane Clan')],
-        [4, _('Scorpion Clan')],
-    ]);
-    
     const PREF_PLAYER_PANEL_DETAILS = 100;
 
     return declare("bgagame.riverofgold", [customgame.game], {
@@ -203,6 +182,28 @@ function (dojo, declare) {
         {
             debug('SETUP', gamedatas);
             
+            //Beware _() function is useless in constructor
+            this.BUILDING_TYPES = [
+                0,
+                _('Port'),//BUILDING_TYPE_PORT
+                _('Market'),//BUILDING_TYPE_MARKET
+                _('Manor'),//BUILDING_TYPE_MANOR
+                _('Shrine'),//BUILDING_TYPE_SHRINE
+            ];
+            this.CLANS_NAMES =  new Map([
+                [1, _('Crab Clan')],
+                [2, _('Mantis Clan')],
+                [3, _('Crane Clan')],
+                [4, _('Scorpion Clan')],
+            ]);
+            this.CUSTOMER_TYPES =  new Map([
+                [CUSTOMER_TYPE_ARTISAN , _('Artisan')],
+                [CUSTOMER_TYPE_ELDER   , _('Elder')],
+                [CUSTOMER_TYPE_MERCHANT, _('Merchant')],
+                [CUSTOMER_TYPE_MONK    , _('Monk')],
+                [CUSTOMER_TYPE_NOBLE   , _('Noble')],
+            ]);
+
             this._counters['deckSize1'] = this.createCounter('rog_deck_size-1',this.gamedatas.deckSize.era1);
             this._counters['deckSize2'] = this.createCounter('rog_deck_size-2',this.gamedatas.deckSize.era2);
             
@@ -781,7 +782,7 @@ function (dojo, declare) {
                 //Re add after destroy
                 this.addClanCard(n.args.card, this.getCardContainer(n.args.card));
                 if($(rog_player_clan_panel).querySelector(`.rog_icon_clan-${n.args.card.clan}`)) return;
-                let clanIconDiv = this.formatIcon('clan-'+n.args.card.clan,CLANS_NAMES.get(n.args.card.clan));
+                let clanIconDiv = this.formatIcon('clan-'+n.args.card.clan,this.CLANS_NAMES.get(n.args.card.clan));
                 dojo.place(clanIconDiv,rog_player_clan_panel,'first');
             });
         },
@@ -1020,7 +1021,7 @@ function (dojo, declare) {
                 Object.values(REGIONS).forEach((region) =>{
                     this._counters[pId].influence[region].toValue (player.influence[region]);
                 });
-                CUSTOMER_TYPES.forEach((value, key, map) =>{
+                this.CUSTOMER_TYPES.forEach((value, key, map) =>{
                     let customer = key;
                     this._counters[pId].customers[customer].toValue(player.customers[customer]);
                 });
@@ -1291,8 +1292,8 @@ function (dojo, declare) {
                     this._counters[pId].influence[region] = this.createCounter(`rog_counter_${pId}_influence-${region}`, player.influence[region]);
                     this.addCustomTooltip(`rog_reserve_${pId}_influence-${region}`, this.fsr(_('Influence in region ${n}'),{n:region}));
                 });
-                CUSTOMER_TYPES.forEach((value, key, map) =>{
-                    //let customerName = CUSTOMER_TYPES.get(customer);
+                this.CUSTOMER_TYPES.forEach((value, key, map) =>{
+                    //let customerName = this.CUSTOMER_TYPES.get(customer);
                     let customer = key;
                     let customerName = value;
                     this._counters[pId].customers[customer] = this.createCounter(`rog_counter_${pId}_customer-${customer}`, player.customers[customer]);
@@ -1307,10 +1308,10 @@ function (dojo, declare) {
                 this.addCustomTooltip(`rog_reserve_${pId}_favor`, _('Divine favor'));
                 this.addCustomTooltip(`rog_reserve_${pId}_dieFace`, _('Die'));
                 
-                this.addCustomTooltip(`rog_reserve_${pId}_port`, BUILDING_TYPES[BUILDING_TYPE_PORT]);
-                this.addCustomTooltip(`rog_reserve_${pId}_manor`, BUILDING_TYPES[BUILDING_TYPE_MANOR]);
-                this.addCustomTooltip(`rog_reserve_${pId}_market`, BUILDING_TYPES[BUILDING_TYPE_MARKET]);
-                this.addCustomTooltip(`rog_reserve_${pId}_shrine`, BUILDING_TYPES[BUILDING_TYPE_SHRINE]);
+                this.addCustomTooltip(`rog_reserve_${pId}_port`, this.BUILDING_TYPES[BUILDING_TYPE_PORT]);
+                this.addCustomTooltip(`rog_reserve_${pId}_manor`, this.BUILDING_TYPES[BUILDING_TYPE_MANOR]);
+                this.addCustomTooltip(`rog_reserve_${pId}_market`, this.BUILDING_TYPES[BUILDING_TYPE_MARKET]);
+                this.addCustomTooltip(`rog_reserve_${pId}_shrine`, this.BUILDING_TYPES[BUILDING_TYPE_SHRINE]);
 
                 nPlayers++;
                 if (isCurrent) currentPlayerNo = player.no;
@@ -1470,7 +1471,7 @@ function (dojo, declare) {
                 <hr>
                 <div class='rog_player_resource_line rog_player_resource_line_clan'>
                     <div id='rog_player_clan_panel-${player.id}'>
-                        ${player.clan ? this.formatIcon('clan-'+player.clan,CLANS_NAMES.get(player.clan)) :''}
+                        ${player.clan ? this.formatIcon('clan-'+player.clan,this.CLANS_NAMES.get(player.clan)) :''}
                     </div>
                     ${this.tplResourceCounter(player, 'dieFace')}
                 </div>
@@ -1792,7 +1793,7 @@ function (dojo, declare) {
             let titleSize = 'h1';
             if(cardDatas.buildingType){
                 //building
-                typeName = BUILDING_TYPES[cardDatas.buildingType];
+                typeName = this.BUILDING_TYPES[cardDatas.buildingType];
             }
             else if(cardDatas.title){
                 typeName = cardDatas.title;
