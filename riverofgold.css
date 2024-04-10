@@ -502,17 +502,31 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   left: 909px;
   top: 250px;
 }
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space .rog_meeple {
+  z-index: 2;
+  position: relative;
+}
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space:not(.selectable) .rog_river_shape {
+  display: none;
+}
 #rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selectable {
   width: 250px;
   height: 220px;
-  outline: 10px solid blue;
+}
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selectable .rog_river_shape {
   cursor: pointer;
+  position: absolute;
+  background-color: rgba(199, 0, 255, 0.368627451);
 }
-#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selectable:hover {
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selectable .rog_river_shape:hover {
   transform: scale(1.2);
+  background-color: rgba(44, 0, 255, 0.4196078431);
 }
-#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selected {
-  outline: 10px solid #ff04cc;
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selected .rog_river_shape {
+  background-color: rgba(8, 255, 0, 0.431372549);
+}
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selected .rog_river_shape:hover {
+  background-color: rgba(8, 255, 0, 0.431372549);
 }
 
 #rog_score_track {
@@ -1164,57 +1178,168 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   top: 0px;
   left: 0px;
 }
+.rog_river_space[data-pos="1"] .rog_river_shape {
+  left: -150px;
+  width: 380px;
+  height: 400px;
+  -webkit-clip-path: polygon(36.03% 16.47%, 101.08% 14.27%, 91.23% 51.92%, 45.78% 78.44%, 9.07% 91.37%, 44.4% 40.63%);
+          clip-path: polygon(36.03% 16.47%, 101.08% 14.27%, 91.23% 51.92%, 45.78% 78.44%, 9.07% 91.37%, 44.4% 40.63%);
+}
 .rog_river_space[data-pos="2"] {
   top: 376px;
   left: -100px;
+}
+.rog_river_space[data-pos="2"] .rog_river_shape {
+  top: -120px;
+  left: -50px;
+  width: 380px;
+  height: 400px;
+  -webkit-clip-path: polygon(1.22% 30.88%, 34.14% 26.99%, 79.63% -4.04%, 54.71% 40.29%, 66.19% 85.43%, 22.98% 62.67%);
+          clip-path: polygon(1.22% 30.88%, 34.14% 26.99%, 79.63% -4.04%, 54.71% 40.29%, 66.19% 85.43%, 22.98% 62.67%);
 }
 .rog_river_space[data-pos="3"] {
   top: 562px;
   left: -100px;
 }
+.rog_river_space[data-pos="3"] .rog_river_shape {
+  width: 300px;
+  height: 420px;
+  top: -160px;
+  left: -70px;
+  -webkit-clip-path: polygon(-4.43% -9.49%, 33.01% 26.99%, 98.85% 50.06%, 98.8% 101.66%, 50.36% 73.32%, -0.76% 32.79%);
+          clip-path: polygon(-4.43% -9.49%, 33.01% 26.99%, 98.85% 50.06%, 98.8% 101.66%, 50.36% 73.32%, -0.76% 32.79%);
+}
 .rog_river_space[data-pos="4"] {
   top: 770px;
   left: -100px;
+}
+.rog_river_space[data-pos="4"] .rog_river_shape {
+  width: 300px;
+  height: 360px;
+  top: -160px;
+  left: -70px;
+  -webkit-clip-path: polygon(2.35% -1.95%, 53.36% 35.47%, 96.59% 69.84%, 84.1% 90.36%, 43.58% 96.87%, 16.2% 75.19%);
+          clip-path: polygon(2.35% -1.95%, 53.36% 35.47%, 96.59% 69.84%, 84.1% 90.36%, 43.58% 96.87%, 16.2% 75.19%);
 }
 .rog_river_space[data-pos="5"] {
   top: 970px;
   left: 0px;
 }
+.rog_river_space[data-pos="5"] .rog_river_shape {
+  width: 327px;
+  height: 323px;
+  top: -115px;
+  left: -85px;
+  -webkit-clip-path: polygon(-2.84% 34.8%, 46.1% 31.27%, 76.88% -0.51%, 93.43% 66.21%, 62.25% 81.12%, 19.31% 88.84%);
+          clip-path: polygon(-2.84% 34.8%, 46.1% 31.27%, 76.88% -0.51%, 93.43% 66.21%, 62.25% 81.12%, 19.31% 88.84%);
+}
 .rog_river_space[data-pos="6"] {
   top: 1170px;
   left: 100px;
+}
+.rog_river_space[data-pos="6"] .rog_river_shape {
+  width: 375px;
+  height: 534px;
+  top: -115px;
+  left: -116px;
+  -webkit-clip-path: polygon(-0.13% 18.29%, 68.71% 5.87%, 77.78% 46.49%, 105.19% 66.21%, 87.57% 91.28%, 41.92% 38.67%);
+          clip-path: polygon(-0.13% 18.29%, 68.71% 5.87%, 77.78% 46.49%, 105.19% 66.21%, 87.57% 91.28%, 41.92% 38.67%);
 }
 .rog_river_space[data-pos="7"] {
   top: 1370px;
   left: 54px;
 }
+.rog_river_space[data-pos="7"] .rog_river_shape {
+  width: 375px;
+  height: 450px;
+  top: -194px;
+  left: -89px;
+  -webkit-clip-path: polygon(-3.75% -1.31%, 41.58% 18.68%, 76.88% 73.62%, 95.24% 89.57%, 24.26% 89.02%, 35.59% 46.21%);
+          clip-path: polygon(-3.75% -1.31%, 41.58% 18.68%, 76.88% 73.62%, 95.24% 89.57%, 24.26% 89.02%, 35.59% 46.21%);
+}
 .rog_river_space[data-pos="8"] {
   top: 1601px;
   left: 54px;
+}
+.rog_river_space[data-pos="8"] .rog_river_shape {
+  width: 357px;
+  height: 340px;
+  top: -59px;
+  left: -34px;
+  -webkit-clip-path: polygon(10.5% 13.65%, 86.23% 15.69%, 86.38% 55.67%, 88.59% 82.59%, 23.31% 76.05%, 10.89% 55.19%);
+          clip-path: polygon(10.5% 13.65%, 86.23% 15.69%, 86.38% 55.67%, 88.59% 82.59%, 23.31% 76.05%, 10.89% 55.19%);
 }
 .rog_river_space[data-pos="9"] {
   top: 1901px;
   left: 85px;
 }
+.rog_river_space[data-pos="9"] .rog_river_shape {
+  top: -100px;
+  left: -20px;
+  width: 380px;
+  height: 400px;
+  -webkit-clip-path: polygon(8.36% 8.84%, 40.39% -4.38%, 64.46% 12.92%, 46.68% 61.48%, 9.07% 87.13%, 3.34% 50.81%);
+          clip-path: polygon(8.36% 8.84%, 40.39% -4.38%, 64.46% 12.92%, 46.68% 61.48%, 9.07% 87.13%, 3.34% 50.81%);
+}
 .rog_river_space[data-pos="10"] {
   top: 2101px;
   left: 199px;
+}
+.rog_river_space[data-pos="10"] .rog_river_shape {
+  top: -221px;
+  left: -100px;
+  width: 357px;
+  height: 564px;
+  -webkit-clip-path: polygon(31.16% 40.11%, 48.26% 17.86%, 64.41% 2.22%, 75.54% 7.04%, 57.81% 42.39%, 91.33% 69.3%, 81.27% 92.54%, 9.04% 50.21%);
+          clip-path: polygon(31.16% 40.11%, 48.26% 17.86%, 64.41% 2.22%, 75.54% 7.04%, 57.81% 42.39%, 91.33% 69.3%, 81.27% 92.54%, 9.04% 50.21%);
 }
 .rog_river_space[data-pos="11"] {
   top: 2301px;
   left: 134px;
 }
+.rog_river_space[data-pos="11"] .rog_river_shape {
+  top: -121px;
+  left: -47px;
+  width: 331px;
+  height: 505px;
+  -webkit-clip-path: polygon(11.69% 1.83%, 48.26% 17.86%, 62.36% 31.1%, 85.79% 56.07%, 62.93% 73.95%, 49.32% 89.45%, 16.72% 54.93%, 23.38% 38.79%);
+          clip-path: polygon(11.69% 1.83%, 48.26% 17.86%, 62.36% 31.1%, 85.79% 56.07%, 62.93% 73.95%, 49.32% 89.45%, 16.72% 54.93%, 23.38% 38.79%);
+}
 .rog_river_space[data-pos="12"] {
   top: 2527px;
   left: 13px;
+}
+.rog_river_space[data-pos="12"] .rog_river_shape {
+  top: -121px;
+  left: -160px;
+  width: 384px;
+  height: 439px;
+  -webkit-clip-path: polygon(65.56% 10.33%, 89.77% 32.54%, 95.03% 55.82%, 62.83% 68.43%, 36.44% 86.31%, 9.94% 95.58%, 10.46% 77.09%, 29.09% 62.65%, 45.46% 34.93%);
+          clip-path: polygon(65.56% 10.33%, 89.77% 32.54%, 95.03% 55.82%, 62.83% 68.43%, 36.44% 86.31%, 9.94% 95.58%, 10.46% 77.09%, 29.09% 62.65%, 45.46% 34.93%);
 }
 .rog_river_space[data-pos="13"] {
   top: 2827px;
   left: -100px;
 }
+.rog_river_space[data-pos="13"] .rog_river_shape {
+  top: -178px;
+  left: -65px;
+  width: 384px;
+  height: 450px;
+  -webkit-clip-path: polygon(5.5% 41.98%, 44.72% 32.54%, 77.37% 10.6%, 100.81% 5.88%, 64.7% 54.65%, 84.13% 88.04%, 67.87% 95.93%, 46.75% 89.03%, 31.33% 74.12%);
+          clip-path: polygon(5.5% 41.98%, 44.72% 32.54%, 77.37% 10.6%, 100.81% 5.88%, 64.7% 54.65%, 84.13% 88.04%, 67.87% 95.93%, 46.75% 89.03%, 31.33% 74.12%);
+}
 .rog_river_space[data-pos="14"] {
   top: 3027px;
   left: -200px;
+}
+.rog_river_space[data-pos="14"] .rog_river_shape {
+  top: -178px;
+  left: -105px;
+  width: 395px;
+  height: 450px;
+  -webkit-clip-path: polygon(2.92% 55.55%, 25.83% 30.28%, 41.31% 6.08%, 70.76% 41.3%, 99.91% 58.41%, 78.12% 72.97%, 67.87% 83.12%, 40.74% 98.83%, 21.03% 80.15%);
+          clip-path: polygon(2.92% 55.55%, 25.83% 30.28%, 41.31% 6.08%, 70.76% 41.3%, 99.91% 58.41%, 78.12% 72.97%, 67.87% 83.12%, 40.74% 98.83%, 21.03% 80.15%);
 }
 
 .rog_card {
@@ -1996,6 +2121,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space {
   position: absolute;
   transform: rotate(0deg);
+  z-index: 1;
 }
 .rog_shore_space .rog_tile {
   width: 333px;

@@ -1905,7 +1905,9 @@ function (dojo, declare) {
         },
         
         tplRiverSpace(position) {
-            return `<div id='rog_river_space-${position}' class='rog_river_space' data-pos='${position}'></div>`;
+            return `<div id='rog_river_space-${position}' class='rog_river_space' data-pos='${position}'>
+                        <div class="rog_river_shape" id="rog_river_shape-${position}"></div>
+                    </div>`;
         },
         addScoreTrackSpaces(){
             for(let k=0; k<100;k++){

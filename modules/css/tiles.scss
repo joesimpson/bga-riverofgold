@@ -257,6 +257,8 @@
 .rog_shore_space{
     position: absolute;
     transform: rotate(0deg); 
+    //In case we add some shape background on the river...
+    z-index: 1;
 
     .rog_tile{
         width: 333px;
