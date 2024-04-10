@@ -197,6 +197,7 @@
             }
         }
         &:hover .rog_meeple{
+            z-index: 2;
             //View behind meeple
             &:nth-child(4){
                 transform:translateY(-50%);

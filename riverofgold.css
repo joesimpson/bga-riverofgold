@@ -1029,6 +1029,9 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 #rog_score_track .rog_score_track_space .rog_meeple:nth-child(3) {
   margin-bottom: -68px;
 }
+#rog_score_track .rog_score_track_space:hover .rog_meeple {
+  z-index: 2;
+}
 #rog_score_track .rog_score_track_space:hover .rog_meeple:nth-child(4) {
   transform: translateY(-50%);
 }
