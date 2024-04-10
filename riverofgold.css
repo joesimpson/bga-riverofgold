@@ -267,6 +267,10 @@
   margin-left: 0.2em;
   margin-right: 0.1em;
 }
+.rog_icon_container.rog_icon_container_influence-1, .rog_icon_container.rog_icon_container_influence-2, .rog_icon_container.rog_icon_container_influence-3, .rog_icon_container.rog_icon_container_influence-4, .rog_icon_container.rog_icon_container_influence-5, .rog_icon_container.rog_icon_container_influence-6 {
+  margin-left: 0.5em;
+  margin-right: 0.4em;
+}
 .rog_icon_container .rog_icon {
   background-size: 100% auto;
   background-repeat: no-repeat;

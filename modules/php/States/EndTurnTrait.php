@@ -96,9 +96,9 @@ trait EndTurnTrait
    */
   public function triggerLastTurn($player)
   { 
+    Notifications::triggerLastTurn($player);
     $player->addPoints(NB_POINTS_FOR_GAME_END);
     Globals::setEndPlayer($player->getId());
     Stats::set( "endPlayer", $player->getId(), 1);
-    Notifications::triggerLastTurn($player);
   }
 }
