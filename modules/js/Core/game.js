@@ -42,21 +42,21 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     },
 
     destroy(elem) {
+      debug(`destroy ${elem.id}`,elem);
       if (this.tooltips[elem.id]) {
+        this.tooltips[elem.id].close();
         this.tooltips[elem.id].destroy();
         delete this.tooltips[elem.id];
       }
-
+      this.empty(elem);
       elem.remove();
     },
     
     empty(container) {
+      debug("empty",container);
       container = $(container);
       container.childNodes.forEach((node) => {
-        if (this.tooltips[node.id]) {
-          this.tooltips[node.id].close();
-          delete this.tooltips[node.id];
-        }
+        this.destroy(node);
       });
       container.innerHTML = '';
     },

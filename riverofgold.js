@@ -1734,7 +1734,6 @@ function (dojo, declare) {
                 if($(`rog_shore_space-${k}`)) continue;
                 this.place(`tplShoreSpace`,k, $(`rog_shore_spaces`));
             }
-            this.empty('rog_mastery_cards');
             /*
             dojo.empty('rog_building_era-1');
             dojo.empty('rog_building_era-2');
@@ -1749,6 +1748,7 @@ function (dojo, declare) {
             document.querySelectorAll('.rog_tile[id^="rog_tile-"]').forEach((oCard) => {
                 this.destroy(oCard);
             });
+            this.empty('rog_mastery_cards');
 
             // This function is refreshUI compatible
             let cardIds = this.gamedatas.tiles.map((card) => {
