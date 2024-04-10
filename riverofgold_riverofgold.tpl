@@ -45,7 +45,9 @@
                     <div id='rog_influence_tracks'></div>
                     <div id='rog_artisan_spaces'></div>
                     <div id='rog_elder_spaces'></div>
-                    <div id='rog_merchant_space'></div>
+                    <div id='rog_complete_journey'>
+                        <div id='rog_merchant_space'></div>
+                    </div>
                     <div id='rog_building_bonus_favor'></div>
                     <div id='rog_building_row'>
                         <div id='rog_building_slot-4' class="rog_building_slot"></div>

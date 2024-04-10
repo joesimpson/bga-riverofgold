@@ -84,7 +84,6 @@
                         outline: 10px solid black;
                     }
                 }
-                
                 #rog_building_bonus_favor{
                     //Used for tooltip only
                     position: absolute;
@@ -97,6 +96,17 @@
                         outline: 10px solid black;
                     }
                 }
+                #rog_complete_journey{
+                    position: absolute;
+                    left: 300px;
+                    top: 3430px;
+                    width: 254px;
+                    height: 300px;
+                    &.tooltipable:hover{
+                        cursor: help;
+                        outline: 10px solid black;
+                    }
+                }
             }
         }
     } 
@@ -104,7 +114,7 @@
 } 
 
 .rog_tooltip{
-    #rog_score_customers_table{
+    table{
         border: 1px solid rgba(0,0,0,.2);
         th {
             border: 1px solid rgba(0,0,0,.2);

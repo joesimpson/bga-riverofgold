@@ -216,6 +216,7 @@ function (dojo, declare) {
             this.addCustomTooltip('rog_era_tile_resizable', this.getEraTileTooltip());
             this.addCustomTooltip('rog_deck_size-1', `<h4>${this.fsr(_('Tiles in Era ${n} stack'), { n: 1 })}</h4>`); 
             this.addCustomTooltip('rog_deck_size-2', `<h4>${this.fsr(_('Tiles in Era ${n} stack'), { n: 2 })}</h4>`); 
+            this.addCustomTooltip('rog_complete_journey', this.getCompleteJourneyTooltip());
             this.addCustomTooltip('rog_building_bonus_favor', this.getBuildingRowBonusTooltip());
 
             debug( "Ending specific game setup" );
@@ -1144,6 +1145,26 @@ function (dojo, declare) {
             return `<div class='rog_tooltip'><h2>${title}</h2>${table}</div>`;
         },
         
+        getCompleteJourneyTooltip() {
+            let title = _("Completing your journey");
+            let textLine1 = _("Discard the tile at the end of the building row");
+            let textLine2 = _("Gain 3 Koku or 1 of any trade good");
+            let textLine3 = _("Gain all your merchants bonuses");
+            let table = `<table id="rog_complete_journey_table">
+                <tbody>
+                    <tr>
+                        <td>${textLine1}</td>
+                    </tr>
+                    <tr>
+                        <td>${textLine2}</td>
+                    </tr>
+                    <tr>
+                        <td>${textLine3}</td>
+                    </tr>
+                </tbody>
+                </table>`;
+            return `<div class='rog_tooltip'><h2>${title}</h2>${table}</div>`;
+        },
         getBuildingRowBonusTooltip() {
             let text = _("If you build the row's end tile, immediately gain 1 divine favor");
             return `<div class='rog_tooltip'>${text}</div>`;

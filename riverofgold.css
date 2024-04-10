@@ -550,11 +550,22 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   cursor: help;
   outline: 10px solid black;
 }
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_complete_journey {
+  position: absolute;
+  left: 300px;
+  top: 3430px;
+  width: 254px;
+  height: 300px;
+}
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_complete_journey.tooltipable:hover {
+  cursor: help;
+  outline: 10px solid black;
+}
 
-.rog_tooltip #rog_score_customers_table {
+.rog_tooltip table {
   border: 1px solid rgba(0, 0, 0, 0.2);
 }
-.rog_tooltip #rog_score_customers_table th {
+.rog_tooltip table th {
   border: 1px solid rgba(0, 0, 0, 0.2);
   height: 20px;
   min-width: 20px;
@@ -562,10 +573,10 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   vertical-align: middle;
   font-size: 20px;
 }
-.rog_tooltip #rog_score_customers_table th div {
+.rog_tooltip table th div {
   display: inline-block;
 }
-.rog_tooltip #rog_score_customers_table td {
+.rog_tooltip table td {
   border: 1px solid rgba(0, 0, 0, 0.2);
   word-wrap: anywhere;
   font-size: 20px;
@@ -3073,8 +3084,8 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 
 #rog_merchant_space {
-  left: 436px;
-  top: 3630px;
+  right: 50px;
+  bottom: 31px;
   position: absolute;
   display: flex;
   flex-direction: column;
