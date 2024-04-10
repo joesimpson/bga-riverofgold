@@ -94,11 +94,17 @@ class Notifications
    */
   public static function deliver($player, $card)
   { 
-    self::notifyAll('deliver', clienttranslate('${player_name} delivers a customer card : ${card_type} ${region}'), [
+    self::notifyAll('deliver', clienttranslate('${player_name} delivers a customer card : ${customer_name}'), [
       'player' => $player,
       'card' => $card->getUiData(),
-      'card_type' => $card->getTitle(),
-      'region' => $card->getRegion(),
+      'customer_name' => [
+        'log'=> '${customer_type} ${region}',
+        'args'=> [
+          'i18n' => ['customer_type'],
+          'customer_type' => $card->getTitle(),
+          'region' => $card->getRegion(),
+        ]
+      ],
     ]);
   }
   
@@ -109,11 +115,17 @@ class Notifications
   public static function discard($player, $card)
   { 
     //Beware this is a private info !
-    self::notify($player,'discard', clienttranslate('You discard ${card_type} ${region}'), [
+    self::notify($player,'discard', clienttranslate('You discard ${customer_name}'), [
       'player' => $player,
       'card' => $card->getUiData(),
-      'card_type' => $card->getTitle(),
-      'region' => $card->getRegion(),
+      'customer_name' => [
+        'log'=> '${customer_type} ${region}',
+        'args'=> [
+          'i18n' => ['customer_type'],
+          'customer_type' => $card->getTitle(),
+          'region' => $card->getRegion(),
+        ]
+      ],
     ]);
     self::notifyAll('discardPublic', clienttranslate('${player_name} discards a customer card'), [
       'player' => $player,
@@ -419,15 +431,20 @@ class Notifications
    * @param int $points
    */
   public static function scoreCustomer($player,$card,$points){
-    $msg = clienttranslate('${player_name} scores ${n} ${points} with ${card_type} ${region}');
+    $msg = clienttranslate('${player_name} scores ${n} ${points} with ${customer_name}');
     self::notifyAll('scoreCustomer',$msg,[ 
-        'i18n' => ['card_type'],
         'player' => $player,
         'n' => $points,
         'points' => 'points',
         'card_id' => $card->getId(),
-        'card_type' => $card->getTitle(),
-        'region' => $card->getRegion(),
+        'customer_name' => [
+          'log'=> '${customer_type} ${region}',
+          'args'=> [
+            'i18n' => ['customer_type'],
+            'customer_type' => $card->getTitle(),
+            'region' => $card->getRegion(),
+          ]
+        ],
       ],
     );
   }

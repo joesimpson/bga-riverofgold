@@ -1661,7 +1661,7 @@ function (dojo, declare) {
             return [`<div class='rog_card_tooltip'><h1>${desc}</h1>${div}</div>`];
         },
         getCardCustomerName(cardDatas) {
-            return [this.fsr(_('${card_type} ${region}'), { card_type: cardDatas.title, region: cardDatas.region })];
+            return [this.fsr(_('${customer_type} ${region}'), { customer_type: _(cardDatas.title), region: cardDatas.region })];
         },
     
         tplCard(card, prefix ='') {
@@ -1813,7 +1813,7 @@ function (dojo, declare) {
                 typeName = this.BUILDING_TYPES[cardDatas.buildingType];
             }
             else if(cardDatas.title){
-                typeName = cardDatas.title;
+                typeName = _(cardDatas.title);
             }
             else if(cardDatas.subtype=TILE_TYPE_SCORING){
                 titleSize = 'h2';
