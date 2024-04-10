@@ -503,8 +503,8 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   top: 250px;
 }
 #rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selectable {
-  width: 150px;
-  height: 120px;
+  width: 250px;
+  height: 220px;
   outline: 10px solid blue;
   cursor: pointer;
 }
