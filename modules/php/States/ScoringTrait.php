@@ -35,7 +35,7 @@ trait ScoringTrait
   public function computeFinalScore($players)
   {
     self::trace("computeFinalScore()");
-    Notifications::message("Computing final scoring...");
+    Notifications::computeFinalScore();
     //Query influence meeples before looping
     $influenceMarkers = [];
     $scoringTiles = Tiles::getInLocationOrdered(TILE_LOCATION_SCORING);

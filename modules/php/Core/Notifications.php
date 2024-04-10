@@ -229,6 +229,21 @@ class Notifications
     ]);
   }
   
+  public static function checkVisitorRewards()
+  {
+    self::notifyAll('checkVRewards', clienttranslate('Checking visitor rewards...'), [
+    ]);
+  }
+  public static function checkOwnerRewards()
+  {
+    self::notifyAll('checkORewards', clienttranslate('Checking owner rewards...'), [
+    ]);
+  }
+  public static function checkRoyalShipAbilities()
+  {
+    self::notifyAll('checkRoyal', clienttranslate('Checking royal ship abilities...'), [
+    ]);
+  }
   /**
    * @param Player $player
    * @param Meeple $ship
@@ -530,6 +545,14 @@ class Notifications
   public static function triggerEnd()
   {
     self::notifyAll('triggerEnd', clienttranslate('End of the game !'), [
+    ]);
+  }
+  
+  /**
+   */
+  public static function computeFinalScore()
+  {
+    self::notifyAll('computeFinalScore', clienttranslate('Computing final scoring...'), [
     ]);
   }
 

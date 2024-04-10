@@ -63,7 +63,7 @@ trait SailTrait
 
     $players = Players::getAll();
 
-    Notifications::message("Checking visitor rewards...");
+    Notifications::checkVisitorRewards();
     $nbEmptySpaces = 0;
     foreach($adjacentSpaces as $adjacentSpace){
       $tile = Tiles::getTileOnShoreSpace($adjacentSpace);
@@ -92,7 +92,7 @@ trait SailTrait
       }
     }
     
-    Notifications::message("Checking owner rewards...");
+    Notifications::checkOwnerRewards();
     $ownBuilding = false;
     $opponentBuilding = false;
     foreach($adjacentSpaces as $adjacentSpace){
@@ -112,7 +112,7 @@ trait SailTrait
     }
 
     if(MEEPLE_TYPE_SHIP_ROYAL == $ship->getType()){
-      Notifications::message("Checking royal ship abilities...");
+      Notifications::checkRoyalShipAbilities();
       //noble 2 Ongoing Ability : +1 coin for empty space
       if(Cards::hasPlayerDeliveredOrder($player->getId(),CARD_NOBLE_2)){
         Players::giveMoney($player,EMPTY_SPACE_REWARD * $nbEmptySpaces);
