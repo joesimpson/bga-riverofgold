@@ -419,12 +419,20 @@ class Players extends \ROG\Helpers\DB_Manager
    * @return bool true when every expected player has played the last turn
    */
   public static function everyOnePlayedLastTurn(){
+    return self::countRemainingPlayers() == 0;
+  }
+  
+  /**
+   * @return int number of players we expect to play a turn
+   */
+  public static function countRemainingPlayers(){
     $players = Players::getAll();
+    $counter = 0;
     foreach($players as $player){
       if($player->getZombie() == 1 || $player->getEliminated() == 1) continue;
-      if(!$player->isLastTurnPlayed()) return false;
+      if(!$player->isLastTurnPlayed()) $counter++;
     }
-    return true;
+    return $counter;
   }
 }
 

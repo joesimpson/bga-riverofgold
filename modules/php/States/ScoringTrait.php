@@ -18,6 +18,7 @@ trait ScoringTrait
   public function stPreEndOfGame()
   {
     self::trace("stPreEndOfGame()");
+    Notifications::emptyNotif();
     $this->gamestate->nextState('next');
   }
 
