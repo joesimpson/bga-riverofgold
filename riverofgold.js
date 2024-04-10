@@ -226,9 +226,11 @@ function (dojo, declare) {
         },
         
         getSettingsConfig() {
+            let gameWidthScale = this.getGameZoneWidth()/1200;
             return {
+                //Default scales repartition for a gameWidth of 1200 : 50,16,75
                 masteryWidth: {
-                  default: 50,
+                  default: Math.min(Math.max(gameWidthScale *50,30),100),
                   name: _('Mastery cards size'),
                   type: 'slider',
                   sliderConfig: {
@@ -241,7 +243,7 @@ function (dojo, declare) {
                   },
                 }, 
                 eraTileWidth: {
-                  default: 30,
+                    default: Math.min(Math.max(gameWidthScale *16,5),50),
                   name: _('Building board size'),
                   type: 'slider',
                   sliderConfig: {
@@ -255,8 +257,8 @@ function (dojo, declare) {
                   },
                 }, 
                 handWidth: {
-                  default: 100,
-                  name: _('Hand width'),
+                    default: Math.min(Math.max(gameWidthScale *75,30),200),
+                  name: _('Hand cards size'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,
@@ -281,7 +283,7 @@ function (dojo, declare) {
                   },
                 }, 
                 deliveredWidth: {
-                  default: 50,
+                  default: 70,
                   name: _('Delivered cards size'),
                   type: 'slider',
                   sliderConfig: {
@@ -1050,12 +1052,15 @@ function (dojo, declare) {
         onScreenWidthChange() {
             if (this.settings) this.updateLayout();
         },
+        getGameZoneWidth() {
+            return $('rog_main_zone').getBoundingClientRect()['width'];
+        },
     
         updateLayout() {
             if (!this.settings) return;
             const ROOT = document.documentElement;
     
-            const WIDTH = $('rog_main_zone').getBoundingClientRect()['width'];
+            const WIDTH = this.getGameZoneWidth();
             const BOARD_WIDTH = 2726;
     
             let widthScale = ((this.settings.boardWidth / 100) * WIDTH) / BOARD_WIDTH,
