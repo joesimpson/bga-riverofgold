@@ -520,6 +520,9 @@ function (dojo, declare) {
                     this.takeAction('actSkipBonuses', {});
                 });
             });
+            if(!args.canSkip){
+                $('btnSkip').classList.add('disabled');
+            }
         },
 
         onEnteringStateBonusResource(args){

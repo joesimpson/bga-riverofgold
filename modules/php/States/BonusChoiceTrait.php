@@ -33,6 +33,7 @@ trait BonusChoiceTrait
     $args = [
       'p' => $possibles,
       'trade' => $trade,
+      'canSkip' => $this->canSkipBonuses($activePlayer),
     ];
     $this->addArgsForUndo($args);
     return $args;
@@ -46,6 +47,9 @@ trait BonusChoiceTrait
     self::trace("actSkipBonuses()");
     $this->addStep();
     $player = Players::getCurrent();
+    if(!$this->canSkipBonuses($player)){ //$currentTurnPlayer == $player->getId()
+      throw new UnexpectedException(405,"You should not skip these bonuses !");
+    }
     $player->setBonuses([]);
     $this->gamestate->nextState('next');
   } 
@@ -128,5 +132,25 @@ trait BonusChoiceTrait
     return true;
   }
 
+  
+  /**
+   * @param Player $player
+   * @return bool true when player can skip,
+   * false otherwise
+   * 
+   */
+  public function canSkipBonuses($player)
+  {  
+    $bonuses = $player->getBonuses();
+    //$currentTurnPlayer = Globals::getTurnPlayer();
+    //$currentTurnPlayer == $player->getId()
+    if(in_array(BONUS_TYPE_REFILL_HAND,$bonuses)){
+      return false;
+    }
+    if(in_array(BONUS_TYPE_UPGRADE_SHIP,$bonuses)){
+      return false;
+    }
+    return true;
+  }
 }
 ;
