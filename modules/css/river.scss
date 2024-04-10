@@ -84,6 +84,19 @@
                         outline: 10px solid black;
                     }
                 }
+                
+                #rog_building_bonus_favor{
+                    //Used for tooltip only
+                    position: absolute;
+                    bottom: 319px;
+                    width: 117px;
+                    height: 104px;
+                    left: 1530px;
+                    &.tooltipable:hover{
+                        cursor: help;
+                        outline: 10px solid black;
+                    }
+                }
             }
         }
     } 

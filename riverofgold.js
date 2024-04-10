@@ -216,6 +216,7 @@ function (dojo, declare) {
             this.addCustomTooltip('rog_era_tile_resizable', this.getEraTileTooltip());
             this.addCustomTooltip('rog_deck_size-1', `<h4>${this.fsr(_('Tiles in Era ${n} stack'), { n: 1 })}</h4>`); 
             this.addCustomTooltip('rog_deck_size-2', `<h4>${this.fsr(_('Tiles in Era ${n} stack'), { n: 2 })}</h4>`); 
+            this.addCustomTooltip('rog_building_bonus_favor', this.getBuildingRowBonusTooltip());
 
             debug( "Ending specific game setup" );
 
@@ -1141,6 +1142,11 @@ function (dojo, declare) {
                 </tbody>
                 </table>`;
             return `<div class='rog_tooltip'><h2>${title}</h2>${table}</div>`;
+        },
+        
+        getBuildingRowBonusTooltip() {
+            let text = _("If you build the row's end tile, immediately gain 1 divine favor");
+            return `<div class='rog_tooltip'>${text}</div>`;
         },
 
         ////////////////////////////////////////////////////////////

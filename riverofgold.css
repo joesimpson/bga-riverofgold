@@ -539,6 +539,17 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   cursor: help;
   outline: 10px solid black;
 }
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_building_bonus_favor {
+  position: absolute;
+  bottom: 319px;
+  width: 117px;
+  height: 104px;
+  left: 1530px;
+}
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_building_bonus_favor.tooltipable:hover {
+  cursor: help;
+  outline: 10px solid black;
+}
 
 .rog_tooltip #rog_score_customers_table {
   border: 1px solid rgba(0, 0, 0, 0.2);
