@@ -156,7 +156,7 @@ class ShoreSpaces
       case 6:
         return [11,12,13,15];
       case 7:
-        return [11,12,15,16];
+        return [12,14,15,16];
       case 8://Middle Starting space
         return [15,16,17,18];
       case 9:
