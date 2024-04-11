@@ -780,7 +780,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
 
       // Handle fast mode
       if (this.isFastMode() && (config.destroy || config.clearPos)) {
-        if (config.destroy) dojo.destroy(mobile);
+        if (config.destroy) this.destroy(mobile);
         else dojo.place(mobile, targetElt);
 
         return new Promise((resolve, reject) => {
@@ -828,7 +828,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
             dojo.removeClass(mobileElt, 'phantom');
             mobile = mobileElt;
           }
-          if (config.destroy) dojo.destroy(mobile);
+          if (config.destroy) this.destroy(mobile);
           else if (config.changeParent) {
             if (config.phantomEnd) dojo.place(mobile, targetId, 'replace');
             else this.changeParent(mobile, newParent);

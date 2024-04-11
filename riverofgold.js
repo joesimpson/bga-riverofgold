@@ -1527,7 +1527,7 @@ function (dojo, declare) {
                     </div>
                     ${this.tplResourceCounter(player, 'dieFace')}
                 </div>
-                <div class='rog_player_resource_line rog_player_resource_line_clan_patron'
+                <div class='rog_player_resource_line_clan_patron'
                      id='rog_player_patron-${player.id}'>
                 </div>
             </div>
@@ -1757,6 +1757,7 @@ function (dojo, declare) {
             let patron_name = card.name;
             return `<div class="rog_clan_card" id="rog_clan_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-side="${card_side}">
                     <div class="rog_clan_card_wrapper">
+                        <span class='rog_clan_name'>${_(this.CLANS_NAMES.get(card.clan))}</span>
                         <span class='rog_patron_name'>${patron_name}</span>
                         <span class='rog_patron_ability'>${_(card.abilityName)}</span>
                     </div>
@@ -1768,8 +1769,6 @@ function (dojo, declare) {
             let divFront = this.tplClanCard(cardDatas,0,'_tmp_front');
             let divBack = this.tplClanCard(cardDatas,1,'_tmp_back');
             return [`<div class='rog_card_tooltip'>
-                        <h1>${cardDatas.name}</h1>
-                        <h1>${cardDatas.abilityName}</h1>
                         <div class='rog_card_front_back'>${divFront}${divBack}</div>
                 </div>`];
         },
