@@ -53,6 +53,7 @@ trait SetupTrait
     foreach($players as $pid => $player){
       $playerPatron = $player->getPatron();
 
+      Notifications::newClanMarkers($player);
       foreach (REGIONS as $region){
         Meeples::addClanMarkerOnInfluence($player, $region);
       }

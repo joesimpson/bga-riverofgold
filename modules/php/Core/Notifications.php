@@ -80,13 +80,13 @@ class Notifications
    */
   public static function giveCardTo($player, $card)
   {
+    self::notifyAll('giveCardToPublic', clienttranslate('${player_name} receives a new customer card'), [
+      'player' => $player,
+    ]);
     //Beware this is a private info !
     self::notify($player,'giveCardTo', '', [
       'player' => $player,
       'card' => $card->getUiData(),
-    ]);
-    self::notifyAll('giveCardToPublic', clienttranslate('${player_name} receives a new customer card'), [
-      'player' => $player,
     ]);
   }
   /**
@@ -115,6 +115,9 @@ class Notifications
    */
   public static function discard($player, $card)
   { 
+    self::notifyAll('discardPublic', clienttranslate('${player_name} discards a customer card'), [
+      'player' => $player,
+    ]);
     //Beware this is a private info !
     self::notify($player,'discard', clienttranslate('You discard ${customer_name}'), [
       'player' => $player,
@@ -127,9 +130,6 @@ class Notifications
           'region' => $card->getRegion(),
         ]
       ],
-    ]);
-    self::notifyAll('discardPublic', clienttranslate('${player_name} discards a customer card'), [
-      'player' => $player,
     ]);
   }
   
@@ -252,6 +252,16 @@ class Notifications
   public static function reachRiverEnd($player,$ship)
   {
     self::notifyAll('reachRiverEnd', clienttranslate('${player_name} ship completed its journey by reaching the end of the river'), [
+      'player' => $player,
+    ]);
+  }
+    /**
+   * @param Player $player
+   */
+  public static function newClanMarkers($player)
+  {
+    $msg = clienttranslate('${player_name} places their clan markers');
+    self::notifyAll('newClanMarkers', $msg, [
       'player' => $player,
     ]);
   }

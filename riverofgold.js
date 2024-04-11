@@ -132,16 +132,19 @@ function (dojo, declare) {
                 ['giveMoney', 1300],
                 ['spendMoney', 1300],
                 ['giveClanCardTo', 1000],
+                ['giveCardToPublic', 10],
                 ['giveCardTo', 1000],
                 ['deliver', 1000],
+                ['discardPublic', 10],
                 ['discard', 1000],
                 ['giveResource', 1000],
                 ['spendResource', 800],
                 ['build', 1300],
                 ['sail', 1300],
-                ['newClanMarker', 700],
-                ['newBoat', 700],
-                ['upgradeShip', 700],
+                ['newClanMarkers', 10],
+                ['newClanMarker', 800],
+                ['newBoat', 800],
+                ['upgradeShip', 800],
                 ['rollDie', 800],
                 ['setDie', 800],
                 ['gainInfluence', 1300],
@@ -836,6 +839,10 @@ function (dojo, declare) {
                 dojo.place(clanIconDiv,rog_player_clan_panel,'first');
             });
         },
+        notif_giveCardToPublic(n) {
+            debug('notif_giveCardToPublic', n);
+            //We want the text on top
+        },
         notif_giveCardTo(n) {
             debug('notif_giveCardTo: receiving a new card', n);
             if (!$(`rog_card-${n.args.card.id}`)) this.addCard(n.args.card, this.getVisibleTitleContainer());
@@ -847,6 +854,10 @@ function (dojo, declare) {
             if (!$(`rog_card-${card.id}`)) this.addCard(card, this.getVisibleTitleContainer());
             this.slide(`rog_card-${card.id}`, this.getCardContainer(card));
             this._counters[card.pId].customers[card.customerType].incValue(+1);
+        },
+        notif_discardPublic(n) {
+            debug('notif_discardPublic', n);
+            //We want the text on top
         },
         notif_discard(n) {
             debug('notif_discard: discarding a private card', n);
@@ -886,6 +897,10 @@ function (dojo, declare) {
             }).then( ()=> {
                 this._counters[n.args.player_id].buildings[buildingType].incValue(1);
             });
+        },
+        notif_newClanMarkers(n) {
+            debug('notif_newClanMarkers', n);
+            //We want the text on top
         },
         notif_newClanMarker(n) {
             debug('notif_newClanMarker', n);
