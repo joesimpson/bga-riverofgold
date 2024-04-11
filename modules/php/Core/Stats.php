@@ -201,6 +201,7 @@ class Stats extends \ROG\Helpers\DB_Manager
   public static function setupNewGame($players)
   {
     Stats::checkExistence();
+    Stats::set("startPlayer", Globals::getFirstPlayer(), 1 );
     foreach ($players as $pId => $player) {
       Stats::inc( "moneyReceived", $pId, $player->getMoney() );
       Stats::inc( "moneyLeft", $pId, $player->getMoney() );
