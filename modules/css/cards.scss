@@ -79,11 +79,11 @@
     } 
     &[data-type="2"],
     &[data-type="6"] {
-        background-position-x: 33%;
+        background-position-x: 33.333%;
     } 
     &[data-type="3"],
     &[data-type="7"] {
-        background-position-x: 66%;
+        background-position-x: 66.666%;
     } 
     &[data-type="4"],
     &[data-type="8"] {
@@ -97,7 +97,7 @@
             background-position-y: 0%;
         }
         &[data-side="1"] {//Front with details
-            background-position-y: 33%;
+            background-position-y: 33.333%;
         }
     } 
     &[data-type="5"],
@@ -105,7 +105,7 @@
     &[data-type="7"],
     &[data-type="8"] {
         &[data-side="0"] {//Back with image
-            background-position-y: 67%;
+            background-position-y: 66.666%;
         }
         &[data-side="1"] {//Front with details
             background-position-y: 100%;
