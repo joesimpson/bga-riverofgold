@@ -11,7 +11,7 @@ class ClanPatronCard extends Card
   
   protected $staticAttributes = [
     ['clan', 'int'],
-    ['ability_name', 'string'],
+    ['abilityName', 'string'],
     ['name', 'string'],
     ['desc', 'string'],
   ];

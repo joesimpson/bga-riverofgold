@@ -65,11 +65,12 @@ class Notifications
    */
   public static function giveClanCardTo($player, $card)
   {
-    self::notifyAll('giveClanCardTo', clienttranslate('${player_name} receives a new clan patron : ${patron_name} ( ${clan_name} )'), [
-      'i18n' => array( 'patron_name','clan_name' ),
+    self::notifyAll('giveClanCardTo', clienttranslate('${player_name} receives a new clan patron : ${patron_name} alias ${patron_ability} ( ${clan_name} )'), [
+      'i18n' => [ 'patron_name','patron_ability','clan_name' ],
       'player' => $player,
       'card' => $card->getUiData(),
       'patron_name' => $card->getName(),
+      'patron_ability' => $card->getAbilityName(),
       'clan_name' => $card->getClanName(),
     ]);
   }

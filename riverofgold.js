@@ -1726,7 +1726,7 @@ function (dojo, declare) {
             return `<div class="rog_clan_card" id="rog_clan_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-side="${card_side}">
                     <div class="rog_clan_card_wrapper">
                         <span class='rog_patron_name'>${patron_name}</span>
-                        <span class='rog_patron_ability'>${card.ability_name}</span>
+                        <span class='rog_patron_ability'>${_(card.abilityName)}</span>
                     </div>
                 </div>`;
         },
@@ -1737,7 +1737,7 @@ function (dojo, declare) {
             let divBack = this.tplClanCard(cardDatas,1,'_tmp_back');
             return [`<div class='rog_card_tooltip'>
                         <h1>${cardDatas.name}</h1>
-                        <h1>${cardDatas.ability_name}</h1>
+                        <h1>${cardDatas.abilityName}</h1>
                         <div class='rog_card_front_back'>${divFront}${divBack}</div>
                 </div>`];
         },

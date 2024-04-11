@@ -304,7 +304,7 @@ class Cards extends \ROG\Helpers\Pieces
       return [
         'clan' => $t[0],
         'name' => $t[1],
-        'ability_name' => $t[2],
+        'abilityName' => $t[2],
         'desc' => $t[3],
       ];
     };
