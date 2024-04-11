@@ -75,6 +75,15 @@ function (dojo, declare) {
     const CARD_LOCATION_HAND = 'h';
     const CARD_CLAN_LOCATION_ASSIGNED = 'clans_assigned';
 
+    const PATRON_MASTER_ENGINEER = 1;
+    const PATRON_TRADER          = 2;
+    const PATRON_SON_OF_STORM    = 3;
+    const PATRON_PRIESTESS       = 4;
+    const PATRON_IRON_CRANE      = 5;
+    const PATRON_DARLING         = 6;
+    const PATRON_GOVERNOR        = 7;
+    const PATRON_LADY            = 8;
+
     const RESOURCE_TYPE_SILK = 1;
     const RESOURCE_TYPE_POTTERY = 2;
     const RESOURCE_TYPE_RICE = 3;
@@ -1754,12 +1763,24 @@ function (dojo, declare) {
             return o;
         },
         tplClanCard(card, card_side = 0, prefix ='') {
+            let descriptionMap = new Map([
+                [PATRON_MASTER_ENGINEER, this.fsr(_('Start with +${n} ${icon_money}. You may build in any region ignoring your die.'),{n:10,icon_money:this.formatIcon(RESOURCES[RESOURCE_TYPE_MONEY])})],
+                [PATRON_TRADER         , this.fsr(_('When you build, score ${n} ${icon_points} for each river space touching the building.'),{n:1,icon_points:this.formatIcon('score')})],
+                [PATRON_SON_OF_STORM   , this.fsr(_('Start the game with ${n} ${icon_card} instead of 2. You may ignore a customer\'s required die face when delivering.'),{n:3,icon_card:this.formatIcon('customer_card')})],
+                [PATRON_PRIESTESS      , this.fsr(_('When you deliver, score ${n} ${icon_points} if this is the first customer in the region you are delivering to.'),{n:3,icon_points:this.formatIcon('score')})],
+                [PATRON_IRON_CRANE     , this.fsr(_('When you sail, gain ${n} ${icon_points} if you visit 1 or more ${icon_opponent}'),{n:2,icon_points:this.formatIcon('score'),icon_opponent:this.formatIcon('opponent_building')})],
+                [PATRON_DARLING        , this.fsr(_('You may spend ${n} ${icon_favor} before you roll your die to set it to any number'),{n:1,icon_favor:this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN])})],
+                [PATRON_GOVERNOR       , this.fsr(_('When another player passes your clan marker on an influence track score ${n} ${icon_points}. (You must have 1 or more influence on the track to use this power.)'),{n:3,icon_points:this.formatIcon('score')})],
+                [PATRON_LADY           , this.fsr(_('When advancing on an influence track, you jump over other players\' markers. Collect all resources that you pass or reach.'),{ })],
+            ]);
+            let description = descriptionMap.get(card.type);
             let patron_name = card.name;
             return `<div class="rog_clan_card" id="rog_clan_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-side="${card_side}">
                     <div class="rog_clan_card_wrapper">
                         <span class='rog_clan_name'>${_(this.CLANS_NAMES.get(card.clan))}</span>
                         <span class='rog_patron_name'>${patron_name}</span>
                         <span class='rog_patron_ability'>${_(card.abilityName)}</span>
+                        <span class='rog_patron_desc'>${description}</span>
                     </div>
                 </div>`;
         },

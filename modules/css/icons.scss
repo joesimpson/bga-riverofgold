@@ -1,3 +1,10 @@
+.rog_icon_customer_card{
+    background-image: url("img/icons/customer_card.png");
+    background-size: 100% auto;
+    background-repeat: no-repeat;
+    width: calc( 0.07 * 329px);
+    height: calc( 0.07 * 381px);
+}
 
 .rog_icon_bonus-21{//BONUS_TYPE_CHOICE
     background-image: url("img/icons/wild.png");
@@ -21,6 +28,7 @@
     width: calc( 0.5 * 129px);
     height: calc( 0.5 * 68px);
 }
+.rog_icon_own_building,
 .rog_icon_bonus-25{//BONUS_TYPE_SECOND_MARKER_ON_BUILDING
     background-image: url("img/icons/playerbt.png");
     background-size: 100% auto;
@@ -28,6 +36,7 @@
     width: calc( 0.9 * 57px);
     height: calc( 0.9 * 34px);
 }
+.rog_icon_opponent_building,
 .rog_icon_bonus-26{//BONUS_TYPE_SECOND_MARKER_ON_OPPONENT
     background-image: url("img/icons/oppbt.png");
     background-size: 100% auto;

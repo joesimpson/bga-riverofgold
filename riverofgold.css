@@ -249,6 +249,7 @@
   height: 35px;
 }
 .rog_panel .rog_player_infos .rog_clan_card .rog_clan_name,
+.rog_panel .rog_player_infos .rog_clan_card .rog_patron_desc,
 .rog_panel .rog_player_infos .rog_clan_card .rog_patron_name {
   display: none;
 }
@@ -1642,6 +1643,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   background-position-y: 100%;
 }
 .rog_clan_card[data-side="0"] .rog_patron_name,
+.rog_clan_card[data-side="0"] .rog_patron_desc,
 .rog_clan_card[data-side="0"] .rog_patron_ability {
   visibility: hidden;
 }
@@ -1693,6 +1695,28 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   text-align: center;
   font-style: italic;
 }
+.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc {
+  position: absolute;
+  top: 60%;
+  left: 5%;
+  width: 90%;
+  height: 39%;
+  color: black;
+  font-size: 11px;
+  text-align: center;
+}
+.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon {
+  width: 20px;
+  height: 20px;
+}
+.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon.rog_icon_favor {
+  width: 20px;
+  height: 20px;
+}
+.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon.rog_icon_customer_card {
+  width: 23.03px;
+  height: 26.67px;
+}
 
 .rog_card_tooltip .rog_clan_card_wrapper .rog_clan_name {
   font-size: 20px;
@@ -1702,6 +1726,9 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 .rog_card_tooltip .rog_clan_card_wrapper .rog_patron_ability {
   top: 14%;
+  font-size: 13px;
+}
+.rog_card_tooltip .rog_clan_card_wrapper .rog_patron_desc {
   font-size: 13px;
 }
 
@@ -3490,6 +3517,14 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   transform: translateY(-100%);
 }
 
+.rog_icon_customer_card {
+  background-image: url("img/icons/customer_card.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 23.03px;
+  height: 26.67px;
+}
+
 .rog_icon_bonus-21 {
   background-image: url("img/icons/wild.png");
   background-size: 100% auto;
@@ -3514,6 +3549,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   height: 34px;
 }
 
+.rog_icon_own_building,
 .rog_icon_bonus-25 {
   background-image: url("img/icons/playerbt.png");
   background-size: 100% auto;
@@ -3522,6 +3558,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   height: 30.6px;
 }
 
+.rog_icon_opponent_building,
 .rog_icon_bonus-26 {
   background-image: url("img/icons/oppbt.png");
   background-size: 100% auto;

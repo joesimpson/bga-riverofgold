@@ -114,6 +114,7 @@
 
     &[data-side="0"] {//Back with image
         .rog_patron_name,
+        .rog_patron_desc,
         .rog_patron_ability{
             visibility: hidden;
         }
@@ -172,6 +173,28 @@
             text-align: center;
             font-style: italic;
         }
+        .rog_patron_desc{
+            position: absolute;
+            top: 60%;
+            left: 5%;
+            width: 90%;
+            height: 39%;
+            color: black;
+            font-size: 11px;
+            text-align: center;
+            .rog_icon{
+                width: 20px;
+                height: 20px;
+                &.rog_icon_favor{
+                    width: 20px;
+                    height: 20px;
+                }
+                &.rog_icon_customer_card{
+                    width: calc( 0.07 * 329px);
+                    height: calc( 0.07 * 381px);
+                }
+            }
+        }
     }
 }
 .rog_card_tooltip{
@@ -184,6 +207,9 @@
         }
         .rog_patron_ability{
             top: 14%;
+            font-size: 13px;
+        }
+        .rog_patron_desc{
             font-size: 13px;
         }
     }
