@@ -82,10 +82,18 @@ trait BuildTrait
    */
   public function listPossibleSpacesToBuild($player)
   { 
+    $playerPatron = $player->getPatron();
     $region = $player->getDie();
-    //TODO JSA canBuild for master engineer
     $possibleSpaces = new Collection();
     $emptySpaces = ShoreSpaces::getEmptySpaces($region);
+    
+    // master engineer can build in every regions !
+    if(isset($playerPatron) && PATRON_MASTER_ENGINEER == $playerPatron->getType()){
+      foreach (REGIONS as $otherRegion){
+        if($otherRegion == $region) continue;
+        $emptySpaces = array_merge($emptySpaces,ShoreSpaces::getEmptySpaces($otherRegion));
+      }
+    }
     foreach($emptySpaces as $key => $spaceId){
       $space = ShoreSpaces::getShoreSpace($spaceId);
       if($this->canBuildOnSpace($player,$space)){
