@@ -285,7 +285,7 @@
 .rog_shore_space.selectable:hover,
 .rog_shore_space.selectable.selected,
 .rog_tile_tooltip[data-subtype='2'] .rog_tile,//TILE_TYPE_BUILDING
-.rog_button_building_tile,
+.rog_button_building_tile_image,
 .rog_building_slot .rog_tile{
         width: 333px;
         height: 170px;
@@ -335,7 +335,7 @@
     outline: 10px solid green;
     background-color: rgba(0, 128, 0, 0.26);
 }
-.rog_button_building_tile{
+.rog_button_building_tile_image{
     width: 200px;
     height: 100px;
 }

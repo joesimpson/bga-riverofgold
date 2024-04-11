@@ -309,6 +309,19 @@ function (dojo, declare) {
                     },
                   },
                 }, 
+                buttonsTileWidth: {
+                    default: 90,
+                    name: _('Tile width in buttons'),
+                    type: 'slider',
+                    sliderConfig: {
+                      step: 2,
+                      padding: 0,
+                      range: {
+                        min: [50],
+                        max: [120],
+                      },
+                    },
+                  }, 
             };
         },
         
@@ -331,6 +344,9 @@ function (dojo, declare) {
         },
         onChangeLogTileWidthSetting(val) {
             document.documentElement.style.setProperty('--rog_tileLogScale', val/100);
+        },
+        onChangeButtonsTileWidthSetting(val) {
+            document.documentElement.style.setProperty('--rog_tileButtonsScale', val/100);
         },
         onChangeDeliveredWidthSetting(val) {
             document.documentElement.style.setProperty('--rog_delivered_scale', val/100);
@@ -474,7 +490,7 @@ function (dojo, declare) {
                     }
                 };
                 this.onClick(`${tile.parentNode.id}`, callbackTileSelection);
-                this.addImageActionButton(buttonId, `<div class='rog_button_building_tile' data-type='${tile.dataset.type}' data-id='${tileId}'></div>`, callbackTileSelection);
+                this.addImageActionButton(buttonId, `<div class='rog_button_building_tile_image' data-type='${tile.dataset.type}' data-id='${tileId}'></div>`, callbackTileSelection);
                 $(buttonId).classList.add('rog_button_building_tile');
             });
         },

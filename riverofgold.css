@@ -20,6 +20,7 @@
   --rog_mastery_scale: 0.3;
   --rog_era_tile_holder_scale: 0.3;
   --rog_tileLogScale: 0.3;
+  --rog_tileButtonsScale: 0.9;
   --rog_takeCardScale: 0.2;
 }
 
@@ -2516,7 +2517,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover,
 .rog_shore_space.selectable.selected,
 .rog_tile_tooltip[data-subtype="2"] .rog_tile,
-.rog_button_building_tile,
+.rog_button_building_tile_image,
 .rog_building_slot .rog_tile {
   width: 333px;
   height: 170px;
@@ -2527,7 +2528,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="1"],
 .rog_shore_space.selectable.selected[data-type="1"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="1"],
-.rog_button_building_tile[data-type="1"],
+.rog_button_building_tile_image[data-type="1"],
 .rog_building_slot .rog_tile[data-type="1"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
@@ -2538,7 +2539,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="2"],
 .rog_shore_space.selectable.selected[data-type="2"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="2"],
-.rog_button_building_tile[data-type="2"],
+.rog_button_building_tile_image[data-type="2"],
 .rog_building_slot .rog_tile[data-type="2"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
@@ -2549,7 +2550,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="3"],
 .rog_shore_space.selectable.selected[data-type="3"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="3"],
-.rog_button_building_tile[data-type="3"],
+.rog_button_building_tile_image[data-type="3"],
 .rog_building_slot .rog_tile[data-type="3"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
@@ -2560,7 +2561,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="4"],
 .rog_shore_space.selectable.selected[data-type="4"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="4"],
-.rog_button_building_tile[data-type="4"],
+.rog_button_building_tile_image[data-type="4"],
 .rog_building_slot .rog_tile[data-type="4"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
@@ -2571,7 +2572,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="5"],
 .rog_shore_space.selectable.selected[data-type="5"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="5"],
-.rog_button_building_tile[data-type="5"],
+.rog_button_building_tile_image[data-type="5"],
 .rog_building_slot .rog_tile[data-type="5"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
@@ -2582,7 +2583,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="6"],
 .rog_shore_space.selectable.selected[data-type="6"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="6"],
-.rog_button_building_tile[data-type="6"],
+.rog_button_building_tile_image[data-type="6"],
 .rog_building_slot .rog_tile[data-type="6"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
@@ -2593,7 +2594,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="7"],
 .rog_shore_space.selectable.selected[data-type="7"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="7"],
-.rog_button_building_tile[data-type="7"],
+.rog_button_building_tile_image[data-type="7"],
 .rog_building_slot .rog_tile[data-type="7"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
@@ -2604,7 +2605,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="8"],
 .rog_shore_space.selectable.selected[data-type="8"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="8"],
-.rog_button_building_tile[data-type="8"],
+.rog_button_building_tile_image[data-type="8"],
 .rog_building_slot .rog_tile[data-type="8"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
@@ -2615,7 +2616,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="9"],
 .rog_shore_space.selectable.selected[data-type="9"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="9"],
-.rog_button_building_tile[data-type="9"],
+.rog_button_building_tile_image[data-type="9"],
 .rog_building_slot .rog_tile[data-type="9"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
@@ -2626,7 +2627,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="10"],
 .rog_shore_space.selectable.selected[data-type="10"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="10"],
-.rog_button_building_tile[data-type="10"],
+.rog_button_building_tile_image[data-type="10"],
 .rog_building_slot .rog_tile[data-type="10"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
@@ -2637,7 +2638,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="11"],
 .rog_shore_space.selectable.selected[data-type="11"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="11"],
-.rog_button_building_tile[data-type="11"],
+.rog_button_building_tile_image[data-type="11"],
 .rog_building_slot .rog_tile[data-type="11"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
@@ -2648,7 +2649,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="12"],
 .rog_shore_space.selectable.selected[data-type="12"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="12"],
-.rog_button_building_tile[data-type="12"],
+.rog_button_building_tile_image[data-type="12"],
 .rog_building_slot .rog_tile[data-type="12"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
@@ -2659,7 +2660,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="13"],
 .rog_shore_space.selectable.selected[data-type="13"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="13"],
-.rog_button_building_tile[data-type="13"],
+.rog_button_building_tile_image[data-type="13"],
 .rog_building_slot .rog_tile[data-type="13"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
@@ -2670,7 +2671,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="14"],
 .rog_shore_space.selectable.selected[data-type="14"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="14"],
-.rog_button_building_tile[data-type="14"],
+.rog_button_building_tile_image[data-type="14"],
 .rog_building_slot .rog_tile[data-type="14"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
@@ -2681,7 +2682,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="15"],
 .rog_shore_space.selectable.selected[data-type="15"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="15"],
-.rog_button_building_tile[data-type="15"],
+.rog_button_building_tile_image[data-type="15"],
 .rog_building_slot .rog_tile[data-type="15"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
@@ -2692,7 +2693,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="16"],
 .rog_shore_space.selectable.selected[data-type="16"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="16"],
-.rog_button_building_tile[data-type="16"],
+.rog_button_building_tile_image[data-type="16"],
 .rog_building_slot .rog_tile[data-type="16"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
@@ -2703,7 +2704,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="17"],
 .rog_shore_space.selectable.selected[data-type="17"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="17"],
-.rog_button_building_tile[data-type="17"],
+.rog_button_building_tile_image[data-type="17"],
 .rog_building_slot .rog_tile[data-type="17"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
@@ -2714,7 +2715,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="18"],
 .rog_shore_space.selectable.selected[data-type="18"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="18"],
-.rog_button_building_tile[data-type="18"],
+.rog_button_building_tile_image[data-type="18"],
 .rog_building_slot .rog_tile[data-type="18"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
@@ -2725,7 +2726,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="19"],
 .rog_shore_space.selectable.selected[data-type="19"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="19"],
-.rog_button_building_tile[data-type="19"],
+.rog_button_building_tile_image[data-type="19"],
 .rog_building_slot .rog_tile[data-type="19"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
@@ -2736,7 +2737,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="20"],
 .rog_shore_space.selectable.selected[data-type="20"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="20"],
-.rog_button_building_tile[data-type="20"],
+.rog_button_building_tile_image[data-type="20"],
 .rog_building_slot .rog_tile[data-type="20"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
@@ -2747,7 +2748,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="21"],
 .rog_shore_space.selectable.selected[data-type="21"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="21"],
-.rog_button_building_tile[data-type="21"],
+.rog_button_building_tile_image[data-type="21"],
 .rog_building_slot .rog_tile[data-type="21"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
@@ -2758,7 +2759,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="22"],
 .rog_shore_space.selectable.selected[data-type="22"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="22"],
-.rog_button_building_tile[data-type="22"],
+.rog_button_building_tile_image[data-type="22"],
 .rog_building_slot .rog_tile[data-type="22"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
@@ -2769,7 +2770,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="23"],
 .rog_shore_space.selectable.selected[data-type="23"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="23"],
-.rog_button_building_tile[data-type="23"],
+.rog_button_building_tile_image[data-type="23"],
 .rog_building_slot .rog_tile[data-type="23"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
@@ -2780,7 +2781,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="24"],
 .rog_shore_space.selectable.selected[data-type="24"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="24"],
-.rog_button_building_tile[data-type="24"],
+.rog_button_building_tile_image[data-type="24"],
 .rog_building_slot .rog_tile[data-type="24"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
@@ -2791,7 +2792,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="25"],
 .rog_shore_space.selectable.selected[data-type="25"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="25"],
-.rog_button_building_tile[data-type="25"],
+.rog_button_building_tile_image[data-type="25"],
 .rog_building_slot .rog_tile[data-type="25"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
@@ -2802,7 +2803,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="26"],
 .rog_shore_space.selectable.selected[data-type="26"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="26"],
-.rog_button_building_tile[data-type="26"],
+.rog_button_building_tile_image[data-type="26"],
 .rog_building_slot .rog_tile[data-type="26"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
@@ -2813,7 +2814,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="27"],
 .rog_shore_space.selectable.selected[data-type="27"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="27"],
-.rog_button_building_tile[data-type="27"],
+.rog_button_building_tile_image[data-type="27"],
 .rog_building_slot .rog_tile[data-type="27"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
@@ -2824,7 +2825,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="28"],
 .rog_shore_space.selectable.selected[data-type="28"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="28"],
-.rog_button_building_tile[data-type="28"],
+.rog_button_building_tile_image[data-type="28"],
 .rog_building_slot .rog_tile[data-type="28"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
@@ -2835,7 +2836,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="29"],
 .rog_shore_space.selectable.selected[data-type="29"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="29"],
-.rog_button_building_tile[data-type="29"],
+.rog_button_building_tile_image[data-type="29"],
 .rog_building_slot .rog_tile[data-type="29"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
@@ -2846,7 +2847,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="30"],
 .rog_shore_space.selectable.selected[data-type="30"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="30"],
-.rog_button_building_tile[data-type="30"],
+.rog_button_building_tile_image[data-type="30"],
 .rog_building_slot .rog_tile[data-type="30"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
@@ -2857,7 +2858,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="31"],
 .rog_shore_space.selectable.selected[data-type="31"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="31"],
-.rog_button_building_tile[data-type="31"],
+.rog_button_building_tile_image[data-type="31"],
 .rog_building_slot .rog_tile[data-type="31"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
@@ -2868,7 +2869,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="32"],
 .rog_shore_space.selectable.selected[data-type="32"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="32"],
-.rog_button_building_tile[data-type="32"],
+.rog_button_building_tile_image[data-type="32"],
 .rog_building_slot .rog_tile[data-type="32"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
@@ -2879,7 +2880,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="33"],
 .rog_shore_space.selectable.selected[data-type="33"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="33"],
-.rog_button_building_tile[data-type="33"],
+.rog_button_building_tile_image[data-type="33"],
 .rog_building_slot .rog_tile[data-type="33"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
@@ -2890,7 +2891,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="34"],
 .rog_shore_space.selectable.selected[data-type="34"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="34"],
-.rog_button_building_tile[data-type="34"],
+.rog_button_building_tile_image[data-type="34"],
 .rog_building_slot .rog_tile[data-type="34"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
@@ -2901,7 +2902,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="35"],
 .rog_shore_space.selectable.selected[data-type="35"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="35"],
-.rog_button_building_tile[data-type="35"],
+.rog_button_building_tile_image[data-type="35"],
 .rog_building_slot .rog_tile[data-type="35"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
@@ -2912,7 +2913,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="36"],
 .rog_shore_space.selectable.selected[data-type="36"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="36"],
-.rog_button_building_tile[data-type="36"],
+.rog_button_building_tile_image[data-type="36"],
 .rog_building_slot .rog_tile[data-type="36"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
@@ -2923,7 +2924,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="37"],
 .rog_shore_space.selectable.selected[data-type="37"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="37"],
-.rog_button_building_tile[data-type="37"],
+.rog_button_building_tile_image[data-type="37"],
 .rog_building_slot .rog_tile[data-type="37"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
@@ -2934,7 +2935,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="38"],
 .rog_shore_space.selectable.selected[data-type="38"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="38"],
-.rog_button_building_tile[data-type="38"],
+.rog_button_building_tile_image[data-type="38"],
 .rog_building_slot .rog_tile[data-type="38"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
@@ -2945,7 +2946,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="39"],
 .rog_shore_space.selectable.selected[data-type="39"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="39"],
-.rog_button_building_tile[data-type="39"],
+.rog_button_building_tile_image[data-type="39"],
 .rog_building_slot .rog_tile[data-type="39"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
@@ -2956,7 +2957,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="40"],
 .rog_shore_space.selectable.selected[data-type="40"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="40"],
-.rog_button_building_tile[data-type="40"],
+.rog_button_building_tile_image[data-type="40"],
 .rog_building_slot .rog_tile[data-type="40"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
@@ -2967,7 +2968,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="41"],
 .rog_shore_space.selectable.selected[data-type="41"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="41"],
-.rog_button_building_tile[data-type="41"],
+.rog_button_building_tile_image[data-type="41"],
 .rog_building_slot .rog_tile[data-type="41"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
@@ -2978,7 +2979,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="42"],
 .rog_shore_space.selectable.selected[data-type="42"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="42"],
-.rog_button_building_tile[data-type="42"],
+.rog_button_building_tile_image[data-type="42"],
 .rog_building_slot .rog_tile[data-type="42"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
@@ -2989,7 +2990,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="43"],
 .rog_shore_space.selectable.selected[data-type="43"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="43"],
-.rog_button_building_tile[data-type="43"],
+.rog_button_building_tile_image[data-type="43"],
 .rog_building_slot .rog_tile[data-type="43"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
@@ -3000,7 +3001,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="44"],
 .rog_shore_space.selectable.selected[data-type="44"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="44"],
-.rog_button_building_tile[data-type="44"],
+.rog_button_building_tile_image[data-type="44"],
 .rog_building_slot .rog_tile[data-type="44"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
@@ -3011,7 +3012,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="45"],
 .rog_shore_space.selectable.selected[data-type="45"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="45"],
-.rog_button_building_tile[data-type="45"],
+.rog_button_building_tile_image[data-type="45"],
 .rog_building_slot .rog_tile[data-type="45"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
@@ -3022,7 +3023,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_shore_space.selectable:hover[data-type="46"],
 .rog_shore_space.selectable.selected[data-type="46"],
 .rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="46"],
-.rog_button_building_tile[data-type="46"],
+.rog_button_building_tile_image[data-type="46"],
 .rog_building_slot .rog_tile[data-type="46"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
@@ -3071,7 +3072,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   background-color: rgba(0, 128, 0, 0.26);
 }
 
-.rog_button_building_tile {
+.rog_button_building_tile_image {
   width: 200px;
   height: 100px;
 }
@@ -4073,6 +4074,17 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   flex-flow: row;
   width: -moz-fit-content;
   width: fit-content;
+}
+.customimagebutton .rog_button_building_tile_image {
+  width: calc(var(--rog_tileButtonsScale) * 200px);
+  height: calc(var(--rog_tileButtonsScale) * 100px);
+  line-height: calc(var(--rog_tileButtonsScale) * 200px);
+  max-height: calc(var(--rog_tileButtonsScale) * 100px);
+  display: inline-block;
+  text-align: center;
+  vertical-align: middle;
+  border: none;
+  box-shadow: none;
 }
 .customimagebutton .rog_trade {
   display: flex;

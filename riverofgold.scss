@@ -57,6 +57,18 @@
     display: flex;
     flex-flow: row;
     width: fit-content; 
+
+    .rog_button_building_tile_image{
+        width: calc(var(--rog_tileButtonsScale) * 200px);
+        height: calc(var(--rog_tileButtonsScale) * 100px);
+        line-height: calc(var(--rog_tileButtonsScale) * 200px);
+        max-height: calc(var(--rog_tileButtonsScale) * 100px);
+        display: inline-block;
+        text-align: center;
+        vertical-align: middle;
+        border: none;
+        box-shadow: none;
+    }
     
     .rog_trade{
         display: flex;
