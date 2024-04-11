@@ -34,7 +34,7 @@ class Log extends \APP_DbObject
      * Add an entry
      */
     static $moveId = null;
-    public function addEntry($entry)
+    public static function addEntry($entry)
     {
         if (isset($entry['affected'])) {
             $entry['affected'] = \json_encode($entry['affected']);
@@ -68,7 +68,7 @@ class Log extends \APP_DbObject
     }
 
     // Find the last checkpoint
-    public function getLastCheckpoint($includeEngineStarts = false)
+    public static function getLastCheckpoint($includeEngineStarts = false)
     {
         $query = new QueryBuilder('log', null, 'id');
         $query = $query->select(['id']);
@@ -130,7 +130,7 @@ class Log extends \APP_DbObject
     /**
      * Revert all the logged changes up to an id
      */
-    public function revertTo($id)
+    public static function revertTo($id)
     {
         $query = new QueryBuilder('log', null, 'id');
         $log = $query
@@ -225,7 +225,7 @@ class Log extends \APP_DbObject
     /**
      * getCancelMoveIds : get all cancelled notifs IDs from BGA gamelog, used for styling the notifications on page reload
      */
-    protected function extractNotifIds($notifications)
+    protected static function extractNotifIds($notifications)
     {
         $notificationUIds = [];
         foreach ($notifications as $packet) {
@@ -240,7 +240,7 @@ class Log extends \APP_DbObject
     /**
      * clearUndoableStepNotifications : extract and remove all notifications of type 'newUndoableStep' in the gamelog
      */
-    public function clearUndoableStepNotifications($clearAll = false)
+    public static function clearUndoableStepNotifications($clearAll = false)
     {
         // Get move ids corresponding to last step
         if ($clearAll) {
