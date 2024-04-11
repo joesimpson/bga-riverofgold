@@ -41,7 +41,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       this._displayRestartButtons = true;
     },
 
-    destroy(elem) {
+    destroy(elem, delayRemove = false) {
       debug(`destroy ${elem.id}`,elem);
       if (this.tooltips[elem.id]) {
         this.tooltips[elem.id].close();
@@ -49,14 +49,18 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         delete this.tooltips[elem.id];
       }
       this.empty(elem);
-      elem.remove();
+      if(!delayRemove) elem.remove();
     },
     
     empty(container) {
       debug("empty",container);
       container = $(container);
       container.childNodes.forEach((node) => {
-        this.destroy(node);
+        //!! destroy node makes gap in LOOP because of removing them
+        this.destroy(node,true);
+      });
+      container.childNodes.forEach((node) => {
+        node.remove();
       });
       container.innerHTML = '';
     },
