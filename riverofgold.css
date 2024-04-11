@@ -17,6 +17,7 @@
   --rog_board_display_scale: 1;
   --rog_hand_scale: 1;
   --rog_delivered_scale: 1;
+  --rog_deckSizeScale: 1;
   --rog_mastery_scale: 0.3;
   --rog_era_tile_holder_scale: 0.3;
   --rog_tileLogScale: 0.3;
@@ -2450,11 +2451,11 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   background: rgba(0, 0, 0, 0.7);
   border-radius: 0 0 50px 50px;
   color: #fff;
-  font-size: 57px;
+  font-size: calc(20px * 1/var(--rog_era_tile_holder_scale) * var(--rog_deckSizeScale));
   position: absolute;
   text-align: center;
   width: 367px;
-  bottom: 28px;
+  bottom: 57px;
   cursor: help;
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_deck_size#rog_deck_size-1 {

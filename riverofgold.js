@@ -321,7 +321,20 @@ function (dojo, declare) {
                         max: [120],
                       },
                     },
-                  }, 
+                }, 
+                deckSizeWidth: {
+                    default: 100,
+                    name: _('Era stack size'),
+                    type: 'slider',
+                    sliderConfig: {
+                      step: 2,
+                      padding: 0,
+                      range: {
+                        min: [50],
+                        max: [100],
+                      },
+                    },
+                }, 
             };
         },
         
@@ -347,6 +360,9 @@ function (dojo, declare) {
         },
         onChangeButtonsTileWidthSetting(val) {
             document.documentElement.style.setProperty('--rog_tileButtonsScale', val/100);
+        },
+        onChangeDeckSizeWidthSetting(val) {
+            document.documentElement.style.setProperty('--rog_deckSizeScale', val/100);
         },
         onChangeDeliveredWidthSetting(val) {
             document.documentElement.style.setProperty('--rog_delivered_scale', val/100);
