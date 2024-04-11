@@ -474,6 +474,23 @@ class Notifications
       ],
     );
   }
+  
+  /**
+   * @param Player $player
+   * @param int $points
+   * @param ClanPatronCard $card
+   */
+  public static function scorePatron($player,$points,$card){
+    $msg = clienttranslate('${player_name} scores ${n} ${points} with ${patron_name}');
+    self::notifyAll('scorePatron',$msg,[ 
+        'player' => $player,
+        'n' => $points,
+        'points' => 'points',
+        'patron_name' => $card->getName(),
+        'card_id' => $card->getId(),
+      ],
+    );
+  }
   /**
    * @param BuildingTile $buildingTile
    * @param BuildingTile $nextEra1Card

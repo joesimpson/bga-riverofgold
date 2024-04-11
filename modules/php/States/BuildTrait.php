@@ -67,7 +67,8 @@ trait BuildTrait
 
     Meeples::addClanMarkerOnShoreSpace($tile,$player);
     
-    //TODO JSA scoreWhenBuild (depends on clan patron)
+    $playerPatron = $player->getPatron();
+    if(isset($playerPatron)) $playerPatron->scoreWhenBuild($player,$shoreSpace);
 
     Players::gainInfluence($player,$shoreSpace->region,$tile->getBonus());
     Players::claimMasteries($player);
