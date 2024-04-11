@@ -12,9 +12,9 @@
       "name": "Score",
       "type": "int"
     },
-    "startPlayer": {
-      "id": 14,
-      "name": "Player started the game",
+    "turnOrder": {
+      "id": 15,
+      "name": "Turn order",
       "type": "int"
     },
     "endPlayer": {
