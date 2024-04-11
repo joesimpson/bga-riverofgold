@@ -54,10 +54,22 @@ class Players extends \ROG\Helpers\DB_Manager
     }
     $query->values($values);
 
-    //Don't use player pref for color when color has POWER !
-    if($gameInfos['favorite_colors_support'] && Globals::isExpansionClansDisabled()) Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
+    $playersObjects = self::getAll();
+    //Don't use player pref for color when color has POWER !, or disable it at all times to keep a correct 'player_clan' value
+    /*if($gameInfos['favorite_colors_support'] && Globals::isExpansionClansDisabled()){
+      Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
+
+      foreach ($playersObjects as $pId => $player) {
+        $color = $player->getColor();
+        if(in_array($color,CLANS_COLORS)){
+          $player->setClan(CLANS_COLORS[$color] );
+          Notifications::newPlayerColor($player);
+        }
+      }
+    }*/
     Game::get()->reloadPlayersBasicInfos();
-    return self::getAll();
+    
+    return $playersObjects;
   }
 
   /**
