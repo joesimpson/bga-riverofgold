@@ -146,6 +146,18 @@ class Player extends \ROG\Helpers\DB_Model
   }
   
   /**
+   * Increment resource number of this type
+   * @param int $nb
+   * @param int $type
+   * @param int $shoreSpace
+   */
+  public function giveResourceFromShoreSpace($nb, $type, $shoreSpace)
+  {
+    $this->giveResource($nb, $type,false);
+    Notifications::giveResource($this,$nb,$type,null, $shoreSpace);
+  }
+  
+  /**
    * @param int $type
    * @return int resource number of this type
    */

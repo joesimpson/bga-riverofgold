@@ -69,7 +69,7 @@ trait SailTrait
       $tile = Tiles::getTileOnShoreSpace($adjacentSpace);
       if(!isset($tile)){
         $nbEmptySpaces++;
-        Players::giveMoney($player,EMPTY_SPACE_REWARD);
+        Players::giveMoney($player,EMPTY_SPACE_REWARD,$adjacentSpace);
       }
       else {
         $region = $tile->getRegion();

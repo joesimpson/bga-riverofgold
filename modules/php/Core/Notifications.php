@@ -138,8 +138,9 @@ class Notifications
    * @param int $n
    * @param int $resourceType
    * @param BuildingTile $fromTile (Optional)
+   * @param int $fromShoreSpace (Optional)
    */
-  public static function giveResource($player,$n, $resourceType, $fromTile = null)
+  public static function giveResource($player,$n, $resourceType, $fromTile = null, $fromShoreSpace = null)
   {
     $notif = 'giveResource';
     $msg = clienttranslate('${player_name} receives ${n} ${res_icon}');
@@ -149,6 +150,7 @@ class Notifications
       $n = -$n;
     }
     $tile_id = isset($fromTile) ? $fromTile->getId() : null;
+    $shore_space_pos = isset($fromShoreSpace) ? $fromShoreSpace : null;
     self::notifyAll($notif, $msg, [
       'player' => $player,
       'n' => $n,
@@ -156,6 +158,7 @@ class Notifications
       'res_icon' => RESOURCES[$resourceType],
       'res_type' => $resourceType,
       'tile_id' => $tile_id,
+      'shore_space_pos' => $shore_space_pos,
     ]);
   }
   

@@ -244,11 +244,12 @@ class Players extends \ROG\Helpers\DB_Manager
   /**
    * @param Player $player 
    * @param int $money 
+   * @param int $fromShoreSpace (Optional)
    */
-  public static function giveMoney($player,$money){
+  public static function giveMoney($player,$money, $fromShoreSpace = null){
     $pId = $player->getId();
     //self::DB()->inc(['money' => $money], $pId);
-    $player->giveResource($money,RESOURCE_TYPE_MONEY);
+    $player->giveResourceFromShoreSpace($money,RESOURCE_TYPE_MONEY,$fromShoreSpace);
     //Notifications::giveMoney($player,$money);
   }
   

@@ -885,6 +885,12 @@ function (dojo, declare) {
                     targetSource = $(fromDiv);
                 }
             }
+            if(n.args.shore_space_pos) {
+                let fromDiv = `rog_shore_space-${n.args.shore_space_pos}`;
+                if ($(fromDiv)){
+                    targetSource = $(fromDiv);
+                }
+            }
             this.gainPayResource(n.args.player_id, RESOURCES[n.args.res_type], n.args.n,targetSource);
         },
         notif_spendResource(n) {
