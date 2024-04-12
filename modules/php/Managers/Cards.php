@@ -210,11 +210,14 @@ class Cards extends \ROG\Helpers\Pieces
    */
   public static function initClanPatronsDraft()
   {
+    $cards = [];
     foreach (CLANS_COLORS as $color => $clan_id) {
       $deck = CARD_CLAN_LOCATION_DECK.$clan_id;
       self::shuffle($deck);
-      self::pickOneForLocation($deck, CARD_CLAN_LOCATION_DRAFT);
+      $cards[] = self::pickOneForLocation($deck, CARD_CLAN_LOCATION_DRAFT);
     }
+    //Notify in case of waiting screen
+    //Notifications::draftCards(new Collection($cards));
   }
   
   /**
@@ -229,6 +232,8 @@ class Cards extends \ROG\Helpers\Pieces
       $card->setLocation(CARD_CLAN_LOCATION_DRAFT);
       $card->setPId($player->getId());
     }
+    //Notify in case of waiting screen
+    //Notifications::draftPlayerCards($player,$cards);
   }
 
   /** Creation of the cards */

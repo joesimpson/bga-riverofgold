@@ -27,7 +27,13 @@ trait ClanSelectionTrait
       foreach($players as $player){
         Cards::initClanPatronsAlternative($player);
       }
+
       //Alternative setup : clan is random at start, but player can choose the patron card
+      $this->gamestate->setAllPlayersMultiactive();
+      $players = Players::getAll();
+      foreach($players as $player_id => $player){ 
+        $player->giveExtraTime();
+      }
       $this->gamestate->nextState('draftMulti');
       return;
     }

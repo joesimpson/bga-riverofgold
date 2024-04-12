@@ -132,6 +132,8 @@ function (dojo, declare) {
                 ['newPlayerColor', 10],
                 ['giveMoney', 1300],
                 ['spendMoney', 1300],
+                //['draftCards', 10],
+                //['draftPlayerCards', 10],
                 ['giveClanCardTo', 1000],
                 ['giveCardToPublic', 10],
                 ['giveCardTo', 1000],
@@ -847,6 +849,22 @@ function (dojo, declare) {
                 dojo.place(clanIconDiv,rog_player_clan_panel,'first');
             });
         },
+        ////When draft active + waiting screen, we need to update cards
+        //notif_draftCards(n) {
+        //    debug('notif_draftCards', n);
+        //    Object.values(n.args.cards).forEach((card) => {
+        //        this.gamedatas.cards.push(card);
+        //        this.addClanCard(card, $('rog_select_piece_container'));
+        //    });
+        //},
+        ////When draft multiactive + waiting screen, we need to update cards
+        //notif_draftPlayerCards(n) {
+        //    debug('notif_draftPlayerCards', n);
+        //    Object.values(n.args.cards).forEach((card) => {
+        //        this.gamedatas.cards.push(card);
+        //        this.addClanCard(card, $('rog_select_piece_container'));
+        //    });
+        //},
         notif_giveCardToPublic(n) {
             debug('notif_giveCardToPublic', n);
             //We want the text on top

@@ -2,6 +2,7 @@
 
 namespace ROG\Core;
 
+use ROG\Helpers\Collection;
 use ROG\Managers\Cards;
 use ROG\Managers\Tiles;
 use ROG\Models\BuildingTile;
@@ -57,6 +58,28 @@ class Notifications
   {
     self::notifyAll('refillHand', clienttranslate('${player_name} decides to refill their hand now'), [
       'player' => $player,
+    ]);
+  }
+  
+  /**
+   * @param Collection $cards
+   */
+  public static function draftCards($cards)
+  {
+    self::notifyAll('draftCards', '', [
+      'cards' => $cards->ui(),
+    ]);
+  }
+  
+  /**
+   * @param Player $player
+   * @param Collection $cards
+   */
+  public static function draftPlayerCards($player,$cards)
+  {
+    self::notify($player,'draftPlayerCards', '', [
+      'player' => $player,
+      'cards' => $cards->ui(),
     ]);
   }
   /**

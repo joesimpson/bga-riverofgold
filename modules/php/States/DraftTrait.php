@@ -122,11 +122,12 @@ trait DraftTrait
   function stDraftMulti()
   { 
       self::trace("stDraftMulti()");
-      
+      /*  Moved before state start in order to have right activity status on UI when entering state
       $this->gamestate->setAllPlayersMultiactive();
       $players = Players::getAll();
       foreach($players as $player_id => $player){ 
         $player->giveExtraTime();
       }
+      */
   }
 }
