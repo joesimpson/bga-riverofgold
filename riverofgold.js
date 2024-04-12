@@ -114,6 +114,9 @@ function (dojo, declare) {
     const MEEPLE_TYPE_CLAN_MARKER = 2;
     const MEEPLE_TYPE_SCORE_MARKER = 9;
 
+    const CLAN_CARD_BACK = 0;//Back with image
+    const CLAN_CARD_FRONT = 1;
+
     const PREF_PLAYER_PANEL_DETAILS = 100;
 
     return declare("bgagame.riverofgold", [customgame.game], {
@@ -1206,16 +1209,26 @@ function (dojo, declare) {
 
         initCardSelection(cards) {
             let selectedCard = null;
+            let confirmMessage = _('Confirm ${patron_name}');
+            this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {patron_name:''}), () => {
+                this.takeAction('actTakeCard', { c: selectedCard });
+            }); 
+            //DISABLED by default
+            $(`btnConfirm`).classList.add('disabled');
+
             Object.values(cards).forEach((card) => {
                 this.addClanCard(card, $('rog_select_piece_container'));
                 if (this.isCurrentPlayerActive()) {
                     this.onClick(`rog_clan_card-${card.id}`, () => {
-                        if (selectedCard) $(`rog_clan_card-${selectedCard}`).classList.remove('selected');
+                        if (selectedCard){
+                            $(`rog_clan_card-${selectedCard}`).classList.remove('selected');
+                            $(`rog_clan_card-${selectedCard}`).dataset.side = CLAN_CARD_BACK;
+                        }
                         selectedCard = card.id;
                         $(`rog_clan_card-${selectedCard}`).classList.add('selected');
-                        this.addPrimaryActionButton('btnConfirm', _('Confirm'), () =>
-                            this.takeAction('actTakeCard', { c: selectedCard })
-                        );
+                        $(`rog_clan_card-${selectedCard}`).dataset.side = CLAN_CARD_FRONT;
+                        $('btnConfirm').innerHTML = this.fsr(confirmMessage, { patron_name: (card.name) });
+                        $(`btnConfirm`).classList.remove('disabled');
                     });
                 }
             });
