@@ -258,7 +258,7 @@ function (dojo, declare) {
                   },
                 }, 
                 eraTileWidth: {
-                    default: Math.min(Math.max(gameWidthScale *16,5),50),
+                    default: Math.min(Math.max(gameWidthScale *16,10),50),
                   name: _('Building board size'),
                   type: 'slider',
                   sliderConfig: {
@@ -266,7 +266,7 @@ function (dojo, declare) {
                     padding: 0,
                     range: {
                         //relative to big image dimensions
-                      min: [5],
+                      min: [10],
                       max: [50],
                     },
                   },

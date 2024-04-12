@@ -89,6 +89,11 @@
         display: flex;
         width: calc(var(--rog_mastery_scale) * 356px);
         height: calc(var(--rog_mastery_scale) * 257px);
+        .help-marker{
+            //Keep around the same size for the help marker in help mode
+            transform: scale(calc(1 / var(--rog_mastery_scale)));
+            transform-origin: top left;
+        }
 
     .rog_tile_holder{
         display: flex;
@@ -179,6 +184,12 @@
         position: relative;
         transform: scale(var(--rog_era_tile_holder_scale));
         transform-origin: top left;
+        .help-marker{
+            //Keep around the same size for the help marker in help mode
+            transform: scale(calc(1 / var(--rog_era_tile_holder_scale)));
+            transform-origin: top left;
+            color: black;
+        }
 
         .rog_building_slot{
             top: 250px;
@@ -193,6 +204,10 @@
             .rog_tile{
                 width: 890px;
                 height: 445px;
+                .help-marker{
+                    top: 13%;
+                    left: 70%;
+                }
             }
         }
         

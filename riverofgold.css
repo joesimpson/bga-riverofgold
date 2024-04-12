@@ -529,6 +529,10 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   height: 4000px;
   background-image: url("img/board.jpg");
 }
+#rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board .help-marker {
+  transform: scale(calc(1 / var(--rog_board_display_scale)));
+  transform-origin: top left;
+}
 #rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces {
   position: absolute;
   left: 909px;
@@ -2403,6 +2407,10 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   width: calc(var(--rog_mastery_scale) * 356px);
   height: calc(var(--rog_mastery_scale) * 257px);
 }
+#rog_mastery_cards .rog_mastery_cards_resizeable .help-marker {
+  transform: scale(calc(1 / var(--rog_mastery_scale)));
+  transform-origin: top left;
+}
 #rog_mastery_cards .rog_mastery_cards_resizeable .rog_tile_holder {
   display: flex;
   transform: scale(var(--rog_mastery_scale));
@@ -2527,6 +2535,11 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   transform: scale(var(--rog_era_tile_holder_scale));
   transform-origin: top left;
 }
+#rog_era_tile_resizable #rog_era_tile_holder .help-marker {
+  transform: scale(calc(1 / var(--rog_era_tile_holder_scale)));
+  transform-origin: top left;
+  color: black;
+}
 #rog_era_tile_resizable #rog_era_tile_holder .rog_building_slot {
   top: 250px;
   -webkit-clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
@@ -2541,6 +2554,10 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 #rog_era_tile_resizable #rog_era_tile_holder .rog_building_slot .rog_tile {
   width: 890px;
   height: 445px;
+}
+#rog_era_tile_resizable #rog_era_tile_holder .rog_building_slot .rog_tile .help-marker {
+  top: 13%;
+  left: 70%;
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_deck_size {
   background: rgba(0, 0, 0, 0.7);
