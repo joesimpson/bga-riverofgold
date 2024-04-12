@@ -132,6 +132,18 @@ class Player extends \ROG\Helpers\DB_Model
     }
     if($sendNotif) Notifications::giveResource($this,$nb,$type);
   }
+
+  /**
+   * Increment resource number of this type
+   * @param int $nb
+   * @param int $type
+   * @param BuildingTile $tile
+   */
+  public function giveResourceFromTile($nb, $type, $tile)
+  {
+    $this->giveResource($nb, $type,false);
+    Notifications::giveResource($this,$nb,$type,$tile);
+  }
   
   /**
    * @param int $type

@@ -137,8 +137,9 @@ class Notifications
    * @param Player $player
    * @param int $n
    * @param int $resourceType
+   * @param BuildingTile $fromTile (Optional)
    */
-  public static function giveResource($player,$n, $resourceType)
+  public static function giveResource($player,$n, $resourceType, $fromTile = null)
   {
     $notif = 'giveResource';
     $msg = clienttranslate('${player_name} receives ${n} ${res_icon}');
@@ -147,12 +148,14 @@ class Notifications
       $notif = 'spendResource';
       $n = -$n;
     }
+    $tile_id = isset($fromTile) ? $fromTile->getId() : null;
     self::notifyAll($notif, $msg, [
       'player' => $player,
       'n' => $n,
-      'preserve'=>['res_type'],
+      'preserve'=>['res_type','tile_id'],
       'res_icon' => RESOURCES[$resourceType],
       'res_type' => $resourceType,
+      'tile_id' => $tile_id,
     ]);
   }
   

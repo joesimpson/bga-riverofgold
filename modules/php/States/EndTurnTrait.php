@@ -80,7 +80,7 @@ trait EndTurnTrait
       foreach($tile->ownerReward->entries as $reward){
         foreach($clanMarkers as $clanMarker){
           $owner = $players[$clanMarker->getPId()];
-          $reward->rewardPlayer($owner,$region);
+          $reward->rewardPlayer($owner,$region,$tile);
         }
       }
     }

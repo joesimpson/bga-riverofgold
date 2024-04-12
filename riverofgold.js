@@ -878,7 +878,14 @@ function (dojo, declare) {
         },
         notif_giveResource(n) {
             debug('notif_giveResource: receiving new resources', n);
-            this.gainPayResource(n.args.player_id, RESOURCES[n.args.res_type], n.args.n);
+            let targetSource = null;
+            if(n.args.tile_id) {
+                let fromDiv = `rog_tile-${n.args.tile_id}`;
+                if ($(fromDiv)){
+                    targetSource = $(fromDiv);
+                }
+            }
+            this.gainPayResource(n.args.player_id, RESOURCES[n.args.res_type], n.args.n,targetSource);
         },
         notif_spendResource(n) {
             debug('notif_spendResource: receiving new resources', n);

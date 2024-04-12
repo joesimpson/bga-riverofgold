@@ -46,8 +46,9 @@ class RewardEntry implements \JsonSerializable
    * reward a player in a given region
    * @param Player $player
    * @param int $region
+   * @param BuildingTile $tile
    */
-  public function rewardPlayer($player, $region){
+  public function rewardPlayer($player, $region,$tile){
 
     switch($this->type){
       case BONUS_TYPE_POINTS:
@@ -61,29 +62,29 @@ class RewardEntry implements \JsonSerializable
       case RESOURCE_TYPE_RICE:
       case RESOURCE_TYPE_SUN:
       case RESOURCE_TYPE_MONEY:
-        $player->giveResource($this->number,$this->type);
+        $player->giveResourceFromTile($this->number,$this->type,$tile);
         return;
       case BONUS_TYPE_CHOICE:
         Globals::addBonus($player,BONUS_TYPE_CHOICE);
         return;
       case BONUS_TYPE_MONEY_PER_CUSTOMER:
-        $player->giveResource($this->number * $player->getNbDeliveredCustomers(),RESOURCE_TYPE_MONEY);
+        $player->giveResourceFromTile($this->number * $player->getNbDeliveredCustomers(),RESOURCE_TYPE_MONEY,$tile);
         return;
       case BONUS_TYPE_MONEY_PER_PORT:
         $nbBuildings = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_PORT);
-        $player->giveResource($this->number * $nbBuildings,RESOURCE_TYPE_MONEY);
+        $player->giveResourceFromTile($this->number * $nbBuildings,RESOURCE_TYPE_MONEY,$tile);
         return;
       case BONUS_TYPE_MONEY_PER_MANOR:
         $nbBuildings = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_MANOR);
-        $player->giveResource($this->number * $nbBuildings,RESOURCE_TYPE_MONEY);
+        $player->giveResourceFromTile($this->number * $nbBuildings,RESOURCE_TYPE_MONEY,$tile);
         return;
       case BONUS_TYPE_MONEY_PER_MARKET:
         $nbBuildings = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_MARKET);
-        $player->giveResource($this->number * $nbBuildings,RESOURCE_TYPE_MONEY);
+        $player->giveResourceFromTile($this->number * $nbBuildings,RESOURCE_TYPE_MONEY,$tile);
         return;
       case BONUS_TYPE_MONEY_PER_SHRINE:
         $nbBuildings = Meeples::countPlayerBuildings($player->getId(),BUILDING_TYPE_SHRINE);
-        $player->giveResource($this->number * $nbBuildings,RESOURCE_TYPE_MONEY);
+        $player->giveResourceFromTile($this->number * $nbBuildings,RESOURCE_TYPE_MONEY,$tile);
         return;
       case BONUS_TYPE_DRAW:
         Globals::addBonus($player,BONUS_TYPE_DRAW);

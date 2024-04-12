@@ -86,7 +86,7 @@ trait SailTrait
             Globals::addBonus($player,BONUS_TYPE_CHOICE);
           }
           else {
-            $reward->rewardPlayer($player,$region);
+            $reward->rewardPlayer($player,$region,$tile);
           }
         }
       }
@@ -103,7 +103,7 @@ trait SailTrait
         foreach($tile->ownerReward->entries as $reward){
           foreach($clanMarkers as $clanMarker){
             $owner = $players[$clanMarker->getPId()];
-            $reward->rewardPlayer($owner,$region);
+            $reward->rewardPlayer($owner,$region,$tile);
             $ownBuilding = $ownBuilding || $clanMarker->getPId() == $player->getId();
             $opponentBuilding = $opponentBuilding || $clanMarker->getPId() != $player->getId();
           }
