@@ -44,6 +44,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     destroy(elem, delayRemove = false) {
       debug(`destroy ${elem.id}`,elem);
       if (this.tooltips[elem.id]) {
+        clearTimeout(this.tooltips[elem.id].showTimeout);
         this.tooltips[elem.id].close();
         this.tooltips[elem.id].destroy();
         delete this.tooltips[elem.id];
