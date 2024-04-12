@@ -1375,9 +1375,17 @@ function (dojo, declare) {
                 this._counters[pId].buildings[BUILDING_TYPE_MANOR] = this.createCounter(`rog_counter_${pId}_manor`, player.buildings[BUILDING_TYPE_MANOR]);
                 this._counters[pId].buildings[BUILDING_TYPE_SHRINE] = this.createCounter(`rog_counter_${pId}_shrine`, player.buildings[BUILDING_TYPE_SHRINE]);
                 
+                let regions_desc = new Map([
+                    [REGION_1, _('Spine of the world')],
+                    [REGION_2, _('Shinomen forest')],
+                    [REGION_3, _('Three Man Alliance Plain')],
+                    [REGION_4, _('Kitsune Woods')],
+                    [REGION_5, _('Uebe Marshes')],
+                    [REGION_6, _('Earthquake Fish Bay')],
+                ]); 
                 Object.values(REGIONS).forEach((region) =>{
                     this._counters[pId].influence[region] = this.createCounter(`rog_counter_${pId}_influence-${region}`, player.influence[region]);
-                    this.addCustomTooltip(`rog_reserve_${pId}_influence-${region}`, this.fsr(_('Influence in region ${n}'),{n:region}));
+                    this.addCustomTooltip(`rog_reserve_${pId}_influence-${region}`, this.fsr(_('Influence in region ${n} : ${region_desc}'),{n:region,region_desc:regions_desc.get(region)}));
                 });
                 this.CUSTOMER_TYPES.forEach((value, key, map) =>{
                     //let customerName = this.CUSTOMER_TYPES.get(customer);
