@@ -205,7 +205,6 @@ class Notifications
    */
   public static function build($player,$tile,$previousPosition)
   {
-    //TODO JSA notify region for master engineer?
     self::notifyAll('build', clienttranslate('${player_name} builds ${building_tile}'), [
       'player' => $player,
       'preserve'=>['tile'],

@@ -70,12 +70,12 @@
       $this->game->actStop();
       self::ajaxResponse();
     }
-    public function actDarlingFavor()
+    public function actBonusSetDie()
     {
       self::setAjaxMode();
       self::checkVersion();
       $dieFace = self::getArg( "d", AT_posint, true );
-      $this->game->actDarlingFavor($dieFace);
+      $this->game->actBonusSetDie($dieFace);
       self::ajaxResponse();
     }
     public function actSpendFavor()

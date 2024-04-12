@@ -68,7 +68,10 @@ trait BuildTrait
     Meeples::addClanMarkerOnShoreSpace($tile,$player);
     
     $playerPatron = $player->getPatron();
-    if(isset($playerPatron)) $playerPatron->scoreWhenBuild($player,$shoreSpace);
+    if(isset($playerPatron)){
+      $playerPatron->scoreWhenBuild($player,$shoreSpace);
+      $playerPatron->addBonuses($player);
+    }
 
     Players::gainInfluence($player,$shoreSpace->region,$tile->getBonus());
     Players::claimMasteries($player);

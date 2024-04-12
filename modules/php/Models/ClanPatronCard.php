@@ -2,6 +2,7 @@
 
 namespace ROG\Models;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Managers\ShoreSpaces;
 
@@ -93,6 +94,17 @@ class ClanPatronCard extends Card
           $player->addPoints(NB_POINTS_IRON_CRANE,false);
           Notifications::scorePatron($player,NB_POINTS_IRON_CRANE,$this);
         }
+        break;
+    }
+  }
+  
+  /**
+   * @param Player $player
+   */
+  public function addBonuses($player){
+    switch($this->getType()){
+      case PATRON_DARLING://Darling needs a step to decide whether or not to roll the die !
+        Globals::addBonus($player,BONUS_TYPE_SET_DIE,'',false);
         break;
     }
   }

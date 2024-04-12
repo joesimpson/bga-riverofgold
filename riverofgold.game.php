@@ -49,6 +49,7 @@ class RiverOfGold extends Table
     use ROG\States\BonusResourceTrait;
     use ROG\States\BonusSecondMarkerTrait;
     use ROG\States\BonusSellGoodsTrait;
+    use ROG\States\BonusSetDieTrait;
     use ROG\States\BonusUpgradeShipTrait;
     use ROG\States\BuildTrait;
     use ROG\States\ClanSelectionTrait;

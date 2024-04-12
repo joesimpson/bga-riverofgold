@@ -2,6 +2,7 @@
 
 namespace ROG\States;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Players;
@@ -14,14 +15,16 @@ trait BeforeTurnTrait
     self::trace("stBeforeTurn()");
     
     $player = Players::getActive();
+    $nbPlayers = Players::count();
+    $turn = Globals::getTurn();
     $playerPatron = $player->getPatron();
-    if(isset($playerPatron) && PATRON_DARLING == $playerPatron->getType()){
+    if($turn <= $nbPlayers && isset($playerPatron) && PATRON_DARLING == $playerPatron->getType()){
       //IN THIS CASE ONLY We stay in current state to make a choice
-      //TODO JSA turn 1 only because after the choice to roll the die is already done
+      //turn 1 (of this player) only because after the choice to roll the die is already done
       return;
     }
 
-    $this->addCheckpoint(ST_PLAYER_TURN);
+    //$this->addCheckpoint(ST_PLAYER_TURN);
     $this->gamestate->nextState('next');
   }
   
@@ -50,29 +53,6 @@ trait BeforeTurnTrait
     $this->addCheckpoint(ST_PLAYER_TURN);
     $this->gamestate->nextState('next');
   }
-  
-  /**
-   * @param int $dieFace
-   */
-  public function actDarlingFavor($dieFace)
-  { 
-    self::checkAction('actDarlingFavor'); 
-    self::trace("actDarlingFavor($dieFace)");
-
-    $player = Players::getCurrent();
-    $this->addStep();
-    
-    $cost = $this->canSetDie($player,$dieFace);
-    if(!isset($cost)){
-      throw new UnexpectedException(405,"You cannot set the die to $dieFace");
-    } 
-
-    $player->giveResource(-$cost,RESOURCE_TYPE_SUN);
-    $player->setDie($dieFace);
-    Notifications::setDieFace($player,$dieFace);
-
-    $this->gamestate->nextState('next');
-  } 
   
   /**
    * @param Player $player

@@ -101,6 +101,9 @@ trait BonusChoiceTrait
         //ACTION IS NOT UNDOABLE
         $this->addCheckpoint(ST_DISCARD_CARD);
         break;
+      case BONUS_TYPE_SET_DIE:
+        $nextState = 'bonusSetDie';
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }

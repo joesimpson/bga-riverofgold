@@ -93,6 +93,7 @@ function (dojo, declare) {
     const BONUS_TYPE_DRAW = 23;
     const BONUS_TYPE_SELL_GOODS = 28;
     const BONUS_TYPE_REFILL_HAND = 29;
+    const BONUS_TYPE_SET_DIE = 35;
     const RESOURCES = [
         0,
         'silk',//RESOURCE_TYPE_SILK
@@ -323,7 +324,7 @@ function (dojo, declare) {
                   },
                 }, 
                 buttonsTileWidth: {
-                    default: 90,
+                    default: 70,
                     name: _('Tile width in buttons'),
                     type: 'slider',
                     sliderConfig: {
@@ -434,12 +435,16 @@ function (dojo, declare) {
         
         onEnteringStateBeforeTurn(args){
             debug('onEnteringStateBeforeTurn', args);
-            this.initFavorSelection(args.p,'actDarlingFavor');
+            this.initFavorSelection(args.p,'actBonusSetDie');
             this.addPrimaryActionButton(`btnPass`, _('Skip') , () =>  {
                 this.confirmationDialog(_('Are you sure to skip and roll your die ?'), () => {
                     this.takeAction('actSkip', {});
                 });
             });
+        },
+        onEnteringStateBonusSetDie(args){
+            debug('onEnteringStateBonusSetDie', args);
+            this.initFavorSelection(args.p,'actBonusSetDie');
         },
         onEnteringStateSpendFavor (args){
             debug('onEnteringStateSpendFavor', args);
@@ -538,6 +543,7 @@ function (dojo, declare) {
                 let buttonText = '';
                 if(BONUS_TYPE_REFILL_HAND == bonusType) buttonText = _('Refill hand');
                 if(BONUS_TYPE_SELL_GOODS == bonusType) buttonText = _('Sell goods');
+                if(BONUS_TYPE_SET_DIE == bonusType) buttonText = _('Set next turn die');
                 this.addImageActionButton(`btnBonus_${k}_${bonusType}`, `${buttonText}<div class='rog_trade'>
                     ${iconBonus}
                 </div>`, () =>  {

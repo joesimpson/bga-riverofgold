@@ -39,6 +39,8 @@ class Player extends \ROG\Helpers\DB_Model
     'bonuses' => ['bonuses', 'obj'],
     //is last turn played ?
     'lastTurnPlayed' => ['last_turn_played', 'bool'],
+    //is expected to skip next die roll ? FALSE except for some clan patrons and if player DECIDES to
+    'skipRollDie' => ['skip_roll_die', 'bool'],
 
   ];
 
@@ -212,11 +214,15 @@ class Player extends \ROG\Helpers\DB_Model
    * @return int
    */
   public function rollDie(){
-    $dieFaces = DIE_FACES;
-    $this->setDie($dieFaces[array_rand($dieFaces)]);
-    $die_face = $this->getDie();
-    Notifications::rollDie($this,$die_face);
-    return $die_face;
+    if(!$this->isSkipRollDie()){
+      $dieFaces = DIE_FACES;
+      $this->setDie($dieFaces[array_rand($dieFaces)]);
+      $die_face = $this->getDie();
+      Notifications::rollDie($this,$die_face);
+    }
+    //Reset next decision
+    $this->setSkipRollDie(false);
+    return $this->getDie();
   }
 
   

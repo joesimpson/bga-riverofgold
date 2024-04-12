@@ -98,8 +98,6 @@ class ScoringTile extends Tile
       return round($tieScoreTotal / $nbPositionsToSplit,0,PHP_ROUND_HALF_DOWN);
     }
 
-    //TODO JSA 2 Players specificity
-
     return 0;
   }
 }

@@ -55,7 +55,10 @@ trait DeliverTrait
     Notifications::deliver($player,$card);
     
     $playerPatron = $player->getPatron();
-    if(isset($playerPatron)) $playerPatron->scoreWhenDeliver($player,$card);
+    if(isset($playerPatron)){
+      $playerPatron->scoreWhenDeliver($player,$card);
+      $playerPatron->addBonuses($player);
+    }
 
     foreach($card->getCost() as $neededType => $neededAmount){
       $player->giveResource(-$neededAmount,$neededType);

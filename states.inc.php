@@ -190,7 +190,7 @@ $machinestates = array(
         "action" => "stBeforeTurn",
         "updateGameProgression" => true,
         "possibleactions" => [
-            "actDarlingFavor", 
+            "actBonusSetDie", 
             "actSkip", 
             'actRestart',
         ],
@@ -262,6 +262,7 @@ $machinestates = array(
             'bonusMoneyOrGood' => ST_BONUS_MONEY_OR_GOOD,
             'bonusSellGoods' => ST_BONUS_SELL_GOODS,
             'bonusDraw' => ST_DISCARD_CARD,
+            'bonusSetDie' => ST_BONUS_SET_DIE,
             "trade" => ST_PLAYER_TURN_TRADE, 
             'next' => ST_CONFIRM_CHOICES,
             'zombiePass'=> ST_CONFIRM_CHOICES,
@@ -330,6 +331,21 @@ $machinestates = array(
             'zombiePass'=> ST_BONUS_CHOICE,
         ],
     ],
+    ST_BONUS_SET_DIE => array(
+        'name' => 'bonusSetDie',
+        'args' => 'argBonusSetDie',
+        'description' => clienttranslate('Special ability : ${actplayer} may spend favor to choose the next die face'),
+        'descriptionmyturn' => clienttranslate('Special ability : ${you} may spend favor to choose the next die face'),
+        'type' => 'activeplayer',
+        'possibleactions' => [
+            "actBonusSetDie",
+            'actRestart'
+        ],
+        'transitions' => [
+            'next' => ST_BONUS_CHOICE,
+            'zombiePass'=> ST_BONUS_CHOICE,
+        ],
+    ),
     
     ST_BONUS_SELL_GOODS => [
         'name' => 'bonusSellGoods',

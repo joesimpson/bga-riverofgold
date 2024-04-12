@@ -24,6 +24,7 @@ ALTER TABLE `player` ADD `die_face` INT(2) NULL;
 ALTER TABLE `player` ADD `player_clan` INT(2) NULL;
 ALTER TABLE `player` ADD `bonuses` JSON;
 ALTER TABLE `player` ADD `last_turn_played` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'This player played their last turn : 0/1';
+ALTER TABLE `player` ADD `skip_roll_die` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'This player will NOT roll the die for next turn : 0/1';
 
 CREATE TABLE IF NOT EXISTS `meeples` (
   `meeple_id` int(5) NOT NULL AUTO_INCREMENT,

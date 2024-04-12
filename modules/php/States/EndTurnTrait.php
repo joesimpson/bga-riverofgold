@@ -49,13 +49,8 @@ trait EndTurnTrait
     $this->addCheckpoint(ST_END_TURN);
 
     //RULE : roll your die at the end of your turn, before others play
-    $playerPatron = $turnPlayer->getPatron();
     if(Globals::isLastTurnTriggered()){
       //NO DIE ROLL because no future turn
-    }
-    else if(isset($playerPatron) && PATRON_DARLING == $playerPatron->getType()){
-      //TODO JSA darling may decide to not roll the die
-      $turnPlayer->rollDie();
     }
     else {
       $turnPlayer->rollDie();

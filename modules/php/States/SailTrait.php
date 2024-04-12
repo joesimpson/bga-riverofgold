@@ -135,7 +135,10 @@ trait SailTrait
     }
     
     $playerPatron = $player->getPatron();
-    if(isset($playerPatron)) $playerPatron->scoreWhenSail($player,$ownBuilding,$opponentBuilding);
+    if(isset($playerPatron)){
+      $playerPatron->scoreWhenSail($player,$ownBuilding,$opponentBuilding);
+      $playerPatron->addBonuses($player);
+    }
 
     Players::claimMasteries($player);
     
