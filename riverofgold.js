@@ -163,6 +163,7 @@ function (dojo, declare) {
                 ['refillBuildingRow', 800],
                 ['emperorVisit', 50],
                 ['triggerLastTurn', 3000],
+                ['triggerEnd', 3000],
             ];
 
             //Filter states where we don't want other players to display state actions
@@ -1055,6 +1056,10 @@ function (dojo, declare) {
         },
         notif_triggerLastTurn(n) {
             debug('notif_triggerLastTurn', n);
+            $('rog_end_warning').classList.remove('rog_nodisplay');
+        },
+        notif_triggerEnd(n) {
+            debug('notif_triggerEnd', n);
             $('rog_end_warning').classList.remove('rog_nodisplay');
         },
         
