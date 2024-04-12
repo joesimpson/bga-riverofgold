@@ -133,6 +133,9 @@ trait SailTrait
         $player->addPoints(NB_POINTS_NOBLE_6);
       }
     }
+    
+    $playerPatron = $player->getPatron();
+    if(isset($playerPatron)) $playerPatron->scoreWhenSail($player,$ownBuilding,$opponentBuilding);
 
     Players::claimMasteries($player);
     

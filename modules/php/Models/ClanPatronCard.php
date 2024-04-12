@@ -51,7 +51,7 @@ class ClanPatronCard extends Card
    * @param Player $player
    * @param ShoreSpace $shoreSpace
    */
-  public function  scoreWhenBuild($player,$shoreSpace){
+  public function scoreWhenBuild($player,$shoreSpace){
     switch($this->getType()){
       case PATRON_TRADER://+1 point per adjacent river space
         $nb = 0;
@@ -69,13 +69,29 @@ class ClanPatronCard extends Card
    * @param Player $player
    * @param CustomerCard $card delivered card
    */
-  public function  scoreWhenDeliver($player, $card){
+  public function scoreWhenDeliver($player, $card){
     switch($this->getType()){
       case PATRON_PRIESTESS://+1 point IF first delivery of the region
         $region = $card->getRegion();
         if(1 == $player->getNbDeliveredCustomerByRegion($region)){
           $player->addPoints(NB_POINTS_PRIESTESS,false);
           Notifications::scorePatron($player,NB_POINTS_PRIESTESS,$this);
+        }
+        break;
+    }
+  }
+  
+  /**
+   * @param Player $player
+   * @param bool $ownBuilding sailed to own buildings
+   * @param bool $opponentBuilding sailed to opponent buildings
+   */
+  public function scoreWhenSail($player,$ownBuilding,$opponentBuilding){
+    switch($this->getType()){
+      case PATRON_IRON_CRANE://+2 points IF opponent buildings
+        if($opponentBuilding){
+          $player->addPoints(NB_POINTS_IRON_CRANE,false);
+          Notifications::scorePatron($player,NB_POINTS_IRON_CRANE,$this);
         }
         break;
     }
