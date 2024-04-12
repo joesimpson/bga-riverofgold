@@ -272,25 +272,11 @@ class RiverOfGold extends Table
         // For example, if the game was running with a release of your game named "140430-1345",
         // $from_version is equal to 1404301345
         
-        // Example:
-//        if( $from_version <= 1404301345 )
-//        {
-//            // ! important ! Use DBPREFIX_<table_name> for all tables
-//
-//            $sql = "ALTER TABLE DBPREFIX_xxxxxxx ....";
-//            self::applyDbUpgradeToAllDB( $sql );
-//        }
-//        if( $from_version <= 1405061421 )
-//        {
-//            // ! important ! Use DBPREFIX_<table_name> for all tables
-//
-//            $sql = "CREATE TABLE DBPREFIX_xxxxxxx ....";
-//            self::applyDbUpgradeToAllDB( $sql );
-//        }
-//        // Please add your future database scheme changes here
-//
-//
-
+        if( $from_version <= 2404111852 )
+        {
+            $sql = "ALTER TABLE DBPREFIX_player ADD `skip_roll_die` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'This player will NOT roll the die for next turn : 0/1';";
+            $this->applyDbUpgradeToAllDB($sql);
+        }
 
     }    
      
