@@ -1914,7 +1914,7 @@ function (dojo, declare) {
         tplTile(tile, prefix ='') {
             //let nbPlayers = tile.nbPlayers ? tile.nbPlayers[0] : '';
             let nbPlayers = tile.nbPlayers ? Object.values(this.gamedatas.players).length : '';
-            return `<div class="rog_tile" id="rog_tile${prefix}-${tile.id}" data-id="${tile.id}" data-type="${tile.type}" data-subtype="${tile.subtype}"
+            return `<div class="rog_tile rog_tile${prefix}" id="rog_tile${prefix}-${tile.id}" data-id="${tile.id}" data-type="${tile.type}" data-subtype="${tile.subtype}"
                     data-nbPlayers="${nbPlayers}">
                 </div>`;
         },

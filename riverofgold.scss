@@ -143,8 +143,9 @@
 }
 
 //--------------------------------------
-//LOGS
-.log .rog_tile{
+//LOGS && displayed notif on top
+.log .rog_tile, 
+.rog_tile.rog_tile_log{
     width: calc(var(--rog_tileLogScale) * 330px);
     height: calc(var(--rog_tileLogScale) * 170px);
     display: inline-block;

@@ -4243,7 +4243,8 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   pointer-events: none;
 }
 
-.log .rog_tile {
+.log .rog_tile,
+.rog_tile.rog_tile_log {
   width: calc(var(--rog_tileLogScale) * 330px);
   height: calc(var(--rog_tileLogScale) * 170px);
   display: inline-block;
