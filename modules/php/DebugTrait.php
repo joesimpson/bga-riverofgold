@@ -299,7 +299,13 @@ trait DebugTrait
       Notifications::message("RESOURCES_LIMIT contains $type:".json_encode(RESOURCES_LIMIT));
     }
   }
+  function debugCountDistinct(){
+    $player = Players::getCurrent();
+    $nb = Meeples::countUsedSpacedOnInfluenceTrack($player->getId(),REGION_3,1,1);
+    Notifications::message("`DEBUG: $nb`");
+  }
   */
+
   //----------------------------------------------------------------
   function debugUI(){
     //players colors are not reloaded after using LOAD/SAVE buttons

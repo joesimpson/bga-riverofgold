@@ -2,6 +2,7 @@
 
 namespace ROG\Managers;
 
+use ROG\Core\Game;
 use ROG\Core\Notifications;
 use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
@@ -241,5 +242,22 @@ class Meeples extends \ROG\Helpers\Pieces
   {
     return self::getFilteredQuery($pId, MEEPLE_LOCATION_TILE.'%')->get();
   }
-  
+
+    /**
+   * @param int $pid player to exclude
+   * @param int $region
+   * @param int $fromInfluence (EXCLUDED)
+   * @param int $plusInfluence quantity
+   * @return int number Distinct used spaces on track
+   */
+  public static function countUsedSpacedOnInfluenceTrack($pid,$region,$fromInfluence,$plusInfluence)
+  {
+    Game::get()->trace("countUsedSpacedOnInfluenceTrack($pid,$region,$fromInfluence,$plusInfluence)");
+    $watchedPositions = range($fromInfluence +1,$fromInfluence + $plusInfluence);
+    return self::DB()
+      ->whereNotIn('player_id',[$pid])
+      ->where(self::$prefix.'location', MEEPLE_LOCATION_INFLUENCE.$region)
+      ->whereIn(self::$prefix.'state', $watchedPositions)
+      ->countDistinct(self::$prefix.'state');
+  }
 }

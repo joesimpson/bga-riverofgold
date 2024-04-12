@@ -285,6 +285,12 @@ class QueryBuilder extends \APP_DbObject
     {
         return $this->func('COUNT', $field);
     }
+    public function countDistinct($field)
+    {
+        $this->sql = "SELECT COUNT( distinct $field) FROM `$this->table`";
+        $this->assembleQueryClauses();
+        return (int) $this->getUniqueValueFromDB($this->sql);
+    }
 
     public function min($field)
     {

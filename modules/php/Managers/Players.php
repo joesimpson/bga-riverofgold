@@ -275,12 +275,22 @@ class Players extends \ROG\Helpers\DB_Manager
    */
   public static function gainInfluence($player,$region,$amount){
     if($amount == 0) return;
-    //TODO JSA influence depends on Scorpion clan patron
     $meeple = Meeples::getInfluenceMarker($player->getId(),$region);
     $currentInfluence = $meeple->getPosition(); 
     $newInfluence = min(NB_MAX_INLFUENCE,$currentInfluence + $amount);
     $meeple->setPosition($newInfluence);
     Notifications::gainInfluence($player,$region,$amount,$newInfluence,$meeple);
+
+    //TODO JSA influence depends on Scorpion clan patron
+    $playerPatron = $player->getPatron();
+    if(isset($playerPatron) && PATRON_LADY == $playerPatron->getType()){
+      //Lady of Whispers jump on other used spaces, so it is +1 move per used space
+      $betterPlayersSpacesOnPath = Meeples::countUsedSpacedOnInfluenceTrack($player->getId(),$region,$currentInfluence,$amount);
+      $amount2 = $betterPlayersSpacesOnPath;
+      $newInfluence = min(NB_MAX_INLFUENCE,$newInfluence + $amount2);
+      $meeple->setPosition($newInfluence);
+      Notifications::gainInfluence($player,$region,$amount2,$newInfluence,$meeple,$playerPatron);
+    }
     
     //Earn bonus on track :
     $goToBonusChoice = false;

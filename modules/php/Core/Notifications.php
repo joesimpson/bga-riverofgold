@@ -309,10 +309,16 @@ class Notifications
    * @param int $amount 
    * @param int $influence 
    * @param Meeple $meeple 
+   * @param ClanPatronCard $card (optional)
    */
-  public static function gainInfluence($player,$region,$amount,$influence,$meeple)
+  public static function gainInfluence($player,$region,$amount,$influence,$meeple,$playerPatron = null)
   {
     $message = clienttranslate('${player_name} gets ${n} influence in region #${region}${region_icon} and reaches ${influence}');
+    $patron_name = '';
+    if(isset($playerPatron)){
+      $patron_name = $playerPatron->getName();
+      $message = clienttranslate('${player_name} gets ${n} influence in region #${region}${region_icon} and reaches ${influence} with ${patron_name} ability');
+    }
     self::notifyAll('gainInfluence', $message, [
       'player' => $player,
       'region_icon' => $region,
@@ -322,6 +328,7 @@ class Notifications
       'preserve'=>['n2','region'],
       'influence' => $influence,
       'meeple' => $meeple->getUiData(),
+      'patron_name' => $patron_name,
     ]);
   }
   

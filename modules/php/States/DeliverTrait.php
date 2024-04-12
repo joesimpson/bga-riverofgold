@@ -95,7 +95,13 @@ trait DeliverTrait
   { 
     $region = $player->getDie();
     $regions = [$region];
-    //TODO JSA canDeliver for mantis clan #6: consider all regions
+
+    //For mantis clan Yoritomo: consider all regions
+    $playerPatron = $player->getPatron();
+    if(isset($playerPatron) && PATRON_SON_OF_STORM == $playerPatron->getType()){
+      $regions = REGIONS;
+    }
+    
     if(!in_array($card->getRegion(), $regions )) return false;
 
     $resources = $player->getResources();
