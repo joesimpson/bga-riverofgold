@@ -281,16 +281,28 @@ class Players extends \ROG\Helpers\DB_Manager
     $meeple->setPosition($newInfluence);
     Notifications::gainInfluence($player,$region,$amount,$newInfluence,$meeple);
 
-    //TODO JSA influence depends on Scorpion clan patron
+    //////////////////////////////////////////////////////////////////
+    //influence depends on Scorpion clan patron
     $playerPatron = $player->getPatron();
+    //Lady of Whispers jump on other used spaces, so it is +1 move per used space
     if(isset($playerPatron) && PATRON_LADY == $playerPatron->getType()){
-      //Lady of Whispers jump on other used spaces, so it is +1 move per used space
       $betterPlayersSpacesOnPath = Meeples::countUsedSpacedOnInfluenceTrack($player->getId(),$region,$currentInfluence,$amount);
       $amount2 = $betterPlayersSpacesOnPath;
       $newInfluence = min(NB_MAX_INLFUENCE,$newInfluence + $amount2);
       $meeple->setPosition($newInfluence);
       Notifications::gainInfluence($player,$region,$amount2,$newInfluence,$meeple,$playerPatron);
     }
+    //If another player has the Governor, THEY get 3 points when we pass them
+    $patronGovernor = Cards::getAssignedPatron(PATRON_GOVERNOR);
+    if(isset($patronGovernor)){
+      $playerGovernor = Players::get($patronGovernor->getPId());
+      $governorInfluence = $playerGovernor->getInfluence($region);
+      if($governorInfluence > 1 && $governorInfluence > $currentInfluence && $governorInfluence <= $newInfluence){
+        $playerGovernor->addPoints(NB_POINTS_GOVERNOR,false);
+        Notifications::scorePatron($playerGovernor,NB_POINTS_GOVERNOR,$patronGovernor);
+      }
+    }
+    //////////////////////////////////////////////////////////////////
     
     //Earn bonus on track :
     $goToBonusChoice = false;

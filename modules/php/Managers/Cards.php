@@ -165,6 +165,19 @@ class Cards extends \ROG\Helpers\Pieces
       ->get()
       ->first();
   }
+  /**
+   * @param int $patronType
+   * @return ClanPatronCard if assigned in this game
+   */
+  public static function getAssignedPatron($patronType)
+  {
+    return self::DB()
+      ->where('type', $patronType)
+      ->where('subtype', CARD_TYPE_CLAN_PATRON)
+      ->where(self::$prefix.'location', CARD_CLAN_LOCATION_ASSIGNED)
+      ->get()
+      ->first();
+  }
 
   /**
    * Move a card to a player
