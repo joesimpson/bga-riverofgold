@@ -65,4 +65,19 @@ class ClanPatronCard extends Card
     }
   }
 
+  /**
+   * @param Player $player
+   * @param CustomerCard $card delivered card
+   */
+  public function  scoreWhenDeliver($player, $card){
+    switch($this->getType()){
+      case PATRON_PRIESTESS://+1 point IF first delivery of the region
+        $region = $card->getRegion();
+        if(1 == $player->getNbDeliveredCustomerByRegion($region)){
+          $player->addPoints(NB_POINTS_PRIESTESS,false);
+          Notifications::scorePatron($player,NB_POINTS_PRIESTESS,$this);
+        }
+        break;
+    }
+  }
 }

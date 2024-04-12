@@ -53,6 +53,9 @@ trait DeliverTrait
 
     $card->setLocation(CARD_LOCATION_DELIVERED);
     Notifications::deliver($player,$card);
+    
+    $playerPatron = $player->getPatron();
+    if(isset($playerPatron)) $playerPatron->scoreWhenDeliver($player,$card);
 
     foreach($card->getCost() as $neededType => $neededAmount){
       $player->giveResource(-$neededAmount,$neededType);
@@ -101,7 +104,7 @@ trait DeliverTrait
     if(isset($playerPatron) && PATRON_SON_OF_STORM == $playerPatron->getType()){
       $regions = REGIONS;
     }
-    
+
     if(!in_array($card->getRegion(), $regions )) return false;
 
     $resources = $player->getResources();

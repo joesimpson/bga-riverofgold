@@ -236,6 +236,14 @@ class Player extends \ROG\Helpers\DB_Model
   {
     return Cards::countDeliveredCardsByCustomerType($this->getId(),$customerType);
   }
+  /**
+   * @param int $region
+   * @return int 
+   */
+  public function getNbDeliveredCustomerByRegion($region)
+  {
+    return Cards::countDeliveredCardsByCustomerRegion($this->getId(),$region);
+  }
 
   /**
    * @return ?ClanPatronCard 

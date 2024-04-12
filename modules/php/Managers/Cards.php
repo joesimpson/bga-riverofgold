@@ -80,6 +80,20 @@ class Cards extends \ROG\Helpers\Pieces
       ->whereIn('type', $cardTypes)
       ->count();
   }
+  /**
+   * @param int $pId
+   * @param int $region
+   * @return int 
+   */
+  public static function countDeliveredCardsByCustomerRegion($pId, $region)
+  {
+    $cardTypes = self::getCardsTypesByCustomerRegion($region);
+
+    return self::DB()->wherePlayer($pId)
+      ->where(self::$prefix.'location', CARD_LOCATION_DELIVERED)
+      ->whereIn('type', $cardTypes)
+      ->count();
+  }
   
   /**
    * Return all HAND cards of this player
@@ -253,6 +267,20 @@ class Cards extends \ROG\Helpers\Pieces
     $customerCards = self::getCustomerCardsTypes();
     foreach ($customerCards as $type => $customerCard) {
       if($customerType == $customerCard['customerType']){
+        $types[] = $type;
+      }
+    }
+    return $types;
+  }
+  /**
+   * @param int $region the CUSTOMER region to search
+   * @return array list of CARD types
+   */
+  public static function getCardsTypesByCustomerRegion($region){
+    $types = [];
+    $customerCards = self::getCustomerCardsTypes();
+    foreach ($customerCards as $type => $customerCard) {
+      if($region == $customerCard['region']){
         $types[] = $type;
       }
     }
