@@ -1711,7 +1711,7 @@ function (dojo, declare) {
         },
             
         updatePlayerDieFace(pId,dieFace, animate = false) {
-            debug("updatePlayerDieFace",pId,dieFace);
+            debug("updatePlayerDieFace",pId,dieFace,animate );
             let counter = this._counters[pId].dieFace;
             counter.toValue(dieFace);
             let icon = counter.span.nextSibling.firstElementChild;
