@@ -40,11 +40,6 @@
                     top: 250px;
 
                     .rog_river_space{
-                        .rog_meeple{
-                            //SHIPS
-                            z-index: 2;
-                            position: relative;
-                        }
                         &:not(.selectable){
                             .rog_river_shape{
                                 //hide shape by default, because its position will mess with meeples positions

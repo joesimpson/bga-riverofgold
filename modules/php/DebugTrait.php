@@ -167,15 +167,21 @@ trait DebugTrait
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
 
+  //Add Boats on each river space
   function debugBoatMeeples(){
-    Meeples::DB()->delete()->where('type', MEEPLE_TYPE_SHIP)->run();
+    Meeples::DB()->delete()->whereIn('type', [MEEPLE_TYPE_SHIP,MEEPLE_TYPE_SHIP_ROYAL])->run();
     $players = Players::getAll();
-    foreach($players as $pid => $player){
-      for($k=1;$k<=2;$k++){
-        $meeple = Meeples::addBoatOnRiverSpace($player,$k);
+    $typeToTest = MEEPLE_TYPE_SHIP_ROYAL;
+    for($k=1;$k<=NB_RIVER_SPACES;$k++){
+      foreach($players as $pid => $player){
+        $meeple = Meeples::addBoatOnRiverSpace($player,$k,false);
+        $meeple->setType($typeToTest);
+        $meeple = Meeples::addBoatOnRiverSpace($player,$k,false);
+        $meeple->setType($typeToTest);
       }
     }
     $this->debugUI();
+    $this->gamestate->jumpToState(ST_PLAYER_TURN_SAIL);
   }
   
   //test mastery cards
@@ -304,7 +310,7 @@ trait DebugTrait
     $nb = Meeples::countUsedSpacedOnInfluenceTrack($player->getId(),REGION_3,1,1);
     Notifications::message("`DEBUG: $nb`");
   }
-  */
+  //*/
 
   //----------------------------------------------------------------
   function debugUI(){
