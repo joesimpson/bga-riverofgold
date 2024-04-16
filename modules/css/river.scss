@@ -61,7 +61,8 @@
                                 position: absolute;
                                 background-color: #c700ff5e;
                                 &:hover {
-                                    transform: scale(1.2);
+                                    //No need to add a zoom effect with another color, and after rescale, the polygon is not at the right place !
+                                    //transform: scale(1.2);
                                     background-color: #2c00ff6b;
                                 }
                             }

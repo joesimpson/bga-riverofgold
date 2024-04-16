@@ -555,7 +555,6 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   background-color: rgba(199, 0, 255, 0.368627451);
 }
 #rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selectable .rog_river_shape:hover {
-  transform: scale(1.2);
   background-color: rgba(44, 0, 255, 0.4196078431);
 }
 #rog_main_zone #rog_resizable_river_board #rog_river_board_container #rog_river_board #rog_river_spaces .rog_river_space.selected .rog_river_shape {
