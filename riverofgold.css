@@ -3199,7 +3199,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 .rog_meeple[data-type="1"], .rog_meeple[data-type="3"] {
   background-image: url("img/boats.png");
-  background-size: 300% 400%;
+  background-size: 200% 400%;
   background-color: transparent;
   box-shadow: none;
   background-position-x: 0%;
