@@ -1104,7 +1104,8 @@ function (dojo, declare) {
         },
         notif_refreshUI(n) {
             debug('notif_refreshUI: refreshing UI', n);
-            ['players', 'cards', 'tiles', 'meeples','deckSize','era'].forEach((value) => {
+            this.refreshPlayersDatas(n.args.datas['players']);
+            ['cards', 'tiles', 'meeples','deckSize','era'].forEach((value) => {
                 this.gamedatas[value] = n.args.datas[value];
             });
 
@@ -1305,6 +1306,17 @@ function (dojo, declare) {
         getBuildingRowBonusTooltip() {
             let text = _("If you build the row's end tile, immediately gain 1 divine favor");
             return `<div class='rog_tooltip'>${text}</div>`;
+        },
+        refreshPlayersDatas(players){
+            debug("refreshPlayersDatas()",players);
+            //Erasing this array would erase some BGA datas (ex color_back)-> we should erase only datas in parameter array
+            //this.gamedatas.players = players;
+            Object.values(players).forEach((player) => {
+                let pid = player.id;
+                for (const property in player) {
+                    this.gamedatas.players[pid][property] = player[property];
+                }
+            });
         },
 
         ////////////////////////////////////////////////////////////

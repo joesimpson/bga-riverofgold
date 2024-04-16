@@ -19,7 +19,7 @@
     },
     "endPlayer": {
       "id": 11,
-      "name": "Player ended the game",
+      "name": "Player triggers the end",
       "type": "int"
     },
     "playedClan": {
