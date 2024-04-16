@@ -1884,6 +1884,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_player_delivered_resizable .rog_player_hand .rog_title,
 .rog_player_delivered_resizable .rog_player_delivered .rog_title {
   text-align: center;
+  padding: 0 7px;
 }
 .rog_player_hand_resizable .rog_player_hand .player-name,
 .rog_player_hand_resizable .rog_player_hand .playername,
