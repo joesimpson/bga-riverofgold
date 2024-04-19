@@ -375,6 +375,7 @@ function (dojo, declare) {
         onChangeEraTileWidthSetting(val) {
             document.documentElement.style.setProperty('--rog_era_tile_holder_scale', val/100);
         },
+
         onChangeLogTileWidthSetting(val) {
             document.documentElement.style.setProperty('--rog_tileLogScale', val/100);
         },
@@ -389,6 +390,14 @@ function (dojo, declare) {
             this.updateLayout();
         },
        
+        /** Listening for BGA user preference changes */
+        onPreferenceChange(pref, newValue) {
+            debug("onPreferenceChange",pref, newValue);
+            pref = parseInt(pref);
+            if(pref == PREF_PLAYER_PANEL_DETAILS ){
+                this.adaptPlayersPanels();
+            }
+        },
         ///////////////////////////////////////////////////
         //     _____ _______    _______ ______  _____ 
         //    / ____|__   __|/\|__   __|  ____|/ ____|
