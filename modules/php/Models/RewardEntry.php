@@ -48,7 +48,7 @@ class RewardEntry implements \JsonSerializable
    * @param int $region
    * @param BuildingTile $tile
    */
-  public function rewardPlayer($player, $region,$tile){
+  public function rewardPlayer(&$player, $region,$tile){
 
     switch($this->type){
       case BONUS_TYPE_POINTS:

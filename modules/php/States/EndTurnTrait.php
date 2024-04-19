@@ -81,6 +81,8 @@ trait EndTurnTrait
         foreach($clanMarkers as $clanMarker){
           $owner = $players[$clanMarker->getPId()];
           $reward->rewardPlayer($owner,$region,$tile);
+          //SAVE UPDATED PLAYER datas
+          $players[$clanMarker->getPId()] = $owner;
         }
       }
     }
@@ -89,7 +91,7 @@ trait EndTurnTrait
   /**
    * @param Player $player
    */
-  public function triggerLastTurn($player)
+  public function triggerLastTurn(&$player)
   { 
     Notifications::triggerLastTurn($player);
     $player->addPoints(NB_POINTS_FOR_GAME_END);

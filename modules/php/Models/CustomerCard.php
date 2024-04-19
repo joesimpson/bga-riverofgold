@@ -40,7 +40,7 @@ class CustomerCard extends Card
    * Play  the instantaneous effect of this card
    * @param Player $player
    */
-  public function playDeliveryAbility($player)
+  public function playDeliveryAbility(&$player)
   {
     switch($this->getCustomerType()){
       case CUSTOMER_TYPE_ARTISAN:
@@ -94,7 +94,7 @@ class CustomerCard extends Card
    * @param Player $player
    * @param int $type
    */
-  public static function playOngoingMerchantAbility($player,$type)
+  public static function playOngoingMerchantAbility(&$player,$type)
   {
     switch($type){
       case CARD_MERCHANT_1://+ 1 Influence in built regions

@@ -52,7 +52,7 @@ class ClanPatronCard extends Card
    * @param Player $player
    * @param ShoreSpace $shoreSpace
    */
-  public function scoreWhenBuild($player,$shoreSpace){
+  public function scoreWhenBuild(&$player,$shoreSpace){
     switch($this->getType()){
       case PATRON_TRADER://+1 point per adjacent river space
         $nb = 0;
@@ -70,7 +70,7 @@ class ClanPatronCard extends Card
    * @param Player $player
    * @param CustomerCard $card delivered card
    */
-  public function scoreWhenDeliver($player, $card){
+  public function scoreWhenDeliver(&$player, $card){
     switch($this->getType()){
       case PATRON_PRIESTESS://+1 point IF first delivery of the region
         $region = $card->getRegion();
@@ -87,7 +87,7 @@ class ClanPatronCard extends Card
    * @param bool $ownBuilding sailed to own buildings
    * @param bool $opponentBuilding sailed to opponent buildings
    */
-  public function scoreWhenSail($player,$ownBuilding,$opponentBuilding){
+  public function scoreWhenSail(&$player,$ownBuilding,$opponentBuilding){
     switch($this->getType()){
       case PATRON_IRON_CRANE://+2 points IF opponent buildings
         if($opponentBuilding){
@@ -101,7 +101,7 @@ class ClanPatronCard extends Card
   /**
    * @param Player $player
    */
-  public function addBonuses($player){
+  public function addBonuses(&$player){
     switch($this->getType()){
       case PATRON_DARLING://Darling needs a step to decide whether or not to roll the die !
         Globals::addBonus($player,BONUS_TYPE_SET_DIE,'',false);

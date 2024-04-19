@@ -91,6 +91,8 @@ trait SailTrait
         }
       }
     }
+    //SAVE UPDATED PLAYER datas
+    $players[$player->getId()] = $player;
     
     Notifications::checkOwnerRewards();
     $ownBuilding = false;
@@ -99,6 +101,7 @@ trait SailTrait
       $tile = Tiles::getTileOnShoreSpace($adjacentSpace);
       if(isset($tile)){
         $clanMarkers = $tile->getMeeples();
+        $region = $tile->getRegion();
         //Owner rewards : sometimes 2 owners (or 2 times the same)
         foreach($tile->ownerReward->entries as $reward){
           foreach($clanMarkers as $clanMarker){
@@ -106,6 +109,8 @@ trait SailTrait
             $reward->rewardPlayer($owner,$region,$tile);
             $ownBuilding = $ownBuilding || $clanMarker->getPId() == $player->getId();
             $opponentBuilding = $opponentBuilding || $clanMarker->getPId() != $player->getId();
+            //SAVE UPDATED PLAYER datas
+            $players[$clanMarker->getPId()] = $owner;
           }
         }
       }
@@ -179,7 +184,7 @@ trait SailTrait
    * @param Player $player
    * @param Meeple $ship
    */
-  public function completeJourney($player,$ship)
+  public function completeJourney(&$player,$ship)
   {
     Notifications::reachRiverEnd($player,$ship);
     Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);

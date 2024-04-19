@@ -91,6 +91,7 @@ class Player extends \ROG\Helpers\DB_Model
   public function addPoints($points, $sendNotif = true)
   {
     if($points == 0) return;
+    //TODO JSA REAL INC in DB in case of not up to date score in object
     $this->setScore( $this->getScore() + $points);
     Stats::inc( "score", $this->id, $points );
     if($sendNotif) Notifications::addPoints($this,$points);
@@ -101,11 +102,12 @@ class Player extends \ROG\Helpers\DB_Model
    * @param int $nb
    * @param int $type
    * @param bool $sendNotif (Optional) default true
+   * @return int real increment applied after checking max
    */
   public function giveResource($nb, $type, $sendNotif = true)
   {
     Game::get()->trace("giveResource($nb, $type, $sendNotif)");
-    if($nb == 0) return;
+    if($nb == 0) return 0;
     $resources = $this->getResources();
     if(!isset($resources) ) $resources = [];
     if(!isset($resources[$type]) ) $resources[$type] = 0;
@@ -131,6 +133,7 @@ class Player extends \ROG\Helpers\DB_Model
       }
     }
     if($sendNotif) Notifications::giveResource($this,$nb,$type);
+    return $nb;
   }
 
   /**
@@ -141,8 +144,8 @@ class Player extends \ROG\Helpers\DB_Model
    */
   public function giveResourceFromTile($nb, $type, $tile)
   {
-    $this->giveResource($nb, $type,false);
-    Notifications::giveResource($this,$nb,$type,$tile);
+    $realInc = $this->giveResource($nb, $type,false);
+    Notifications::giveResource($this,$realInc,$type,$tile);
   }
   
   /**
@@ -153,8 +156,8 @@ class Player extends \ROG\Helpers\DB_Model
    */
   public function giveResourceFromShoreSpace($nb, $type, $shoreSpace)
   {
-    $this->giveResource($nb, $type,false);
-    Notifications::giveResource($this,$nb,$type,null, $shoreSpace);
+    $realInc = $this->giveResource($nb, $type,false);
+    Notifications::giveResource($this,$realInc,$type,null, $shoreSpace);
   }
   
   /**

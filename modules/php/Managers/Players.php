@@ -246,7 +246,7 @@ class Players extends \ROG\Helpers\DB_Manager
    * @param int $money 
    * @param int $fromShoreSpace (Optional)
    */
-  public static function giveMoney($player,$money, $fromShoreSpace = null){
+  public static function giveMoney(&$player,$money, $fromShoreSpace = null){
     $pId = $player->getId();
     //self::DB()->inc(['money' => $money], $pId);
     $player->giveResourceFromShoreSpace($money,RESOURCE_TYPE_MONEY,$fromShoreSpace);
@@ -269,12 +269,12 @@ class Players extends \ROG\Helpers\DB_Manager
   }
   
   /**
-   * @param Player $player 
+   * @param Player $player  (! will be modified with score and resources)
    * @param int $region 
    * @param int $amount 
    * @return bool true if player needs to do another choice 
    */
-  public static function gainInfluence($player,$region,$amount){
+  public static function gainInfluence(&$player,$region,$amount){
     if($amount == 0) return;
     $meeple = Meeples::getInfluenceMarker($player->getId(),$region);
     $currentInfluence = $meeple->getPosition(); 
@@ -334,7 +334,7 @@ class Players extends \ROG\Helpers\DB_Manager
    * @param Player $player 
    * @param int $amount 
    */
-  public static function gainDivineFavor($player,$amount){
+  public static function gainDivineFavor(&$player,$amount){
     if($amount == 0) return;
     $current = $player->getResource(RESOURCE_TYPE_SUN); 
     $max = $player->getResource(RESOURCE_TYPE_MOON); 
@@ -347,7 +347,7 @@ class Players extends \ROG\Helpers\DB_Manager
    * check each mastery card to check if player can claim it
    * @param Player $player 
    */
-  public static function claimMasteries($player){
+  public static function claimMasteries(&$player){
     Game::get()->trace("claimMasteries()");
     //check each mastery card
     $masteryCards = Tiles::getMasteryCards();
@@ -361,7 +361,7 @@ class Players extends \ROG\Helpers\DB_Manager
    * @param Player $player 
    * @param MasteryCard $tile 
    */
-  public static function claimMastery($player, $tile){
+  public static function claimMastery(&$player, $tile){
     $pId = $player->getId();
     $tileId = $tile->getId();
     Game::get()->trace("claimMastery($pId, $tileId)"); 

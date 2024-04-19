@@ -157,13 +157,23 @@ trait DebugTrait
 
   function debugBonusChoice(){
     $player = Players::getCurrent();
+    $player2 = Players::get($player->getId());
     $royalShip = $player->getRoyalShip();
     if(isset($royalShip)) $royalShip->setType(MEEPLE_TYPE_SHIP);
     $this->debugUI();
 
+    $player->setBonuses([]);
+    $player2->setBonuses([]);
     Globals::addBonus($player,BONUS_TYPE_CHOICE);
     Globals::addBonus($player,BONUS_TYPE_UPGRADE_SHIP);
-    Globals::addBonus($player,BONUS_TYPE_CHOICE);
+    //$player2 = Players::get($player->getId());
+    $player2 = $player;
+    Globals::addBonus($player2,BONUS_TYPE_CHOICE);
+    
+    
+    Globals::addBonus($player2,BONUS_TYPE_SELL_GOODS);
+    
+    Globals::addBonus($player,BONUS_TYPE_DRAW);
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
 
