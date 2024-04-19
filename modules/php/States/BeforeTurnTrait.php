@@ -80,8 +80,10 @@ trait BeforeTurnTrait
   public function canSetDie($player,$dieFace)
   { 
     if(!in_array($dieFace,DIE_FACES)) return null;
+    /* WRONG : we may decide to keep the same die for 2 turns
     $currentDie = $player->getDie();
     if($currentDie == $dieFace) return null;
+    */
     $cost = DARLING_FAVOR_COST;
     $favor = $player->getResource(RESOURCE_TYPE_SUN);
     if($cost > $favor) return null;
