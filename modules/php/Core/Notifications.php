@@ -112,6 +112,18 @@ class Notifications
       'card' => $card->getUiData(),
     ]);
   }
+  
+  /**
+   * @param Player $player
+   * @param int $missingNb
+   */
+  public static function missingCards($player,$missingNb)
+  {
+    self::notifyAll('missingCards', clienttranslate('${player_name} cannot draw more cards (${n} missing)'), [
+      'player' => $player,
+      'n' => $missingNb,
+    ]);
+  }
   /**
    * @param Player $player
    * @param Card $card

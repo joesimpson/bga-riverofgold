@@ -2,6 +2,7 @@
 
 namespace ROG\Managers;
 
+use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
@@ -157,15 +158,21 @@ class Cards extends \ROG\Helpers\Pieces
   /**
    * @param Player $player
    * @param int $nbCards
+   * @return int $missingNb number of expected cards we cannot draw
    */
   public static function drawCardsToHand($player,$nbCards)
   {
+    Game::get()->trace("drawCardsToHand($nbCards)");
     $cards = self::pickForLocation($nbCards, CARD_LOCATION_DECK, CARD_LOCATION_HAND,0,true);
     foreach($cards as $card){
       $card->setPId($player->getId());
       Notifications::giveCardTo($player,$card);
     }
-    return $cards;
+    //Empty deck will be rare but not impossible
+    $missingNb = $nbCards - $cards->count();
+    Game::get()->trace("drawCardsToHand($nbCards) -> $missingNb are missing");
+    if($missingNb>0) Notifications::missingCards($player,$missingNb);
+    return $missingNb;
   }
   
   /**

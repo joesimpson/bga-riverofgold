@@ -110,6 +110,18 @@ trait DebugTrait
   function debugDeliverReshuffle(){
     Cards::moveAllInLocation(CARD_LOCATION_DECK,CARD_LOCATION_DISCARD);
   }
+  
+  //To be called before clicking 'Refill hand' or 'Draw', to test that interface doesn't force you to discard your last card OR worse if you don't have cards
+  function debugDrawWithEmptyDeck(){
+    Cards::moveAllInLocation(CARD_LOCATION_DECK,CARD_LOCATION_DISCARD);
+    Cards::moveAllInLocation(CARD_LOCATION_DISCARD,"FAKE_FOR_TEST");
+    $player = Players::getCurrent();
+    $player->setBonuses([]);
+    Globals::addBonus($player,BONUS_TYPE_REFILL_HAND);
+    Globals::addBonus($player,BONUS_TYPE_DRAW);
+    Globals::addBonus($player,BONUS_TYPE_CHOICE);
+    $this->gamestate->jumpToState(ST_BONUS_CHOICE);
+  }
 
   function debugMoney(){
     $player = Players::getCurrent();

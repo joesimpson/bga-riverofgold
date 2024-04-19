@@ -5,6 +5,7 @@ namespace ROG\States;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\Collection;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
 use ROG\Models\Player;
@@ -92,16 +93,28 @@ trait BonusChoiceTrait
         break;
       case BONUS_TYPE_DRAW:
         $nextState = 'bonusDraw';
-        Cards::drawCardsToHand($player,1);
-        //ACTION IS NOT UNDOABLE
-        $this->addCheckpoint(ST_DISCARD_CARD);
+        $missingInDeck = Cards::drawCardsToHand($player,1);
+        if($missingInDeck==0){
+          //ACTION IS NOT UNDOABLE
+          $this->addCheckpoint(ST_DISCARD_CARD);
+        }
+        else {
+          //Don't force a discard in this case
+          $nextState = 'continue';
+        }
         break;
       case BONUS_TYPE_REFILL_HAND://Draw 2 and discard 1
         $nextState = 'bonusDraw';
         Notifications::refillHand($player);
-        Cards::drawCardsToHand($player,2);
-        //ACTION IS NOT UNDOABLE
-        $this->addCheckpoint(ST_DISCARD_CARD);
+        $missingInDeck = Cards::drawCardsToHand($player,2);
+        if($missingInDeck==0){
+          //ACTION IS NOT UNDOABLE
+          $this->addCheckpoint(ST_DISCARD_CARD);
+        }
+        else {
+          //Don't force a discard in this case
+          $nextState = 'continue';
+        }
         break;
       case BONUS_TYPE_SET_DIE:
         $nextState = 'bonusSetDie';

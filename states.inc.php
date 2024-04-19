@@ -256,6 +256,7 @@ $machinestates = array(
             'actRestart'
         ],
         'transitions' => [
+            'continue' => ST_BONUS_CHOICE,
             'bonusResource' => ST_BONUS_CHOICE_RESOURCE,
             'bonusUpgrade' => ST_BONUS_UPGRADE_SHIP,
             'bonusBuilding' => ST_BONUS_SECOND_MARKER_ON_BUILDING,
