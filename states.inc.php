@@ -186,7 +186,7 @@ $machinestates = array(
         "args" => "argBeforeTurn",
         "description" => clienttranslate('Special ability : ${actplayer} may spend favor to choose the next die face'),
         "descriptionmyturn" => clienttranslate('Special ability : ${you} may spend favor to choose the next die face'),
-        "type" => "activeplayer",
+        'type' => 'activeplayer',
         "action" => "stBeforeTurn",
         "updateGameProgression" => true,
         "possibleactions" => [
@@ -205,7 +205,7 @@ $machinestates = array(
         "args" => "argPlayerTurn",
         "description" => clienttranslate('${actplayer} must take an action'),
         "descriptionmyturn" => clienttranslate('${you} must take an action'),
-        "type" => "activeplayer",
+        'type' => 'activeplayer',
         "possibleactions" => [
             "actBuild", 
             "actSail", 
@@ -230,7 +230,7 @@ $machinestates = array(
         "args" => "argBuild",
         "description" => clienttranslate('Build : ${actplayer} must select a building and a shore space'),
         "descriptionmyturn" => clienttranslate('Build : ${you} must select a building and a shore space'),
-        "type" => "activeplayer",
+        'type' => 'activeplayer',
         "possibleactions" => [
             "actBuildSelect", 
             'actRestart',
@@ -370,7 +370,7 @@ $machinestates = array(
         "args" => "argSail",
         "description" => clienttranslate('Sail : ${actplayer} must select a ship and a river space'),
         "descriptionmyturn" => clienttranslate('Sail : ${you} must select a ship and a river space'),
-        "type" => "activeplayer",
+        'type' => 'activeplayer',
         "possibleactions" => [
             "actSailSelect", 
             'actRestart',
@@ -387,7 +387,7 @@ $machinestates = array(
         "args" => "argDeliver",
         "description" => clienttranslate('Deliver : ${actplayer} must select a customer card'),
         "descriptionmyturn" => clienttranslate('Deliver : ${you} must select a customer card in your hand'),
-        "type" => "activeplayer",
+        'type' => 'activeplayer',
         "possibleactions" => [
             "actDeliverSelect", 
             'actRestart',
@@ -404,7 +404,7 @@ $machinestates = array(
         "args" => "argTrade",
         "description" => clienttranslate('${actplayer} must select the trade'),
         "descriptionmyturn" => clienttranslate('${you} must select the trade'),
-        "type" => "activeplayer",
+        'type' => 'activeplayer',
         "possibleactions" => [
             "actTradeSelect", 
             'actRestart',
@@ -422,7 +422,7 @@ $machinestates = array(
         "args" => "argSpendFavor",
         "description" => clienttranslate('${actplayer} must select the die face'),
         "descriptionmyturn" => clienttranslate('${you} must select the die face'),
-        "type" => "activeplayer",
+        'type' => 'activeplayer',
         "possibleactions" => [
             "actDFSelect", 
             'actRestart',
@@ -518,7 +518,7 @@ $machinestates = array(
         "name" => "playerGameEnd",
         "description" => ('${actplayer} Game Over'),
         "descriptionmyturn" => ('${you} Game Over'),
-        "type" => "activeplayer",
+        'type' => 'activeplayer',
         "args" => "argPlayerTurn",
         "possibleactions" => ["endGame"],
         "transitions" => [

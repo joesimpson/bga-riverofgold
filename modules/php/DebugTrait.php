@@ -310,15 +310,8 @@ trait DebugTrait
     $nb = Meeples::countUsedSpacedOnInfluenceTrack($player->getId(),REGION_3,1,1);
     Notifications::message("`DEBUG: $nb`");
   }
-  //*/
 
   //----------------------------------------------------------------
-  function debugUI(){
-    //players colors are not reloaded after using LOAD/SAVE buttons
-    self::reloadPlayersBasicInfos();
-    Notifications::refreshUI($this->getAllDatas());
-  }
-  /*
   //Clear logs
   function debugCLS(){
     $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
@@ -333,5 +326,10 @@ trait DebugTrait
       $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
       $query->delete()->run();
   }
-  */
+  //*/
+  function debugUI(){
+    //players colors are not reloaded after using LOAD/SAVE buttons
+    self::reloadPlayersBasicInfos();
+    Notifications::refreshUI($this->getAllDatas());
+  }
 }

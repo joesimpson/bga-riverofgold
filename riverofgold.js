@@ -173,6 +173,7 @@ function (dojo, declare) {
 
             //Filter states where we don't want other players to display state actions
             this._activeStates = ['deliver','discardCard','draftMulti'];
+            this._inactiveStates = ['draft'];
             
             this._hideNotifsWhenMultiActive = true;
         },
@@ -411,7 +412,11 @@ function (dojo, declare) {
             this.inherited(arguments);
             this.empty('rog_select_piece_container');
         },
-            
+        onEnteringState(stateName, args) {
+            //In this game, we don't want inactive players to see active buttons
+            if (!this._inactiveStates.includes(stateName) && !this.isCurrentPlayerActive()) return;
+            this.inherited(arguments);
+        },
         onEnteringStateDraft(args) {
             debug('onEnteringStateDraft', args);
             this.initCardSelection(args.cards);
