@@ -4896,3 +4896,21 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .log.cancel.roundedbox {
   background-color: #ef9a9a;
 }
+
+.playername_wrapper_ffffff .playername, .playername_wrapper_ffffff.playername {
+  color: white !important;
+  background-color: #bbbbbb !important;
+  text-shadow: 1px 0px 1px black, 0px 1px 1px black, -1px 0px 1px black, 0px -1px 1px black !important;
+}
+
+.playername_wrapper_ff0000 .playername, .playername_wrapper_ff0000.playername {
+  color: #ff0000 !important;
+}
+
+.playername_wrapper_008000 .playername, .playername_wrapper_008000.playername {
+  color: #008000 !important;
+}
+
+.playername_wrapper_0000ff .playername, .playername_wrapper_0000ff.playername {
+  color: #0000ff !important;
+}

@@ -170,3 +170,32 @@
 .log.cancel.roundedbox {
     background-color: #ef9a9a;
 }
+// ------------------------------------------------------------------------------
+// Override BGA style for log player_name (need some Javascript too, because player_color will change after draft
+.playername_wrapper_ffffff{//WHITE
+    .playername, // Different in replay ?
+    &.playername {
+        color: white !important;
+        background-color: #bbbbbb !important;
+        text-shadow: 1px 0px 1px black, 0px 1px 1px black,-1px 0px 1px black,0px -1px 1px black !important;
+    }
+}
+.playername_wrapper_ff0000{//RED
+    .playername, // Different in replay ?
+    &.playername {
+        color: #ff0000 !important;
+    }
+}
+.playername_wrapper_008000{//GREEN
+    .playername, // Different in replay ?
+    &.playername {
+        color: #008000 !important;
+    }
+}
+.playername_wrapper_0000ff{//BLUE
+    .playername, // Different in replay ?
+    &.playername {
+        color: #0000ff !important;
+    }
+}
+// ------------------------------------------------------------------------------

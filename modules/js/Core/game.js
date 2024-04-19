@@ -934,13 +934,14 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       return you;
     },
 
-    coloredPlayerName(name) {
+    coloredPlayerName(name, specifiedColor = null) {
+      debug("coloredPlayerName",name, specifiedColor);
       const player = Object.values(this.gamedatas.players).find((player) => player.name == name);
-      if (player == undefined) return '<!--PNS--><span class="playername">' + name + '</span><!--PNE-->';
+      if (player == undefined) return `<!--PNS--><span class="playername playername_wrapper_${specifiedColor}">${name}</span><!--PNE-->`;
 
-      const color = player.color;
+      const color = specifiedColor ? specifiedColor : player.color;
       const color_bg = player.color_back ? 'background-color:#' + player.color_back + ';' : '';
-      return '<!--PNS--><span class="playername" style="color:#' + color + ';' + color_bg + '">' + name + '</span><!--PNE-->';
+      return `<!--PNS--><span class="playername playername_wrapper_${color}" style="color:#${color};${color_bg}">${name}</span><!--PNE-->`;
     },
     
     getPlayerColor(pId) {
@@ -957,7 +958,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
 
           let player_keys = Object.keys(args).filter((key) => key.substr(0, 11) == 'player_name');
           player_keys.forEach((key) => {
-            args[key] = this.coloredPlayerName(args[key]);
+            args[key] = this.coloredPlayerName(args[key],args['player_color']);
           });
 
           //          args.You = this.coloredYou();

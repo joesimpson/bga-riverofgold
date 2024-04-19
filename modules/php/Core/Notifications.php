@@ -665,9 +665,16 @@ class Notifications
     if (isset($data['player'])) {
       $data['player_name'] = $data['player']->getName();
       $data['player_id'] = $data['player']->getId();
+      //for playername_wrapper
+      $data['player_color'] = $data['player']->getColor();
+      if (!isset($data['preserve'])) {
+        $data['preserve'] = [];
+      }
+      $data['preserve'][] = 'player_color';
+
       unset($data['player']);
     }
-
+    /* not used in this game for now
     if (isset($data['player2'])) {
       $data['player_name2'] = $data['player2']->getName();
       $data['player_id2'] = $data['player2']->getId();
@@ -679,6 +686,7 @@ class Notifications
       $data['player_id3'] = $data['player3']->getId();
       unset($data['player3']);
     }
+    */
   }
   
   /************************************
