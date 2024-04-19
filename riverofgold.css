@@ -84,8 +84,8 @@
 
 .rog_icon_die_face-1,
 .rog_icon_dieFace[data-face="1"] {
-  width: 3em;
-  height: 3em;
+  width: 5em;
+  height: 5em;
   border-radius: 5px;
   box-shadow: 1px 1px 5px black;
   background-image: url("img/dice.jpg");
@@ -96,8 +96,8 @@
 
 .rog_icon_die_face-2,
 .rog_icon_dieFace[data-face="2"] {
-  width: 3em;
-  height: 3em;
+  width: 5em;
+  height: 5em;
   border-radius: 5px;
   box-shadow: 1px 1px 5px black;
   background-image: url("img/dice.jpg");
@@ -108,8 +108,8 @@
 
 .rog_icon_die_face-3,
 .rog_icon_dieFace[data-face="3"] {
-  width: 3em;
-  height: 3em;
+  width: 5em;
+  height: 5em;
   border-radius: 5px;
   box-shadow: 1px 1px 5px black;
   background-image: url("img/dice.jpg");
@@ -120,8 +120,8 @@
 
 .rog_icon_die_face-4,
 .rog_icon_dieFace[data-face="4"] {
-  width: 3em;
-  height: 3em;
+  width: 5em;
+  height: 5em;
   border-radius: 5px;
   box-shadow: 1px 1px 5px black;
   background-image: url("img/dice.jpg");
@@ -132,8 +132,8 @@
 
 .rog_icon_die_face-5,
 .rog_icon_dieFace[data-face="5"] {
-  width: 3em;
-  height: 3em;
+  width: 5em;
+  height: 5em;
   border-radius: 5px;
   box-shadow: 1px 1px 5px black;
   background-image: url("img/dice.jpg");
@@ -144,8 +144,8 @@
 
 .rog_icon_die_face-6,
 .rog_icon_dieFace[data-face="6"] {
-  width: 3em;
-  height: 3em;
+  width: 5em;
+  height: 5em;
   border-radius: 5px;
   box-shadow: 1px 1px 5px black;
   background-image: url("img/dice.jpg");
@@ -250,7 +250,7 @@
   font-size: 12px;
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_dieFace {
-  font-size: 15px;
+  font-size: 20px;
   font-weight: bold;
 }
 .rog_panel .rog_player_infos .rog_clan_card {

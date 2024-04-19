@@ -67,8 +67,8 @@
 @for $i from 0 through 5 {
     .rog_icon_die_face-#{$i + 1}, 
     .rog_icon_dieFace[data-face='#{$i + 1}'] {
-        width: 3em;
-        height: 3em;
+        width: 5em;
+        height: 5em;
         border-radius: 5px;
         box-shadow: 1px 1px 5px black;
         background-image: url("img/dice.jpg");
@@ -184,7 +184,7 @@
             }
             
             .rog_resource_dieFace{
-                font-size: 15px;
+                font-size: 20px;
                 font-weight: bold;
             }
         }
