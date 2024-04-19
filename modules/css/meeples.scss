@@ -100,12 +100,12 @@
     }
     &.tooltipable:not(.selectable):hover{
         //outline: 10px solid black;
-        filter: drop-shadow(0 0 7px black);
+        filter: drop-shadow(0 0 15px black);
         cursor: help;
     }
     &.selectable{
         //outline: 10px solid blue;
-        filter: drop-shadow(0 0 7px #00f3ff);
+        filter: drop-shadow(0 0 15px #00f3ff);
         cursor: pointer;
         &:hover {
             transform: scale(1.2);
@@ -113,7 +113,21 @@
     }
     &.selected{
         //outline: 10px solid #ff04cc;
-        filter: drop-shadow(0 0 7px #ffef00);
+        filter: drop-shadow(0 0 15px red);
+        //add a bounce animation : be careful, it is not compatible with other transform !
+        animation: bounce 2s ease infinite;
+    }
+}
+
+@keyframes bounce {
+    from {
+      transform: scale(1);
+    }
+    50% {
+      transform: scale(1.5);
+    }
+    to {
+      transform: scale(1);
     }
 }
 
