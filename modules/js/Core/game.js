@@ -1209,6 +1209,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           this.currentValue = +n;
           this.targetValue = +n;
           this.span.innerHTML = +n;
+          this.span.dataset.counter = +n;
+          if(this.currentValue==0) this.span.parentNode.classList.add("counter_empty");
+          else this.span.parentNode.classList.remove("counter_empty");
           if (this.linked) this.linked.innerHTML = +n;
         },
         toValue(n) {
@@ -1240,6 +1243,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           let step = Math.ceil(Math.abs(this.targetValue - this.currentValue) / 5);
           this.currentValue += (this.currentValue < this.targetValue ? 1 : -1) * step;
           this.span.innerHTML = this.currentValue;
+          this.span.dataset.counter = this.currentValue;
+          if(this.currentValue==0) this.span.parentNode.classList.add("counter_empty");
+          else this.span.parentNode.classList.remove("counter_empty");
           if (this.linked) this.linked.innerHTML = this.currentValue;
           setTimeout(() => this.makeCounterProgress(), this.speed);
         },

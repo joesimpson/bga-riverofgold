@@ -179,6 +179,28 @@
                 vertical-align: middle;
             }
 
+            &.rog_resource_port,
+            &.rog_resource_manor,
+            &.rog_resource_market,
+            &.rog_resource_shrine,
+            &.rog_resource_customer-1,
+            &.rog_resource_customer-2,
+            &.rog_resource_customer-3,
+            &.rog_resource_customer-4,
+            &.rog_resource_customer-5,
+            &.rog_resource_customer-6,
+            &.rog_resource_influence-1,
+            &.rog_resource_influence-2,
+            &.rog_resource_influence-3,
+            &.rog_resource_influence-4,
+            &.rog_resource_influence-5,
+            &.rog_resource_influence-6
+            {
+                &.counter_empty{
+                    opacity: 0.5;
+                }
+            }
+
             .rog_resource_favor_total{
                 font-size: 12px;
             }
@@ -186,6 +208,9 @@
             .rog_resource_dieFace{
                 font-size: 20px;
                 font-weight: bold;
+                &[data-counter='0']{
+                    visibility: hidden;
+                }
             }
         }
         .rog_clan_card{

@@ -246,12 +246,18 @@
   font-weight: bold;
   vertical-align: middle;
 }
+.rog_panel .rog_player_infos .rog_player_resource.rog_resource_port.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_manor.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_market.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_shrine.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-1.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-2.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-3.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-4.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-5.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-6.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-1.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-2.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-3.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-4.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-5.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-6.counter_empty {
+  opacity: 0.5;
+}
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_favor_total {
   font-size: 12px;
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_dieFace {
   font-size: 20px;
   font-weight: bold;
+}
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_dieFace[data-counter="0"] {
+  visibility: hidden;
 }
 .rog_panel .rog_player_infos .rog_clan_card {
   cursor: help;
