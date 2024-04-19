@@ -583,6 +583,9 @@ function (dojo, declare) {
                         this.takeAction('actBonus', {t:bonusType});
                     }
                 });
+                if(BONUS_TYPE_SET_DIE == bonusType && args.cannotSetDie){
+                    $(`btnBonus_${k}_${bonusType}`).classList.add('disabled');
+                }
                 k++;
             });
 

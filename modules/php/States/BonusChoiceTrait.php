@@ -30,10 +30,12 @@ trait BonusChoiceTrait
     if(count($this->listPossibleTrades($activePlayer))>0 ){
       $trade = true;
     }
+    $cannotSetDie = count($this->listPossibleDieFacesToSet($activePlayer)) ==0;
     $args = [
       'p' => $possibles,
       'trade' => $trade,
       'canSkip' => $this->canSkipBonuses($activePlayer),
+      'cannotSetDie' => $cannotSetDie,
     ];
     $this->addArgsForUndo($args);
     return $args;
