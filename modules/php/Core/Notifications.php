@@ -360,6 +360,7 @@ class Notifications
       $message = clienttranslate('${player_name} gets ${n} influence in region #${region}${region_icon} and reaches ${influence} with ${patron_name} ability');
     }
     self::notifyAll('gainInfluence', $message, [
+      'i18n' => [ 'patron_name' ],
       'player' => $player,
       'region_icon' => $region,
       'region' => $region,
@@ -530,6 +531,7 @@ class Notifications
   public static function scorePatron($player,$points,$card){
     $msg = clienttranslate('${player_name} scores ${n} ${points} with ${patron_name}');
     self::notifyAll('scorePatron',$msg,[ 
+        'i18n' => [ 'patron_name' ],
         'player' => $player,
         'n' => $points,
         'points' => 'points',

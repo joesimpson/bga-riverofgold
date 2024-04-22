@@ -1245,7 +1245,7 @@ function (dojo, declare) {
                         selectedCard = card.id;
                         $(`rog_clan_card-${selectedCard}`).classList.add('selected');
                         $(`rog_clan_card-${selectedCard}`).dataset.side = CLAN_CARD_FRONT;
-                        $('btnConfirm').innerHTML = this.fsr(confirmMessage, { patron_name: (card.name) });
+                        $('btnConfirm').innerHTML = this.fsr(confirmMessage, { patron_name: _(card.name) });
                         $(`btnConfirm`).classList.remove('disabled');
                     });
                 }
@@ -1886,7 +1886,7 @@ function (dojo, declare) {
                 [PATRON_LADY           , this.fsr(_('When advancing on an influence track, you jump over other players\' markers. Collect all resources that you pass or reach.'),{ })],
             ]);
             let description = descriptionMap.get(card.type);
-            let patron_name = card.name;
+            let patron_name = _(card.name);
             return `<div class="rog_clan_card" id="rog_clan_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-side="${card_side}">
                     <div class="rog_clan_card_wrapper">
                         <span class='rog_clan_name'>${_(this.CLANS_NAMES.get(card.clan))}</span>

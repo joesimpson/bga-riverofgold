@@ -364,14 +364,14 @@ class Cards extends \ROG\Helpers\Pieces
     return [
       // 8 unique Clan Patron cards
       //BEWARE Strings are copied in STATS
-      PATRON_MASTER_ENGINEER => $f([CLAN_CRAB,    'Kaiu Shihobu',   clienttranslate('Master Engineer'),                 '',  ]), 
-      PATRON_TRADER         => $f([CLAN_CRAB,     'Yasuki Taka',    clienttranslate('Wily Trader'),                     '',  ]), 
-      PATRON_SON_OF_STORM   => $f([CLAN_MANTIS,   'Yoritomo',       clienttranslate('Son of Storms'),                   '',  ]), 
-      PATRON_PRIESTESS      => $f([CLAN_MANTIS,   'Kudaka',         clienttranslate('Priestess of tempest and Tides'),  '',  ]), 
-      PATRON_IRON_CRANE     => $f([CLAN_CRANE,    'Daidoji Uji',    clienttranslate('The Iron Crane'),                  '',  ]), 
-      PATRON_DARLING        => $f([CLAN_CRANE,    'Kakita Ryoku',   clienttranslate('Darling of the Courts'),           '',  ]),
-      PATRON_GOVERNOR       => $f([CLAN_SCORPION, 'Shosuro Hyobu',  clienttranslate('Governor of the City of lies'),    '',  ]),  
-      PATRON_LADY           => $f([CLAN_SCORPION, 'Bayushi Kashiko',clienttranslate('Lady of Whispers'),                '',  ]),  
+      PATRON_MASTER_ENGINEER => $f([CLAN_CRAB,    clienttranslate('Kaiu Shihobu'),   clienttranslate('Master Engineer'),                 '',  ]), 
+      PATRON_TRADER         => $f([CLAN_CRAB,     clienttranslate('Yasuki Taka'),    clienttranslate('Wily Trader'),                     '',  ]), 
+      PATRON_SON_OF_STORM   => $f([CLAN_MANTIS,   clienttranslate('Yoritomo'),       clienttranslate('Son of Storms'),                   '',  ]), 
+      PATRON_PRIESTESS      => $f([CLAN_MANTIS,   clienttranslate('Kudaka'),         clienttranslate('Priestess of tempest and Tides'),  '',  ]), 
+      PATRON_IRON_CRANE     => $f([CLAN_CRANE,    clienttranslate('Daidoji Uji'),    clienttranslate('The Iron Crane'),                  '',  ]), 
+      PATRON_DARLING        => $f([CLAN_CRANE,    clienttranslate('Kakita Ryoku'),   clienttranslate('Darling of the Courts'),           '',  ]),
+      PATRON_GOVERNOR       => $f([CLAN_SCORPION, clienttranslate('Shosuro Hyobu'),  clienttranslate('Governor of the City of lies'),    '',  ]),  
+      PATRON_LADY           => $f([CLAN_SCORPION, clienttranslate('Bayushi Kashiko'),clienttranslate('Lady of Whispers'),                '',  ]),  
     ];
   }
 }
