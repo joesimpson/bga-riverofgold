@@ -63,6 +63,13 @@ function (dojo, declare) {
     const TILE_TYPE_BUILDING = 2;
     const TILE_TYPE_MASTERY_CARD = 3;
 
+    const MASTERY_TYPE_AIR    = 1; 
+    const MASTERY_TYPE_COURTS = 2;
+    const MASTERY_TYPE_EARTH  = 3;
+    const MASTERY_TYPE_FIRE   = 4;
+    const MASTERY_TYPE_VOID   = 5;
+    const MASTERY_TYPE_WATER  = 6;
+
     const TILE_LOCATION_SCORING = 's';
     const TILE_LOCATION_MASTERY_CARD = 'm';
     const TILE_LOCATION_BUILDING_DECK = 'bd';
@@ -224,6 +231,9 @@ function (dojo, declare) {
                 [CUSTOMER_TYPE_MONK    , _('Monk')],
                 [CUSTOMER_TYPE_NOBLE   , _('Noble')],
             ]);
+            
+            let toPreloadList = ['cards/masterycards.jpg'];
+            this.ensureSpecificGameImageLoading(toPreloadList);
 
             this._counters['deckSize1'] = this.createCounter('rog_deck_size-1',this.gamedatas.deckSize.era1);
             this._counters['deckSize2'] = this.createCounter('rog_deck_size-2',this.gamedatas.deckSize.era2);
@@ -1960,6 +1970,7 @@ function (dojo, declare) {
     
         addTile(tile, location = null) {
             debug('addTile',tile);
+            if(tile.subtype == TILE_TYPE_MASTERY_CARD ) return this.addMasteryCard(tile, location);
             let divId = `rog_tile-${tile.id}`;
             if ($(divId)) return $(divId);
             let o = this.place('tplTile', tile, location == null ? this.getTileContainer(tile) : location);
@@ -1996,6 +2007,9 @@ function (dojo, declare) {
                     data-nbPlayers="${nbPlayers}">
                 </div>`;
         },
+        ////////////////////////////////////////////////////////
+        // Mastery cards
+        ////////////////////////////////////////////////////////
         addMasteryCardHolder(tile) {
             debug("addMasteryCardHolder",tile);
             let divId = `rog_tile_holder-${tile.id}`;
@@ -2008,6 +2022,91 @@ function (dojo, declare) {
                 <div class="rog_tile_holder" id="rog_tile_holder-${tile.id}"></div>
                 </div>`;
         },
+        addMasteryCard(tile, location = null) {
+            debug('addMasteryCard',tile);
+            let divId = `rog_tile-${tile.id}`;
+            if ($(divId)) return $(divId);
+            let o = this.place('tplMasteryCard', tile, location == null ? this.getTileContainer(tile) : location);
+            this.addCustomTooltip(o.id, this.getMasteryCardTooltip(tile));
+            return o;
+        },
+        tplMasteryCard(tile, prefix ='') {
+            let nbPlayers = tile.nbPlayers ? Object.values(this.gamedatas.players).length : '';
+            let descriptionMap = new Map([
+                [MASTERY_TYPE_AIR,      this.fsr(_('Deliver to 3 different customer types.'),{})],
+                [MASTERY_TYPE_COURTS,   this.fsr(_('Reach the ${imperial_flower} in any region.'),{imperial_flower:this.formatIcon('imperial_flower')})],
+                [MASTERY_TYPE_EARTH,    this.fsr(_('Own 3 buildings of the same type.'),{})],
+                [MASTERY_TYPE_FIRE,     this.fsr(_('Deliver to 2 customers of the same type.'),{})],
+                [MASTERY_TYPE_VOID,     this.fsr(_('Have at least ${influence_1} in all 6 regions.'),{influence_1:this.formatIcon("influence",1)})],
+                [MASTERY_TYPE_WATER,    this.fsr(_('Own 1 building of each type.'),{})],
+            ]);
+            let description = descriptionMap.get(tile.scoringType);
+            let customer_types = '';
+            let building_types = '';
+            if([MASTERY_TYPE_AIR,MASTERY_TYPE_FIRE].indexOf(tile.scoringType) >= 0){
+                this.CUSTOMER_TYPES.forEach((value, key, map) =>{
+                    let customer = key;
+                    let customerName = value;
+                    customer_types += `<div class="rog_customer_label" data-type="${customer}">${customerName}</div>`;
+                });
+            }
+            else if([MASTERY_TYPE_EARTH,MASTERY_TYPE_WATER].indexOf(tile.scoringType) >= 0){
+                this.BUILDING_TYPES.forEach((value, key, map) =>{
+                    let type = key;
+                    if(type==0) return;
+                    let name = value;
+                    building_types += `<div class="rog_building_label" data-type="${type}">${name}</div>`;
+                });
+            }
+            return `<div class="rog_tile rog_tile${prefix} rog_masterycard" id="rog_tile${prefix}-${tile.id}" data-id="${tile.id}" data-type="${tile.type}" data-subtype="${tile.subtype}"
+                    data-nbPlayers="${nbPlayers}" data-masteryType="${tile.scoringType}">
+                    <div class="rog_masterycard_wrapper">
+                        <span class='rog_mastery_title'>${_(tile.title)}</span>
+                        <span class='rog_masterydesc'>${description}</span>
+                        <span class='rog_mastery_customers'>${customer_types}</span>
+                        <span class='rog_mastery_buildings'>${building_types}</span>
+                    </div>
+                </div>`;
+        },
+        getMasteryCardTooltip(tile) {
+            let cardDatas = tile;
+            let subtype = tile.subtype;
+            let titleSize = 'h1';
+            let divImage = this.tplMasteryCard(cardDatas,'_tmp');
+
+            let title = _('Immediate score for claiming this goal');
+            let titleLine1 = _('Clan position');
+            let titleLine2 = _('Score');
+            let line1 = `<td>1</td>
+                         <td>2</td>
+                         <td>3</td>`;
+            let line2 = `<td>7</td>
+                         <td>5</td>
+                         <td>3</td>`;
+            if(tile.nbPlayers == 2){
+                line1 = `<td>1</td>`;
+                line2 = `<td>5</td>`;
+            }
+            let table = `<table id="rog_score_mastery_table">
+                <tbody>
+                    <tr>
+                        <th>${titleLine1}</th>
+                        ${line1}
+                    </tr>
+                    <tr>
+                        <th>${titleLine2}</th>
+                        ${line2}
+                    </tr>
+                </tbody>
+                </table>`;
+            return `<div class='rog_tile_tooltip rog_masterycard_tooltip rog_tooltip' data-subtype='${subtype}'>
+                    <${titleSize}>${title}</${titleSize}>
+                    ${table}
+                    ${divImage}
+                </div>`;
+        },
+        
+        ////////////////////////////////////////////////////////
     
         getTileContainer(tile) {
             if (tile.location == TILE_LOCATION_SCORING) {

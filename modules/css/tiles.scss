@@ -156,6 +156,175 @@
 
     }
 }
+.rog_masterycard{
+    //Text datas to be written on a mastery card
+    .rog_masterycard_wrapper{
+        user-select: none;
+        color: black;
+        .rog_mastery_title{
+            position: absolute;
+            top: 7%;
+            left: 31%;
+            width: 38%;
+            height: 12%; 
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            font-size: 14px;
+            font-weight: bold;
+        }
+        .rog_masterydesc{
+            position: absolute;
+            top: 20%;
+            left: 5%;
+            width: 90%;
+            height: 40%;
+            font-size: 20px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            .rog_icon{
+                &.rog_icon_imperial_flower{
+                    margin: 0 5px;
+                    width: calc( 0.1 * 300px);
+                    height: calc( 0.1 * 305px);
+                }
+                &.rog_icon_influence{
+                    width: 30px;
+                    height: 40px;
+                }
+            }
+        }    
+        .rog_mastery_buildings,
+        .rog_mastery_customers{
+            position: absolute;
+            top: 53%;
+            width: 100%;
+            font-size: 10px;
+            .rog_building_label,
+            .rog_customer_label{
+                position: absolute;
+                text-align: center;
+            }
+        }
+    }
+    &[data-masterytype='1']//MASTERY_TYPE_AIR
+    ,&[data-masterytype='3']//MASTERY_TYPE_EARTH
+    ,&[data-masterytype='4']//MASTERY_TYPE_FIRE
+    ,&[data-masterytype='6']//MASTERY_TYPE_WATER
+    {
+        .rog_masterydesc{
+            //Part of the card has icons after description, so let's reduce the used height
+            height: 20%;
+        }
+    }
+    
+    &[data-masterytype='1']//MASTERY_TYPE_AIR
+    ,&[data-masterytype='4']//MASTERY_TYPE_FIRE
+    {
+        .rog_customer_label{
+            &[data-type='1']//CUSTOMER_TYPE_ARTISAN
+            {
+                left: 1%;
+                width: 22%;
+                max-width: 22%;
+            }
+            &[data-type='2']//CUSTOMER_TYPE_ELDER
+            {
+                left: 23%;
+                max-width: 18%;
+                width: 18%;
+            }
+            &[data-type='3']//CUSTOMER_TYPE_MERCHANT
+            {
+                left: 40%;
+                max-width: 18%;
+                width: 18%;
+            }
+            &[data-type='4']//CUSTOMER_TYPE_MONK
+            {
+                left: 58%;
+                max-width: 18%;
+                width: 18%;
+            }
+            &[data-type='5']//CUSTOMER_TYPE_NOBLE
+            {
+                left: 75%;
+                max-width: 25%;
+                width: 25%;
+            }
+        }
+    }
+    &[data-masterytype='3']//MASTERY_TYPE_EARTH
+    ,&[data-masterytype='6']//MASTERY_TYPE_WATER
+    {
+        .rog_building_label{
+            &[data-type='3']//BUILDING_TYPE_MANOR
+            {
+                left: 7%;
+                width: 22%;
+                max-width: 22%;
+            }
+            &[data-type='2']//BUILDING_TYPE_MARKET
+            {
+                left: 29%;
+                max-width: 20%;
+                width: 20%;
+            }
+            &[data-type='1']//BUILDING_TYPE_PORT
+            {
+                left: 49%;
+                max-width: 19%;
+                width: 19%;
+            }
+            &[data-type='4']//BUILDING_TYPE_SHRINE
+            {
+                left: 68%;
+                max-width: 25%;
+                width: 25%;
+            } 
+        }
+    }
+    
+    &[data-masterytype='6']//MASTERY_TYPE_WATER
+    {
+        .rog_building_label{
+            &[data-type='3']//BUILDING_TYPE_MANOR
+            {
+                text-align: right;
+                right: 69%;
+            }
+            &[data-type='4']//BUILDING_TYPE_SHRINE
+            {
+                text-align: left;
+                left: 71%;
+            } 
+        }
+    }
+}
+.rog_masterycard_tooltip{
+    #rog_score_mastery_table{
+        left: 35%;
+        position: relative;
+    }
+    .rog_tile{
+        //To avoid having text content of tile to start positionning from tooltip beginning
+        position: relative;
+        .rog_mastery_title{
+            font-size: calc(math.div(500,360) * 14px);
+        }
+        .rog_masterydesc{
+            font-size: calc(math.div(500,360) * 20px);
+        }
+        .rog_mastery_buildings,
+        .rog_mastery_customers{
+            font-size: calc(math.div(500,360) * 10px);
+        }
+    }
+}
+
 .rog_era_tile_holder{
     width: 1046px;
     height: 960px;

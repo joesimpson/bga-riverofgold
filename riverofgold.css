@@ -2508,6 +2508,135 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   background-position-y: 100%;
 }
 
+.rog_masterycard .rog_masterycard_wrapper {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+  color: black;
+}
+.rog_masterycard .rog_masterycard_wrapper .rog_mastery_title {
+  position: absolute;
+  top: 7%;
+  left: 31%;
+  width: 38%;
+  height: 12%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 14px;
+  font-weight: bold;
+}
+.rog_masterycard .rog_masterycard_wrapper .rog_masterydesc {
+  position: absolute;
+  top: 20%;
+  left: 5%;
+  width: 90%;
+  height: 40%;
+  font-size: 20px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+}
+.rog_masterycard .rog_masterycard_wrapper .rog_masterydesc .rog_icon.rog_icon_imperial_flower {
+  margin: 0 5px;
+  width: 30px;
+  height: 30.5px;
+}
+.rog_masterycard .rog_masterycard_wrapper .rog_masterydesc .rog_icon.rog_icon_influence {
+  width: 30px;
+  height: 40px;
+}
+.rog_masterycard .rog_masterycard_wrapper .rog_mastery_buildings,
+.rog_masterycard .rog_masterycard_wrapper .rog_mastery_customers {
+  position: absolute;
+  top: 53%;
+  width: 100%;
+  font-size: 10px;
+}
+.rog_masterycard .rog_masterycard_wrapper .rog_mastery_buildings .rog_building_label,
+.rog_masterycard .rog_masterycard_wrapper .rog_mastery_buildings .rog_customer_label,
+.rog_masterycard .rog_masterycard_wrapper .rog_mastery_customers .rog_building_label,
+.rog_masterycard .rog_masterycard_wrapper .rog_mastery_customers .rog_customer_label {
+  position: absolute;
+  text-align: center;
+}
+.rog_masterycard[data-masterytype="1"] .rog_masterydesc, .rog_masterycard[data-masterytype="3"] .rog_masterydesc, .rog_masterycard[data-masterytype="4"] .rog_masterydesc, .rog_masterycard[data-masterytype="6"] .rog_masterydesc {
+  height: 20%;
+}
+.rog_masterycard[data-masterytype="1"] .rog_customer_label[data-type="1"], .rog_masterycard[data-masterytype="4"] .rog_customer_label[data-type="1"] {
+  left: 1%;
+  width: 22%;
+  max-width: 22%;
+}
+.rog_masterycard[data-masterytype="1"] .rog_customer_label[data-type="2"], .rog_masterycard[data-masterytype="4"] .rog_customer_label[data-type="2"] {
+  left: 23%;
+  max-width: 18%;
+  width: 18%;
+}
+.rog_masterycard[data-masterytype="1"] .rog_customer_label[data-type="3"], .rog_masterycard[data-masterytype="4"] .rog_customer_label[data-type="3"] {
+  left: 40%;
+  max-width: 18%;
+  width: 18%;
+}
+.rog_masterycard[data-masterytype="1"] .rog_customer_label[data-type="4"], .rog_masterycard[data-masterytype="4"] .rog_customer_label[data-type="4"] {
+  left: 58%;
+  max-width: 18%;
+  width: 18%;
+}
+.rog_masterycard[data-masterytype="1"] .rog_customer_label[data-type="5"], .rog_masterycard[data-masterytype="4"] .rog_customer_label[data-type="5"] {
+  left: 75%;
+  max-width: 25%;
+  width: 25%;
+}
+.rog_masterycard[data-masterytype="3"] .rog_building_label[data-type="3"], .rog_masterycard[data-masterytype="6"] .rog_building_label[data-type="3"] {
+  left: 7%;
+  width: 22%;
+  max-width: 22%;
+}
+.rog_masterycard[data-masterytype="3"] .rog_building_label[data-type="2"], .rog_masterycard[data-masterytype="6"] .rog_building_label[data-type="2"] {
+  left: 29%;
+  max-width: 20%;
+  width: 20%;
+}
+.rog_masterycard[data-masterytype="3"] .rog_building_label[data-type="1"], .rog_masterycard[data-masterytype="6"] .rog_building_label[data-type="1"] {
+  left: 49%;
+  max-width: 19%;
+  width: 19%;
+}
+.rog_masterycard[data-masterytype="3"] .rog_building_label[data-type="4"], .rog_masterycard[data-masterytype="6"] .rog_building_label[data-type="4"] {
+  left: 68%;
+  max-width: 25%;
+  width: 25%;
+}
+.rog_masterycard[data-masterytype="6"] .rog_building_label[data-type="3"] {
+  text-align: right;
+  right: 69%;
+}
+.rog_masterycard[data-masterytype="6"] .rog_building_label[data-type="4"] {
+  text-align: left;
+  left: 71%;
+}
+
+.rog_masterycard_tooltip #rog_score_mastery_table {
+  left: 35%;
+  position: relative;
+}
+.rog_masterycard_tooltip .rog_tile {
+  position: relative;
+}
+.rog_masterycard_tooltip .rog_tile .rog_mastery_title {
+  font-size: 19.4444444444px;
+}
+.rog_masterycard_tooltip .rog_tile .rog_masterydesc {
+  font-size: 27.7777777778px;
+}
+.rog_masterycard_tooltip .rog_tile .rog_mastery_buildings,
+.rog_masterycard_tooltip .rog_tile .rog_mastery_customers {
+  font-size: 13.8888888889px;
+}
+
 .rog_era_tile_holder {
   width: 1046px;
   height: 960px;
@@ -4166,6 +4295,14 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   background-repeat: no-repeat;
   width: 23.03px;
   height: 26.67px;
+}
+
+.rog_icon_imperial_flower {
+  background-image: url("img/icons/imperial_flower.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 30px;
+  height: 30.5px;
 }
 
 .rog_icon_bonus-21 {
