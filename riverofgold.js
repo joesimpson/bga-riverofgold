@@ -573,7 +573,7 @@ function (dojo, declare) {
                 let buttonText = '';
                 if(BONUS_TYPE_REFILL_HAND == bonusType) buttonText = _('Refill hand');
                 if(BONUS_TYPE_SELL_GOODS == bonusType) buttonText = _('Sell goods');
-                if(BONUS_TYPE_SET_DIE == bonusType) buttonText = _('Set next turn die');
+                if(BONUS_TYPE_SET_DIE == bonusType) buttonText = _('Set next turn die')+"<br><div class='rog_clan_special_ability'>"+_('Clan special ability')+"</div>";
                 this.addImageActionButton(`btnBonus_${k}_${bonusType}`, `${buttonText}<div class='rog_trade'>
                     ${iconBonus}
                 </div>`, () =>  {

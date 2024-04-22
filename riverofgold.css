@@ -4960,6 +4960,11 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   border: none;
   box-shadow: none;
 }
+.customimagebutton .rog_clan_special_ability {
+  font-size: 9px;
+  font-style: italic;
+  color: #00ff1c;
+}
 .customimagebutton .rog_trade {
   display: flex;
   align-content: center;
