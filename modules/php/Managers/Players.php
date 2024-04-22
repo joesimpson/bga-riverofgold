@@ -289,9 +289,11 @@ class Players extends \ROG\Helpers\DB_Manager
     if(isset($playerPatron) && PATRON_LADY == $playerPatron->getType()){
       $betterPlayersSpacesOnPath = Meeples::countUsedSpacedOnInfluenceTrack($player->getId(),$region,$currentInfluence,$amount);
       $amount2 = $betterPlayersSpacesOnPath;
-      $newInfluence = min(NB_MAX_INLFUENCE,$newInfluence + $amount2);
-      $meeple->setPosition($newInfluence);
-      Notifications::gainInfluence($player,$region,$amount2,$newInfluence,$meeple,$playerPatron);
+      if($amount2>0) {
+        $newInfluence = min(NB_MAX_INLFUENCE,$newInfluence + $amount2);
+        $meeple->setPosition($newInfluence);
+        Notifications::gainInfluence($player,$region,$amount2,$newInfluence,$meeple,$playerPatron);
+      }
     }
     //If another player has the Governor, THEY get 3 points when we pass them
     $patronGovernor = Cards::getAssignedPatron(PATRON_GOVERNOR);
