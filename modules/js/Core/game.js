@@ -1104,6 +1104,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           } else {
             this.closeCurrentTooltip();
             tooltip.open($(id));
+            this.reduceTextSizeOnCardElements($("dijit__MasterTooltip_0"));
             this._displayedTooltip = tooltip;
           }
         }
@@ -1114,7 +1115,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         if (!this._helpMode && !this._dragndropMode) {
           if (tooltip.showTimeout != null) clearTimeout(tooltip.showTimeout);
 
-          tooltip.showTimeout = setTimeout(() => tooltip.open($(id)), delay);
+          tooltip.showTimeout = setTimeout(() => {
+              tooltip.open($(id)); 
+              this.reduceTextSizeOnCardElements($("dijit__MasterTooltip_0"));
+            }, 
+            delay);
         }
       });
 
@@ -1356,6 +1361,27 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         });
       });
     },
+
+    //Taken from thoun Ancient Knowledge : reduce a div text size to match a specific zone (on a card for example)
+    //EXAMPLE <span class='A'><div class='reduceToFit'>TEST abcdef</div></span> where .A elements define a width
+    reduceToFit(element) {
+      var div = element; //element.getElementsByTagName("div")[0];
+      if (div) {
+        var n = window.getComputedStyle(div).fontSize.match(/\d+/);
+        if (n)
+          for (var a = Number(n[0]); div.clientHeight > element.parentNode.clientHeight && a > 5;) {
+            a--;
+            div.style.fontSize = "".concat(a, "px")
+          }
+      }
+    },
+    reduceTextSizeOnCardElements(cardDiv) {
+      if(!cardDiv) return;
+      cardDiv.querySelectorAll(".reduceToFit").forEach((e) => {
+        this.reduceToFit(e);
+      });
+    },
+
   });
 });
 

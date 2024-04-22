@@ -1881,6 +1881,7 @@ function (dojo, declare) {
             if (tooltipDesc != null) {
                 this.addCustomTooltip(o.id, tooltipDesc.map((t) => this.formatString(t)).join('<br/>'));
             }
+            this.reduceTextSizeOnCardElements(o);
     
             return o;
         },
@@ -1899,10 +1900,10 @@ function (dojo, declare) {
             let patron_name = _(card.name);
             return `<div class="rog_clan_card" id="rog_clan_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-side="${card_side}">
                     <div class="rog_clan_card_wrapper">
-                        <span class='rog_clan_name'>${_(this.CLANS_NAMES.get(card.clan))}</span>
-                        <span class='rog_patron_name'>${patron_name}</span>
-                        <span class='rog_patron_ability'>${_(card.abilityName)}</span>
-                        <span class='rog_patron_desc'>${description}</span>
+                        <span class='rog_clan_name'><div class='reduceToFit'>${_(this.CLANS_NAMES.get(card.clan))}</div></span>
+                        <span class='rog_patron_name'><div class='reduceToFit'>${patron_name}</div></span>
+                        <span class='rog_patron_ability'><div class='reduceToFit'>${_(card.abilityName)}</div></span>
+                        <span class='rog_patron_desc'><div class='reduceToFit'>${description}</div></span>
                     </div>
                 </div>`;
         },
@@ -2028,6 +2029,7 @@ function (dojo, declare) {
             if ($(divId)) return $(divId);
             let o = this.place('tplMasteryCard', tile, location == null ? this.getTileContainer(tile) : location);
             this.addCustomTooltip(o.id, this.getMasteryCardTooltip(tile));
+            this.reduceTextSizeOnCardElements(o);
             return o;
         },
         tplMasteryCard(tile, prefix ='') {
@@ -2047,7 +2049,7 @@ function (dojo, declare) {
                 this.CUSTOMER_TYPES.forEach((value, key, map) =>{
                     let customer = key;
                     let customerName = value;
-                    customer_types += `<div class="rog_customer_label" data-type="${customer}">${customerName}</div>`;
+                    customer_types += `<div class="rog_customer_label" data-type="${customer}"><div class='reduceToFit'>${customerName}</div></div>`;
                 });
             }
             else if([MASTERY_TYPE_EARTH,MASTERY_TYPE_WATER].indexOf(tile.scoringType) >= 0){
@@ -2055,14 +2057,14 @@ function (dojo, declare) {
                     let type = key;
                     if(type==0) return;
                     let name = value;
-                    building_types += `<div class="rog_building_label" data-type="${type}">${name}</div>`;
+                    building_types += `<div class="rog_building_label" data-type="${type}"><div class='reduceToFit'>${name}</div></div>`;
                 });
             }
             return `<div class="rog_tile rog_tile${prefix} rog_masterycard" id="rog_tile${prefix}-${tile.id}" data-id="${tile.id}" data-type="${tile.type}" data-subtype="${tile.subtype}"
                     data-nbPlayers="${nbPlayers}" data-masteryType="${tile.scoringType}">
                     <div class="rog_masterycard_wrapper">
-                        <span class='rog_mastery_title'>${_(tile.title)}</span>
-                        <span class='rog_masterydesc'>${description}</span>
+                        <span class='rog_mastery_title'><div class='reduceToFit'>${_(tile.title)}</div></span>
+                        <span class='rog_masterydesc'><div class='reduceToFit'>${description}</div></span>
                         <span class='rog_mastery_customers'>${customer_types}</span>
                         <span class='rog_mastery_buildings'>${building_types}</span>
                     </div>
