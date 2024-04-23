@@ -499,6 +499,7 @@
         .rog_cards_delivered {
             display: flex;
             flex-flow: row;
+            flex-wrap: wrap;
             align-items: center;
             padding: 0px 5px;
             .rog_customer_card_resizeable{
