@@ -99,8 +99,8 @@
     background-image: url("img/icons/customerdelivery.png");
     background-size: 100% auto;
     background-repeat: no-repeat;
-    width: calc( 0.5 * 62px);
-    height: calc( 0.5 * 56px);
+    width: 2em;
+    height: 2em;
 }
 
 .rog_icon_market_simple{//SIMPLE : with no check mark on it
@@ -125,16 +125,20 @@
     .rog_ongoing_ability,
     .rog_endgame_ability{
         .rog_icon_bonus-21{//BONUS_TYPE_CHOICE
-            width: calc( 0.4 * 64px);
-            height: calc( 0.4 * 60px);
+            width: 2em;
+            height: 2em;
+        }
+        .rog_icon_bonus-24{//BONUS_TYPE_UPGRADE_SHIP
+            width: 4em;
+            height: 2em;
         }
         .rog_icon_bonus-25{//BONUS_TYPE_SECOND_MARKER_ON_BUILDING
-            width: calc( 0.4 * 57px);
-            height: calc( 0.4 * 34px);
+            width: 2em;
+            height: 1em;
         }
         .rog_icon_bonus-26{//BONUS_TYPE_SECOND_MARKER_ON_OPPONENT
-            width: calc( 0.4 * 57px);
-            height: calc( 0.4 * 29px);
+            width: 2em;
+            height: 1em;
         }
     }
 }

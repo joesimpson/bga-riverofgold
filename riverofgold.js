@@ -927,8 +927,13 @@ function (dojo, declare) {
         notif_deliver(n) {
             debug('notif_deliver: a player shows a card to all !', n);
             let card = n.args.card;
-            if (!$(`rog_card-${card.id}`)) this.addCard(card, this.getVisibleTitleContainer());
-            this.slide(`rog_card-${card.id}`, this.getCardContainer(card));
+            let div = $(`rog_card-${card.id}`);
+            let oldParent = null;
+            if (!div) this.addCard(card, this.getVisibleTitleContainer());
+            else oldParent = div.parentNode.parentNode;//rog_customer_holder
+            this.slide(`rog_card-${card.id}`, this.getCardContainer(card)).then(() =>{
+                if(oldParent && oldParent.classList.contains("rog_customer_card_resizeable")) this.destroy( $(`${oldParent.id}`));
+            });
             this._counters[card.pId].customers[card.customerType].incValue(+1);
         },
         notif_discardPublic(n) {
@@ -937,11 +942,15 @@ function (dojo, declare) {
         },
         notif_discard(n) {
             debug('notif_discard: discarding a private card', n);
-            if (!$(`rog_card-${n.args.card.id}`)) return;
+            let div = $(`rog_card-${n.args.card.id}`);
+            if (!div) return;
+            let oldParent = div.parentNode.parentNode;//rog_customer_holder
             this.slide(`rog_card-${n.args.card.id}`, this.getVisibleTitleContainer(), {
                 destroy: true,
                 phantom: false,
                 duration: 800,
+            }).then(() =>{
+                if(oldParent.classList.contains("rog_customer_card_resizeable")) this.destroy( $(`${oldParent.id}`));
             });
         },
         notif_giveResource(n) {
@@ -1805,8 +1814,11 @@ function (dojo, declare) {
             // This function is refreshUI compatible
             //destroy previous cards
             document.querySelectorAll('.rog_card[id^="rog_card-"], .rog_clan_card[id^="rog_clan_card-"]').forEach((oCard) => {
-                if(keepHand && oCard.parentNode.classList.contains('rog_cards_hand')) return;
+                if(keepHand && oCard.parentNode.parentNode.parentNode.classList.contains('rog_cards_hand')) return;
                 this.destroy(oCard);
+            });
+            document.querySelectorAll('.rog_cards_delivered').forEach((div) => {
+                this.empty(div);
             });
             let cardIds = this.gamedatas.cards.map((card) => {
                 let divCardId = `rog_card-${card.id}`;
@@ -1997,9 +2009,17 @@ function (dojo, declare) {
     
         getCardContainer(card) {
             if (card.location == CARD_LOCATION_HAND) {
+                let holder = this.addCustomerCardHolder(card,`rog_cards_hand`);
+                if( holder){
+                    return holder.id;
+                }
                 return $(`rog_cards_hand-${card.pId}`);
             }
             if (card.location == CARD_LOCATION_DELIVERED) {
+                let holder = this.addCustomerCardHolder(card,`rog_cards_delivered`);
+                if( holder){
+                    return holder.id;
+                }
                 return $(`rog_cards_delivered-${card.pId}`);
             }
             if (card.location == CARD_CLAN_LOCATION_ASSIGNED) {
@@ -2025,6 +2045,21 @@ function (dojo, declare) {
                     <div class='rog_cards_delivered' id='rog_cards_delivered-${player.id}'></div>
                 </div>
             </div>`;
+        },
+        /**
+         * @param string location : 'rog_cards_hand' /'rog_cards_delivered'
+         */
+        addCustomerCardHolder(card,location) {
+            debug("addCustomerCardHolder",card,location);
+            let divId = `rog_customer_holder_${location}-${card.id}`;
+            if ($(divId)) return $(divId);
+            let elt = this.place('tplCustomerCardHolder', {card,location}, $(`${location}-${card.pId}`));
+            return elt.firstElementChild;
+        },
+        tplCustomerCardHolder(datas) {
+            return `<div class="rog_customer_card_resizeable" id="rog_customer_card_resizeable_${datas.location}-${datas.card.id}">
+                    <div class="rog_customer_holder" id="rog_customer_holder_${datas.location}-${datas.card.id}"></div>
+                </div>`;
         },
 
         ////////////////////////////////////////////////////////

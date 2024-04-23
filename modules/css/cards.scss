@@ -27,7 +27,7 @@
     &.selected,
     &.selected:hover {
         box-shadow: 0px 0px 7px 2px green;
-        transform: scale(1.1);
+        //transform: scale(1.1);
         z-index: 2;
 
         &.rog_selectedToDiscard{
@@ -61,7 +61,7 @@
             justify-content: center;
             align-items: center;
             display: flex;
-            font-size: 20px;
+            font-size: 10px;
             font-weight: bold;
             color: white;
         }
@@ -75,7 +75,7 @@
             justify-content: center;
             align-items: center;
             display: flex;
-            font-size: 13px;
+            font-size: 6px;
             color: black;
             
             .rog_icon_influence{
@@ -92,6 +92,7 @@
             .rog_icon_score_1,
             .rog_icon_money,
             .rog_icon_favor,
+            .rog_icon_moon_up,
             .rog_icon_influence-1,
             .rog_icon_influence-2,
             .rog_icon_influence-3,
@@ -300,6 +301,16 @@
     }
 }
 .rog_card_tooltip{
+    .rog_card_wrapper{
+        .rog_customer_name{
+            font-size: 20px;
+        }
+        .rog_delivery_ability,
+        .rog_ongoing_ability,
+        .rog_endgame_ability {
+            font-size: 17px;
+        }
+    }
     .rog_clan_card_wrapper{
         .rog_clan_name{
             font-size: 20px;
@@ -397,25 +408,51 @@
 .rog_player_hand_resizable {
     display: flex;
     align-self: baseline;
-    //transform: scale(var(--rog_hand_scale));
-    //transform-origin: top left;
-    //-> resize cards width inside
-    .rog_card{
-        position: relative;
+    .rog_customer_card_resizeable{
+        display: flex;
         width: calc(var(--rog_hand_scale) * 148px);
         height: calc(var(--rog_hand_scale) * 200px);
+        .help-marker{
+            //Keep around the same size for the help marker in help mode
+            transform: scale(calc(1 / var(--rog_hand_scale)));
+            transform-origin: top left;
+        }
+        .rog_customer_holder{
+            display: flex;
+            transform: scale(var(--rog_hand_scale));
+            transform-origin: top left;
+            .rog_card{
+                position: relative;
+                width: calc(1 * 148px);
+                height: calc(1 * 200px);
+            }
+        }
     }
+    
 }
 
 #rog_players_deliveries {
     display: flex;
     flex-flow: column;
-    //transform: scale(var(--rog_delivered_scale));
-    //transform-origin: top left;
-    .rog_card{
-        position: relative;
+    .rog_customer_card_resizeable{
+        display: flex;
         width: calc(var(--rog_delivered_scale) * 148px);
         height: calc(var(--rog_delivered_scale) * 200px);
+        .help-marker{
+            //Keep around the same size for the help marker in help mode
+            transform: scale(calc(1 / var(--rog_delivered_scale)));
+            transform-origin: top left;
+        }
+        .rog_customer_holder{
+            display: flex;
+            transform: scale(var(--rog_delivered_scale));
+            transform-origin: top left;
+            .rog_card{
+                position: relative;
+                width: calc(1 * 148px);
+                height: calc(1 * 200px);
+            }
+        }
     }
 }
 .rog_player_hand_resizable,
@@ -464,13 +501,15 @@
             flex-flow: row;
             align-items: center;
             padding: 0px 5px;
-            .rog_card {
+            .rog_customer_card_resizeable{
                 margin: 2px 5px;
-                &.selectable {
-                    //to compensate the rescale 'zoom' on the card
-                    margin-top: 15px;
-                    margin-bottom: 15px;
-                }
+            }
+            .rog_card {
+                //&.selectable {
+                //    //to compensate the rescale 'zoom' on the card
+                //    margin-top: 15px;
+                //    margin-bottom: 15px;
+                //}
                 //ORDER CARDS by type :
                 @for $i from 1 through 30 {
                     &[data-type="#{$i}"] {
