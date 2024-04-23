@@ -2139,303 +2139,543 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   margin: 2px 5px;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="1"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="1"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="1"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="1"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="1"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="1"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="1"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="1"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="1"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="1"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="1"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="1"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="1"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="1"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="1"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="1"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="1"] {
   order: 1;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="2"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="2"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="2"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="2"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="2"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="2"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="2"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="2"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="2"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="2"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="2"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="2"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="2"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="2"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="2"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="2"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="2"] {
   order: 2;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="3"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="3"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="3"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="3"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="3"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="3"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="3"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="3"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="3"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="3"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="3"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="3"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="3"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="3"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="3"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="3"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="3"] {
   order: 3;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="4"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="4"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="4"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="4"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="4"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="4"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="4"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="4"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="4"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="4"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="4"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="4"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="4"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="4"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="4"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="4"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="4"] {
   order: 4;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="5"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="5"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="5"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="5"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="5"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="5"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="5"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="5"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="5"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="5"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="5"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="5"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="5"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="5"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="5"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="5"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="5"] {
   order: 5;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="6"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="6"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="6"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="6"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="6"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="6"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="6"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="6"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="6"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="6"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="6"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="6"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="6"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="6"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="6"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="6"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="6"] {
   order: 6;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="7"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="7"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="7"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="7"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="7"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="7"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="7"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="7"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="7"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="7"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="7"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="7"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="7"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="7"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="7"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="7"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="7"] {
   order: 7;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="8"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="8"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="8"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="8"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="8"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="8"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="8"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="8"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="8"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="8"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="8"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="8"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="8"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="8"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="8"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="8"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="8"] {
   order: 8;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="9"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="9"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="9"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="9"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="9"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="9"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="9"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="9"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="9"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="9"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="9"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="9"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="9"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="9"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="9"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="9"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="9"] {
   order: 9;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="10"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="10"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="10"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="10"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="10"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="10"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="10"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="10"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="10"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="10"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="10"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="10"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="10"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="10"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="10"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="10"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="10"] {
   order: 10;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="11"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="11"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="11"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="11"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="11"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="11"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="11"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="11"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="11"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="11"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="11"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="11"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="11"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="11"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="11"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="11"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="11"] {
   order: 11;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="12"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="12"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="12"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="12"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="12"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="12"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="12"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="12"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="12"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="12"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="12"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="12"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="12"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="12"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="12"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="12"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="12"] {
   order: 12;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="13"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="13"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="13"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="13"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="13"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="13"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="13"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="13"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="13"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="13"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="13"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="13"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="13"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="13"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="13"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="13"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="13"] {
   order: 13;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="14"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="14"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="14"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="14"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="14"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="14"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="14"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="14"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="14"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="14"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="14"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="14"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="14"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="14"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="14"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="14"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="14"] {
   order: 14;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="15"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="15"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="15"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="15"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="15"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="15"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="15"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="15"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="15"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="15"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="15"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="15"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="15"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="15"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="15"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="15"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="15"] {
   order: 15;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="16"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="16"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="16"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="16"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="16"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="16"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="16"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="16"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="16"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="16"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="16"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="16"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="16"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="16"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="16"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="16"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="16"] {
   order: 16;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="17"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="17"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="17"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="17"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="17"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="17"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="17"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="17"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="17"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="17"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="17"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="17"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="17"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="17"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="17"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="17"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="17"] {
   order: 17;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="18"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="18"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="18"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="18"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="18"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="18"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="18"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="18"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="18"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="18"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="18"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="18"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="18"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="18"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="18"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="18"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="18"] {
   order: 18;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="19"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="19"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="19"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="19"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="19"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="19"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="19"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="19"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="19"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="19"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="19"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="19"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="19"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="19"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="19"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="19"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="19"] {
   order: 19;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="20"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="20"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="20"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="20"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="20"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="20"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="20"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="20"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="20"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="20"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="20"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="20"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="20"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="20"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="20"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="20"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="20"] {
   order: 20;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="21"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="21"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="21"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="21"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="21"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="21"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="21"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="21"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="21"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="21"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="21"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="21"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="21"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="21"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="21"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="21"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="21"] {
   order: 21;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="22"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="22"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="22"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="22"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="22"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="22"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="22"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="22"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="22"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="22"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="22"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="22"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="22"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="22"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="22"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="22"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="22"] {
   order: 22;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="23"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="23"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="23"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="23"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="23"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="23"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="23"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="23"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="23"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="23"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="23"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="23"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="23"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="23"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="23"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="23"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="23"] {
   order: 23;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="24"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="24"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="24"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="24"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="24"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="24"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="24"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="24"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="24"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="24"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="24"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="24"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="24"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="24"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="24"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="24"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="24"] {
   order: 24;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="25"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="25"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="25"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="25"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="25"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="25"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="25"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="25"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="25"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="25"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="25"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="25"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="25"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="25"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="25"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="25"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="25"] {
   order: 25;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="26"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="26"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="26"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="26"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="26"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="26"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="26"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="26"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="26"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="26"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="26"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="26"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="26"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="26"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="26"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="26"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="26"] {
   order: 26;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="27"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="27"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="27"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="27"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="27"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="27"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="27"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="27"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="27"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="27"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="27"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="27"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="27"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="27"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="27"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="27"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="27"] {
   order: 27;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="28"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="28"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="28"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="28"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="28"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="28"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="28"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="28"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="28"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="28"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="28"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="28"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="28"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="28"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="28"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="28"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="28"] {
   order: 28;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="29"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="29"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="29"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="29"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="29"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="29"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="29"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="29"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="29"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="29"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="29"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="29"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="29"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="29"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="29"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="29"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="29"] {
   order: 29;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="30"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="30"],
 .rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="30"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="30"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="30"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="30"],
 .rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="30"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="30"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_card[data-type="30"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_customer_card_resizeable[data-type="30"],
 .rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_card[data-type="30"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_customer_card_resizeable[data-type="30"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_card[data-type="30"],
-.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="30"] {
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_customer_card_resizeable[data-type="30"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="30"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="30"] {
   order: 30;
 }
 

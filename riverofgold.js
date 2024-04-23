@@ -252,7 +252,7 @@ function (dojo, declare) {
                 [CUSTOMER_TYPE_NOBLE   , _('Noble')],
             ]);
             
-            let toPreloadList = ['cards/masterycards.jpg'];
+            let toPreloadList = ['cards/masterycards.jpg','cards/customers.jpg'];
             this.ensureSpecificGameImageLoading(toPreloadList);
 
             this._counters['deckSize1'] = this.createCounter('rog_deck_size-1',this.gamedatas.deckSize.era1);
@@ -2057,7 +2057,7 @@ function (dojo, declare) {
             return elt.firstElementChild;
         },
         tplCustomerCardHolder(datas) {
-            return `<div class="rog_customer_card_resizeable" id="rog_customer_card_resizeable_${datas.location}-${datas.card.id}">
+            return `<div class="rog_customer_card_resizeable" id="rog_customer_card_resizeable_${datas.location}-${datas.card.id}"  data-type='${datas.card.type}'>
                     <div class="rog_customer_holder" id="rog_customer_holder_${datas.location}-${datas.card.id}"></div>
                 </div>`;
         },
