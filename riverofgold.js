@@ -56,6 +56,22 @@ function (dojo, declare) {
     const CUSTOMER_TYPE_MONK =     4;
     const CUSTOMER_TYPE_NOBLE =    5;
 
+    const CARD_MERCHANT_1 = 13;
+    const CARD_MERCHANT_2 = 14;
+    const CARD_MERCHANT_3 = 15;
+    const CARD_MERCHANT_4 = 16;
+    const CARD_MERCHANT_5 = 17;
+    const CARD_MERCHANT_6 = 18;
+    const CARD_NOBLE_1 = 25;
+    const CARD_NOBLE_2 = 26;
+    const CARD_NOBLE_3 = 27;
+    const CARD_NOBLE_4 = 28;
+    const CARD_NOBLE_5 = 29;
+    const CARD_NOBLE_6 = 30;
+
+    const MONK_TYPE_OWN_BUILDING = 1;
+    const MONK_TYPE_OPPONENT_BUILDING = 2;
+
     const CARD_TYPE_CUSTOMER = 1;
     const CARD_TYPE_CLAN_PATRON = 2;
 
@@ -97,7 +113,11 @@ function (dojo, declare) {
     const RESOURCE_TYPE_MOON = 4;
     const RESOURCE_TYPE_SUN = 5;
     const RESOURCE_TYPE_MONEY = 6;
+    const BONUS_TYPE_CHOICE = 21;
     const BONUS_TYPE_DRAW = 23;
+    const BONUS_TYPE_UPGRADE_SHIP = 24;
+    const BONUS_TYPE_SECOND_MARKER_ON_BUILDING = 25;
+    const BONUS_TYPE_SECOND_MARKER_ON_OPPONENT = 26;
     const BONUS_TYPE_SELL_GOODS = 28;
     const BONUS_TYPE_REFILL_HAND = 29;
     const BONUS_TYPE_SET_DIE = 35;
@@ -1822,18 +1842,156 @@ function (dojo, declare) {
     
         getCardTooltip(card) {
             let cardDatas = card;
-            let desc = this.getCardCustomerName(cardDatas);
+            let desc = this.getCustomerCardName(cardDatas);
             let div = this.tplCard(cardDatas,'_tmp');
             return [`<div class='rog_card_tooltip'><h1>${desc}</h1>${div}</div>`];
         },
-        getCardCustomerName(cardDatas) {
+        getCustomerCardName(cardDatas) {
             return [this.fsr(_('${customer_type} ${region}'), { customer_type: _(cardDatas.title), region: cardDatas.region })];
         },
-    
+        getCustomerDeliveryAbilityText(card) {
+            let regionIcon =  this.formatIcon('influence-'+card.region);
+            let customerIcon = this.formatIcon('customer-'+card.customerType);
+            let descriptionMap = new Map([
+                [CUSTOMER_TYPE_ARTISAN,     this.fsr(_('Gain ${influence_2} in ${region} and place a clan marker on ${artisan_space} there.'),{influence_2:this.formatIcon("influence",2), region: regionIcon,artisan_space:customerIcon })],
+                [CUSTOMER_TYPE_ELDER,       this.fsr(_('Place a clan marker on ${elder_space} in ${region}.'), {region: regionIcon,elder_space:customerIcon })],
+                [CUSTOMER_TYPE_MERCHANT,    this.fsr(_('Gain ${influence_3} in ${region}. Place a clan marker on ${merchant_space} at the end of the river.'),{influence_3:this.formatIcon("influence",3), region: regionIcon,merchant_space:customerIcon })],
+                [CUSTOMER_TYPE_MONK,        this.fsr(_('${moon_up} and gain 2 ${icon_favor}.<br>Place a second clan marker on ${icon_building}.'),{moon_up:this.formatIcon("moon_up"), icon_favor:this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN]), icon_building:this.formatIcon("bonus-"+ (card.monkType==MONK_TYPE_OWN_BUILDING ? BONUS_TYPE_SECOND_MARKER_ON_BUILDING : BONUS_TYPE_SECOND_MARKER_ON_OPPONENT )) })],
+                [CUSTOMER_TYPE_NOBLE,       this.fsr(_('${ship_upgrade} and gain ${influence_2} in ${region}.'),{ship_upgrade:this.formatIcon("bonus-"+BONUS_TYPE_UPGRADE_SHIP),influence_2:this.formatIcon("influence",2), region: regionIcon,})],
+            ]);
+            return descriptionMap.get(card.customerType);
+        },
+        getCustomerOngoingAbilityText(card) {
+            let ongoingAbility = null;
+            let regionIcon =  this.formatIcon('influence-'+card.region);
+            let moneyIcon =  this.formatIcon('money');
+            switch(card.customerType){
+                case CUSTOMER_TYPE_ARTISAN:   
+                    ongoingAbility = this.fsr(_('Pay 2 ${money} less to build in ${region}.'), {money:moneyIcon, region:regionIcon});
+                    break;
+                case CUSTOMER_TYPE_ELDER:
+                    ongoingAbility = null; 
+                    break;
+                case CUSTOMER_TYPE_MERCHANT:  
+                    switch(card.type){
+                        case CARD_MERCHANT_1:
+                            ongoingAbility = this.fsr(_('When you complete your journey, gain ${influence_1} in every region with ${building}'), {influence_1:this.formatIcon("influence",1), building: this.formatIcon("bonus-"+BONUS_TYPE_SECOND_MARKER_ON_BUILDING) });
+                            break;
+                        case CARD_MERCHANT_2:
+                            ongoingAbility = this.fsr(_('When you complete your journey, gain ${score} : ${delivery}.'), {score:this.formatIcon("score_1"),delivery:this.formatIcon("customer_delivery")});
+                            break;
+                        case CARD_MERCHANT_3:
+                            ongoingAbility = this.fsr(_('When you complete your journey, gain ${n} ${icon}'), {n:'',icon:this.formatIcon("bonus-"+BONUS_TYPE_CHOICE)});
+                            break;
+                        case CARD_MERCHANT_4:
+                            ongoingAbility = this.fsr(_('When you complete your journey, you may sell goods for ${n} ${money} each.',), {n:REGION_5, money:moneyIcon,});
+                            break;
+                        case CARD_MERCHANT_5:
+                            ongoingAbility = this.fsr(_('When you complete your journey, gain ${n} ${icon}.'), {n:1,icon:this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN]),});
+                            break;
+                        case CARD_MERCHANT_6:
+                            ongoingAbility = this.fsr(_('When you complete your journey, gain +${n} ${money}'), {n:3, money:moneyIcon,});
+                            break;
+                    }
+                    break;
+                case CUSTOMER_TYPE_MONK: 
+                    let icon_building ='';
+                    if(card.monkType==MONK_TYPE_OWN_BUILDING ){
+                        icon_building = this.formatIcon("bonus-"+BONUS_TYPE_SECOND_MARKER_ON_BUILDING);
+                        ongoingAbility = this.fsr(_('You gain double owner rewards from ${building} with your extra clan marker.'), {building:icon_building});
+                    } else {
+                        icon_building = this.formatIcon("bonus-"+BONUS_TYPE_SECOND_MARKER_ON_OPPONENT);
+                        ongoingAbility = this.fsr(_('You also gain the owner rewards from ${building} with your clan marker.'), {building:icon_building});
+                    }
+                    break;
+                case CUSTOMER_TYPE_NOBLE:
+                    switch(card.type){
+                        case CARD_NOBLE_1:
+                            ongoingAbility = this.fsr(_('When your ${ship_type} gains a good from visiting a ${market}, it may be ${resource}.'), {ship_type:MEEPLE_TYPE_SHIP_ROYAL,market:this.formatIcon("market_simple"),resource:this.formatIcon('bonus-'+BONUS_TYPE_CHOICE) });
+                            break;
+                        case CARD_NOBLE_2:
+                            ongoingAbility = this.fsr(_('Your ${ship_type} collects +1 ${money} from each empty space it visits.'), { ship_type:MEEPLE_TYPE_SHIP_ROYAL,money:moneyIcon});
+                            break;
+                        case CARD_NOBLE_3:
+                            ongoingAbility = this.fsr(_('After your ${ship_type} sails, gain ${influence_1} in each adjacent region.'), {ship_type:MEEPLE_TYPE_SHIP_ROYAL,influence_1:this.formatIcon("influence",1),  });
+                            break;
+                        case CARD_NOBLE_4:
+                            ongoingAbility = this.fsr(_('After your ${ship_type} sails, gain ${score} if you visited at least 1 ${building}.'), {ship_type:MEEPLE_TYPE_SHIP_ROYAL,score:this.formatIcon("score_1"),building:this.formatIcon("bonus-"+BONUS_TYPE_SECOND_MARKER_ON_OPPONENT) });
+                            break;
+                        case CARD_NOBLE_5:
+                            ongoingAbility = this.fsr(_('When your ${ship_type} sails, you may adjust your die up or down by 1 (for free).'), {ship_type:MEEPLE_TYPE_SHIP_ROYAL, });
+                            break;
+                        case CARD_NOBLE_6:
+                            ongoingAbility = this.fsr(_('After your ${ship_type} sails, gain ${score} if you visited at least 1 ${building}.'), {ship_type:MEEPLE_TYPE_SHIP_ROYAL,score:this.formatIcon("score_1"),building:this.formatIcon("bonus-"+BONUS_TYPE_SECOND_MARKER_ON_BUILDING) });
+                            break;
+                    }
+                    break;
+            }
+            ongoingAbility = (ongoingAbility ==null) ? '' :`<span class='rog_ongoing_ability'><div class='reduceToFit'>${ongoingAbility}</div></span>`;
+            return ongoingAbility;
+        },
+        getCustomerEndgameAbilityText(card) {
+            let endgameAbility = null;
+            let regionIcon =  this.formatIcon('influence-'+card.region);
+            switch(card.customerType){
+                case CUSTOMER_TYPE_ARTISAN:   
+                    endgameAbility = this.fsr(_('${score} : ${n} ${element}'), {score:this.formatIcon('score_1'),n:3, element: this.formatIcon('bonus-'+BONUS_TYPE_CHOICE)});
+                    break;
+                case CUSTOMER_TYPE_ELDER:     
+                    endgameAbility = this.fsr(_('2x ${score} from ${region}'), {score:this.formatIcon('score'),region:regionIcon}); 
+                    break;
+                case CUSTOMER_TYPE_MERCHANT:  
+                    endgameAbility = this.fsr(_('${score} : ${n} ${element}'), {score:this.formatIcon('score_1'),n:5, element: this.formatIcon('money')});
+                    break;
+                case CUSTOMER_TYPE_MONK:      
+                    endgameAbility = null;
+                    break;
+                case CUSTOMER_TYPE_NOBLE:
+                    let icon_score = this.formatIcon("score_1");
+                    switch(card.type){
+                        case CARD_NOBLE_1:
+                            icon_building = this.formatIcon("market");
+                            endgameAbility = this.fsr(_('${score} : ${n} ${element}'), {score:icon_score, n:'', element:icon_building});
+                            break;
+                        case CARD_NOBLE_2:
+                            icon_building = this.formatIcon("port");
+                            endgameAbility = this.fsr(_('${score} : ${n} ${element}'), {score:icon_score, n:'', element:icon_building});
+                            break;
+                        case CARD_NOBLE_3:
+                            icon_building = this.formatIcon("manor");
+                            endgameAbility = this.fsr(_('${score} : ${n} ${element}'), {score:icon_score, n:'', element:icon_building});
+                            break;
+                        case CARD_NOBLE_4:
+                            icon_building = this.formatIcon("shrine");
+                            endgameAbility = this.fsr(_('${score} : ${n} ${element}'), {score:icon_score, n:'', element:icon_building});
+                            break;
+                        case CARD_NOBLE_5:
+                            icon_building = this.formatIcon("bonus-"+BONUS_TYPE_SECOND_MARKER_ON_BUILDING);
+                            endgameAbility = this.fsr(_('${score} : type of ${building}'), {score:icon_score, building:icon_building});
+                            break;
+                        case CARD_NOBLE_6:
+                            icon_building = this.formatIcon("bonus-"+BONUS_TYPE_SECOND_MARKER_ON_BUILDING);
+                            endgameAbility = this.fsr(_('${score} : region with ${building}'), {score:icon_score, building:icon_building});
+                            break;
+                    }
+                    break;
+            }
+            endgameAbility = (endgameAbility ==null) ?'' :`<span class='rog_endgame_ability'><div class='reduceToFit'>${endgameAbility}</div></span>`;
+            return endgameAbility;
+        },
+
         tplCard(card, prefix ='') {
-            let customerName = this.getCardCustomerName(card);
-            return `<div class="rog_card" id="rog_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-customer_name="${customerName}">
-                    <div class="rog_card_wrapper"></div>
+            let customerName = this.getCustomerCardName(card);
+            let delivAbility = this.getCustomerDeliveryAbilityText(card);
+            let ongoingAbility = this.getCustomerOngoingAbilityText(card);
+            let endgameAbility = this.getCustomerEndgameAbilityText(card);
+            return `<div class="rog_card" id="rog_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-customertype="${card.customerType}" data-customer_name="${customerName}">
+                    <div class="rog_card_wrapper">
+                        <span class='rog_customer_name'><div class='reduceToFit'>${_(card.title)}</div></span>
+                        <span class='rog_delivery_ability'><div class='reduceToFit'>${delivAbility}</div></span>
+                        ${ongoingAbility}
+                        ${endgameAbility}
+                    </div>
                 </div>`;
         },
     

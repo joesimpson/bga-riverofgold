@@ -49,6 +49,108 @@
            }
         }
     }
+
+    .rog_card_wrapper{//WRAPPER For text datas
+        user-select: none;
+        .rog_customer_name{
+            position: absolute;
+            top: 31%;
+            width: 60%;
+            height: 8%;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            font-size: 20px;
+            font-weight: bold;
+            color: white;
+        }
+        .rog_delivery_ability,
+        .rog_ongoing_ability,
+        .rog_endgame_ability {
+            position: absolute;
+            left: 2%;
+            width: 96%;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            font-size: 13px;
+            color: black;
+            
+            .rog_icon_influence{
+                width: 1.5em;
+                height: 2.2em;
+                .rog_icon_qty{
+                    font-size: inherit;
+                    line-height: 2em;
+                    max-height: 2em;
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+            .rog_icon_score_1,
+            .rog_icon_money,
+            .rog_icon_favor,
+            .rog_icon_influence-1,
+            .rog_icon_influence-2,
+            .rog_icon_influence-3,
+            .rog_icon_influence-4,
+            .rog_icon_influence-5,
+            .rog_icon_influence-6,
+            .rog_icon_customer-1,
+            .rog_icon_customer-2,
+            .rog_icon_customer-3,
+            .rog_icon_customer-4,
+            .rog_icon_customer-5,
+            .rog_icon_customer-6,
+            .rog_icon_ship-3
+            {
+                width: 2em;
+                height: 2em;
+            }
+        }
+        .rog_delivery_ability{
+            top: 54%;
+            height: 33%;
+        }
+        .rog_endgame_ability {
+            top: 88%;
+            height: 10%;
+        }
+    }
+    //ADAPT CARDS element for customer types :
+    &[data-customertype='1'] //CUSTOMER_TYPE_ARTISAN
+    ,&[data-customertype='3'] //CUSTOMER_TYPE_MERCHANT
+    {
+        .rog_ongoing_ability{
+            top: 73%;
+            height: 14%; 
+        }
+        .rog_delivery_ability{
+            height: 18%;
+        }
+    }
+    &[data-customertype='4'] //CUSTOMER_TYPE_MONK
+    {
+        .rog_ongoing_ability{
+            top: 77%;
+            height: 23%;
+        }
+        .rog_delivery_ability{
+            height: 22%;
+        }
+    }
+    &[data-customertype='5'] //CUSTOMER_TYPE_NOBLE
+    {
+        .rog_ongoing_ability{
+            top: 68%;
+            height: 18%;
+        }
+        .rog_delivery_ability{
+            height: 13%;
+        }
+    }
  
 }
 .rog_clan_card {

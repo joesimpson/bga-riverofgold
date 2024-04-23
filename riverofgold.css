@@ -1627,6 +1627,132 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   top: 0;
   z-index: 10;
 }
+.rog_card .rog_card_wrapper {
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
+}
+.rog_card .rog_card_wrapper .rog_customer_name {
+  position: absolute;
+  top: 31%;
+  width: 60%;
+  height: 8%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 20px;
+  font-weight: bold;
+  color: white;
+}
+.rog_card .rog_card_wrapper .rog_delivery_ability,
+.rog_card .rog_card_wrapper .rog_ongoing_ability,
+.rog_card .rog_card_wrapper .rog_endgame_ability {
+  position: absolute;
+  left: 2%;
+  width: 96%;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
+  font-size: 13px;
+  color: black;
+}
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence {
+  width: 1.5em;
+  height: 2.2em;
+}
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence .rog_icon_qty,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence .rog_icon_qty,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence .rog_icon_qty {
+  font-size: inherit;
+  line-height: 2em;
+  max-height: 2em;
+  width: 100%;
+  height: 100%;
+}
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_score_1,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_money,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_favor,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence-1,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence-2,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence-3,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence-4,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence-5,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence-6,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-1,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-2,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-3,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-4,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-5,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-6,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_ship-3,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_score_1,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_money,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_favor,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence-1,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence-2,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence-3,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence-4,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence-5,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence-6,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-1,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-2,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-3,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-4,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-5,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-6,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_ship-3,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_score_1,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_money,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_favor,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence-1,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence-2,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence-3,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence-4,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence-5,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence-6,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-1,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-2,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-3,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-4,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-5,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-6,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_ship-3 {
+  width: 2em;
+  height: 2em;
+}
+.rog_card .rog_card_wrapper .rog_delivery_ability {
+  top: 54%;
+  height: 33%;
+}
+.rog_card .rog_card_wrapper .rog_endgame_ability {
+  top: 88%;
+  height: 10%;
+}
+.rog_card[data-customertype="1"] .rog_ongoing_ability, .rog_card[data-customertype="3"] .rog_ongoing_ability {
+  top: 73%;
+  height: 14%;
+}
+.rog_card[data-customertype="1"] .rog_delivery_ability, .rog_card[data-customertype="3"] .rog_delivery_ability {
+  height: 18%;
+}
+.rog_card[data-customertype="4"] .rog_ongoing_ability {
+  top: 77%;
+  height: 23%;
+}
+.rog_card[data-customertype="4"] .rog_delivery_ability {
+  height: 22%;
+}
+.rog_card[data-customertype="5"] .rog_ongoing_ability {
+  top: 68%;
+  height: 18%;
+}
+.rog_card[data-customertype="5"] .rog_delivery_ability {
+  height: 13%;
+}
 
 .rog_clan_card {
   width: 154px;
@@ -4324,6 +4450,10 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   height: 66.4px;
 }
 
+.rog_icon_container_bonus-24 {
+  vertical-align: baseline;
+}
+
 .rog_icon_bonus-24 {
   background-image: url("img/icons/royalupgrade.png");
   background-size: 100% auto;
@@ -4361,6 +4491,10 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   border-radius: 10px;
 }
 
+.rog_icon_container_ship-3 {
+  vertical-align: baseline;
+}
+
 .rog_icon_ship-3 {
   background-image: url("img/icons/royalship.png");
   background-size: 100% auto;
@@ -4369,9 +4503,60 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   height: 40.6px;
 }
 
+.rog_icon_moon_up {
+  background-image: url("img/icons/DFupgrade.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 33.5px;
+  height: 34px;
+}
+
+.rog_icon_score_1 {
+  background-image: url("img/icons/vp1.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 27.5px;
+  height: 21.5px;
+}
+
+.rog_icon_customer_delivery {
+  background-image: url("img/icons/customerdelivery.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 31px;
+  height: 28px;
+}
+
+.rog_icon_market_simple {
+  background-image: url("img/icons/market.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+  width: 26px;
+  height: 26.5px;
+}
+
 .customimagebutton .rog_icon_bonus-21 {
   background-color: white;
   border-radius: 15%;
+}
+
+.rog_card_wrapper .rog_delivery_ability .rog_icon_bonus-21,
+.rog_card_wrapper .rog_ongoing_ability .rog_icon_bonus-21,
+.rog_card_wrapper .rog_endgame_ability .rog_icon_bonus-21 {
+  width: 25.6px;
+  height: 24px;
+}
+.rog_card_wrapper .rog_delivery_ability .rog_icon_bonus-25,
+.rog_card_wrapper .rog_ongoing_ability .rog_icon_bonus-25,
+.rog_card_wrapper .rog_endgame_ability .rog_icon_bonus-25 {
+  width: 22.8px;
+  height: 13.6px;
+}
+.rog_card_wrapper .rog_delivery_ability .rog_icon_bonus-26,
+.rog_card_wrapper .rog_ongoing_ability .rog_icon_bonus-26,
+.rog_card_wrapper .rog_endgame_ability .rog_icon_bonus-26 {
+  width: 22.8px;
+  height: 11.6px;
 }
 
 /**

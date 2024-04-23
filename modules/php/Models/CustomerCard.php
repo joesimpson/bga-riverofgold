@@ -33,6 +33,7 @@ class CustomerCard extends Card
   {
     $data = parent::getUiData();
     $data['subtype'] = CARD_TYPE_CUSTOMER;
+    $data['monkType'] = $this->getMonkType();
     return $data;
   }
   
