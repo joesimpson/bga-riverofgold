@@ -225,8 +225,12 @@
                 display: none;
             }
             .rog_patron_ability{
-                margin-left: 45px;
                 font-size: 15px;
+                .reduceToFit{
+                    //IMPORTANT to override javascript inline style we don't want in this specific case 
+                    font-size: 15px !important;
+                }
+                margin-left: 45px;
                 position: relative;
                 display: flex;
                 flex-wrap: wrap;

@@ -272,14 +272,17 @@
   display: none;
 }
 .rog_panel .rog_player_infos .rog_clan_card .rog_patron_ability {
-  margin-left: 45px;
   font-size: 15px;
+  margin-left: 45px;
   position: relative;
   display: flex;
   flex-wrap: wrap;
   visibility: visible;
   color: black;
   width: 186px;
+}
+.rog_panel .rog_player_infos .rog_clan_card .rog_patron_ability .reduceToFit {
+  font-size: 15px !important;
 }
 .rog_panel .rog_icon_container {
   margin: 0 0.5em;
