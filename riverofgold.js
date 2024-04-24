@@ -1926,7 +1926,7 @@ function (dojo, declare) {
                             ongoingAbility = this.fsr(_('When you complete your journey, gain ${n} ${icon}'), {n:'',icon:this.formatIcon("bonus-"+BONUS_TYPE_CHOICE)});
                             break;
                         case CARD_MERCHANT_4:
-                            ongoingAbility = this.fsr(_('When you complete your journey, you may sell goods for ${n} ${money} each.',), {n:REGION_5, money:moneyIcon,});
+                            ongoingAbility = this.fsr(_('When you complete your journey, you may sell goods for ${n} ${money} each.'), {n:REGION_5, money:moneyIcon,});
                             break;
                         case CARD_MERCHANT_5:
                             ongoingAbility = this.fsr(_('When you complete your journey, gain ${n} ${icon}.'), {n:1,icon:this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN]),});
