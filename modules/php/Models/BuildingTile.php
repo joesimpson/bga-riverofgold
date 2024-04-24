@@ -36,8 +36,10 @@ class BuildingTile extends Tile
     $data = parent::getUiData();
     $data['pos'] = $this->getPosition();
     $data['subtype'] = TILE_TYPE_BUILDING;
-    unset($data['ownerReward']);
-    unset($data['visitorReward']);
+    $data['ownerReward'] = $this->ownerReward->getUiData();
+    $data['visitorReward'] = $this->visitorReward->getUiData();
+    unset($data['ownerRewardArray']);
+    unset($data['visitorRewardArray']);
     unset($data['state']);
     return $data;
   }

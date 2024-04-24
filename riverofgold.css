@@ -2784,6 +2784,18 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_tile_tooltip h1 {
   text-align: center;
 }
+.rog_tile_tooltip .rog_tile_era {
+  font-style: italic;
+  text-align: center;
+}
+.rog_tile_tooltip .rog_building_tile_infos .rog_owner_rewards ul,
+.rog_tile_tooltip .rog_building_tile_infos .rog_visitor_rewards ul {
+  font-weight: bold;
+}
+.rog_tile_tooltip .rog_building_tile_infos .rog_owner_rewards ul li,
+.rog_tile_tooltip .rog_building_tile_infos .rog_visitor_rewards ul li {
+  font-weight: normal;
+}
 .rog_tile_tooltip[data-subtype="1"] .rog_tile {
   width: 500px;
   height: 174px;
@@ -5526,4 +5538,15 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 
 .playername_wrapper_0000ff .playername, .playername_wrapper_0000ff.playername {
   color: #0000ff !important;
+}
+
+#pagesection_howtoplay li, .midSizeDialog li {
+  margin-left: 2em;
+}
+
+#pagesection_howtoplay ol li {
+  list-style: decimal;
+} /* BEFORE ul in case there are ul under ol */
+#pagesection_howtoplay ul li, .midSizeDialog ul li {
+  list-style: disc;
 }

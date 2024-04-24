@@ -113,13 +113,20 @@ function (dojo, declare) {
     const RESOURCE_TYPE_MOON = 4;
     const RESOURCE_TYPE_SUN = 5;
     const RESOURCE_TYPE_MONEY = 6;
+    const BONUS_TYPE_POINTS = 20;
     const BONUS_TYPE_CHOICE = 21;
+    const BONUS_TYPE_INFLUENCE = 22;
     const BONUS_TYPE_DRAW = 23;
     const BONUS_TYPE_UPGRADE_SHIP = 24;
     const BONUS_TYPE_SECOND_MARKER_ON_BUILDING = 25;
     const BONUS_TYPE_SECOND_MARKER_ON_OPPONENT = 26;
     const BONUS_TYPE_SELL_GOODS = 28;
     const BONUS_TYPE_REFILL_HAND = 29;
+    const BONUS_TYPE_MONEY_PER_PORT = 30;
+    const BONUS_TYPE_MONEY_PER_MANOR = 31;
+    const BONUS_TYPE_MONEY_PER_MARKET = 32;
+    const BONUS_TYPE_MONEY_PER_SHRINE = 33;
+    const BONUS_TYPE_MONEY_PER_CUSTOMER = 34;
     const BONUS_TYPE_SET_DIE = 35;
     const RESOURCES = [
         0,
@@ -1449,6 +1456,29 @@ function (dojo, declare) {
             //debug('formatString', str);
             return str;
         },
+        formatReward(rewardType, quantity) {
+            debug("formatReward",rewardType, quantity);
+            switch(rewardType)
+            {
+                case RESOURCE_TYPE_RICE: return this.fsr(_('Trade good : ${n} ${element}'), {n:quantity, element:_('Rice') });
+                case RESOURCE_TYPE_POTTERY: return this.fsr(_('Trade good : ${n} ${element}'), {n:quantity, element:_('Porcelain') });
+                case RESOURCE_TYPE_SILK: return this.fsr(_('Trade good : ${n} ${element}'), {n:quantity, element:_('Silk') });
+                case RESOURCE_TYPE_SUN: return _('Divine favor');
+                case RESOURCE_TYPE_MONEY: return this.fsr(_('${n} ${element}'), {n:quantity, element:_('Koku') });
+                case BONUS_TYPE_POINTS: return this.fsr(_('${n} Victory points'), {n:quantity });
+                case BONUS_TYPE_CHOICE: return _('Choose any trade good');
+                case BONUS_TYPE_INFLUENCE: return this.fsr(_('${n} Influence in the region it is built'), {n:quantity });
+                case BONUS_TYPE_DRAW: return _('Draw and discard 1 customer card');
+
+                case BONUS_TYPE_MONEY_PER_CUSTOMER: return this.fsr(_('Gain ${n} Koku per customer delivered to'), {n:quantity });
+
+                case BONUS_TYPE_MONEY_PER_PORT:     return this.fsr(_('Gain ${n} Koku per ${building} you own'), {n:quantity, building:_('Port') });
+                case BONUS_TYPE_MONEY_PER_MANOR:    return this.fsr(_('Gain ${n} Koku per ${building} you own'), {n:quantity, building:_('Manor') });
+                case BONUS_TYPE_MONEY_PER_MARKET:   return this.fsr(_('Gain ${n} Koku per ${building} you own'), {n:quantity, building:_('Market') });
+                case BONUS_TYPE_MONEY_PER_SHRINE:   return this.fsr(_('Gain ${n} Koku per ${building} you own'), {n:quantity, building:_('Shrine') });
+            }
+            return '';
+        },
         ////////////////////////////////////////
         //  ____  _
         // |  _ \| | __ _ _   _  ___ _ __ ___
@@ -2181,8 +2211,7 @@ function (dojo, declare) {
             let subtype = tile.subtype;
             let titleSize = 'h1';
             if(cardDatas.buildingType){
-                //building
-                typeName = this.BUILDING_TYPES[cardDatas.buildingType];
+                return this.getBuildingTileTooltip(tile);
             }
             else if(cardDatas.title){
                 typeName = _(cardDatas.title);
@@ -2193,6 +2222,29 @@ function (dojo, declare) {
             }
             let div = this.tplTile(cardDatas,'_tmp');
             return [`<div class='rog_tile_tooltip' data-subtype='${subtype}'><${titleSize}>${typeName}</${titleSize}>${div}</div>`];
+        },
+        getBuildingTileTooltip(tile) {
+            let cardDatas = tile;
+            let typeName = this.BUILDING_TYPES[cardDatas.buildingType];
+            let subtype = cardDatas.subtype;
+            let titleSize = 'h1';
+            let divImage = this.tplTile(cardDatas,'_tmp');
+            let eraText = (cardDatas.era ==0) ? '': this.fsr( _('Era : ${n}'),{n:cardDatas.era} );
+            let buildBonus = (cardDatas.bonus ==0) ? '': this.fsr( _('Build bonus : ${label}'),{label: this.formatReward(BONUS_TYPE_INFLUENCE, cardDatas.bonus)} );
+            let ownerRewards = Object.values(cardDatas.ownerReward.entries).map((e) => "<li>"+this.formatReward(e.type,e.n)+"</li>").join('');
+            let ownerRewardsText = (ownerRewards.length==0) ? '': this.fsr( _('Owner rewards : ${list}'),{list: ownerRewards} );
+            let visitorRewards = Object.values(cardDatas.visitorReward.entries).map((e) => "<li>"+this.formatReward(e.type,e.n)+"</li>").join('');
+            let visitorRewardsText = (visitorRewards.length==0) ? '': this.fsr( _('Visitor rewards : ${list}'),{list:visitorRewards} );
+            return [`<div class='rog_tile_tooltip' data-subtype='${subtype}'>
+                <${titleSize}>${typeName}</${titleSize}>
+                <div class='rog_tile_era'>${eraText}</div>
+                ${divImage}
+                <div class='rog_building_tile_infos'>
+                    <div class='rog_build_bonus'>${buildBonus}</div>
+                    <div class='rog_owner_rewards'><ul>${ownerRewardsText}</ul></div>
+                    <div class='rog_visitor_rewards'><ul>${visitorRewardsText}</ul></div>
+                </div>
+            </div>`];
         },
         tplTile(tile, prefix ='') {
             //let nbPlayers = tile.nbPlayers ? tile.nbPlayers[0] : '';

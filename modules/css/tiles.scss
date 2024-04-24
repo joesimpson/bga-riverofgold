@@ -57,6 +57,21 @@
     h1{
         text-align: center;
     }
+    .rog_tile_era{
+        font-style: italic;
+        text-align: center;
+    }
+    .rog_building_tile_infos{
+        .rog_owner_rewards, 
+        .rog_visitor_rewards{
+            ul{
+                font-weight: bold;
+                li{
+                    font-weight: normal;
+                }
+            }
+        }
+    }
     &[data-subtype='1']{//TILE_TYPE_SCORING
         .rog_tile {
             width: 500px;
