@@ -1489,6 +1489,7 @@ function (dojo, declare) {
         ////////////////////////////////////////
 
         setupPlayers() {
+            debug("setupPlayers");
             let currentPlayerNo = 1;
             let nPlayers = 0;
             this.forEachPlayer((player) => {
@@ -1841,12 +1842,18 @@ function (dojo, declare) {
         //   \____\__,_|_|  \__,_|___/
         //////////////////////////////////////////////////////////
         setupCards(keepHand = false) {
+            debug("setupCards",keepHand);
             // This function is refreshUI compatible
             //destroy previous cards
             document.querySelectorAll('.rog_card[id^="rog_card-"], .rog_clan_card[id^="rog_clan_card-"]').forEach((oCard) => {
                 if(keepHand && oCard.parentNode.parentNode.parentNode.classList.contains('rog_cards_hand')) return;
                 this.destroy(oCard);
             });
+            if(!keepHand){
+                document.querySelectorAll('.rog_cards_hand').forEach((div) => {
+                    this.empty(div);
+                });
+            }
             document.querySelectorAll('.rog_cards_delivered').forEach((div) => {
                 this.empty(div);
             });
@@ -2149,6 +2156,7 @@ function (dojo, declare) {
         //////////////////////////////////////////////////////////
 
         setupTiles() {
+            debug("setupTiles");
             for(k=1;k<=NB_SHORE_SPACES;k++){
                 if($(`rog_shore_space-${k}`)) continue;
                 this.place(`tplShoreSpace`,k, $(`rog_shore_spaces`));
@@ -2399,6 +2407,7 @@ function (dojo, declare) {
          * This function is refreshUI compatible
          */
         setupMeeples() {
+            debug("setupMeeples");
             this.addInfluenceTracks();
             for(k=1;k<=NB_RIVER_SPACES;k++){
                 if($(`rog_river_space-${k}`)) continue;
