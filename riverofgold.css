@@ -1688,6 +1688,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-4,
 .rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-5,
 .rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-6,
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_market_simple,
 .rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_ship-3,
 .rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_score_1,
 .rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_money,
@@ -1705,6 +1706,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-4,
 .rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-5,
 .rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-6,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_market_simple,
 .rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_ship-3,
 .rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_score_1,
 .rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_money,
@@ -1722,6 +1724,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-4,
 .rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-5,
 .rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-6,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_market_simple,
 .rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_ship-3 {
   width: 2em;
   height: 2em;
@@ -1867,7 +1870,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 
 .rog_card_tooltip .rog_card_wrapper .rog_customer_name {
-  font-size: 20px;
+  font-size: 28px;
 }
 .rog_card_tooltip .rog_card_wrapper .rog_delivery_ability,
 .rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability,
