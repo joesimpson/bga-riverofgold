@@ -50,6 +50,7 @@ trait DiscardTrait
     } 
 
     $card->setLocation(CARD_LOCATION_DISCARD);
+    $card->setPId(null);
     Notifications::discard($player,$card);
 
     $this->gamestate->nextState('next');
