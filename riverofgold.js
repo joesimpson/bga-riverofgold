@@ -1809,6 +1809,9 @@ function (dojo, declare) {
         },
         
         gainPoints(pId,n, targetSource = null) {
+            this.gamedatas.players[pId].score += n;
+            this.moveScoreMarker(this.gamedatas.players[pId]);
+            
             if (this.isFastMode()) {
                 this.scoreCtrl[pId].incValue(n);
                 return Promise.resolve();
@@ -1821,9 +1824,6 @@ function (dojo, declare) {
                 </div>
                 </div>`;
             $('page-content').insertAdjacentHTML('beforeend', elem);
-    
-            this.gamedatas.players[pId].score += n;
-            this.moveScoreMarker(this.gamedatas.players[pId]);
             
             if (n > 0) {
                 return this.slide(`rog_score_animation`, `player_score_${pId}`, {
