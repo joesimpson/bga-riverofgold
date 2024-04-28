@@ -2800,6 +2800,23 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   width: 500px;
   height: 174px;
 }
+.rog_tile_tooltip[data-subtype="1"] .rog_detail_reminder {
+  color: red;
+}
+.rog_tile_tooltip[data-subtype="1"] .rog_detail {
+  margin-top: 5px;
+}
+.rog_tile_tooltip[data-subtype="1"] .rog_maxSpaces {
+  font-style: italic;
+  font-weight: bold;
+  -webkit-text-decoration: underline overline red;
+          text-decoration: underline overline red;
+  font-size: 1.5em;
+}
+.rog_tile_tooltip[data-subtype="1"] #rog_finalscore_table {
+  left: 35%;
+  position: relative;
+}
 .rog_tile_tooltip[data-subtype="2"] .rog_tile {
   width: 520px;
   height: 260px;

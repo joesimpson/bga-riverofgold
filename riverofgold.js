@@ -2221,15 +2221,49 @@ function (dojo, declare) {
             if(cardDatas.buildingType){
                 return this.getBuildingTileTooltip(tile);
             }
-            else if(cardDatas.title){
-                typeName = _(cardDatas.title);
-            }
             else if(cardDatas.subtype=TILE_TYPE_SCORING){
-                titleSize = 'h2';
-                typeName = this.fsr( _('Final scoring tile for influence in region ${n}'),{n:cardDatas.pos} );
+                return this.getScoringTileTooltip(tile);
             }
             let div = this.tplTile(cardDatas,'_tmp');
             return [`<div class='rog_tile_tooltip' data-subtype='${subtype}'><${titleSize}>${typeName}</${titleSize}>${div}</div>`];
+        },
+        getScoringTileTooltip(tile) {
+            let typeName = this.fsr( _('Final scoring tile for influence in region ${n}'),{n:tile.pos} );
+            let detail = '';
+            let detailReminder = '';
+            if(tile.maxSpaces){
+                detailReminder = `<span class='rog_detail_reminder'>*</span>`;
+                detail = `<div class='rog_detail'>${detailReminder}${this.fsr( _('2nd place awarded only if the 2nd-place player is within ${n} spaces of the 1st-place player'),{n: "<span class='rog_maxSpaces'>"+ tile.maxSpaces+"</span>"} )}</div>`;
+            }
+            let divImage = this.tplTile(tile,'_tmp');
+            let titleLine1 = _('Clan position');
+            let titleLine2 = _('Score');
+            let line1 = '';
+            let line2 = '';     
+            let k = 0;
+            Object.values(tile.scores).forEach((score) => {
+                    k++;
+                    line1 += `<td>${k}</td>`;
+                    line2 += `<td>${score}${ (k==2) ? detailReminder :''}</td>`;
+                });
+            let table = `<table id="rog_finalscore_table">
+                <tbody>
+                    <tr>
+                        <th>${titleLine1}</th>
+                        ${line1}
+                    </tr>
+                    <tr>
+                        <th>${titleLine2}</th>
+                        ${line2}
+                    </tr>
+                </tbody>
+                </table>`;
+            return [`<div class='rog_tooltip rog_tile_tooltip' data-subtype='${tile.subtype}'>
+                <h2>${typeName}</h2>
+                ${divImage}
+                ${table}
+                ${detail}
+            </div>`];
         },
         getBuildingTileTooltip(tile) {
             let cardDatas = tile;

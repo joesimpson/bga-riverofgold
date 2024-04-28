@@ -329,7 +329,7 @@ class Tiles extends \ROG\Helpers\Pieces
     };
     return [
       // 12 unique 
-      1 => $f([ [2],   [3,]     ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 
+      1 => $f([ [2],   [3,]     ,null  ]), 
       2 => $f([ [2],   [5,2]    ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 
       3 => $f([ [2],   [4,2]    ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 
       4 => $f([ [2],   [8,4]    ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 

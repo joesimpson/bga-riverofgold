@@ -30,13 +30,24 @@ class ScoringTile extends Tile
     $data = parent::getUiData();
     $data['pos'] = $this->getRegion();
     $data['subtype'] = TILE_TYPE_SCORING;
+    $data['maxSpaces'] = $this->getMaxSpaces();
     unset($data['pId']);
     unset($data['state']);
     unset($data['nbPlayers']);
-    unset($data['scores']);
     return $data;
   }
   
+  /**
+   * @return ?int
+   */
+  public function getMaxSpaces()
+  {
+    $maxSpaces = $this->getCheckSpacesBetween();
+    if(!isset($maxSpaces)) return null;
+    if(is_int($maxSpaces)) return $maxSpaces;
+    return null;
+  }
+
   /**
    * @return int
    */
@@ -72,7 +83,7 @@ class ScoringTile extends Tile
     if($nbBetterPositions > count($scoresToGive) ) return 0;
 
     //RULE : 2 Player regional Tiles
-    $maxSpaces = $this->getCheckSpacesBetween();
+    $maxSpaces = $this->getMaxSpaces();
     $assignSecondPlace = ( !isset($maxSpaces)
        || ($bestOpponent - $playerPosition) <= $maxSpaces
       );

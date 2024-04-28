@@ -77,6 +77,22 @@
             width: 500px;
             height: 174px;
         }
+        .rog_detail_reminder{
+            color: red;
+        }
+        .rog_detail{
+            margin-top: 5px;
+        }
+        .rog_maxSpaces{
+            font-style: italic;
+            font-weight: bold;
+            text-decoration: underline overline red;
+            font-size: 1.5em;
+        }
+        #rog_finalscore_table{
+            left: 35%;
+            position: relative;
+        }
     }
     &[data-subtype='2']{//TILE_TYPE_BUILDING
         .rog_tile {
