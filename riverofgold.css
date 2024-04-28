@@ -492,6 +492,17 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   font-style: italic;
 }
 
+.rog_player_resource_line_clan .rog_player_clan_panel {
+  width: 50%;
+}
+.rog_player_resource_line_clan .rog_player_clan_panel .rog_icon_clan-1 .rog_icon_qty,
+.rog_player_resource_line_clan .rog_player_clan_panel .rog_icon_clan-2 .rog_icon_qty,
+.rog_player_resource_line_clan .rog_player_clan_panel .rog_icon_clan-3 .rog_icon_qty,
+.rog_player_resource_line_clan .rog_player_clan_panel .rog_icon_clan-4 .rog_icon_qty {
+  width: 100px;
+  height: 33px;
+}
+
 #rog_upper_zone {
   display: flex;
   flex-flow: row;
