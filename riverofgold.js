@@ -317,6 +317,19 @@ function (dojo, declare) {
                     },
                   },
                 }, 
+                deckSizeWidth: {
+                    default: 100,
+                    name: _('Era stack size'),
+                    type: 'slider',
+                    sliderConfig: {
+                      step: 2,
+                      padding: 0,
+                      range: {
+                        min: [50],
+                        max: [100],
+                      },
+                    },
+                }, 
                 handWidth: {
                     default: Math.min(Math.max(gameWidthScale *75,30),200),
                   name: _('Hand cards size'),
@@ -380,19 +393,6 @@ function (dojo, declare) {
                       range: {
                         min: [50],
                         max: [120],
-                      },
-                    },
-                }, 
-                deckSizeWidth: {
-                    default: 100,
-                    name: _('Era stack size'),
-                    type: 'slider',
-                    sliderConfig: {
-                      step: 2,
-                      padding: 0,
-                      range: {
-                        min: [50],
-                        max: [100],
                       },
                     },
                 }, 
