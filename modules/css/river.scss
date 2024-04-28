@@ -186,8 +186,12 @@
             }
         }
         .rog_meeple{
+            /*GOOD, but strange when we hover on it on Chrome, the building tiles seem affected by a redrawing
             transform: translateY(0);
             transition: transform 0.5s; 
+            */
+            transition: opacity 0.5s ease;
+
             &:nth-child(1){
                 margin-bottom: -60px;
             }
@@ -200,6 +204,7 @@
         }
         &:hover .rog_meeple{
             z-index: 2;
+            /*
             //View behind meeple
             &:nth-child(4){
                 transform:translateY(-50%);
@@ -213,6 +218,8 @@
             &:nth-child(1){
                 transform:translateY(-100%);
             }
+            */
+            opacity: 0.3;
         }
     }
 }

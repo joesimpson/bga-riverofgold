@@ -1057,8 +1057,11 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   grid-column-start: 20;
 }
 #rog_score_track .rog_score_track_space .rog_meeple {
+  /*GOOD, but strange when we hover on it on Chrome, the building tiles seem affected by a redrawing
   transform: translateY(0);
-  transition: transform 0.5s;
+  transition: transform 0.5s; 
+  */
+  transition: opacity 0.5s ease;
 }
 #rog_score_track .rog_score_track_space .rog_meeple:nth-child(1) {
   margin-bottom: -60px;
@@ -1071,18 +1074,22 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 #rog_score_track .rog_score_track_space:hover .rog_meeple {
   z-index: 2;
-}
-#rog_score_track .rog_score_track_space:hover .rog_meeple:nth-child(4) {
-  transform: translateY(-50%);
-}
-#rog_score_track .rog_score_track_space:hover .rog_meeple:nth-child(3) {
-  transform: translateY(-70%);
-}
-#rog_score_track .rog_score_track_space:hover .rog_meeple:nth-child(2) {
-  transform: translateY(-90%);
-}
-#rog_score_track .rog_score_track_space:hover .rog_meeple:nth-child(1) {
-  transform: translateY(-100%);
+  /*
+  //View behind meeple
+  &:nth-child(4){
+      transform:translateY(-50%);
+  }
+  &:nth-child(3){
+      transform:translateY(-70%);
+  }
+  &:nth-child(2){
+      transform:translateY(-90%);
+  }
+  &:nth-child(1){
+      transform:translateY(-100%);
+  }
+  */
+  opacity: 0.3;
 }
 
 .rog_shore_space#rog_shore_space-1 {
@@ -3877,8 +3884,11 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   position: absolute;
   left: 119px;
   top: 34px;
+  /*GOOD, but strange when we hover on it on Chrome, the building tiles seem affected by a redrawing
   transform: translateY(0);
   transition: transform 0.5s;
+  */
+  transition: opacity 0.5s ease;
 }
 .rog_tile .rog_meeple[data-pos="1"] {
   z-index: 1;
@@ -3888,10 +3898,13 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   z-index: 2;
 }
 .rog_tile:hover .rog_meeple {
-  transform: translateY(-90%);
-}
-.rog_tile:hover .rog_meeple[data-pos="2"] {
-  transform: translateY(-100%);
+  /*
+  transform:translateY(-90%);
+  &[data-pos='2']{//Second clan marker on building
+      transform:translateY(-100%);
+  }
+  */
+  opacity: 0.3;
 }
 
 .rog_artisan_space,

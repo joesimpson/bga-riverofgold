@@ -136,8 +136,11 @@
         position: absolute;
         left: 119px;
         top: 34px;
+        /*GOOD, but strange when we hover on it on Chrome, the building tiles seem affected by a redrawing
         transform: translateY(0);
         transition: transform 0.5s;
+        */
+        transition: opacity 0.5s ease;
         &[data-pos='1']{//First clan marker on building
             z-index: 1;
         }
@@ -149,10 +152,13 @@
     &:hover{
         .rog_meeple{
             //View behind meeple
+            /*
             transform:translateY(-90%);
             &[data-pos='2']{//Second clan marker on building
                 transform:translateY(-100%);
             }
+            */
+            opacity: 0.3;
         }
     }
 }
