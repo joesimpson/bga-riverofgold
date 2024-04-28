@@ -1021,12 +1021,16 @@ function (dojo, declare) {
         },
         notif_upgradeShip(n) {
             debug('notif_upgradeShip', n);
-            if ($(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
-            $(`rog_meeple-${n.args.meeple.id}`).dataset.type = n.args.meeple.type;
-            this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), {  
+            let divMeeple = this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
+            divMeeple.dataset.type = n.args.meeple.type;
+            this.slide(divMeeple.id, this.getMeepleContainer(n.args.meeple), {  
                 from: this.getVisibleTitleContainer(), 
                 phantom: false,
             }).then( ()=> {
+                let tooltipDesc = this.getMeepleTooltip(n.args.meeple);
+                if (tooltipDesc != null) {
+                    this.addCustomTooltip(divMeeple, tooltipDesc);
+                }
             });
         },
         
@@ -2471,7 +2475,7 @@ function (dojo, declare) {
     
         addMeeple(meeple, location = null) {
             debug('addMeeple',meeple);
-            if ($('rog_meeple-' + meeple.id)) return;
+            if ($('rog_meeple-' + meeple.id)) return $('rog_meeple-' + meeple.id);
     
             let o = this.place('tplMeeple', meeple, location == null ? this.getMeepleContainer(meeple) : location); 
             let tooltipDesc = this.getMeepleTooltip(meeple);

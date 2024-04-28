@@ -205,6 +205,14 @@ trait DebugTrait
     $this->debugUI();
     $this->gamestate->jumpToState(ST_PLAYER_TURN_SAIL);
   }
+
+  function debugUpgradeShip(){
+    $player = Players::getCurrent();
+    $ship = Meeples::getBoats($player->getId())->first();
+    $this->debugUI();
+    $ship->setType(MEEPLE_TYPE_SHIP_ROYAL);
+    Notifications::upgradeShip($player,$ship);
+  }
   
   //test mastery cards
   function debugMC(){
