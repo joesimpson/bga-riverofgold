@@ -8,6 +8,7 @@ use ROG\Core\Stats;
 use ROG\Core\Preferences;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
+use ROG\Managers\Players;
 
 /*
  * Player: all utility functions concerning a player
@@ -91,8 +92,10 @@ class Player extends \ROG\Helpers\DB_Model
   public function addPoints($points, $sendNotif = true)
   {
     if($points == 0) return;
-    //TODO JSA REAL INC in DB in case of not up to date score in object
-    $this->setScore( $this->getScore() + $points);
+    //$this->setScore( $this->getScore() + $points);
+    //$this->incScore($points); // SAME as previous
+    //REAL INC in DB in case of not up to date score in object
+    Players::incPlayerScore($this->getId(), $points);
     Stats::inc( "score", $this->id, $points );
     if($sendNotif) Notifications::addPoints($this,$points);
   }

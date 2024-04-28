@@ -86,6 +86,20 @@ class Players extends \ROG\Helpers\DB_Manager
     
   }
 
+  /**
+   * @param int $pId
+   * @param int $score score to add to current score
+   */
+  public static function incPlayerScore($pId, $score)
+  {
+    Game::get()->trace("incPlayerScore($pId)");
+
+    return self::DB()
+      ->inc(['player_score' => $score])
+      ->wherePlayer($pId)
+      ->run();
+  }
+
   public static function getActiveId()
   {
     return Game::get()->getActivePlayerId();
