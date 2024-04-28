@@ -46,15 +46,18 @@ trait ScoringTrait
     foreach($players as $pid => $player){
       //RULE 1 : REGIONAL INFLUENCE
       foreach(REGIONS as $region){
-        $all = $influenceMarkers[$region];
-        $opponentPositions = [];
-        $playerPosition = 0;
-        foreach($all as $meeple){
-          if($meeple->getPId() == $pid) $playerPosition = $meeple->getPosition();
-          else $opponentPositions[] = $meeple->getPosition();
-        }
+        $playerPosition = $influenceMarkers[$region]->filter( function($meeple) use ($pid) { 
+            return $meeple->getPId() == $pid; 
+          })->first()->getPosition();
+        $opponentPositions = $influenceMarkers[$region]->filter( function($meeple) use ($pid) { 
+            return $meeple->getPId() != $pid; 
+          })->map(function($meeple) { 
+            return $meeple->getPosition(); 
+          })->toArray();
+
         $scoringTile = $scoringTiles->filter(function($tile) use ($region) {return $region == $tile->getRegion();})->first();
         if(!isset($scoringTile)) throw new UnexpectedException(404,"Missing scoring tile for region $region");
+        $this->trace("Final scoring for $pid in region $region ...");
         $influenceScore = $scoringTile->computeScore($playerPosition,$opponentPositions);
         if($influenceScore>0){
           $player->addPoints($influenceScore,false);

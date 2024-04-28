@@ -2,6 +2,8 @@
 
 namespace ROG\Models;
 
+use ROG\Core\Game;
+
 /*
  * ScoringTile: all utility functions concerning a scoring tile
  */
@@ -12,7 +14,8 @@ class ScoringTile extends Tile
   protected $staticAttributes = [
     ['nbPlayers', 'obj'],
     ['scores', 'obj'],
-    ['checkSpacesBetween', 'int'],
+    //Will be null (empty array in Model) or an int :
+    ['checkSpacesBetween', 'obj'],
   ];
 
   
@@ -49,6 +52,7 @@ class ScoringTile extends Tile
    */
   public function computeScore($playerPosition,$opponentPositions)
   {
+    Game::get()->trace("ScoringTile.computeScore() : $playerPosition, ".json_encode($opponentPositions));
     $nbBetterPositions = 0;
     $nbSamePositions = 0;
     $bestOpponent = 0;
@@ -72,6 +76,7 @@ class ScoringTile extends Tile
     $assignSecondPlace = ( !isset($maxSpaces)
        || ($bestOpponent - $playerPosition) <= $maxSpaces
       );
+    Game::get()->trace("ScoringTile.computeScore()...maxSpaces=".json_encode($maxSpaces).", assignSecondPlace=".json_encode($assignSecondPlace));
 
     if($nbSamePositions == 0){
       //LOOK FOR EACH Scored position matching lonely player 
