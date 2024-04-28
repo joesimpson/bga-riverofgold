@@ -14,6 +14,8 @@ class RewardEntry implements \JsonSerializable
   public int $type;
   /** Number of resources */
   public int $number;
+  /** Is it gained thanks to Emperor ?*/
+  public bool $isEmperorVisit;
 
    /**
    * @param int $type
@@ -23,6 +25,7 @@ class RewardEntry implements \JsonSerializable
   { 
     $this->type = $type;
     $this->number = $number;
+    $this->isEmperorVisit = false;
   }
   
   /**

@@ -479,6 +479,7 @@
     z-index: 1;
 
     .rog_tile{
+        position: absolute;
         width: 333px;
         height: 170px;
 
@@ -556,4 +557,27 @@
 .rog_button_building_tile_image{
     width: 200px;
     height: 100px;
+}
+
+
+.rog_emperor_tile{
+    width: 375px;
+    height: 422px;
+    background-repeat: no-repeat;
+    background-image: url("img/tiles/eraTileHolder.png");
+    background-size: 100%;
+    clip-path: polygon(8.83% 16.12%, 22.33% 5.45%, 32.6% 6.97%, 45.68% 15.43%, 47.2% 75.54%, 9.95% 75.20%);
+    
+    &.moving{
+        //During slide animation
+        width: calc(var(--rog_board_display_scale) * 375px);
+        height: calc(var(--rog_board_display_scale) * 422px);
+    }
+}
+.rog_shore_space{
+    .rog_emperor_tile{
+        z-index: 20;
+        position: absolute;
+        left: -202px;
+    }
 }

@@ -64,20 +64,26 @@ trait EndTurnTrait
   { 
     Globals::setEra(2);
     Notifications::emperorVisit(2);
-    $this->computeBuildingsOwnerRewards();
+    $this->computeBuildingsOwnerRewards(true);
+    Notifications::emperorVisitEnd();
   }
   
   /**
    * All owner rewards
+   * @param bool $isEmperorVisit (default false)
    */
-  public function computeBuildingsOwnerRewards()
+  public function computeBuildingsOwnerRewards($isEmperorVisit = false)
   { 
     $players = Players::getAll();
     $buidingTiles = Tiles::getInLocation(TILE_LOCATION_BUILDING_SHORE);
     foreach($buidingTiles as $tile){
       $clanMarkers = $tile->getMeeples();
+      if($clanMarkers->count() == 0 ) continue;
       $region = $tile->getRegion();
+
+      Notifications::emperorReward($tile);
       foreach($tile->ownerReward->entries as $reward){
+        $reward->isEmperorVisit = $isEmperorVisit;
         foreach($clanMarkers as $clanMarker){
           $owner = $players[$clanMarker->getPId()];
           $reward->rewardPlayer($owner,$region,$tile);

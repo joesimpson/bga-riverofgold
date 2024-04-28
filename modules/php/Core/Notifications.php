@@ -612,6 +612,24 @@ class Notifications
       'era' => $era,
     ]);
   }
+  
+  /**
+   * @param BuildingTile $tile
+   */
+  public static function emperorReward($tile)
+  {
+    self::notifyAll('emperorReward', '', [
+      'tile_space' => $tile->getPosition(),
+    ]);
+  }
+  /**
+   * In order to know it client side
+   */
+  public static function emperorVisitEnd()
+  {
+    self::notifyAll('emperorVisitEnd', clienttranslate('Emperor\'s Visit ends'), [
+    ]);
+  }
   /**
    * @param Player $player
    */

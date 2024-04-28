@@ -200,7 +200,9 @@ function (dojo, declare) {
                 ['discardBuildingRow', 500],
                 ['slideBuildingRow', 600],
                 ['refillBuildingRow', 800],
-                ['emperorVisit', 50],
+                ['emperorVisit', 2000],
+                ['emperorReward', 1500],
+                ['emperorVisitEnd', 2000],
                 ['triggerLastTurn', 3000],
                 ['triggerEnd', 3000],
             ];
@@ -1159,6 +1161,29 @@ function (dojo, declare) {
         notif_emperorVisit(n) {
             debug('notif_emperorVisit: new era !', n);
             this._counters['era'].toValue(n.args.era);
+        },
+        notif_emperorReward(n) {
+            debug('notif_emperorReward', n);
+            let shore_space = n.args.tile_space;
+            let currentPos = null;
+            if(!$(`rog_emperor_tile`)) currentPos = this.getVisibleTitleContainer();
+            let divEmperor = this.addEmperorTile(shore_space);
+            divEmperor.dataset.pos = shore_space;
+            if(!currentPos) currentPos = divEmperor.parentNode;
+            this.slide(divEmperor.id, $(`rog_shore_space-${shore_space}`), {  
+                from: currentPos,
+                phantom: false,
+                duration: 1500,
+            }).then( ()=> {
+            });
+        },
+        notif_emperorVisitEnd(n) {
+            debug('notif_emperorVisitEnd', n);
+            let divEmperor = $(`rog_emperor_tile`);
+            if(divEmperor) this.slide(divEmperor.id, this.getVisibleTitleContainer(), {  
+                phantom: false,
+                destroy:true,
+            });
         },
         notif_triggerLastTurn(n) {
             debug('notif_triggerLastTurn', n);
@@ -2207,6 +2232,17 @@ function (dojo, declare) {
         },
         tplShoreSpace(position) {
             return `<div id='rog_shore_space-${position}' class='rog_shore_space' data-pos='${position}'></div>`;
+        },
+        
+        addEmperorTile(shoreSpace) {
+            debug('addEmperorTile',shoreSpace);
+            let divId = `rog_emperor_tile`;
+            if ($(divId)) return $(divId);
+            let o = this.place('tplEmperorTile',shoreSpace,$(`rog_shore_space-${shoreSpace}`));
+            return o;
+        },
+        tplEmperorTile(position) {
+            return `<div id='rog_emperor_tile' class='rog_emperor_tile' data-pos='${position}'></div>`;
         },
     
         addTile(tile, location = null) {
