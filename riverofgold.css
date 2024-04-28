@@ -1826,11 +1826,16 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 .rog_clan_card .rog_clan_card_wrapper .rog_clan_name {
   position: absolute;
-  bottom: 8%;
+  bottom: 4%;
   left: 30%;
   width: 70%;
+  height: 16%;
   color: black;
   font-size: 15px;
+  text-align: center;
+  justify-content: center;
+  align-items: center;
+  display: flex;
 }
 .rog_clan_card .rog_clan_card_wrapper .rog_patron_name {
   left: 4%;

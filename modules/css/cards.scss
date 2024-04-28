@@ -250,11 +250,16 @@
         height: 100%;
         .rog_clan_name{
             position: absolute;
-            bottom: 8%;
+            bottom: 4%;
             left: 30%;
             width: 70%;
+            height: 16%;
             color: black;
             font-size: 15px;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            display: flex;
         }
         .rog_patron_name{
             left: 4%;
