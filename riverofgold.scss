@@ -41,6 +41,14 @@
 .phantom {
     visibility: hidden;
 } 
+#pagemaintitletext,
+#gameaction_status 
+{
+    .rog_card,
+    .rog_meeple{
+        position: absolute;
+    }
+}
 .rog_hidden{
     visibility: hidden;
 }

@@ -305,6 +305,19 @@ class Notifications
       'player' => $player,
     ]);
   }
+  /**
+   * @param Player $player
+   * @param array $meeples
+   */
+  public static function influenceClanMarkers($player,$meeples)
+  {
+    $msg = '';
+    $meeplesCollection = new Collection($meeples);
+    self::notifyAll('influenceClanMarkers', $msg, [
+      'player' => $player,
+      'meeples' => $meeplesCollection->ui(),
+    ]);
+  }
     /**
    * @param Player $player
    * @param Meeple $meeple

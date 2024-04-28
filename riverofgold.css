@@ -5476,6 +5476,13 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   visibility: hidden;
 }
 
+#pagemaintitletext .rog_card,
+#pagemaintitletext .rog_meeple,
+#gameaction_status .rog_card,
+#gameaction_status .rog_meeple {
+  position: absolute;
+}
+
 .rog_hidden {
   visibility: hidden;
 }

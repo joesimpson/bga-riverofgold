@@ -182,6 +182,7 @@ function (dojo, declare) {
                 ['build', 1300],
                 ['sail', 1300],
                 ['newClanMarkers', 10],
+                ['influenceClanMarkers', null],
                 ['newClanMarker', 800],
                 ['newBoat', 800],
                 ['upgradeShip', 800],
@@ -1009,6 +1010,19 @@ function (dojo, declare) {
             debug('notif_newClanMarkers', n);
             //We want the text on top
         },
+        notif_influenceClanMarkers(n) {
+            debug('notif_influenceClanMarkers', n);
+            Promise.all(
+                Object.values(n.args.meeples).map((meeple, i) => {
+                    let divMeeple = this.addMeeple(meeple, this.getVisibleTitleContainer());
+                    return this.wait(50 * i).then(() => 
+                        this.slide(divMeeple.id, this.getMeepleContainer(meeple), { })
+                    );
+                })
+            ).then(() => {
+                this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
+            });
+        },
         notif_newClanMarker(n) {
             debug('notif_newClanMarker', n);
             let divMeeple = this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
@@ -1811,7 +1825,7 @@ function (dojo, declare) {
         gainPoints(pId,n, targetSource = null) {
             this.gamedatas.players[pId].score += n;
             this.moveScoreMarker(this.gamedatas.players[pId]);
-            
+
             if (this.isFastMode()) {
                 this.scoreCtrl[pId].incValue(n);
                 return Promise.resolve();

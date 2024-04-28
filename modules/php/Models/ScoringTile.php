@@ -31,6 +31,7 @@ class ScoringTile extends Tile
     $data['pos'] = $this->getRegion();
     $data['subtype'] = TILE_TYPE_SCORING;
     $data['maxSpaces'] = $this->getMaxSpaces();
+    unset($data['checkSpacesBetween']);
     unset($data['pId']);
     unset($data['state']);
     unset($data['nbPlayers']);

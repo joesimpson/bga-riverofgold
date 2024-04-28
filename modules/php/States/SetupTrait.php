@@ -54,9 +54,11 @@ trait SetupTrait
       $playerPatron = $player->getPatron();
 
       Notifications::newClanMarkers($player);
+      $influenceMeeples = [];
       foreach (REGIONS as $region){
-        Meeples::addClanMarkerOnInfluence($player, $region);
+        $influenceMeeples[] = Meeples::addClanMarkerOnInfluence($player, $region,false);
       }
+      Notifications::influenceClanMarkers($player,$influenceMeeples);
 
       foreach(STARTING_BOATS_SPACES as $space){
         $boatPosition = $space + $player->rollDie();
