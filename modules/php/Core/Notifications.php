@@ -308,14 +308,18 @@ class Notifications
     /**
    * @param Player $player
    * @param Meeple $meeple
+   * @param BuildingTile $toTile (optional)
    */
-  public static function newClanMarker($player,$meeple)
+  public static function newClanMarker($player,$meeple,$toTile = null)
   {
     //$msg = clienttranslate('${player_name} places a new clan marker');
     $msg = '';//avoid spoiling notifs
+
+    $buildingType = (isset($toTile)) ? $toTile->getBuildingType() : null;
     self::notifyAll('newClanMarker', $msg, [
       'player' => $player,
       'meeple' => $meeple->getUiData(),
+      'buildingType' => $buildingType,
     ]);
   }
   /**

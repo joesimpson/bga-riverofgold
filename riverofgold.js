@@ -1009,9 +1009,14 @@ function (dojo, declare) {
         },
         notif_newClanMarker(n) {
             debug('notif_newClanMarker', n);
-            if (!$(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
-            this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { }).then(() => {
+            let divMeeple = this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
+            this.slide(divMeeple.id, this.getMeepleContainer(n.args.meeple), { }).then(() => {
                 //this.notifqueue.setSynchronousDuration(100);
+            }).then( ()=> {
+                let buildingType = n.args.buildingType;
+                if(buildingType){
+                    this._counters[n.args.player_id].buildings[buildingType].incValue(1);
+                }
             });
         },
         notif_newBoat(n) {

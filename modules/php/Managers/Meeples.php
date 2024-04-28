@@ -50,7 +50,7 @@ class Meeples extends \ROG\Helpers\Pieces
       'state' => $position,
     ];
     $elt = self::singleCreate($meeple);
-    Notifications::newClanMarker($player,$elt);
+    Notifications::newClanMarker($player,$elt,$tile);
     return $elt;
   }
   
