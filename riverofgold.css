@@ -1841,7 +1841,8 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   left: 4%;
   width: 91%;
   position: absolute;
-  top: 6%;
+  top: 5%;
+  height: 8%;
   color: white;
   font-size: 15px;
   text-align: center;
@@ -1865,7 +1866,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   width: 90%;
   height: 39%;
   color: black;
-  font-size: 11px;
+  font-size: 8px;
   text-align: center;
 }
 .rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon {
