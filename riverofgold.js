@@ -1003,7 +1003,8 @@ function (dojo, declare) {
                 from: fromDiv.id, 
                 phantom: false,
             }).then( ()=> {
-                this._counters[n.args.player_id].buildings[buildingType].incValue(1);
+                //Not needed anymore, it is done in notif_newClanMarker
+                //this._counters[n.args.player_id].buildings[buildingType].incValue(1);
             });
         },
         notif_newClanMarkers(n) {
