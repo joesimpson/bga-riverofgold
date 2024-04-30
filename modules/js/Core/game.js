@@ -745,7 +745,11 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
 
     wait(n) {
       return new Promise((resolve, reject) => {
-        setTimeout(() => resolve(), n);
+        if (this.isFastMode()) {
+          resolve();
+        } else {
+          setTimeout(() => resolve(), n);
+        }
       });
     },
 
