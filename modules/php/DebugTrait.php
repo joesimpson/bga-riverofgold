@@ -325,6 +325,26 @@ trait DebugTrait
     $player->addPoints(9);
   }
 
+  //Slide 1,2,3 to 2,3,4
+  function debugSlideRow(){
+    $player = Players::getCurrent();
+    $slidedTiles = [];
+    for($k = BUILDING_ROW_END -1; $k>0;$k--){
+      $buildingTile = Tiles::getInLocation(TILE_LOCATION_BUILDING_ROW,$k)->first();
+      if(isset($buildingTile)){
+        $buildingTile->setPosition($buildingTile->getPosition()+1);
+        $slidedTiles[$buildingTile->getPosition()] = $buildingTile;
+      }
+    }
+    Notifications::slideBuildingRow($slidedTiles);
+    //RESET
+    foreach($slidedTiles as $tile){
+      $tile->setPosition($tile->getPosition()-1);
+    }
+    //UI doesn't refresh building row because it is not expected to cancel this change
+    //$this->debugUI();
+  }
+
   function debugPHP(){
     $keys = array_keys(RESOURCES_LIMIT);
     Notifications::message(json_encode($keys));

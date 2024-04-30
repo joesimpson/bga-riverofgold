@@ -1283,6 +1283,7 @@ function (dojo, declare) {
     
         updateLayout() {
             if (!this.settings) return;
+            if (!this.settings.boardWidth) return;
             const ROOT = document.documentElement;
     
             const WIDTH = this.getGameZoneWidth();
