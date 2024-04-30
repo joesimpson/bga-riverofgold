@@ -435,15 +435,6 @@
                 background-position-x: 167px;
                 background-position-y: 263px;
             }
-            .rog_icon_qty{
-                //display text on the right
-                margin-left: 35px;
-                color: rgb(0, 0, 0);
-                font-size: 15px;
-                position: relative;
-                display: flex;
-                flex-wrap: wrap;
-            }
         }
 
     }
@@ -525,18 +516,26 @@ body[data-rog_panel_details='2']{//PREF_PLAYER_PANEL_DETAILS_COMPACT
 
 .rog_player_resource_line_clan{
     .rog_player_clan_panel{
-        width: 50%;
-        
-        .rog_icon_clan-1,
-        .rog_icon_clan-2,
-        .rog_icon_clan-3,
-        .rog_icon_clan-4
-        {
-            .rog_icon_qty{
-                //clan name is displayed here
-                width: 100px;
-                height: 33px;
-            }
+        width: 65%;
+        height: 5em;
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+
+        .rog_player_clan_name{
+            //width: 100px;
+            //height: 33px;
+            width: 100%;
+            height: 100%;
+            color: rgb(0, 0, 0);
+            font-size: 15px;
+            position: relative;
+            display: flex;
+            flex-wrap: wrap;
+            align-items: center;
         }
+    }
+    .rog_resource_dieFace{
+        width: 32%;
     }
 }

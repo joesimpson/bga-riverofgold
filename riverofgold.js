@@ -905,8 +905,11 @@ function (dojo, declare) {
                 //Re add after destroy
                 this.addClanCard(n.args.card, this.getCardContainer(n.args.card));
                 if($(rog_player_clan_panel).querySelector(`.rog_icon_clan-${n.args.card.clan}`)) return;
-                let clanIconDiv = this.formatIcon('clan-'+n.args.card.clan,this.CLANS_NAMES.get(n.args.card.clan));
+                let clanIconDiv = this.formatIcon('clan-'+n.args.card.clan);
+                let clanName = this.CLANS_NAMES.get(n.args.card.clan);
                 dojo.place(clanIconDiv,rog_player_clan_panel,'first');
+                $(`rog_player_clan_name-${pid}`).innerHTML= `<div class="reduceToFit">${clanName}</div>`;
+                this.reduceTextSizeOnCardElements(rog_player_clan_panel);
             });
         },
         ////When draft active + waiting screen, we need to update cards
@@ -1548,6 +1551,7 @@ function (dojo, declare) {
                 //this.place('tplPlayerPanel', player, divPanel, 'after');
                 let divPanel = $(`overall_player_board_${player.id}`).querySelector(`.player_panel_content`);
                 divPanel.insertAdjacentHTML('beforeend', this.tplPlayerPanel(player));
+                this.reduceTextSizeOnCardElements($(`rog_player_clan_panel-${player.id}`));
 
                 if(isCurrent) this.place('tplPlayerHand', player, 'rog_upper_zone','last');
                 this.place('tplPlayerDeliveredCards', player, 'rog_players_deliveries');
@@ -1763,7 +1767,10 @@ function (dojo, declare) {
                 <hr>
                 <div class='rog_player_resource_line rog_player_resource_line_clan'>
                     <div id='rog_player_clan_panel-${player.id}' class='rog_player_clan_panel'>
-                        ${player.clan ? this.formatIcon('clan-'+player.clan,this.CLANS_NAMES.get(player.clan)) :''}
+                        ${player.clan ? this.formatIcon('clan-'+player.clan) :''}
+                        <div id='rog_player_clan_name-${player.id}' class='rog_player_clan_name'><div class='reduceToFit'>
+                            ${player.clan ? this.CLANS_NAMES.get(player.clan) :''}
+                        </div></div>
                     </div>
                     ${this.tplResourceCounter(player, 'dieFace')}
                 </div>

@@ -416,14 +416,6 @@
   background-position-x: 167px;
   background-position-y: 263px;
 }
-.rog_icon_container .rog_icon.rog_icon_clan-1 .rog_icon_qty, .rog_icon_container .rog_icon.rog_icon_clan-2 .rog_icon_qty, .rog_icon_container .rog_icon.rog_icon_clan-3 .rog_icon_qty, .rog_icon_container .rog_icon.rog_icon_clan-4 .rog_icon_qty {
-  margin-left: 35px;
-  color: rgb(0, 0, 0);
-  font-size: 15px;
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-}
 
 #rog_dieFace_animation,
 #rog_score_animation,
@@ -493,14 +485,24 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 
 .rog_player_resource_line_clan .rog_player_clan_panel {
-  width: 50%;
+  width: 65%;
+  height: 5em;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
 }
-.rog_player_resource_line_clan .rog_player_clan_panel .rog_icon_clan-1 .rog_icon_qty,
-.rog_player_resource_line_clan .rog_player_clan_panel .rog_icon_clan-2 .rog_icon_qty,
-.rog_player_resource_line_clan .rog_player_clan_panel .rog_icon_clan-3 .rog_icon_qty,
-.rog_player_resource_line_clan .rog_player_clan_panel .rog_icon_clan-4 .rog_icon_qty {
-  width: 100px;
-  height: 33px;
+.rog_player_resource_line_clan .rog_player_clan_panel .rog_player_clan_name {
+  width: 100%;
+  height: 100%;
+  color: rgb(0, 0, 0);
+  font-size: 15px;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+.rog_player_resource_line_clan .rog_resource_dieFace {
+  width: 32%;
 }
 
 #rog_upper_zone {
