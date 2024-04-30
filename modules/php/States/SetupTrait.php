@@ -76,19 +76,12 @@ trait SetupTrait
         Notifications::giveCardTo($player,$card);
       }
 
-      //intial money according to first player
-      $initialMoney = $k + 7;
+      //initial money according to Clan patron
+      $initialMoney = 0;
       if(isset($playerPatron) && PATRON_MASTER_ENGINEER == $playerPatron->getType()){
         $initialMoney += 10;
       }
-      //Get first resources
-      $player->setResources([]);
       $player->giveResource($initialMoney,RESOURCE_TYPE_MONEY);
-      $player->giveResource(1,RESOURCE_TYPE_SILK);
-      $player->giveResource(1,RESOURCE_TYPE_POTTERY);
-      $player->giveResource(1,RESOURCE_TYPE_RICE);
-      $player->giveResource(3,RESOURCE_TYPE_MOON);
-      $player->giveResource(2,RESOURCE_TYPE_SUN);
       $k++;
 
       //first turn die roll

@@ -33,7 +33,7 @@ class Players extends \ROG\Helpers\DB_Manager
     // Create players
     $gameInfos = Game::get()->getGameinfos();
     $colors = $gameInfos['player_colors'];
-    $query = self::DB()->multipleInsert(['player_id', 'player_color', 'player_canal', 'player_name', 'player_avatar','player_clan']);
+    $query = self::DB()->multipleInsert(['player_id', 'player_color', 'player_canal', 'player_name', 'player_avatar','player_clan','resources']);
 
     $values = [];
     $k =0;
@@ -49,7 +49,21 @@ class Players extends \ROG\Helpers\DB_Manager
         $player_clan = CLANS_COLORS[$color];
       }
 
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'],$player_clan];
+      //Set first resources
+      $initialMoney = $k + 7;
+      $initialResources = [
+        RESOURCE_TYPE_SILK => 1,
+        RESOURCE_TYPE_POTTERY => 1,
+        RESOURCE_TYPE_RICE => 1,
+        RESOURCE_TYPE_MOON => 3,
+        RESOURCE_TYPE_SUN => 2,
+        RESOURCE_TYPE_MONEY => $initialMoney,
+      ];
+
+      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'],
+        $player_clan,
+        json_encode($initialResources),
+      ];
       $k++;
     }
     $query->values($values);
