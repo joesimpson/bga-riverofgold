@@ -3870,7 +3870,7 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_meeple[data-type="2"][data-color=ff0000] {
   background-position-x: 100%;
 }
-.rog_meeple[data-type="9"] {
+.rog_meeple.rog_score_meeple {
   background-image: url("img/score_markers.png");
   background-size: 400% 100%;
   background-color: transparent;
@@ -3879,16 +3879,19 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   width: 57px;
   height: 114px;
 }
-.rog_meeple[data-type="9"][data-color="008000"] {
+.rog_meeple.rog_score_meeple[data-color="000000"] {
+  display: none;
+}
+.rog_meeple.rog_score_meeple[data-color="008000"] {
   background-position-x: 0%;
 }
-.rog_meeple[data-type="9"][data-color="0000ff"] {
+.rog_meeple.rog_score_meeple[data-color="0000ff"] {
   background-position-x: 33%;
 }
-.rog_meeple[data-type="9"][data-color=ffffff] {
+.rog_meeple.rog_score_meeple[data-color=ffffff] {
   background-position-x: 66%;
 }
-.rog_meeple[data-type="9"][data-color=ff0000] {
+.rog_meeple.rog_score_meeple[data-color=ff0000] {
   background-position-x: 100%;
 }
 .rog_meeple.tooltipable:not(.selectable):hover {

@@ -76,7 +76,7 @@
         }
     }
     
-    &[data-type='9'] {//MEEPLE_TYPE_SCORE_MARKER
+    &.rog_score_meeple { //[data-type='9'] {//MEEPLE_TYPE_SCORE_MARKER
         background-image: url("img/score_markers.png");
         background-size: 400% 100%;
         background-color: transparent;
@@ -85,6 +85,9 @@
         width: calc(0.6 * 95px);
         height: calc(0.6 * 190px);
 
+        &[data-color="000000"] {//black at start
+            display: none;
+        }
         &[data-color="008000"] {//green
             background-position-x: 0%;
         }
