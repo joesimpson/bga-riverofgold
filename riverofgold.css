@@ -3223,6 +3223,16 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   height: 170px;
   background-size: 500% 1000%;
 }
+.rog_tile[data-subtype="2"].rog_slideBuildingRow,
+.rog_shore_space .rog_tile.rog_slideBuildingRow,
+.rog_shore_space.selectable:hover.rog_slideBuildingRow,
+.rog_shore_space.selectable.selected.rog_slideBuildingRow,
+.rog_tile_tooltip[data-subtype="2"] .rog_tile.rog_slideBuildingRow,
+.rog_button_building_tile_image.rog_slideBuildingRow,
+.rog_building_slot .rog_tile.rog_slideBuildingRow {
+  width: calc(var(--rog_board_display_scale) * 340px);
+  height: calc(var(--rog_board_display_scale) * 170px);
+}
 .rog_tile[data-subtype="2"][data-type="1"],
 .rog_shore_space .rog_tile[data-type="1"],
 .rog_shore_space.selectable:hover[data-type="1"],

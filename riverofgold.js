@@ -199,7 +199,7 @@ function (dojo, declare) {
                 ['addPoints', 1200],
                 ['scorePatron', 1200],
                 ['discardBuildingRow', 500],
-                ['slideBuildingRow', 600],
+                ['slideBuildingRow', null],
                 ['refillBuildingRow', 800],
                 ['emperorVisit', 2000],
                 ['emperorReward', 1500],
@@ -1142,13 +1142,13 @@ function (dojo, declare) {
                     let tileDiv = $(tileDivId);
                     let fromDiv = `rog_building_slot-${data.from}`;//tileDiv.parentNode.id;
                     return this.wait(200 * i).then(
-                        () => this.slide(tileDivId, this.getTileContainer(tile), { from: fromDiv, phantom: false,}).then( ()=> {
+                        () => this.slide(tileDivId, this.getTileContainer(tile), { from: fromDiv, phantom: false, className:'rog_slideBuildingRow'}).then( ()=> {
                             tileDiv.dataset.pos = tile.pos;
                         })
                     );
                 })
             ).then(() => {
-                //this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
+                this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
             });
         },
         notif_refillBuildingRow(n) {
