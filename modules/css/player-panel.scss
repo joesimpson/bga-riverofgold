@@ -101,7 +101,7 @@
                 //first lines
                 font-size: 12px;
                 .rog_player_resource {
-                    margin: 4px 0px;
+                    //margin: 4px 0px;
                 }
             }
                         
@@ -492,6 +492,56 @@
         box-shadow: none;
         font-weight: bold;
         font-size: x-large;
+    }
+}
+
+#pin-panel-switch{
+    //color: black;
+    //height: 2em;
+    //width: 2em;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    .pin-panel-icon{
+        font-size: 1.7em;
+        margin-left: 0.1em;
+    }
+}   
+body.mobile_version{
+    #pin-panel-switch{
+        display: none;
+    }
+}
+body[data-rog_pin_panel='true']{
+    
+    //Pin Current player panel
+    //#right-side{
+    //    .player-board.current-player-board{
+    //        position: fixed;
+    //        right: 0px;
+    //        z-index: 10;
+    //    }
+    //}
+    //&.desktop_version{
+    //    #player_board_config{
+    //        //Config access with cogs
+    //        position: fixed;
+    //        right: 0px;
+    //        z-index: 10;
+    //    }
+    //}
+
+    &.desktop_version{
+        //PIN the whole right side with panels and notifs (sometimes in a second column)
+        #right-side{
+            position: fixed;
+            right: 0px;
+            z-index: 10;
+
+            #pin-panel-switch{
+               color: green;
+            }
+        }
     }
 }
 

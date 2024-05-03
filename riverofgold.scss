@@ -163,6 +163,11 @@ body[data-rog_undo_style='2']{//PREF_UNDO_STYLE_ICON
     .tooltipable {
         cursor: help;
     }
+    #help-mode-switch{
+        svg{
+            color: #1b69ff;
+        }
+    }
 }
 
 .help-marker {

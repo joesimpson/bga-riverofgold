@@ -34,6 +34,7 @@
         display: block;
     }
 
+    #pin-panel-switch,
     #help-mode-switch {
         .checkbox {
             display: none;
@@ -63,12 +64,19 @@
                 color 0.7s linear;
         }
 
-        .checkbox:checked + .label .ball {
-            transform: translateX(24px);
+        .checkbox:checked + .label{
+            .ball {
+                transform: translateX(24px);
+            }
+            background-color: #2196f3;
         }
 
         svg {
             width: 27px;
+        }
+        &:hover{
+            outline: 2px solid green;
+            cursor: help;
         }
     }
     #show-settings {
