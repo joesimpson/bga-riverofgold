@@ -1,59 +1,31 @@
 .rog_icon_customer_card{
-    background-image: url("img/icons/customer_card.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: calc( 0.07 * 329px);
-    height: calc( 0.07 * 381px);
+    @include rog_icons_sprite(-1px,-1px,0.07 * 329px,0.07 * 381px,329px,381px);
 }
 
 .rog_icon_imperial_flower{
-    background-image: url("img/icons/imperial_flower.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: calc( 0.1 * 300px);
-    height: calc( 0.1 * 305px);
+    @include rog_icons_sprite(-1px,-384px,30px,30.5px,300px,305px);
 }
 
 .rog_icon_bonus-21{//BONUS_TYPE_CHOICE
-    background-image: url("img/icons/wild.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: calc( 0.9 * 64px);
-    height: calc( 0.9 * 60px);
+    @include rog_icons_sprite(-531px,-303px,0.9 * 64px,0.9 * 60px,64px,60px);
 }
 
 .rog_icon_bonus-23{//BONUS_TYPE_DRAW
-    background-image: url("img/icons/draw1.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: calc( 0.4 * 94px);
-    height: calc( 0.4 * 166px);
+    @include rog_icons_sprite(-897px,-384px,0.4 * 94px,0.4 * 166px,94px,166px);
 }
 .rog_icon_container_bonus-24{
     vertical-align: baseline;
 }
 .rog_icon_bonus-24{//BONUS_TYPE_UPGRADE_SHIP
-    background-image: url("img/icons/royalupgrade.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: calc( 0.5 * 129px);
-    height: calc( 0.5 * 68px);
+    @include rog_icons_sprite(-332px, -303px, 0.5 * 129px,0.5 * 68px, 129px,68px);
 }
 .rog_icon_own_building,
 .rog_icon_bonus-25{//BONUS_TYPE_SECOND_MARKER_ON_BUILDING
-    background-image: url("img/icons/playerbt.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: calc( 0.9 * 57px);
-    height: calc( 0.9 * 34px);
+    @include rog_icons_sprite(-605px,-646px, 30px,15px, 57px,34px);
 }
 .rog_icon_opponent_building,
 .rog_icon_bonus-26{//BONUS_TYPE_SECOND_MARKER_ON_OPPONENT
-    background-image: url("img/icons/oppbt.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: calc( 0.9 * 57px);
-    height: calc( 0.9 * 29px);
+    @include rog_icons_sprite(-664px,-646px, 30px,15px, 57px,29px);
 }
 
 .rog_icon_bonus-27{//BONUS_TYPE_MONEY_OR_GOOD
@@ -72,43 +44,23 @@
     vertical-align: baseline;
 }
 .rog_icon_ship-3{//MEEPLE_TYPE_SHIP_ROYAL
-    background-image: url("img/icons/royalship.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: calc( 0.7 * 57px);
-    height: calc( 0.7 * 58px);
+    @include rog_icons_sprite(-933px,-691px,30px,30px,57px,58px);
 }
 
 .rog_icon_moon_up{
-    background-image: url("img/icons/DFupgrade.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: calc( 0.5 * 67px);
-    height: calc( 0.5 * 68px);
+    @include rog_icons_sprite(-897px,-552px,30px,30px,77px,78px);
 }
 
 .rog_icon_score_1{
-    background-image: url("img/icons/vp1.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: calc( 0.5 * 55px);
-    height: calc( 0.5 * 43px);
+    @include rog_icons_sprite(-116px,-953px,30px,25px,55px,43px);
 }
 
 .rog_icon_customer_delivery{
-    background-image: url("img/icons/customerdelivery.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: 2em;
-    height: 2em;
+    @include rog_icons_sprite(-597px,-303px,30px,30px,62px,56px);
 }
 
 .rog_icon_market_simple{//SIMPLE : with no check mark on it
-    background-image: url("img/icons/market.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: calc( 0.5 * 52px);
-    height: calc( 0.5 * 53px);
+    @include rog_icons_sprite(-995px,-1px,30px,30px,52px,53px);
 }
 
 // In buttons ///////////////////////////
@@ -124,21 +76,26 @@
     .rog_delivery_ability,
     .rog_ongoing_ability,
     .rog_endgame_ability{
-        .rog_icon_bonus-21{//BONUS_TYPE_CHOICE
-            width: 2em;
-            height: 2em;
+        $fontSize: 6px;
+        .rog_icon_container_bonus-21{//BONUS_TYPE_CHOICE
+            .rog_icon{
+                transform: scale(calc(2 * math.div($fontSize, 0.9 * 64px))) !important;
+            }
         }
-        .rog_icon_bonus-24{//BONUS_TYPE_UPGRADE_SHIP
-            width: 4em;
-            height: 2em;
+        .rog_icon_container_bonus-24{//BONUS_TYPE_UPGRADE_SHIP
+            width: 4em !important;
+            height: 2em !important;
+            .rog_icon{
+                transform: scale(calc(4 * math.div($fontSize, 0.5 * 129px))) !important;
+            }
         }
-        .rog_icon_bonus-25{//BONUS_TYPE_SECOND_MARKER_ON_BUILDING
-            width: 2em;
-            height: 1em;
-        }
-        .rog_icon_bonus-26{//BONUS_TYPE_SECOND_MARKER_ON_OPPONENT
-            width: 2em;
-            height: 1em;
+        
+        .rog_icon_container_own_building,
+        .rog_icon_container_bonus-25,//BONUS_TYPE_SECOND_MARKER_ON_BUILDING
+        .rog_icon_container_opponent_building,
+        .rog_icon_container_bonus-26{//BONUS_TYPE_SECOND_MARKER_ON_OPPONENT
+            width: 2em !important;
+            height: 1em !important;
         }
     }
 }

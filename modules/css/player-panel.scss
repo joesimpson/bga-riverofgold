@@ -34,21 +34,13 @@
             &::before {
                 content: unset;
             }
-            background-image: url("img/icons/vp.png");
-            background-size: 100% auto;
-            background-repeat: no-repeat;
-            width: 1.5em;
-            height: 1.5em;
-            margin: -0.5em 0;
+            margin: -5px 0;
+            @include rog_icons_sprite(-59px,-953px,30px,25px,55px,43px);
         }
     }
 }  
 .rog_icon_score{
-    background-image: url("img/icons/vp.png");
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    width: 1.5em;
-    height: 1.5em;
+    @include rog_icons_sprite(-59px,-953px,30px,25px,55px,43px);
     span{
         //When number is displayed on it
         color: white;
@@ -61,6 +53,11 @@
         text-align: center;
         vertical-align: middle;
         font-weight: bold;
+
+        display: flex;
+        align-items: center;
+        align-content: center;
+        justify-content: center;
     }
 }
 
@@ -259,29 +256,15 @@
         margin-right: 0.1em;
     }
     
-    &.rog_icon_container_influence-1,
-    &.rog_icon_container_influence-2,
-    &.rog_icon_container_influence-3,
-    &.rog_icon_container_influence-4,
-    &.rog_icon_container_influence-5,
-    &.rog_icon_container_influence-6{
-        margin-left: 0.5em;
-        margin-right: 0.4em;
-    }
-
     //&.rog_icon_container_moon{
     //    margin-right: -13em;
     //    margin-top: -2em;
     //}
 
     .rog_icon{
-        background-size: 100% auto;
-        background-repeat: no-repeat;
 
         &.rog_icon_money {
-            width: 3em;
-            height: 3em;
-            background-image: url("img/icons/koku.png");
+            @include rog_icons_sprite(-303px,-384px,30px,30px,300px,300px);
         }
         //&.rog_icon_moon,
         &.rog_icon_favor,
@@ -317,9 +300,7 @@
         //    background-image: url("img/icons/moon.png");
         //}
         &.rog_icon_favor{
-            width: 3em;
-            height: 3em;
-            background-image: url("img/icons/sun.png");
+            @include rog_icons_sprite(-463px,-303px,30px,30px,66px,65px);
 
             //Removed because it takes precious space (and Bug on Iphone), and not needed by publisher
             //&::before{
@@ -334,43 +315,43 @@
             //}
         }
         &.rog_icon_silk{
-            background-image: url("img/icons/silk.png");
+            @include rog_icons_sprite(-605px,-384px,30px,27px,290px,260px);
         }
         &.rog_icon_rice{
-            background-image: url("img/icons/rice.png");
+            @include rog_icons_sprite(-263px,-691px,30px,30px,260px,260px);
         }
         &.rog_icon_pottery{
-            background-image: url("img/icons/pottery.png");
+            @include rog_icons_sprite(-1px,-691px,30px,30px,260px,260px);
         }
         &.rog_icon_port{
-            background-image: url("img/icons/port_owned.png");
+            @include rog_icons_sprite(-661px,-303px,27px,25px,63px,51px);
         }
         &.rog_icon_market{
-            background-image: url("img/icons/market_owned.png");
+            @include rog_icons_sprite(-835px,-869px,27px,25px,61px,48px);
         }
         &.rog_icon_manor{
-            background-image: url("img/icons/manor_owned.png");
+            @include rog_icons_sprite(-898px,-869px,27px,25px,59px,47px);
         }
         &.rog_icon_shrine{
-            background-image: url("img/icons/shrine_owned.png");
+            @include rog_icons_sprite(-1px,-953px,27px,25px,56px,48px);
         }
         &.rog_icon_influence-1{
-            background-image: url("img/icons/regions/1.png");
+            @include rog_icons_sprite(-777px,-869px,30px,30px,56px,56px);
         }
         &.rog_icon_influence-2{
-            background-image: url("img/icons/regions/2.png");
+            @include rog_icons_sprite(-828px,-793px,30px,30px,57px,57px);
         }
         &.rog_icon_influence-3{
-            background-image: url("img/icons/regions/3.png");
+            @include rog_icons_sprite(-887px,-793px,30px,30px,56px,57px);
         }
         &.rog_icon_influence-4{
-            background-image: url("img/icons/regions/4.png");
+            @include rog_icons_sprite(-602px,-869px,30px,30px,56px,58px);
         }
         &.rog_icon_influence-5{
-            background-image: url("img/icons/regions/5.png");
+            @include rog_icons_sprite(-718px,-869px,30px,30px,57px,56px);
         }
         &.rog_icon_influence-6{
-            background-image: url("img/icons/regions/6.png");
+            @include rog_icons_sprite(-660px,-869px,30px,30px,56px,58px);
         }
         
         &.rog_icon_customer-1,
@@ -378,62 +359,36 @@
         &.rog_icon_customer-3,
         &.rog_icon_customer-4,
         &.rog_icon_customer-5{
-            width: 3em;
-            height: 3em;
             border-radius: 50%;
             border: 1px solid black;
-            background-image: url("img/icons/heads.jpg");
-            background-size: 300% 200%;
         }
         &.rog_icon_customer-1{//CUSTOMER_TYPE_ARTISAN
-            background-position-x: 0%;
-            background-position-y: 0%;
+            @include rog_icons_sprite(-525px,-869px,30px,30px,75px,75px);
         }
         &.rog_icon_customer-2{//CUSTOMER_TYPE_ELDER
-            background-position-x: 50%;
-            background-position-y: 0%;
+            @include rog_icons_sprite(-831px,-691px,30px,30px,100px,100px);
         }
         &.rog_icon_customer-3{//CUSTOMER_TYPE_MERCHANT
-            background-position-x: 50%;
-            background-position-y: 100%;
+            @include rog_icons_sprite(-729px,-691px,30px,30px,100px,100px);
         }
         &.rog_icon_customer-4{//CUSTOMER_TYPE_MONK
-            background-position-x: 100%;
-            background-position-y: 100%;
+            @include rog_icons_sprite(-525px,-691px,30px,30px,100px,100px);
         }
         &.rog_icon_customer-5{//CUSTOMER_TYPE_NOBLE
-            background-position-x: 0%;
-            background-position-y: 100%;
+            @include rog_icons_sprite(-627px,-691px,30px,30px,100px,100px);
         }
 
-
-        &.rog_icon_clan-1,
-        &.rog_icon_clan-2,
-        &.rog_icon_clan-3,
-        &.rog_icon_clan-4
-        {
-            width: 35px;
-            height: 30px;
-            background-size: math.percentage(calc(math.div(1488px, 75px ))) math.percentage(math.div(2080px,70px ));
-            background-repeat: repeat;
-            background-image: url("img/clans/clans.jpg");
-                
-            &.rog_icon_clan-1{
-                background-position-x: -13px;
-                background-position-y: -183px;
-            }
-            &.rog_icon_clan-2{
-                background-position-x: 160px;
-                background-position-y: -183px;
-            }
-            &.rog_icon_clan-3{
-                background-position-x: -13px;
-                background-position-y: 263px;
-            }
-            &.rog_icon_clan-4{
-                background-position-x: 167px;
-                background-position-y: 263px;
-            }
+        &.rog_icon_clan-1{
+            @include rog_icons_sprite(-605px,-793px,35px,30px,76px,74px);
+        }
+        &.rog_icon_clan-2{
+            @include rog_icons_sprite(-756px,-793px,35px,30px,70px,71px);
+        }
+        &.rog_icon_clan-3{
+            @include rog_icons_sprite(-525px,-793px,35px,30px,78px,74px);
+        }
+        &.rog_icon_clan-4{
+            @include rog_icons_sprite(-683px,-793px,35px,30px,71px,71px);
         }
 
     }
@@ -463,20 +418,12 @@
 //.notif_giveResource{
     //moon when receiving resource
     .rog_icon_favor_total{
-        width: 4em;
-        height: 3em;
-        background-image: url("img/icons/moon.png"); 
+        @include rog_icons_sprite(-332px,-1px,30px,20px,400px,300px);
     }
 //}
 
 .rog_icon_influence{
-    width: 30px;
-    height: 40px;
-    width: 2.1em;
-    height: 3em;
-    background-size: 100% auto;
-    background-repeat: no-repeat;
-    background-image: url("img/icons/influence.png");
+    @include rog_icons_sprite(-734px,-1px,30px,40px,259px,361px);
     span{
         //When number is displayed on it
         color: white;
@@ -490,7 +437,7 @@
         border: none;
         box-shadow: none;
         font-weight: bold;
-        font-size: x-large;
+        font-size: large;
     }
 }
 

@@ -25,6 +25,12 @@
   --rog_takeCardScale: 0.2;
 }
 
+/**
+Icon extract in sprite with differents layers size (so % is not useful).
+ * iconPosX, iconPosY : position of icon in sprite
+ * width, height : dimensions of icon to be displayed
+ * layer_width, layer_height : dimensions of icon in sprite
+*/
 #player_boards > .player-board {
   box-shadow: 1px 1px 10px black;
 }
@@ -51,23 +57,25 @@
 }
 .player_board_inner .player_score .fa-star {
   position: relative;
-  background-image: url("img/icons/vp.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  width: 1.5em;
-  height: 1.5em;
-  margin: -0.5em 0;
+  margin: -5px 0;
+  width: 30px;
+  height: 25px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -32.1818181818px;
+  background-position-y: -554.0697674419px;
+  background-size: 1905.4545454545% 2330.2325581395%;
 }
 .player_board_inner .player_score .fa-star::before {
   content: unset;
 }
 
 .rog_icon_score {
-  background-image: url("img/icons/vp.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  width: 1.5em;
-  height: 1.5em;
+  width: 30px;
+  height: 25px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -32.1818181818px;
+  background-position-y: -554.0697674419px;
+  background-size: 1905.4545454545% 2330.2325581395%;
 }
 .rog_icon_score span {
   color: white;
@@ -80,6 +88,10 @@
   text-align: center;
   vertical-align: middle;
   font-weight: bold;
+  display: flex;
+  align-items: center;
+  align-content: center;
+  justify-content: center;
 }
 
 .rog_icon_die_face-1,
@@ -290,18 +302,13 @@
   margin-left: 0.2em;
   margin-right: 0.1em;
 }
-.rog_icon_container.rog_icon_container_influence-1, .rog_icon_container.rog_icon_container_influence-2, .rog_icon_container.rog_icon_container_influence-3, .rog_icon_container.rog_icon_container_influence-4, .rog_icon_container.rog_icon_container_influence-5, .rog_icon_container.rog_icon_container_influence-6 {
-  margin-left: 0.5em;
-  margin-right: 0.4em;
-}
-.rog_icon_container .rog_icon {
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-}
 .rog_icon_container .rog_icon.rog_icon_money {
-  width: 3em;
-  height: 3em;
-  background-image: url("img/icons/koku.png");
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -30.3px;
+  background-position-y: -38.4px;
+  background-size: 349.3333333333% 334%;
 }
 .rog_icon_container .rog_icon.rog_icon_favor, .rog_icon_container .rog_icon.rog_icon_influence-1, .rog_icon_container .rog_icon.rog_icon_influence-2, .rog_icon_container .rog_icon.rog_icon_influence-3, .rog_icon_container .rog_icon.rog_icon_influence-4, .rog_icon_container .rog_icon.rog_icon_influence-5, .rog_icon_container .rog_icon.rog_icon_influence-6 {
   width: 2.5em;
@@ -316,99 +323,192 @@
   height: 2.5em;
 }
 .rog_icon_container .rog_icon.rog_icon_favor {
-  width: 3em;
-  height: 3em;
-  background-image: url("img/icons/sun.png");
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -210.4545454545px;
+  background-position-y: -139.8461538462px;
+  background-size: 1587.8787878788% 1541.5384615385%;
 }
 .rog_icon_container .rog_icon.rog_icon_silk {
-  background-image: url("img/icons/silk.png");
+  width: 30px;
+  height: 27px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -62.5862068966px;
+  background-position-y: -39.8769230769px;
+  background-size: 361.3793103448% 385.3846153846%;
 }
 .rog_icon_container .rog_icon.rog_icon_rice {
-  background-image: url("img/icons/rice.png");
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -30.3461538462px;
+  background-position-y: -79.7307692308px;
+  background-size: 403.0769230769% 385.3846153846%;
 }
 .rog_icon_container .rog_icon.rog_icon_pottery {
-  background-image: url("img/icons/pottery.png");
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -0.1153846154px;
+  background-position-y: -79.7307692308px;
+  background-size: 403.0769230769% 385.3846153846%;
 }
 .rog_icon_container .rog_icon.rog_icon_port {
-  background-image: url("img/icons/port_owned.png");
+  width: 27px;
+  height: 25px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -283.2857142857px;
+  background-position-y: -148.5294117647px;
+  background-size: 1663.4920634921% 1964.7058823529%;
 }
 .rog_icon_container .rog_icon.rog_icon_market {
-  background-image: url("img/icons/market_owned.png");
+  width: 27px;
+  height: 25px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -369.5901639344px;
+  background-position-y: -452.6041666667px;
+  background-size: 1718.0327868852% 2087.5%;
 }
 .rog_icon_container .rog_icon.rog_icon_manor {
-  background-image: url("img/icons/manor_owned.png");
+  width: 27px;
+  height: 25px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -410.9491525424px;
+  background-position-y: -462.2340425532px;
+  background-size: 1776.2711864407% 2131.914893617%;
 }
 .rog_icon_container .rog_icon.rog_icon_shrine {
-  background-image: url("img/icons/shrine_owned.png");
+  width: 27px;
+  height: 25px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -0.4821428571px;
+  background-position-y: -496.3541666667px;
+  background-size: 1871.4285714286% 2087.5%;
 }
 .rog_icon_container .rog_icon.rog_icon_influence-1 {
-  background-image: url("img/icons/regions/1.png");
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -416.25px;
+  background-position-y: -465.5357142857px;
+  background-size: 1871.4285714286% 1789.2857142857%;
 }
 .rog_icon_container .rog_icon.rog_icon_influence-2 {
-  background-image: url("img/icons/regions/2.png");
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -435.7894736842px;
+  background-position-y: -417.3684210526px;
+  background-size: 1838.5964912281% 1757.8947368421%;
 }
 .rog_icon_container .rog_icon.rog_icon_influence-3 {
-  background-image: url("img/icons/regions/3.png");
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -475.1785714286px;
+  background-position-y: -417.3684210526px;
+  background-size: 1871.4285714286% 1757.8947368421%;
 }
 .rog_icon_container .rog_icon.rog_icon_influence-4 {
-  background-image: url("img/icons/regions/4.png");
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -322.5px;
+  background-position-y: -449.4827586207px;
+  background-size: 1871.4285714286% 1727.5862068966%;
 }
 .rog_icon_container .rog_icon.rog_icon_influence-5 {
-  background-image: url("img/icons/regions/5.png");
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -377.8947368421px;
+  background-position-y: -465.5357142857px;
+  background-size: 1838.5964912281% 1789.2857142857%;
 }
 .rog_icon_container .rog_icon.rog_icon_influence-6 {
-  background-image: url("img/icons/regions/6.png");
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -353.5714285714px;
+  background-position-y: -449.4827586207px;
+  background-size: 1871.4285714286% 1727.5862068966%;
 }
 .rog_icon_container .rog_icon.rog_icon_customer-1, .rog_icon_container .rog_icon.rog_icon_customer-2, .rog_icon_container .rog_icon.rog_icon_customer-3, .rog_icon_container .rog_icon.rog_icon_customer-4, .rog_icon_container .rog_icon.rog_icon_customer-5 {
-  width: 3em;
-  height: 3em;
   border-radius: 50%;
   border: 1px solid black;
-  background-image: url("img/icons/heads.jpg");
-  background-size: 300% 200%;
 }
 .rog_icon_container .rog_icon.rog_icon_customer-1 {
-  background-position-x: 0%;
-  background-position-y: 0%;
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -210px;
+  background-position-y: -347.6px;
+  background-size: 1397.3333333333% 1336%;
 }
 .rog_icon_container .rog_icon.rog_icon_customer-2 {
-  background-position-x: 50%;
-  background-position-y: 0%;
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -249.3px;
+  background-position-y: -207.3px;
+  background-size: 1048% 1002%;
 }
 .rog_icon_container .rog_icon.rog_icon_customer-3 {
-  background-position-x: 50%;
-  background-position-y: 100%;
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -218.7px;
+  background-position-y: -207.3px;
+  background-size: 1048% 1002%;
 }
 .rog_icon_container .rog_icon.rog_icon_customer-4 {
-  background-position-x: 100%;
-  background-position-y: 100%;
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -157.5px;
+  background-position-y: -207.3px;
+  background-size: 1048% 1002%;
 }
 .rog_icon_container .rog_icon.rog_icon_customer-5 {
-  background-position-x: 0%;
-  background-position-y: 100%;
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -188.1px;
+  background-position-y: -207.3px;
+  background-size: 1048% 1002%;
 }
-.rog_icon_container .rog_icon.rog_icon_clan-1, .rog_icon_container .rog_icon.rog_icon_clan-2, .rog_icon_container .rog_icon.rog_icon_clan-3, .rog_icon_container .rog_icon.rog_icon_clan-4 {
+.rog_icon_container .rog_icon.rog_icon_clan-1 {
   width: 35px;
   height: 30px;
-  background-size: 1984% 2971.4285714286%;
-  background-repeat: repeat;
-  background-image: url("img/clans/clans.jpg");
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -278.6184210526px;
+  background-position-y: -321.4864864865px;
+  background-size: 1378.9473684211% 1354.0540540541%;
 }
-.rog_icon_container .rog_icon.rog_icon_clan-1.rog_icon_clan-1, .rog_icon_container .rog_icon.rog_icon_clan-2.rog_icon_clan-1, .rog_icon_container .rog_icon.rog_icon_clan-3.rog_icon_clan-1, .rog_icon_container .rog_icon.rog_icon_clan-4.rog_icon_clan-1 {
-  background-position-x: -13px;
-  background-position-y: -183px;
+.rog_icon_container .rog_icon.rog_icon_clan-2 {
+  width: 35px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -378px;
+  background-position-y: -335.0704225352px;
+  background-size: 1497.1428571429% 1411.2676056338%;
 }
-.rog_icon_container .rog_icon.rog_icon_clan-1.rog_icon_clan-2, .rog_icon_container .rog_icon.rog_icon_clan-2.rog_icon_clan-2, .rog_icon_container .rog_icon.rog_icon_clan-3.rog_icon_clan-2, .rog_icon_container .rog_icon.rog_icon_clan-4.rog_icon_clan-2 {
-  background-position-x: 160px;
-  background-position-y: -183px;
+.rog_icon_container .rog_icon.rog_icon_clan-3 {
+  width: 35px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -235.5769230769px;
+  background-position-y: -321.4864864865px;
+  background-size: 1343.5897435897% 1354.0540540541%;
 }
-.rog_icon_container .rog_icon.rog_icon_clan-1.rog_icon_clan-3, .rog_icon_container .rog_icon.rog_icon_clan-2.rog_icon_clan-3, .rog_icon_container .rog_icon.rog_icon_clan-3.rog_icon_clan-3, .rog_icon_container .rog_icon.rog_icon_clan-4.rog_icon_clan-3 {
-  background-position-x: -13px;
-  background-position-y: 263px;
-}
-.rog_icon_container .rog_icon.rog_icon_clan-1.rog_icon_clan-4, .rog_icon_container .rog_icon.rog_icon_clan-2.rog_icon_clan-4, .rog_icon_container .rog_icon.rog_icon_clan-3.rog_icon_clan-4, .rog_icon_container .rog_icon.rog_icon_clan-4.rog_icon_clan-4 {
-  background-position-x: 167px;
-  background-position-y: 263px;
+.rog_icon_container .rog_icon.rog_icon_clan-4 {
+  width: 35px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -336.6901408451px;
+  background-position-y: -335.0704225352px;
+  background-size: 1476.0563380282% 1411.2676056338%;
 }
 
 #rog_dieFace_animation,
@@ -437,19 +537,21 @@
 }
 
 .rog_icon_favor_total {
-  width: 4em;
-  height: 3em;
-  background-image: url("img/icons/moon.png");
+  width: 30px;
+  height: 20px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -24.9px;
+  background-position-y: -0.0666666667px;
+  background-size: 262% 334%;
 }
 
 .rog_icon_influence {
   width: 30px;
   height: 40px;
-  width: 2.1em;
-  height: 3em;
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  background-image: url("img/icons/influence.png");
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -85.0193050193px;
+  background-position-y: -0.1108033241px;
+  background-size: 404.6332046332% 277.5623268698%;
 }
 .rog_icon_influence span {
   color: white;
@@ -463,7 +565,7 @@
   border: none;
   box-shadow: none;
   font-weight: bold;
-  font-size: x-large;
+  font-size: large;
 }
 
 #pin-panel-switch {
@@ -1694,77 +1796,37 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   font-size: 6px;
   color: black;
 }
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence {
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_container,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_container,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_container {
+  width: 2em;
+  height: 2em;
+}
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_container .rog_icon,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_container .rog_icon,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_container .rog_icon {
+  transform: scale(0.4);
+  transform-origin: top left;
+}
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_container_influence,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_container_influence,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_container_influence {
   width: 1.5em;
   height: 2.2em;
 }
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence .rog_icon_qty,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence .rog_icon_qty,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence .rog_icon_qty {
-  font-size: inherit;
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_container_influence .rog_icon,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_container_influence .rog_icon,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_container_influence .rog_icon {
+  transform: scale(0.3);
+}
+.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_container_influence .rog_icon_qty,
+.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_container_influence .rog_icon_qty,
+.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_container_influence .rog_icon_qty {
+  font-size: 3em;
   line-height: 2em;
   max-height: 2em;
   width: 100%;
   height: 100%;
-}
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_score_1,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_money,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_favor,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_moon_up,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence-1,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence-2,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence-3,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence-4,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence-5,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_influence-6,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-1,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-2,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-3,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-4,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-5,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_customer-6,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_market_simple,
-.rog_card .rog_card_wrapper .rog_delivery_ability .rog_icon_ship-3,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_score_1,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_money,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_favor,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_moon_up,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence-1,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence-2,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence-3,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence-4,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence-5,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_influence-6,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-1,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-2,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-3,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-4,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-5,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_customer-6,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_market_simple,
-.rog_card .rog_card_wrapper .rog_ongoing_ability .rog_icon_ship-3,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_score_1,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_money,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_favor,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_moon_up,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence-1,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence-2,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence-3,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence-4,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence-5,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_influence-6,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-1,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-2,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-3,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-4,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-5,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_customer-6,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_market_simple,
-.rog_card .rog_card_wrapper .rog_endgame_ability .rog_icon_ship-3 {
-  width: 2em;
-  height: 2em;
 }
 .rog_card .rog_card_wrapper .rog_delivery_ability {
   top: 54%;
@@ -1899,17 +1961,17 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   font-size: 8px;
   text-align: center;
 }
-.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon {
-  width: 20px;
-  height: 20px;
+.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container {
+  width: 2em;
+  height: 2em;
 }
-.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon.rog_icon_favor {
-  width: 20px;
-  height: 20px;
+.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container.rog_icon_container_opponent_building {
+  width: 2em !important;
+  height: 1em !important;
 }
-.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon.rog_icon_customer_card {
-  width: 23.03px;
-  height: 26.67px;
+.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container .rog_icon {
+  transform: scale(0.5333333333);
+  transform-origin: top left;
 }
 
 .rog_card_tooltip .rog_card_wrapper .rog_customer_name {
@@ -1919,6 +1981,31 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability,
 .rog_card_tooltip .rog_card_wrapper .rog_endgame_ability {
   font-size: 17px;
+}
+.rog_card_tooltip .rog_card_wrapper .rog_delivery_ability .rog_icon_container .rog_icon,
+.rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability .rog_icon_container .rog_icon,
+.rog_card_tooltip .rog_card_wrapper .rog_endgame_ability .rog_icon_container .rog_icon {
+  transform: scale(1.1333333333) !important;
+}
+.rog_card_tooltip .rog_card_wrapper .rog_delivery_ability .rog_icon_container .rog_icon.rog_icon_influence,
+.rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability .rog_icon_container .rog_icon.rog_icon_influence,
+.rog_card_tooltip .rog_card_wrapper .rog_endgame_ability .rog_icon_container .rog_icon.rog_icon_influence {
+  transform: scale(0.85) !important;
+}
+.rog_card_tooltip .rog_card_wrapper .rog_delivery_ability .rog_icon_container .rog_icon.rog_icon_influence .rog_icon_qty,
+.rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability .rog_icon_container .rog_icon.rog_icon_influence .rog_icon_qty,
+.rog_card_tooltip .rog_card_wrapper .rog_endgame_ability .rog_icon_container .rog_icon.rog_icon_influence .rog_icon_qty {
+  font-size: 1.1em;
+}
+.rog_card_tooltip .rog_card_wrapper .rog_delivery_ability .rog_icon_container .rog_icon.rog_icon_bonus-21,
+.rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability .rog_icon_container .rog_icon.rog_icon_bonus-21,
+.rog_card_tooltip .rog_card_wrapper .rog_endgame_ability .rog_icon_container .rog_icon.rog_icon_bonus-21 {
+  transform: scale(0.5902777778) !important;
+}
+.rog_card_tooltip .rog_card_wrapper .rog_delivery_ability .rog_icon_container .rog_icon.rog_icon_bonus-24,
+.rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability .rog_icon_container .rog_icon.rog_icon_bonus-24,
+.rog_card_tooltip .rog_card_wrapper .rog_endgame_ability .rog_icon_container .rog_icon.rog_icon_bonus-24 {
+  transform: scale(1.0542635659) !important;
 }
 .rog_card_tooltip .rog_clan_card_wrapper .rog_clan_name {
   font-size: 20px;
@@ -1932,6 +2019,9 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 .rog_card_tooltip .rog_clan_card_wrapper .rog_patron_desc {
   font-size: 13px;
+}
+.rog_card_tooltip .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container .rog_icon {
+  transform: scale(0.8666666667) !important;
 }
 
 .rog_panel .rog_clan_card {
@@ -4799,35 +4889,39 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 
 .rog_icon_customer_card {
-  background-image: url("img/icons/customer_card.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
   width: 23.03px;
   height: 26.67px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -0.07px;
+  background-position-y: -0.07px;
+  background-size: 318.5410334347% 262.9921259843%;
 }
 
 .rog_icon_imperial_flower {
-  background-image: url("img/icons/imperial_flower.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
   width: 30px;
   height: 30.5px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -0.1px;
+  background-position-y: -38.4px;
+  background-size: 349.3333333333% 328.5245901639%;
 }
 
 .rog_icon_bonus-21 {
-  background-image: url("img/icons/wild.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
   width: 57.6px;
   height: 54px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -477.9px;
+  background-position-y: -272.7px;
+  background-size: 1637.5% 1670%;
 }
 
 .rog_icon_bonus-23 {
-  background-image: url("img/icons/draw1.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
   width: 37.6px;
   height: 66.4px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -358.8px;
+  background-position-y: -153.6px;
+  background-size: 1114.8936170213% 603.6144578313%;
 }
 
 .rog_icon_container_bonus-24 {
@@ -4835,29 +4929,32 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 
 .rog_icon_bonus-24 {
-  background-image: url("img/icons/royalupgrade.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
   width: 64.5px;
   height: 34px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -166px;
+  background-position-y: -151.5px;
+  background-size: 812.4031007752% 1473.5294117647%;
 }
 
 .rog_icon_own_building,
 .rog_icon_bonus-25 {
-  background-image: url("img/icons/playerbt.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  width: 51.3px;
-  height: 30.6px;
+  width: 30px;
+  height: 15px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -318.4210526316px;
+  background-position-y: -285px;
+  background-size: 1838.5964912281% 2947.0588235294%;
 }
 
 .rog_icon_opponent_building,
 .rog_icon_bonus-26 {
-  background-image: url("img/icons/oppbt.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  width: 51.3px;
-  height: 26.1px;
+  width: 30px;
+  height: 15px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -349.4736842105px;
+  background-position-y: -334.1379310345px;
+  background-size: 1838.5964912281% 3455.1724137931%;
 }
 
 .rog_icon_bonus-27 {
@@ -4876,43 +4973,48 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 
 .rog_icon_ship-3 {
-  background-image: url("img/icons/royalship.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  width: 39.9px;
-  height: 40.6px;
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -491.0526315789px;
+  background-position-y: -357.4137931034px;
+  background-size: 1838.5964912281% 1727.5862068966%;
 }
 
 .rog_icon_moon_up {
-  background-image: url("img/icons/DFupgrade.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  width: 33.5px;
-  height: 34px;
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -349.4805194805px;
+  background-position-y: -212.3076923077px;
+  background-size: 1361.038961039% 1284.6153846154%;
 }
 
 .rog_icon_score_1 {
-  background-image: url("img/icons/vp1.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  width: 27.5px;
-  height: 21.5px;
+  width: 30px;
+  height: 25px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -63.2727272727px;
+  background-position-y: -554.0697674419px;
+  background-size: 1905.4545454545% 2330.2325581395%;
 }
 
 .rog_icon_customer_delivery {
-  background-image: url("img/icons/customerdelivery.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  width: 2em;
-  height: 2em;
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -288.8709677419px;
+  background-position-y: -162.3214285714px;
+  background-size: 1690.3225806452% 1789.2857142857%;
 }
 
 .rog_icon_market_simple {
-  background-image: url("img/icons/market.png");
-  background-size: 100% auto;
-  background-repeat: no-repeat;
-  width: 26px;
-  height: 26.5px;
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -574.0384615385px;
+  background-position-y: -0.5660377358px;
+  background-size: 2015.3846153846% 1890.5660377358%;
 }
 
 .customimagebutton .rog_icon_bonus-21 {
@@ -4920,29 +5022,36 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   border-radius: 15%;
 }
 
-.rog_card_wrapper .rog_delivery_ability .rog_icon_bonus-21,
-.rog_card_wrapper .rog_ongoing_ability .rog_icon_bonus-21,
-.rog_card_wrapper .rog_endgame_ability .rog_icon_bonus-21 {
-  width: 2em;
-  height: 2em;
+.rog_card_wrapper .rog_delivery_ability .rog_icon_container_bonus-21 .rog_icon,
+.rog_card_wrapper .rog_ongoing_ability .rog_icon_container_bonus-21 .rog_icon,
+.rog_card_wrapper .rog_endgame_ability .rog_icon_container_bonus-21 .rog_icon {
+  transform: scale(0.2083333333) !important;
 }
-.rog_card_wrapper .rog_delivery_ability .rog_icon_bonus-24,
-.rog_card_wrapper .rog_ongoing_ability .rog_icon_bonus-24,
-.rog_card_wrapper .rog_endgame_ability .rog_icon_bonus-24 {
-  width: 4em;
-  height: 2em;
+.rog_card_wrapper .rog_delivery_ability .rog_icon_container_bonus-24,
+.rog_card_wrapper .rog_ongoing_ability .rog_icon_container_bonus-24,
+.rog_card_wrapper .rog_endgame_ability .rog_icon_container_bonus-24 {
+  width: 4em !important;
+  height: 2em !important;
 }
-.rog_card_wrapper .rog_delivery_ability .rog_icon_bonus-25,
-.rog_card_wrapper .rog_ongoing_ability .rog_icon_bonus-25,
-.rog_card_wrapper .rog_endgame_ability .rog_icon_bonus-25 {
-  width: 2em;
-  height: 1em;
+.rog_card_wrapper .rog_delivery_ability .rog_icon_container_bonus-24 .rog_icon,
+.rog_card_wrapper .rog_ongoing_ability .rog_icon_container_bonus-24 .rog_icon,
+.rog_card_wrapper .rog_endgame_ability .rog_icon_container_bonus-24 .rog_icon {
+  transform: scale(0.3720930233) !important;
 }
-.rog_card_wrapper .rog_delivery_ability .rog_icon_bonus-26,
-.rog_card_wrapper .rog_ongoing_ability .rog_icon_bonus-26,
-.rog_card_wrapper .rog_endgame_ability .rog_icon_bonus-26 {
-  width: 2em;
-  height: 1em;
+.rog_card_wrapper .rog_delivery_ability .rog_icon_container_own_building,
+.rog_card_wrapper .rog_delivery_ability .rog_icon_container_bonus-25,
+.rog_card_wrapper .rog_delivery_ability .rog_icon_container_opponent_building,
+.rog_card_wrapper .rog_delivery_ability .rog_icon_container_bonus-26,
+.rog_card_wrapper .rog_ongoing_ability .rog_icon_container_own_building,
+.rog_card_wrapper .rog_ongoing_ability .rog_icon_container_bonus-25,
+.rog_card_wrapper .rog_ongoing_ability .rog_icon_container_opponent_building,
+.rog_card_wrapper .rog_ongoing_ability .rog_icon_container_bonus-26,
+.rog_card_wrapper .rog_endgame_ability .rog_icon_container_own_building,
+.rog_card_wrapper .rog_endgame_ability .rog_icon_container_bonus-25,
+.rog_card_wrapper .rog_endgame_ability .rog_icon_container_opponent_building,
+.rog_card_wrapper .rog_endgame_ability .rog_icon_container_bonus-26 {
+  width: 2em !important;
+  height: 1em !important;
 }
 
 /**
@@ -5578,10 +5687,24 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   font-size: large;
   margin: 0px 5px;
 }
-.customimagebutton .rog_trade .rog_icon_favor .rog_icon_qty {
-  padding-top: 10px;
+.customimagebutton .rog_trade .rog_icon_container_favor {
+  transform: scale(1.5);
+  transform-origin: top left;
+  width: 45px;
+  height: 45px;
+}
+.customimagebutton .rog_trade .rog_icon_container_favor .rog_icon_favor .rog_icon_qty {
+  padding-top: 5px;
   color: black;
   display: inline-block;
+}
+.customimagebutton .rog_trade .rog_icon_die_face-1,
+.customimagebutton .rog_trade .rog_icon_die_face-2,
+.customimagebutton .rog_trade .rog_icon_die_face-3,
+.customimagebutton .rog_trade .rog_icon_die_face-4,
+.customimagebutton .rog_trade .rog_icon_die_face-5,
+.customimagebutton .rog_trade .rog_icon_die_face-6 {
+  margin-left: 5px;
 }
 .customimagebutton .rog_trade .rog_icon_die_face-1 .rog_icon_qty,
 .customimagebutton .rog_trade .rog_icon_die_face-2 .rog_icon_qty,
@@ -5644,6 +5767,22 @@ body[data-rog_undo_style="2"] #btnTextRestartTurn {
   vertical-align: middle;
   border: none;
   box-shadow: none;
+}
+
+#gameaction_status .rog_icon_influence-1,
+#gameaction_status .rog_icon_influence-2,
+#gameaction_status .rog_icon_influence-3,
+#gameaction_status .rog_icon_influence-4,
+#gameaction_status .rog_icon_influence-5,
+#gameaction_status .rog_icon_influence-6,
+.log .rog_icon_influence-1,
+.log .rog_icon_influence-2,
+.log .rog_icon_influence-3,
+.log .rog_icon_influence-4,
+.log .rog_icon_influence-5,
+.log .rog_icon_influence-6 {
+  margin-left: 0.3em;
+  margin-right: 0.1em;
 }
 
 /* Cancelled notification messages */

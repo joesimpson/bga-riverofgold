@@ -110,17 +110,20 @@
             font-size: large;
             margin: 0px 5px;
         }
+        .rog_icon_container_favor{
+            transform: scale(1.5);
+            transform-origin: top left;
+            width: calc(1.5 * 30px);
+            height: calc(1.5 * 30px);
+
         .rog_icon_favor{
-            //&::before{
-            //    //remove moon from player panel icon
-            //    content: unset;
-            //}
             .rog_icon_qty{
                 //display number over the sun circle
-                padding-top: 10px;
+                padding-top: 5px;
                 color: black;
                 display: inline-block;
             }
+        }
         }
         
         .rog_icon_die_face-1,
@@ -130,6 +133,7 @@
         .rog_icon_die_face-5,
         .rog_icon_die_face-6
         {
+            margin-left: 5px;
             .rog_icon_qty{
                 //display number on the left
                 color: white;
@@ -206,6 +210,18 @@ body[data-rog_undo_style='2']{//PREF_UNDO_STYLE_ICON
     vertical-align: middle;
     border: none;
     box-shadow: none;
+}
+#gameaction_status,
+.log{
+    .rog_icon_influence-1,
+    .rog_icon_influence-2,
+    .rog_icon_influence-3,
+    .rog_icon_influence-4,
+    .rog_icon_influence-5,
+    .rog_icon_influence-6{
+        margin-left: 0.3em;
+        margin-right: 0.1em;
+    }
 }
 //--------------------------------------
 /* Cancelled notification messages */

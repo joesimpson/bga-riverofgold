@@ -152,6 +152,7 @@ trait DebugTrait
   //Simulate a meeple in each influence space to test UI
   function debugInfluenceMeeples(){
     Meeples::DB()->delete()->run();
+    $current = Players::getCurrent();
     $players = Players::getAll();
     foreach($players as $pid => $player){
       foreach (REGIONS as $region){
@@ -159,8 +160,11 @@ trait DebugTrait
           $meeple = Meeples::addClanMarkerOnInfluence($player, $region,false);
           $meeple->setPosition($k);
         }
-        $meeple = Meeples::addClanMarkerOnArtisanSpace($player, $region);
-        $meeple = Meeples::addClanMarkerOnElderSpace($player, $region);
+        if($current->getId() == $pid){
+          //Only 1 per space is expected 
+          $meeple = Meeples::addClanMarkerOnArtisanSpace($player, $region);
+          $meeple = Meeples::addClanMarkerOnElderSpace($player, $region);
+        }
         $meeple = Meeples::addClanMarkerOnMerchantSpace($player);
       }
     }
@@ -183,9 +187,16 @@ trait DebugTrait
     Globals::addBonus($player2,BONUS_TYPE_CHOICE);
     
     
-    Globals::addBonus($player2,BONUS_TYPE_SELL_GOODS);
+    Globals::addBonus($player2,BONUS_TYPE_SELL_GOODS,clienttranslate("Sell goods"));
     
     Globals::addBonus($player,BONUS_TYPE_DRAW);
+    
+    Globals::addBonus($player,BONUS_TYPE_SECOND_MARKER_ON_BUILDING);
+    Globals::addBonus($player,BONUS_TYPE_SECOND_MARKER_ON_OPPONENT);
+    Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);
+    Globals::addBonus($player,BONUS_TYPE_REFILL_HAND);
+    Globals::addBonus($player,BONUS_TYPE_SET_DIE,'',false);
+    
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
 

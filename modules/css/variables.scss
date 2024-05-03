@@ -8,4 +8,26 @@
     --rog_tileLogScale: 0.3;
     --rog_tileButtonsScale: 0.9;
     --rog_takeCardScale: 0.2;
+
+}
+
+// Sprite dimensions
+$rog_icons_sprite_width: 1048px;
+$rog_icons_sprite_height: 1002px;
+
+/**
+Icon extract in sprite with differents layers size (so % is not useful).
+ * iconPosX, iconPosY : position of icon in sprite
+ * width, height : dimensions of icon to be displayed
+ * layer_width, layer_height : dimensions of icon in sprite
+*/
+@mixin rog_icons_sprite($iconPosX,$iconPosY,$width,$height,$layer_width,$layer_height){
+    width: $width;
+    height: $height;
+    background-image: url("img/icons/icons_sprite.png");
+    background-position-x: calc(math.div($width, $layer_width) * $iconPosX);
+    background-position-y: calc(math.div($height, $layer_height ) * $iconPosY);
+    background-size: 
+        math.percentage(math.div($rog_icons_sprite_width, $layer_width )) 
+        math.percentage(math.div($rog_icons_sprite_height,$layer_height ));
 }

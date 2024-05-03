@@ -75,41 +75,33 @@
             justify-content: center;
             align-items: center;
             display: flex;
-            font-size: 6px;
+            $fontSize: 6px;
+            font-size: $fontSize;
             color: black;
             
-            .rog_icon_influence{
+            .rog_icon_container
+            {
+                width: 2em;
+                height: 2em;
+                .rog_icon{
+                    transform: scale(calc(2 * math.div($fontSize, 30px)));
+                    transform-origin: top left;
+                }
+            }
+            .rog_icon_container_influence{
                 width: 1.5em;
                 height: 2.2em;
+                .rog_icon{
+                    transform: scale(calc(2 * math.div($fontSize, 40px)));
+                }
                 .rog_icon_qty{
-                    font-size: inherit;
+                    //font-size: inherit;
+                    font-size: 3em;
                     line-height: 2em;
                     max-height: 2em;
                     width: 100%;
                     height: 100%;
                 }
-            }
-            .rog_icon_score_1,
-            .rog_icon_money,
-            .rog_icon_favor,
-            .rog_icon_moon_up,
-            .rog_icon_influence-1,
-            .rog_icon_influence-2,
-            .rog_icon_influence-3,
-            .rog_icon_influence-4,
-            .rog_icon_influence-5,
-            .rog_icon_influence-6,
-            .rog_icon_customer-1,
-            .rog_icon_customer-2,
-            .rog_icon_customer-3,
-            .rog_icon_customer-4,
-            .rog_icon_customer-5,
-            .rog_icon_customer-6,
-            .rog_icon_market_simple,
-            .rog_icon_ship-3
-            {
-                width: 2em;
-                height: 2em;
             }
         }
         .rog_delivery_ability{
@@ -290,18 +282,19 @@
             width: 90%;
             height: 39%;
             color: black;
-            font-size: 8px;
+            $fontSize : 8px;
+            font-size: $fontSize;
             text-align: center;
-            .rog_icon{
-                width: 20px;
-                height: 20px;
-                &.rog_icon_favor{
-                    width: 20px;
-                    height: 20px;
+            .rog_icon_container{
+                width: 2em;
+                height: 2em;
+                &.rog_icon_container_opponent_building{
+                    width: 2em !important;
+                    height: 1em !important;
                 }
-                &.rog_icon_customer_card{
-                    width: calc( 0.07 * 329px);
-                    height: calc( 0.07 * 381px);
+                .rog_icon{
+                    transform: scale(calc(2 * math.div($fontSize, 30px)));
+                    transform-origin: top left;
                 }
             }
         }
@@ -315,7 +308,27 @@
         .rog_delivery_ability,
         .rog_ongoing_ability,
         .rog_endgame_ability {
-            font-size: 17px;
+            $fontSize : 17px;
+            font-size: $fontSize;
+            .rog_icon_container{
+                //will take 2em with a different font-size
+                .rog_icon{
+                    transform: scale(calc(2 * math.div($fontSize, 30px))) !important;
+
+                    &.rog_icon_influence{
+                        transform: scale(calc(2 * math.div($fontSize, 40px))) !important;
+                        .rog_icon_qty{
+                            font-size: 1.1em;
+                        }
+                    }
+                    &.rog_icon_bonus-21{//BONUS_TYPE_CHOICE
+                        transform: scale(calc(2 * math.div($fontSize, 0.9 * 64px))) !important;
+                    }
+                    &.rog_icon_bonus-24{//BONUS_TYPE_UPGRADE_SHIP
+                        transform: scale(calc(4 * math.div($fontSize, 0.5 * 129px))) !important;
+                    }
+                }
+            }
         }
     }
     .rog_clan_card_wrapper{
@@ -330,7 +343,14 @@
             font-size: 13px;
         }
         .rog_patron_desc{
-            font-size: 13px;
+            $fontSize : 13px;
+            font-size: $fontSize;
+            .rog_icon_container{
+                //will take 2em with a different font-size
+                .rog_icon{
+                    transform: scale(calc(2 * math.div($fontSize, 30px))) !important;
+                }
+            }
         }
     }
 }
