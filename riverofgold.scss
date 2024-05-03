@@ -140,6 +140,20 @@
         }
     }
 }
+body[data-rog_undo_style='1']{//PREF_UNDO_STYLE_TEXT
+    #btnIconUndoLastStep, 
+    #btnIconRestartTurn
+    {
+        display: none !important;
+    }
+}
+body[data-rog_undo_style='2']{//PREF_UNDO_STYLE_ICON
+    #btnTextUndoLastStep,
+    #btnTextRestartTurn
+    {
+        display: none !important;
+    }
+}
  
 // SAFE MODE --------------------------
 #ebd-body.help-mode {

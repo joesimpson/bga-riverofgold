@@ -152,6 +152,7 @@ function (dojo, declare) {
     const CLAN_CARD_FRONT = 1;
 
     const PREF_PLAYER_PANEL_DETAILS = 100;
+    const PREF_UNDO_STYLE = 101;
 
     return declare("bgagame.riverofgold", [customgame.game], {
         constructor: function(){
@@ -285,12 +286,16 @@ function (dojo, declare) {
 
             this.inherited(arguments);
         },
-        
+        getSettingsSections: ()=>({
+            layout: _("Layout"),
+            buttons: _("Buttons"),
+        }),
         getSettingsConfig() {
             let gameWidthScale = this.getGameZoneWidth()/1200;
             return {
                 //Default scales repartition for a gameWidth of 1200 : 50,16,75
                 masteryWidth: {
+                    section: "layout",
                   default: Math.min(Math.max(gameWidthScale *50,30),100),
                   name: _('Mastery cards size'),
                   type: 'slider',
@@ -304,6 +309,7 @@ function (dojo, declare) {
                   },
                 }, 
                 eraTileWidth: {
+                    section: "layout",
                     default: Math.min(Math.max(gameWidthScale *16,10),50),
                   name: _('Building board size'),
                   type: 'slider',
@@ -318,6 +324,7 @@ function (dojo, declare) {
                   },
                 }, 
                 deckSizeWidth: {
+                    section: "layout",
                     default: 100,
                     name: _('Era stack size'),
                     type: 'slider',
@@ -331,6 +338,7 @@ function (dojo, declare) {
                     },
                 }, 
                 handWidth: {
+                    section: "layout",
                     default: Math.min(Math.max(gameWidthScale *75,30),200),
                   name: _('Hand cards size'),
                   type: 'slider',
@@ -344,6 +352,7 @@ function (dojo, declare) {
                   },
                 }, 
                 boardWidth: {
+                    section: "layout",
                   default: 100,
                   name: _('River board width'),
                   type: 'slider',
@@ -357,6 +366,7 @@ function (dojo, declare) {
                   },
                 }, 
                 deliveredWidth: {
+                    section: "layout",
                   default: 70,
                   name: _('Delivered cards size'),
                   type: 'slider',
@@ -369,8 +379,9 @@ function (dojo, declare) {
                     },
                   },
                 }, 
-                playerPanelDetails: { type: 'pref', prefId: PREF_PLAYER_PANEL_DETAILS },
+                playerPanelDetails: { section: "layout", type: 'pref', prefId: PREF_PLAYER_PANEL_DETAILS },
                 logTileWidth: {
+                    section: "layout",
                   default: 50,
                   name: _('Tile width in logs'),
                   type: 'slider',
@@ -383,7 +394,9 @@ function (dojo, declare) {
                     },
                   },
                 }, 
+                undoStyle: { section: "buttons", type: 'pref', prefId: PREF_UNDO_STYLE },
                 buttonsTileWidth: {
+                    section: "buttons",
                     default: 70,
                     name: _('Tile width in buttons'),
                     type: 'slider',

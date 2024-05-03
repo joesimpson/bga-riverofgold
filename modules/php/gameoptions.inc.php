@@ -65,4 +65,15 @@ $game_preferences = [
     "default"=> PREF_PLAYER_PANEL_DETAILS_FULL,
     'attribute' => 'rog_panel_details',
   ],
+  
+  PREF_UNDO_STYLE => [
+    'name' => totranslate('Undo buttons style'),
+    'needReload' => false,
+    'values' => [
+      PREF_UNDO_STYLE_TEXT => [ 'name' => totranslate('Text') ],
+      PREF_UNDO_STYLE_ICON => [ 'name' => totranslate('Icon')],
+    ],
+    "default"=> PREF_UNDO_STYLE_ICON,
+    'attribute' => 'rog_undo_style',
+  ],
 ];
