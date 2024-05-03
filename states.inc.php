@@ -203,8 +203,8 @@ $machinestates = array(
     ST_PLAYER_TURN => array(
         "name" => "playerTurn",
         "args" => "argPlayerTurn",
-        "description" => clienttranslate('${actplayer} must take an action'),
-        "descriptionmyturn" => clienttranslate('${you} must take an action'),
+        "description" => clienttranslate('${actplayer} must take an action with ${die_face}'),
+        "descriptionmyturn" => clienttranslate('${you} must take an action with ${die_face}'),
         'type' => 'activeplayer',
         "possibleactions" => [
             "actBuild", 

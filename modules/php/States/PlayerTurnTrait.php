@@ -28,8 +28,10 @@ trait PlayerTurnTrait
     if(count($this->listPossibleCardsToDeliver($activePlayer))>0 ){
       $actions[] = 'actDeliver';
     }
+    $die_face = $activePlayer->getDie();
     $args = [
       'a' => $actions,
+      'die_face' => $die_face,
     ];
     $this->addArgsForUndo($args);
     return $args;

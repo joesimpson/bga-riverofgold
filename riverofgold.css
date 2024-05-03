@@ -5498,6 +5498,11 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   position: absolute;
 }
 
+#pagemaintitletext .rog_icon_container .rog_icon.rog_icon_die_face-1, #pagemaintitletext .rog_icon_container .rog_icon.rog_icon_die_face-2, #pagemaintitletext .rog_icon_container .rog_icon.rog_icon_die_face-3, #pagemaintitletext .rog_icon_container .rog_icon.rog_icon_die_face-4, #pagemaintitletext .rog_icon_container .rog_icon.rog_icon_die_face-5, #pagemaintitletext .rog_icon_container .rog_icon.rog_icon_die_face-6 {
+  width: 2em;
+  height: 2em;
+}
+
 .rog_hidden {
   visibility: hidden;
 }

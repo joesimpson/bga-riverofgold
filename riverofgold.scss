@@ -49,6 +49,22 @@
         position: absolute;
     }
 }
+#pagemaintitletext{
+    .rog_icon_container{
+        .rog_icon{
+            //Display die face in args text
+            &.rog_icon_die_face-1,
+            &.rog_icon_die_face-2,
+            &.rog_icon_die_face-3,
+            &.rog_icon_die_face-4,
+            &.rog_icon_die_face-5,
+            &.rog_icon_die_face-6{
+                width: 2em;
+                height: 2em;
+            }
+        }
+    }
+}
 .rog_hidden{
     visibility: hidden;
 }
