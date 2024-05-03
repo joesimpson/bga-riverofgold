@@ -43,9 +43,9 @@ trait ScoringTrait
       $influenceMarkers[$region] = Meeples::getAllInfluenceMarkers($region);
     }
 
-    foreach($players as $pid => $player){
-      //RULE 1 : REGIONAL INFLUENCE
-      foreach(REGIONS as $region){
+    //RULE 1 : REGIONAL INFLUENCE, scored region by region
+    foreach(REGIONS as $region){
+      foreach($players as $pid => $player){
         $playerPosition = $influenceMarkers[$region]->filter( function($meeple) use ($pid) { 
             return $meeple->getPId() == $pid; 
           })->first()->getPosition();
@@ -71,7 +71,9 @@ trait ScoringTrait
           }
         }
       }
+    }
 
+    foreach($players as $pid => $player){
       //RULE 2 : CUSTOMERS
       $nbDeliveries = $player->getNbDeliveredCustomers();
       $scoreForNbDeliveries = 0;
