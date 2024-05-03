@@ -300,15 +300,16 @@ class Players extends \ROG\Helpers\DB_Manager
    * @param Player $player  (! will be modified with score and resources)
    * @param int $region 
    * @param int $amount 
+   * @param ClanPatronCard $influencePatron (optional) clan patron that leads to this gain
    * @return bool true if player needs to do another choice 
    */
-  public static function gainInfluence(&$player,$region,$amount){
+  public static function gainInfluence(&$player,$region,$amount,$influencePatron = null){
     if($amount == 0) return;
     $meeple = Meeples::getInfluenceMarker($player->getId(),$region);
     $currentInfluence = $meeple->getPosition(); 
     $newInfluence = min(NB_MAX_INLFUENCE,$currentInfluence + $amount);
     $meeple->setPosition($newInfluence);
-    Notifications::gainInfluence($player,$region,$amount,$newInfluence,$meeple);
+    Notifications::gainInfluence($player,$region,$amount,$newInfluence,$meeple,$influencePatron);
 
     //////////////////////////////////////////////////////////////////
     //influence depends on Scorpion clan patron
@@ -318,9 +319,8 @@ class Players extends \ROG\Helpers\DB_Manager
       $betterPlayersSpacesOnPath = Meeples::countUsedSpacedOnInfluenceTrack($player->getId(),$region,$currentInfluence,$amount);
       $amount2 = $betterPlayersSpacesOnPath;
       if($amount2>0) {
-        $newInfluence = min(NB_MAX_INLFUENCE,$newInfluence + $amount2);
-        $meeple->setPosition($newInfluence);
-        Notifications::gainInfluence($player,$region,$amount2,$newInfluence,$meeple,$playerPatron);
+        //Recursive CALL ! because we want a cascade triggering the same gains
+        Players::gainInfluence($player,$region,$amount2,$playerPatron);
       }
     }
     //If another player has the Governor, THEY get 3 points when we pass them

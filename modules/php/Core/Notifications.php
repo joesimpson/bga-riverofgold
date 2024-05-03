@@ -366,7 +366,7 @@ class Notifications
    * @param int $amount 
    * @param int $influence 
    * @param Meeple $meeple 
-   * @param ClanPatronCard $card (optional)
+   * @param ClanPatronCard $playerPatron (optional) clan patron that leads to this gain
    */
   public static function gainInfluence($player,$region,$amount,$influence,$meeple,$playerPatron = null)
   {
