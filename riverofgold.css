@@ -170,9 +170,6 @@
   justify-content: space-around;
   position: relative;
 }
-.rog_panel .rog_player_infos .rog_player_resource_line:nth-child(1), .rog_panel .rog_player_infos .rog_player_resource_line:nth-child(2) {
-  font-size: 12px;
-}
 .rog_panel .rog_player_infos .rog_player_resource_line.rog_player_resource_line_i1, .rog_panel .rog_player_infos .rog_player_resource_line.rog_player_resource_line_i2 {
   line-height: 2em;
 }

@@ -96,10 +96,9 @@
             justify-content: space-around;
             position: relative;
                 
-            &:nth-child(1),
-            &:nth-child(2){
-                //first lines
-                font-size: 12px;
+            &.rog_player_resource_line_money,
+            &.rog_player_resource_line_materials{
+                //font-size: 12px;
                 .rog_player_resource {
                     //margin: 4px 0px;
                 }
