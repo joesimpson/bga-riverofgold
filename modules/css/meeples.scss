@@ -173,16 +173,19 @@
     width: 72px;
     height: 72px;
     .rog_meeple{
-        transform: translateY(0);
-        transition: transform 0.5s; 
-        &:nth-child(1){
-            margin-bottom: -60px;
-        }
+        //Don't use transform here because the river container use transform to resize and it is painful on Chrome (blurring) : we can use margin instead
+        //transform: translateY(0);
+        //transition: transform 0.5s; 
+        margin-top: 0px;
+        transition: margin .5s;
+
     }
     &:hover .rog_meeple{
         //View behind meeple 
+        margin-top: -100px;
         &:nth-child(1){
-            transform:translateY(-100%);
+            //transform:translateY(-100%);
+            margin-top: -60px;
         }
     }
 }
@@ -297,31 +300,41 @@
             }
         }
         .rog_meeple{
-            transform: translateY(0);
-            transition: transform 0.5s; 
-            &:nth-child(1){
-                margin-bottom: -60px;
-            }
+            //Don't use transform here because the river container use transform to resize and it is painful on Chrome (blurring) : we can use margin instead
+            //transform: translateY(0);
+            //transition: transform 0.5s; 
+
+            margin-top: 0px;
+            transition: margin .5s;
+
             &:nth-child(2){
-                margin-bottom: -65px;
+                margin-top: -60px;
             }
             &:nth-child(3){
-                margin-bottom: -68px;
+                margin-top: -65px;
+            }
+            &:nth-child(4){
+                margin-top: -68px;
             }
         }
         &:hover .rog_meeple{
+            z-index: 5;//must be visible over elements like artisan space meeples
             //View behind meeple
             &:nth-child(4){
-                transform:translateY(-50%);
+                //transform:translateY(-50%);
+                margin-top: -100px;
             }
             &:nth-child(3){
-                transform:translateY(-70%);
+                //transform:translateY(-70%);
+                margin-top: -100px;
             }
             &:nth-child(2){
-                transform:translateY(-90%);
+                //transform:translateY(-90%);
+                margin-top: -100px;
             }
             &:nth-child(1){
-                transform:translateY(-100%);
+                //transform:translateY(-100%);
+                margin-top: -60px;
             }
         }
     }
@@ -337,31 +350,37 @@
     height: 72px;
 
     .rog_meeple{
-        transform: translateY(0);
-        transition: transform 0.5s; 
-        &:nth-child(1){
-            margin-bottom: -60px;
-        }
+        //Don't use transform here because the river container use transform to resize and it is painful on Chrome (blurring) : we can use margin instead
+        //transform: translateY(0);
+        //transition: transform 0.5s; 
+        margin-top: 0px;
+        transition: margin .5s;
+
         &:nth-child(2){
-            margin-bottom: -65px;
+            margin-top: -60px;
         }
         &:nth-child(3){
-            margin-bottom: -68px;
+            margin-top: -65px;
+        }
+        &:nth-child(4){
+            margin-top: -68px;
         }
     }
     &:hover .rog_meeple{
         //View behind meeple
+        margin-top: -100px;
         &:nth-child(4){
-            transform:translateY(-50%);
+            //transform:translateY(-50%);
         }
         &:nth-child(3){
-            transform:translateY(-70%);
+            //transform:translateY(-70%);
         }
         &:nth-child(2){
-            transform:translateY(-90%);
+            //transform:translateY(-90%);
         }
         &:nth-child(1){
-            transform:translateY(-100%);
+            //transform:translateY(-100%);
+            margin-top: -60px;
         }
     }
 }

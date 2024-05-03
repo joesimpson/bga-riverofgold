@@ -3987,16 +3987,16 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 .rog_artisan_space .rog_meeple,
 .rog_elder_space .rog_meeple {
-  transform: translateY(0);
-  transition: transform 0.5s;
+  margin-top: 0px;
+  transition: margin 0.5s;
 }
-.rog_artisan_space .rog_meeple:nth-child(1),
-.rog_elder_space .rog_meeple:nth-child(1) {
-  margin-bottom: -60px;
+.rog_artisan_space:hover .rog_meeple,
+.rog_elder_space:hover .rog_meeple {
+  margin-top: -100px;
 }
 .rog_artisan_space:hover .rog_meeple:nth-child(1),
 .rog_elder_space:hover .rog_meeple:nth-child(1) {
-  transform: translateY(-100%);
+  margin-top: -60px;
 }
 
 .rog_artisan_space#rog_artisan_space_1 {
@@ -4165,29 +4165,32 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   grid-column-start: 7;
 }
 .rog_influence_track .rog_influence_track_space .rog_meeple {
-  transform: translateY(0);
-  transition: transform 0.5s;
-}
-.rog_influence_track .rog_influence_track_space .rog_meeple:nth-child(1) {
-  margin-bottom: -60px;
+  margin-top: 0px;
+  transition: margin 0.5s;
 }
 .rog_influence_track .rog_influence_track_space .rog_meeple:nth-child(2) {
-  margin-bottom: -65px;
+  margin-top: -60px;
 }
 .rog_influence_track .rog_influence_track_space .rog_meeple:nth-child(3) {
-  margin-bottom: -68px;
+  margin-top: -65px;
+}
+.rog_influence_track .rog_influence_track_space .rog_meeple:nth-child(4) {
+  margin-top: -68px;
+}
+.rog_influence_track .rog_influence_track_space:hover .rog_meeple {
+  z-index: 5;
 }
 .rog_influence_track .rog_influence_track_space:hover .rog_meeple:nth-child(4) {
-  transform: translateY(-50%);
+  margin-top: -100px;
 }
 .rog_influence_track .rog_influence_track_space:hover .rog_meeple:nth-child(3) {
-  transform: translateY(-70%);
+  margin-top: -100px;
 }
 .rog_influence_track .rog_influence_track_space:hover .rog_meeple:nth-child(2) {
-  transform: translateY(-90%);
+  margin-top: -100px;
 }
 .rog_influence_track .rog_influence_track_space:hover .rog_meeple:nth-child(1) {
-  transform: translateY(-100%);
+  margin-top: -60px;
 }
 
 #rog_merchant_space {
@@ -4200,29 +4203,23 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   height: 72px;
 }
 #rog_merchant_space .rog_meeple {
-  transform: translateY(0);
-  transition: transform 0.5s;
-}
-#rog_merchant_space .rog_meeple:nth-child(1) {
-  margin-bottom: -60px;
+  margin-top: 0px;
+  transition: margin 0.5s;
 }
 #rog_merchant_space .rog_meeple:nth-child(2) {
-  margin-bottom: -65px;
+  margin-top: -60px;
 }
 #rog_merchant_space .rog_meeple:nth-child(3) {
-  margin-bottom: -68px;
+  margin-top: -65px;
 }
-#rog_merchant_space:hover .rog_meeple:nth-child(4) {
-  transform: translateY(-50%);
+#rog_merchant_space .rog_meeple:nth-child(4) {
+  margin-top: -68px;
 }
-#rog_merchant_space:hover .rog_meeple:nth-child(3) {
-  transform: translateY(-70%);
-}
-#rog_merchant_space:hover .rog_meeple:nth-child(2) {
-  transform: translateY(-90%);
+#rog_merchant_space:hover .rog_meeple {
+  margin-top: -100px;
 }
 #rog_merchant_space:hover .rog_meeple:nth-child(1) {
-  transform: translateY(-100%);
+  margin-top: -60px;
 }
 
 .rog_river_space .rog_meeple {
