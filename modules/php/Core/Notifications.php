@@ -379,7 +379,7 @@ class Notifications
     self::notifyAll('gainInfluence', $message, [
       'i18n' => [ 'patron_name' ],
       'player' => $player,
-      'region_icon' => $region,
+      'region_icon' => '',
       'region' => $region,
       'n' => $amount,
       'n2' => $influence,
