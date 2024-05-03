@@ -5514,6 +5514,10 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   background-color: rgb(255, 115, 0) !important;
 }
 
+#btnConfirmTurn {
+  background-color: green;
+}
+
 .customimagebutton {
   border: medium none;
   display: flex;
