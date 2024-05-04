@@ -284,7 +284,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   display: flex;
   flex-wrap: wrap;
   visibility: visible;
-  color: black;
+  color: inherit;
   width: 186px;
 }
 .rog_panel .rog_player_infos .rog_clan_card .rog_patron_ability .reduceToFit {
@@ -613,7 +613,6 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 .rog_player_resource_line_clan .rog_player_clan_panel .rog_player_clan_name {
   width: 100%;
   height: 100%;
-  color: rgb(0, 0, 0);
   font-size: 15px;
   position: relative;
   display: flex;
@@ -5645,10 +5644,11 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 
 .rog_selected_button {
-  background-color: rgb(255, 115, 0);
+  background-color: rgb(255, 115, 0) !important;
+  background-image: none !important;
 }
 .rog_selected_button:hover {
-  background-color: rgb(255, 115, 0) !important;
+  background-color: rgba(255, 115, 0, 0.75) !important;
 }
 
 #btnConfirmTurn {
