@@ -448,6 +448,7 @@
             display: flex;
             transform: scale(var(--rog_hand_scale));
             transform-origin: top left;
+            height: fit-content;
             .rog_card{
                 position: relative;
                 width: calc(1 * 148px);
@@ -474,6 +475,7 @@
             display: flex;
             transform: scale(var(--rog_delivered_scale));
             transform-origin: top left;
+            height: fit-content;
             .rog_card{
                 position: relative;
                 width: calc(1 * 148px);

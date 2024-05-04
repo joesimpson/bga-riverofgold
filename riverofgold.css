@@ -2129,6 +2129,8 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   display: flex;
   transform: scale(var(--rog_hand_scale));
   transform-origin: top left;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 .rog_player_hand_resizable .rog_customer_card_resizeable .rog_customer_holder .rog_card {
   position: relative;
@@ -2153,6 +2155,8 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   display: flex;
   transform: scale(var(--rog_delivered_scale));
   transform-origin: top left;
+  height: -moz-fit-content;
+  height: fit-content;
 }
 #rog_players_deliveries .rog_customer_card_resizeable .rog_customer_holder .rog_card {
   position: relative;
