@@ -39,6 +39,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       this._displayNotifsOnTopWhenGameState = true;
       this._hideNotifsWhenMultiActive = false;
       this._displayRestartButtons = true;
+      this.alwaysFixTopActions = true;
+      //Max percentage of screen to use with top bar :
+      this.alwaysFixTopActionsMaximum = 30;
     },
 
     destroy(elem, delayRemove = false) {
@@ -1399,6 +1402,36 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       cardDiv.querySelectorAll(".reduceToFit").forEach((e) => {
         this.reduceToFit(e);
       });
+    },
+
+    /**
+     * 
+     * idea from bennygui (see Earth) to keep a fixed page title even with many buttons
+     */
+    adaptStatusBar() {
+      debug("adaptStatusBar");
+      this.inherited(arguments);
+
+      if (this.alwaysFixTopActions) {
+        const afterTitleElem = document.getElementById('after-page-title');
+        const titleElem = document.getElementById('page-title');
+        let zoom = getComputedStyle(titleElem).zoom;
+        if (!zoom) {
+          zoom = 1;
+        }
+
+        const titleRect = afterTitleElem.getBoundingClientRect();
+        if (titleRect.top < 0 && (titleElem.offsetHeight < (window.innerHeight * this.alwaysFixTopActionsMaximum / 100))) {
+          const afterTitleRect = afterTitleElem.getBoundingClientRect();
+          titleElem.classList.add('fixed-page-title');
+          titleElem.style.width = ((afterTitleRect.width - 10) / zoom) + 'px';
+          afterTitleElem.style.height = titleRect.height + 'px';
+        } else {
+          titleElem.classList.remove('fixed-page-title');
+          titleElem.style.width = 'auto';
+          afterTitleElem.style.height = '0px';
+        }
+      }
     },
 
   });
