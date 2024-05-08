@@ -240,7 +240,21 @@ class Meeples extends \ROG\Helpers\Pieces
    */
   public static function getPlayerBuildingsMarkers($pId)
   {
-    return self::getFilteredQuery($pId, MEEPLE_LOCATION_TILE.'%')->get();
+    //WARNING tile subTYPE is important
+    //return self::getFilteredQuery($pId, MEEPLE_LOCATION_TILE.'%')->get();
+    $tilesTypes = [];
+    foreach(BUILDING_TYPES as $bType){
+      $tileType = $bType;
+      $tilesTypes = array_merge($tilesTypes, Tiles::getTilesTypesByBuilding($tileType));
+    }
+    $tileIds = Tiles::getIdsByType(TILE_TYPE_BUILDING,$tilesTypes);
+    $buildingTiles = [];
+    foreach($tileIds as $tileId){
+      $buildingTiles[] = MEEPLE_LOCATION_TILE.$tileId;
+    }
+    return self::DB()->wherePlayer($pId)
+      ->whereIn(self::$prefix.'location', $buildingTiles)
+      ->get();
   }
 
     /**

@@ -308,6 +308,7 @@ class Player extends \ROG\Helpers\DB_Model
     $regions = array_unique( $markersOnBuildings->map( function($meeple) { 
       return $meeple->getBuildingRegion();
     })->toArray());
+    Game::get()->trace("getBuiltRegions()".$this->getId().":". json_encode($regions));
     return $regions;
   }
 }

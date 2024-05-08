@@ -304,8 +304,10 @@ class Players extends \ROG\Helpers\DB_Manager
    * @return bool true if player needs to do another choice 
    */
   public static function gainInfluence(&$player,$region,$amount,$influencePatron = null){
+    $pid = $player->getId();
+    Game::get()->trace("gainInfluence($pid, $region,$amount),". json_encode($influencePatron));
     if($amount == 0) return;
-    $meeple = Meeples::getInfluenceMarker($player->getId(),$region);
+    $meeple = Meeples::getInfluenceMarker($pid,$region);
     $currentInfluence = $meeple->getPosition(); 
     $newInfluence = min(NB_MAX_INLFUENCE,$currentInfluence + $amount);
     $meeple->setPosition($newInfluence);
