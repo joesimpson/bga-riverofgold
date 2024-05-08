@@ -455,7 +455,7 @@ class Notifications
         'points' => 'points',
         'n2' => $playerInfluence,
         'region' => $region,
-        'region_icon' => $region,
+        'region_icon' => '',
         'tile_id' => $scoringTile->getId(),
       ],
     );
@@ -474,7 +474,7 @@ class Notifications
         'n' => $points,
         'points' => 'points',
         'region' => $region,
-        'region_icon' => $region,
+        'region_icon' => '',
         'tile_id' => $scoringTile->getId(),
       ],
     );
