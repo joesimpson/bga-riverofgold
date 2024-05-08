@@ -3104,14 +3104,21 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   align-items: center;
   display: flex;
 }
-.rog_masterycard .rog_masterycard_wrapper .rog_masterydesc .rog_icon.rog_icon_imperial_flower {
-  margin: 0 5px;
-  width: 30px;
-  height: 30.5px;
+.rog_masterycard .rog_masterycard_wrapper .rog_masterydesc .rog_icon_container.rog_icon_container_imperial_flower {
+  width: 2em;
+  height: 2em;
 }
-.rog_masterycard .rog_masterycard_wrapper .rog_masterydesc .rog_icon.rog_icon_influence {
-  width: 30px;
-  height: 40px;
+.rog_masterycard .rog_masterycard_wrapper .rog_masterydesc .rog_icon_container.rog_icon_container_imperial_flower .rog_icon_imperial_flower {
+  transform: scale(1.3333333333);
+  transform-origin: top left;
+}
+.rog_masterycard .rog_masterycard_wrapper .rog_masterydesc .rog_icon_container.rog_icon_container_influence {
+  width: 2em;
+  height: 2.7em;
+}
+.rog_masterycard .rog_masterycard_wrapper .rog_masterydesc .rog_icon_container.rog_icon_container_influence .rog_icon_influence {
+  transform: scale(1.3333333333);
+  transform-origin: top left;
 }
 .rog_masterycard .rog_masterycard_wrapper .rog_mastery_buildings,
 .rog_masterycard .rog_masterycard_wrapper .rog_mastery_customers {
@@ -3196,6 +3203,10 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
 }
 .rog_masterycard_tooltip .rog_tile .rog_masterydesc {
   font-size: 27.7777777778px;
+}
+.rog_masterycard_tooltip .rog_tile .rog_masterydesc .rog_icon_imperial_flower,
+.rog_masterycard_tooltip .rog_tile .rog_masterydesc .rog_icon_influence {
+  transform: scale(1.8518518519) !important;
 }
 .rog_masterycard_tooltip .rog_tile .rog_mastery_buildings,
 .rog_masterycard_tooltip .rog_tile .rog_mastery_customers {

@@ -211,20 +211,28 @@
             left: 5%;
             width: 90%;
             height: 40%;
-            font-size: 20px;
+            $fontSize: 20px;
+            font-size: $fontSize;
             text-align: center;
             justify-content: center;
             align-items: center;
             display: flex;
-            .rog_icon{
-                &.rog_icon_imperial_flower{
-                    margin: 0 5px;
-                    width: calc( 0.1 * 300px);
-                    height: calc( 0.1 * 305px);
+            .rog_icon_container{
+                &.rog_icon_container_imperial_flower{
+                    width: 2em;
+                    height: 2em;
+                    .rog_icon_imperial_flower{
+                        transform: scale(calc(2 * math.div($fontSize, 30px)));
+                        transform-origin: top left;
+                    }
                 }
-                &.rog_icon_influence{
-                    width: 30px;
-                    height: 40px;
+                &.rog_icon_container_influence{
+                    width: 2em;
+                    height: 2.7em;
+                    .rog_icon_influence{
+                        transform: scale(calc(2 * math.div($fontSize, 30px)));
+                        transform-origin: top left;
+                    }
                 }
             }
         }    
@@ -347,7 +355,13 @@
             font-size: calc(math.div(500,360) * 14px);
         }
         .rog_masterydesc{
-            font-size: calc(math.div(500,360) * 20px);
+            $fontSize: calc(math.div(500,360) * 20px);
+            font-size: $fontSize;
+            .rog_icon_imperial_flower,
+            .rog_icon_influence
+            {
+                transform: scale(calc(2 * math.div($fontSize, 30px))) !important;
+            }
         }
         .rog_mastery_buildings,
         .rog_mastery_customers{
