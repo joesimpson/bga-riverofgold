@@ -87,4 +87,15 @@ $game_preferences = [
     "default"=> PREF_PLAYER_PANEL_BACKGROUND_SYMBOL,
     'attribute' => 'rog_panel_background',
   ],
+  
+  PREF_PLAYER_PANEL_BORDER => [
+    'name' => totranslate('Player panel border'),
+    'needReload' => false,
+    'values' => [
+      PREF_PLAYER_PANEL_BORDER_OFF => [ 'name' => totranslate('Disabled') ],
+      PREF_PLAYER_PANEL_BORDER_ON => [ 'name' => totranslate('Enabled')],
+    ],
+    "default"=> PREF_PLAYER_PANEL_BORDER_ON,
+    'attribute' => 'rog_panel_border',
+  ],
 ];

@@ -38,7 +38,21 @@
                 "name": "Clan symbol"
             }
         },
-        "default": 1,
+        "default": 2,
         "attribute": "rog_panel_background"
+    },
+    "103": {
+        "name": "Player panel border",
+        "needReload": false,
+        "values": {
+            "1": {
+                "name": "Disabled"
+            },
+            "2": {
+                "name": "Enabled"
+            }
+        },
+        "default": 2,
+        "attribute": "rog_panel_border"
     }
 }

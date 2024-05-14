@@ -154,6 +154,7 @@ function (dojo, declare) {
     const PREF_PLAYER_PANEL_DETAILS = 100;
     const PREF_UNDO_STYLE = 101;
     const PREF_PLAYER_PANEL_BACKGROUND = 102;
+    const PREF_PLAYER_PANEL_BORDER = 103;
 
     return declare("bgagame.riverofgold", [customgame.game], {
         constructor: function(){
@@ -392,6 +393,7 @@ function (dojo, declare) {
                 //}, 
                 playerPanelDetails: { section: "sidePanel", type: 'pref', prefId: PREF_PLAYER_PANEL_DETAILS },
                 playerPanelBackground: { section: "sidePanel", type: 'pref', prefId: PREF_PLAYER_PANEL_BACKGROUND },
+                playerPanelBorder: { section: "sidePanel", type: 'pref', prefId: PREF_PLAYER_PANEL_BORDER },
                 logTileWidth: {
                     section: "sidePanel",
                   default: 50,

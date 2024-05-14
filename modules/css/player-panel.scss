@@ -10,6 +10,11 @@
         }
         &[data-color='0000ff']{
             box-shadow: 1px 1px 10px #0000ff;
+            border-image: url('img/clans/blueBorders.png');
+            border-image-slice: 150;
+            border-image-width: 10px;
+            border-image-outset: 0;
+            border-image-repeat: round;
         }
         &[data-color="ffffff"]{
             box-shadow: 1px 1px 5px black, 1px 1px 10px 5px #fff;
@@ -529,6 +534,12 @@ body[data-rog_panel_details='2']{//PREF_PLAYER_PANEL_DETAILS_COMPACT
 body[data-rog_panel_background='1']{//PREF_PLAYER_PANEL_BACKGROUND_NONE
     .rog_player_background_big_symbol{
         display: none !important;
+    }
+}
+
+body[data-rog_panel_border='1']{//PREF_PLAYER_PANEL_BORDER_OFF
+    .player-board{
+        border-image: none !important;
     }
 }
 
