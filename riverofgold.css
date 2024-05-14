@@ -36,21 +36,36 @@ Icon extract in sprite with differents layers size (so % is not useful).
 }
 #player_boards > .player-board[data-color=ff0000] {
   box-shadow: 1px 1px 10px #ff0000;
+  -o-border-image: url("img/clans/redBorders.png");
+     border-image: url("img/clans/redBorders.png");
+  border-image-slice: 100 100 100 100;
+  border-image-width: 10px;
+  border-image-repeat: round;
 }
 #player_boards > .player-board[data-color="008000"] {
   box-shadow: 1px 1px 10px #008000;
+  -o-border-image: url("img/clans/greenBorders.png");
+     border-image: url("img/clans/greenBorders.png");
+  border-image-slice: 100 100 100 100;
+  border-image-width: 10px;
+  border-image-repeat: round;
 }
 #player_boards > .player-board[data-color="0000ff"] {
   box-shadow: 1px 1px 10px #0000ff;
   -o-border-image: url("img/clans/blueBorders.png");
      border-image: url("img/clans/blueBorders.png");
-  border-image-slice: 150;
+  border-image-slice: 100 100 100 100;
   border-image-width: 10px;
-  border-image-outset: 0;
   border-image-repeat: round;
 }
 #player_boards > .player-board[data-color=ffffff] {
   box-shadow: 1px 1px 5px black, 1px 1px 10px 5px #fff;
+  -o-border-image: url("img/clans/whiteBorders.png");
+     border-image: url("img/clans/whiteBorders.png");
+  border-image-slice: 100 100 100 100;
+  border-image-width: 10px;
+  border-image-repeat: round;
+  box-shadow: none;
 }
 
 .player_board_inner > .player-name {
