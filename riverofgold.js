@@ -153,6 +153,7 @@ function (dojo, declare) {
 
     const PREF_PLAYER_PANEL_DETAILS = 100;
     const PREF_UNDO_STYLE = 101;
+    const PREF_PLAYER_PANEL_BACKGROUND = 102;
 
     return declare("bgagame.riverofgold", [customgame.game], {
         constructor: function(){
@@ -390,6 +391,7 @@ function (dojo, declare) {
                 //    attribute: 'rog_pin_panel',
                 //}, 
                 playerPanelDetails: { section: "sidePanel", type: 'pref', prefId: PREF_PLAYER_PANEL_DETAILS },
+                playerPanelBackground: { section: "sidePanel", type: 'pref', prefId: PREF_PLAYER_PANEL_BACKGROUND },
                 logTileWidth: {
                     section: "sidePanel",
                   default: 50,
@@ -933,6 +935,8 @@ function (dojo, declare) {
                 let clanIconDiv = this.formatIcon('clan-'+n.args.card.clan);
                 let clanName = this.CLANS_NAMES.get(n.args.card.clan);
                 dojo.place(clanIconDiv,rog_player_clan_panel,'first');
+                let backgroundSymbol = $(`rog_player_background_big_symbol-${pid}`);
+                backgroundSymbol.dataset.clan = n.args.card.clan;
                 $(`rog_player_clan_name-${pid}`).innerHTML= `<div class="reduceToFit">${clanName}</div>`;
                 this.reduceTextSizeOnCardElements(rog_player_clan_panel);
             });
@@ -1777,6 +1781,7 @@ function (dojo, declare) {
             return `<div class='rog_panel'>
             <div class="rog_first_player_holder"></div>
             <div class='rog_player_infos'>
+                <div class='rog_player_background_big_symbol' id='rog_player_background_big_symbol-${player.id}' data-clan='${player.clan}'></div>
                 <div class='rog_player_resource_line rog_player_resource_line_money'>
                     ${this.tplResourceCounter(player, 'money',  NB_MAX_MONEY)}
                     ${this.tplResourceCounter(player, 'favor',  player.moon)}

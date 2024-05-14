@@ -394,6 +394,27 @@
     }
 }
 
+.rog_player_background_big_symbol{
+    position: absolute;
+    left: 10%;
+    opacity: 0.3;
+    $width: 200px;
+    $height: 175px;
+    &[data-clan='1']{//CLAN_CRAB
+        @include rog_icons_sprite(-605px,-793px,$width,$height,76px,74px);
+    }
+    &[data-clan='2']{//CLAN_MANTIS
+        @include rog_icons_sprite(-756px,-793px,$width,$height,70px,71px);
+    }
+    &[data-clan='3']{//CLAN_CRANE
+        @include rog_icons_sprite(-525px,-793px,$width,$height,78px,74px);
+        opacity: 0.7;//White is more difficult to see
+    }
+    &[data-clan='4']{//CLAN_SCORPION
+        @include rog_icons_sprite(-683px,-793px,$width,$height,71px,71px);
+    }
+}
+
 #rog_dieFace_animation,
 #rog_score_animation,
 #rog_pottery_animation,
@@ -501,6 +522,12 @@ body[data-rog_panel_details='2']{//PREF_PLAYER_PANEL_DETAILS_COMPACT
     .rog_player_resource_line_i2,
     .rog_player_resource_line_customers
     {
+        display: none !important;
+    }
+}
+
+body[data-rog_panel_background='1']{//PREF_PLAYER_PANEL_BACKGROUND_NONE
+    .rog_player_background_big_symbol{
         display: none !important;
     }
 }

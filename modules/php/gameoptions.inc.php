@@ -76,4 +76,15 @@ $game_preferences = [
     "default"=> PREF_UNDO_STYLE_ICON,
     'attribute' => 'rog_undo_style',
   ],
+
+  PREF_PLAYER_PANEL_BACKGROUND => [
+    'name' => totranslate('Player panel background'),
+    'needReload' => false,
+    'values' => [
+      PREF_PLAYER_PANEL_BACKGROUND_NONE => [ 'name' => totranslate('Disabled') ],
+      PREF_PLAYER_PANEL_BACKGROUND_SYMBOL => [ 'name' => totranslate('Clan symbol')],
+    ],
+    "default"=> PREF_PLAYER_PANEL_BACKGROUND_SYMBOL,
+    'attribute' => 'rog_panel_background',
+  ],
 ];

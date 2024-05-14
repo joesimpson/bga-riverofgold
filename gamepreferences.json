@@ -26,5 +26,19 @@
         },
         "default": 2,
         "attribute": "rog_undo_style"
+    },
+    "102": {
+        "name": "Player panel background",
+        "needReload": false,
+        "values": {
+            "1": {
+                "name": "Disabled"
+            },
+            "2": {
+                "name": "Clan symbol"
+            }
+        },
+        "default": 1,
+        "attribute": "rog_panel_background"
     }
 }

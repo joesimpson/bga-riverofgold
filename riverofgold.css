@@ -511,6 +511,45 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-size: 1476.0563380282% 1411.2676056338%;
 }
 
+.rog_player_background_big_symbol {
+  position: absolute;
+  left: 10%;
+  opacity: 0.3;
+}
+.rog_player_background_big_symbol[data-clan="1"] {
+  width: 200px;
+  height: 175px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -1592.1052631579px;
+  background-position-y: -1875.3378378378px;
+  background-size: 1378.9473684211% 1354.0540540541%;
+}
+.rog_player_background_big_symbol[data-clan="2"] {
+  width: 200px;
+  height: 175px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -2160px;
+  background-position-y: -1954.5774647887px;
+  background-size: 1497.1428571429% 1411.2676056338%;
+}
+.rog_player_background_big_symbol[data-clan="3"] {
+  width: 200px;
+  height: 175px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -1346.1538461538px;
+  background-position-y: -1875.3378378378px;
+  background-size: 1343.5897435897% 1354.0540540541%;
+  opacity: 0.7;
+}
+.rog_player_background_big_symbol[data-clan="4"] {
+  width: 200px;
+  height: 175px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -1923.9436619718px;
+  background-position-y: -1954.5774647887px;
+  background-size: 1476.0563380282% 1411.2676056338%;
+}
+
 #rog_dieFace_animation,
 #rog_score_animation,
 #rog_pottery_animation,
@@ -595,6 +634,10 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_buildings,
 body[data-rog_panel_details="2"] .rog_player_resource_line_i1,
 body[data-rog_panel_details="2"] .rog_player_resource_line_i2,
 body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
+  display: none !important;
+}
+
+body[data-rog_panel_background="1"] .rog_player_background_big_symbol {
   display: none !important;
 }
 
