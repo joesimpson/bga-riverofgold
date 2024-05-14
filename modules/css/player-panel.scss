@@ -569,6 +569,12 @@ body[data-rog_panel_border='1']{//PREF_PLAYER_PANEL_BORDER_OFF
         display: flex;
         flex-direction: row;
         align-items: center;
+        &.tooltipable{
+            cursor: help;
+            &:hover{
+                outline: 2px solid green;
+            }
+        }
 
         .rog_player_clan_name{
             //width: 100px;
@@ -584,5 +590,26 @@ body[data-rog_panel_border='1']{//PREF_PLAYER_PANEL_BORDER_OFF
     }
     .rog_resource_dieFace{
         width: 32%;
+    }
+}
+.rog_player_board_tooltip{
+    .rog_player_board{
+        width: 500px;
+        //Keep image dimensions ratio :
+        height: calc(math.div(1785px,3100px) * 500px);
+        background-size: 100% auto;
+
+        &[data-clan='1']{//CLAN_CRAB
+            background-image: url("img/clans/Crab_2.jpg");
+        }
+        &[data-clan='2']{//CLAN_MANTIS
+            background-image: url("img/clans/Mantis_2.jpg");
+        }
+        &[data-clan='3']{//CLAN_CRANE
+            background-image: url("img/clans/Crane_2.jpg");
+        }
+        &[data-clan='4']{//CLAN_SCORPION
+            background-image: url("img/clans/Scorpion_2.jpg");
+        }
     }
 }

@@ -940,7 +940,9 @@ function (dojo, declare) {
                 let backgroundSymbol = $(`rog_player_background_big_symbol-${pid}`);
                 backgroundSymbol.dataset.clan = n.args.card.clan;
                 $(`rog_player_clan_name-${pid}`).innerHTML= `<div class="reduceToFit">${clanName}</div>`;
-                this.reduceTextSizeOnCardElements(rog_player_clan_panel);
+                this.reduceTextSizeOnCardElements($(rog_player_clan_panel));
+
+                this.addCustomTooltip(rog_player_clan_panel,this.getPlayerBoardTooltip(pid,n.args.card.clan));
             });
         },
         ////When draft active + waiting screen, we need to update cards
@@ -1591,6 +1593,8 @@ function (dojo, declare) {
                 let divPanel = $(`overall_player_board_${player.id}`).querySelector(`.player_panel_content`);
                 divPanel.insertAdjacentHTML('beforeend', this.tplPlayerPanel(player));
                 this.reduceTextSizeOnCardElements($(`rog_player_clan_panel-${player.id}`));
+                let boardTooltip = this.getPlayerBoardTooltip(player.id,player.clan);
+                if(boardTooltip!='') this.addCustomTooltip(`rog_player_clan_panel-${player.id}`,boardTooltip);
 
                 if(isCurrent) this.place('tplPlayerHand', player, 'rog_upper_zone','last');
                 this.place('tplPlayerDeliveredCards', player, 'rog_players_deliveries');
@@ -1946,6 +1950,13 @@ function (dojo, declare) {
                     duration: 800,
                 });
             }
+        },
+        
+        getPlayerBoardTooltip(playerId, clanId) {
+            if(! clanId) return '';
+            return `<div class='rog_player_board_tooltip'>
+                        <div class='rog_player_board' data-clan='${clanId}'></div>
+                </div>`;
         },
 
         ////////////////////////////////////////////////////////
