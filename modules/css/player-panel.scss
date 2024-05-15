@@ -419,21 +419,36 @@
     position: absolute;
     left: 10%;
     opacity: 0.3;
+    border-radius: 50%;
     $width: 200px;
     $height: 175px;
+    $layer_width: 500px;
+    $layer_height: 590px;
+    $iconPosX: -265px;
+    $iconPosY: -110px;
+    width: $width;
+    height: $height;
+    max-height: 100%;//Max height in case of reduced "Compact" panel
+    background-position-x: calc(math.div($width, $layer_width) * $iconPosX);
+    background-position-y: calc(math.div($height, $layer_height ) * $iconPosY);
+    background-size: 
+        math.percentage(math.div(3100px,$layer_width )) 
+        math.percentage(math.div(1785px,$layer_height ));
+
     &[data-clan='1']{//CLAN_CRAB
-        @include rog_icons_sprite(-605px,-793px,$width,$height,76px,74px);
+        background-image: url("img/clans/Crab_2.jpg");
     }
     &[data-clan='2']{//CLAN_MANTIS
-        @include rog_icons_sprite(-756px,-793px,$width,$height,70px,71px);
+        background-image: url("img/clans/Mantis_2.jpg");
     }
     &[data-clan='3']{//CLAN_CRANE
-        @include rog_icons_sprite(-525px,-793px,$width,$height,78px,74px);
+        background-image: url("img/clans/Crane_2.jpg");
         opacity: 0.7;//White is more difficult to see
     }
     &[data-clan='4']{//CLAN_SCORPION
-        @include rog_icons_sprite(-683px,-793px,$width,$height,71px,71px);
+        background-image: url("img/clans/Scorpion_2.jpg");
     }
+    
 }
 
 #rog_dieFace_animation,

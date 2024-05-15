@@ -535,39 +535,26 @@ Icon extract in sprite with differents layers size (so % is not useful).
   position: absolute;
   left: 10%;
   opacity: 0.3;
+  border-radius: 50%;
+  width: 200px;
+  height: 175px;
+  max-height: 100%;
+  background-position-x: -106px;
+  background-position-y: -32.6271186441px;
+  background-size: 620% 302.5423728814%;
 }
 .rog_player_background_big_symbol[data-clan="1"] {
-  width: 200px;
-  height: 175px;
-  background-image: url("img/icons/icons_sprite.png");
-  background-position-x: -1592.1052631579px;
-  background-position-y: -1875.3378378378px;
-  background-size: 1378.9473684211% 1354.0540540541%;
+  background-image: url("img/clans/Crab_2.jpg");
 }
 .rog_player_background_big_symbol[data-clan="2"] {
-  width: 200px;
-  height: 175px;
-  background-image: url("img/icons/icons_sprite.png");
-  background-position-x: -2160px;
-  background-position-y: -1954.5774647887px;
-  background-size: 1497.1428571429% 1411.2676056338%;
+  background-image: url("img/clans/Mantis_2.jpg");
 }
 .rog_player_background_big_symbol[data-clan="3"] {
-  width: 200px;
-  height: 175px;
-  background-image: url("img/icons/icons_sprite.png");
-  background-position-x: -1346.1538461538px;
-  background-position-y: -1875.3378378378px;
-  background-size: 1343.5897435897% 1354.0540540541%;
+  background-image: url("img/clans/Crane_2.jpg");
   opacity: 0.7;
 }
 .rog_player_background_big_symbol[data-clan="4"] {
-  width: 200px;
-  height: 175px;
-  background-image: url("img/icons/icons_sprite.png");
-  background-position-x: -1923.9436619718px;
-  background-position-y: -1954.5774647887px;
-  background-size: 1476.0563380282% 1411.2676056338%;
+  background-image: url("img/clans/Scorpion_2.jpg");
 }
 
 #rog_dieFace_animation,

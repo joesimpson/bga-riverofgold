@@ -1267,8 +1267,17 @@ function (dojo, declare) {
             this.forEachPlayer((player) => {
                 let pId = player.id;
                 this.refreshPlayerColor(pId,player.color);
+                $(`rog_player_background_big_symbol-${pId}`).dataset.clan = player.clan;
                 if(!player.clan){//should not be necessary except in DEV/DEBUG
-                    this.empty(`rog_player_clan_panel-${pId}`);
+                    let rog_player_clan_panel = `rog_player_clan_panel-${pId}`;
+                    $(`rog_player_clan_name-${pId}`).innerHTML= ``;
+                    //if (this.tooltips[rog_player_clan_panel]){
+                    //    clearTimeout(this.tooltips[rog_player_clan_panel].showTimeout);
+                    //    this.tooltips[rog_player_clan_panel].destroy();
+                    //    delete this.tooltips[rog_player_clan_panel];
+                    //}
+                    let iconClan = $(rog_player_clan_panel).querySelector(`[class*='rog_icon_container_clan']`);
+                    if(iconClan) this.destroy(iconClan);
                 }
                 this.scoreCtrl[pId].toValue(player.score);
                 this._counters[pId].money.toValue(player.money);
