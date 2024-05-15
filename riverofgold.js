@@ -2246,8 +2246,8 @@ function (dojo, declare) {
                 [PATRON_TRADER         , this.fsr(_('When you build, score ${icon_points} for each river space touching the building.'),{n:1,icon_points:this.formatIcon('score',1)})],
                 [PATRON_SON_OF_STORM   , this.fsr(_('Start the game with ${n} ${icon_card} instead of 2. You may ignore a customer\'s required die face when delivering.'),{n:3,icon_card:this.formatIcon('customer_card')})],
                 [PATRON_PRIESTESS      , this.fsr(_('When you deliver, score ${icon_points} if this is the first customer in the region you are delivering to.'),{n:3,icon_points:this.formatIcon('score',3)})],
-                [PATRON_IRON_CRANE     , this.fsr(_('When you sail, gain ${icon_points} if you visit 1 or more ${icon_opponent}'),{n:2,icon_points:this.formatIcon('score',2),icon_opponent:this.formatIcon('opponent_building')})],
-                [PATRON_DARLING        , this.fsr(_('You may spend ${n} ${icon_favor} before you roll your die to set it to any number'),{n:1,icon_favor:this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN])})],
+                [PATRON_IRON_CRANE     , this.fsr(_('When you sail, gain ${icon_points} if you visit 1 or more ${icon_opponent}.'),{n:2,icon_points:this.formatIcon('score',2),icon_opponent:this.formatIcon('opponent_building')})],
+                [PATRON_DARLING        , this.fsr(_('You may spend ${n} ${icon_favor} before you roll your die to set it to any number.'),{n:1,icon_favor:this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN])})],
                 [PATRON_GOVERNOR       , this.fsr(_('When another player passes your clan marker on an influence track score ${icon_points}. (You must have 1 or more influence on the track to use this power.)'),{n:3,icon_points:this.formatIcon('score',3)})],
                 [PATRON_LADY           , this.fsr(_('When advancing on an influence track, you jump over other players\' markers. Collect all resources that you pass or reach.'),{ })],
             ]);
