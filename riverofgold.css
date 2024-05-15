@@ -247,12 +247,11 @@ Icon extract in sprite with differents layers size (so % is not useful).
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_shrine {
   font-size: 15px;
   font-weight: bold;
-}
-.rog_panel .rog_player_infos .rog_player_resource .rog_resource_port::after,
-.rog_panel .rog_player_infos .rog_player_resource .rog_resource_manor::after,
-.rog_panel .rog_player_infos .rog_player_resource .rog_resource_market::after,
-.rog_panel .rog_player_infos .rog_player_resource .rog_resource_shrine::after {
-  content: " x";
+  /* Removed for more readability (especially with pref borders)
+  &::after {
+      content: " x";
+  }
+  */
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_influence-1,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_influence-2,
@@ -665,6 +664,18 @@ body[data-rog_panel_background="1"] .rog_player_background_big_symbol {
 body[data-rog_panel_border="1"] .player-board {
   -o-border-image: none !important;
      border-image: none !important;
+}
+
+body[data-rog_panel_border="2"] .rog_player_resource_line_materials,
+body[data-rog_panel_border="2"] .rog_player_resource_line_buildings,
+body[data-rog_panel_border="2"] .rog_player_resource_line_i1 hr,
+body[data-rog_panel_border="2"] .rog_player_resource_line_customers,
+body[data-rog_panel_border="2"] .rog_player_resource_line_separator {
+  margin-left: 7px;
+  margin-right: 7px;
+}
+body[data-rog_panel_border="2"] .rog_player_resource_line_separator {
+  width: 93%;
 }
 
 #rog_end_warning {

@@ -1826,7 +1826,7 @@ function (dojo, declare) {
                     ${this.tplResourceCounter(player, 'customer-4')}
                     ${this.tplResourceCounter(player, 'customer-5')}
                 </div>
-                <hr>
+                <hr class='rog_player_resource_line_separator'>
                 <div class='rog_player_resource_line rog_player_resource_line_clan'>
                     <div id='rog_player_clan_panel-${player.id}' class='rog_player_clan_panel'>
                         ${player.clan ? this.formatIcon('clan-'+player.clan) :''}
