@@ -302,7 +302,7 @@ function (dojo, declare) {
                 masteryWidth: {
                     section: "layout",
                   default: Math.min(Math.max(gameWidthScale *50,30),100),
-                  name: _('Mastery cards size'),
+                  name: _('Mastery cards'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,
@@ -316,7 +316,7 @@ function (dojo, declare) {
                 eraTileWidth: {
                     section: "layout",
                     default: Math.min(Math.max(gameWidthScale *16,10),50),
-                  name: _('Building board size'),
+                  name: _('Building board'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,
@@ -345,7 +345,7 @@ function (dojo, declare) {
                 handWidth: {
                     section: "layout",
                     default: Math.min(Math.max(gameWidthScale *75,30),200),
-                  name: _('Hand cards size'),
+                  name: _('My hand'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,
@@ -359,7 +359,7 @@ function (dojo, declare) {
                 boardWidth: {
                     section: "layout",
                   default: 100,
-                  name: _('River board width'),
+                  name: _('River board'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,
@@ -373,7 +373,7 @@ function (dojo, declare) {
                 deliveredWidth: {
                     section: "layout",
                   default: 70,
-                  name: _('Delivered cards size'),
+                  name: _('Delivered cards'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,
@@ -1740,7 +1740,7 @@ function (dojo, declare) {
 
             let chkPin = $('pin-panel-chk');
             dojo.connect(chkPin, 'onchange', () => this.togglePinMode(chkPin.checked));
-            this.addTooltip('pin-panel-switch', '', _('Pin on Scrolling'));
+            this.addTooltip('pin-panel-switch', '', _('Toggle pin on Scrolling'));
         
             this._settingsModal = new customgame.modal('showSettings', {
                 class: 'rog_popin',
@@ -2065,7 +2065,7 @@ function (dojo, declare) {
                             ongoingAbility = this.fsr(_('When you complete your journey, gain ${score} : ${delivery}.'), {score:this.formatIcon("score_1"),delivery:this.formatIcon("customer_delivery")});
                             break;
                         case CARD_MERCHANT_3:
-                            ongoingAbility = this.fsr(_('When you complete your journey, gain ${n} ${icon}'), {n:'',icon:this.formatIcon("bonus-"+BONUS_TYPE_CHOICE)});
+                            ongoingAbility = this.fsr(_('When you complete your journey, gain ${n} ${icon}.'), {n:'',icon:this.formatIcon("bonus-"+BONUS_TYPE_CHOICE)});
                             break;
                         case CARD_MERCHANT_4:
                             ongoingAbility = this.fsr(_('When you complete your journey, you may sell goods for ${n} ${money} each.'), {n:REGION_5, money:moneyIcon,});
