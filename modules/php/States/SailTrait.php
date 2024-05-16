@@ -6,6 +6,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -160,19 +161,26 @@ trait SailTrait
   public function listPossibleSpacesToSail($player)
   { 
     $nbMoves = $player->getDie();
+    $nbDieFaces = count(DIE_FACES);
+    $indexDieFace = array_search($nbMoves,DIE_FACES);
     $possibleSpaces = [];
     $boats = Meeples::getBoats($player->getId());
     foreach($boats as $boat){
-      //ship position is between 1 and NB_RIVER_SPACES, and comes back at 1 after completing the journey
-      $diePosition = $boat->getPosition() + $nbMoves -1;
-      $possibleSpaces[$boat->getId()][] = $diePosition % NB_RIVER_SPACES +1;
-      if(MEEPLE_TYPE_SHIP_ROYAL == $boat->getType()){
-        //Royal Ship: +1/-1 space
-        if(Cards::hasPlayerDeliveredOrder($player->getId(), CARD_NOBLE_5)){
-          $possibleSpaces[$boat->getId()][] = ($diePosition +1) % NB_RIVER_SPACES +1;
-          $possibleSpaces[$boat->getId()][] = ($diePosition -1) % NB_RIVER_SPACES +1;
-        }
+      
+      //Basically 1 face only
+      $playableDieFaces = [$nbMoves];
 
+      if(MEEPLE_TYPE_SHIP_ROYAL == $boat->getType()){
+        if(Cards::hasPlayerDeliveredOrder($player->getId(), CARD_NOBLE_5)){
+          //Royal Ship: +1/-1 space -> wrong ! it is +1/-1 DIE FACE (so there is a difference for 1 and 6)
+          $playableDieFaces[] = DIE_FACES[Utils::positive_modulo($indexDieFace +1, $nbDieFaces)];
+          $playableDieFaces[] = DIE_FACES[Utils::positive_modulo($indexDieFace -1, $nbDieFaces)];
+        }
+      }
+      foreach($playableDieFaces as $playableDieFace){
+        //ship position is between 1 and NB_RIVER_SPACES, and comes back at 1 after completing the journey
+        $diePosition = $boat->getPosition() + $playableDieFace -1;
+        $possibleSpaces[$boat->getId()][] = $diePosition % NB_RIVER_SPACES +1;
       }
     }
     return $possibleSpaces;

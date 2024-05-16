@@ -17,6 +17,22 @@ abstract class Utils extends \APP_DbObject
         }
         throw new \BgaVisibleSystemException(json_encode($args));
     }
+
+    /**
+     * @param int $num1 
+     * @param int $num2
+     * @return int
+     */
+    public static function positive_modulo($num1,$num2)
+    {
+        $r = $num1 % $num2;
+        if ($r < 0)
+        {
+            $r += abs($num2);
+        }
+        return $r;
+    }
+
     ////////////////////////////////////////////////////////////////
     //////// GAME SPECIFIC
     ////////////////////////////////////////////////////////////////
