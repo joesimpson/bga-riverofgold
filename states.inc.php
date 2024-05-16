@@ -462,8 +462,8 @@ $machinestates = array(
 
     ST_CONFIRM_TURN => [
         'name' => 'confirmTurn',
-        'description' => clienttranslate('${actplayer} must confirm or restart their turn'),
-        'descriptionmyturn' => clienttranslate('${you} must confirm or restart your turn'),
+        'description' => clienttranslate('${actplayer} must confirm or restart'),
+        'descriptionmyturn' => clienttranslate('${you} must confirm or restart'),
         'type' => 'activeplayer',
         'args' => 'argsConfirmTurn',
         'action' => 'stConfirmTurn',

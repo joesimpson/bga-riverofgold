@@ -34,6 +34,8 @@ trait ConfirmUndoTrait
     {
         $activePlayer = Players::getActive();
         $data = [];
+        //send current turn player 
+        $data['c'] = Globals::getTurnPlayer();
         $data['trade'] = count($this->listPossibleTrades($activePlayer))>0;
         $this->addArgsForUndo($data);
         return $data;

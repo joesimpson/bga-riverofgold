@@ -893,10 +893,11 @@ function (dojo, declare) {
                 $('btnTrade').classList.add('disabled');
             }
 
-            this.addPrimaryActionButton('btnConfirmTurn', _('End turn'), () => {
-                this.takeAction('actConfirmTurn');
-            },
-            'restartAction');
+            let confirmText = _('Confirm');
+            if(this.player_id == args.c ) confirmText = _('End turn');
+            this.addPrimaryActionButton('btnConfirmTurn', confirmText, () => {
+                    this.takeAction('actConfirmTurn');
+                }, 'restartAction');
         },
         
         onUpdateActivityDraftMulti: function(args)
