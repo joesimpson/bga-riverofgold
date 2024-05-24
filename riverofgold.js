@@ -316,7 +316,7 @@ function (dojo, declare) {
                 eraTileWidth: {
                     section: "layout",
                     default: Math.min(Math.max(gameWidthScale *16,10),50),
-                  name: _('Building board'),
+                  name: _('Building Board'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,

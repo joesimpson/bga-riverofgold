@@ -160,7 +160,7 @@ $machinestates = array(
     
     ST_PLAYER_SETUP => array(
         "name" => "playerSetup",
-        "description" => clienttranslate('Setting up players ressources'),
+        "description" => clienttranslate('Setting up players resources'),
         "type" => "game",
         "action" => "stPlayerSetup",
         "transitions" => [ 
