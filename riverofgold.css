@@ -666,10 +666,18 @@ body[data-rog_panel_border="2"] .rog_player_resource_line_separator {
 }
 
 #rog_end_warning {
-  color: red;
+  color: white;
+  background-color: red;
+  border-radius: 5px;
   font-style: italic;
+  animation: rog_blink_text 1s steps(1) infinite;
 }
 
+@keyframes rog_blink_text {
+  50% {
+    color: transparent;
+  }
+}
 .rog_player_resource_line_clan .rog_player_clan_panel {
   width: 65%;
   height: 5em;
