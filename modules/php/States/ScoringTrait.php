@@ -95,15 +95,15 @@ trait ScoringTrait
       //3.1 ARTISANS score remaining trade goods :
       $nbResources = $player->getResource(RESOURCE_TYPE_SILK) + $player->getResource(RESOURCE_TYPE_RICE)+ $player->getResource(RESOURCE_TYPE_POTTERY);
       $nbArtisans = $player->getNbDeliveredCustomerByType(CUSTOMER_TYPE_ARTISAN);
-      $scoreForRemainingGoods = $nbArtisans * round( $nbResources / NB_RESOURCES_FOR_1POINT_WITH_ARTISAN,0,PHP_ROUND_HALF_DOWN);
+      $scoreForRemainingGoods = $nbArtisans * floor( $nbResources / NB_RESOURCES_FOR_1POINT_WITH_ARTISAN);
       if($scoreForRemainingGoods>0) {
         $player->addPoints($scoreForRemainingGoods,false);
         Notifications::scoreArtisans($player,$nbArtisans,$nbResources,$scoreForRemainingGoods);
       }
       //3.2 : Merchants score remaining money :
       $money = $player->getMoney();
-      $nbMerchants = $player->getNbDeliveredCustomerByType(CUSTOMER_TYPE_ARTISAN);
-      $scoreForRemainingMoney = $nbMerchants * round( $money / NB_RESOURCES_FOR_1POINT_WITH_MERCHANT,0,PHP_ROUND_HALF_DOWN);
+      $nbMerchants = $player->getNbDeliveredCustomerByType(CUSTOMER_TYPE_MERCHANT);
+      $scoreForRemainingMoney = $nbMerchants * floor( $money / NB_RESOURCES_FOR_1POINT_WITH_MERCHANT);
       if($scoreForRemainingMoney>0) {
         $player->addPoints($scoreForRemainingMoney,false);
         Notifications::scoreMerchants($player,$nbMerchants,$money,$scoreForRemainingMoney);

@@ -112,7 +112,7 @@ class ScoringTile extends Tile
         $tieScoreTotal += $score;
         $tiedPositions++;
       }
-      return round($tieScoreTotal / $nbPositionsToSplit,0,PHP_ROUND_HALF_DOWN);
+      return floor($tieScoreTotal / $nbPositionsToSplit);
     }
 
     return 0;

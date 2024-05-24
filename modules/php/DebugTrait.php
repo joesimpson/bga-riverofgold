@@ -17,6 +17,44 @@ use ROG\Models\CustomerCard;
  */
 trait DebugTrait
 {
+   /**
+   * STUDIO : Get the database matching a bug report (when not empty)
+   */
+  public function loadBugReportSQL(int $reportId, array $studioPlayersIds): void {
+    $this->trace("loadBugReportSQL($reportId, ".json_encode($studioPlayersIds));
+    $players = $this->getObjectListFromDb('SELECT player_id FROM player', true);
+  
+    $sql = [];
+    //This table is modified with boilerplate
+    $sql[] = "ALTER TABLE `gamelog` ADD `cancel` TINYINT(1) NOT NULL DEFAULT 0;";
+
+    // Change for your game
+    // We are setting the current state to match the start of a player's turn if it's already game over
+    $state = ST_PLAYER_TURN;
+    $sql[] = "UPDATE global SET global_value=$state WHERE global_id=1 AND global_value=99";
+    foreach ($players as $index => $pId) {
+      $studioPlayer = $studioPlayersIds[$index];
+  
+      // All games can keep this SQL
+      $sql[] = "UPDATE player SET player_id=$studioPlayer WHERE player_id=$pId";
+      $sql[] = "UPDATE global SET global_value=$studioPlayer WHERE global_value=$pId";
+      $sql[] = "UPDATE stats SET stats_player_id=$studioPlayer WHERE stats_player_id=$pId";
+  
+      // Add game-specific SQL update the tables for your game
+      $sql[] = "UPDATE meeples SET player_id=$studioPlayer WHERE player_id = $pId";
+      $sql[] = "UPDATE cards SET player_id=$studioPlayer WHERE player_id = $pId";
+      $sql[] = "UPDATE global_variables SET `value` = REPLACE(`value`,'$pId','$studioPlayer')";
+      
+      $sql[] = "UPDATE user_preferences SET player_id=$studioPlayer WHERE player_id = $pId";
+    }
+  
+    foreach ($sql as $q) {
+      $this->DbQuery($q);
+    }
+  
+    $this->reloadPlayersBasicInfos();
+  }
+
   /**
    * Function to call to regenerate JSON from PHP 
    */
@@ -319,12 +357,23 @@ trait DebugTrait
   function debugScoring(){
     $players = Players::getAll();
     $player = Players::getCurrent(); 
-    $testElderOnRegion = REGION_5;
-    $elder = Meeples::getMarkerOnElderSpace($player->getId(),$testElderOnRegion);
-    if(!isset($elder)){
-      Meeples::addClanMarkerOnElderSpace($player,$testElderOnRegion);
-    }
+    //$testElderOnRegion = REGION_5;
+    //$elder = Meeples::getMarkerOnElderSpace($player->getId(),$testElderOnRegion);
+    //if(!isset($elder)){
+    //  Meeples::addClanMarkerOnElderSpace($player,$testElderOnRegion);
+    //}
     $this->computeFinalScore($players);
+  }
+
+  function debugManualScoring(){
+    $player = Players::getCurrent(); 
+    //With only 4 Koku we should not gain 1 point !
+    $money = 4;
+    $nbMerchants = 1;
+    $scoreForRemainingMoney = $nbMerchants * floor( $money / NB_RESOURCES_FOR_1POINT_WITH_MERCHANT);
+    if($scoreForRemainingMoney>0) {
+      Notifications::scoreMerchants($player,$nbMerchants,$money,$scoreForRemainingMoney);
+    }
   }
   
   function debugRefillRow(){
