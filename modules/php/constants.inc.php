@@ -313,6 +313,14 @@ const CLANS_COLORS = [
 ];
 
 
+/////////////////////////////////////////////////////////
+//          SCORING
+/////////////////////////////////////////////////////////
+const SCORING_INGAME = 1;
+const SCORING_INFLUENCE = 2;
+const SCORING_DELIVERED = 3;
+const SCORING_CUSTOMERS = 4;
+
 /*
  * Game options
  */ 

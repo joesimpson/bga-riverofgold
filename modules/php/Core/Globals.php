@@ -30,6 +30,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     //array of Bonuses to be earned by selection of something -> moved to player table
     //'bonuses' => 'obj',
 
+    'endScoring' => 'obj',
 
     //Undo log module
     'choices' => 'int',
@@ -51,6 +52,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::setStateBeforeTrade(null);
 
     self::setEndPlayer(null);
+    self::setEndScoring([]);
 
     foreach($players as $pId => $player){
       self::setFirstPlayer($pId);

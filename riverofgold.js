@@ -150,6 +150,11 @@ function (dojo, declare) {
 
     const CLAN_CARD_BACK = 0;//Back with image
     const CLAN_CARD_FRONT = 1;
+        
+    const SCORING_INGAME = 1;
+    const SCORING_INFLUENCE = 2;
+    const SCORING_DELIVERED = 3;
+    const SCORING_CUSTOMERS = 4;
 
     const PREF_PLAYER_PANEL_DETAILS = 100;
     const PREF_UNDO_STYLE = 101;
@@ -221,7 +226,7 @@ function (dojo, declare) {
 
             //Filter states where we don't want other players to display state actions
             this._activeStates = ['deliver','discardCard','draftMulti'];
-            this._inactiveStates = ['draft'];
+            this._inactiveStates = ['draft','scoring','gameEnd'];
             
             this._hideNotifsWhenMultiActive = true;
             
@@ -297,6 +302,8 @@ function (dojo, declare) {
             debug( "Ending specific game setup" );
 
             this.inherited(arguments);
+
+            if( Object.keys(this.gamedatas.endScoring).length ) this.displayFinalScoringTable(this.gamedatas.endScoring);
         },
         getSettingsSections: ()=>({
             layout: _("Layout"),
@@ -494,6 +501,7 @@ function (dojo, declare) {
             this.empty('rog_select_piece_container');
         },
         onEnteringState(stateName, args) {
+            debug('Entering state: ' + stateName, args);
             //In this game, we don't want inactive players to see active buttons
             if (!this._inactiveStates.includes(stateName) && !this.isCurrentPlayerActive()) return;
             this.inherited(arguments);
@@ -916,12 +924,9 @@ function (dojo, declare) {
 
         onEnteringStateScoring(args){
             debug('onEnteringStateScoring', args);
-            //Not working ?
         },
         onEnteringStateGameEnd(args){
             debug('onEnteringStateGameEnd', args);
-            //TODO JSA when we have datas
-            //this.displayFinalScoringTable();
         },
         
         onUpdateActivityDraftMulti: function(args)
@@ -1519,21 +1524,27 @@ function (dojo, declare) {
             });
         },
 
-        displayFinalScoringTable(){
-            debug("displayFinalScoringTable()");
+        /**
+         * 
+         * @param {array} datas : if we already have computed datas
+         */
+        displayFinalScoringTable(datas = null){
+            debug("displayFinalScoringTable()",datas);
             
             this.empty('rog_end_score_recap');
             this.place('tplFinalScoringTable',{},'rog_end_score_recap');
             
             this.forEachPlayer((player) => {
                 let pId = player.id;
+                let endScoreDatas = datas ? datas[pId] : undefined;
                 this._counters[pId].scoringRecap = [];
                 this._counters[pId].scoringRecap.influence = [];
                 Object.values(REGIONS).forEach((region) =>{
-                    this._counters[pId].scoringRecap.influence[region] = this.createCounter(`rog_recap_influence_${region}_${pId}`);
+                    this._counters[pId].scoringRecap.influence[region] = this.createCounter(`rog_recap_influence_${region}_${pId}`,endScoreDatas ? endScoreDatas[SCORING_INFLUENCE][region] : 0);
                 });
-                this._counters[pId].scoringRecap.customerDeliv = this.createCounter(`rog_recap_deliv_${pId}`);
-                this._counters[pId].scoringRecap.customerBonuses = this.createCounter(`rog_recap_customers_${pId}`);
+                this._counters[pId].scoringRecap.customerDeliv = this.createCounter(`rog_recap_deliv_${pId}`,endScoreDatas ? endScoreDatas[SCORING_DELIVERED] : 0);
+                this._counters[pId].scoringRecap.customerBonuses = this.createCounter(`rog_recap_customers_${pId}`,endScoreDatas ? endScoreDatas[SCORING_CUSTOMERS] : 0);
+                this._counters[pId].scoringRecap.ingame = this.createCounter(`rog_recap_ingame_${pId}`,endScoreDatas ? endScoreDatas[SCORING_INGAME]: player.score);
                 this._counters[pId].scoringRecap.total = this.createCounter(`rog_recap_total_${pId}`,player.score);
             });
         },
@@ -1558,7 +1569,7 @@ function (dojo, declare) {
             });
             this.forEachPlayer((player) => {
                 playersNames +=`<th>${this.coloredPlayerName(player.name)}</th>`;
-                playersIngameScore +=`<td><div id='rog_recap_ingame_${player.id}'>${player.score}</div></td>`;
+                playersIngameScore +=`<td><div id='rog_recap_ingame_${player.id}'></div></td>`;
                 playersDeliveries +=`<td><div id='rog_recap_deliv_${player.id}'></div></td>`;
                 playersCustomerBonuses += `<td><div id='rog_recap_customers_${player.id}'></div></td>`;
                 playersTotal +=`<td><div id='rog_recap_total_${player.id}'></div></td>`;

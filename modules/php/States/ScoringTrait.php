@@ -2,6 +2,7 @@
 
 namespace ROG\States;
 
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Cards;
@@ -36,11 +37,21 @@ trait ScoringTrait
   {
     self::trace("computeFinalScore()");
     Notifications::computeFinalScore();
+    $endScoringDatas = [];
     //Query influence meeples before looping
     $influenceMarkers = [];
     $scoringTiles = Tiles::getInLocationOrdered(TILE_LOCATION_SCORING);
     foreach(REGIONS as $region){
       $influenceMarkers[$region] = Meeples::getAllInfluenceMarkers($region);
+    }
+    //INIT Datas to save
+    foreach($players as $pid => $player){
+      $endScoringDatas[$pid] = [
+        SCORING_INGAME => $player->getScore(), 
+        SCORING_INFLUENCE => [], 
+        SCORING_DELIVERED => 0, 
+        SCORING_CUSTOMERS=> 0
+      ];
     }
 
     //RULE 1 : REGIONAL INFLUENCE, scored region by region
@@ -59,15 +70,18 @@ trait ScoringTrait
         if(!isset($scoringTile)) throw new UnexpectedException(404,"Missing scoring tile for region $region");
         $this->trace("Final scoring for $pid in region $region ...");
         $influenceScore = $scoringTile->computeScore($playerPosition,$opponentPositions);
+        $endScoringDatas[$pid][SCORING_INFLUENCE][$region] = $influenceScore;
+
         if($influenceScore>0){
           $player->addPoints($influenceScore,false);
           Notifications::scoreInfluence($player,$scoringTile,$region,$influenceScore,$playerPosition);
-          
+
           //check Elder space to double influence score
           $elder = Meeples::getMarkerOnElderSpace($player->getId(),$region);
           if(isset($elder)){
             $player->addPoints($influenceScore,false);
             Notifications::scoreElder($player,$scoringTile,$region,$influenceScore);
+            $endScoringDatas[$pid][SCORING_CUSTOMERS] += $influenceScore;
           }
         }
       }
@@ -90,6 +104,7 @@ trait ScoringTrait
       }
       $player->addPoints($scoreForNbDeliveries,false);
       Notifications::scoreDeliveries($player,$scoreForNbDeliveries,$nbDeliveries);
+      $endScoringDatas[$pid][SCORING_DELIVERED] = $scoreForNbDeliveries;
 
       //RULE 3 : CUSTOMER BONUSES : artisans, merchants, nobles
       //3.1 ARTISANS score remaining trade goods :
@@ -99,6 +114,7 @@ trait ScoringTrait
       if($scoreForRemainingGoods>0) {
         $player->addPoints($scoreForRemainingGoods,false);
         Notifications::scoreArtisans($player,$nbArtisans,$nbResources,$scoreForRemainingGoods);
+        $endScoringDatas[$pid][SCORING_CUSTOMERS] += $scoreForRemainingGoods;
       }
       //3.2 : Merchants score remaining money :
       $money = $player->getMoney();
@@ -107,6 +123,7 @@ trait ScoringTrait
       if($scoreForRemainingMoney>0) {
         $player->addPoints($scoreForRemainingMoney,false);
         Notifications::scoreMerchants($player,$nbMerchants,$money,$scoreForRemainingMoney);
+        $endScoringDatas[$pid][SCORING_CUSTOMERS] += $scoreForRemainingMoney;
       }
       //3.3 : Noble score is specific :
       $delivered = Cards::getPlayerDeliveredOrders($player->getId());
@@ -115,11 +132,14 @@ trait ScoringTrait
         $scoreNoble = $deliveredNoble->computeScore($player);
         $player->addPoints($scoreNoble,false);
         //Specific notif has been sent
+        $endScoringDatas[$pid][SCORING_CUSTOMERS] += $scoreNoble;
       }
 
       //TIE BREAKER : DIVINE FAVOR 
       $player->setScoreAux($player->getResource(RESOURCE_TYPE_SUN));
+      
     }
+    Globals::setEndScoring($endScoringDatas);
   }
 
 }

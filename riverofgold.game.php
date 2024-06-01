@@ -122,6 +122,7 @@ class RiverOfGold extends Table
           ],
           'firstPlayer' => $firstPlayer,
           'endTriggered' => Globals::isLastTurnTriggered(),
+          'endScoring' => Globals::getEndScoring(),
           'version'=> intval($this->gamestate->table_globals[BGA_GAMESTATE_GAMEVERSION]),
         ];
         return $result;
