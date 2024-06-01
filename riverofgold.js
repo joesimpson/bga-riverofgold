@@ -158,6 +158,11 @@ function (dojo, declare) {
     const PREF_ANIMATION_SHIP_SELECTED = 104;
     const PREF_ANIMATION_LASTTURN_MESSAGE = 105;
 
+    const PREF_ANIMATION_MOVING_RESOURCE = 106;
+    const PREF_ANIMATION_MOVING_RESOURCE_OFF = 1;
+    const PREF_ANIMATION_MOVING_SCORE = 107;
+    const PREF_ANIMATION_MOVING_SCORE_OFF = 1;
+
     return declare("bgagame.riverofgold", [customgame.game], {
         constructor: function(){
             debug('riverofgold constructor');
@@ -428,6 +433,8 @@ function (dojo, declare) {
                 }, 
                 animationShipSelected: { section: "animations", type: 'pref', prefId: PREF_ANIMATION_SHIP_SELECTED },
                 animationLastTurnMsg: { section: "animations", type: 'pref', prefId: PREF_ANIMATION_LASTTURN_MESSAGE },
+                animationMovingResources: { section: "animations", type: 'pref', prefId: PREF_ANIMATION_MOVING_RESOURCE },
+                animationMovingScore: { section: "animations", type: 'pref', prefId: PREF_ANIMATION_MOVING_SCORE },
 
             };
         },
@@ -1876,7 +1883,7 @@ function (dojo, declare) {
         },
         
         gainPayResource(pId,resourceType, n, targetSource = null) {
-            if (this.isFastMode()) {
+            if (this.isFastMode() || this.getGameUserPreference(PREF_ANIMATION_MOVING_RESOURCE) == PREF_ANIMATION_MOVING_RESOURCE_OFF ) {
                 this._counters[pId][resourceType].incValue(n);
                 return Promise.resolve();
             }
@@ -1911,7 +1918,7 @@ function (dojo, declare) {
             this.gamedatas.players[pId].score += n;
             this.moveScoreMarker(this.gamedatas.players[pId]);
 
-            if (this.isFastMode()) {
+            if (this.isFastMode() || this.getGameUserPreference(PREF_ANIMATION_MOVING_SCORE) == PREF_ANIMATION_MOVING_SCORE_OFF ) {
                 this.scoreCtrl[pId].incValue(n);
                 return Promise.resolve();
             }

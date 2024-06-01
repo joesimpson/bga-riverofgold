@@ -82,5 +82,33 @@
         },
         "default": 2,
         "attribute": "rog_anim_lastturn_msg"
+    },
+    "106": {
+        "name": "Moving resources",
+        "needReload": false,
+        "values": {
+            "1": {
+                "name": "Disabled"
+            },
+            "2": {
+                "name": "Enabled"
+            }
+        },
+        "default": 2,
+        "attribute": "rog_anim_moving_resource"
+    },
+    "107": {
+        "name": "Moving score points",
+        "needReload": false,
+        "values": {
+            "1": {
+                "name": "Disabled"
+            },
+            "2": {
+                "name": "Enabled"
+            }
+        },
+        "default": 2,
+        "attribute": "rog_anim_moving_score"
     }
 }

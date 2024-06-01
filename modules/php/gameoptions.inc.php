@@ -120,4 +120,26 @@ $game_preferences = [
     "default"=> PREF_ANIMATION_LASTTURN_BLINK,
     'attribute' => 'rog_anim_lastturn_msg',
   ],
+
+  PREF_ANIMATION_MOVING_RESOURCE => [
+    'name' => totranslate('Moving resources'),
+    'needReload' => false,
+    'values' => [
+      PREF_ANIMATION_MOVING_RESOURCE_OFF => [ 'name' => totranslate('Disabled') ],
+      PREF_ANIMATION_MOVING_RESOURCE_ON => [ 'name' => totranslate('Enabled')],
+    ],
+    "default"=> PREF_ANIMATION_MOVING_RESOURCE_ON,
+    'attribute' => 'rog_anim_moving_resource',
+  ],
+
+  PREF_ANIMATION_MOVING_SCORE => [
+    'name' => totranslate('Moving score points'),
+    'needReload' => false,
+    'values' => [
+      PREF_ANIMATION_MOVING_SCORE_OFF => [ 'name' => totranslate('Disabled') ],
+      PREF_ANIMATION_MOVING_SCORE_ON => [ 'name' => totranslate('Enabled')],
+    ],
+    "default"=> PREF_ANIMATION_MOVING_SCORE_ON,
+    'attribute' => 'rog_anim_moving_score',
+  ],
 ];
