@@ -117,12 +117,18 @@
     &.selected{
         //outline: 10px solid #ff04cc;
         filter: drop-shadow(0 0 15px red);
-        //add a bounce animation : be careful, it is not compatible with other transform !
-        animation: bounce 2s ease infinite;
     }
 }
 
-@keyframes bounce {
+body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
+    .rog_meeple.selected{
+        //add a bounce animation : be careful, it is not compatible with other transform !
+        animation: rog_bounce 2s ease infinite;
+    }
+}
+
+
+@keyframes rog_bounce {
     from {
       transform: scale(1);
     }

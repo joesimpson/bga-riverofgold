@@ -4139,10 +4139,13 @@ body[data-rog_panel_border="2"] .rog_player_resource_line_separator {
 }
 .rog_meeple.selected {
   filter: drop-shadow(0 0 15px red);
-  animation: bounce 2s ease infinite;
 }
 
-@keyframes bounce {
+body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
+  animation: rog_bounce 2s ease infinite;
+}
+
+@keyframes rog_bounce {
   from {
     transform: scale(1);
   }

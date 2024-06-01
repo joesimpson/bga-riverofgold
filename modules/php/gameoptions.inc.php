@@ -98,4 +98,15 @@ $game_preferences = [
     "default"=> PREF_PLAYER_PANEL_BORDER_ON,
     'attribute' => 'rog_panel_border',
   ],
+  
+  PREF_ANIMATION_SHIP_SELECTED => [
+    'name' => totranslate('Selected ship animation (Disable for better performances)'),
+    'needReload' => false,
+    'values' => [
+      PREF_ANIMATION_SHIP_SELECTED_OFF => [ 'name' => totranslate('Disabled') ],
+      PREF_ANIMATION_SHIP_SELECTED_BOUNCE => [ 'name' => totranslate('Enabled')],
+    ],
+    "default"=> PREF_ANIMATION_SHIP_SELECTED_BOUNCE,
+    'attribute' => 'rog_anim_ship_selected',
+  ],
 ];

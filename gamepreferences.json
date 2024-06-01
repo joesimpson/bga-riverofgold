@@ -54,5 +54,19 @@
         },
         "default": 2,
         "attribute": "rog_panel_border"
+    },
+    "104": {
+        "name": "Selected ship animation (Disable for better performances)",
+        "needReload": false,
+        "values": {
+            "1": {
+                "name": "Disabled"
+            },
+            "2": {
+                "name": "Enabled"
+            }
+        },
+        "default": 2,
+        "attribute": "rog_anim_ship_selected"
     }
 }
