@@ -200,6 +200,7 @@ function (dojo, declare) {
                 ['setDie', 800],
                 ['gainInfluence', 1300],
                 ['claimMC', 1200],
+                ['computeFinalScore', 300],
                 ['scoreDeliveries', 1200],
                 ['scoreInfluence', 1200],
                 ['scoreElder', 1200],
@@ -381,7 +382,7 @@ function (dojo, declare) {
                 deliveredWidth: {
                     section: "layout",
                   default: 70,
-                  name: _('Delivered cards'),
+                  name: _('Delivered customers'),
                   type: 'slider',
                   sliderConfig: {
                     step: 2,
@@ -900,6 +901,7 @@ function (dojo, declare) {
         },
 
         onEnteringStateConfirmTurn(args) {
+            debug('onEnteringStateConfirmTurn', args);
             this.addPrimaryActionButton(`btnTrade`, _('Trade') , () =>  { this.takeAction('actTrade'); });
             if(!args.trade){
                 $('btnTrade').classList.add('disabled');
@@ -910,6 +912,16 @@ function (dojo, declare) {
             this.addPrimaryActionButton('btnConfirmTurn', confirmText, () => {
                     this.takeAction('actConfirmTurn');
                 }, 'restartAction');
+        },
+
+        onEnteringStateScoring(args){
+            debug('onEnteringStateScoring', args);
+            //Not working ?
+        },
+        onEnteringStateGameEnd(args){
+            debug('onEnteringStateGameEnd', args);
+            //TODO JSA when we have datas
+            //this.displayFinalScoringTable();
         },
         
         onUpdateActivityDraftMulti: function(args)
@@ -1142,29 +1154,39 @@ function (dojo, declare) {
             debug('notif_claimMC : new score after mastery card', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
         },
+        notif_computeFinalScore(n) {
+            debug('notif_computeFinalScore', n);
+            this.displayFinalScoringTable();
+        },
         notif_scoreDeliveries(n) {
             debug('notif_scoreDeliveries', n);
             this.gainPoints(n.args.player_id,n.args.n);
+            this._counters[n.args.player_id].scoringRecap.customerDeliv.incValue(n.args.n);
         },
         notif_scoreInfluence(n) {
-            debug('notif_scoreInfluence : new score for influence track', n);
+            debug('notif_scoreInfluence : final score for influence track', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
+            this._counters[n.args.player_id].scoringRecap.influence[n.args.region].incValue(n.args.n);
         },
         notif_scoreElder(n) {
-            debug('notif_scoreElder : new score for influence track by Elder', n);
+            debug('notif_scoreElder : final score for influence track by Elder', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
+            this._counters[n.args.player_id].scoringRecap.customerBonuses.incValue(n.args.n);
         },
         notif_scoreArtisans(n) {
             debug('notif_scoreArtisans', n);
             this.gainPoints(n.args.player_id,n.args.n);
+            this._counters[n.args.player_id].scoringRecap.customerBonuses.incValue(n.args.n);
         },
         notif_scoreMerchants(n) {
             debug('notif_scoreMerchants', n);
             this.gainPoints(n.args.player_id,n.args.n);
+            this._counters[n.args.player_id].scoringRecap.customerBonuses.incValue(n.args.n);
         },
         notif_scoreCustomer(n) {
             debug('notif_scoreCustomer', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_card-${n.args.card_id}`));
+            this._counters[n.args.player_id].scoringRecap.customerBonuses.incValue(n.args.n);
         },
         notif_scorePatron(n) {
             debug('notif_scorePatron', n);
@@ -1495,6 +1517,79 @@ function (dojo, declare) {
                     this.gamedatas.players[pid][property] = player[property];
                 }
             });
+        },
+
+        displayFinalScoringTable(){
+            debug("displayFinalScoringTable()");
+            
+            this.empty('rog_end_score_recap');
+            this.place('tplFinalScoringTable',{},'rog_end_score_recap');
+            
+            this.forEachPlayer((player) => {
+                let pId = player.id;
+                this._counters[pId].scoringRecap = [];
+                this._counters[pId].scoringRecap.influence = [];
+                Object.values(REGIONS).forEach((region) =>{
+                    this._counters[pId].scoringRecap.influence[region] = this.createCounter(`rog_recap_influence_${region}_${pId}`);
+                });
+                this._counters[pId].scoringRecap.customerDeliv = this.createCounter(`rog_recap_deliv_${pId}`);
+                this._counters[pId].scoringRecap.customerBonuses = this.createCounter(`rog_recap_customers_${pId}`);
+                this._counters[pId].scoringRecap.total = this.createCounter(`rog_recap_total_${pId}`,player.score);
+            });
+        },
+        tplFinalScoringTable(){
+            debug("tplFinalScoringTable()");
+            let playersNames = '';
+            let playersIngameScore = '';
+            let playersDeliveries = '';
+            let playersCustomerBonuses = '';
+            let playersTotal = '';
+            let regionsInfluence = '';
+            Object.values(REGIONS).forEach((region) =>{
+                let playersInfluence = '';
+                this.forEachPlayer((player) => {
+                    playersInfluence +=`<td><div id='rog_recap_influence_${region}_${player.id}'></div></td>`;
+                });
+                let regionIcon = this.formatIcon('influence-'+region);
+                regionsInfluence += `<tr>
+                    <th>${this.fsr(_('Influence in region ${n} : ${region_desc}'),{n:region,region_desc:''}) + regionIcon}</th>
+                    ${playersInfluence}
+                </tr>`;
+            });
+            this.forEachPlayer((player) => {
+                playersNames +=`<th>${this.coloredPlayerName(player.name)}</th>`;
+                playersIngameScore +=`<td><div id='rog_recap_ingame_${player.id}'>${player.score}</div></td>`;
+                playersDeliveries +=`<td><div id='rog_recap_deliv_${player.id}'></div></td>`;
+                playersCustomerBonuses += `<td><div id='rog_recap_customers_${player.id}'></div></td>`;
+                playersTotal +=`<td><div id='rog_recap_total_${player.id}'></div></td>`;
+            });
+            let html = `<table id="rog_end_score_recap_table">
+                    <thead>
+                        <th>${_('Score')} <div class='rog_icon_score'></th>
+                        ${playersNames}
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <th>${_('In-game score')}</th>
+                            ${playersIngameScore}
+                        </tr>
+                        ${regionsInfluence}
+                        <tr>
+                            <th>${_('Delivered customers')} <div class='rog_icon_customer_delivery'></div></th>
+                            ${playersDeliveries}
+                        </tr>
+                        <tr>
+                            <th>${_('Customers bonuses')}</th>
+                            ${playersCustomerBonuses}
+                        </tr>
+                        <tr class ='rog_score_total'>
+                            <th>${_('Total')} <div class='rog_icon_score'></th>
+                            ${playersTotal}
+                        </tr>
+                    </tbody>
+                </table>
+            `;
+            return html;
         },
 
         ////////////////////////////////////////////////////////////
@@ -1917,6 +2012,11 @@ function (dojo, declare) {
         gainPoints(pId,n, targetSource = null) {
             this.gamedatas.players[pId].score += n;
             this.moveScoreMarker(this.gamedatas.players[pId]);
+            
+            if(this._counters[pId].scoringRecap !=undefined){
+                //IF end scoring recap displayed
+                this._counters[pId].scoringRecap.total.incValue(n);
+            }
 
             if (this.isFastMode() || this.getGameUserPreference(PREF_ANIMATION_MOVING_SCORE) == PREF_ANIMATION_MOVING_SCORE_OFF ) {
                 this.scoreCtrl[pId].incValue(n);

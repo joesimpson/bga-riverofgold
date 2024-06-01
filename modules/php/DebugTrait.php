@@ -354,6 +354,9 @@ trait DebugTrait
     //$this->gamestate->jumpToState(ST_CONFIRM_CHOICES);
   }
   
+  function debugGoToScoring(){
+    $this->gamestate->jumpToState(ST_END_SCORING);
+  }
   function debugScoring(){
     $players = Players::getAll();
     $player = Players::getCurrent(); 

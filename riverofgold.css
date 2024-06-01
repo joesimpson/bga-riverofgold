@@ -5415,6 +5415,57 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   left: 30px;
 }
 
+#rog_end_score_recap {
+  display: flex;
+  flex-flow: row;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: center;
+}
+#rog_end_score_recap table {
+  position: relative;
+  background-color: #ebd5bd;
+  color: black;
+  border-radius: 10px;
+  overflow: hidden;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.3);
+}
+#rog_end_score_recap table th {
+  height: 20px;
+  min-width: 20px;
+  text-align: center;
+  vertical-align: middle;
+  font-size: 20px;
+  padding: 0 5px;
+}
+#rog_end_score_recap table th div {
+  display: inline-block;
+}
+#rog_end_score_recap table thead {
+  background-color: #f3e5a9;
+}
+#rog_end_score_recap table thead th {
+  padding: 0 5px;
+}
+#rog_end_score_recap table td {
+  word-wrap: anywhere;
+  font-size: 20px;
+  padding: 5px 8px;
+  text-align: center;
+  vertical-align: middle;
+}
+#rog_end_score_recap table tbody tr {
+  border-top: 1px solid rgba(0, 0, 0, 0.2);
+}
+#rog_end_score_recap table .rog_score_total {
+  color: black;
+  background-color: yellow;
+  font-weight: bold;
+}
+#rog_end_score_recap table .counter_empty div {
+  opacity: 0.1;
+}
+
 /*! nouislider - 14.6.0 - 6/27/2020 */
 .noUi-target,
 .noUi-target * {

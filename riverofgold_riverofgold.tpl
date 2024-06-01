@@ -13,6 +13,8 @@
 
 <div id="rog_game_container">
     
+    <div id="rog_end_score_recap"></div>
+
     <div id="rog_select_piece_container"></div>
     
     <div id="rog_upper_zone">
