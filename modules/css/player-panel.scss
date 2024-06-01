@@ -593,7 +593,11 @@ body[data-rog_panel_border='2']{//PREF_PLAYER_PANEL_BORDER_ON
     background-color: red;
     border-radius: 5px;
     font-style: italic;
-    animation: rog_blink_text 1s steps(1) infinite;
+}
+body[data-rog_anim_lastturn_msg='2']{//PREF_ANIMATION_LASTTURN_BLINK
+    #rog_end_warning{
+        animation: rog_blink_text 1s steps(1) infinite;
+    }
 }
 @keyframes rog_blink_text { 
     50% { color: transparent; } 

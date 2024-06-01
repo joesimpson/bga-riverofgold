@@ -68,5 +68,19 @@
         },
         "default": 2,
         "attribute": "rog_anim_ship_selected"
+    },
+    "105": {
+        "name": "Last turn warning",
+        "needReload": false,
+        "values": {
+            "1": {
+                "name": "Standard text"
+            },
+            "2": {
+                "name": "Blinking"
+            }
+        },
+        "default": 2,
+        "attribute": "rog_anim_lastturn_msg"
     }
 }

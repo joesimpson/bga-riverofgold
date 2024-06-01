@@ -109,4 +109,15 @@ $game_preferences = [
     "default"=> PREF_ANIMATION_SHIP_SELECTED_BOUNCE,
     'attribute' => 'rog_anim_ship_selected',
   ],
+  
+  PREF_ANIMATION_LASTTURN_MESSAGE => [
+    'name' => totranslate('Last turn warning'),
+    'needReload' => false,
+    'values' => [
+      PREF_ANIMATION_LASTTURN_NORMAL => [ 'name' => totranslate('Standard text') ],
+      PREF_ANIMATION_LASTTURN_BLINK => [ 'name' => totranslate('Blinking')],
+    ],
+    "default"=> PREF_ANIMATION_LASTTURN_BLINK,
+    'attribute' => 'rog_anim_lastturn_msg',
+  ],
 ];

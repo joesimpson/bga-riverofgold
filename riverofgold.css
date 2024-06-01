@@ -670,6 +670,9 @@ body[data-rog_panel_border="2"] .rog_player_resource_line_separator {
   background-color: red;
   border-radius: 5px;
   font-style: italic;
+}
+
+body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   animation: rog_blink_text 1s steps(1) infinite;
 }
 

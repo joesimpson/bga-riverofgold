@@ -156,6 +156,7 @@ function (dojo, declare) {
     const PREF_PLAYER_PANEL_BACKGROUND = 102;
     const PREF_PLAYER_PANEL_BORDER = 103;
     const PREF_ANIMATION_SHIP_SELECTED = 104;
+    const PREF_ANIMATION_LASTTURN_MESSAGE = 105;
 
     return declare("bgagame.riverofgold", [customgame.game], {
         constructor: function(){
@@ -426,6 +427,7 @@ function (dojo, declare) {
                     },
                 }, 
                 animationShipSelected: { section: "animations", type: 'pref', prefId: PREF_ANIMATION_SHIP_SELECTED },
+                animationLastTurnMsg: { section: "animations", type: 'pref', prefId: PREF_ANIMATION_LASTTURN_MESSAGE },
 
             };
         },
