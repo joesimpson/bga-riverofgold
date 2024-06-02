@@ -2182,7 +2182,7 @@ function (dojo, declare) {
                 case CUSTOMER_TYPE_MERCHANT:  
                     switch(card.type){
                         case CARD_MERCHANT_1:
-                            ongoingAbility = this.fsr(_('When you complete your journey, gain ${influence_1} in every region with ${building}'), {influence_1:this.formatIcon("influence",1), building: this.formatIcon("bonus-"+BONUS_TYPE_SECOND_MARKER_ON_BUILDING) });
+                            ongoingAbility = this.fsr(_('When you complete your journey, gain ${influence_1} in every region with ${building}.'), {influence_1:this.formatIcon("influence",1), building: this.formatIcon("bonus-"+BONUS_TYPE_SECOND_MARKER_ON_BUILDING) });
                             break;
                         case CARD_MERCHANT_2:
                             ongoingAbility = this.fsr(_('When you complete your journey, gain ${score} : ${delivery}.'), {score:this.formatIcon("score_1"),delivery:this.formatIcon("customer_delivery")});
@@ -2197,7 +2197,7 @@ function (dojo, declare) {
                             ongoingAbility = this.fsr(_('When you complete your journey, gain ${n} ${icon}.'), {n:1,icon:this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN]),});
                             break;
                         case CARD_MERCHANT_6:
-                            ongoingAbility = this.fsr(_('When you complete your journey, gain +${n} ${money}'), {n:3, money:moneyIcon,});
+                            ongoingAbility = this.fsr(_('When you complete your journey, gain +${n} ${money}.'), {n:3, money:moneyIcon,});
                             break;
                     }
                     break;
@@ -2381,7 +2381,7 @@ function (dojo, declare) {
                 [PATRON_PRIESTESS      , this.fsr(_('When you deliver, score ${icon_points} if this is the first customer in the region you are delivering to.'),{n:3,icon_points:this.formatIcon('score',3)})],
                 [PATRON_IRON_CRANE     , this.fsr(_('When you sail, gain ${icon_points} if you visit 1 or more ${icon_opponent}.'),{n:2,icon_points:this.formatIcon('score',2),icon_opponent:this.formatIcon('opponent_building')})],
                 [PATRON_DARLING        , this.fsr(_('You may spend ${n} ${icon_favor} before you roll your die to set it to any number.'),{n:1,icon_favor:this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN])})],
-                [PATRON_GOVERNOR       , this.fsr(_('When another player passes your clan marker on an influence track score ${icon_points}. (You must have 1 or more influence on the track to use this power.)'),{n:3,icon_points:this.formatIcon('score',3)})],
+                [PATRON_GOVERNOR       , this.fsr(_('When another player passes your clan marker on an influence track, score ${icon_points}. (You must have 1 or more influence on the track to use this power.)'),{n:3,icon_points:this.formatIcon('score',3)})],
                 [PATRON_LADY           , this.fsr(_('When advancing on an influence track, you jump over other players\' markers. Collect all resources that you pass or reach.'),{ })],
             ]);
             let description = descriptionMap.get(card.type);
