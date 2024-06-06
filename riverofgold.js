@@ -1098,7 +1098,7 @@ function (dojo, declare) {
             }).then( ()=> {
                 let buildingType = n.args.buildingType;
                 if(buildingType){
-                    this._counters[n.args.player_id].buildings[buildingType].incValue(1);
+                    this._counters[n.args.player_id].buildings[buildingType].incValue(n.args.inc);
                 }
             });
         },

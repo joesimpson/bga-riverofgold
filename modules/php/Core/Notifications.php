@@ -322,8 +322,9 @@ class Notifications
    * @param Player $player
    * @param Meeple $meeple
    * @param BuildingTile $toTile (optional)
+   * @param int $increaseBuildingsCounter (Optional) default 1
    */
-  public static function newClanMarker($player,$meeple,$toTile = null)
+  public static function newClanMarker($player,$meeple,$toTile = null, $increaseBuildingsCounter=1)
   {
     //$msg = clienttranslate('${player_name} places a new clan marker');
     $msg = '';//avoid spoiling notifs
@@ -333,6 +334,7 @@ class Notifications
       'player' => $player,
       'meeple' => $meeple->getUiData(),
       'buildingType' => $buildingType,
+      'inc' => (isset($buildingType)) ? $increaseBuildingsCounter : 0,
     ]);
   }
   /**

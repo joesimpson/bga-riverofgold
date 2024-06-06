@@ -39,9 +39,10 @@ class Meeples extends \ROG\Helpers\Pieces
    * @param BuildingTile $tile
    * @param Player $player
    * @param int $position (Optional) default 1
+   * @param boolean $increaseBuildingsCounter (Optional) default true
    * @return Meeple
    */
-  public static function addClanMarkerOnShoreSpace($tile,$player,$position = 1)
+  public static function addClanMarkerOnShoreSpace($tile,$player,$position = 1, $increaseBuildingsCounter = true)
   {
     $meeple = [
       'type' => MEEPLE_TYPE_CLAN_MARKER,
@@ -50,7 +51,7 @@ class Meeples extends \ROG\Helpers\Pieces
       'state' => $position,
     ];
     $elt = self::singleCreate($meeple);
-    Notifications::newClanMarker($player,$elt,$tile);
+    Notifications::newClanMarker($player,$elt,$tile, $increaseBuildingsCounter ? 1 : 0 );
     return $elt;
   }
   
@@ -219,10 +220,11 @@ class Meeples extends \ROG\Helpers\Pieces
   /**
    * @param int $pId
    * @param int $type of building to search for
-   * @return int number 
+   * @return int number of DISTINCT buildings of that type (even if we have 2 meeples on the same)
    */
   public static function countPlayerBuildings($pId, $type)
   {
+    Game::get()->trace("countPlayerBuildings($pId, $type)...");
     $tilesTypes = Tiles::getTilesTypesByBuilding($type);
     $tileIds = Tiles::getIdsByType(TILE_TYPE_BUILDING,$tilesTypes);
     $buildingTiles = [];
@@ -231,7 +233,8 @@ class Meeples extends \ROG\Helpers\Pieces
     }
     return self::DB()->wherePlayer($pId)
       ->whereIn(self::$prefix.'location', $buildingTiles)
-      ->count();
+      //->count();
+      ->countDistinct(self::$prefix.'location');
   }
 
   /**
