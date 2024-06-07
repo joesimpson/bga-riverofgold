@@ -105,6 +105,12 @@
         hr{
             width: 100%;
         }
+        hr,
+        .rog_player_resource_line,
+        .rog_player_resource_line_clan_patron{
+            //To see it over .rog_player_background_big_symbol
+            z-index: 2;
+        }
         .rog_player_resource_line{
             display: flex;
             flex-direction: row;
@@ -416,12 +422,13 @@
 }
 
 .rog_player_background_big_symbol{
+    z-index: 1;
     position: absolute;
-    left: 10%;
+    align-self: center;
     opacity: 0.15;
     border-radius: 50%;
     $width: 200px;
-    $height: 175px;
+    $height: 200px;
     $layer_width: 500px;
     $layer_height: 590px;
     $iconPosX: -265px;
@@ -443,7 +450,7 @@
     }
     &[data-clan='3']{//CLAN_CRANE
         background-image: url("img/clans/Crane_2.jpg");
-        opacity: 0.7;//White is more difficult to see
+        opacity: 0.5;//White is more difficult to see
     }
     &[data-clan='4']{//CLAN_SCORPION
         background-image: url("img/clans/Scorpion_2.jpg");
@@ -564,6 +571,10 @@ body[data-rog_panel_details='2']{//PREF_PLAYER_PANEL_DETAILS_COMPACT
     .rog_player_resource_line_customers
     {
         display: none !important;
+    }
+    .rog_player_background_big_symbol{
+        width: 175px !important;
+        height: 175px !important;
     }
 }
 

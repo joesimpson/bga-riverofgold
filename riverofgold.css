@@ -196,6 +196,11 @@ Icon extract in sprite with differents layers size (so % is not useful).
 .rog_panel .rog_player_infos hr {
   width: 100%;
 }
+.rog_panel .rog_player_infos hr,
+.rog_panel .rog_player_infos .rog_player_resource_line,
+.rog_panel .rog_player_infos .rog_player_resource_line_clan_patron {
+  z-index: 2;
+}
 .rog_panel .rog_player_infos .rog_player_resource_line {
   display: flex;
   flex-direction: row;
@@ -532,15 +537,16 @@ Icon extract in sprite with differents layers size (so % is not useful).
 }
 
 .rog_player_background_big_symbol {
+  z-index: 1;
   position: absolute;
-  left: 10%;
+  align-self: center;
   opacity: 0.15;
   border-radius: 50%;
   width: 200px;
-  height: 175px;
+  height: 200px;
   max-height: 100%;
   background-position-x: -106px;
-  background-position-y: -32.6271186441px;
+  background-position-y: -37.2881355932px;
   background-size: 620% 302.5423728814%;
 }
 .rog_player_background_big_symbol[data-clan="1"] {
@@ -551,7 +557,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
 }
 .rog_player_background_big_symbol[data-clan="3"] {
   background-image: url("img/clans/Crane_2.jpg");
-  opacity: 0.7;
+  opacity: 0.5;
 }
 .rog_player_background_big_symbol[data-clan="4"] {
   background-image: url("img/clans/Scorpion_2.jpg");
@@ -651,6 +657,10 @@ body[data-rog_panel_details="2"] .rog_player_resource_line_i1,
 body[data-rog_panel_details="2"] .rog_player_resource_line_i2,
 body[data-rog_panel_details="2"] .rog_player_resource_line_customers {
   display: none !important;
+}
+body[data-rog_panel_details="2"] .rog_player_background_big_symbol {
+  width: 175px !important;
+  height: 175px !important;
 }
 
 body[data-rog_panel_background="1"] .rog_player_background_big_symbol {
