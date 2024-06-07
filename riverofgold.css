@@ -534,7 +534,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
 .rog_player_background_big_symbol {
   position: absolute;
   left: 10%;
-  opacity: 0.3;
+  opacity: 0.15;
   border-radius: 50%;
   width: 200px;
   height: 175px;
