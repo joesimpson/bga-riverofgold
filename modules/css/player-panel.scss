@@ -651,10 +651,30 @@ body[data-rog_anim_lastturn_msg='2']{//PREF_ANIMATION_LASTTURN_BLINK
 }
 .rog_player_board_tooltip{
     .rog_player_board{
-        width: 500px;
+        $width: 500px;
         //Keep image dimensions ratio :
-        height: calc(math.div(1785px,3100px) * 500px);
+        $height: calc(math.div(1785px,3100px) * $width);
+        
+        //--------------
+        //IF we want to display full player board
         background-size: 100% auto;
+
+        //--------------
+        //If we want extract of player board : only the right part
+        $layer_width: 2170px;
+        $layer_height: 1785px;
+        $iconPosX: -930px;
+        $iconPosY: 0px;
+        $height: calc(math.div(1785px,(3100px + $iconPosX )) * $width);
+        background-position-x: calc(math.div($width, $layer_width) * $iconPosX);
+        background-position-y: calc(math.div($height, $layer_height ) * $iconPosY);
+        background-size: 
+            math.percentage(math.div(3100px,$layer_width )) 
+            math.percentage(math.div(1785px,$layer_height ));
+        //--------------
+
+        width: $width;
+        height: $height;
 
         &[data-clan='1']{//CLAN_CRAB
             background-image: url("img/clans/Crab_2.jpg");

@@ -727,9 +727,12 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 
 .rog_player_board_tooltip .rog_player_board {
-  width: 500px;
-  height: 287.9032258065px;
   background-size: 100% auto;
+  background-position-x: -214.2857142857px;
+  background-position-y: 0px;
+  background-size: 142.8571428571% 100%;
+  width: 500px;
+  height: 411.2903225806px;
 }
 .rog_player_board_tooltip .rog_player_board[data-clan="1"] {
   background-image: url("img/clans/Crab_2.jpg");
