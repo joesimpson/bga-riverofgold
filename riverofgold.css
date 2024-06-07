@@ -614,6 +614,15 @@ Icon extract in sprite with differents layers size (so % is not useful).
   font-size: large;
 }
 
+.rog_player_resource_line .rog_icon_influence {
+  width: 21px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -59.5135135135px;
+  background-position-y: -0.0831024931px;
+  background-size: 404.6332046332% 277.5623268698%;
+}
+
 #pin-panel-switch {
   display: flex;
   justify-content: center;

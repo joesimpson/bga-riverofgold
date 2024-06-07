@@ -497,6 +497,11 @@
         font-size: large;
     }
 }
+.rog_player_resource_line {
+    .rog_icon_influence{
+        @include rog_icons_sprite(-734px,-1px,21px,30px,259px,361px);
+    }
+}
 
 #pin-panel-switch{
     //color: black;
