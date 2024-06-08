@@ -485,6 +485,8 @@ function (dojo, declare) {
             pref = parseInt(pref);
             if(pref == PREF_PLAYER_PANEL_DETAILS ){
                 this.adaptPlayersPanels();
+            } else if(pref == PREF_PLAYER_PANEL_BORDER ){
+                this.adaptPlayersPanels();
             }
         },
         ///////////////////////////////////////////////////

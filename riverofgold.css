@@ -672,6 +672,9 @@ body[data-rog_panel_border="1"] .player-board {
      border-image: none !important;
 }
 
+body[data-rog_panel_border="2"] .player-board {
+  margin-right: 0px;
+}
 body[data-rog_panel_border="2"] .rog_player_resource_line_materials,
 body[data-rog_panel_border="2"] .rog_player_resource_line_buildings,
 body[data-rog_panel_border="2"] .rog_player_resource_line_i1 hr,

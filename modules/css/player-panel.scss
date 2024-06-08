@@ -590,6 +590,10 @@ body[data-rog_panel_border='1']{//PREF_PLAYER_PANEL_BORDER_OFF
     }
 }
 body[data-rog_panel_border='2']{//PREF_PLAYER_PANEL_BORDER_ON
+    .player-board{
+        //To avoid BGA adding margin right, it won't be great on mobile
+        margin-right: 0px;
+    }
     .rog_player_resource_line_materials,
     .rog_player_resource_line_buildings,
     .rog_player_resource_line_i1 hr,
