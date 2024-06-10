@@ -545,22 +545,22 @@ Icon extract in sprite with differents layers size (so % is not useful).
   width: 200px;
   height: 200px;
   max-height: 100%;
-  background-position-x: -106px;
-  background-position-y: -37.2881355932px;
-  background-size: 620% 302.5423728814%;
+  background-position-x: 0px;
+  background-position-y: 0px;
+  background-size: 100% 100%;
 }
 .rog_player_background_big_symbol[data-clan="1"] {
-  background-image: url("img/clans/Crab_2.jpg");
+  background-image: url("img/clans/L5R_Icon_Crab.png");
 }
 .rog_player_background_big_symbol[data-clan="2"] {
-  background-image: url("img/clans/Mantis_2.jpg");
+  background-image: url("img/clans/L5R_Icon_Mantis.png");
 }
 .rog_player_background_big_symbol[data-clan="3"] {
-  background-image: url("img/clans/Crane_2.jpg");
+  background-image: url("img/clans/L5R_Icon_Crane.png");
   opacity: 0.5;
 }
 .rog_player_background_big_symbol[data-clan="4"] {
-  background-image: url("img/clans/Scorpion_2.jpg");
+  background-image: url("img/clans/L5R_Icon_Scorpion.png");
 }
 
 #rog_dieFace_animation,

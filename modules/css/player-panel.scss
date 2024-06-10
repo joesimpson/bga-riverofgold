@@ -433,27 +433,43 @@
     $layer_height: 590px;
     $iconPosX: -265px;
     $iconPosY: -110px;
+    $imageTotalWidth: 3100px;
+    $imageTotalHeight: 1785px;
+
+    //NEW WAY
+    $layer_height: 470px;
+    $iconPosX: 0px;
+    $iconPosY: 0px;
+    $imageTotalWidth: 500px;
+    $imageTotalHeight: 470px;
+
     width: $width;
     height: $height;
     max-height: 100%;//Max height in case of reduced "Compact" panel
     background-position-x: calc(math.div($width, $layer_width) * $iconPosX);
     background-position-y: calc(math.div($height, $layer_height ) * $iconPosY);
     background-size: 
-        math.percentage(math.div(3100px,$layer_width )) 
-        math.percentage(math.div(1785px,$layer_height ));
+        math.percentage(math.div($imageTotalWidth,$layer_width )) 
+        math.percentage(math.div($imageTotalHeight,$layer_height ));
 
     &[data-clan='1']{//CLAN_CRAB
-        background-image: url("img/clans/Crab_2.jpg");
+        //OLD WAY : from player board
+        //background-image: url("img/clans/Crab_2.jpg");
+        //NEw WAY
+        background-image: url("img/clans/L5R_Icon_Crab.png");
     }
     &[data-clan='2']{//CLAN_MANTIS
-        background-image: url("img/clans/Mantis_2.jpg");
+        //background-image: url("img/clans/Mantis_2.jpg");
+        background-image: url("img/clans/L5R_Icon_Mantis.png");
     }
     &[data-clan='3']{//CLAN_CRANE
-        background-image: url("img/clans/Crane_2.jpg");
+        //background-image: url("img/clans/Crane_2.jpg");
+        background-image: url("img/clans/L5R_Icon_Crane.png");
         opacity: 0.5;//White is more difficult to see
     }
     &[data-clan='4']{//CLAN_SCORPION
-        background-image: url("img/clans/Scorpion_2.jpg");
+        //background-image: url("img/clans/Scorpion_2.jpg");
+        background-image: url("img/clans/L5R_Icon_Scorpion.png");
     }
     
 }
