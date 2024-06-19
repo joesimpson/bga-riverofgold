@@ -6,6 +6,7 @@ use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Helpers\Log;
 use ROG\Helpers\QueryBuilder;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -417,6 +418,29 @@ trait DebugTrait
       $max = RESOURCES_LIMIT[$type];
       Notifications::message("RESOURCES_LIMIT contains $type:".json_encode(RESOURCES_LIMIT));
     }
+  }
+  
+  //Test positive_modulo ?
+  function debugModulo(){
+    $player = Players::getCurrent();
+    $nbMoves = $player->getDie();
+    $nbDieFaces = count(DIE_FACES);
+    $indexDieFace = array_search($nbMoves,DIE_FACES);
+
+    $modifier = 0;
+    $mod = Utils::positive_modulo($indexDieFace +$modifier, $nbDieFaces);
+    $playableDieFace = DIE_FACES[$mod ];
+    Notifications::message(" die=$indexDieFace +$modifier  --- mod= $mod --- =$playableDieFace");
+
+    $modifier = +1;
+    $mod = Utils::positive_modulo($indexDieFace +$modifier, $nbDieFaces);
+    $playableDieFace = DIE_FACES[$mod ];
+    Notifications::message(" die=$indexDieFace +$modifier--- mod= $mod --- =$playableDieFace");
+
+    $modifier = -1;
+    $mod = Utils::positive_modulo($indexDieFace +$modifier, $nbDieFaces);
+    $playableDieFace = DIE_FACES[$mod ];
+    Notifications::message(" die=$indexDieFace +$modifier--- mod= $mod --- =$playableDieFace");
   }
   function debugCountDistinct(){
     $player = Players::getCurrent();
