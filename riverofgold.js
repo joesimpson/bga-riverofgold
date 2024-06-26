@@ -1480,7 +1480,7 @@ function (dojo, declare) {
                         <th>${titleLine2}</th>
                         <td>2</td>
                         <td>5</td>
-                        <td>6</td>
+                        <td>9</td>
                         <td>14</td>
                         <td>20</td>
                         <td>27</td>
