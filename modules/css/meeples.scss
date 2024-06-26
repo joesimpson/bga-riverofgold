@@ -103,12 +103,12 @@
     }
     &.tooltipable:not(.selectable):hover{
         //outline: 10px solid black;
-        filter: drop-shadow(0 0 15px black);
+        //filter: drop-shadow(0 0 15px black);
         cursor: help;
     }
     &.selectable{
         //outline: 10px solid blue;
-        filter: drop-shadow(0 0 15px #00f3ff);
+        //filter: drop-shadow(0 0 15px #00f3ff);
         cursor: pointer;
         &:hover {
             transform: scale(1.2);
@@ -116,6 +116,19 @@
     }
     &.selected{
         //outline: 10px solid #ff04cc;
+        //filter: drop-shadow(0 0 15px red);
+    }
+}
+
+html:not(.dj_safari) .rog_meeple{
+    // Drop shadow issues on Safari mobiles 
+    &.tooltipable:not(.selectable):hover{
+        filter: drop-shadow(0 0 15px black);
+    }
+    &.selectable{
+        filter: drop-shadow(0 0 15px #00f3ff);
+    }
+    &.selected{
         filter: drop-shadow(0 0 15px red);
     }
 }

@@ -4155,17 +4155,21 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-position-x: 100%;
 }
 .rog_meeple.tooltipable:not(.selectable):hover {
-  filter: drop-shadow(0 0 15px black);
   cursor: help;
 }
 .rog_meeple.selectable {
-  filter: drop-shadow(0 0 15px #00f3ff);
   cursor: pointer;
 }
 .rog_meeple.selectable:hover {
   transform: scale(1.2);
 }
-.rog_meeple.selected {
+html:not(.dj_safari) .rog_meeple.tooltipable:not(.selectable):hover {
+  filter: drop-shadow(0 0 15px black);
+}
+html:not(.dj_safari) .rog_meeple.selectable {
+  filter: drop-shadow(0 0 15px #00f3ff);
+}
+html:not(.dj_safari) .rog_meeple.selected {
   filter: drop-shadow(0 0 15px red);
 }
 
