@@ -746,7 +746,7 @@ function (dojo, declare) {
                     let divShip = $(`rog_meeple-${shipId}`);
                     divShip.classList.add('selected');
                     this.selectedShipId = shipId;
-                    this.selectedSpace = divShip.dataset.pos;
+                    this.selectedSpace = divShip.parentNode.dataset.pos;
                     $(`btnConfirm`).classList.remove('disabled');
                     $('btnConfirm').innerHTML = this.fsr(confirmMessage, { n: this.selectedSpace });
                 });
@@ -1132,7 +1132,9 @@ function (dojo, declare) {
             this.slide(divShip.id, this.getMeepleContainer(ship), {  
                 from: fromDiv.id, 
                 phantom: false,
-            }).then( ()=> { });
+            }).then( ()=> { 
+                divShip.dataset.pos = ship.pos;
+            });
         },
         notif_setDie(n) {
             debug('notif_setDie', n);
