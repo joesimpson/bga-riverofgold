@@ -88,17 +88,17 @@ trait DebugTrait
 
     $this->debugCLS();
     $this->stPlayerSetup();
-    $this->debugUI();
+    $this->debug_UI();
   }
   ////////////////////////////////////////////////////
   //Reset game TABLE almost like setupNewGame
   ////////////////////////////////////////////////////
-  function debugRESET(){
+  function debug_RESET(){
     Log::disable();
-    $this->debugClearLogs();
+    $this->debug_ClearLogs();
     $options = ["DEBUG"=> true, 
-      //OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
-      OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_DRAFT,
+      OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+      //OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_DRAFT,
       //OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_ALTERNATIVE
     ];
     $players = self::loadPlayersBasicInfos();
@@ -111,7 +111,7 @@ trait DebugTrait
     $this->setGameStateValue('logging', 1);
     $this->player_preferences =[];
     $this->setupNewGame($players,$options);
-    $this->debugUI();
+    $this->debug_UI();
     $this->gamestate->jumpToState(ST_CLAN_SELECTION);
     Log::enable();
   }
@@ -142,7 +142,7 @@ trait DebugTrait
     }
     $player = Players::getCurrent();
     Players::claimMasteries($player);
-    $this->debugUI();
+    $this->debug_UI();
   }
 
   //To be called before clicking 'Deliver'
@@ -185,7 +185,7 @@ trait DebugTrait
       RESOURCE_TYPE_SUN => 2,
       RESOURCE_TYPE_MOON => 6,
     ]);
-    $this->debugUI();
+    $this->debug_UI();
     $this->gamestate->jumpToState(ST_PLAYER_TURN_TRADE);
   }
   //Simulate a meeple in each influence space to test UI
@@ -207,7 +207,7 @@ trait DebugTrait
         $meeple = Meeples::addClanMarkerOnMerchantSpace($player);
       }
     }
-    $this->debugUI();
+    $this->debug_UI();
   }
 
   function debugBonusChoice(){
@@ -215,7 +215,7 @@ trait DebugTrait
     $player2 = Players::get($player->getId());
     $royalShip = $player->getRoyalShip();
     if(isset($royalShip)) $royalShip->setType(MEEPLE_TYPE_SHIP);
-    $this->debugUI();
+    $this->debug_UI();
 
     $player->setBonuses([]);
     $player2->setBonuses([]);
@@ -252,14 +252,14 @@ trait DebugTrait
         $meeple->setType($typeToTest);
       }
     }
-    $this->debugUI();
+    $this->debug_UI();
     $this->gamestate->jumpToState(ST_PLAYER_TURN_SAIL);
   }
 
   function debugUpgradeShip(){
     $player = Players::getCurrent();
     $ship = Meeples::getBoats($player->getId())->first();
-    $this->debugUI();
+    $this->debug_UI();
     $ship->setType(MEEPLE_TYPE_SHIP_ROYAL);
     Notifications::upgradeShip($player,$ship);
   }
@@ -321,7 +321,7 @@ trait DebugTrait
     foreach (REGIONS as $region){
       $player->setInfluence($region, NB_INLUENCE_VOID);
     }
-    $this->debugUI();
+    $this->debug_UI();
     Players::claimMasteries($player);
     $this->gamestate->jumpToState(ST_PLAYER_TURN);
   }
@@ -351,7 +351,7 @@ trait DebugTrait
     //Keep 1 card in ERA 2 :
     Tiles::moveAllInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2,TILE_LOCATION_DISCARD);
     Tiles::getTopOf(TILE_LOCATION_DISCARD)->setLocation(TILE_LOCATION_BUILDING_DECK_ERA_2);
-    $this->debugUI();
+    $this->debug_UI();
     //$this->gamestate->jumpToState(ST_CONFIRM_CHOICES);
   }
   
@@ -406,7 +406,7 @@ trait DebugTrait
       $tile->setPosition($tile->getPosition()-1);
     }
     //UI doesn't refresh building row because it is not expected to cancel this change
-    //$this->debugUI();
+    //$this->debug_UI();
   }
 
   function debugPHP(){
@@ -450,13 +450,13 @@ trait DebugTrait
 
   //----------------------------------------------------------------
   //Clear logs
-  function debugCLS(){
+  function debug_CLS(){
     $query = new QueryBuilder('gamelog', null, 'gamelog_packet_id');
     $query->delete()->run();
   }
   
   //Clear all logs
-  public static function debugClearLogs()
+  public static function debug_ClearLogs()
   {
       $query = new QueryBuilder('log', null, 'id');
       $query->delete()->run();
@@ -464,7 +464,7 @@ trait DebugTrait
       $query->delete()->run();
   }
   //*/
-  function debugUI(){
+  function debug_UI(){
     //players colors are not reloaded after using LOAD/SAVE buttons
     self::reloadPlayersBasicInfos();
     Notifications::refreshUI($this->getAllDatas());

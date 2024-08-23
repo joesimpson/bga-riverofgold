@@ -33,6 +33,7 @@ class Players extends \ROG\Helpers\DB_Manager
     // Create players
     $gameInfos = Game::get()->getGameinfos();
     $colors = $gameInfos['player_colors'];
+    shuffle($colors);//Shuffle for cases where color matters
     $query = self::DB()->multipleInsert(['player_id', 'player_color', 'player_canal', 'player_name', 'player_avatar','player_clan','resources']);
 
     $values = [];
@@ -70,7 +71,7 @@ class Players extends \ROG\Helpers\DB_Manager
 
     $playersObjects = self::getAll();
     //Don't use player pref for color when color has POWER !, or disable it at all times to keep a correct 'player_clan' value
-    /*if($gameInfos['favorite_colors_support'] && Globals::isExpansionClansDisabled()){
+    if($gameInfos['favorite_colors_support'] && Globals::isExpansionClansDisabled()){
       Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
 
       foreach ($playersObjects as $pId => $player) {
@@ -80,7 +81,7 @@ class Players extends \ROG\Helpers\DB_Manager
           Notifications::newPlayerColor($player);
         }
       }
-    }*/
+    }
     Game::get()->reloadPlayersBasicInfos();
     
     return $playersObjects;
