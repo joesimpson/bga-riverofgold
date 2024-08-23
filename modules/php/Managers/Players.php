@@ -331,7 +331,7 @@ class Players extends \ROG\Helpers\DB_Manager
       //CHECK this is ANOTHER PLAYER
       $playerGovernor = Players::get($patronGovernor->getPId());
       $governorInfluence = $playerGovernor->getInfluence($region);
-      if($governorInfluence > 1 && $governorInfluence > $currentInfluence && $governorInfluence <= $newInfluence){
+      if($governorInfluence >= 1 && $governorInfluence > $currentInfluence && $governorInfluence <= $newInfluence){
         $playerGovernor->addPoints(NB_POINTS_GOVERNOR,false);
         Notifications::scorePatron($playerGovernor,NB_POINTS_GOVERNOR,$patronGovernor);
       }
