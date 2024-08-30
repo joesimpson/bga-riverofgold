@@ -278,7 +278,14 @@ class RiverOfGold extends Table
             $sql = "ALTER TABLE DBPREFIX_player ADD `skip_roll_die` tinyint(1) NOT NULL DEFAULT 0 COMMENT 'This player will NOT roll the die for next turn : 0/1';";
             $this->applyDbUpgradeToAllDB($sql);
         }
-
+        //Fixing Clan after color reattribution in previous patch :
+        if( $from_version <= 2408231642 && $from_version >2406262358 )
+        {
+            foreach (CLANS_COLORS as $color => $clan_id) {
+                $sql = "UPDATE DBPREFIX_player set player_clan=$clan_id where player_color='$color';";
+                $this->applyDbUpgradeToAllDB($sql);
+            }
+        }
     }    
      
     /////////////////////////////////////////////////////////////

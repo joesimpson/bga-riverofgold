@@ -74,9 +74,12 @@ class Players extends \ROG\Helpers\DB_Manager
     if($gameInfos['favorite_colors_support'] && Globals::isExpansionClansDisabled()){
       Game::get()->reattributeColorsBasedOnPreferences($players, $gameInfos['player_colors']);
 
+      //Reload DAO 
+      $playersObjects = self::getAll();
       foreach ($playersObjects as $pId => $player) {
-        $color = $player->getColor();
-        if(in_array($color,CLANS_COLORS)){
+        //$color = Players::getColor($pId);
+        $color = $player->getColor(); 
+        if(array_key_exists($color,CLANS_COLORS)){
           $player->setClan(CLANS_COLORS[$color] );
           Notifications::newPlayerColor($player);
         }
@@ -211,8 +214,17 @@ class Players extends \ROG\Helpers\DB_Manager
     }
     return null;
   }
-  
 
+  /**
+   * @param int $pId
+   * @return String color : the up-to date player color
+   */
+  public static function getColor($pId)
+  {
+    return self::DB()->wherePlayer($pId)
+      ->get()
+      ->first()->getPlayerColor();
+  }
 
   /*
    * Return the number of players

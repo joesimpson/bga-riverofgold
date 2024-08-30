@@ -48,6 +48,7 @@ class Notifications
     self::notifyAll('newPlayerColor', '', [
       'player' => $player,
       'player_color' => $player->getColor(),
+      'player_clan' => $player->getClan(),
     ]);
   }
   

@@ -951,7 +951,21 @@ function (dojo, declare) {
         //////////////////////////////////////////////////////////////
         notif_newPlayerColor(n) {
             debug('notif_newPlayerColor: receiving a new color', n);
+            let pid = n.args.player_id;
+            let clanId = n.args.player_clan;
             this.refreshPlayerColor(n.args.player_id,n.args.player_color);
+            let rog_player_clan_panel =  `rog_player_clan_panel-${pid}`;
+            
+            let iconClan = $(rog_player_clan_panel).querySelector(`[class*='rog_icon_container_clan']`);
+            if(iconClan) this.destroy(iconClan);
+            let clanIconDiv = this.formatIcon('clan-'+clanId);
+            dojo.place(clanIconDiv,rog_player_clan_panel,'first');
+            let clanName = this.CLANS_NAMES.get(clanId);
+            $(`rog_player_background_big_symbol-${pid}`).dataset.clan = clanId;
+            $(`rog_player_clan_name-${pid}`).innerHTML= `<div class="reduceToFit">${clanName}</div>`;
+            this.reduceTextSizeOnCardElements($(rog_player_clan_panel));
+            this.addCustomTooltip(rog_player_clan_panel,this.getPlayerBoardTooltip(pid,clanId));
+
         },
         notif_giveClanCardTo(n) {
             debug('notif_giveClanCardTo: receiving a new clan card', n);
