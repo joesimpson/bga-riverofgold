@@ -2239,7 +2239,7 @@ function (dojo, declare) {
                             ongoingAbility = this.fsr(_('Your ${ship_type} collects +1 ${money} from each empty space it visits.'), { ship_type:MEEPLE_TYPE_SHIP_ROYAL,money:moneyIcon});
                             break;
                         case CARD_NOBLE_3:
-                            ongoingAbility = this.fsr(_('After your ${ship_type} sails, gain ${influence_1} in each adjacent region.'), {ship_type:MEEPLE_TYPE_SHIP_ROYAL,influence_1:this.formatIcon("influence",1),  });
+                            ongoingAbility = this.fsr(_('After your ${ship_type} sails, gain ${influence_1} in each region that touches the river space.'), {ship_type:MEEPLE_TYPE_SHIP_ROYAL,influence_1:this.formatIcon("influence",1),  });
                             break;
                         case CARD_NOBLE_4:
                             ongoingAbility = this.fsr(_('After your ${ship_type} sails, gain ${score} if you visited at least 1 ${building}.'), {ship_type:MEEPLE_TYPE_SHIP_ROYAL,score:this.formatIcon("score_1"),building:this.formatIcon("bonus-"+BONUS_TYPE_SECOND_MARKER_ON_OPPONENT) });
