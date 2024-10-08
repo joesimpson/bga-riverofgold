@@ -484,9 +484,10 @@ function (dojo, declare) {
             debug("onPreferenceChange",pref, newValue);
             pref = parseInt(pref);
             if(pref == PREF_PLAYER_PANEL_DETAILS ){
-                this.adaptPlayersPanels();
+                //BGA function adaptPlayersPanels has been removed :(
+                //this.adaptPlayersPanels();
             } else if(pref == PREF_PLAYER_PANEL_BORDER ){
-                this.adaptPlayersPanels();
+                //this.adaptPlayersPanels();
             }
         },
         ///////////////////////////////////////////////////
