@@ -19,7 +19,7 @@ $gameinfos = array(
 'publisher' => 'Office Dog',                     
 
 // Url of game publisher website
-'publisher_website' => 'https://www.asmodeena.com/en/',   
+'publisher_website' => 'https://store.asmodee.com/collections/office-dog',   
 
 // Board Game Geek ID of the publisher
 'publisher_bgg_id' => 54758,
