@@ -364,6 +364,7 @@ class Players extends \ROG\Helpers\DB_Manager
         }
         else if(BONUS_TYPE_CHOICE == $bonusType){
           //3 points + bonus
+          //!\\ WARNING : part of code is copied on front side for track tooltip
           $goToBonusChoice = true;
           $player->addPoints(3);
         }

@@ -336,6 +336,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
                 margin-top: -68px;
             }
         }
+        &.tooltipable .rog_meeple{
+            //offset +1 because of help-marker
+            &:nth-child(2){
+                margin-top: 0px;
+            }
+            &:nth-child(3){
+                margin-top: -60px;
+            }
+            &:nth-child(4){
+                margin-top: -65px;
+            }
+            &:nth-child(5){
+                margin-top: -68px;
+            }
+        }
         &:hover .rog_meeple{
             z-index: 5;//must be visible over elements like artisan space meeples
             //View behind meeple
@@ -354,6 +369,24 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
             &:nth-child(1){
                 //transform:translateY(-100%);
                 margin-top: -60px;
+            }
+        }
+        &.tooltipable:hover .rog_meeple{
+            //offset +1 because of help-marker
+            &:nth-child(5){
+                margin-top: -100px;
+            }
+            &:nth-child(4){
+                margin-top: -100px;
+            }
+            &:nth-child(3){
+                margin-top: -100px;
+            }
+            &:nth-child(2){
+                margin-top: -60px;
+            }
+            &:nth-child(1){
+                margin-top: 0px;
             }
         }
     }

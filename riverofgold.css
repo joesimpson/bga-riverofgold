@@ -4415,6 +4415,18 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
 .rog_influence_track .rog_influence_track_space .rog_meeple:nth-child(4) {
   margin-top: -68px;
 }
+.rog_influence_track .rog_influence_track_space.tooltipable .rog_meeple:nth-child(2) {
+  margin-top: 0px;
+}
+.rog_influence_track .rog_influence_track_space.tooltipable .rog_meeple:nth-child(3) {
+  margin-top: -60px;
+}
+.rog_influence_track .rog_influence_track_space.tooltipable .rog_meeple:nth-child(4) {
+  margin-top: -65px;
+}
+.rog_influence_track .rog_influence_track_space.tooltipable .rog_meeple:nth-child(5) {
+  margin-top: -68px;
+}
 .rog_influence_track .rog_influence_track_space:hover .rog_meeple {
   z-index: 5;
 }
@@ -4429,6 +4441,21 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
 }
 .rog_influence_track .rog_influence_track_space:hover .rog_meeple:nth-child(1) {
   margin-top: -60px;
+}
+.rog_influence_track .rog_influence_track_space.tooltipable:hover .rog_meeple:nth-child(5) {
+  margin-top: -100px;
+}
+.rog_influence_track .rog_influence_track_space.tooltipable:hover .rog_meeple:nth-child(4) {
+  margin-top: -100px;
+}
+.rog_influence_track .rog_influence_track_space.tooltipable:hover .rog_meeple:nth-child(3) {
+  margin-top: -100px;
+}
+.rog_influence_track .rog_influence_track_space.tooltipable:hover .rog_meeple:nth-child(2) {
+  margin-top: -60px;
+}
+.rog_influence_track .rog_influence_track_space.tooltipable:hover .rog_meeple:nth-child(1) {
+  margin-top: 0px;
 }
 
 #rog_merchant_space {

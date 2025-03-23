@@ -49,6 +49,7 @@ function (dojo, declare) {
     const NB_MAX_MONEY = 25;
     const NB_MAX_RESOURCE = 6;
     const NB_MAX_INLFUENCE = 18;
+    const NB_INLUENCE_FLOWER = 11;
 
     const CUSTOMER_TYPE_ARTISAN =  1;
     const CUSTOMER_TYPE_ELDER =    2;
@@ -142,6 +143,51 @@ function (dojo, declare) {
     const BUILDING_TYPE_MARKET =   2;
     const BUILDING_TYPE_MANOR =    3;
     const BUILDING_TYPE_SHRINE =   4;
+    
+    const INFLUENCE_TRACK_REWARDS = {
+        1/*REGION_1*/ : {
+           2 : {'n' : 1, 'type' : RESOURCE_TYPE_POTTERY}, 
+           5 : {'n' : 2, 'type' : RESOURCE_TYPE_MONEY}, 
+           9 : {'n' : 1, 'type' : RESOURCE_TYPE_SUN}, 
+           13: {'n' : 3, 'type' : BONUS_TYPE_POINTS}, 
+           18: {'n' : 1, 'type' : BONUS_TYPE_CHOICE}, 
+        },
+        2/*REGION_2*/  : {
+           2 : {'n' : 1, 'type' : RESOURCE_TYPE_RICE}, 
+           5 : {'n' : 2, 'type' : RESOURCE_TYPE_MONEY}, 
+           9 : {'n' : 1, 'type' : RESOURCE_TYPE_SUN}, 
+           13: {'n' : 3, 'type' : BONUS_TYPE_POINTS}, 
+           18: {'n' : 1, 'type' : BONUS_TYPE_CHOICE}, 
+        },
+        3/*REGION_3*/  : {
+           2 : {'n' : 1, 'type' : RESOURCE_TYPE_SILK}, 
+           5 : {'n' : 2, 'type' : RESOURCE_TYPE_MONEY}, 
+           9 : {'n' : 1, 'type' : RESOURCE_TYPE_SUN}, 
+           13: {'n' : 3, 'type' : BONUS_TYPE_POINTS}, 
+           18: {'n' : 1, 'type' : BONUS_TYPE_CHOICE}, 
+        },
+        4/*REGION_4*/  : {
+           2 : {'n' : 1, 'type' : RESOURCE_TYPE_POTTERY}, 
+           5 : {'n' : 2, 'type' : RESOURCE_TYPE_MONEY}, 
+           9 : {'n' : 1, 'type' : RESOURCE_TYPE_SUN}, 
+           13: {'n' : 3, 'type' : BONUS_TYPE_POINTS}, 
+           18: {'n' : 1, 'type' : BONUS_TYPE_CHOICE}, 
+        },
+        5/*REGION_5*/  : {
+           2 : {'n' : 1, 'type' : RESOURCE_TYPE_RICE}, 
+           5 : {'n' : 2, 'type' : RESOURCE_TYPE_MONEY}, 
+           9 : {'n' : 1, 'type' : RESOURCE_TYPE_SUN}, 
+           13: {'n' : 3, 'type' : BONUS_TYPE_POINTS}, 
+           18: {'n' : 1, 'type' : BONUS_TYPE_CHOICE}, 
+        },
+        6/*REGION_6*/  : {
+           2 : {'n' : 1, 'type' : RESOURCE_TYPE_SILK}, 
+           5 : {'n' : 2, 'type' : RESOURCE_TYPE_MONEY}, 
+           9 : {'n' : 1, 'type' : RESOURCE_TYPE_SUN}, 
+           13: {'n' : 3, 'type' : BONUS_TYPE_POINTS}, 
+           18: {'n' : 1, 'type' : BONUS_TYPE_CHOICE}, 
+        },
+    };
     
     const MEEPLE_TYPE_SHIP = 1;
     const MEEPLE_TYPE_SHIP_ROYAL = 3;
@@ -2583,6 +2629,35 @@ function (dojo, declare) {
                     data-nbPlayers="${nbPlayers}">
                 </div>`;
         },
+                
+        /////////////////////////////////////////////////////////
+        //          INFLUENCE TRACK
+        /////////////////////////////////////////////////////////
+        addInfluenceTrackTooltips() {
+            //Tooltips on influence track rewards :
+            Object.entries(INFLUENCE_TRACK_REWARDS).forEach(([iRegion, iRewards]) => {
+                Object.entries(iRewards).forEach(([iInfluence, iReward]) => {
+                    let divId = `rog_influence_track_space_${iRegion}_${iInfluence}`;
+                    let rewardList = "";
+                    if(BONUS_TYPE_CHOICE == iReward.type){//NB_MAX_INLFUENCE
+                        rewardList += "<li>" +this.formatReward(BONUS_TYPE_POINTS, 3)+"</li>";
+                    }
+                    rewardList += "<li>" + this.formatReward(iReward.type, iReward.n)+"</li>";
+
+                    let tooltipText = this.fsr( _('Rewards when you reach or pass ${n} influence in this region: ${reward}'),{n:iInfluence, reward: "<ul>" + rewardList+"</ul>"} );
+                    this.destroyTooltip($(divId));
+                    this.addCustomTooltip(divId,tooltipText);
+                });
+            });
+
+            //Tooltips on imperial flower :
+            Object.values(REGIONS).forEach((region) =>{
+                let influence_track_space = `rog_influence_track_space_${region}_${NB_INLUENCE_FLOWER}`;
+                this.destroyTooltip($(influence_track_space));
+                this.addCustomTooltip(influence_track_space,this.fsr(_("Imperial flower for achieving ${mastery}") ,{mastery: _("Mastery of the Courts")}));
+            });
+        },
+
         ////////////////////////////////////////////////////////
         // Mastery cards
         ////////////////////////////////////////////////////////
@@ -2878,6 +2953,7 @@ function (dojo, declare) {
                 this.empty(`rog_artisan_space_${region}`);
                 this.empty(`rog_elder_space_${region}`);
             });
+            this.addInfluenceTrackTooltips();
         },
         tplInfluenceTrack(region) {
             return `<div class="rog_influence_track" id="rog_influence_track_${region}" data-region='${region}'></div>`;

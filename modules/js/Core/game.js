@@ -44,14 +44,18 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       this.alwaysFixTopActionsMaximum = 30;
     },
 
-    destroy(elem, delayRemove = false) {
-      debug(`destroy ${elem.id}`,elem);
+    destroyTooltip(elem) {
       if (this.tooltips[elem.id]) {
         clearTimeout(this.tooltips[elem.id].showTimeout);
         this.tooltips[elem.id].close();
         this.tooltips[elem.id].destroy();
         delete this.tooltips[elem.id];
       }
+    },
+
+    destroy(elem, delayRemove = false) {
+      debug(`destroy ${elem.id}`,elem);
+      this.destroyTooltip(elem);
       this.empty(elem);
       if(!delayRemove) elem.remove();
     },
