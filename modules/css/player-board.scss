@@ -8,6 +8,11 @@
 }
 
 #rog_main_zone{
+    #rog_board_filler{
+        // Mobile issue on Brave and maybe Chrome : 
+        //No specific display here, but this "text" div make the browser make better computation of parent width/height ?
+        font-size: 0.1em;
+    }
 
     #rog_players_boards{
         

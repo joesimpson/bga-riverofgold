@@ -21,13 +21,17 @@
                 display: flex;
                 flex-wrap: wrap;
 
-                background-size: 100% auto;
-                background-repeat: no-repeat;
                 width: 2726px;
                 height: 4000px;
 
-                background-image: url('img/board.jpg');
-
+                #rog_board_background{
+                    position: absolute;
+                    width: 2726px;
+                    height: 4000px;
+                    background-image: url('img/board.jpg');
+                    background-size: 100% auto;
+                    background-repeat: no-repeat;
+                }
                 .help-marker{
                     //Keep around the same size for the help marker in help mode
                     transform: scale(calc(1 / var(--rog_board_display_scale)));

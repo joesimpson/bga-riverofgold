@@ -32,6 +32,7 @@
         <div id='rog_resizable_river_board'>
             <div id='rog_river_board_container'>
                 <div id='rog_river_board'>
+                    <div id="rog_board_background"></div>
                     <div id='rog_score_track'></div>
                     <div id='rog_score_customers'></div>
                     <div id='rog_scoring_tiles'>
@@ -57,6 +58,7 @@
                         <div id='rog_building_slot-2' class="rog_building_slot"></div>
                         <div id='rog_building_slot-1' class="rog_building_slot"></div>
                     </div>
+                    <div id="rog_board_filler">&nbsp;<br/></div>
                 </div>
             </div>
         </div>
