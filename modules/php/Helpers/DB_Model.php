@@ -2,7 +2,7 @@
 namespace ROG\Helpers;
 use ROG\Core\Game;
 
-abstract class DB_Model extends \APP_DbObject implements \JsonSerializable
+abstract class DB_Model implements \JsonSerializable
 {
   protected $table = null;
   protected $primary = null;

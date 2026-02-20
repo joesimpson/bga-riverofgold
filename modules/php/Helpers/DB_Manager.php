@@ -2,7 +2,7 @@
 namespace ROG\Helpers;
 use ROG\Core\Game;
 
-class DB_Manager extends \APP_DbObject
+class DB_Manager
 {
     protected static $table = null;
     protected static $primary = null;

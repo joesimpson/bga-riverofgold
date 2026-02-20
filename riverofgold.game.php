@@ -30,8 +30,6 @@ $swdNamespaceAutoload = function ($class) {
 };
 spl_autoload_register($swdNamespaceAutoload, true, true);
 
-require_once( APP_GAMEMODULE_PATH.'module/table/table.game.php' );
-
 use ROG\Core\Globals;
 use ROG\Core\Preferences;
 use ROG\Exceptions\UserException;
@@ -41,7 +39,7 @@ use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 
-class RiverOfGold extends Table
+class RiverOfGold extends \Bga\GameFramework\Table
 {
     use ROG\DebugTrait;
     use ROG\States\BeforeTurnTrait;
@@ -86,12 +84,6 @@ class RiverOfGold extends Table
       return self::$instance;
     }
 	
-    protected function getGameName( )
-    {
-		// Used for translations and stuff. Please do not modify.
-        return "riverofgold";
-    }	
-
     /*
         getAllDatas: 
         
@@ -123,7 +115,7 @@ class RiverOfGold extends Table
           'firstPlayer' => $firstPlayer,
           'endTriggered' => Globals::isLastTurnTriggered(),
           'endScoring' => Globals::getEndScoring(),
-          'version'=> intval($this->gamestate->table_globals[BGA_GAMESTATE_GAMEVERSION]),
+          'version'=> intval($this->bga->tableOptions->get(BGA_GAMESTATE_GAMEVERSION)),
         ];
         return $result;
     }
@@ -173,7 +165,8 @@ class RiverOfGold extends Table
     */
     public function checkVersion(int $clientVersion)
     {
-        if ($clientVersion != intval($this->gamestate->table_globals[BGA_GAMESTATE_GAMEVERSION])) {
+        $gameVersion = $this->bga->tableOptions->get(BGA_GAMESTATE_GAMEVERSION);
+        if ($clientVersion != intval($gameVersion)) {
             throw new UserException('!!!checkVersion');
         }
     }

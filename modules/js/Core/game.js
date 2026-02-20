@@ -1401,7 +1401,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
      * idea from bennygui (see Earth) to keep a fixed page title even with many buttons
      */
     adaptStatusBar() {
-      debug("adaptStatusBar");
+      //debug("adaptStatusBar");
       this.inherited(arguments);
 
       if (this.alwaysFixTopActions) {
