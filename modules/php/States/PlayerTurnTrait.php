@@ -53,7 +53,7 @@ trait PlayerTurnTrait
     self::trace("actTrade()");
 
     $this->addStep();
-    $currentState = $this->gamestate->state_id();
+    $currentState = $this->gamestate->getCurrentMainStateId();
     Globals::setStateBeforeTrade($currentState);
 
     $this->gamestate->nextState('trade');

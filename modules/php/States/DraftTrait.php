@@ -58,7 +58,7 @@ trait DraftTrait
     
     $card = Cards::get($cardId);
     $player = Players::getCurrent();
-    $isModeMultiActive =  ST_DRAFT_PLAYER_MULTIACTIVE == intval($this->gamestate->state_id());
+    $isModeMultiActive =  ST_DRAFT_PLAYER_MULTIACTIVE == intval($this->gamestate->getCurrentMainStateId());
 
     //ANTICHEAT :
     if($card->getLocation() != CARD_CLAN_LOCATION_DRAFT){

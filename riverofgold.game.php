@@ -290,9 +290,4 @@ class RiverOfGold extends \Bga\GameFramework\Table
     {
         return $this->getCurrentPlayerId($bReturnNullIfNotLogged);
     }
-    // Exposing protected method translation
-    public function translate($text)
-    {
-        return $this->_($text);
-    }
 }

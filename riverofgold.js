@@ -1386,7 +1386,7 @@ function (dojo, declare) {
                     let iconClan = $(rog_player_clan_panel).querySelector(`[class*='rog_icon_container_clan']`);
                     if(iconClan) this.destroy(iconClan);
                 }
-                this.scoreCtrl[pId].toValue(player.score);
+                this.bga.playerPanels.getScoreCounter(pId).toValue(player.score);
                 this._counters[pId].money.toValue(player.money);
                 this._counters[pId].silk.toValue(player.silk);
                 this._counters[pId].pottery.toValue(player.pottery);
@@ -2107,7 +2107,7 @@ function (dojo, declare) {
             }
 
             if (this.isFastMode() || this.getGameUserPreference(PREF_ANIMATION_MOVING_SCORE) == PREF_ANIMATION_MOVING_SCORE_OFF ) {
-                this.scoreCtrl[pId].incValue(n);
+                this.bga.playerPanels.getScoreCounter(pId).incValue(n);
                 return Promise.resolve();
             }
     
@@ -2125,9 +2125,9 @@ function (dojo, declare) {
                     destroy: true,
                     phantom: false,
                     duration: 800,
-                }).then(() => this.scoreCtrl[pId].incValue(n));
+                }).then(() => this.bga.playerPanels.getScoreCounter(pId).incValue(n));
             } else {
-                this.scoreCtrl[pId].incValue(n);
+                this.bga.playerPanels.getScoreCounter(pId).incValue(n);
                 return this.slide(`rog_score_animation`, targetSource || this.getVisibleTitleContainer(), {
                     from: `player_score_${pId}`,
                     destroy: true,
