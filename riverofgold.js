@@ -1794,7 +1794,8 @@ function (dojo, declare) {
                 //BEWARE if we change color of a player during first phase of the game, some players may have the same color
                 //let divPanel = $(`overall_player_board_${player.id}`).querySelector(`.player_panel_content`).id;
                 //this.place('tplPlayerPanel', player, divPanel, 'after');
-                let divPanel = $(`overall_player_board_${player.id}`).querySelector(`.player_panel_content`);
+                let divSidePanel = this.bga.playerPanels.getElement(player.id).parentNode.parentNode.parentNode;
+                let divPanel = divSidePanel.querySelector(`.player_panel_content`);
                 divPanel.insertAdjacentHTML('beforeend', this.tplPlayerPanel(player));
                 this.reduceTextSizeOnCardElements($(`rog_player_clan_panel-${player.id}`));
                 let boardTooltip = this.getPlayerBoardTooltip(player.id,player.clan);
@@ -1891,7 +1892,7 @@ function (dojo, declare) {
             //update player color :
             this.gamedatas.players[pid].color = color;
             this.gamedatas.players[pid].color_back = (color == "ffffff") ? "bbbbbb" : null;
-            let divSidePanel = $(`overall_player_board_${pid}`);
+            let divSidePanel = this.bga.playerPanels.getElement(pid).parentNode.parentNode.parentNode;
             divSidePanel.dataset.color = color;
             let divName = divSidePanel.querySelector(`#player_name_${pid}`).querySelector(`a:first-child` );
             divName.style.color = ` #${color}`;
