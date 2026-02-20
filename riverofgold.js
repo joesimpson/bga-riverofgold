@@ -1344,10 +1344,12 @@ function (dojo, declare) {
         notif_triggerLastTurn(n) {
             debug('notif_triggerLastTurn', n);
             $('rog_end_warning').classList.remove('rog_nodisplay');
+            this.bga.gameArea.addLastTurnBanner(_('Last turns !'));
         },
         notif_triggerEnd(n) {
             debug('notif_triggerEnd', n);
             $('rog_end_warning').classList.remove('rog_nodisplay');
+            this.bga.gameArea.addLastTurnBanner(_('Last turns !'));
         },
         
         ///////////////////////////////////////////////////
@@ -1942,6 +1944,7 @@ function (dojo, declare) {
             let turn = this.gamedatas.turn;
             let era = this.gamedatas.era;
             let gameLastTurns = this.gamedatas.endTriggered;
+            if(gameLastTurns) this.bga.gameArea.addLastTurnBanner(_('Last turns !'));
             return `
             <div class='player-board' id="player_board_config">
                 <div id="player_config" class="player_board_content">

@@ -12,6 +12,7 @@ use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\CustomerCard;
+use ROG\States\EndTurnTrait;
 
 /**
  * Debugging functions to be called in chat window in BGA Studio
@@ -59,7 +60,7 @@ trait DebugTrait
   /**
    * Function to call to regenerate JSON from PHP 
    */
-  function debugJSON(){
+  function debug_JSON(){
     include dirname(__FILE__) . '/gameoptions.inc.php';
 
     $customOptions = $game_options;//READ from module file
@@ -115,18 +116,18 @@ trait DebugTrait
     Log::enable();
   }
 
-  function debugGoToPlayerSetup()
+  function debug_GoToPlayerSetup()
   {
     $this->gamestate->jumpToState(ST_PLAYER_SETUP);
   }
   
-  function debugGoToDraft()
+  function debug_GoToDraft()
   {
     $this->gamestate->jumpToState(ST_CLAN_SELECTION);
   }
   
   //Fake deliveries for UI
-  function debugLiv(){
+  function debug_Liv(){
     $players = Players::getAll();
     Cards::moveAllInLocation(CARD_LOCATION_DELIVERED,CARD_LOCATION_DECK);
     Cards::shuffle(CARD_LOCATION_DECK);
@@ -145,12 +146,12 @@ trait DebugTrait
   }
 
   //To be called before clicking 'Deliver'
-  function debugDeliverReshuffle(){
+  function debug_DeliverReshuffle(){
     Cards::moveAllInLocation(CARD_LOCATION_DECK,CARD_LOCATION_DISCARD);
   }
   
   //To be called before clicking 'Refill hand' or 'Draw', to test that interface doesn't force you to discard your last card OR worse if you don't have cards
-  function debugDrawWithEmptyDeck(){
+  function debug_DrawWithEmptyDeck(){
     Cards::moveAllInLocation(CARD_LOCATION_DECK,CARD_LOCATION_DISCARD);
     Cards::moveAllInLocation(CARD_LOCATION_DISCARD,"FAKE_FOR_TEST");
     $player = Players::getCurrent();
@@ -161,20 +162,20 @@ trait DebugTrait
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
 
-  function debugMoney(){
+  function debug_Money(){
     $player = Players::getCurrent();
     Notifications::giveMoney($player,55);
     Notifications::spendMoney($player,23);
   }
 
-  function debugRess(){
+  function debug_Ress(){
     $player = Players::getCurrent();
     $player->giveResource(2,RESOURCE_TYPE_SUN);
     $player->giveResource(3,RESOURCE_TYPE_MOON);
     $this->gamestate->jumpToState(ST_PLAYER_TURN);
   }
   
-  function debugTrade(){
+  function debug_Trade(){
     $player = Players::getCurrent();
     $player->setResources([
       RESOURCE_TYPE_MONEY => 10,
@@ -188,7 +189,7 @@ trait DebugTrait
     $this->gamestate->jumpToState(ST_PLAYER_TURN_TRADE);
   }
   //Simulate a meeple in each influence space to test UI
-  function debugInfluenceMeeples(){
+  function debug_InfluenceMeeples(){
     Meeples::DB()->delete()->run();
     $current = Players::getCurrent();
     $players = Players::getAll();
@@ -209,7 +210,7 @@ trait DebugTrait
     $this->debug_UI();
   }
 
-  function debugBonusChoice(){
+  function debug_BonusChoice(){
     $player = Players::getCurrent();
     $player2 = Players::get($player->getId());
     $royalShip = $player->getRoyalShip();
@@ -239,7 +240,7 @@ trait DebugTrait
   }
 
   //Add Boats on each river space
-  function debugBoatMeeples(){
+  function debug_BoatMeeples(){
     Meeples::DB()->delete()->whereIn('type', [MEEPLE_TYPE_SHIP,MEEPLE_TYPE_SHIP_ROYAL])->run();
     $players = Players::getAll();
     $typeToTest = MEEPLE_TYPE_SHIP_ROYAL;
@@ -255,7 +256,7 @@ trait DebugTrait
     $this->gamestate->jumpToState(ST_PLAYER_TURN_SAIL);
   }
 
-  function debugUpgradeShip(){
+  function debug_UpgradeShip(){
     $player = Players::getCurrent();
     $ship = Meeples::getBoats($player->getId())->first();
     $this->debug_UI();
@@ -264,7 +265,7 @@ trait DebugTrait
   }
   
   //test mastery cards
-  function debugMC(){
+  function debug_MC(){
     $player = Players::getCurrent();
     $typesToTest = [7,8,9];
 
@@ -301,7 +302,7 @@ trait DebugTrait
   }
   
   //test mastery cards 2
-  function debugMC2(){
+  function debug_MC2(){
     $player = Players::getCurrent();
     $typesToTest = [10,11,12];
 
@@ -325,7 +326,7 @@ trait DebugTrait
     $this->gamestate->jumpToState(ST_PLAYER_TURN);
   }
   
-  function debugMerchants(){
+  function debug_Merchants(){
     $player = Players::getCurrent();
     //Globals::setBonuses([]);
     $player->setBonuses([]);
@@ -338,13 +339,14 @@ trait DebugTrait
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
   
-  function debugEmperorVisit(){
+  function debug_EmperorVisit(){
     $player = Players::getCurrent(); 
     $this->runEmperorVisit();
   }
   
   //To be called before Confirming turn
-  function debugTriggerLastTurn(){
+  function debug_TriggerLastTurn(){
+    Globals::setEndPlayer(null);
     $player = Players::getCurrent(); 
     Tiles::moveAllInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1,TILE_LOCATION_DISCARD);
     //Keep 1 card in ERA 2 :
@@ -352,12 +354,15 @@ trait DebugTrait
     Tiles::getTopOf(TILE_LOCATION_DISCARD)->setLocation(TILE_LOCATION_BUILDING_DECK_ERA_2);
     $this->debug_UI();
     //$this->gamestate->jumpToState(ST_CONFIRM_CHOICES);
+
+    //... or mock by testing notif
+    Notifications::triggerLastTurn($player);
   }
   
-  function debugGoToScoring(){
+  function debug_GoToScoring(){
     $this->gamestate->jumpToState(ST_END_SCORING);
   }
-  function debugScoring(){
+  function debug_Scoring(){
     $players = Players::getAll();
     $player = Players::getCurrent(); 
     //$testElderOnRegion = REGION_5;
@@ -368,7 +373,7 @@ trait DebugTrait
     $this->computeFinalScore($players);
   }
 
-  function debugManualScoring(){
+  function debug_ManualScoring(){
     $player = Players::getCurrent(); 
     //With only 4 Koku we should not gain 1 point !
     $money = 4;
@@ -379,7 +384,7 @@ trait DebugTrait
     }
   }
   
-  function debugRefillRow(){
+  function debug_RefillRow(){
     $player = Players::getCurrent();
     Tiles::refillBuildingRow();
     //for testing notif sync, send other notifs:
@@ -389,7 +394,7 @@ trait DebugTrait
   }
 
   //Slide 1,2,3 to 2,3,4
-  function debugSlideRow(){
+  function debug_SlideRow(){
     $player = Players::getCurrent();
     $slidedTiles = [];
     for($k = BUILDING_ROW_END -1; $k>0;$k--){
@@ -408,7 +413,7 @@ trait DebugTrait
     //$this->debug_UI();
   }
 
-  function debugPHP(){
+  function debug_PHP(){
     $keys = array_keys(RESOURCES_LIMIT);
     Notifications::message(json_encode($keys));
     $type = RESOURCE_TYPE_MONEY;
@@ -420,7 +425,7 @@ trait DebugTrait
   }
   
   //Test positive_modulo ?
-  function debugModulo(){
+  function debug_Modulo(){
     $player = Players::getCurrent();
     $nbMoves = $player->getDie();
     $nbDieFaces = count(DIE_FACES);
