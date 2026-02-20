@@ -73,7 +73,6 @@ trait DebugTrait
     Notifications::message("$json",['json' => $json]);
   }
   ////////////////////////////////////////////////////
-  /*
   function debugSetup(){
     $players = self::loadPlayersBasicInfos();
     Cards::DB()->delete()->run();

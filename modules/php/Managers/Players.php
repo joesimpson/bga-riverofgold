@@ -34,7 +34,7 @@ class Players extends \ROG\Helpers\DB_Manager
     $gameInfos = Game::get()->getGameinfos();
     $colors = $gameInfos['player_colors'];
     shuffle($colors);//Shuffle for cases where color matters
-    $query = self::DB()->multipleInsert(['player_id', 'player_color', 'player_canal', 'player_name', 'player_avatar','player_clan','resources']);
+    $query = self::DB()->multipleInsert(['player_id', 'player_color',  'player_name', 'player_clan','resources']);
 
     $values = [];
     $k =0;
@@ -61,7 +61,7 @@ class Players extends \ROG\Helpers\DB_Manager
         RESOURCE_TYPE_MONEY => $initialMoney,
       ];
 
-      $values[] = [$pId, $color, $player['player_canal'], $player['player_name'], $player['player_avatar'],
+      $values[] = [$pId, $color, $player['player_name'], 
         $player_clan,
         json_encode($initialResources),
       ];
