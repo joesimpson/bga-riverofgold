@@ -1641,6 +1641,15 @@ function (dojo, declare) {
                 playersCustomerBonuses += `<td><div id='rog_recap_customers_${player.id}'></div></td>`;
                 playersTotal +=`<td><div id='rog_recap_total_${player.id}'></div></td>`;
             });
+            let customersIcons = ``;
+            Object.values([
+                CUSTOMER_TYPE_ARTISAN, 
+                CUSTOMER_TYPE_ELDER, 
+                CUSTOMER_TYPE_MERCHANT, 
+                CUSTOMER_TYPE_NOBLE
+            ]).forEach((cType) =>{
+                customersIcons += this.formatIcon('customer-'+cType);
+            });
             let html = `<table id="rog_end_score_recap_table">
                     <thead>
                         <th>${_('Score')} <div class='rog_icon_score'></th>
@@ -1657,7 +1666,7 @@ function (dojo, declare) {
                             ${playersDeliveries}
                         </tr>
                         <tr>
-                            <th>${_('Customers bonuses')}</th>
+                            <th>${_('Customers bonuses')}${customersIcons}</th>
                             ${playersCustomerBonuses}
                         </tr>
                         <tr class ='rog_score_total'>
