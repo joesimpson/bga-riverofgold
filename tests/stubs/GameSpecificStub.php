@@ -6,7 +6,7 @@ namespace {
 
     use Bga\GameFramework\Bga;
     use Bga\GameFramework\Notify;
-    use RiverOfGold;
+    //use RiverOfGold;
     use ROG\Core\Globals;
 
 #[\AllowDynamicProperties]
@@ -129,6 +129,49 @@ class GamestateMachineMock extends \Bga\GameFramework\GamestateMachine
     }
     
     
+}
+
+class TestDatas {
+    static int $test_activePlayerId = 1;
+    static array $players = [
+        1 => [
+            'result_associative_index' => 1,
+            'player_id' => 1, 
+            'player_color' => 'ff0000' ,
+            'player_name' => 'Player_NAME_1', 
+            'player_score' => 19, 
+            'die_face' => 1, 
+            'resources' => '[]', 
+            'player_clan' => 1, 
+            'bonuses' => '[]', 
+            'last_turn_played' => false, 
+            'skip_roll_die' => false,
+        ],
+        2 => [
+            'result_associative_index' => 2,
+            'player_id' => 2, 
+            'player_color' => 'ffffff' ,
+            'player_name' => 'Player_NAME_2', 
+            'player_score' => 2, 
+            'die_face' => 3, 
+            'resources' => '[]', 
+            'player_clan' => 2, 
+            'bonuses' => '[]', 
+            'last_turn_played' => false, 
+            'skip_roll_die' => false,
+        ],
+    ];
+    static array $tokens = [
+            
+    ];
+    static array $cards = [
+        1 => ['result_associative_index' => 1,'card_id' => 1, 'card_location' => CARD_LOCATION_HAND, 'card_state' => 0, 'player_id' => 1, 'type' => CARD_ARTISAN_1, 'subtype' => CARD_TYPE_CUSTOMER,],
+        2 => ['result_associative_index' => 2,'card_id' => 2, 'card_location' => CARD_LOCATION_HAND, 'card_state' => 0, 'player_id' => 2, 'type' => CARD_ARTISAN_2, 'subtype' => CARD_TYPE_CUSTOMER,],
+        3 => ['result_associative_index' => 3,'card_id' => 3, 'card_location' => CARD_LOCATION_HAND, 'card_state' => 0, 'player_id' => 2, 'type' => CARD_ARTISAN_3, 'subtype' => CARD_TYPE_CUSTOMER,],
+
+    ];
+    static array $tiles = [
+    ];
 }
 
 }

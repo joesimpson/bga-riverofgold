@@ -4,7 +4,9 @@ declare(strict_types=1);
 
 namespace Bga\GameFramework;
 
+use Bga\GameFramework\Db\Globals;
 use Exception;
+use TestDatas;
 
 class UserException extends \Exception
 {
@@ -36,8 +38,14 @@ class GamestateMachine
     public function nextState(string $transition = ''): void
     {
         switch(GamestateMachine::$test_current_state){
+            //RECODE the states machines by reading diagram from states.inc.php
             case ST_NEXT_TURN: 
-                GamestateMachine::$test_current_state = ST_BEFORE_TURN;
+                switch($transition){
+                    case 'end': GamestateMachine::$test_current_state = ST_END_SCORING;
+                        break;
+                    default: GamestateMachine::$test_current_state = ST_BEFORE_TURN;
+                        break;
+                }
                 break;
             default:
                  break;
@@ -49,13 +57,6 @@ class GamestateMachine
 
 abstract class Table
 {
-    //added for tests
-    static int $test_activePlayerId = 1;
-    static array $test_players = [
-           1 => ['player_id' => 1, 'money' => 87 ,'ships' => 12 ,'player_name' => 'Player_1', 'player_score' => 19, 'contracts' => 1, 'compasses' => 0, 'nbActions' => 0, 'passed' => 0, 'actionPlayed' => 0, 'cardsPlayed' => '[]','result_associative_index' => 1, ],
-           2 => ['player_id' => 2, 'money' => 88 ,'ships' => 15 ,'player_name' => 'Player_2', 'player_score' => 27, 'contracts' => 1, 'compasses' => 0, 'nbActions' => 0, 'passed' => 0, 'actionPlayed' => 0, 'cardsPlayed' => '[]','result_associative_index' => 2, ],
-        ];
-
     public function __construct()
     {
     }
@@ -91,8 +92,8 @@ abstract class Table
 
     public function activeNextPlayer(): int|string
     {
-        static::$test_activePlayerId = 2;
-        return static::$test_activePlayerId;
+        TestDatas::$test_activePlayerId = 2;
+        return TestDatas::$test_activePlayerId;
     }
 
     public function getPlayerAfter(int $playerId): int
@@ -118,17 +119,6 @@ abstract class Table
     public static function getObjectListFromDB(string $sql, bool $bUniqueValue = false): array
     {
         logForTests("getObjectListFromDB: $sql");
-        $tokens = [
-                
-        ];
-        $cards = [
-           1 => ['result_associative_index' => 1,'card_id' => 1, 'card_location' => CARD_LOCATION_HAND, 'card_state' => 0, 'player_id' => 1, 'type' => CARD_ARTISAN_1, 'subtype' => CARD_TYPE_CUSTOMER,],
-           2 => ['result_associative_index' => 2,'card_id' => 2, 'card_location' => CARD_LOCATION_HAND, 'card_state' => 0, 'player_id' => 2, 'type' => CARD_ARTISAN_2, 'subtype' => CARD_TYPE_CUSTOMER,],
-           3 => ['result_associative_index' => 3,'card_id' => 3, 'card_location' => CARD_LOCATION_HAND, 'card_state' => 0, 'player_id' => 2, 'type' => CARD_ARTISAN_3, 'subtype' => CARD_TYPE_CUSTOMER,],
-
-        ];
-        $tiles = [
-        ];
         
         switch($sql){
             case 'SELECT name AS `result_associative_index` , `value` , `name` FROM `my_global_variables`':
@@ -142,50 +132,50 @@ abstract class Table
             case 'SELECT *, player_id AS `result_associative_index` FROM `player` WHERE  `player_id` = 1 LIMIT 1': 
                 logForTests("MOCK select  player one ");
                 return [
-                    Table::$test_players[1],
+                    TestDatas::$players[1],
                     ];
             case "SELECT *, player_id AS `result_associative_index` FROM `player` WHERE  `player_id` = '0' LIMIT 1":
             case 'SELECT *, player_id AS `result_associative_index` FROM `player` WHERE  `player_id` = 2 LIMIT 1': 
                 logForTests("MOCK select  player two ");
                 return [
-                    Table::$test_players[2],
+                    TestDatas::$players[2],
                     ];
             case 'SELECT player_score,player_id FROM `player` WHERE `player_id` = 2':
                 return [
-                    Table::$test_players[2],
+                    TestDatas::$players[2],
                 ];
             case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_id` IN ('1'))":
                 return [
-                    $cards[1],
+                    TestDatas::$cards[1],
                 ];
             case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_id` IN ('2'))":
                 return [
-                    $cards[2],
+                    TestDatas::$cards[2],
                 ];
             case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_id` IN ('3'))":
                 return [
-                    $cards[3],
+                    TestDatas::$cards[3],
                 ];
             case "SELECT player_score,player_id FROM `player` WHERE `player_id` = 1":
             case "SELECT player_id AS `result_associative_index` , `player_score` FROM `player` WHERE `player_id` = 1":
                 return[
-                    Table::$test_players[1],
+                    TestDatas::$players[1],
                 ];
             case "SELECT player_score,player_id FROM `player` WHERE `player_id` = 2":
             case "SELECT player_id AS `result_associative_index` , `player_score` FROM `player` WHERE `player_id` = 2":
                 return[
-                    Table::$test_players[2],
+                    TestDatas::$players[2],
                 ];
             case "SELECT tile_id AS `result_associative_index` , `tile_id` , `tile_location` , `tile_state` , `player_id` , `type` , `subtype` , `tile_start_location` , `tile_row` , `tile_col` FROM `tiles` WHERE (`tile_id` IN ('1'))":
                 return [
-                        $tiles[1],
+                        TestDatas::$tiles[1],
                     ];
         }
         if( str_starts_with( $sql, 'SELECT *, player_id AS `result_associative_index` FROM `player`' )){
             logForTests("MOCK select players");
             return [
-                Table::$test_players[1],
-                Table::$test_players[2],
+                TestDatas::$players[1],
+                TestDatas::$players[2],
             ];
         }
 
@@ -195,7 +185,7 @@ abstract class Table
 
     public function getCurrentPlayerId(bool $bReturnNullIfNotLogged = false): string|int
     {
-        return static::$test_activePlayerId; 
+        return TestDatas::$test_activePlayerId; 
     }
     public function getDoubleKeyCollectionFromDB(string $sql, bool $nullIfEmpty = false): array
     {
@@ -221,7 +211,21 @@ abstract class Table
     }
     public function getActivePlayerId(): string|int
     {
-        return static::$test_activePlayerId; 
+        return TestDatas::$test_activePlayerId; 
+    }
+
+    /**
+     */
+    public function notifyAllPlayers(string $notificationType, string $notificationLog, array $notificationArgs): void
+    {
+        logForTests("notifyAllPlayers: $notificationType, $notificationLog", "NOTIF");
+    }
+
+    /**
+     */
+    public function notifyPlayer(int $playerId, string $notificationType, string $notificationLog, array $notificationArgs): void
+    {
+        logForTests("notifyPlayer: $playerId, $notificationType, $notificationLog", "NOTIF");
     }
 }
  class TableOptions {
@@ -263,10 +267,10 @@ class Bga {
     }
 class Notify {
     public function player(int $playerId, string $notifName, string $message = '', array $args = []): void {
-        logForTests("Notify_player $playerId $notifName : $message, with args ".json_encode($args)."");
+        logForTests("Notify_player $playerId $notifName : $message, with args ".json_encode($args)."", "NOTIF");
     }
     public function all(string $notifName, string $message = '', array $args = []): void {
-        logForTests("Notify_ALL $notifName : $message, with args ".json_encode($args)."");
+        logForTests("Notify_ALL $notifName : $message, with args ".json_encode($args)."", "NOTIF");
     }
     public function __construct(
         $game,

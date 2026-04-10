@@ -3,6 +3,7 @@
 namespace ROG\Core;
 
 use ROG\Managers\Players;
+use ROG\Models\Player;
 
 /*
  * Statistics
@@ -23,7 +24,7 @@ class Stats extends \ROG\Helpers\DB_Manager
   }
 
   /** Setter wrapper  */
-  public static function set($name, $player = null, $value)
+  public static function set(string $name, Player|int|null $player, $value)
   {
     $pId = is_null($player) ? null : (is_int($player) ? $player : $player->getId());
     $setter = "set".ucfirst($name);

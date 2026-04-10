@@ -2,6 +2,7 @@
 namespace ROG\Helpers;
 use ROG\Core\Game;
 
+#[\AllowDynamicProperties]
 abstract class DB_Model implements \JsonSerializable
 {
   protected $table = null;
@@ -148,7 +149,7 @@ abstract class DB_Model implements \JsonSerializable
   /**
    * Return an array of attributes
    */
-  public function jsonSerialize()
+  public function jsonSerialize(): array
   {
     $data = [];
     foreach ($this->attributes as $attribute => $field) {
