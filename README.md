@@ -1,3 +1,6 @@
+
+[![PHP Composer](https://github.com/joesimpson/bga-riverofgold/actions/workflows/php.yml/badge.svg?branch=master&event=push)](https://github.com/joesimpson/bga-riverofgold/actions/workflows/php.yml)
+
 # bga-riverofgold
 Board game adaptation of "River Of Gold" for Board Game Arena website.
 
@@ -45,3 +48,21 @@ So we can easily regenerate the JSON version from PHP version with these steps :
 - send the json file to distant BGA folder via FTP
 - Manage game : reload options (this will use the php options version)
 
+
+# Unit tests
+
+Some unit tests are defined in [tests](/tests) as advised in [BGA Tutorial](https://en.doc.boardgamearena.com/Tutorial_reversi#Optional:_add_unit_tests).
+
+
+Requires : [local php client](https://www.php.net/downloads.php?usage=cli&os=windows&osvariant=windows-downloads&version=8.4) and  [Composer](https://getcomposer.org/download/)
+
+Command : ``` composer update ``` to install with provided file `composer.lock`
+
+Command : 
+```
+vendor/bin/phpunit --colors --display-errors --display-deprecation --bootstrap tests/bootstrap.php '.\tests' --testdox-html testsresults/results.html > testsresults/test.log
+```
+
+
+Test results may be found in local workspace [testsresults](/testsresults/results.html) after running `composer test`.
+Some code coverage may be found in local workspace [dashboard.html](/testsresults/coverage/dashboard.html) after running `composer test:coverage`.
