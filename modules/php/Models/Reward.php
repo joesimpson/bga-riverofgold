@@ -25,7 +25,7 @@ class Reward implements \JsonSerializable
   /**
    * Return an array of attributes
    */
-  public function jsonSerialize()
+  public function jsonSerialize(): array
   {
     $data = [];
     return $data;

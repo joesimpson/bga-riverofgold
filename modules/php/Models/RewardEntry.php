@@ -31,7 +31,7 @@ class RewardEntry implements \JsonSerializable
   /**
    * Return an array of attributes
    */
-  public function jsonSerialize()
+  public function jsonSerialize(): array
   {
     $data = [];
     $data['type'] = $this->type;

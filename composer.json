@@ -13,6 +13,10 @@
       "ROG\\": "modules/php/"
     }
   }
+  
+  ,"config": {
+    "process-timeout": 60
+  }
 
   ,"scripts": {
     "test": "@php vendor/bin/phpunit --colors --display-errors --display-warnings --bootstrap tests/bootstrap.php tests --testdox-html testsresults/results.html",

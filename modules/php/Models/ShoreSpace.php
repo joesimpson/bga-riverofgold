@@ -50,7 +50,7 @@ class ShoreSpace implements \JsonSerializable
   /**
    * Return an array of attributes
    */
-  public function jsonSerialize()
+  public function jsonSerialize() : array
   {
     $data = [];
     foreach ($this->attributes as $attribute) {

@@ -11,6 +11,10 @@ namespace {
         fwrite(STDOUT, print_r("$date - $level : $message\n", TRUE));
     }
 
+    function totranslate(string $text): string
+    {
+        return $text; 
+    }
     function clienttranslate(string $text): string
     {
         return $text; 
@@ -50,4 +54,8 @@ namespace {
             parent::__construct($message);
         }
     }
+function getMyMachineStates(): array{
+    include 'states.inc.php';
+    return $machinestates;
+}
 }

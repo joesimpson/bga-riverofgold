@@ -5,16 +5,16 @@ declare(strict_types=1);
 namespace Tests\Managers;
 
 use GameMock;
-use TestDatas;
 use PHPUnit\Framework\TestCase;
 use ROG\Managers\Players;
 use ROG\Models\Player;
+use Tests\Utils\TestDatas;
 
 final class PlayersTest extends TestCase
 {
     public function test_NextPlayerWithBonusToChoose_SamePlayer(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__);
+        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
         TestDatas::$test_activePlayerId = 1;
         $player_id = TestDatas::$test_activePlayerId;
         $expectedPlayerId = 1;
@@ -31,7 +31,7 @@ final class PlayersTest extends TestCase
     
     public function test_NextPlayerWithBonusToChoose_1(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__);
+        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
         TestDatas::$test_activePlayerId = 1;
         $player_id = TestDatas::$test_activePlayerId;
         $expectedPlayerId = 1;
@@ -47,7 +47,7 @@ final class PlayersTest extends TestCase
 
     public function test_NextPlayerWithBonusToChoose_2(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__);
+        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
         TestDatas::$test_activePlayerId = 1;
         $player_id = TestDatas::$test_activePlayerId;
         $expectedPlayerId = 2;
@@ -64,7 +64,7 @@ final class PlayersTest extends TestCase
     
     public function test_NextPlayerWithBonusToChoose_null(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__);
+        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
         TestDatas::$test_activePlayerId = 1;
         $player_id = TestDatas::$test_activePlayerId;
         TestDatas::$players[1]['bonuses'] = '[]';

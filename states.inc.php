@@ -58,14 +58,15 @@ require_once 'modules/php/constants.inc.php';
         |
         v
         clanSelection
-        |   |
-        |   v
-        |   draft   <------\
-        |   |              |
-        |   v              /
-        |   draftNextPlayer
-        |   |
-        v   v
+        |   |                   |
+        |   |                   v
+        |   v                   draftMulti
+        |   draft   <------\    |
+        |   |              |    |
+        |   v              /    |
+        |   draftNextPlayer     |
+        |   |                   | 
+        v   v                   v 
         playerSetup
                 |
                 v
