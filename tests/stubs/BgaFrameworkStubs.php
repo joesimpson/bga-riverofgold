@@ -227,6 +227,9 @@ abstract class Table
                 $draft = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'clans_draft';});
                 logForTests("MOCK draft ".json_encode($draft));
                 return count($draft) > 0 ? [ $draft[array_keys($draft)[0]], ] : [];
+            case "SELECT *, card_id AS `result_associative_index` FROM `cards` WHERE `player_id` = 1 AND `card_location` = 'clans_assigned'":
+                $assigned = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'clans_assigned' && $card['player_id'] == 1;});
+                return $assigned;
             case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_location` = 'deck') ORDER BY card_state DESC LIMIT 2":
                 $filtered = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'deck';});
                 logForTests("MOCK deck ".json_encode($filtered));
@@ -340,7 +343,19 @@ abstract class Table
     }
     public static function DbQuery(string $sql): null|\mysqli_result|bool
     {
-        logForTests("DbQuery: $sql");
+        logForTests('DbQuery: ['.$sql.']');
+        switch($sql){
+            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":10}' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":10}";
+                return true;
+            case "UPDATE `player` SET `skip_roll_die` = '0' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['skip_roll_die'] = 0;
+                return true;
+            case "UPDATE `player` SET `skip_roll_die` = '1' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['skip_roll_die'] = 1;
+                return true;
+        }
+        logForTests("DbQuery --- nothing done");
         return null;
     }
     public function getNextPlayerTable(): array

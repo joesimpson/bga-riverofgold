@@ -42,10 +42,60 @@ final class SetupTest extends TestCase
         logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        TestDatas::$test_activePlayerId = 1;
+        TestDatas::$players[1]['skip_roll_die'] = 0;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0}';
+        TestDatas::$cards[101]['player_id'] = 1;
+        TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+
+        $game->stPlayerSetup();
+
+        assertSame(ST_NEXT_TURN, GamestateMachine::$test_current_state);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(10, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(0, TestDatas::$players[1]['skip_roll_die']);
+    }
+
+    public function testEnteringState_PlayerSetup_PatronDarling(): void
+    {
+        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        TestDatas::$test_activePlayerId = 1;
+        TestDatas::$players[1]['skip_roll_die'] = 0;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0}';
+        TestDatas::$cards[101]['player_id'] = 1;
+        TestDatas::$cards[101]['type'] = PATRON_DARLING;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
 
         $game->stPlayerSetup();
         
         assertSame(ST_NEXT_TURN, GamestateMachine::$test_current_state);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        
+        //false because of rollDie()
+        assertSame(0, TestDatas::$players[1]['skip_roll_die']);
+    }
+    public function testEnteringState_PlayerSetup_PatronSonOfStorm(): void
+    {
+        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        TestDatas::$test_activePlayerId = 1;
+        TestDatas::$players[1]['skip_roll_die'] = 0;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0}';
+        TestDatas::$cards[101]['player_id'] = 1;
+        TestDatas::$cards[101]['type'] = PATRON_SON_OF_STORM;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+
+        $game->stPlayerSetup();
+        
+        assertSame(ST_NEXT_TURN, GamestateMachine::$test_current_state);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(0, TestDatas::$players[1]['skip_roll_die']);
     }
     // ----------------------------------------------------------------------
     
