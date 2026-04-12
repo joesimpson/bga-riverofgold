@@ -54,6 +54,7 @@ final class BeforeTurnTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BEFORE_TURN;
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '[]';
+        Globals::setChoices(0);
         $expectedArgs = [
             'p' => [],
             'previousSteps' => [],

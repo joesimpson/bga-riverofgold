@@ -8,6 +8,7 @@ namespace {
     use Bga\GameFramework\Notify;
     //use RiverOfGold;
     use ROG\Core\Globals;
+    use Tests\Utils\TestDatas;
 
 #[\AllowDynamicProperties]
 class GameMock extends RiverOfGold {
@@ -21,6 +22,9 @@ class GameMock extends RiverOfGold {
         $this->player_preferences =[];
         //DB_Manager::startLog();
         Globals::fetch();
+        
+        TestDatas::$test_activePlayerId = 1;
+        Globals::setTurnPlayer(TestDatas::$test_activePlayerId);
     }
 
     public function getStatTypes(){

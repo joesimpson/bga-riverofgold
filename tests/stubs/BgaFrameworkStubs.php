@@ -237,6 +237,13 @@ abstract class Table
             case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_location` = 'deck')":
                 $filtered = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'deck';});
                 return $filtered;
+            case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_location` = 'h')":
+                $filtered = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'h';});
+                return $filtered;
+            case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE `player_id` = 1 AND (`card_location` = 'h')":
+                $filtered = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'h' && $card['player_id'] == 1;});
+                return $filtered;
+
             case "SELECT player_score,player_id FROM `player` WHERE `player_id` = 1":
             case "SELECT player_id AS `result_associative_index` , `player_score` FROM `player` WHERE `player_id` = 1":
                 return[

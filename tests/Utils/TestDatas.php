@@ -57,7 +57,7 @@ class TestDatas {
 
         11 => ['result_associative_index' => 11,'card_id' => 11, 'card_location' => CARD_LOCATION_HAND, 'card_state' => 0, 'player_id' => 1, 'type' => CARD_ARTISAN_1, 'subtype' => CARD_TYPE_CUSTOMER,],
         12 => ['result_associative_index' => 12,'card_id' => 12, 'card_location' => CARD_LOCATION_HAND, 'card_state' => 0, 'player_id' => 2, 'type' => CARD_ARTISAN_2, 'subtype' => CARD_TYPE_CUSTOMER,],
-        13 => ['result_associative_index' => 13,'card_id' => 13, 'card_location' => CARD_LOCATION_HAND, 'card_state' => 0, 'player_id' => 2, 'type' => CARD_ARTISAN_3, 'subtype' => CARD_TYPE_CUSTOMER,],
+        13 => ['result_associative_index' => 13,'card_id' => 13, 'card_location' => CARD_LOCATION_HAND, 'card_state' => 0, 'player_id' => 1, 'type' => CARD_ARTISAN_3, 'subtype' => CARD_TYPE_CUSTOMER,],
         
         101 => ['result_associative_index' => 101,'card_id' => 101, 'card_location' => CARD_CLAN_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => 1, 'type' => PATRON_MASTER_ENGINEER, 'subtype' => CARD_TYPE_CLAN_PATRON,],
         102 => ['result_associative_index' => 102,'card_id' => 102, 'card_location' => CARD_CLAN_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => 1, 'type' => PATRON_TRADER, 'subtype' => CARD_TYPE_CLAN_PATRON,],
