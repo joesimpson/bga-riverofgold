@@ -19,7 +19,7 @@ final class TradeTest extends TestCase
     // -------------------------------------------------
     public function test_Args(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         TestDatas::$test_activePlayerId = 1;
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
@@ -44,7 +44,7 @@ final class TradeTest extends TestCase
  
     public function test_ActionTradeSelect_Pass_Silk_Pottery(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         Globals::setStateBeforeTrade(ST_PLAYER_TURN);
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
@@ -59,7 +59,7 @@ final class TradeTest extends TestCase
     
     public function test_ActionTradeSelect_Pass_Rice_Pottery(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         Globals::setStateBeforeTrade(ST_PLAYER_TURN);
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
@@ -74,7 +74,7 @@ final class TradeTest extends TestCase
     
     public function test_ActionTradeSelect_Pass_Money_Favor(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         Globals::setStateBeforeTrade(ST_PLAYER_TURN);
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
@@ -89,7 +89,7 @@ final class TradeTest extends TestCase
 
     public function test_ActionTradeSelect_Pass_PreviousStateBonus(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         Globals::setStateBeforeTrade(ST_BONUS_CHOICE);
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
@@ -104,7 +104,7 @@ final class TradeTest extends TestCase
 
     public function test_ActionTradeSelect_Pass_PreviousStateConfirm(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         Globals::setStateBeforeTrade(ST_CONFIRM_TURN);
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
@@ -119,7 +119,7 @@ final class TradeTest extends TestCase
     
     public function test_ActionTradeSelect_KO_Money_FavorMax(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":5,"6":5}';
@@ -132,7 +132,7 @@ final class TradeTest extends TestCase
     }
     public function test_ActionTradeSelect_KO_Money_Pottery(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
@@ -145,7 +145,7 @@ final class TradeTest extends TestCase
     }
     public function test_ActionTradeSelect_KO_Money_Silk(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
@@ -158,7 +158,7 @@ final class TradeTest extends TestCase
     }
     public function test_ActionTradeSelect_KO_Money_Rice(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
@@ -172,7 +172,7 @@ final class TradeTest extends TestCase
     
     public function test_ActionTradeSelect_KO_Favor_Money(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":5,"6":0}';
@@ -185,7 +185,7 @@ final class TradeTest extends TestCase
     }
     public function test_ActionTradeSelect_KO_Moon_Favor(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":5,"6":0}';
@@ -199,7 +199,7 @@ final class TradeTest extends TestCase
     
     public function test_ActionTradeSelect_KO_Silk_Silk(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
@@ -212,7 +212,7 @@ final class TradeTest extends TestCase
     }
     public function test_ActionTradeSelect_KO_Money_Money(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":5}';

@@ -11,6 +11,15 @@ namespace {
         fwrite(STDOUT, print_r("$date - $level : $message\n", TRUE));
     }
 
+    /**
+     * to be used at the start of each test for better readability of test logs
+     */
+    function logTestRun(string $message){
+        logForTests('------------------------------------------------------------------','-----');
+        logForTests($message, 'TEST_RUN');
+        logForTests('------------------------------------------------------------------','-----');
+    }
+
     function totranslate(string $text): string
     {
         return $text; 

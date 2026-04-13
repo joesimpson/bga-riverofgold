@@ -19,7 +19,7 @@ final class BeforeTurnTest extends TestCase
 
     public function testEnteringState_noAction(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BEFORE_TURN;
         TestDatas::$test_activePlayerId = 1;
@@ -33,7 +33,7 @@ final class BeforeTurnTest extends TestCase
     
     public function testEnteringState_PatronDarling(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BEFORE_TURN;
         Globals::setTurn(1);
@@ -50,7 +50,7 @@ final class BeforeTurnTest extends TestCase
     
     public function test_Args(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BEFORE_TURN;
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '[]';
@@ -68,7 +68,7 @@ final class BeforeTurnTest extends TestCase
     
     public function test_ActionSkip(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
 
         GamestateMachine::$test_current_state = ST_BEFORE_TURN;
@@ -80,7 +80,7 @@ final class BeforeTurnTest extends TestCase
     
     public function test_listPossibleDieFacesToSet(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BEFORE_TURN;
         TestDatas::$players[1]['resources'] = json_encode([5=>2]);

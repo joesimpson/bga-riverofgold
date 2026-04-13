@@ -16,7 +16,7 @@ final class ConfirmChoicesTest extends TestCase
  
     public function testEnteringState(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_CONFIRM_CHOICES;
 

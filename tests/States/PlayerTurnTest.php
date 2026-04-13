@@ -19,7 +19,7 @@ final class PlayerTurnTest extends TestCase
     // -------------------------------------------------
     public function test_Args_OnlySail(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
         TestDatas::$test_activePlayerId = 1;
@@ -42,7 +42,7 @@ final class PlayerTurnTest extends TestCase
     
     public function test_Args_SpendFavor(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
         TestDatas::$test_activePlayerId = 1;
@@ -66,7 +66,7 @@ final class PlayerTurnTest extends TestCase
     
     public function test_Args_Trade(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
         TestDatas::$test_activePlayerId = 1;
@@ -90,7 +90,7 @@ final class PlayerTurnTest extends TestCase
 
     public function test_Args_Build(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
         TestDatas::$test_activePlayerId = 1;
@@ -114,7 +114,7 @@ final class PlayerTurnTest extends TestCase
 
     public function test_Args_Deliver(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
         TestDatas::$test_activePlayerId = 1;
@@ -143,7 +143,7 @@ final class PlayerTurnTest extends TestCase
  
     public function test_ActionSpendFavor(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
 
@@ -157,7 +157,7 @@ final class PlayerTurnTest extends TestCase
  
     public function test_ActionTrade(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
 
@@ -170,7 +170,7 @@ final class PlayerTurnTest extends TestCase
  
     public function test_ActionBuild(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
 
@@ -183,7 +183,7 @@ final class PlayerTurnTest extends TestCase
  
     public function test_ActionSail(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
 
@@ -196,7 +196,7 @@ final class PlayerTurnTest extends TestCase
  
     public function test_ActionDeliver(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
 
@@ -210,7 +210,7 @@ final class PlayerTurnTest extends TestCase
  
     public function test_goToBonusStepIfNeeded_False(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
         TestDatas::$players[1]['bonuses'] = '[]';
@@ -223,7 +223,7 @@ final class PlayerTurnTest extends TestCase
     }
     public function test_goToBonusStepIfNeeded_True(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
         TestDatas::$players[1]['bonuses'] = json_encode([BONUS_TYPE_CHOICE]);
@@ -237,7 +237,7 @@ final class PlayerTurnTest extends TestCase
     
     public function test_goToBonusStepIfNeeded_TrueChangePlayer(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
         TestDatas::$players[1]['bonuses'] = json_encode([BONUS_TYPE_CHOICE]);

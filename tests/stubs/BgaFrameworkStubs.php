@@ -254,7 +254,7 @@ abstract class Table
                 return[
                     TestDatas::$players[2],
                 ];
-            case "SELECT tile_id AS `result_associative_index` , `tile_id` , `tile_location` , `tile_state` , `type` , `subtype`  FROM `tiles` WHERE (`tile_id` IN ('1'))":
+            case "SELECT tile_id AS `result_associative_index` , `tile_id` , `tile_location` , `tile_state` , `type` , `subtype` FROM `tiles` WHERE (`tile_id` IN ('1'))":
                 return [
                         TestDatas::$tiles[1],
                     ];
@@ -286,11 +286,49 @@ abstract class Table
                         TestDatas::$tiles[25],
                         TestDatas::$tiles[26],
                     ];
-            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('1'))":
+            case "SELECT tile_id AS `result_associative_index` , `tile_id` , `tile_location` , `tile_state` , `type` , `subtype` FROM `tiles` WHERE (`tile_id` IN ('31'))":
                 return [
-                        TestDatas::$tokens[1],
+                        TestDatas::$tiles[31],
                     ];
-
+            case "SELECT tile_id AS `result_associative_index` , `tile_id` , `tile_location` , `tile_state` , `type` , `subtype` FROM `tiles` WHERE (`tile_id` IN ('32'))":
+                return [
+                        TestDatas::$tiles[32],
+                    ];
+            case "SELECT tile_id AS `result_associative_index` , `tile_id` , `tile_location` , `tile_state` , `type` , `subtype` FROM `tiles` WHERE (`tile_id` IN ('33'))":
+                return [
+                        TestDatas::$tiles[33],
+                    ];
+            case "SELECT tile_id AS `result_associative_index` , `tile_id` , `tile_location` , `tile_state` , `type` , `subtype` FROM `tiles` WHERE (`tile_id` IN ('34'))":
+                return [
+                        TestDatas::$tiles[34],
+                    ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('1'))": return [ TestDatas::$tokens[1], ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('2'))": return [ TestDatas::$tokens[2], ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('3'))": return [ TestDatas::$tokens[3], ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('4'))": return [ TestDatas::$tokens[4], ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('5'))": return [ TestDatas::$tokens[5], ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('6'))": return [ TestDatas::$tokens[6], ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('11'))": return [ TestDatas::$tokens[11], ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('12'))": return [ TestDatas::$tokens[12], ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('13'))": return [ TestDatas::$tokens[13], ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('14'))": return [ TestDatas::$tokens[14], ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('15'))": return [ TestDatas::$tokens[15], ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE (`meeple_id` IN ('16'))": return [ TestDatas::$tokens[16], ];
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE `player_id` = 1 AND (`meeple_location` = 'i-1')":
+                $filtered = array_filter(TestDatas::$tokens,function ($token) {return $token['meeple_location'] == 'i-1' && $token['player_id'] == 1;});
+                return $filtered;
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE `player_id` = 1 AND (`meeple_location` = 'i-6')":
+                $filtered = array_filter(TestDatas::$tokens,function ($token) {return $token['meeple_location'] == 'i-6' && $token['player_id'] == 1;});
+                return $filtered;
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE `player_id` = 1 AND (`meeple_location` = 'artisan-1')":
+                $filtered = array_filter(TestDatas::$tokens,function ($token) {return $token['meeple_location'] == 'artisan-1' && $token['player_id'] == 1;});
+                return $filtered;
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE `player_id` = 2 AND (`meeple_location` = 'i-1')":
+                $filtered = array_filter(TestDatas::$tokens,function ($token) {return $token['meeple_location'] == 'i-1' && $token['player_id'] == 2;});
+                return $filtered;
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE `player_id` = 2 AND (`meeple_location` = 'artisan-1')":
+                $filtered = array_filter(TestDatas::$tokens,function ($token) {return $token['meeple_location'] == 'artisan-1' && $token['player_id'] == 2;});
+                return $filtered;
         }
         if( str_starts_with( $sql, 'SELECT *, player_id AS `result_associative_index` FROM `player`' )){
             logForTests("MOCK select players");
@@ -352,14 +390,29 @@ abstract class Table
     {
         logForTests('DbQuery: ['.$sql.']');
         switch($sql){
+            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":1}' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":1}";
+                return true;
             case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":10}' WHERE  `player_id` = 1":
                 TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":10}";
+                return true;
+            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":4,\\\"5\\\":0,\\\"6\\\":14}' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":4,\"5\":0,\"6\":14}";
+                return true;
+            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":4,\\\"5\\\":1,\\\"6\\\":14}' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":4,\"5\":1,\"6\":14}";
                 return true;
             case "UPDATE `player` SET `skip_roll_die` = '0' WHERE  `player_id` = 1":
                 TestDatas::$players[1]['skip_roll_die'] = 0;
                 return true;
             case "UPDATE `player` SET `skip_roll_die` = '1' WHERE  `player_id` = 1":
                 TestDatas::$players[1]['skip_roll_die'] = 1;
+                return true;
+            case "UPDATE `player` SET `player_score` = `player_score` + 1 WHERE `player_id` = 1":
+                TestDatas::$players[1]['player_score']++;
+                return true;
+            case "UPDATE `player` SET `bonuses` = '[35]' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['bonuses'] = '[35]';
                 return true;
         }
         logForTests("DbQuery --- nothing done");

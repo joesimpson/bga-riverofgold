@@ -18,7 +18,7 @@ final class SetupTest extends TestCase
     // ----------------------------------------------------------------------
     public function test_setupNewGame(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_GAME_SETUP;
         $playersDatas = [
@@ -39,7 +39,7 @@ final class SetupTest extends TestCase
     // ----------------------------------------------------------------------
     public function testEnteringState_PlayerSetup(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
         TestDatas::$test_activePlayerId = 1;
@@ -59,7 +59,7 @@ final class SetupTest extends TestCase
 
     public function testEnteringState_PlayerSetup_PatronDarling(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
         TestDatas::$test_activePlayerId = 1;
@@ -80,7 +80,7 @@ final class SetupTest extends TestCase
     }
     public function testEnteringState_PlayerSetup_PatronSonOfStorm(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
         TestDatas::$test_activePlayerId = 1;

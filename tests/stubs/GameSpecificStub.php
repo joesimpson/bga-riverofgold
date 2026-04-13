@@ -22,6 +22,11 @@ class GameMock extends RiverOfGold {
         $this->player_preferences =[];
         //DB_Manager::startLog();
         Globals::fetch();
+
+        TestDatas::resetPlayers();
+        TestDatas::resetCards();
+        TestDatas::resetTiles();
+        TestDatas::resetTokens();
         
         TestDatas::$test_activePlayerId = 1;
         Globals::setTurnPlayer(TestDatas::$test_activePlayerId);

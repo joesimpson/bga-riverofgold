@@ -16,7 +16,7 @@ final class ClanSelectionTest extends TestCase
 
     public function testEnteringState_baseGame(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
 
         GamestateMachine::$test_current_state = ST_CLAN_SELECTION;
@@ -29,7 +29,7 @@ final class ClanSelectionTest extends TestCase
     
     public function testEnteringState_ClanDraft(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
 
         GamestateMachine::$test_current_state = ST_CLAN_SELECTION;
@@ -41,7 +41,7 @@ final class ClanSelectionTest extends TestCase
       
     public function testEnteringState_ClanDraftAlternative(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
 
         GamestateMachine::$test_current_state = ST_CLAN_SELECTION;

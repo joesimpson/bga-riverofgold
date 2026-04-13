@@ -17,7 +17,7 @@ final class NextTurnTest extends TestCase
 
     public function testEnteringState_turn1(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         Globals::setTurn(0);
         TestDatas::$players[1]['last_turn_played'] = false;
@@ -31,7 +31,7 @@ final class NextTurnTest extends TestCase
      
     public function testEnteringState_turn2(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         Globals::setTurn(1);
         TestDatas::$players[1]['last_turn_played'] = false;
@@ -45,7 +45,7 @@ final class NextTurnTest extends TestCase
     
     public function testEnteringState_turnLast(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         Globals::setTurn(123456789);//just for visibility, doesn't affect last turn
         TestDatas::$players[1]['last_turn_played'] = true;

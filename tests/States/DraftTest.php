@@ -22,7 +22,7 @@ final class DraftTest extends TestCase
 
     public function testArgs_Draft(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         TestDatas::$test_activePlayerId = 1;
         TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
@@ -88,7 +88,7 @@ final class DraftTest extends TestCase
     // ----------------------------------------------------------------------
     public function testEnteringState_Draft_GoToNextPlayer(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
         TestDatas::$cards[102]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
@@ -104,7 +104,7 @@ final class DraftTest extends TestCase
     
     public function testEnteringState_Draft_end(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
         TestDatas::$cards[102]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
@@ -120,7 +120,7 @@ final class DraftTest extends TestCase
 
     public function testEnteringState_Draft_autoAssignLastCard(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
         TestDatas::$cards[102]['card_location'] = CARD_CLAN_LOCATION_DISCARD;
@@ -138,7 +138,7 @@ final class DraftTest extends TestCase
     // ----------------------------------------------------------------------
     public function test_actTakeCard_KO_card_doesnotexist(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         $cardId = 99999;
         GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
@@ -149,7 +149,7 @@ final class DraftTest extends TestCase
     }
     public function test_actTakeCard_KO_card_notselectable(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         $cardId = 101;
         TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
@@ -163,7 +163,7 @@ final class DraftTest extends TestCase
     
     public function test_actTakeCard_KO_selectableForOtherPlayer(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         TestDatas::$test_activePlayerId = 2;
         $cardId = 101;
@@ -178,7 +178,7 @@ final class DraftTest extends TestCase
 
     public function test_actTakeCard_Pass(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         TestDatas::$test_activePlayerId = 1;
         $cardId = 101;
@@ -192,7 +192,7 @@ final class DraftTest extends TestCase
     
     public function test_actTakeCard_Pass_Multi(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         TestDatas::$test_activePlayerId = 1;
         $cardId = 101;
@@ -208,7 +208,7 @@ final class DraftTest extends TestCase
 
     public function testArgs_DraftMulti(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
@@ -283,7 +283,7 @@ final class DraftTest extends TestCase
 
     public function testEnteringState_DraftMulti(): void
     {
-        logForTests(__CLASS__.".".__FUNCTION__, 'TEST_RUN');
+        logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
 
         GamestateMachine::$test_current_state = ST_DRAFT_PLAYER_MULTIACTIVE;
