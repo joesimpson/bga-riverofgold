@@ -408,6 +408,9 @@ abstract class Table
             case "UPDATE `player` SET `skip_roll_die` = '1' WHERE  `player_id` = 1":
                 TestDatas::$players[1]['skip_roll_die'] = 1;
                 return true;
+            case "UPDATE `player` SET `die_face` = '2' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['die_face'] = 2;
+                return true;
             case "UPDATE `player` SET `player_score` = `player_score` + 1 WHERE `player_id` = 1":
                 TestDatas::$players[1]['player_score']++;
                 return true;
