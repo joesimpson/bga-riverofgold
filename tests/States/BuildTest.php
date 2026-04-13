@@ -149,6 +149,14 @@ final class BuildTest extends TestCase
         //Test spend money to build :
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
         assertSame(14, $resources[RESOURCE_TYPE_MONEY]);
+        //Test built Tile :
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[$tileId]['tile_location']);
+        assertSame($position, TestDatas::$tiles[$tileId]['tile_state']);
+        //Test new clan marker
+        assertSame(TestDatas::$tokens[999], ['result_associative_index' => 999, 'meeple_id' => 999, 'meeple_state' => $position, 'meeple_location'=> "tile-$tileId",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1, ] );
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsBuild']);
+        //Test gained influence :
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);
     }
     
     public function test_actBuildSelect_Pass_RowEnd(): void
@@ -168,6 +176,17 @@ final class BuildTest extends TestCase
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
         assertSame(BUILDING_ROW_END_FAVOR, $resources[RESOURCE_TYPE_SUN]);
+        //Test spend money to build :
+        $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
+        assertSame(14, $resources[RESOURCE_TYPE_MONEY]);
+        //Test built Tile :
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[$tileId]['tile_location']);
+        assertSame($position, TestDatas::$tiles[$tileId]['tile_state']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsBuild']);
+        //Test new clan marker
+        assertSame(TestDatas::$tokens[999], ['result_associative_index' => 999, 'meeple_id' => 999, 'meeple_state' => $position, 'meeple_location'=> "tile-$tileId",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1, ] );
+        //Test gained influence :
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);
     }
     
     public function test_actBuildSelect_Pass_MasterEngineer(): void

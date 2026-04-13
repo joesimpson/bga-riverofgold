@@ -55,6 +55,10 @@ final class TradeTest extends TestCase
         $game->actTradeSelect($typeSrc,$typeDest);
         
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+        $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(2, $resources[RESOURCE_TYPE_RICE]);
     }
     
     public function test_ActionTradeSelect_Pass_Rice_Pottery(): void
@@ -70,6 +74,13 @@ final class TradeTest extends TestCase
         $game->actTradeSelect($typeSrc,$typeDest);
         
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+        $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
+        assertSame(3, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(0, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
     }
     
     public function test_ActionTradeSelect_Pass_Money_Favor(): void
@@ -85,6 +96,13 @@ final class TradeTest extends TestCase
         $game->actTradeSelect($typeSrc,$typeDest);
         
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+        $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(5, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
     }
 
     public function test_ActionTradeSelect_Pass_PreviousStateBonus(): void

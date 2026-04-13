@@ -402,6 +402,24 @@ abstract class Table
             case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":4,\\\"5\\\":1,\\\"6\\\":14}' WHERE  `player_id` = 1":
                 TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":4,\"5\":1,\"6\":14}";
                 return true;
+            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":0}' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":2,\"4\":0,\"5\":0,\"6\":0}";
+                return true;
+            case "UPDATE `player` SET `resources` = '{\\\"1\\\":1,\\\"2\\\":1,\\\"3\\\":2,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":0}' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['resources'] = "{\"1\":1,\"2\":1,\"3\":2,\"4\":0,\"5\":0,\"6\":0}";
+                return true;
+            case "UPDATE `player` SET `resources` = '{\\\"1\\\":3,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":0}' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['resources'] = "{\"1\":3,\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":0}";
+                return true;
+            case "UPDATE `player` SET `resources` = '{\\\"1\\\":3,\\\"2\\\":1,\\\"3\\\":0,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":0}' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['resources'] = "{\"1\":3,\"2\":1,\"3\":0,\"4\":0,\"5\":0,\"6\":0}";
+                return true;
+            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":5,\\\"5\\\":0,\\\"6\\\":0}' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":5,\"5\":0,\"6\":0}";
+                return true;
+            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":5,\\\"5\\\":1,\\\"6\\\":0}' WHERE  `player_id` = 1":
+                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":5,\"5\":1,\"6\":0}";
+                return true;
             case "UPDATE `player` SET `skip_roll_die` = '0' WHERE  `player_id` = 1":
                 TestDatas::$players[1]['skip_roll_die'] = 0;
                 return true;
@@ -417,6 +435,32 @@ abstract class Table
             case "UPDATE `player` SET `bonuses` = '[35]' WHERE  `player_id` = 1":
                 TestDatas::$players[1]['bonuses'] = '[35]';
                 return true;
+
+            case "UPDATE `meeples` SET `meeple_state` = '1' WHERE  `meeple_id` = 1":
+                TestDatas::$tokens[1]['meeple_state'] = 1;
+                return true;
+            case "INSERT INTO `meeples` (`meeple_location`, `meeple_state`, `type`, `player_id`) VALUES('tile-31','1','2','1')":
+                TestDatas::$tokens[999] = ['result_associative_index' => 999, 'meeple_id' => 999, 'meeple_state' => 1, 'meeple_location'=> 'tile-31','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1, ];
+                return true;
+            case "INSERT INTO `meeples` (`meeple_location`, `meeple_state`, `type`, `player_id`) VALUES('tile-34','1','2','1')":
+                TestDatas::$tokens[999] = ['result_associative_index' => 999, 'meeple_id' => 999, 'meeple_state' => 1, 'meeple_location'=> 'tile-34','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1, ];
+                return true;
+
+
+            case "UPDATE `tiles` SET `tile_location` = 'sh' WHERE  `tile_id` = 31":
+                TestDatas::$tiles[31]['tile_location'] = 'sh';
+                return true;
+            case "UPDATE `tiles` SET `tile_location` = 'sh' WHERE  `tile_id` = 34":
+                TestDatas::$tiles[34]['tile_location'] = 'sh';
+                return true;
+            case "UPDATE `tiles` SET `tile_state` = '1' WHERE  `tile_id` = 34":
+                TestDatas::$tiles[34]['tile_state'] = 1;
+                return true;
+
+            case "UPDATE `stats` SET `stats_value` = `stats_value` + 1 WHERE `stats_type` = 20 AND `stats_player_id` = 1":
+                TestDatas::$stats[1]['nbActionsBuild']++;
+                return true;
+
         }
         logForTests("DbQuery --- nothing done");
         return null;

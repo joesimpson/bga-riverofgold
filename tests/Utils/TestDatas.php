@@ -116,4 +116,16 @@ class TestDatas {
             106 => ['result_associative_index' => 106,'tile_id' => 106, 'tile_location' => TILE_LOCATION_BUILDING_DECK_ERA_2, 'tile_state' => 0,  'type' => 16, 'subtype' => TILE_TYPE_BUILDING, ],
         ];
     }
+    
+    static array $stats = [];
+    public static function resetStats(){
+        TestDatas::$stats = [
+            1 => [
+                'nbActionsBuild' => 0,
+            ],
+            2 => [
+                'nbActionsBuild' => 0,
+            ],
+        ];
+    }
 }
