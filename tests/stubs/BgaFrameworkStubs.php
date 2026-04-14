@@ -141,6 +141,13 @@ abstract class Table
             case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'clans_assigned')":
                 return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'clans_assigned';}));
         }
+        if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND \`card_location` = '(?P<card_location>.*)'\ AND \(`type` IN \((?P<types>.*)\)\)$/", $sql, $matches) == 1) {
+            $types = explode(',', str_replace("'","",$matches['types']) );
+            $count = count(array_filter(TestDatas::$cards,function ($card) use($matches, $types ) {return $card['card_location'] == $matches['card_location'] && $card['player_id'] == $matches['player_id'] && in_array($card['type'], $types );}));
+            logForTests("getUniqueValueFromDb: count is $count for ".json_encode($types));
+            return $count;
+        }
+        logForTests("getUniqueValueFromDb: /?\ ");
         return null;
     }
 
@@ -187,10 +194,11 @@ abstract class Table
                 return [
                     TestDatas::$cards[2],
                 ];
-            case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_id` IN ('3'))":
-                return [
-                    TestDatas::$cards[3],
-                ];
+            case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_id` IN ('3'))": return [ TestDatas::$cards[3], ];
+            case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_id` IN ('11'))": return [ TestDatas::$cards[11], ];
+            case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_id` IN ('12'))": return [ TestDatas::$cards[12], ];
+            case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_id` IN ('13'))": return [ TestDatas::$cards[13], ];
+                
             case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_id` IN ('101'))":
                 return [
                     TestDatas::$cards[101],
@@ -317,6 +325,9 @@ abstract class Table
             case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE `player_id` = 1 AND (`meeple_location` = 'i-1')":
                 $filtered = array_filter(TestDatas::$tokens,function ($token) {return $token['meeple_location'] == 'i-1' && $token['player_id'] == 1;});
                 return $filtered;
+            case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE `player_id` = 1 AND (`meeple_location` = 'i-3')":
+                $filtered = array_filter(TestDatas::$tokens,function ($token) {return $token['meeple_location'] == 'i-3' && $token['player_id'] == 1;});
+                return $filtered;
             case "SELECT meeple_id AS `result_associative_index` , `meeple_id` , `meeple_location` , `meeple_state` , `type` , `player_id` FROM `meeples` WHERE `player_id` = 1 AND (`meeple_location` = 'i-6')":
                 $filtered = array_filter(TestDatas::$tokens,function ($token) {return $token['meeple_location'] == 'i-6' && $token['player_id'] == 1;});
                 return $filtered;
@@ -390,55 +401,6 @@ abstract class Table
     {
         logForTests('DbQuery: ['.$sql.']');
         switch($sql){
-            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":1}' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":1}";
-                return true;
-            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":10}' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":10}";
-                return true;
-            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":4,\\\"5\\\":0,\\\"6\\\":14}' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":4,\"5\":0,\"6\":14}";
-                return true;
-            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":4,\\\"5\\\":1,\\\"6\\\":14}' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":4,\"5\":1,\"6\":14}";
-                return true;
-            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":0}' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":2,\"4\":0,\"5\":0,\"6\":0}";
-                return true;
-            case "UPDATE `player` SET `resources` = '{\\\"1\\\":1,\\\"2\\\":1,\\\"3\\\":2,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":0}' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['resources'] = "{\"1\":1,\"2\":1,\"3\":2,\"4\":0,\"5\":0,\"6\":0}";
-                return true;
-            case "UPDATE `player` SET `resources` = '{\\\"1\\\":3,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":0}' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['resources'] = "{\"1\":3,\"2\":0,\"3\":0,\"4\":0,\"5\":0,\"6\":0}";
-                return true;
-            case "UPDATE `player` SET `resources` = '{\\\"1\\\":3,\\\"2\\\":1,\\\"3\\\":0,\\\"4\\\":0,\\\"5\\\":0,\\\"6\\\":0}' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['resources'] = "{\"1\":3,\"2\":1,\"3\":0,\"4\":0,\"5\":0,\"6\":0}";
-                return true;
-            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":5,\\\"5\\\":0,\\\"6\\\":0}' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":5,\"5\":0,\"6\":0}";
-                return true;
-            case "UPDATE `player` SET `resources` = '{\\\"1\\\":0,\\\"2\\\":0,\\\"3\\\":0,\\\"4\\\":5,\\\"5\\\":1,\\\"6\\\":0}' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['resources'] = "{\"1\":0,\"2\":0,\"3\":0,\"4\":5,\"5\":1,\"6\":0}";
-                return true;
-            case "UPDATE `player` SET `skip_roll_die` = '0' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['skip_roll_die'] = 0;
-                return true;
-            case "UPDATE `player` SET `skip_roll_die` = '1' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['skip_roll_die'] = 1;
-                return true;
-            case "UPDATE `player` SET `die_face` = '2' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['die_face'] = 2;
-                return true;
-            case "UPDATE `player` SET `player_score` = `player_score` + 1 WHERE `player_id` = 1":
-                TestDatas::$players[1]['player_score']++;
-                return true;
-            case "UPDATE `player` SET `bonuses` = '[35]' WHERE  `player_id` = 1":
-                TestDatas::$players[1]['bonuses'] = '[35]';
-                return true;
-
-            case "UPDATE `meeples` SET `meeple_state` = '1' WHERE  `meeple_id` = 1":
-                TestDatas::$tokens[1]['meeple_state'] = 1;
-                return true;
             case "INSERT INTO `meeples` (`meeple_location`, `meeple_state`, `type`, `player_id`) VALUES('tile-31','1','2','1')":
                 TestDatas::$tokens[999] = ['result_associative_index' => 999, 'meeple_id' => 999, 'meeple_state' => 1, 'meeple_location'=> 'tile-31','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1, ];
                 return true;
@@ -446,21 +408,92 @@ abstract class Table
                 TestDatas::$tokens[999] = ['result_associative_index' => 999, 'meeple_id' => 999, 'meeple_state' => 1, 'meeple_location'=> 'tile-34','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1, ];
                 return true;
 
-
-            case "UPDATE `tiles` SET `tile_location` = 'sh' WHERE  `tile_id` = 31":
-                TestDatas::$tiles[31]['tile_location'] = 'sh';
-                return true;
-            case "UPDATE `tiles` SET `tile_location` = 'sh' WHERE  `tile_id` = 34":
-                TestDatas::$tiles[34]['tile_location'] = 'sh';
-                return true;
-            case "UPDATE `tiles` SET `tile_state` = '1' WHERE  `tile_id` = 34":
-                TestDatas::$tiles[34]['tile_state'] = 1;
-                return true;
-
             case "UPDATE `stats` SET `stats_value` = `stats_value` + 1 WHERE `stats_type` = 20 AND `stats_player_id` = 1":
                 TestDatas::$stats[1]['nbActionsBuild']++;
                 return true;
+            case "UPDATE `stats` SET `stats_value` = `stats_value` + 1 WHERE `stats_type` = 22 AND `stats_player_id` = 1":
+                TestDatas::$stats[1]['nbActionsDeliver']++;
+                return true;
 
+        }
+        if (preg_match("/^UPDATE `player` SET `resources` = '(?P<resources>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+            $resources = $matches['resources'];
+            $resources = str_replace('\\','',$resources);
+            $pid = $matches['pid'];
+            logForTests("DbQuery --- updated resources for player $pid ... '$resources'");
+            TestDatas::$players[$pid]['resources'] = $resources;
+            return true;
+        }
+        if (preg_match("/^UPDATE `player` SET `bonuses` = '(?P<bonuses>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+            $bonuses = $matches['bonuses'];
+            $pid = $matches['pid'];
+            logForTests("DbQuery --- updated bonuses for player $pid ... '$bonuses'");
+            TestDatas::$players[$pid]['bonuses'] = $bonuses;
+            return true;
+        }
+        if (preg_match("/^UPDATE `player` SET `skip_roll_die` = '(?P<skip_roll_die>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+            $skip_roll_die = $matches['skip_roll_die'];
+            $pid = $matches['pid'];
+            logForTests("DbQuery --- updated skip_roll_die for player $pid ... '$skip_roll_die'");
+            TestDatas::$players[$pid]['skip_roll_die'] = intval($skip_roll_die);
+            return true;
+        }
+        if (preg_match("/^UPDATE `player` SET `die_face` = '(?P<die_face>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+            $die_face = $matches['die_face'];
+            $pid = $matches['pid'];
+            logForTests("DbQuery --- updated die_face for player $pid ... '$die_face'");
+            TestDatas::$players[$pid]['die_face'] = intval($die_face);
+            return true;
+        }
+        if (preg_match("/^UPDATE `player` SET `player_score` = `player_score` \+ (?P<player_score>\d+) WHERE `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+            $player_score = $matches['player_score'];
+            $pid = $matches['pid'];
+            logForTests("DbQuery --- INC player_score for player $pid ... '$player_score'");
+            TestDatas::$players[$pid]['player_score'] += intval($player_score);
+            return true;
+        }
+        if (preg_match("/^UPDATE `meeples` SET `meeple_state` = '(?P<meeple_state>\d+)' WHERE  `meeple_id` = (?P<meeple_id>\d+)$/", $sql, $matches) == 1) {
+            $meeple_state = $matches['meeple_state'];
+            $meeple_id = $matches['meeple_id'];
+            logForTests("DbQuery --- updated state for token $meeple_id : $meeple_state");
+            TestDatas::$tokens[$meeple_id]['meeple_state'] = intval($meeple_state);
+            return true;
+        }
+        if (preg_match("/^UPDATE `cards` SET `card_location` = '(?P<card_location>.*)' WHERE  `card_id` = (?P<card_id>\d+)$/", $sql, $matches) == 1) {
+            $card_location = $matches['card_location'];
+            $card_id = $matches['card_id'];
+            logForTests("DbQuery --- updated card_location for card $card_id : $card_location");
+            TestDatas::$cards[$card_id]['card_location'] = $card_location;
+            return true;
+        }
+        if (preg_match("/^UPDATE `tiles` SET `tile_location` = '(?P<tile_location>.*)' WHERE  `tile_id` = (?P<tile_id>\d+)$/", $sql, $matches) == 1) {
+            $tile_location = $matches['tile_location'];
+            $tile_id = $matches['tile_id'];
+            logForTests("DbQuery --- updated tile_location for tile $tile_id : $tile_location");
+            TestDatas::$tiles[$tile_id]['tile_location'] = $tile_location;
+            return true;
+        }
+        if (preg_match("/^UPDATE `tiles` SET `tile_state` = '(?P<tile_state>\d+)' WHERE  `tile_id` = (?P<tile_id>\d+)$/", $sql, $matches) == 1) {
+            $tile_state = $matches['tile_state'];
+            $tile_id = $matches['tile_id'];
+            logForTests("DbQuery --- updated state for tile $tile_id : $tile_state");
+            TestDatas::$tiles[$tile_id]['tile_state'] = intval($tile_state);
+            return true;
+        }
+        if (preg_match("/^UPDATE `tiles` SET `tile_state` = '(?P<tile_state>\d+)' WHERE \(`tile_id` IN \('(?P<tile_id>\d+)'\)\)$/", $sql, $matches) == 1) {
+            $tile_state = $matches['tile_state'];
+            $tile_id = $matches['tile_id'];
+            logForTests("DbQuery --- updated state for tile $tile_id : $tile_state");
+            TestDatas::$tiles[$tile_id]['tile_state'] = intval($tile_state);
+            return true;
+        }
+        if( str_starts_with( $sql, 'UPDATE `global_variables`' ) || str_starts_with( $sql, 'REPLACE INTO `global_variables`' )){
+            //Nothing needed for globals because they also are in saved memory
+            return null;
+        }
+        if( str_starts_with( $sql, 'INSERT INTO `log`' )){
+            //Nothing needed until we want to test the log module
+            return null;
         }
         logForTests("DbQuery --- nothing done");
         return null;
