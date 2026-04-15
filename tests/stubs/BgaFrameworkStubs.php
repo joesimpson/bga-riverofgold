@@ -151,6 +151,12 @@ abstract class Table
             logForTests("getUniqueValueFromDb: count is $count for ".json_encode($types));
             return $count;
         }
+        if (preg_match("/^SELECT COUNT\(\*\) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\)$/", $sql, $matches) == 1) {
+            $tile_location = $matches['tile_location'];
+            $count = count(array_filter(TestDatas::$tiles,function ($card) use($tile_location,) {return $card['tile_location'] == $tile_location;}));
+            logForTests("getUniqueValueFromDb: count is $count for tile_location $tile_location");
+            return $count;
+        }
         logForTests("getUniqueValueFromDb: /?\ ");
         return null;
     }
