@@ -348,7 +348,7 @@ abstract class Table
                 return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `cards` WHERE \(`card_id` IN \((?P<card_ids>.*)\)\)$/", $sql, $matches) == 1) {
-            $filtered = []    ;
+            $filtered = [];
             $card_ids = explode(',',str_replace("'","",$matches['card_ids']));
             foreach($card_ids as $cardIdString){
                 $card_id = intval($cardIdString);
@@ -356,6 +356,23 @@ abstract class Table
                 $filtered[] = TestDatas::$cards[$card_id];
             }
             logForTests("MOCK select cards with ids ".json_encode($card_ids).": ".json_encode($filtered));
+            return $filtered;
+        }
+        if (preg_match("/^SELECT (.*) FROM `meeples` WHERE `player_id` = (?P<player_id>.*) AND \(`meeple_location` = '(?P<meeple_location>.*)'\)$/", $sql, $matches) == 1) {
+            $meeple_location = $matches['meeple_location'];
+            $player_id = $matches['player_id'];
+            $filtered = array_filter(TestDatas::$tokens,function ($token) use ($meeple_location, $player_id){return $token['meeple_location'] == $meeple_location && $token['player_id'] == $player_id;});
+            return $filtered;
+        }
+        if (preg_match("/^SELECT (.*) FROM `meeples` WHERE \(`meeple_id` IN \((?P<meeple_ids>.*)\)\)$/", $sql, $matches) == 1) {
+            $filtered = [];
+            $meeple_ids = explode(',',str_replace("'","",$matches['meeple_ids']));
+            foreach($meeple_ids as $id){
+                $meeple_id = intval($id);
+                if(!array_key_exists($meeple_id,TestDatas::$tokens)) continue;
+                $filtered[] = TestDatas::$tokens[$meeple_id];
+            }
+            logForTests("MOCK select tokens with ids ".json_encode($meeple_ids).": ".json_encode($filtered));
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `log`(.*)$/", $sql, $matches) == 1) {
@@ -479,6 +496,13 @@ abstract class Table
             $meeple_id = $matches['meeple_id'];
             logForTests("DbQuery --- updated state for token $meeple_id : $meeple_state");
             TestDatas::$tokens[$meeple_id]['meeple_state'] = intval($meeple_state);
+            return true;
+        }
+        if (preg_match("/^UPDATE `meeples` SET `type` = '(?P<type>\d+)' WHERE  `meeple_id` = (?P<meeple_id>\d+)$/", $sql, $matches) == 1) {
+            $type = $matches['type'];
+            $meeple_id = $matches['meeple_id'];
+            logForTests("DbQuery --- updated type for token $meeple_id : $type");
+            TestDatas::$tokens[$meeple_id]['type'] = intval($type);
             return true;
         }
         if (preg_match("/^UPDATE `cards` SET `card_location` = '(?P<card_location>.*)' WHERE  `card_id` = (?P<card_id>\d+)$/", $sql, $matches) == 1) {

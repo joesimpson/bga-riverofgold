@@ -56,6 +56,11 @@ class TestDatas {
             15 => ['result_associative_index' => 15, 'meeple_id' => 15, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE.'5','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ],
             16 => ['result_associative_index' => 16, 'meeple_id' => 16, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE.'6','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ],
               
+            21 => ['result_associative_index' => 21, 'meeple_id' => 21, 'meeple_state' => 5, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => 1,  ],
+            22 => ['result_associative_index' => 22, 'meeple_id' => 22, 'meeple_state' => 14, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => 1,  ],
+            23 => ['result_associative_index' => 23, 'meeple_id' => 23, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => 2,  ],
+            24 => ['result_associative_index' => 24, 'meeple_id' => 24, 'meeple_state' => 24, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => 2,  ],
+            
             //only set on tests which uses it
             //101 => ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_ARTISAN.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ],
         ];
