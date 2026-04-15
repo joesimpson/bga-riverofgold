@@ -466,6 +466,13 @@ abstract class Table
             TestDatas::$cards[$card_id]['card_location'] = $card_location;
             return true;
         }
+        if (preg_match("/^UPDATE `cards` SET `player_id` = '(?P<player_id>.*)' WHERE  `card_id` = (?P<card_id>\d+)$/", $sql, $matches) == 1) {
+            $player_id = $matches['player_id'];
+            $card_id = $matches['card_id'];
+            logForTests("DbQuery --- updated player_id for card $card_id : $player_id");
+            TestDatas::$cards[$card_id]['player_id'] = intval($player_id);
+            return true;
+        }
         if (preg_match("/^UPDATE `tiles` SET `tile_location` = '(?P<tile_location>.*)' WHERE  `tile_id` = (?P<tile_id>\d+)$/", $sql, $matches) == 1) {
             $tile_location = $matches['tile_location'];
             $tile_id = $matches['tile_id'];
