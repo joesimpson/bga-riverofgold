@@ -1,0 +1,394 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\States;
+
+use Bga\GameFramework\GamestateMachine;
+use GameMock;
+use PHPUnit\Framework\TestCase;
+use ROG\Core\Globals;
+use ROG\Exceptions\UnexpectedException;
+use Tests\Utils\TestDatas;
+
+use function PHPUnit\Framework\assertSame;
+
+final class BonusChoiceTest extends TestCase
+{
+
+
+    // -------------------------------------------------
+    public function test_EnteringState_Stay(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode([BONUS_TYPE_REFILL_HAND]);
+
+        $game->stBonusChoice();
+        
+        //Stay in state when possible actions
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    public function test_EnteringState_Skip(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode([]);
+
+        $game->stBonusChoice();
+        
+        //skip state when 0 possible actions
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    // -------------------------------------------------
+    public function test_Args_Skippable(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setChoices(0);
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonuses = [];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+        $expectedArgs = [
+            'p' => $bonuses,
+            'trade' => false,
+            'canSkip' => true,
+            'cannotSetDie' => true,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argBonusChoice();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_UnSkippableRefill(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setChoices(0);
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonuses = [BONUS_TYPE_REFILL_HAND];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+        $expectedArgs = [
+            'p' => $bonuses,
+            'trade' => false,
+            'canSkip' => false,
+            'cannotSetDie' => true,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argBonusChoice();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_UnSkippableUpgrade(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setChoices(0);
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonuses = [BONUS_TYPE_UPGRADE_SHIP];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+        $expectedArgs = [
+            'p' => $bonuses,
+            'trade' => false,
+            'canSkip' => false,
+            'cannotSetDie' => true,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argBonusChoice();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_WithTrades(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setChoices(0);
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
+        $bonuses = [];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+        $expectedArgs = [
+            'p' => $bonuses,
+            'trade' => true,
+            'canSkip' => true,
+            'cannotSetDie' => true,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argBonusChoice();
+        
+        assertSame($expectedArgs, $args);
+    }   
+    public function test_Args_WithFavor(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setChoices(0);
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":4,"5":3,"6":0}';
+        $bonuses = [];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+        $expectedArgs = [
+            'p' => $bonuses,
+            'trade' => true,
+            'canSkip' => true,
+            'cannotSetDie' => false,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argBonusChoice();
+        
+        assertSame($expectedArgs, $args);
+    }   
+    // -------------------------------------------------
+ 
+    public function test_ActionSkipBonuses_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+
+        $game->actSkipBonuses();
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionSkipBonuses_KO_Unskipabble(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode([BONUS_TYPE_REFILL_HAND]);
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You should not skip these bonuses !");
+        $game->actSkipBonuses();
+    }
+    
+    // -------------------------------------------------
+    
+    public function test_ActionBonus_Pass_Resource(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_CHOICE;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_CHOICE_RESOURCE, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionBonus_Pass_UpgradeShip(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_UPGRADE_SHIP;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_UPGRADE_SHIP, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionBonus_Pass_SecondMarkerOnBuilding(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_SECOND_MARKER_ON_BUILDING;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_SECOND_MARKER_ON_BUILDING, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionBonus_Pass_SecondMarkerOnOpponent(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_SECOND_MARKER_ON_OPPONENT;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_SECOND_MARKER_ON_BUILDING, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionBonus_Pass_MoneyOrGood(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_MONEY_OR_GOOD;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_MONEY_OR_GOOD, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionBonus_Pass_SellGoods(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_SELL_GOODS;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_SELL_GOODS, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionBonus_Pass_Draw(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_DRAW;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_DISCARD_CARD, GamestateMachine::$test_current_state);
+        //Check draw 1 cards in hand :
+        assertSame(CARD_LOCATION_HAND, TestDatas::$cards[1]['card_location']);
+        assertSame(CARD_LOCATION_DECK, TestDatas::$cards[2]['card_location']);
+        assertSame(CARD_LOCATION_DECK, TestDatas::$cards[3]['card_location']);
+    }
+    public function test_ActionBonus_Pass_EmptyDeckDraw(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_DRAW;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+        foreach(TestDatas::$cards as &$card) $card['card_location'] = CARD_LOCATION_DISCARD;
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionBonus_Pass_Refill(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_REFILL_HAND;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_DISCARD_CARD, GamestateMachine::$test_current_state);
+        //Check draw 2 cards in hand :
+        assertSame(CARD_LOCATION_HAND, TestDatas::$cards[1]['card_location']);
+        assertSame(CARD_LOCATION_HAND, TestDatas::$cards[2]['card_location']);
+        assertSame(CARD_LOCATION_DECK, TestDatas::$cards[3]['card_location']);
+    }
+    public function test_ActionBonus_Pass_EmptyDeckRefill(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_REFILL_HAND;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+        foreach(TestDatas::$cards as &$card) $card['card_location'] = CARD_LOCATION_DISCARD;
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionBonus_Pass_SetDie(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_SET_DIE;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_SET_DIE, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionBonus_KO_WrongBonus(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_REFILL_HAND;
+        $bonuses = [];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You don't have this bonus $bonusType");
+        $game->actBonus($bonusType);
+    }
+    public function test_ActionBonus_KO_UnexpectedBonus(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = 88;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Not supported bonus type $bonusType");
+        $game->actBonus($bonusType);
+    }
+    // -------------------------------------------------
+}

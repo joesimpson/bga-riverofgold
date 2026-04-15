@@ -66,9 +66,9 @@ class TestDatas {
 
     public static function resetCards(){
         TestDatas::$cards = [
-            1 => ['result_associative_index' => 1,'card_id' => 1, 'card_location' => CARD_LOCATION_DECK, 'card_state' => 0, 'player_id' => null, 'type' => CARD_ELDER_1, 'subtype' => CARD_TYPE_CUSTOMER,],
-            2 => ['result_associative_index' => 2,'card_id' => 2, 'card_location' => CARD_LOCATION_DECK, 'card_state' => 0, 'player_id' => null, 'type' => CARD_NOBLE_1, 'subtype' => CARD_TYPE_CUSTOMER,],
-            3 => ['result_associative_index' => 3,'card_id' => 3, 'card_location' => CARD_LOCATION_DECK, 'card_state' => 0, 'player_id' => null, 'type' => CARD_ARTISAN_3, 'subtype' => CARD_TYPE_CUSTOMER,],
+            1 => ['result_associative_index' => 1,'card_id' => 1, 'card_location' => CARD_LOCATION_DECK, 'card_state' => 3, 'player_id' => null, 'type' => CARD_ELDER_1, 'subtype' => CARD_TYPE_CUSTOMER,],
+            2 => ['result_associative_index' => 2,'card_id' => 2, 'card_location' => CARD_LOCATION_DECK, 'card_state' => 2, 'player_id' => null, 'type' => CARD_NOBLE_1, 'subtype' => CARD_TYPE_CUSTOMER,],
+            3 => ['result_associative_index' => 3,'card_id' => 3, 'card_location' => CARD_LOCATION_DECK, 'card_state' => 1, 'player_id' => null, 'type' => CARD_ARTISAN_3, 'subtype' => CARD_TYPE_CUSTOMER,],
 
             11 => ['result_associative_index' => 11,'card_id' => 11, 'card_location' => CARD_LOCATION_HAND, 'card_state' => 0, 'player_id' => 1, 'type' => CARD_ARTISAN_1, 'subtype' => CARD_TYPE_CUSTOMER,],
             12 => ['result_associative_index' => 12,'card_id' => 12, 'card_location' => CARD_LOCATION_HAND, 'card_state' => 0, 'player_id' => 2, 'type' => CARD_ARTISAN_2, 'subtype' => CARD_TYPE_CUSTOMER,],

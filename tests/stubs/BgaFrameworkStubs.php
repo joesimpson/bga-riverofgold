@@ -154,7 +154,7 @@ abstract class Table
     public function getCollectionFromDb(string $sql, bool $singleColumn = false): array
     {
         logForTests("getCollectionFromDb: $sql");
-        logForTests(" /!\ __ don't know what to return for this request __ /!\ [$sql] ");
+        logForTests(" /?\ __ don't know what to return for this request __ /?\ [$sql] ");
         return [];
     }
     public static function getObjectListFromDB(string $sql, bool $bUniqueValue = false): array
@@ -238,10 +238,16 @@ abstract class Table
             case "SELECT *, card_id AS `result_associative_index` FROM `cards` WHERE `player_id` = 1 AND `card_location` = 'clans_assigned'":
                 $assigned = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'clans_assigned' && $card['player_id'] == 1;});
                 return $assigned;
+            case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_location` = 'deck') ORDER BY card_state DESC LIMIT 1":
+                $filtered = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'deck';});
+                $mockDeck = count($filtered) > 0 ? [ $filtered[array_keys($filtered)[0]], ] : [];
+                logForTests("MOCK deck ".json_encode($mockDeck));
+                return $mockDeck;
             case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_location` = 'deck') ORDER BY card_state DESC LIMIT 2":
                 $filtered = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'deck';});
-                logForTests("MOCK deck ".json_encode($filtered));
-                return count($filtered) > 1 ? [ $filtered[array_keys($filtered)[1]], $filtered[array_keys($filtered)[2]] ] : [];
+                $mockDeck = count($filtered) > 1 ? [ $filtered[array_keys($filtered)[0]], $filtered[array_keys($filtered)[1]] ] : [];
+                logForTests("MOCK deck ".json_encode($mockDeck));
+                return $mockDeck;
             case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_location` = 'deck')":
                 $filtered = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'deck';});
                 return $filtered;
@@ -341,6 +347,21 @@ abstract class Table
                 $filtered = array_filter(TestDatas::$tokens,function ($token) {return $token['meeple_location'] == 'artisan-1' && $token['player_id'] == 2;});
                 return $filtered;
         }
+        if (preg_match("/^SELECT (.*) FROM `cards` WHERE \(`card_id` IN \((?P<card_ids>.*)\)\)$/", $sql, $matches) == 1) {
+            $filtered = []    ;
+            $card_ids = explode(',',str_replace("'","",$matches['card_ids']));
+            foreach($card_ids as $cardIdString){
+                $card_id = intval($cardIdString);
+                if(!array_key_exists($card_id,TestDatas::$cards)) continue;
+                $filtered[] = TestDatas::$cards[$card_id];
+            }
+            logForTests("MOCK select cards with ids ".json_encode($card_ids).": ".json_encode($filtered));
+            return $filtered;
+        }
+        if (preg_match("/^SELECT (.*) FROM `log`(.*)$/", $sql, $matches) == 1) {
+            //ignore for now
+            return [];
+        }
         if( str_starts_with( $sql, 'SELECT *, player_id AS `result_associative_index` FROM `player`' )){
             logForTests("MOCK select players");
             return [
@@ -372,7 +393,7 @@ abstract class Table
             ];
         }
 
-        logForTests(" /!\ __ don't know what to return for this request __ /!\ [$sql] ");
+        logForTests(" /?\ __ don't know what to return for this request __ /?\ [$sql] ");
         return [];
     }
 
@@ -387,6 +408,7 @@ abstract class Table
     public function getDoubleKeyCollectionFromDB(string $sql, bool $nullIfEmpty = false): array
     {
         logForTests("getDoubleKeyCollectionFromDB: $sql");
+        logForTests(" /?\ __ don't know what to return for this request __ /?\ [$sql] ");
         return [];
     }
     public static function DbAffectedRow(): int
@@ -464,6 +486,19 @@ abstract class Table
             $card_id = $matches['card_id'];
             logForTests("DbQuery --- updated card_location for card $card_id : $card_location");
             TestDatas::$cards[$card_id]['card_location'] = $card_location;
+            return true;
+        }
+        if (preg_match("/^UPDATE `cards` SET `card_location` = '(?P<card_location>.*)',`card_state` = '(?P<card_state>.*)' WHERE \(`card_id` IN \((?P<card_ids>.*)\)\)$/", $sql, $matches) == 1) {
+            $card_location = $matches['card_location'];
+            $card_state = $matches['card_state'];
+            $card_ids = explode(',', str_replace("'","",$matches['card_ids']));
+            foreach($card_ids as $cardIdString){
+                $card_id = intval($cardIdString);
+                if(!array_key_exists($card_id,TestDatas::$cards)) continue;
+                logForTests("DbQuery --- updated card_location, card_state for card $card_id : $card_location, $card_state");
+                TestDatas::$cards[$card_id]['card_location'] = $card_location;
+                TestDatas::$cards[$card_id]['card_state'] = intval($card_state);
+            }
             return true;
         }
         if (preg_match("/^UPDATE `cards` SET `player_id` = '(?P<player_id>.*)' WHERE  `card_id` = (?P<card_id>\d+)$/", $sql, $matches) == 1) {
