@@ -19,7 +19,7 @@
   }
 
   ,"scripts": {
-    "test": "@php vendor/bin/phpunit --colors --display-errors --display-warnings --bootstrap tests/bootstrap.php tests --testdox-html testsresults/results.html",
+    "test": "@php vendor/bin/phpunit --colors --display-errors --display-warnings --testdox-html testsresults/results.html --bootstrap tests/bootstrap.php tests",
     "test:github": "@php -dxdebug.mode=coverage vendor/bin/phpunit --colors --display-errors --display-warnings --bootstrap tests/bootstrap.php tests --testdox-html testsresults/results.html --coverage-html testsresults\\coverage/ ",
     "test:coverage": [
       "Echo Script test:coverage... clean testsresults\\coverage"
