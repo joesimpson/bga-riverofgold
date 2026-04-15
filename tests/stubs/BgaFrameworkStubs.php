@@ -44,6 +44,10 @@ class GamestateMachine
         }
         
     }
+    final public function jumpToState(int|string $next_state): void
+    {
+        GamestateMachine::$test_current_state = $next_state;
+    }
 
     public function setAllPlayersMultiactive(): void
     {
@@ -385,6 +389,20 @@ abstract class Table
             $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location,){return $tile['tile_location'] == $tile_location ;});
             return $filtered;
         }
+        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\) ORDER BY tile_state (?P<order>\w)$/", $sql, $matches) == 1) {
+            //TODO SORT tile_state
+            $tile_location = $matches['tile_location'];
+            $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location,){return $tile['tile_location'] == $tile_location ;});
+            return $filtered;
+        }
+        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\) ORDER BY tile_state (?P<order>\w+) LIMIT (?P<limit>\d+)$/", $sql, $matches) == 1) {
+            //TODO SORT tile_state
+            $tile_location = $matches['tile_location'];
+            $limit = intval($matches['limit']);
+            $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location,){return $tile['tile_location'] == $tile_location ;});
+            $filtered = array_slice($filtered, 0, $limit, true);
+            return $filtered;
+        }
         if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_id` IN \((?P<tile_ids>.*)\)\)$/", $sql, $matches) == 1) {
             $filtered = [];
             $tile_ids = explode(',',str_replace("'","",$matches['tile_ids']));
@@ -397,8 +415,7 @@ abstract class Table
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `log`(.*)$/", $sql, $matches) == 1) {
-            //ignore for now
-            return [];
+            return TestDatas::$logs;
         }
         if( str_starts_with( $sql, 'SELECT *, player_id AS `result_associative_index` FROM `player`' )){
             logForTests("MOCK select players");
@@ -437,6 +454,15 @@ abstract class Table
 
     public function reloadPlayersBasicInfos(): void
     {
+    }
+    public function sendNotifications(): void
+    {
+        logForTests("mock sendNotifications()");
+    }
+    
+    public function loadPlayersBasicInfos(): array
+    {
+        return TestDatas::$players; 
     }
 
     public function getCurrentPlayerId(bool $bReturnNullIfNotLogged = false): string|int
@@ -576,6 +602,14 @@ abstract class Table
             $tile_id = $matches['tile_id'];
             logForTests("DbQuery --- updated state for tile $tile_id : $tile_state");
             TestDatas::$tiles[$tile_id]['tile_state'] = intval($tile_state);
+            return true;
+        }
+        if (preg_match("/^DELETE FROM `log` WHERE \(`id` > (?P<id>\d+)\)$/", $sql, $matches) == 1) {
+            $log_id = intval($matches['id']);
+            foreach(TestDatas::$logs as $id => $log){
+                logForTests("DbQuery --- removed log $id (which is > $log_id)");
+                if($id > $log_id ) unset(TestDatas::$logs[$id]);
+            }
             return true;
         }
         if (preg_match("/^UPDATE `tiles` SET `tile_state` = '(?P<tile_state>\d+)' WHERE \(`tile_id` IN \('(?P<tile_id>\d+)'\)\)$/", $sql, $matches) == 1) {

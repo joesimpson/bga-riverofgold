@@ -28,6 +28,7 @@ class GameMock extends RiverOfGold {
         TestDatas::resetTiles();
         TestDatas::resetTokens();
         TestDatas::resetStats();
+        TestDatas::resetLogs();
         
         TestDatas::$test_activePlayerId = 1;
         Globals::setTurnPlayer(TestDatas::$test_activePlayerId);

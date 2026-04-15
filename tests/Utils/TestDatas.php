@@ -141,4 +141,11 @@ class TestDatas {
             ],
         ];
     }
+    
+    static array $logs = [];
+    public static function resetLogs(){
+        TestDatas::$logs = [
+            
+        ];
+    }
 }
