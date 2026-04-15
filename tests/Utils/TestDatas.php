@@ -61,6 +61,9 @@ class TestDatas {
             23 => ['result_associative_index' => 23, 'meeple_id' => 23, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => 2,  ],
             24 => ['result_associative_index' => 24, 'meeple_id' => 24, 'meeple_state' => 24, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => 2,  ],
             
+            41 => ['result_associative_index' => 41, 'meeple_id' => 41, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'41','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1,  ],
+            42 => ['result_associative_index' => 42, 'meeple_id' => 42, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'42','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ],
+
             //only set on tests which uses it
             //101 => ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_ARTISAN.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ],
         ];
@@ -112,6 +115,9 @@ class TestDatas {
             32 => ['result_associative_index' => 32,'tile_id' => 32, 'tile_location' => TILE_LOCATION_BUILDING_ROW, 'tile_state' => 2,  'type' => 3, 'subtype' => TILE_TYPE_BUILDING, ],
             33 => ['result_associative_index' => 33,'tile_id' => 33, 'tile_location' => TILE_LOCATION_BUILDING_ROW, 'tile_state' => 3,  'type' => 8, 'subtype' => TILE_TYPE_BUILDING, ],
             34 => ['result_associative_index' => 34,'tile_id' => 34, 'tile_location' => TILE_LOCATION_BUILDING_ROW, 'tile_state' => 4,  'type' => 14, 'subtype' => TILE_TYPE_BUILDING, ],
+
+            41 => ['result_associative_index' => 41,'tile_id' => 41, 'tile_location' => TILE_LOCATION_BUILDING_SHORE, 'tile_state' => 4,  'type' => 5, 'subtype' => TILE_TYPE_BUILDING, ],
+            42 => ['result_associative_index' => 42,'tile_id' => 42, 'tile_location' => TILE_LOCATION_BUILDING_SHORE, 'tile_state' => 5,  'type' => 6, 'subtype' => TILE_TYPE_BUILDING, ],
 
             101 => ['result_associative_index' => 101,'tile_id' => 101, 'tile_location' => TILE_LOCATION_BUILDING_DECK_ERA_2, 'tile_state' => 0,  'type' => 11, 'subtype' => TILE_TYPE_BUILDING, ],
             102 => ['result_associative_index' => 102,'tile_id' => 102, 'tile_location' => TILE_LOCATION_BUILDING_DECK_ERA_2, 'tile_state' => 0,  'type' => 12, 'subtype' => TILE_TYPE_BUILDING, ],

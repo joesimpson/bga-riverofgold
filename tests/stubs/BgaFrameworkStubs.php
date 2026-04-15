@@ -364,6 +364,11 @@ abstract class Table
             $filtered = array_filter(TestDatas::$tokens,function ($token) use ($meeple_location, $player_id){return $token['meeple_location'] == $meeple_location && $token['player_id'] == $player_id;});
             return $filtered;
         }
+        if (preg_match("/^SELECT (.*) FROM `meeples` WHERE \(`meeple_location` = '(?P<meeple_location>.*)'\)$/", $sql, $matches) == 1) {
+            $meeple_location = $matches['meeple_location'];
+            $filtered = array_filter(TestDatas::$tokens,function ($token) use ($meeple_location,){return $token['meeple_location'] == $meeple_location ;});
+            return $filtered;
+        }
         if (preg_match("/^SELECT (.*) FROM `meeples` WHERE \(`meeple_id` IN \((?P<meeple_ids>.*)\)\)$/", $sql, $matches) == 1) {
             $filtered = [];
             $meeple_ids = explode(',',str_replace("'","",$matches['meeple_ids']));
@@ -373,6 +378,22 @@ abstract class Table
                 $filtered[] = TestDatas::$tokens[$meeple_id];
             }
             logForTests("MOCK select tokens with ids ".json_encode($meeple_ids).": ".json_encode($filtered));
+            return $filtered;
+        }
+        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\)$/", $sql, $matches) == 1) {
+            $tile_location = $matches['tile_location'];
+            $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location,){return $tile['tile_location'] == $tile_location ;});
+            return $filtered;
+        }
+        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_id` IN \((?P<tile_ids>.*)\)\)$/", $sql, $matches) == 1) {
+            $filtered = [];
+            $tile_ids = explode(',',str_replace("'","",$matches['tile_ids']));
+            foreach($tile_ids as $id){
+                $tile_id = intval($id);
+                if(!array_key_exists($tile_id,TestDatas::$tiles)) continue;
+                $filtered[] = TestDatas::$tiles[$tile_id];
+            }
+            logForTests("MOCK select tiles with ids ".json_encode($tile_ids).": ".json_encode($filtered));
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `log`(.*)$/", $sql, $matches) == 1) {
@@ -503,6 +524,17 @@ abstract class Table
             $meeple_id = $matches['meeple_id'];
             logForTests("DbQuery --- updated type for token $meeple_id : $type");
             TestDatas::$tokens[$meeple_id]['type'] = intval($type);
+            return true;
+        }
+        if (preg_match("/^INSERT INTO `meeples` (.*) VALUES\('(?P<meeple_location>.*)','(?P<meeple_state>\d+)','(?P<type>\d+)','(?P<player_id>\d+)'\)$/", $sql, $matches) == 1) {
+            $type = intval( $matches['type']);
+            $meeple_location = $matches['meeple_location'];
+            $meeple_state = intval($matches['meeple_state']);
+            $player_id = intval($matches['player_id']);
+            $meeple_ids = array_keys(TestDatas::$tokens);
+            $meeple_id = 1 + $meeple_ids[count($meeple_ids)-1];
+            logForTests("DbQuery --- added token $meeple_id : $meeple_location, $type, $meeple_state,$player_id ");
+            TestDatas::$tokens[$meeple_id] = ['result_associative_index' => $meeple_id, 'meeple_id' => $meeple_id, 'meeple_state' => $meeple_state, 'meeple_location'=> $meeple_location,'type' => $type,  'player_id' => $player_id, ];
             return true;
         }
         if (preg_match("/^UPDATE `cards` SET `card_location` = '(?P<card_location>.*)' WHERE  `card_id` = (?P<card_id>\d+)$/", $sql, $matches) == 1) {
