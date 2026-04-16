@@ -45,7 +45,7 @@ final class GameTest extends TestCase
                     'moon' => 0,
                     'sun' => 0,
                     'buildings' => [
-                        1 => 0,
+                        1 => 1,
                         2 => 0,
                         3 => 0,
                         4 => 0,
@@ -86,7 +86,7 @@ final class GameTest extends TestCase
                     'moon' => 0,
                     'sun' => 0,
                     'buildings' => [
-                        1 => 0,
+                        1 => 1,
                         2 => 0,
                         3 => 0,
                         4 => 0,
@@ -143,7 +143,78 @@ final class GameTest extends TestCase
                 ],
             ],
             'tiles' => [
-                0 => [
+                [
+                    'id' => 11,
+                    'location' => 's',
+                    'type' => 1,
+                    'scores' => [
+                        0 => 3,
+                    ],
+                    'pos' => 1,
+                    'subtype' => 1,
+                    'maxSpaces' => null,
+                ],
+                [
+                    'id' => 12,
+                    'location' => 's',
+                    'type' => 2,
+                    'scores' => [
+                        0 => 5,
+                        1 => 2,
+                    ],
+                    'pos' => 1,
+                    'subtype' => 1,
+                    'maxSpaces' => 5,
+                ],
+                [
+                    'id' => 13,
+                    'location' => 's',
+                    'type' => 3,
+                    'scores' =>[
+                        0 => 4,
+                        1 => 2,
+                    ],
+                    'pos' => 1,
+                    'subtype' => 1,
+                    'maxSpaces' => 5,
+                ],
+                [
+                    'id' => 14,
+                    'location' => 's',
+                    'type' => 4,
+                    'scores' => [
+                        0 => 8,
+                        1 => 4,
+                    ],
+                    'pos' => 1,
+                    'subtype' => 1,
+                    'maxSpaces' => 5,
+                ],
+                [
+                    'id' => 15,
+                    'location' => 's',
+                    'type' => 5,
+                    'scores' => [
+                        0 => 6,
+                        1 => 3,
+                    ],
+                    'pos' => 1,
+                    'subtype' => 1,
+                    'maxSpaces' => 5,
+                ],
+                [
+                    'id' => 16,
+                    'location' => 's',
+                    'type' => 6,
+                    'scores' => [
+                        0 => 7,
+                        1 => 3,
+                    ],
+                    'pos' => 1,
+                    'subtype' => 1,
+                    'maxSpaces' => 5,
+                ],
+                [
                     'id' => 1,
                     'location' => 'm',
                     'type' => 1,
@@ -154,7 +225,7 @@ final class GameTest extends TestCase
                     'title' => 'Mastery of Air',
                     'subtype' => 3,
                 ],
-                1 => [
+                [
                     'id' => 2,
                     'location' => 'm',
                     'type' => 2,
@@ -165,7 +236,7 @@ final class GameTest extends TestCase
                     'title' => 'Mastery of the Courts',
                     'subtype' => 3,
                 ],
-                2 => [
+                [
                     'id' => 3,
                     'location' => 'm',
                     'type' => 3,
@@ -176,7 +247,167 @@ final class GameTest extends TestCase
                     'title' => 'Mastery of Earth',
                     'subtype' => 3,
                 ],
-                3 => [
+                [
+                    'id' => 31,
+                    'location' => 'br',
+                    'type' => 2,
+                    'bonus' => 1,
+                    'buildingType' => 1,
+                    'era' => 1,
+                    'pos' => 1,
+                    'subtype' => 2,
+                    'ownerReward' => [
+                        'entries' => [
+                            0 => [
+                                'type' => 3,
+                                'n' => 1,
+                            ],
+                        ],
+                    ],
+                    'visitorReward' =>[
+                        'entries' =>  [
+                            0 => [
+                                'type' => 6,
+                                'n' => 3,
+                            ],
+                        ],
+                    ],
+                ],
+                 [
+                    'id' => 32,
+                    'location' => 'br',
+                    'type' => 3,
+                    'bonus' => 0,
+                    'buildingType' => 1,
+                    'era' => 1,
+                    'pos' => 2,
+                    'subtype' => 2,
+                    'ownerReward' => [
+                        'entries' => [
+                            0 => [
+                                'type' => 6,
+                                'n' => 1,
+                            ],
+                            1 => [
+                                'type' => 2,
+                                'n' => 1,
+                            ],
+                        ],
+                    ],
+                    'visitorReward' =>  [
+                        'entries' =>  [
+                            0 => [
+                                'type' => 6,
+                                'n' => 3,
+                            ],
+                        ],
+                    ],
+                ],
+                 [
+                    'id' => 33,
+                    'location' => 'br',
+                    'type' => 8,
+                    'bonus' => 4,
+                    'buildingType' => 2,
+                    'era' => 1,
+                    'pos' => 3,
+                    'subtype' => 2,
+                    'ownerReward' =>  [
+                        'entries' =>  [
+                            0 =>  [
+                                'type' => 6,
+                                'n' => 2,
+                            ],
+                        ],
+                    ],
+                    'visitorReward' =>  [
+                        'entries' =>  [
+                            0 =>  [
+                                'type' => 1,
+                                'n' => 1,
+                            ],
+                        ],
+                    ],
+                ],
+                 [
+                    'id' => 34,
+                    'location' => 'br',
+                    'type' => 14,
+                    'bonus' => 1,
+                    'buildingType' => 3,
+                    'era' => 1,
+                    'pos' => 4,
+                    'subtype' => 2,
+                    'ownerReward' =>  [
+                        'entries' =>  [
+                            0 =>  [
+                                'type' => 1,
+                                'n' => 1,
+                            ],
+                        ],
+                    ],
+                    'visitorReward' =>  [
+                        'entries' => [
+                            0 => [
+                                'type' => 22,
+                                'n' => 2,
+                            ],
+                        ],
+                    ],
+                ],
+                 [
+                    'id' => 41,
+                    'location' => 'sh',
+                    'type' => 5,
+                    'bonus' => 3,
+                    'buildingType' => 1,
+                    'era' => 1,
+                    'pos' => 4,
+                    'subtype' => 2,
+                    'ownerReward' =>  [
+                        'entries' =>  [
+                            0 =>  [
+                                'type' => 30,
+                                'n' => 1,
+                            ],
+                        ],
+                    ],
+                    'visitorReward' =>  [
+                        'entries' =>  [
+                            0 =>  [
+                                'type' => 6,
+                                'n' => 3,
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'id' => 42,
+                    'location' => 'sh',
+                    'type' => 6,
+                    'bonus' => 3,
+                    'buildingType' => 1,
+                    'era' => 1,
+                    'pos' => 5,
+                    'subtype' => 2,
+                    'ownerReward' =>  [
+                        'entries' =>  [
+                            0 => [
+                                'type' => 20,
+                                'n' => 1,
+                            ],
+                        ],
+                    ],
+                    'visitorReward' => [
+                        'entries' => [
+                            0 =>  [
+                                'type' => 6,
+                                'n' => 3,
+                            ],
+                        ],
+                    ],
+                ],
+                [
                     'id' => 21,
                     'location' => 'bd1',
                     'type' => 1,
@@ -197,7 +428,7 @@ final class GameTest extends TestCase
                         ],
                     ],
                 ],
-                4 => [
+                [
                     'id' => 101,
                     'location' => 'bd2',
                     'type' => 11,

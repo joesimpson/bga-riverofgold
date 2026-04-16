@@ -34,6 +34,7 @@ class GamestateMachine
 
     public function changeActivePlayer(int $playerId): void
     {
+        TestDatas::$test_activePlayerId = $playerId;
     }
     public function nextState(string $transition = ''): void
     {
@@ -155,6 +156,17 @@ abstract class Table
             $tile_location = $matches['tile_location'];
             $count = count(array_filter(TestDatas::$tiles,function ($card) use($tile_location,) {return $card['tile_location'] == $tile_location;}));
             logForTests("getUniqueValueFromDb: count is $count for tile_location $tile_location");
+            return $count;
+        }
+        if (preg_match("/^SELECT COUNT\( distinct meeple_location\) FROM `meeples` WHERE `player_id` = (?P<pid>\d+) AND \(`meeple_location` IN \((?P<meeple_locations>.*)\)\)$/", $sql, $matches) == 1) {
+            $pid = intval($matches['pid']);
+            $meeple_locations = explode(',', str_replace("'","",$matches['meeple_locations']) );
+            //logForTests("getUniqueValueFromDb: tokens before filter = ".json_encode(TestDatas::$tokens));
+            $tokens = array_filter(TestDatas::$tokens,function ($t) use($pid,$meeple_locations) {return $t['player_id'] == $pid && in_array($t['meeple_location'], $meeple_locations);});
+            //logForTests("getUniqueValueFromDb: tokens after filter = ".json_encode($tokens));
+            $locations = array_map(function ($t) {return $t['meeple_location'];}, $tokens,);
+            $count = count( array_unique($locations));
+            logForTests("getUniqueValueFromDb: count is $count");
             return $count;
         }
         logForTests("getUniqueValueFromDb: /?\ ");
@@ -395,10 +407,16 @@ abstract class Table
             $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location,){return $tile['tile_location'] == $tile_location ;});
             return $filtered;
         }
-        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\) ORDER BY tile_state (?P<order>\w)$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\) ORDER BY tile_state (?P<order>\w+)$/", $sql, $matches) == 1) {
             //TODO SORT tile_state
             $tile_location = $matches['tile_location'];
             $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location,){return $tile['tile_location'] == $tile_location ;});
+            return $filtered;
+        }
+        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\) AND `tile_state` = (?P<tile_state>\w+)$/", $sql, $matches) == 1) {
+            $tile_location = $matches['tile_location'];
+            $tile_state = intval($matches['tile_state']);
+            $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location, $tile_state){return $tile['tile_location'] == $tile_location && $tile['tile_state'] == $tile_state;});
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\) ORDER BY tile_state (?P<order>\w+) LIMIT (?P<limit>\d+)$/", $sql, $matches) == 1) {
@@ -407,6 +425,13 @@ abstract class Table
             $limit = intval($matches['limit']);
             $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location,){return $tile['tile_location'] == $tile_location ;});
             $filtered = array_slice($filtered, 0, $limit, true);
+            return $filtered;
+        }
+        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE `subType` = (?P<subType>\d+) AND \(`type` IN \((?P<types>.*)\)\)$/", $sql, $matches) == 1) {
+            $subType = intval($matches['subType']);
+            $types = explode(',',str_replace("'","",$matches['types']));
+            $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($types, $subType){return in_array($tile['type'],$types) && $tile['subtype'] == $subType ;});
+            logForTests("MOCK select tiles with subType $subType and types ".json_encode($types).": ".json_encode($filtered));
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_id` IN \((?P<tile_ids>.*)\)\)$/", $sql, $matches) == 1) {
@@ -541,6 +566,13 @@ abstract class Table
             TestDatas::$players[$pid]['player_score'] += intval($player_score);
             return true;
         }
+        if (preg_match("/^UPDATE `player` SET `last_turn_played` = '(?P<last_turn_played>\w+)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+            $last_turn_played = $matches['last_turn_played'] == '1';
+            $pid = $matches['pid'];
+            logForTests("DbQuery --- update last_turn_played for player $pid ... $last_turn_played");
+            TestDatas::$players[$pid]['last_turn_played'] = $last_turn_played;
+            return true;
+        }
         if (preg_match("/^UPDATE `meeples` SET `meeple_state` = '(?P<meeple_state>\d+)' WHERE  `meeple_id` = (?P<meeple_id>\d+)$/", $sql, $matches) == 1) {
             $meeple_state = $matches['meeple_state'];
             $meeple_id = $matches['meeple_id'];
@@ -620,6 +652,15 @@ abstract class Table
             $tile_id = $matches['tile_id'];
             logForTests("DbQuery --- updated state for tile $tile_id : $tile_state");
             TestDatas::$tiles[$tile_id]['tile_state'] = intval($tile_state);
+            return true;
+        }
+        if (preg_match("/^UPDATE `tiles` SET `tile_location` = '(?P<tile_location>\w+)',`tile_state` = '(?P<tile_state>\d+)' WHERE \(`tile_id` IN \('(?P<tile_id>\d+)'\)\)$/", $sql, $matches) == 1) {
+            $tile_state = $matches['tile_state'];
+            $tile_location = $matches['tile_location'];
+            $tile_id = $matches['tile_id'];
+            logForTests("DbQuery --- updated location,state for tile $tile_id : $tile_location, $tile_state");
+            TestDatas::$tiles[$tile_id]['tile_state'] = intval($tile_state);
+            TestDatas::$tiles[$tile_id]['tile_location'] = $tile_location;
             return true;
         }
         if( str_starts_with( $sql, 'UPDATE `global_variables`' ) || str_starts_with( $sql, 'REPLACE INTO `global_variables`' )){
