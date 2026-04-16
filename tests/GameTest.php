@@ -4,9 +4,11 @@ declare(strict_types=1);
 
 namespace Tests;
 
+use Bga\GameFramework\GamestateMachine;
 use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Exceptions\UserException;
+use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
 
@@ -274,15 +276,432 @@ final class GameTest extends TestCase
     }
     // -------------------------------------------------
     
-    public function test_getGameProgression(): void
+    public function test_getGameProgression_0(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
+        //Datas : 8 in deck 1, 9 in deck 2, 4 in building row 
+        TestDatas::$tiles[27] = TestDatas::$tiles[21];
+        TestDatas::$tiles[28] = TestDatas::$tiles[21];
+        for($k=1;$k<=21 - 6 - 6 - 4;$k++){
+            //copy tiles in deck 2 until good number 
+            TestDatas::$tiles[106+$k] = TestDatas::$tiles[101];
+        }
 
         $progress = $game->getGameProgression();
 
-        //TODO : play with tiles and test different progressions
-        assertSame(33.33333333333333,$progress);
+        assertSame(0,$progress);
     }
+    public function test_getGameProgression_1_21(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        //Datas : 7 in deck 1, 9 in deck 2, 4 in building row 
+        TestDatas::$tiles[27] = TestDatas::$tiles[21];
+        for($k=1;$k<=21 - 6 - 6 - 4;$k++){
+            //copy tiles in deck 2 until good number 
+            TestDatas::$tiles[106+$k] = TestDatas::$tiles[101];
+        }
+
+        $progress = $game->getGameProgression();
+
+        assertSame( 1/21 * 100,$progress);
+    }
+    public function test_getGameProgression_2_21(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        //Datas : 6 in deck 1, 9 in deck 2, 4 in building row 
+        for($k=1;$k<=21 - 6 - 6 - 4;$k++){
+            //copy tiles in deck 2 until good number 
+            TestDatas::$tiles[106+$k] = TestDatas::$tiles[101];
+        }
+
+        $progress = $game->getGameProgression();
+
+        assertSame( 2/21 * 100,$progress);
+    }
+    public function test_getGameProgression_3_21(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        //Datas : 5 in deck 1, 9 in deck 2, 4 in building row 
+        unset(TestDatas::$tiles[26]);
+        for($k=1;$k<=21 - 6 - 6 - 4;$k++){
+            TestDatas::$tiles[106+$k] = TestDatas::$tiles[101];
+        }
+
+        $progress = $game->getGameProgression();
+
+        assertSame( 3/21 * 100,$progress);
+    }
+    public function test_getGameProgression_4_21(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        //Datas : 4 in deck 1, 9 in deck 2, 4 in building row 
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[26]);
+        for($k=1;$k<=21 - 6 - 6 - 4;$k++){
+            TestDatas::$tiles[106+$k] = TestDatas::$tiles[101];
+        }
+
+        $progress = $game->getGameProgression();
+
+        assertSame( 4/21 * 100,$progress);
+    }
+    public function test_getGameProgression_5_21(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        //Datas : 3 in deck 1, 9 in deck 2, 4 in building row 
+        unset(TestDatas::$tiles[24]);
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[26]);
+        for($k=1;$k<=21 - 6 - 6 - 4;$k++){
+            TestDatas::$tiles[106+$k] = TestDatas::$tiles[101];
+        }
+
+        $progress = $game->getGameProgression();
+
+        assertSame( 5/21 * 100,$progress);
+    }
+    public function test_getGameProgression_6_21(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        //Datas : 2 in deck 1, 9 in deck 2, 4 in building row 
+        unset(TestDatas::$tiles[23]);
+        unset(TestDatas::$tiles[24]);
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[26]);
+        for($k=1;$k<=21 - 6 - 6 - 4;$k++){
+            TestDatas::$tiles[106+$k] = TestDatas::$tiles[101];
+        }
+
+        $progress = $game->getGameProgression();
+
+        assertSame( 6/21 * 100,$progress);
+    }
+    public function test_getGameProgression_7_21(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        //Datas : 1 in deck 1, 9 in deck 2, 4 in building row 
+        unset(TestDatas::$tiles[22]);
+        unset(TestDatas::$tiles[23]);
+        unset(TestDatas::$tiles[24]);
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[26]);
+        for($k=1;$k<=21 - 6 - 6 - 4;$k++){
+            TestDatas::$tiles[106+$k] = TestDatas::$tiles[101];
+        }
+
+        $progress = $game->getGameProgression();
+
+        assertSame( 7/21 * 100,$progress);
+    }
+    public function test_getGameProgression_8_21(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        //Datas : 0 in deck 1, 9 in deck 2, 4 in building row 
+        unset(TestDatas::$tiles[21]);
+        unset(TestDatas::$tiles[22]);
+        unset(TestDatas::$tiles[23]);
+        unset(TestDatas::$tiles[24]);
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[26]);
+        for($k=1;$k<=21 - 6 - 6 - 4;$k++){
+            TestDatas::$tiles[106+$k] = TestDatas::$tiles[101];
+        }
+
+        $progress = $game->getGameProgression();
+
+        assertSame( 8/21 * 100,$progress);
+    }
+    public function test_getGameProgression_9_21(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        //Datas : 0 in deck 1, 8 in deck 2, 4 in building row 
+        unset(TestDatas::$tiles[21]);
+        unset(TestDatas::$tiles[22]);
+        unset(TestDatas::$tiles[23]);
+        unset(TestDatas::$tiles[24]);
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[26]);
+        for($k=1;$k<=21 - 6 - 6 - 4 - 1;$k++){
+            TestDatas::$tiles[106+$k] = TestDatas::$tiles[101];
+        }
+
+        $progress = $game->getGameProgression();
+
+        assertSame( 9/21 * 100,$progress);
+    }
+    public function test_getGameProgression_10_21(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        //Datas : 0 in deck 1, 7 in deck 2, 4 in building row 
+        unset(TestDatas::$tiles[21]);
+        unset(TestDatas::$tiles[22]);
+        unset(TestDatas::$tiles[23]);
+        unset(TestDatas::$tiles[24]);
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[26]);
+        for($k=1;$k<=21 - 6 - 6 - 4 - 2;$k++){
+            TestDatas::$tiles[106+$k] = TestDatas::$tiles[101];
+        }
+
+        $progress = $game->getGameProgression();
+
+        assertSame( 10/21 * 100,$progress);
+    }
+    public function test_getGameProgression_11_21(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        //Datas : 0 in deck 1, 6 in deck 2, 4 in building row 
+        unset(TestDatas::$tiles[21]);
+        unset(TestDatas::$tiles[22]);
+        unset(TestDatas::$tiles[23]);
+        unset(TestDatas::$tiles[24]);
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[26]);
+        for($k=1;$k<=21 - 6 - 6 - 4 - 3;$k++){
+            TestDatas::$tiles[106+$k] = TestDatas::$tiles[101];
+        }
+
+        $progress = $game->getGameProgression();
+
+        assertSame( 11/21 * 100,$progress);
+    }
+    public function test_getGameProgression_max(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        //Datas : 0 in deck 1, 0 in deck 2, 3 in building row for 2 players
+        unset(TestDatas::$tiles[21]);
+        unset(TestDatas::$tiles[22]);
+        unset(TestDatas::$tiles[23]);
+        unset(TestDatas::$tiles[24]);
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[26]);
+        unset(TestDatas::$tiles[34]);
+        unset(TestDatas::$tiles[101]);
+        unset(TestDatas::$tiles[102]);
+        unset(TestDatas::$tiles[103]);
+        unset(TestDatas::$tiles[104]);
+        unset(TestDatas::$tiles[105]);
+        unset(TestDatas::$tiles[106]);
+        
+        $progress = $game->getGameProgression();
+
+        assertSame(19/21 * 100,$progress);
+    }
+    // -------------------------------------------------
+    
+    public function test_ZombieTurn_Draft(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_DRAFT_NEXT_PLAYER, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_DraftMulti(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER_MULTIACTIVE;
+        $state = [ 'type' => 'multipleactiveplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_DRAFT_PLAYER_MULTIACTIVE, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_BeforeTurn(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BEFORE_TURN;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_PlayerTurn(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_PlayerTurn_Build(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_BonusChoice(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_BonusChoiceResource(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE_RESOURCE;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_BonusUpgradeShip(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_UPGRADE_SHIP;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_BonusSecondMarker(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_SECOND_MARKER_ON_BUILDING;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_BonusMoneyorGood(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_MONEY_OR_GOOD;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_BonusSetDie(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_SET_DIE;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_BonusSellGoods(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_SELL_GOODS;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_PlayerTurn_Sail(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_PlayerTurn_Deliver(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_PlayerTurn_Trade(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+    }
+    public function test_ZombieTurn_PlayerTurn_DivineFavor(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DIVINE_FAVOR;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+    }
+
+    public function test_ZombieTurn_DiscardCard(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_DISCARD_CARD;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+
+    public function test_ZombieTurn_ConfirmTurn(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_CONFIRM_TURN;
+        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+
+        $game->zombieTurn($state, TestDatas::$test_activePlayerId );
+        
+        assertSame(ST_END_TURN, GamestateMachine::$test_current_state);
+    }
+    
     // -------------------------------------------------
 }

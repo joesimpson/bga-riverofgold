@@ -425,10 +425,7 @@ abstract class Table
         }
         if( str_starts_with( $sql, 'SELECT *, player_id AS `result_associative_index` FROM `player`' )){
             logForTests("MOCK select players");
-            return [
-                TestDatas::$players[1],
-                TestDatas::$players[2],
-            ];
+            return  TestDatas::$players;
         }
         if( str_starts_with( $sql, "SELECT tile_id AS `result_associative_index` , `tile_id` , `tile_location` , `tile_state` , `type` , `subtype` FROM `tiles` WHERE (`tile_location` = 'bd1') ORDER BY tile_state DESC LIMIT" )){
             logForTests("MOCK select deck 1 tiles");
