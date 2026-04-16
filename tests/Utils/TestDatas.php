@@ -134,10 +134,12 @@ class TestDatas {
             1 => [
                 'nbActionsBuild' => 0,
                 'nbActionsDeliver' => 0,
+                'nbActionsSail' => 0,
             ],
             2 => [
                 'nbActionsBuild' => 0,
                 'nbActionsDeliver' => 0,
+                'nbActionsSail' => 0,
             ],
         ];
     }

@@ -152,6 +152,11 @@ abstract class Table
             logForTests("getUniqueValueFromDb: count is $count for ".json_encode($types));
             return $count;
         }
+        if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND \(`card_location` = '(?P<card_location>.*)'\) AND \(`type` = (?P<type>.*)\)$/", $sql, $matches) == 1) {
+            $count = count(array_filter(TestDatas::$cards,function ($card) use($matches, ) {return $card['card_location'] == $matches['card_location'] && $card['player_id'] ==intval( $matches['player_id']) && $card['type']== intval($matches['type']);}));
+            logForTests("getUniqueValueFromDb: count is $count ");
+            return $count;
+        }
         if (preg_match("/^SELECT COUNT\(\*\) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\)$/", $sql, $matches) == 1) {
             $tile_location = $matches['tile_location'];
             $count = count(array_filter(TestDatas::$tiles,function ($card) use($tile_location,) {return $card['tile_location'] == $tile_location;}));
@@ -527,6 +532,9 @@ abstract class Table
                 return true;
             case "UPDATE `stats` SET `stats_value` = `stats_value` + 1 WHERE `stats_type` = 22 AND `stats_player_id` = 1":
                 TestDatas::$stats[1]['nbActionsDeliver']++;
+                return true;
+            case "UPDATE `stats` SET `stats_value` = `stats_value` + 1 WHERE `stats_type` = 21 AND `stats_player_id` = 1":
+                TestDatas::$stats[1]['nbActionsSail']++;
                 return true;
 
         }
