@@ -152,6 +152,11 @@ abstract class Table
             logForTests("getUniqueValueFromDb: count is $count for ".json_encode($types));
             return $count;
         }
+        if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND \(`card_location` = '(?P<card_location>.*)'\)$/", $sql, $matches) == 1) {
+            $count = count(array_filter(TestDatas::$cards,function ($card) use($matches, ) {return $card['card_location'] == $matches['card_location'] && $card['player_id'] ==intval( $matches['player_id']) ;}));
+            logForTests("getUniqueValueFromDb: count is $count ");
+            return $count;
+        }
         if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND \(`card_location` = '(?P<card_location>.*)'\) AND \(`type` = (?P<type>.*)\)$/", $sql, $matches) == 1) {
             $count = count(array_filter(TestDatas::$cards,function ($card) use($matches, ) {return $card['card_location'] == $matches['card_location'] && $card['player_id'] ==intval( $matches['player_id']) && $card['type']== intval($matches['type']);}));
             logForTests("getUniqueValueFromDb: count is $count ");
@@ -385,10 +390,23 @@ abstract class Table
             logForTests("MOCK select cards with ids ".json_encode($card_ids).": ".json_encode($filtered));
             return $filtered;
         }
+        if (preg_match("/^SELECT (.*) FROM `cards` WHERE `type` = (?P<player_id>.*) AND `subtype` = (?P<subtype>.*) AND `card_location` = '(?P<card_location>.*)'$/", $sql, $matches) == 1) {
+            $card_location = $matches['card_location'];
+            $player_id = $matches['player_id'];
+            $subtype = $matches['subtype'];
+            $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location, $player_id, $subtype){return $card['card_location'] == $card_location && $card['player_id'] == $player_id && $card['subtype'] == $subtype;});
+            return $filtered;
+        }
         if (preg_match("/^SELECT (.*) FROM `meeples` WHERE `player_id` = (?P<player_id>.*) AND \(`meeple_location` = '(?P<meeple_location>.*)'\)$/", $sql, $matches) == 1) {
             $meeple_location = $matches['meeple_location'];
             $player_id = $matches['player_id'];
             $filtered = array_filter(TestDatas::$tokens,function ($token) use ($meeple_location, $player_id){return $token['meeple_location'] == $meeple_location && $token['player_id'] == $player_id;});
+            return $filtered;
+        }
+        if (preg_match("/^SELECT (.*) FROM `meeples` WHERE `player_id` = (?P<player_id>.*) AND \(`meeple_location` IN \('(?P<meeple_locations>.*)'\)\)$/", $sql, $matches) == 1) {
+            $meeple_locations = explode(',',str_replace("'","",$matches['meeple_locations']));
+            $player_id = $matches['player_id'];
+            $filtered = array_filter(TestDatas::$tokens,function ($token) use ($meeple_locations, $player_id){return in_array($token['meeple_location'], $meeple_locations) && $token['player_id'] == $player_id;});
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `meeples` WHERE \(`meeple_location` = '(?P<meeple_location>.*)'\)$/", $sql, $matches) == 1) {

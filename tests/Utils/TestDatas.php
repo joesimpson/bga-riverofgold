@@ -17,7 +17,7 @@ class TestDatas {
                 'player_name' => 'Player_NAME_1', 
                 'player_score' => 19, 
                 'die_face' => 1, 
-                'resources' => '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0}', 
+                'resources' => '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}', 
                 'player_clan' => 1, 
                 'bonuses' => '[]', 
                 'last_turn_played' => false, 

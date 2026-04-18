@@ -42,7 +42,7 @@ final class GameTest extends TestCase
                     'silk' => 0,
                     'rice' => 0,
                     'pottery' => 0,
-                    'moon' => 0,
+                    'moon' => 3,
                     'sun' => 0,
                     'buildings' => [
                         1 => 1,
