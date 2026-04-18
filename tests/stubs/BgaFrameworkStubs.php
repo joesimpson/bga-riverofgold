@@ -390,11 +390,17 @@ abstract class Table
             logForTests("MOCK select cards with ids ".json_encode($card_ids).": ".json_encode($filtered));
             return $filtered;
         }
-        if (preg_match("/^SELECT (.*) FROM `cards` WHERE `type` = (?P<player_id>.*) AND `subtype` = (?P<subtype>.*) AND `card_location` = '(?P<card_location>.*)'$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT (.*) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND \(`card_location` = '(?P<card_location>.*)'\)$/", $sql, $matches) == 1) {
             $card_location = $matches['card_location'];
             $player_id = $matches['player_id'];
+            $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location, $player_id, ){return $card['card_location'] == $card_location && $card['player_id'] == $player_id ;});
+            return $filtered;
+        }
+        if (preg_match("/^SELECT (.*) FROM `cards` WHERE `type` = (?P<type>.*) AND `subtype` = (?P<subtype>.*) AND `card_location` = '(?P<card_location>.*)'$/", $sql, $matches) == 1) {
+            $card_location = $matches['card_location'];
+            $type = $matches['type'];
             $subtype = $matches['subtype'];
-            $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location, $player_id, $subtype){return $card['card_location'] == $card_location && $card['player_id'] == $player_id && $card['subtype'] == $subtype;});
+            $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location, $type, $subtype){return $card['card_location'] == $card_location && $card['type'] == $type && $card['subtype'] == $subtype;});
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `meeples` WHERE `player_id` = (?P<player_id>.*) AND \(`meeple_location` = '(?P<meeple_location>.*)'\)$/", $sql, $matches) == 1) {
@@ -585,11 +591,18 @@ abstract class Table
             TestDatas::$players[$pid]['die_face'] = intval($die_face);
             return true;
         }
-        if (preg_match("/^UPDATE `player` SET `player_score` = `player_score` \+ (?P<player_score>\d+) WHERE `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^UPDATE `player` SET `player_score` = `player_score` \+ (?P<player_score>\d+) WHERE (\s*)`player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
             $player_score = $matches['player_score'];
             $pid = $matches['pid'];
             logForTests("DbQuery --- INC player_score for player $pid ... '$player_score'");
             TestDatas::$players[$pid]['player_score'] += intval($player_score);
+            return true;
+        }
+        if (preg_match("/^UPDATE `player` SET `player_score_aux` = '(?P<player_score_aux>\d+)' WHERE (\s*)`player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+            $player_score = $matches['player_score_aux'];
+            $pid = $matches['pid'];
+            logForTests("DbQuery --- set player_score_aux for player $pid ... '$player_score'");
+            TestDatas::$players[$pid]['player_score_aux'] = intval($player_score);
             return true;
         }
         if (preg_match("/^UPDATE `player` SET `last_turn_played` = '(?P<last_turn_played>\w+)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
