@@ -8,6 +8,7 @@ use Bga\GameFramework\GamestateMachine;
 use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
+use ROG\Managers\Cards;
 use Tests\Utils\PHPUnitUtil;
 use Tests\Utils\TestDatas;
 
@@ -34,6 +35,11 @@ final class SetupTest extends TestCase
         PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
         assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
+        
+        $player1Resources = json_decode(TestDatas::$players[3]['resources'], true);
+        assertSame(7, $player1Resources [RESOURCE_TYPE_MONEY]);
+        $player2Resources = json_decode(TestDatas::$players[4]['resources'], true);
+        assertSame(8, $player2Resources [RESOURCE_TYPE_MONEY]);
     }
     public function test_setupNewGame_DraftAlternative(): void
     {
@@ -67,6 +73,10 @@ final class SetupTest extends TestCase
         TestDatas::$cards[101]['player_id'] = 1;
         TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        //Clear hand :
+        unset(TestDatas::$cards[11]);
+        unset(TestDatas::$cards[12]);
+        unset(TestDatas::$cards[13]);
 
         $game->stPlayerSetup();
 
@@ -74,6 +84,7 @@ final class SetupTest extends TestCase
         $resources = json_decode(TestDatas::$players[1]['resources'], true);
         assertSame(10, $resources[RESOURCE_TYPE_MONEY]);
         assertSame(0, TestDatas::$players[1]['skip_roll_die']);
+        assertSame(2, Cards::countPlayerCards(1,CARD_LOCATION_HAND));
     }
 
     public function testEnteringState_PlayerSetup_PatronDarling(): void
@@ -87,6 +98,10 @@ final class SetupTest extends TestCase
         TestDatas::$cards[101]['player_id'] = 1;
         TestDatas::$cards[101]['type'] = PATRON_DARLING;
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        //Clear hand :
+        unset(TestDatas::$cards[11]);
+        unset(TestDatas::$cards[12]);
+        unset(TestDatas::$cards[13]);
 
         $game->stPlayerSetup();
         
@@ -96,6 +111,7 @@ final class SetupTest extends TestCase
         
         //false because of rollDie()
         assertSame(0, TestDatas::$players[1]['skip_roll_die']);
+        assertSame(2, Cards::countPlayerCards(1,CARD_LOCATION_HAND));
     }
     public function testEnteringState_PlayerSetup_PatronSonOfStorm(): void
     {
@@ -108,6 +124,10 @@ final class SetupTest extends TestCase
         TestDatas::$cards[101]['player_id'] = 1;
         TestDatas::$cards[101]['type'] = PATRON_SON_OF_STORM;
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        //Clear hand :
+        unset(TestDatas::$cards[11]);
+        unset(TestDatas::$cards[12]);
+        unset(TestDatas::$cards[13]);
 
         $game->stPlayerSetup();
         
@@ -115,6 +135,7 @@ final class SetupTest extends TestCase
         $resources = json_decode(TestDatas::$players[1]['resources'], true);
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
         assertSame(0, TestDatas::$players[1]['skip_roll_die']);
+        assertSame(3, Cards::countPlayerCards(1,CARD_LOCATION_HAND));
     }
     // ----------------------------------------------------------------------
     

@@ -406,12 +406,13 @@ abstract class Table
             $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location, ){return $card['card_location'] == $card_location ;});
             return $filtered;
         }
-        if (preg_match("/^SELECT (.*) FROM `cards` WHERE \(`card_location` = '(?P<card_location>.*)'\) ORDER BY card_state (?P<order>\w+) LIMIT (?P<limit>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT (.*) FROM `cards` WHERE \(`card_location` = '(?P<card_location>.*)'\)( ORDER BY card_state (ASC|DESC))?( LIMIT (?P<limit>\d+))?$/", $sql, $matches) == 1) {
             //TODO SORT card_state
             $card_location = $matches['card_location'];
             $limit = intval($matches['limit']);
-            $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location,$limit){return  $card['card_location'] == $card_location;});
+            $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location,){return  $card['card_location'] == $card_location;});
             $filtered = array_slice($filtered, 0, $limit, true);
+            return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND \(`card_location` = '(?P<card_location>.*)'\)$/", $sql, $matches) == 1) {
             $card_location = $matches['card_location'];
@@ -585,6 +586,29 @@ abstract class Table
                 return true;
 
         }
+        //2 inserts at the same time
+        if (preg_match("/^INSERT INTO `player` (.*) VALUES(\('(?P<player_id>\d+)','(?P<player_color>\w+)','(?P<player_name>\w+)','(?P<player_clan>\d+)','(?P<resources>[\w\":,{}]+)'\)),(\('(?P<player_id2>\d+)','(?P<player_color2>\w+)','(?P<player_name2>\w+)','(?P<player_clan2>\d+)','(?P<resources2>[\w\":,{}]+)'\))$/", $sql, $matches) == 1) {
+            $player_clan = intval( $matches['player_clan']);
+            $player_color = $matches['player_color'];
+            $player_name = ($matches['player_name']);
+            $resources = ($matches['resources']);
+            $player_id = intval($matches['player_id']);
+            $player_ids = array_keys(TestDatas::$players);
+            $player_id = 1 + $player_ids[count($player_ids)-1];
+            logForTests("DbQuery --- added player $player_id : $player_color, $player_name, $player_clan, '$resources' ");
+            TestDatas::$players[$player_id] = ['result_associative_index' => $player_id, 'player_id' => $player_id, 'player_color' => $player_color, 'player_name'=> $player_name,'player_clan' => $player_clan,  'resources' => $resources, ];
+            
+            $player_clan = intval( $matches['player_clan2']);
+            $player_color = $matches['player_color2'];
+            $player_name = ($matches['player_name2']);
+            $resources = ($matches['resources2']);
+            $player_id = intval($matches['player_id2']);
+            $player_ids = array_keys(TestDatas::$players);
+            $player_id = 1 + $player_ids[count($player_ids)-1];
+            logForTests("DbQuery --- added player $player_id : $player_color, $player_name, $player_clan, '$resources' ");
+            TestDatas::$players[$player_id] = ['result_associative_index' => $player_id, 'player_id' => $player_id, 'player_color' => $player_color, 'player_name'=> $player_name,'player_clan' => $player_clan,  'resources' => $resources, ];
+            return true;
+        }
         if (preg_match("/^UPDATE `player` SET `resources` = '(?P<resources>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
             $resources = $matches['resources'];
             $resources = str_replace('\\','',$resources);
@@ -665,6 +689,17 @@ abstract class Table
             $card_id = $matches['card_id'];
             logForTests("DbQuery --- updated card_location for card $card_id : $card_location");
             TestDatas::$cards[$card_id]['card_location'] = $card_location;
+            return true;
+        }
+        if (preg_match("/^UPDATE `cards` SET `card_state` = '(?P<card_state>.*)' WHERE \(`card_id` IN \((?P<card_ids>.*)\)\)$/", $sql, $matches) == 1) {
+            $card_state = $matches['card_state'];
+            $card_ids = explode(',', str_replace("'","",$matches['card_ids']));
+            foreach($card_ids as $cardIdString){
+                $card_id = intval($cardIdString);
+                if(!array_key_exists($card_id,TestDatas::$cards)) continue;
+                logForTests("DbQuery --- updated card_state for card $card_id : $card_state");
+                TestDatas::$cards[$card_id]['card_state'] = intval($card_state);
+            }
             return true;
         }
         if (preg_match("/^UPDATE `cards` SET `card_location` = '(?P<card_location>.*)',`card_state` = '(?P<card_state>.*)' WHERE \(`card_id` IN \((?P<card_ids>.*)\)\)$/", $sql, $matches) == 1) {

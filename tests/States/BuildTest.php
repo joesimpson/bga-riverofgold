@@ -36,8 +36,6 @@ final class BuildTest extends TestCase
                 ShoreSpaces::getShoreSpace(1),
                 ShoreSpaces::getShoreSpace(2),
                 ShoreSpaces::getShoreSpace(3),
-                ShoreSpaces::getShoreSpace(4),
-                ShoreSpaces::getShoreSpace(5),
             ]),
             'previousSteps' => [],
             'previousChoices' => 0,
