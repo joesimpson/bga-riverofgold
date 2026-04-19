@@ -454,7 +454,7 @@ abstract class Table
             logForTests("MOCK select tokens with ids ".json_encode($meeple_ids).": ".json_encode($filtered));
             return $filtered;
         }
-        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\)$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(?`tile_location` = '(?P<tile_location>.*)'\)?$/", $sql, $matches) == 1) {
             $tile_location = $matches['tile_location'];
             $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location,){return $tile['tile_location'] == $tile_location ;});
             return $filtered;
