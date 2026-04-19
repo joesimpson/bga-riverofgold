@@ -17,7 +17,6 @@ use function PHPUnit\Framework\assertNotSame;
 final class SailTest extends TestCase
 {
 
-
     // -------------------------------------------------
     // -------------------------------------------------
     
@@ -255,6 +254,62 @@ final class SailTest extends TestCase
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
     }
     
+    public function test_ActionSail_Pass_Monk1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_MONK_1;
+        TestDatas::$tiles[41]['tile_state'] = 11;
+        TestDatas::$tiles[42]['tile_state'] = 12;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_state'] = 2;
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        $shipId = 21;
+        $riverSpace = 6;
+
+        $game->actSailSelect($shipId,$riverSpace);
+        
+        assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
+        $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
+        assertSame(10, $resources[RESOURCE_TYPE_MONEY]);//EMPTY_SPACE_REWARD*2 + 1*2 as owner reward + 3 as Own visitor reward + 3 as Opponent visitor reward
+        assertSame(19+0,TestDatas::$players[1]['player_score']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsSail']);
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionSail_Pass_Monk2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_MONK_2;
+        TestDatas::$tiles[41]['tile_state'] = 11;
+        TestDatas::$tiles[42]['tile_state'] = 12;
+        TestDatas::$tiles[42]['type'] = 9;
+        TestDatas::$tokens[43] = TestDatas::$tokens[42];
+        TestDatas::$tokens[43]['meeple_state'] = 2;
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['player_id'] = 1;
+        $shipId = 21;
+        $riverSpace = 6;
+
+        $game->actSailSelect($shipId,$riverSpace);
+        
+        assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(6, $resources[RESOURCE_TYPE_MONEY]);//EMPTY_SPACE_REWARD*2 + 1 as owner reward + 3 as Own visitor reward 
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);//+1 as owner reward on oppponent tile
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);//1 as visitor reward on oppponent tile
+        assertSame(20,TestDatas::$players[1]['player_score']);//+1 as owner reward on Opponent tile
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsSail']);
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
     public function test_ActionSail_Pass_Noble1_WithStandardShip(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
