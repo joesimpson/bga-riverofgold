@@ -179,6 +179,17 @@ abstract class Table
             logForTests("getUniqueValueFromDb: count is $count");
             return $count;
         }
+        if (preg_match("/^SELECT COUNT\( distinct meeple_state\) FROM `meeples` WHERE `player_id` NOT IN \('(?P<pid>.*)'\) AND `meeple_location` = '(?P<meeple_location>.*)' AND \(`meeple_state` IN \((?P<meeple_states>.*)\)\)$/", $sql, $matches) == 1) {
+            $pidNot = intval($matches['pid']);
+            $meeple_states = explode(',', str_replace("'","",$matches['meeple_states']) );
+            $meeple_location = ($matches['meeple_location']);
+            $tokens = array_filter(TestDatas::$tokens,function ($t) use($pidNot,$meeple_location, $meeple_states) {return $t['player_id'] != $pidNot && $t['meeple_location'] == $meeple_location && in_array($t['meeple_state'], $meeple_states);});
+            logForTests("getUniqueValueFromDb: tokens after filter = ".json_encode($tokens));
+            $states = array_map(function ($t) {return $t['meeple_state'];}, $tokens,);
+            $count = count( array_unique($states));
+            logForTests("getUniqueValueFromDb: count is $count");
+            return $count;
+        }
         logForTests("getUniqueValueFromDb: /?\ ");
         return null;
     }
@@ -389,6 +400,18 @@ abstract class Table
             }
             logForTests("MOCK select cards with ids ".json_encode($card_ids).": ".json_encode($filtered));
             return $filtered;
+        }
+        if (preg_match("/^SELECT (.*) FROM `cards` WHERE \(`card_location` = '(?P<card_location>.*)'\)$/", $sql, $matches) == 1) {
+            $card_location = $matches['card_location'];
+            $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location, ){return $card['card_location'] == $card_location ;});
+            return $filtered;
+        }
+        if (preg_match("/^SELECT (.*) FROM `cards` WHERE \(`card_location` = '(?P<card_location>.*)'\) ORDER BY card_state (?P<order>\w+) LIMIT (?P<limit>\d+)$/", $sql, $matches) == 1) {
+            //TODO SORT card_state
+            $card_location = $matches['card_location'];
+            $limit = intval($matches['limit']);
+            $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location,$limit){return  $card['card_location'] == $card_location;});
+            $filtered = array_slice($filtered, 0, $limit, true);
         }
         if (preg_match("/^SELECT (.*) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND \(`card_location` = '(?P<card_location>.*)'\)$/", $sql, $matches) == 1) {
             $card_location = $matches['card_location'];

@@ -16,7 +16,7 @@ use function PHPUnit\Framework\assertSame;
 final class SetupTest extends TestCase
 {
     // ----------------------------------------------------------------------
-    public function test_setupNewGame(): void
+    public function test_setupNewGame_NoExpansions(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
@@ -27,6 +27,25 @@ final class SetupTest extends TestCase
         ] ;
         $options = [
             OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+        ];
+        
+        //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.
+        //$game->setupNewGame($playersDatas, $options);
+        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
+    }
+    public function test_setupNewGame_DraftAlternative(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_ALTERNATIVE,
         ];
         
         //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.

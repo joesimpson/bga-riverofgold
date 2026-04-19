@@ -7,11 +7,48 @@ namespace Tests\Managers;
 use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Managers\Players;
+use ROG\Managers\Tiles;
+use ROG\Models\MasteryCard;
 use ROG\Models\Player;
 use Tests\Utils\TestDatas;
 
+use function PHPUnit\Framework\assertSame;
+
 final class PlayersTest extends TestCase
 {
+    // -------------------------------------------------
+    // -------------------------------------------------
+    public function test_NextPlayerNotEliminated_SamePlayer(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        TestDatas::$test_activePlayerId = 1;
+        $player_id = TestDatas::$test_activePlayerId;
+        $expectedPlayerId = 1;
+        $game = new GameMock();
+        TestDatas::$players[2]['player_eliminated'] = true;
+        TestDatas::$players[1]['player_eliminated'] = false;
+
+        $nextPlayer = Players::getNextPlayerNotEliminated($player_id);
+        
+        self::assertTrue( $nextPlayer instanceof Player );
+        self::assertSame( $expectedPlayerId, $nextPlayer->getId(), );
+    }
+    public function test_NextPlayerNotEliminated_2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        TestDatas::$test_activePlayerId = 1;
+        $player_id = TestDatas::$test_activePlayerId;
+        $expectedPlayerId = 2;
+        $game = new GameMock();
+        TestDatas::$players[1]['player_eliminated'] = true;
+        TestDatas::$players[2]['player_eliminated'] = false;
+
+        $nextPlayer = Players::getNextPlayerNotEliminated($player_id);
+        
+        self::assertTrue( $nextPlayer instanceof Player );
+        self::assertSame( $expectedPlayerId, $nextPlayer->getId(), );
+    }
+    // -------------------------------------------------
     public function test_NextPlayerWithBonusToChoose_SamePlayer(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -75,4 +112,1529 @@ final class PlayersTest extends TestCase
         
         self::assertNull($nextPlayer);
     }
+    // -------------------------------------------------
+    public function test_gainInfluence_Region1_ToSpace1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $amount = 1;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    
+    public function test_gainInfluence_Region1_ToSpace2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $amount = 2;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region1_ToSpace5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $amount = 5;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region1_ToSpace9(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $amount = 9;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region1_ToSpace11(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $amount = 11;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region1_ToSpace13(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $amount = 13;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(27, TestDatas::$players[1]['player_score']);//19+5+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region1_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $amount = 18;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(30, TestDatas::$players[1]['player_score']);//19+5+3+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(true, $goToBonusChoice);
+    }
+    // -------------------------------------------------
+    
+    public function test_gainInfluence_Region2_ToSpace1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 2;
+        $amount = 1;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    
+    public function test_gainInfluence_Region2_ToSpace2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 2;
+        $amount = 2;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region2_ToSpace5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 2;
+        $amount = 5;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region2_ToSpace9(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 2;
+        $amount = 9;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region2_ToSpace11(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 2;
+        $amount = 11;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region2_ToSpace13(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 2;
+        $amount = 13;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(27, TestDatas::$players[1]['player_score']);//19+5+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region2_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 2;
+        $amount = 18;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(30, TestDatas::$players[1]['player_score']);//19+5+3+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(true, $goToBonusChoice);
+    }
+    // -------------------------------------------------
+    
+    public function test_gainInfluence_Region3_ToSpace1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 3;
+        $amount = 1;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    
+    public function test_gainInfluence_Region3_ToSpace2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 3;
+        $amount = 2;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region3_ToSpace5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 3;
+        $amount = 5;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region3_ToSpace9(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 3;
+        $amount = 9;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region3_ToSpace11(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 3;
+        $amount = 11;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region3_ToSpace13(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 3;
+        $amount = 13;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(27, TestDatas::$players[1]['player_score']);//19+5+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region3_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 3;
+        $amount = 18;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(30, TestDatas::$players[1]['player_score']);//19+5+3+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(true, $goToBonusChoice);
+    }
+    // -------------------------------------------------
+    public function test_gainInfluence_Region4_ToSpace1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 4;
+        $amount = 1;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    
+    public function test_gainInfluence_Region4_ToSpace2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 4;
+        $amount = 2;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region4_ToSpace5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 4;
+        $amount = 5;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region4_ToSpace9(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 4;
+        $amount = 9;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region4_ToSpace11(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 4;
+        $amount = 11;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region4_ToSpace13(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 4;
+        $amount = 13;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(27, TestDatas::$players[1]['player_score']);//19+5+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region4_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 4;
+        $amount = 18;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(30, TestDatas::$players[1]['player_score']);//19+5+3+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(true, $goToBonusChoice);
+    }
+    // -------------------------------------------------
+    
+    public function test_gainInfluence_Region5_ToSpace1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 5;
+        $amount = 1;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    
+    public function test_gainInfluence_Region5_ToSpace2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 5;
+        $amount = 2;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region5_ToSpace5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 5;
+        $amount = 5;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region5_ToSpace9(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 5;
+        $amount = 9;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region5_ToSpace11(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 5;
+        $amount = 11;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region5_ToSpace13(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 5;
+        $amount = 13;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(27, TestDatas::$players[1]['player_score']);//19+5+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region5_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 5;
+        $amount = 18;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(30, TestDatas::$players[1]['player_score']);//19+5+3+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(true, $goToBonusChoice);
+    }
+    // -------------------------------------------------
+    
+    public function test_gainInfluence_Region6_ToSpace1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 1;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    
+    public function test_gainInfluence_Region6_ToSpace2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 2;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region6_ToSpace5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 5;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region6_ToSpace9(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 9;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region6_ToSpace11(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 11;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region6_ToSpace13(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 13;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(27, TestDatas::$players[1]['player_score']);//19+5+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
+    }
+    public function test_gainInfluence_Region6_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 18;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(30, TestDatas::$players[1]['player_score']);//19+5+3+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(true, $goToBonusChoice);
+    }
+    // -------------------------------------------------
+    
+    public function test_gainInfluence_LadyOfWhispers_Jump1Player(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 16;
+        TestDatas::$cards[101]['type'] = PATRON_LADY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$tokens[16]['meeple_state'] = 1;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount + 1, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(27, TestDatas::$players[1]['player_score']);//19+5+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+    }
+    public function test_gainInfluence_LadyOfWhispers_Jump2Players(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 16;
+        TestDatas::$cards[101]['type'] = PATRON_LADY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$tokens[16]['meeple_state'] = 1;
+        TestDatas::$tokens[17] = TestDatas::$tokens[16];
+        TestDatas::$tokens[17]['meeple_state'] = 3;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount + 2, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(30, TestDatas::$players[1]['player_score']);//19+5+3+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
+        //!\ return value is currently not updated by the recursive calls, we should not rely on the return value
+        //assertSame(true, $goToBonusChoice);
+    }
+    
+    public function test_gainInfluence_LadyOfWhispers_Jump3Players(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 15;
+        TestDatas::$cards[101]['type'] = PATRON_LADY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$tokens[16]['meeple_state'] = 1;
+        TestDatas::$tokens[17] = TestDatas::$tokens[16];
+        TestDatas::$tokens[17]['meeple_state'] = 3;
+        TestDatas::$tokens[18] = TestDatas::$tokens[16];
+        TestDatas::$tokens[18]['meeple_state'] = 17;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount + 3, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(30, TestDatas::$players[1]['player_score']);//19+5+3+3
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
+        //!\ return value is currently not updated by the recursive calls, we should not rely on the return value
+        //assertSame(true, $goToBonusChoice);
+    }
+    
+    // -------------------------------------------------
+    
+    public function test_gainInfluence_GovernorCityOfLies_KO_0(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 3;
+        TestDatas::$cards[104]['type'] = PATRON_GOVERNOR;
+        TestDatas::$cards[104]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$tokens[16]['meeple_state'] = 0;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(2,  TestDatas::$players[2]['player_score']);//2+0
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
+    public function test_gainInfluence_GovernorCityOfLies_Pass_2_Passed(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 3;
+        TestDatas::$cards[104]['type'] = PATRON_GOVERNOR;
+        TestDatas::$cards[104]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$tokens[16]['meeple_state'] = 2;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(5,  TestDatas::$players[2]['player_score']);//2+3
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
+    public function test_gainInfluence_GovernorCityOfLies_KO_2_Reached(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 2;
+        TestDatas::$cards[104]['type'] = PATRON_GOVERNOR;
+        TestDatas::$cards[104]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$tokens[16]['meeple_state'] = 2;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(2,  TestDatas::$players[2]['player_score']);//2+0
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
+    public function test_gainInfluence_GovernorCityOfLies_Pass_VS_Lady(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 2;
+        TestDatas::$cards[101]['type'] = PATRON_LADY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$cards[104]['type'] = PATRON_GOVERNOR;
+        TestDatas::$cards[104]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$tokens[16]['meeple_state'] = 2;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame(3, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(5,  TestDatas::$players[2]['player_score']);//2+3
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
+    // -------------------------------------------------
+    
+    public function test_claimMasteries_Type1_Inactive(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        TestDatas::$cards[12]['type']  = CARD_ELDER_1;
+        TestDatas::$cards[13] = TestDatas::$cards[11];
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);
+    }
+    public function test_claimMasteries_Type1_Active_2Players_First(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        TestDatas::$cards[12]['type']  = CARD_ELDER_1;
+        TestDatas::$cards[13] = TestDatas::$cards[11];
+        TestDatas::$cards[13]['type']  = CARD_MERCHANT_1;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+    }
+    public function test_claimMasteries_Type1_Active_2Players_Last(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        TestDatas::$cards[12]['type']  = CARD_ELDER_1;
+        TestDatas::$cards[13] = TestDatas::$cards[11];
+        TestDatas::$cards[13]['type']  = CARD_MERCHANT_1;
+        //1 opponent on the mastery tile :
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);
+    }
+    
+    public function test_claimMasteries_Type1_Active_4Players_First(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 7;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        TestDatas::$cards[12]['type']  = CARD_ELDER_3;
+        TestDatas::$cards[13] = TestDatas::$cards[11];
+        TestDatas::$cards[13]['type']  = CARD_MONK_4;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(26, TestDatas::$players[1]['player_score']);//19+7
+    }
+    public function test_claimMasteries_Type1_Active_4Players_Second(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 7;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        TestDatas::$cards[12]['type']  = CARD_NOBLE_2;
+        TestDatas::$cards[13] = TestDatas::$cards[11];
+        TestDatas::$cards[13]['type']  = CARD_MONK_4;
+        //1 opponent on the mastery tile :
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+    }
+    public function test_claimMasteries_Type1_Active_4Players_Third(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 7;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        TestDatas::$cards[12]['type']  = CARD_NOBLE_2;
+        TestDatas::$cards[13] = TestDatas::$cards[11];
+        TestDatas::$cards[13]['type']  = CARD_MONK_4;
+        //2 opponents on the mastery tile :
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(22, TestDatas::$players[1]['player_score']);//19+3
+    }
+    public function test_claimMasteries_Type1_Active_4Players_Last(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 7;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        TestDatas::$cards[12]['type']  = CARD_NOBLE_2;
+        TestDatas::$cards[13] = TestDatas::$cards[11];
+        TestDatas::$cards[13]['type']  = CARD_MONK_4;
+        //2 opponents on the mastery tile :
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[103] = ['result_associative_index' => 103, 'meeple_id' => 103, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);//19
+    }
+    
+    public function test_claimMasteries_Type4_Inactive(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 4;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+    }
+    public function test_claimMasteries_Type4_Active_2Players_First(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 4;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+    }
+    public function test_claimMasteries_Type4_Active_2Players_Last(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        //1 opponent on the mastery tile :
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);
+    }
+    public function test_claimMasteries_Type4_Active_4Players_First(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 10;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(26, TestDatas::$players[1]['player_score']);//19+7
+    }
+    public function test_claimMasteries_Type4_Active_4Players_Second(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 10;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        //1 opponent on the mastery tile :
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+    }
+    public function test_claimMasteries_Type4_Active_4Players_Third(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 10;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        //1 opponent on the mastery tile :
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(22, TestDatas::$players[1]['player_score']);//19+3
+    }
+    public function test_claimMasteries_Type4_Active_4Players_Last(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 10;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        //1 opponent on the mastery tile :
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[103] = ['result_associative_index' => 103, 'meeple_id' => 103, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);//19
+    }
+    
+    public function test_claimMasteries_Type3_Inactive(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 3;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[44] = TestDatas::$tokens[41];
+        TestDatas::$tokens[44]['meeple_location'] = MEEPLE_LOCATION_TILE.'44';
+        TestDatas::$tiles[44] = TestDatas::$tiles[41];
+        TestDatas::$tiles[44]['tile_id'] = 44;
+        TestDatas::$tiles[44]['result_associative_index'] = 44;
+        TestDatas::$tiles[44]['type'] = 20;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+    }
+    public function test_claimMasteries_Type3_Active_2Players_First(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 3;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[44] = TestDatas::$tokens[41];
+        TestDatas::$tokens[44]['meeple_location'] = MEEPLE_LOCATION_TILE.'44';
+        TestDatas::$tiles[44] = TestDatas::$tiles[41];
+        TestDatas::$tiles[44]['tile_id'] = 44;
+        TestDatas::$tiles[44]['result_associative_index'] = 44;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+    }
+    
+    public function test_claimMasteries_Type5_Inactive_2Players(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 5;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$tokens[1]['meeple_state'] = 1;
+        TestDatas::$tokens[2]['meeple_state'] = 1;
+        TestDatas::$tokens[3]['meeple_state'] = 0;
+        TestDatas::$tokens[4]['meeple_state'] = 1;
+        TestDatas::$tokens[5]['meeple_state'] = 1;
+        TestDatas::$tokens[6]['meeple_state'] = 1;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+    }
+    public function test_claimMasteries_Type5_Active_2Players_First(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 5;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$tokens[1]['meeple_state'] = 1;
+        TestDatas::$tokens[2]['meeple_state'] = 1;
+        TestDatas::$tokens[3]['meeple_state'] = 1;
+        TestDatas::$tokens[4]['meeple_state'] = 1;
+        TestDatas::$tokens[5]['meeple_state'] = 1;
+        TestDatas::$tokens[6]['meeple_state'] = 1;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+    }
+    
+    public function test_claimMasteries_Type6_Inactive(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 6;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['type'] = 19;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[44] = TestDatas::$tokens[41];
+        TestDatas::$tokens[44]['meeple_location'] = MEEPLE_LOCATION_TILE.'44';
+        TestDatas::$tiles[44] = TestDatas::$tiles[41];
+        TestDatas::$tiles[44]['tile_id'] = 44;
+        TestDatas::$tiles[44]['type'] = 25;
+        TestDatas::$tiles[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[45] = TestDatas::$tokens[41];
+        TestDatas::$tokens[45]['meeple_location'] = MEEPLE_LOCATION_TILE.'45';
+        TestDatas::$tiles[45] = TestDatas::$tiles[41];
+        TestDatas::$tiles[45]['tile_id'] = 45;
+        TestDatas::$tiles[45]['result_associative_index'] = 45;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+    }
+    public function test_claimMasteries_Type6_Active_2Players_First(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 6;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['type'] = 19;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[44] = TestDatas::$tokens[41];
+        TestDatas::$tokens[44]['meeple_location'] = MEEPLE_LOCATION_TILE.'44';
+        TestDatas::$tiles[44] = TestDatas::$tiles[41];
+        TestDatas::$tiles[44]['tile_id'] = 44;
+        TestDatas::$tiles[44]['type'] = 25;
+        TestDatas::$tiles[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[45] = TestDatas::$tokens[41];
+        TestDatas::$tokens[45]['meeple_location'] = MEEPLE_LOCATION_TILE.'45';
+        TestDatas::$tiles[45] = TestDatas::$tiles[41];
+        TestDatas::$tiles[45]['tile_id'] = 45;
+        TestDatas::$tiles[45]['type'] = 13;
+        TestDatas::$tiles[45]['result_associative_index'] = 45;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+    }
+    // -------------------------------------------------
 }
