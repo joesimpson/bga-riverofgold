@@ -14,17 +14,17 @@
  */
 
 @use "sass:math";
-@import "modules/css/variables";
-@import "modules/css/player-panel";
-@import "modules/css/player-board";
-@import "modules/css/river";
-@import "modules/css/cards";
-@import "modules/css/tiles";
-@import "modules/css/meeples";
-@import "modules/css/icons";
-@import "modules/css/settings";
-@import "modules/css/scoring";
-@import "modules/css/nouislider";
+@import "src/css/variables";
+@import "src/css/player-panel";
+@import "src/css/player-board";
+@import "src/css/river";
+@import "src/css/cards";
+@import "src/css/tiles";
+@import "src/css/meeples";
+@import "src/css/icons";
+@import "src/css/settings";
+@import "src/css/scoring";
+@import "src/css/nouislider";
 /**
     PREFIX FOR THIS GAME PROJECT : "rog"
 */
