@@ -26,12 +26,12 @@
   
 require_once( APP_BASE_PATH."view/common/game.view.php" );
   
-class view_riverofgold_riverofgold extends game_view
+class view_riverofgoldnightmarket_riverofgoldnightmarket extends game_view
 {
     protected function getGameName()
     {
         // Used for translations and stuff. Please do not modify.
-        return "riverofgold";
+        return "riverofgoldnightmarket";
     }
     
   	function build_page( $viewArgs )

@@ -619,7 +619,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
         }
 
         let suffix = settingName.charAt(0).toUpperCase() + settingName.slice(1);
-        let value = this.getConfig(this.game_name + suffix, config.default);
+        let value = this.getConfig('riverofgold' + suffix, config.default);
         this.settings[settingName] = value;
 
         // Slider type => create DOM and initialize noUiSlider
@@ -670,7 +670,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     changeSetting(settingName, value) {
       let suffix = settingName.charAt(0).toUpperCase() + settingName.slice(1);
       this.settings[settingName] = value;
-      localStorage.setItem(this.game_name + suffix, value);
+      localStorage.setItem('riverofgold' + suffix, value);
       let methodName = 'onChange' + suffix + 'Setting';
       if (this[methodName]) {
         this[methodName](value);

@@ -21,7 +21,7 @@
 
     <source restrictDeprecations="false" restrictNotices="false" restrictWarnings="false">
         <include>
-            <file>riverofgold.game.php</file>
+            <file>riverofgoldnightmarket.game.php</file>
             <directory>modules</directory>
         </include>
     </source>

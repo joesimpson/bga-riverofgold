@@ -11,7 +11,7 @@ namespace {
     use Tests\Utils\TestDatas;
 
 #[\AllowDynamicProperties]
-class GameMock extends RiverOfGold {
+class GameMock extends RiverOfGoldNightMarket {
 
     public function __construct()
     {

@@ -39,7 +39,7 @@ use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 
-class RiverOfGold extends \Bga\GameFramework\Table
+class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
 {
     use ROG\DebugTrait;
     use ROG\States\BeforeTurnTrait;

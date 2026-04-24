@@ -22,7 +22,7 @@
  */
   
   
-  class action_riverofgold extends APP_GameAction
+  class action_riverofgoldnightmarket extends APP_GameAction
   { 
     // Constructor: please do not modify
    	public function __default()
@@ -34,7 +34,7 @@
   	    }
   	    else
   	    {
-            $this->view = "riverofgold_riverofgold";
+            $this->view = "riverofgoldnightmarket_riverofgoldnightmarket";
             self::trace( "Complete reinitialization of board game" );
       }
   	} 

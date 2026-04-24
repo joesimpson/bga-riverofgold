@@ -214,7 +214,7 @@ function (dojo, declare) {
     const PREF_ANIMATION_MOVING_SCORE = 107;
     const PREF_ANIMATION_MOVING_SCORE_OFF = 1;
 
-    return declare("bgagame.riverofgold", [customgame.game], {
+    return declare("bgagame.riverofgoldnightmarket", [customgame.game], {
         constructor: function(){
             debug('riverofgold constructor');
 
