@@ -56,11 +56,20 @@ trait DebugTrait
   ////////////////////////////////////////////////////
   //Reset game TABLE almost like setupNewGame
   ////////////////////////////////////////////////////
-  function debug_RESET(){
+  function debug_RESET(
+    bool $expansionClans = true,
+    bool $expansionClansAlt = true,
+  ){
     Log::disable();
     $this->debug_ClearLogs();
     $options = ["DEBUG"=> true, 
-      OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+      OPTION_EXPANSION_CLANS => ($expansionClans ? (
+            $expansionClansAlt ? 
+            OPTION_EXPANSION_CLANS_ALTERNATIVE : 
+            OPTION_EXPANSION_CLANS_DRAFT
+          ) : 
+          OPTION_EXPANSION_CLANS_OFF
+        ) ,
       //OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_DRAFT,
       //OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_ALTERNATIVE
     ];
@@ -79,6 +88,27 @@ trait DebugTrait
     Log::enable();
   }
 
+  /**
+   * Another example of debug function, to easily test the zombie code.
+   */
+  public function debug_playOneMove(int $nbMoves = 1) {
+      $this->debug->playUntil(fn(int $count) => $count == $nbMoves);
+  }
+  
+  /** Test useful after loading a bug report made too late, we can rollback to previous moves */
+  function debug_UndoToMove(int $moveId = 30){
+      $player = Players::getCurrent();
+      $query = new QueryBuilder('log', null, 'id');
+      $query = $query->select(['id'])->where('move_id', $moveId);
+      $logMove = $query
+          ->orderBy('id', 'DESC')
+          ->limit(1)
+          ->get()
+          ->first();
+      Log::revertTo($logMove['id']);
+      Notifications::restartTurn($player);
+  }
+  
   function debug_GoToPlayerSetup()
   {
     $this->gamestate->jumpToState(ST_PLAYER_SETUP);
