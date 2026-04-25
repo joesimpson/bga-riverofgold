@@ -75,7 +75,18 @@ $gameinfos = array(
 'language_dependency' => false,
 
 // Colors attributed to players
-'player_colors' => array( "ff0000", "008000", "0000ff", "ffffff" ),
+'player_colors' => array( 
+    // --------- V1 :
+    "ff0000", // RED
+    "008000", // GREEN for Mantis
+    "0000ff", // BLUE
+    "ffffff", // WHITE
+    // --------- V2 :
+    "f07f16", // Orange
+    "ffff00", // Yellow
+    "298a47", // Green for Dragon
+    "982fff", // Purple
+),
 
 // Favorite colors support : if set to "true", support attribution of favorite colors based on player's preferences (see reattributeColorsBasedOnPreferences PHP method)
 // NB: this parameter is used only to flag games supporting this feature; you must use (or not use) reattributeColorsBasedOnPreferences PHP method to actually enable or disable the feature.

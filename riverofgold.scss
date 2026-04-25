@@ -255,16 +255,42 @@ body[data-rog_undo_style='2']{//PREF_UNDO_STYLE_ICON
         color: #ff0000 !important;
     }
 }
-.playername_wrapper_008000{//GREEN
+.playername_wrapper_008000{//defined as GREEN in v1 but should have been Cyan
     .playername, // Different in replay ?
     &.playername {
-        color: #008000 !important;
+        color: #72c3b1 !important;
     }
 }
 .playername_wrapper_0000ff{//BLUE
     .playername, // Different in replay ?
     &.playername {
         color: #0000ff !important;
+    }
+}
+
+.playername_wrapper_f07f16{//orange
+    .playername,
+    &.playername {
+        color: #f07f16 !important;
+    }
+}
+.playername_wrapper_ffff00{//yellow
+    .playername,
+    &.playername {
+        color: #ffff00 !important;
+        text-shadow: 1px 0px 1px black, 0px 1px 1px black,-1px 0px 1px black,0px -1px 1px black !important;
+    }
+}
+.playername_wrapper_298a47{//new green
+    .playername,
+    &.playername {
+        color: #298a47 !important;
+    }
+}
+.playername_wrapper_982fff{//purple
+    .playername,
+    &.playername {
+        color: #982fff !important;
     }
 }
 // ------------------------------------------------------------------------------

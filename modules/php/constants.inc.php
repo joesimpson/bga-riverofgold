@@ -301,15 +301,27 @@ const CLAN_CRAB =    1;
 const CLAN_MANTIS =  2;
 const CLAN_CRANE =   3;
 const CLAN_SCORPION = 4;
+const CLAN_PHOENIX =  5;
+const CLAN_LION =     6;
+const CLAN_DRAGON =   7;
+const CLAN_UNICORN =  8;
 const CLANS_COLORS = [
    //blue
    '0000ff' => CLAN_CRAB,
-   //green
+   //green v1
    '008000' => CLAN_MANTIS,
    //white
    'ffffff' => CLAN_CRANE,
    //red
    'ff0000' => CLAN_SCORPION,
+   //Orange
+   'f07f16' => CLAN_PHOENIX,
+   //Yellow
+   'ffff00' => CLAN_LION,
+   //New Green v2
+   '298a47' => CLAN_DRAGON,
+   //Purple
+   '982fff' => CLAN_UNICORN,
 ];
 
 

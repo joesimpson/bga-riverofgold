@@ -10,7 +10,7 @@
             border-image-repeat: round;
         }
         &[data-color='008000']{
-            box-shadow: 1px 1px 10px #008000;
+            box-shadow: 0px 0px 2px #72c3b1;
             border-image: url('img/clans/greenBorders.png');
             border-image-slice: 100 100 100 100;
             border-image-width: 10px;
@@ -33,15 +33,57 @@
             border-image-repeat: round;
             box-shadow: none;
         }
+        &[data-color="f07f16"]{
+            //box-shadow: 0px 0px 0px 5px #f07f16;
+            box-shadow: 0px 0px 0px 2px #f07f16;
+            
+            border-image: url('img/clans/orangeBorders.png');
+            border-image-slice: 100 100 100 100;
+            border-image-width: 10px;
+            border-image-repeat: round;
+        }
+        &[data-color="ffff00"]{
+            //box-shadow: 0px 0px 0px 5px #c9a62e;
+            box-shadow: 0px 0px 0px 2px #c9a62e;
+
+            border-image: url('img/clans/yellowBorders.png');
+            border-image-slice: 100 100 100 100;
+            border-image-width: 10px;
+            border-image-repeat: round;
+        }
+        &[data-color="298a47"]{
+            box-shadow: 0px 0px 0px 2px #298a47;
+
+            border-image: url('img/clans/dragonBorders.png');
+            border-image-slice: 100 100 100 100;
+            border-image-width: 10px;
+            border-image-repeat: round;
+        }
+        &[data-color="982fff"]{
+            box-shadow: 0px 0px 0px 2px #5f3c64;
+
+            border-image: url('img/clans/purpleBorders.png');
+            border-image-slice: 100 100 100 100;
+            border-image-width: 10px;
+            border-image-repeat: round;
+        }
     }
 }
 .player_board_inner{
     >.player-name{
         /** Add a BLACK shadow behind player name in case of bright colors like white/orange*/
         >a[style*='color: #ffa500'], >a[data-color='ffa500'],
+        >a[style*='color: #f07f16'], >a[data-color='f07f16'],
+        >a[style*='color: #ffff00'], >a[data-color='ffff00'],
         >a[style*='color: #ffffff'], >a[data-color='ffffff'],
         >a[style*='color: #bdd002'], >a[data-color='bdd002']
         {
+            text-shadow: 1px 0px 1px black, 0px 1px 1px black,-1px 0px 1px black,0px -1px 1px black;        
+        }
+        >a[style*='color: #008000'], >a[data-color='008000']
+        {
+            //should have been defined as Cyan
+            color: #72c3b1 !important;
             text-shadow: 1px 0px 1px black, 0px 1px 1px black,-1px 0px 1px black,0px -1px 1px black;        
         }
     }
@@ -417,6 +459,28 @@
         &.rog_icon_clan-4{
             @include rog_icons_sprite(-683px,-793px,35px,30px,71px,71px);
         }
+        
+        &.rog_icon_clan-5,
+        &.rog_icon_clan-6,
+        &.rog_icon_clan-7,
+        &.rog_icon_clan-8
+        {
+            background-size: 100% 100%;
+            width: 35px;
+            height: 30px;
+        }
+        &.rog_icon_clan-5{//CLAN_PHOENIX
+            background-image: url("img/clans/L5R_Icon_Phoenix.png");
+        }
+        &.rog_icon_clan-6{
+            background-image: url("img/clans/L5R_Icon_Lion.png");
+        }
+        &.rog_icon_clan-7{
+            background-image: url("img/clans/L5R_Icon_Dragon.png");
+        }
+        &.rog_icon_clan-8{
+            background-image: url("img/clans/L5R_Icon_Unicorn.png");
+        }
 
     }
 }
@@ -470,6 +534,19 @@
     &[data-clan='4']{//CLAN_SCORPION
         //background-image: url("img/clans/Scorpion_2.jpg");
         background-image: url("img/clans/L5R_Icon_Scorpion.png");
+    }
+
+    &[data-clan='5']{//CLAN_PHOENIX
+        background-image: url("img/clans/L5R_Icon_Phoenix.png");
+    }
+    &[data-clan='6']{//CLAN_LION
+        background-image: url("img/clans/L5R_Icon_Lion.png");
+    }
+    &[data-clan='7']{//CLAN_DRAGON
+        background-image: url("img/clans/L5R_Icon_Dragon.png");
+    }
+    &[data-clan='8']{//CLAN_UNICORN
+        background-image: url("img/clans/L5R_Icon_Unicorn.png");
     }
     
 }
@@ -707,6 +784,19 @@ body[data-rog_anim_lastturn_msg='2']{//PREF_ANIMATION_LASTTURN_BLINK
         }
         &[data-clan='4']{//CLAN_SCORPION
             background-image: url("img/clans/Scorpion_2.jpg");
+        }
+        
+        &[data-clan='5']{//CLAN_PHOENIX
+            background-image: url("img/clans/Phoenix.jpg");
+        }
+        &[data-clan='6']{//CLAN_LION
+            background-image: url("img/clans/Lion.jpg");
+        }
+        &[data-clan='7']{//CLAN_DRAGON
+            background-image: url("img/clans/Dragon.jpg");
+        }
+        &[data-clan='8']{//CLAN_UNICORN
+            background-image: url("img/clans/Unicorn.jpg");
         }
     }
 }

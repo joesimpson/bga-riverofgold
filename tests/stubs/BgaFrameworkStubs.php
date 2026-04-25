@@ -92,7 +92,18 @@ abstract class Table
     final public function getGameinfos(): array
     {
         return [
-            'player_colors' => ["ff0000", "008000", "0000ff", "ffffff"],
+            'player_colors' => array( 
+                // --------- V1 :
+                "ff0000", // RED
+                "008000", // GREEN for Mantis
+                "0000ff", // BLUE
+                "ffffff", // WHITE
+                // --------- V2 :
+                "f07f16", // Orange
+                "ffff00", // Yellow
+                "298a47", // Green for Dragon
+                "982fff", // Purple
+            ),
             'favorite_colors_support' => true,
         ];
     }

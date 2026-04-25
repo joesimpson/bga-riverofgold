@@ -119,6 +119,42 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
         ];
         return $result;
     }
+    
+    /**
+     * Returns an array of user preference colors to game colors.
+     * Game colors must be among those which are passed to `Table::reattributeColorsBasedOnPreferences()`.
+     *
+     * Each game color can be an array of suitable colors, or a single color:
+     *
+     * ```
+     * [
+     *    // The first available color chosen:
+     *    'ff0000' => ['990000', 'aa1122'],
+     *    // This color is chosen, if available
+     *    '0000ff' => '000099',
+     * ]
+     * ```
+     *
+     * If no color can be matched from this array, then the default implementation is used.
+     *
+     * @return array<string, ?string>
+     */
+    function getSpecificColorPairings(): array {
+        return array(
+            "ff0000" /* Red */         => 'ff0000',
+            "008000" /* Green */       => '298a47', //new green in v2 with Dragon clan
+            "0000ff" /* Blue */        => '0000ff',
+            "ffff00" /* Yellow */      => 'ffff00',
+            "e94190" /* Pink */        => '982fff',
+            "982fff" /* Purple */      => '982fff',
+            "72c3b1" /* Cyan */        => '008000', // map to 'green' used in v1 for mantis clan which is closer to cyan
+            "f07f16" /* Orange */      => 'f07f16',
+            "bdd002" /* Khaki green */ => '298a47',
+            "7b7b7b" /* Gray */        => 'ffffff',
+            //"000000" /* Black */       => 'ffffff',
+            "ffffff" /* White */       => 'ffffff',
+        );
+    }
 
     /*
         getGameProgression:

@@ -43,7 +43,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   border-image-repeat: round;
 }
 #player_boards > .player-board[data-color="008000"] {
-  box-shadow: 1px 1px 10px #008000;
+  box-shadow: 0px 0px 2px #72c3b1;
   -o-border-image: url("img/clans/greenBorders.png");
      border-image: url("img/clans/greenBorders.png");
   border-image-slice: 100 100 100 100;
@@ -67,13 +67,51 @@ Icon extract in sprite with differents layers size (so % is not useful).
   border-image-repeat: round;
   box-shadow: none;
 }
+#player_boards > .player-board[data-color=f07f16] {
+  box-shadow: 0px 0px 0px 2px #f07f16;
+  -o-border-image: url("img/clans/orangeBorders.png");
+     border-image: url("img/clans/orangeBorders.png");
+  border-image-slice: 100 100 100 100;
+  border-image-width: 10px;
+  border-image-repeat: round;
+}
+#player_boards > .player-board[data-color=ffff00] {
+  box-shadow: 0px 0px 0px 2px #c9a62e;
+  -o-border-image: url("img/clans/yellowBorders.png");
+     border-image: url("img/clans/yellowBorders.png");
+  border-image-slice: 100 100 100 100;
+  border-image-width: 10px;
+  border-image-repeat: round;
+}
+#player_boards > .player-board[data-color="298a47"] {
+  box-shadow: 0px 0px 0px 2px #298a47;
+  -o-border-image: url("img/clans/dragonBorders.png");
+     border-image: url("img/clans/dragonBorders.png");
+  border-image-slice: 100 100 100 100;
+  border-image-width: 10px;
+  border-image-repeat: round;
+}
+#player_boards > .player-board[data-color="982fff"] {
+  box-shadow: 0px 0px 0px 2px #5f3c64;
+  -o-border-image: url("img/clans/purpleBorders.png");
+     border-image: url("img/clans/purpleBorders.png");
+  border-image-slice: 100 100 100 100;
+  border-image-width: 10px;
+  border-image-repeat: round;
+}
 
 .player_board_inner > .player-name {
   /** Add a BLACK shadow behind player name in case of bright colors like white/orange*/
 }
 .player_board_inner > .player-name > a[style*="color: #ffa500"], .player_board_inner > .player-name > a[data-color=ffa500],
+.player_board_inner > .player-name > a[style*="color: #f07f16"], .player_board_inner > .player-name > a[data-color=f07f16],
+.player_board_inner > .player-name > a[style*="color: #ffff00"], .player_board_inner > .player-name > a[data-color=ffff00],
 .player_board_inner > .player-name > a[style*="color: #ffffff"], .player_board_inner > .player-name > a[data-color=ffffff],
 .player_board_inner > .player-name > a[style*="color: #bdd002"], .player_board_inner > .player-name > a[data-color=bdd002] {
+  text-shadow: 1px 0px 1px black, 0px 1px 1px black, -1px 0px 1px black, 0px -1px 1px black;
+}
+.player_board_inner > .player-name > a[style*="color: #008000"], .player_board_inner > .player-name > a[data-color="008000"] {
+  color: #72c3b1 !important;
   text-shadow: 1px 0px 1px black, 0px 1px 1px black, -1px 0px 1px black, 0px -1px 1px black;
 }
 .player_board_inner .player_score .fa-star {
@@ -535,6 +573,23 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-position-y: -335.0704225352px;
   background-size: 1476.0563380282% 1411.2676056338%;
 }
+.rog_icon_container .rog_icon.rog_icon_clan-5, .rog_icon_container .rog_icon.rog_icon_clan-6, .rog_icon_container .rog_icon.rog_icon_clan-7, .rog_icon_container .rog_icon.rog_icon_clan-8 {
+  background-size: 100% 100%;
+  width: 35px;
+  height: 30px;
+}
+.rog_icon_container .rog_icon.rog_icon_clan-5 {
+  background-image: url("img/clans/L5R_Icon_Phoenix.png");
+}
+.rog_icon_container .rog_icon.rog_icon_clan-6 {
+  background-image: url("img/clans/L5R_Icon_Lion.png");
+}
+.rog_icon_container .rog_icon.rog_icon_clan-7 {
+  background-image: url("img/clans/L5R_Icon_Dragon.png");
+}
+.rog_icon_container .rog_icon.rog_icon_clan-8 {
+  background-image: url("img/clans/L5R_Icon_Unicorn.png");
+}
 
 .rog_player_background_big_symbol {
   z-index: 1;
@@ -561,6 +616,18 @@ Icon extract in sprite with differents layers size (so % is not useful).
 }
 .rog_player_background_big_symbol[data-clan="4"] {
   background-image: url("img/clans/L5R_Icon_Scorpion.png");
+}
+.rog_player_background_big_symbol[data-clan="5"] {
+  background-image: url("img/clans/L5R_Icon_Phoenix.png");
+}
+.rog_player_background_big_symbol[data-clan="6"] {
+  background-image: url("img/clans/L5R_Icon_Lion.png");
+}
+.rog_player_background_big_symbol[data-clan="7"] {
+  background-image: url("img/clans/L5R_Icon_Dragon.png");
+}
+.rog_player_background_big_symbol[data-clan="8"] {
+  background-image: url("img/clans/L5R_Icon_Unicorn.png");
 }
 
 #rog_dieFace_animation,
@@ -748,6 +815,18 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_player_board_tooltip .rog_player_board[data-clan="4"] {
   background-image: url("img/clans/Scorpion_2.jpg");
+}
+.rog_player_board_tooltip .rog_player_board[data-clan="5"] {
+  background-image: url("img/clans/Phoenix.jpg");
+}
+.rog_player_board_tooltip .rog_player_board[data-clan="6"] {
+  background-image: url("img/clans/Lion.jpg");
+}
+.rog_player_board_tooltip .rog_player_board[data-clan="7"] {
+  background-image: url("img/clans/Dragon.jpg");
+}
+.rog_player_board_tooltip .rog_player_board[data-clan="8"] {
+  background-image: url("img/clans/Unicorn.jpg");
 }
 
 #rog_upper_zone {
@@ -1539,8 +1618,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_shore_space#rog_shore_space-27 .rog_tile.selectable, .rog_shore_space#rog_shore_space-29.selectable,
 .rog_shore_space#rog_shore_space-29 .rog_tile.selectable, .rog_shore_space#rog_shore_space-30.selectable,
 .rog_shore_space#rog_shore_space-30 .rog_tile.selectable {
-  -webkit-clip-path: polygon(15.04% 9.19%, 95.78% 7.48%, 96.75% 92.7%, 17.24% 92.25%, 1.49% 59.79%, 1.21% 42.73%);
-          clip-path: polygon(15.04% 9.19%, 95.78% 7.48%, 96.75% 92.7%, 17.24% 92.25%, 1.49% 59.79%, 1.21% 42.73%);
+  clip-path: polygon(15.04% 9.19%, 95.78% 7.48%, 96.75% 92.7%, 17.24% 92.25%, 1.49% 59.79%, 1.21% 42.73%);
 }
 
 .rog_river_space {
@@ -1554,8 +1632,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: -150px;
   width: 380px;
   height: 400px;
-  -webkit-clip-path: polygon(36.03% 16.47%, 101.08% 14.27%, 91.23% 51.92%, 45.78% 78.44%, 9.07% 91.37%, 44.4% 40.63%);
-          clip-path: polygon(36.03% 16.47%, 101.08% 14.27%, 91.23% 51.92%, 45.78% 78.44%, 9.07% 91.37%, 44.4% 40.63%);
+  clip-path: polygon(36.03% 16.47%, 101.08% 14.27%, 91.23% 51.92%, 45.78% 78.44%, 9.07% 91.37%, 44.4% 40.63%);
 }
 .rog_river_space[data-pos="2"] {
   top: 376px;
@@ -1566,8 +1643,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: -50px;
   width: 380px;
   height: 400px;
-  -webkit-clip-path: polygon(1.22% 30.88%, 34.14% 26.99%, 79.63% -4.04%, 54.71% 40.29%, 66.19% 85.43%, 22.98% 62.67%);
-          clip-path: polygon(1.22% 30.88%, 34.14% 26.99%, 79.63% -4.04%, 54.71% 40.29%, 66.19% 85.43%, 22.98% 62.67%);
+  clip-path: polygon(1.22% 30.88%, 34.14% 26.99%, 79.63% -4.04%, 54.71% 40.29%, 66.19% 85.43%, 22.98% 62.67%);
 }
 .rog_river_space[data-pos="3"] {
   top: 562px;
@@ -1578,8 +1654,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   height: 420px;
   top: -160px;
   left: -70px;
-  -webkit-clip-path: polygon(-4.43% -9.49%, 33.01% 26.99%, 98.85% 50.06%, 98.8% 101.66%, 50.36% 73.32%, -0.76% 32.79%);
-          clip-path: polygon(-4.43% -9.49%, 33.01% 26.99%, 98.85% 50.06%, 98.8% 101.66%, 50.36% 73.32%, -0.76% 32.79%);
+  clip-path: polygon(-4.43% -9.49%, 33.01% 26.99%, 98.85% 50.06%, 98.8% 101.66%, 50.36% 73.32%, -0.76% 32.79%);
 }
 .rog_river_space[data-pos="4"] {
   top: 770px;
@@ -1590,8 +1665,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   height: 360px;
   top: -160px;
   left: -70px;
-  -webkit-clip-path: polygon(2.35% -1.95%, 53.36% 35.47%, 96.59% 69.84%, 84.1% 90.36%, 43.58% 96.87%, 16.2% 75.19%);
-          clip-path: polygon(2.35% -1.95%, 53.36% 35.47%, 96.59% 69.84%, 84.1% 90.36%, 43.58% 96.87%, 16.2% 75.19%);
+  clip-path: polygon(2.35% -1.95%, 53.36% 35.47%, 96.59% 69.84%, 84.1% 90.36%, 43.58% 96.87%, 16.2% 75.19%);
 }
 .rog_river_space[data-pos="5"] {
   top: 970px;
@@ -1602,8 +1676,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   height: 323px;
   top: -115px;
   left: -85px;
-  -webkit-clip-path: polygon(-2.84% 34.8%, 46.1% 31.27%, 76.88% -0.51%, 93.43% 66.21%, 62.25% 81.12%, 19.31% 88.84%);
-          clip-path: polygon(-2.84% 34.8%, 46.1% 31.27%, 76.88% -0.51%, 93.43% 66.21%, 62.25% 81.12%, 19.31% 88.84%);
+  clip-path: polygon(-2.84% 34.8%, 46.1% 31.27%, 76.88% -0.51%, 93.43% 66.21%, 62.25% 81.12%, 19.31% 88.84%);
 }
 .rog_river_space[data-pos="6"] {
   top: 1170px;
@@ -1614,8 +1687,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   height: 534px;
   top: -115px;
   left: -116px;
-  -webkit-clip-path: polygon(-0.13% 18.29%, 68.71% 5.87%, 77.78% 46.49%, 105.19% 66.21%, 87.57% 91.28%, 41.92% 38.67%);
-          clip-path: polygon(-0.13% 18.29%, 68.71% 5.87%, 77.78% 46.49%, 105.19% 66.21%, 87.57% 91.28%, 41.92% 38.67%);
+  clip-path: polygon(-0.13% 18.29%, 68.71% 5.87%, 77.78% 46.49%, 105.19% 66.21%, 87.57% 91.28%, 41.92% 38.67%);
 }
 .rog_river_space[data-pos="7"] {
   top: 1370px;
@@ -1626,8 +1698,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   height: 450px;
   top: -194px;
   left: -89px;
-  -webkit-clip-path: polygon(-3.75% -1.31%, 41.58% 18.68%, 76.88% 73.62%, 95.24% 89.57%, 24.26% 89.02%, 35.59% 46.21%);
-          clip-path: polygon(-3.75% -1.31%, 41.58% 18.68%, 76.88% 73.62%, 95.24% 89.57%, 24.26% 89.02%, 35.59% 46.21%);
+  clip-path: polygon(-3.75% -1.31%, 41.58% 18.68%, 76.88% 73.62%, 95.24% 89.57%, 24.26% 89.02%, 35.59% 46.21%);
 }
 .rog_river_space[data-pos="8"] {
   top: 1601px;
@@ -1638,8 +1709,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   height: 340px;
   top: -59px;
   left: -34px;
-  -webkit-clip-path: polygon(10.5% 13.65%, 86.23% 15.69%, 86.38% 55.67%, 88.59% 82.59%, 23.31% 76.05%, 10.89% 55.19%);
-          clip-path: polygon(10.5% 13.65%, 86.23% 15.69%, 86.38% 55.67%, 88.59% 82.59%, 23.31% 76.05%, 10.89% 55.19%);
+  clip-path: polygon(10.5% 13.65%, 86.23% 15.69%, 86.38% 55.67%, 88.59% 82.59%, 23.31% 76.05%, 10.89% 55.19%);
 }
 .rog_river_space[data-pos="9"] {
   top: 1901px;
@@ -1650,8 +1720,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: -20px;
   width: 380px;
   height: 400px;
-  -webkit-clip-path: polygon(8.36% 8.84%, 40.39% -4.38%, 64.46% 12.92%, 46.68% 61.48%, 9.07% 87.13%, 3.34% 50.81%);
-          clip-path: polygon(8.36% 8.84%, 40.39% -4.38%, 64.46% 12.92%, 46.68% 61.48%, 9.07% 87.13%, 3.34% 50.81%);
+  clip-path: polygon(8.36% 8.84%, 40.39% -4.38%, 64.46% 12.92%, 46.68% 61.48%, 9.07% 87.13%, 3.34% 50.81%);
 }
 .rog_river_space[data-pos="10"] {
   top: 2101px;
@@ -1662,8 +1731,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: -100px;
   width: 357px;
   height: 564px;
-  -webkit-clip-path: polygon(31.16% 40.11%, 48.26% 17.86%, 64.41% 2.22%, 75.54% 7.04%, 57.81% 42.39%, 91.33% 69.3%, 81.27% 92.54%, 9.04% 50.21%);
-          clip-path: polygon(31.16% 40.11%, 48.26% 17.86%, 64.41% 2.22%, 75.54% 7.04%, 57.81% 42.39%, 91.33% 69.3%, 81.27% 92.54%, 9.04% 50.21%);
+  clip-path: polygon(31.16% 40.11%, 48.26% 17.86%, 64.41% 2.22%, 75.54% 7.04%, 57.81% 42.39%, 91.33% 69.3%, 81.27% 92.54%, 9.04% 50.21%);
 }
 .rog_river_space[data-pos="11"] {
   top: 2301px;
@@ -1674,8 +1742,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: -47px;
   width: 331px;
   height: 505px;
-  -webkit-clip-path: polygon(11.69% 1.83%, 48.26% 17.86%, 62.36% 31.1%, 85.79% 56.07%, 62.93% 73.95%, 49.32% 89.45%, 16.72% 54.93%, 23.38% 38.79%);
-          clip-path: polygon(11.69% 1.83%, 48.26% 17.86%, 62.36% 31.1%, 85.79% 56.07%, 62.93% 73.95%, 49.32% 89.45%, 16.72% 54.93%, 23.38% 38.79%);
+  clip-path: polygon(11.69% 1.83%, 48.26% 17.86%, 62.36% 31.1%, 85.79% 56.07%, 62.93% 73.95%, 49.32% 89.45%, 16.72% 54.93%, 23.38% 38.79%);
 }
 .rog_river_space[data-pos="12"] {
   top: 2527px;
@@ -1686,8 +1753,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: -160px;
   width: 384px;
   height: 439px;
-  -webkit-clip-path: polygon(65.56% 10.33%, 89.77% 32.54%, 95.03% 55.82%, 62.83% 68.43%, 36.44% 86.31%, 9.94% 95.58%, 10.46% 77.09%, 29.09% 62.65%, 45.46% 34.93%);
-          clip-path: polygon(65.56% 10.33%, 89.77% 32.54%, 95.03% 55.82%, 62.83% 68.43%, 36.44% 86.31%, 9.94% 95.58%, 10.46% 77.09%, 29.09% 62.65%, 45.46% 34.93%);
+  clip-path: polygon(65.56% 10.33%, 89.77% 32.54%, 95.03% 55.82%, 62.83% 68.43%, 36.44% 86.31%, 9.94% 95.58%, 10.46% 77.09%, 29.09% 62.65%, 45.46% 34.93%);
 }
 .rog_river_space[data-pos="13"] {
   top: 2827px;
@@ -1698,8 +1764,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: -65px;
   width: 384px;
   height: 450px;
-  -webkit-clip-path: polygon(5.5% 41.98%, 44.72% 32.54%, 77.37% 10.6%, 100.81% 5.88%, 64.7% 54.65%, 84.13% 88.04%, 67.87% 95.93%, 46.75% 89.03%, 31.33% 74.12%);
-          clip-path: polygon(5.5% 41.98%, 44.72% 32.54%, 77.37% 10.6%, 100.81% 5.88%, 64.7% 54.65%, 84.13% 88.04%, 67.87% 95.93%, 46.75% 89.03%, 31.33% 74.12%);
+  clip-path: polygon(5.5% 41.98%, 44.72% 32.54%, 77.37% 10.6%, 100.81% 5.88%, 64.7% 54.65%, 84.13% 88.04%, 67.87% 95.93%, 46.75% 89.03%, 31.33% 74.12%);
 }
 .rog_river_space[data-pos="14"] {
   top: 3027px;
@@ -1710,8 +1775,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: -105px;
   width: 395px;
   height: 450px;
-  -webkit-clip-path: polygon(2.92% 55.55%, 25.83% 30.28%, 41.31% 6.08%, 70.76% 41.3%, 99.91% 58.41%, 78.12% 72.97%, 67.87% 83.12%, 40.74% 98.83%, 21.03% 80.15%);
-          clip-path: polygon(2.92% 55.55%, 25.83% 30.28%, 41.31% 6.08%, 70.76% 41.3%, 99.91% 58.41%, 78.12% 72.97%, 67.87% 83.12%, 40.74% 98.83%, 21.03% 80.15%);
+  clip-path: polygon(2.92% 55.55%, 25.83% 30.28%, 41.31% 6.08%, 70.76% 41.3%, 99.91% 58.41%, 78.12% 72.97%, 67.87% 83.12%, 40.74% 98.83%, 21.03% 80.15%);
 }
 
 .rog_card {
@@ -2343,49 +2407,95 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_player_delivered_resizable .rog_player_delivered .playername {
   text-align: center;
 }
-.rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffa500"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color=ffa500], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffffff"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color=ffffff], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#bdd002"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color=bdd002],
+.rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffa500"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color=ffa500], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffff00"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color=ffff00], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#f07f16"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color=f07f16], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#ffffff"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color=ffffff], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#bdd002"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color=bdd002],
 .rog_player_hand_resizable .rog_player_hand .playername[style*="color:#ffa500"],
 .rog_player_hand_resizable .rog_player_hand .playername[data-color=ffa500],
+.rog_player_hand_resizable .rog_player_hand .playername[style*="color:#ffff00"],
+.rog_player_hand_resizable .rog_player_hand .playername[data-color=ffff00],
+.rog_player_hand_resizable .rog_player_hand .playername[style*="color:#f07f16"],
+.rog_player_hand_resizable .rog_player_hand .playername[data-color=f07f16],
 .rog_player_hand_resizable .rog_player_hand .playername[style*="color:#ffffff"],
 .rog_player_hand_resizable .rog_player_hand .playername[data-color=ffffff],
 .rog_player_hand_resizable .rog_player_hand .playername[style*="color:#bdd002"],
 .rog_player_hand_resizable .rog_player_hand .playername[data-color=bdd002],
 .rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#ffa500"],
 .rog_player_hand_resizable .rog_player_delivered .player-name[data-color=ffa500],
+.rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#ffff00"],
+.rog_player_hand_resizable .rog_player_delivered .player-name[data-color=ffff00],
+.rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#f07f16"],
+.rog_player_hand_resizable .rog_player_delivered .player-name[data-color=f07f16],
 .rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#ffffff"],
 .rog_player_hand_resizable .rog_player_delivered .player-name[data-color=ffffff],
 .rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#bdd002"],
 .rog_player_hand_resizable .rog_player_delivered .player-name[data-color=bdd002],
 .rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#ffa500"],
 .rog_player_hand_resizable .rog_player_delivered .playername[data-color=ffa500],
+.rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#ffff00"],
+.rog_player_hand_resizable .rog_player_delivered .playername[data-color=ffff00],
+.rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#f07f16"],
+.rog_player_hand_resizable .rog_player_delivered .playername[data-color=f07f16],
 .rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#ffffff"],
 .rog_player_hand_resizable .rog_player_delivered .playername[data-color=ffffff],
 .rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#bdd002"],
 .rog_player_hand_resizable .rog_player_delivered .playername[data-color=bdd002],
 .rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#ffa500"],
 .rog_player_delivered_resizable .rog_player_hand .player-name[data-color=ffa500],
+.rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#ffff00"],
+.rog_player_delivered_resizable .rog_player_hand .player-name[data-color=ffff00],
+.rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#f07f16"],
+.rog_player_delivered_resizable .rog_player_hand .player-name[data-color=f07f16],
 .rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#ffffff"],
 .rog_player_delivered_resizable .rog_player_hand .player-name[data-color=ffffff],
 .rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#bdd002"],
 .rog_player_delivered_resizable .rog_player_hand .player-name[data-color=bdd002],
 .rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#ffa500"],
 .rog_player_delivered_resizable .rog_player_hand .playername[data-color=ffa500],
+.rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#ffff00"],
+.rog_player_delivered_resizable .rog_player_hand .playername[data-color=ffff00],
+.rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#f07f16"],
+.rog_player_delivered_resizable .rog_player_hand .playername[data-color=f07f16],
 .rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#ffffff"],
 .rog_player_delivered_resizable .rog_player_hand .playername[data-color=ffffff],
 .rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#bdd002"],
 .rog_player_delivered_resizable .rog_player_hand .playername[data-color=bdd002],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#ffa500"],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[data-color=ffa500],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#ffff00"],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[data-color=ffff00],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#f07f16"],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[data-color=f07f16],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#ffffff"],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[data-color=ffffff],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#bdd002"],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[data-color=bdd002],
 .rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#ffa500"],
 .rog_player_delivered_resizable .rog_player_delivered .playername[data-color=ffa500],
+.rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#ffff00"],
+.rog_player_delivered_resizable .rog_player_delivered .playername[data-color=ffff00],
+.rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#f07f16"],
+.rog_player_delivered_resizable .rog_player_delivered .playername[data-color=f07f16],
 .rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#ffffff"],
 .rog_player_delivered_resizable .rog_player_delivered .playername[data-color=ffffff],
 .rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#bdd002"],
 .rog_player_delivered_resizable .rog_player_delivered .playername[data-color=bdd002] {
+  text-shadow: 2px 0px 2px black, 0px 2px 2px black, -2px 0px 2px black, 0px -2px 2px black;
+}
+.rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#008000"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color="008000"],
+.rog_player_hand_resizable .rog_player_hand .playername[style*="color:#008000"],
+.rog_player_hand_resizable .rog_player_hand .playername[data-color="008000"],
+.rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#008000"],
+.rog_player_hand_resizable .rog_player_delivered .player-name[data-color="008000"],
+.rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#008000"],
+.rog_player_hand_resizable .rog_player_delivered .playername[data-color="008000"],
+.rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#008000"],
+.rog_player_delivered_resizable .rog_player_hand .player-name[data-color="008000"],
+.rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#008000"],
+.rog_player_delivered_resizable .rog_player_hand .playername[data-color="008000"],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#008000"],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[data-color="008000"],
+.rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#008000"],
+.rog_player_delivered_resizable .rog_player_delivered .playername[data-color="008000"] {
+  color: #72c3b1 !important;
   text-shadow: 2px 0px 2px black, 0px 2px 2px black, -2px 0px 2px black, 0px -2px 2px black;
 }
 .rog_player_hand_resizable .rog_player_hand .rog_cards_hand,
@@ -3384,8 +3494,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_building_slot {
   top: 250px;
-  -webkit-clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
-          clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
+  clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_building_slot#rog_building_era-1 {
   left: -155px;
@@ -3455,8 +3564,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   height: 170px;
 }
 .rog_shore_space .rog_tile.selectable {
-  -webkit-clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
-          clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
+  clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
   background-color: rgba(199, 0, 255, 0.431372549);
   cursor: pointer;
 }
@@ -4005,8 +4113,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-position-x: 50%;
   background-position-y: 100%;
   background-color: rgba(199, 0, 255, 0.431372549);
-  -webkit-clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
-          clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
+  clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
   cursor: pointer;
 }
 .rog_building_slot.selectable.selected,
@@ -4020,8 +4127,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot.selectable.rog_building_slot,
 .rog_shore_space.selectable.rog_building_slot {
   background-color: rgb(44, 0, 255);
-  -webkit-clip-path: polygon(82.77% 8.17%, 97.24% 43.78%, 97.67% 61.22%, 83.49% 93.05%, 0.99% 92.71%, -1.23% 7.79%);
-          clip-path: polygon(82.77% 8.17%, 97.24% 43.78%, 97.67% 61.22%, 83.49% 93.05%, 0.99% 92.71%, -1.23% 7.79%);
+  clip-path: polygon(82.77% 8.17%, 97.24% 43.78%, 97.67% 61.22%, 83.49% 93.05%, 0.99% 92.71%, -1.23% 7.79%);
 }
 .rog_building_slot.selectable.rog_building_slot:hover,
 .rog_shore_space.selectable.rog_building_slot:hover {
@@ -4049,8 +4155,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-repeat: no-repeat;
   background-image: url("img/tiles/eraTileHolder.png");
   background-size: 100%;
-  -webkit-clip-path: polygon(8.83% 16.12%, 22.33% 5.45%, 32.6% 6.97%, 45.68% 15.43%, 47.2% 75.54%, 9.95% 75.2%);
-          clip-path: polygon(8.83% 16.12%, 22.33% 5.45%, 32.6% 6.97%, 45.68% 15.43%, 47.2% 75.54%, 9.95% 75.2%);
+  clip-path: polygon(8.83% 16.12%, 22.33% 5.45%, 32.6% 6.97%, 45.68% 15.43%, 47.2% 75.54%, 9.95% 75.2%);
 }
 .rog_emperor_tile.moving {
   width: calc(var(--rog_board_display_scale) * 375px);
@@ -4072,7 +4177,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_meeple[data-type="1"], .rog_meeple[data-type="3"] {
   background-image: url("img/boats.png");
-  background-size: 200% 400%;
+  background-size: 200% 800%;
   background-color: transparent;
   box-shadow: none;
   background-position-x: 0%;
@@ -4082,46 +4187,58 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_meeple[data-type="1"][data-color="0000ff"], .rog_meeple[data-type="3"][data-color="0000ff"] {
   background-position-y: 0%;
-  -webkit-clip-path: polygon(104.26% 23.28%, 83.8% 17.95%, 63.58% 32.39%, 24.37% 47.88%, -6.87% 56.4%, 30.86% 83.52%, 96.59% 61.64%);
-          clip-path: polygon(104.26% 23.28%, 83.8% 17.95%, 63.58% 32.39%, 24.37% 47.88%, -6.87% 56.4%, 30.86% 83.52%, 96.59% 61.64%);
 }
 .rog_meeple[data-type="1"][data-color=ffffff], .rog_meeple[data-type="3"][data-color=ffffff] {
-  background-position-y: 33%;
-  -webkit-clip-path: polygon(98.95% 25.12%, 66.82% 16.93%, 32.45% 31.51%, 2.3% 32.22%, 17.97% 78.75%, 41.79% 86.21%, 90.4% 66.69%);
-          clip-path: polygon(98.95% 25.12%, 66.82% 16.93%, 32.45% 31.51%, 2.3% 32.22%, 17.97% 78.75%, 41.79% 86.21%, 90.4% 66.69%);
+  background-position-y: 14.2857142857%;
 }
 .rog_meeple[data-type="1"][data-color="008000"], .rog_meeple[data-type="3"][data-color="008000"] {
-  background-position-y: 66%;
-  -webkit-clip-path: polygon(70.16% 16.88%, 42.03% 33.93%, 7.08% 52.05%, 22.42% 90.41%, 83.8% 72.29%, 97.44% 26.47%);
-          clip-path: polygon(70.16% 16.88%, 42.03% 33.93%, 7.08% 52.05%, 22.42% 90.41%, 83.8% 72.29%, 97.44% 26.47%);
+  background-position-y: 28.5714285714%;
 }
 .rog_meeple[data-type="1"][data-color=ff0000], .rog_meeple[data-type="3"][data-color=ff0000] {
+  background-position-y: 42.8571428571%;
+}
+.rog_meeple[data-type="1"][data-color=f07f16], .rog_meeple[data-type="3"][data-color=f07f16] {
+  background-position-y: 57.1428571429%;
+}
+.rog_meeple[data-type="1"][data-color=ffff00], .rog_meeple[data-type="3"][data-color=ffff00] {
+  background-position-y: 71.4285714286%;
+}
+.rog_meeple[data-type="1"][data-color="298a47"], .rog_meeple[data-type="3"][data-color="298a47"] {
+  background-position-y: 85.7142857143%;
+}
+.rog_meeple[data-type="1"][data-color="982fff"], .rog_meeple[data-type="3"][data-color="982fff"] {
   background-position-y: 100%;
-  -webkit-clip-path: polygon(71.87% 16.88%, 39.47% 21.15%, -4.86% 46.72%, 21.57% 86.15%, 100% 60.56%, 103.41% 28.6%);
-          clip-path: polygon(71.87% 16.88%, 39.47% 21.15%, -4.86% 46.72%, 21.57% 86.15%, 100% 60.56%, 103.41% 28.6%);
+}
+.rog_meeple[data-type="1"][data-color="0000ff"], .rog_meeple[data-type="1"][data-color=ffff00], .rog_meeple[data-type="3"][data-color="0000ff"], .rog_meeple[data-type="3"][data-color=ffff00] {
+  clip-path: polygon(104.26% 23.28%, 83.8% 17.95%, 63.58% 32.39%, 24.37% 47.88%, -6.87% 56.4%, 30.86% 83.52%, 96.59% 61.64%);
+}
+.rog_meeple[data-type="1"][data-color=ffffff], .rog_meeple[data-type="1"][data-color=f07f16], .rog_meeple[data-type="3"][data-color=ffffff], .rog_meeple[data-type="3"][data-color=f07f16] {
+  clip-path: polygon(98.95% 25.12%, 66.82% 16.93%, 32.45% 31.51%, 2.3% 32.22%, 17.97% 78.75%, 41.79% 86.21%, 90.4% 66.69%);
+}
+.rog_meeple[data-type="1"][data-color="008000"], .rog_meeple[data-type="1"][data-color="982fff"], .rog_meeple[data-type="3"][data-color="008000"], .rog_meeple[data-type="3"][data-color="982fff"] {
+  clip-path: polygon(70.16% 16.88%, 42.03% 33.93%, 7.08% 52.05%, 22.42% 90.41%, 83.8% 72.29%, 97.44% 26.47%);
+}
+.rog_meeple[data-type="1"][data-color=ff0000], .rog_meeple[data-type="1"][data-color="298a47"], .rog_meeple[data-type="3"][data-color=ff0000], .rog_meeple[data-type="3"][data-color="298a47"] {
+  clip-path: polygon(71.87% 16.88%, 39.47% 21.15%, -4.86% 46.72%, 21.57% 86.15%, 100% 60.56%, 103.41% 28.6%);
 }
 .rog_meeple[data-type="3"] {
   background-position-x: 100%;
 }
-.rog_meeple[data-type="3"][data-color="0000ff"] {
-  -webkit-clip-path: polygon(68.45% 6.23%, 15.59% 12.62%, 14.76% 60.57%, -8.03% 62.9%, 26.37% 91.29%, 47.14% 90.4%, 71.01% 84.02%, 96.58% 73.37%, 106.82% 36.06%, 74.42% 29.67%);
-          clip-path: polygon(68.45% 6.23%, 15.59% 12.62%, 14.76% 60.57%, -8.03% 62.9%, 26.37% 91.29%, 47.14% 90.4%, 71.01% 84.02%, 96.58% 73.37%, 106.82% 36.06%, 74.42% 29.67%);
+.rog_meeple[data-type="3"][data-color="0000ff"], .rog_meeple[data-type="3"][data-color=ffff00] {
+  clip-path: polygon(68.45% 6.23%, 15.59% 12.62%, 14.76% 60.57%, -8.03% 62.9%, 26.37% 91.29%, 47.14% 90.4%, 71.01% 84.02%, 96.58% 73.37%, 106.82% 36.06%, 74.42% 29.67%);
 }
-.rog_meeple[data-type="3"][data-color=ffffff] {
-  -webkit-clip-path: polygon(81.24% 10.2%, 46.96% 1.31%, 28.67% 2.74%, 21.58% 42.85%, 1.4% 47.13%, 13.04% 95.82%, 44.85% 103.26%, 73.32% 92.95%, 92.94% 79.79%, 103.43% 35.77%, 81.55% 28.28%);
-          clip-path: polygon(81.24% 10.2%, 46.96% 1.31%, 28.67% 2.74%, 21.58% 42.85%, 1.4% 47.13%, 13.04% 95.82%, 44.85% 103.26%, 73.32% 92.95%, 92.94% 79.79%, 103.43% 35.77%, 81.55% 28.28%);
+.rog_meeple[data-type="3"][data-color=ffffff], .rog_meeple[data-type="3"][data-color=f07f16] {
+  clip-path: polygon(81.24% 10.2%, 46.96% 1.31%, 28.67% 2.74%, 21.58% 42.85%, 1.4% 47.13%, 13.04% 95.82%, 44.85% 103.26%, 73.32% 92.95%, 92.94% 79.79%, 103.43% 35.77%, 81.55% 28.28%);
 }
-.rog_meeple[data-type="3"][data-color="008000"] {
-  -webkit-clip-path: polygon(65.04% 11.56%, 17.3% 14.75%, 19.87% 53.11%, 4.52% 60.57%, 18.16% 84.03%, 47.14% 90.4%, 70.16% 86.15%, 89.76% 60.58%, 97.44% 35%, 73.57% 28.6%);
-          clip-path: polygon(65.04% 11.56%, 17.3% 14.75%, 19.87% 53.11%, 4.52% 60.57%, 18.16% 84.03%, 47.14% 90.4%, 70.16% 86.15%, 89.76% 60.58%, 97.44% 35%, 73.57% 28.6%);
+.rog_meeple[data-type="3"][data-color="008000"], .rog_meeple[data-type="3"][data-color="982fff"] {
+  clip-path: polygon(65.04% 11.56%, 17.3% 14.75%, 19.87% 53.11%, 4.52% 60.57%, 18.16% 84.03%, 47.14% 90.4%, 70.16% 86.15%, 89.76% 60.58%, 97.44% 35%, 73.57% 28.6%);
 }
-.rog_meeple[data-type="3"][data-color=ff0000] {
-  -webkit-clip-path: polygon(58.22% 7.3%, 42.88% 20.08%, 13.06% 19.01%, 7.94% 50.97%, -3.15% 53.11%, 17.31% 89.36%, 40.32% 90.4%, 85.5% 74.42%, 99.99% 46.73%, 88.91% 30.74%, 82.1% 13.68%);
-          clip-path: polygon(58.22% 7.3%, 42.88% 20.08%, 13.06% 19.01%, 7.94% 50.97%, -3.15% 53.11%, 17.31% 89.36%, 40.32% 90.4%, 85.5% 74.42%, 99.99% 46.73%, 88.91% 30.74%, 82.1% 13.68%);
+.rog_meeple[data-type="3"][data-color=ff0000], .rog_meeple[data-type="3"][data-color="298a47"] {
+  clip-path: polygon(58.22% 7.3%, 42.88% 20.08%, 13.06% 19.01%, 7.94% 50.97%, -3.15% 53.11%, 17.31% 89.36%, 40.32% 90.4%, 85.5% 74.42%, 99.99% 46.73%, 88.91% 30.74%, 82.1% 13.68%);
 }
 .rog_meeple[data-type="2"] {
   background-image: url("img/clans_markers.png");
-  background-size: 400% 100%;
+  background-size: 800% 100%;
   background-color: transparent;
   border-radius: 0px;
   box-shadow: none;
@@ -4130,17 +4247,29 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-position-x: 0%;
 }
 .rog_meeple[data-type="2"][data-color="0000ff"] {
-  background-position-x: 33%;
+  background-position-x: 14.2857142857%;
 }
 .rog_meeple[data-type="2"][data-color=ffffff] {
-  background-position-x: 66%;
+  background-position-x: 28.5714285714%;
 }
 .rog_meeple[data-type="2"][data-color=ff0000] {
+  background-position-x: 42.8571428571%;
+}
+.rog_meeple[data-type="2"][data-color=f07f16] {
+  background-position-x: 57.1428571429%;
+}
+.rog_meeple[data-type="2"][data-color=ffff00] {
+  background-position-x: 71.4285714286%;
+}
+.rog_meeple[data-type="2"][data-color="298a47"] {
+  background-position-x: 85.7142857143%;
+}
+.rog_meeple[data-type="2"][data-color="982fff"] {
   background-position-x: 100%;
 }
 .rog_meeple.rog_score_meeple {
   background-image: url("img/score_markers.png");
-  background-size: 400% 100%;
+  background-size: 800% 100%;
   background-color: transparent;
   border-radius: 0px;
   box-shadow: none;
@@ -4154,12 +4283,24 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-position-x: 0%;
 }
 .rog_meeple.rog_score_meeple[data-color="0000ff"] {
-  background-position-x: 33%;
+  background-position-x: 14.2857142857%;
 }
 .rog_meeple.rog_score_meeple[data-color=ffffff] {
-  background-position-x: 66%;
+  background-position-x: 28.5714285714%;
 }
 .rog_meeple.rog_score_meeple[data-color=ff0000] {
+  background-position-x: 42.8571428571%;
+}
+.rog_meeple.rog_score_meeple[data-color=f07f16] {
+  background-position-x: 57.1428571429%;
+}
+.rog_meeple.rog_score_meeple[data-color=ffff00] {
+  background-position-x: 71.4285714286%;
+}
+.rog_meeple.rog_score_meeple[data-color="298a47"] {
+  background-position-x: 85.7142857143%;
+}
+.rog_meeple.rog_score_meeple[data-color="982fff"] {
   background-position-x: 100%;
 }
 .rog_meeple.tooltipable:not(.selectable):hover {
@@ -6047,11 +6188,28 @@ body[data-rog_undo_style="2"] #btnTextRestartTurn {
 }
 
 .playername_wrapper_008000 .playername, .playername_wrapper_008000.playername {
-  color: #008000 !important;
+  color: #72c3b1 !important;
 }
 
 .playername_wrapper_0000ff .playername, .playername_wrapper_0000ff.playername {
   color: #0000ff !important;
+}
+
+.playername_wrapper_f07f16 .playername, .playername_wrapper_f07f16.playername {
+  color: #f07f16 !important;
+}
+
+.playername_wrapper_ffff00 .playername, .playername_wrapper_ffff00.playername {
+  color: #ffff00 !important;
+  text-shadow: 1px 0px 1px black, 0px 1px 1px black, -1px 0px 1px black, 0px -1px 1px black !important;
+}
+
+.playername_wrapper_298a47 .playername, .playername_wrapper_298a47.playername {
+  color: #298a47 !important;
+}
+
+.playername_wrapper_982fff .playername, .playername_wrapper_982fff.playername {
+  color: #982fff !important;
 }
 
 #pagesection_howtoplay li, .midSizeDialog li {

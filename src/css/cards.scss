@@ -515,6 +515,8 @@
         .playername{
             text-align: center;
             &[style*='color:#ffa500'], &[data-color='ffa500'],
+            &[style*='color:#ffff00'], &[data-color='ffff00'],
+            &[style*='color:#f07f16'], &[data-color='f07f16'],
             &[style*='color:#ffffff'], &[data-color='ffffff'],
             &[style*='color:#bdd002'], &[data-color='bdd002']
             {
@@ -522,6 +524,15 @@
                     0px 2px 2px black,
                     -2px 0px 2px black,
                     0px -2px 2px black;        
+            }
+            &[style*='color:#008000'], &[data-color='008000']
+            {
+                //should have been defined as Cyan
+                color: #72c3b1 !important;
+                text-shadow: 2px 0px 2px black, 
+                    0px 2px 2px black,
+                    -2px 0px 2px black,
+                    0px -2px 2px black;      
             }
         }
         .rog_cards_hand,

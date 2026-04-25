@@ -317,6 +317,10 @@ function (dojo, declare) {
                 [2, _('Mantis Clan')],
                 [3, _('Crane Clan')],
                 [4, _('Scorpion Clan')],
+                [5, _('Phoenix Clan')],
+                [6, _('Lion Clan')],
+                [7, _('Dragon Clan')],
+                [8, _('Unicorn Clan')],
             ]);
             this.CUSTOMER_TYPES =  new Map([
                 [CUSTOMER_TYPE_ARTISAN , _('Artisan')],
@@ -1868,7 +1872,12 @@ function (dojo, declare) {
                 let order = ((player.no - currentPlayerNo + nPlayers) % nPlayers) + 1;
                 if (isCurrent) order = 1;
                 $(`rog_player_delivered_resizable-${player.id}`).style.order = order;
+                if(player.color == '008000'){// Mantis clan should have been defined as closer to Cyan 
+                    $(`rog_player_delivered_resizable-${player.id}`).style['border-color'] ='#72c3b1';
+                }
+                else {
                 $(`rog_player_delivered_resizable-${player.id}`).style['border-color'] ='#'+ player.color;
+                }
             });
     
             this.updateFirstPlayer();
