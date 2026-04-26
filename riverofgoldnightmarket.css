@@ -2063,31 +2063,43 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   border: 1px solid black;
   box-shadow: 1px 1px 5px black;
   border-radius: 5px;
-  background-size: 400% 400%;
+  background-size: 800% 400%;
   position: relative;
 }
 .rog_clan_card[data-type="1"], .rog_clan_card[data-type="5"] {
   background-position-x: 0%;
 }
 .rog_clan_card[data-type="2"], .rog_clan_card[data-type="6"] {
-  background-position-x: 33.333%;
+  background-position-x: 14.2857142857%;
 }
 .rog_clan_card[data-type="3"], .rog_clan_card[data-type="7"] {
-  background-position-x: 66.666%;
+  background-position-x: 28.5714285714%;
 }
 .rog_clan_card[data-type="4"], .rog_clan_card[data-type="8"] {
+  background-position-x: 42.8571428571%;
+}
+.rog_clan_card[data-type="11"], .rog_clan_card[data-type="15"] {
+  background-position-x: 57.1428571429%;
+}
+.rog_clan_card[data-type="12"], .rog_clan_card[data-type="16"] {
+  background-position-x: 71.4285714286%;
+}
+.rog_clan_card[data-type="13"], .rog_clan_card[data-type="17"] {
+  background-position-x: 85.7142857143%;
+}
+.rog_clan_card[data-type="14"], .rog_clan_card[data-type="18"] {
   background-position-x: 100%;
 }
-.rog_clan_card[data-type="1"][data-side="0"], .rog_clan_card[data-type="2"][data-side="0"], .rog_clan_card[data-type="3"][data-side="0"], .rog_clan_card[data-type="4"][data-side="0"] {
+.rog_clan_card[data-type="1"][data-side="0"], .rog_clan_card[data-type="2"][data-side="0"], .rog_clan_card[data-type="3"][data-side="0"], .rog_clan_card[data-type="4"][data-side="0"], .rog_clan_card[data-type="11"][data-side="0"], .rog_clan_card[data-type="12"][data-side="0"], .rog_clan_card[data-type="13"][data-side="0"], .rog_clan_card[data-type="14"][data-side="0"] {
   background-position-y: 0%;
 }
-.rog_clan_card[data-type="1"][data-side="1"], .rog_clan_card[data-type="2"][data-side="1"], .rog_clan_card[data-type="3"][data-side="1"], .rog_clan_card[data-type="4"][data-side="1"] {
+.rog_clan_card[data-type="1"][data-side="1"], .rog_clan_card[data-type="2"][data-side="1"], .rog_clan_card[data-type="3"][data-side="1"], .rog_clan_card[data-type="4"][data-side="1"], .rog_clan_card[data-type="11"][data-side="1"], .rog_clan_card[data-type="12"][data-side="1"], .rog_clan_card[data-type="13"][data-side="1"], .rog_clan_card[data-type="14"][data-side="1"] {
   background-position-y: 33.333%;
 }
-.rog_clan_card[data-type="5"][data-side="0"], .rog_clan_card[data-type="6"][data-side="0"], .rog_clan_card[data-type="7"][data-side="0"], .rog_clan_card[data-type="8"][data-side="0"] {
+.rog_clan_card[data-type="5"][data-side="0"], .rog_clan_card[data-type="6"][data-side="0"], .rog_clan_card[data-type="7"][data-side="0"], .rog_clan_card[data-type="8"][data-side="0"], .rog_clan_card[data-type="15"][data-side="0"], .rog_clan_card[data-type="16"][data-side="0"], .rog_clan_card[data-type="17"][data-side="0"], .rog_clan_card[data-type="18"][data-side="0"] {
   background-position-y: 66.666%;
 }
-.rog_clan_card[data-type="5"][data-side="1"], .rog_clan_card[data-type="6"][data-side="1"], .rog_clan_card[data-type="7"][data-side="1"], .rog_clan_card[data-type="8"][data-side="1"] {
+.rog_clan_card[data-type="5"][data-side="1"], .rog_clan_card[data-type="6"][data-side="1"], .rog_clan_card[data-type="7"][data-side="1"], .rog_clan_card[data-type="8"][data-side="1"], .rog_clan_card[data-type="15"][data-side="1"], .rog_clan_card[data-type="16"][data-side="1"], .rog_clan_card[data-type="17"][data-side="1"], .rog_clan_card[data-type="18"][data-side="1"] {
   background-position-y: 100%;
 }
 .rog_clan_card[data-side="0"] .rog_patron_name,
@@ -2171,6 +2183,23 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   transform: scale(0.5333333333);
   transform-origin: top left;
 }
+.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container .rog_icon.rog_icon_influence {
+  transform: scale(0.4);
+}
+.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container .rog_icon.rog_icon_bonus-23 {
+  transform: scale(0.2666666667);
+}
+.rog_clan_card[data-type="11"] .rog_patron_name, .rog_clan_card[data-type="12"] .rog_patron_name, .rog_clan_card[data-type="13"] .rog_patron_name, .rog_clan_card[data-type="14"] .rog_patron_name, .rog_clan_card[data-type="15"] .rog_patron_name, .rog_clan_card[data-type="16"] .rog_patron_name, .rog_clan_card[data-type="17"] .rog_patron_name, .rog_clan_card[data-type="18"] .rog_patron_name {
+  top: 7%;
+}
+.rog_clan_card[data-type="11"] .rog_patron_ability, .rog_clan_card[data-type="12"] .rog_patron_ability, .rog_clan_card[data-type="13"] .rog_patron_ability, .rog_clan_card[data-type="14"] .rog_patron_ability, .rog_clan_card[data-type="15"] .rog_patron_ability, .rog_clan_card[data-type="16"] .rog_patron_ability, .rog_clan_card[data-type="17"] .rog_patron_ability, .rog_clan_card[data-type="18"] .rog_patron_ability {
+  top: 15%;
+}
+.rog_clan_card[data-type="11"] .rog_patron_desc, .rog_clan_card[data-type="12"] .rog_patron_desc, .rog_clan_card[data-type="13"] .rog_patron_desc, .rog_clan_card[data-type="14"] .rog_patron_desc, .rog_clan_card[data-type="15"] .rog_patron_desc, .rog_clan_card[data-type="16"] .rog_patron_desc, .rog_clan_card[data-type="17"] .rog_patron_desc, .rog_clan_card[data-type="18"] .rog_patron_desc {
+  top: 62%;
+  left: 10%;
+  width: 82%;
+}
 
 .rog_card_tooltip .rog_card_wrapper .rog_customer_name {
   font-size: 28px;
@@ -2221,42 +2250,86 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_card_tooltip .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container .rog_icon {
   transform: scale(0.8666666667) !important;
 }
+.rog_card_tooltip .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container .rog_icon.rog_icon_influence {
+  transform: scale(0.65) !important;
+}
+.rog_card_tooltip .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container .rog_icon.rog_icon_bonus-23 {
+  transform: scale(0.4333333333) !important;
+}
+.rog_card_tooltip .rog_clan_card[data-type="11"] .rog_patron_name, .rog_card_tooltip .rog_clan_card[data-type="12"] .rog_patron_name, .rog_card_tooltip .rog_clan_card[data-type="13"] .rog_patron_name, .rog_card_tooltip .rog_clan_card[data-type="14"] .rog_patron_name, .rog_card_tooltip .rog_clan_card[data-type="15"] .rog_patron_name, .rog_card_tooltip .rog_clan_card[data-type="16"] .rog_patron_name, .rog_card_tooltip .rog_clan_card[data-type="17"] .rog_patron_name, .rog_card_tooltip .rog_clan_card[data-type="18"] .rog_patron_name {
+  top: 7%;
+}
+.rog_card_tooltip .rog_clan_card[data-type="11"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="12"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="13"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="14"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="15"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="16"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="17"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="18"] .rog_patron_ability {
+  top: 16%;
+}
 
 .rog_panel .rog_clan_card {
-  background-size: 676.3636363636% 945.4545454545%;
+  background-size: 1352.7272727273% 945.4545454545%;
   background-repeat: repeat;
 }
 .rog_panel .rog_clan_card[data-type="1"] {
-  background-position-x: 6%;
+  background-position-x: 2.5%;
   background-position-y: 33%;
 }
 .rog_panel .rog_clan_card[data-type="2"] {
-  background-position-x: 35%;
+  background-position-x: 16%;
   background-position-y: 33%;
 }
 .rog_panel .rog_clan_card[data-type="3"] {
-  background-position-x: 65%;
+  background-position-x: 29%;
   background-position-y: 32%;
 }
 .rog_panel .rog_clan_card[data-type="4"] {
-  background-position-x: 94%;
+  background-position-x: 43%;
   background-position-y: 32%;
 }
 .rog_panel .rog_clan_card[data-type="5"] {
-  background-position-x: 5%;
+  background-position-x: 2.5%;
   background-position-y: 88%;
 }
 .rog_panel .rog_clan_card[data-type="6"] {
-  background-position-x: 35%;
+  background-position-x: 16%;
   background-position-y: 88%;
 }
 .rog_panel .rog_clan_card[data-type="7"] {
-  background-position-x: 65%;
+  background-position-x: 29%;
   background-position-y: 88%;
 }
 .rog_panel .rog_clan_card[data-type="8"] {
-  background-position-x: 94%;
+  background-position-x: 43%;
   background-position-y: 88%;
+}
+.rog_panel .rog_clan_card[data-type="11"] {
+  background-position-x: 56%;
+  background-position-y: 34%;
+}
+.rog_panel .rog_clan_card[data-type="12"] {
+  background-position-x: 72%;
+  background-position-y: 34%;
+}
+.rog_panel .rog_clan_card[data-type="13"] {
+  background-position-x: 84%;
+  background-position-y: 34%;
+}
+.rog_panel .rog_clan_card[data-type="14"] {
+  background-position-x: 98%;
+  background-position-y: 33%;
+}
+.rog_panel .rog_clan_card[data-type="15"] {
+  background-position-x: 56%;
+  background-position-y: 89%;
+}
+.rog_panel .rog_clan_card[data-type="16"] {
+  background-position-x: 69%;
+  background-position-y: 89%;
+}
+.rog_panel .rog_clan_card[data-type="17"] {
+  background-position-x: 84%;
+  background-position-y: 89%;
+}
+.rog_panel .rog_clan_card[data-type="18"] {
+  background-position-x: 98%;
+  background-position-y: 89%;
 }
 
 #rog_select_piece_container {
@@ -2294,6 +2367,39 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 #rog_select_piece_container .rog_clan_card[data-type="8"] {
   order: 7;
+}
+#rog_select_piece_container .rog_clan_card[data-type="9"] {
+  order: 8;
+}
+#rog_select_piece_container .rog_clan_card[data-type="10"] {
+  order: 9;
+}
+#rog_select_piece_container .rog_clan_card[data-type="11"] {
+  order: 10;
+}
+#rog_select_piece_container .rog_clan_card[data-type="12"] {
+  order: 11;
+}
+#rog_select_piece_container .rog_clan_card[data-type="13"] {
+  order: 12;
+}
+#rog_select_piece_container .rog_clan_card[data-type="14"] {
+  order: 13;
+}
+#rog_select_piece_container .rog_clan_card[data-type="15"] {
+  order: 14;
+}
+#rog_select_piece_container .rog_clan_card[data-type="16"] {
+  order: 15;
+}
+#rog_select_piece_container .rog_clan_card[data-type="17"] {
+  order: 16;
+}
+#rog_select_piece_container .rog_clan_card[data-type="18"] {
+  order: 17;
+}
+#rog_select_piece_container .rog_clan_card[data-type="19"] {
+  order: 18;
 }
 
 .rog_card_tooltip .rog_card {

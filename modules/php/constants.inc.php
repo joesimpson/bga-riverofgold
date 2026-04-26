@@ -180,6 +180,14 @@ const CARD_LOCATION_DISCARD = 'discard';
  const PATRON_DARLING         = 6;
  const PATRON_GOVERNOR        = 7;
  const PATRON_LADY            = 8;
+ const PATRON_SCION_OF_VOID     = 11;
+ const PATRON_SCION_OF_EARTH    = 12;
+ const PATRON_REVEREND_SENSEI   = 13;
+ const PATRON_LIONS_LADY        = 14;
+ const PATRON_IMPERIAL_ENVOY    = 15;
+ const PATRON_TATTOOED_MONK     = 16;
+ const PATRON_MAGNATE_SAND_ROAD = 17;
+ const PATRON_MISTRESS_OF_WINDS = 18;
 
 const RESOURCE_TYPE_SILK = 1;
 const RESOURCE_TYPE_POTTERY = 2;

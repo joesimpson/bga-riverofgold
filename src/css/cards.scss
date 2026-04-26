@@ -156,7 +156,7 @@
     border-radius: 5px;
 
     //sprite positions
-    background-size: 400% 400%;
+    background-size: 800% 400%;
     //@for $i from 0 through 7 {
     //    &[data-type="#{$i + 1}"] {
     //        background-position-x: math.div(($i % 4) * 100%, 3);
@@ -169,26 +169,51 @@
     //    }
     //}
         
-    &[data-type="1"],
-    &[data-type="5"] {
+    //Clan column in image :
+    &[data-type="1"],//PATRON_MASTER_ENGINEER
+    &[data-type="5"] {//PATRON_IRON_CRANE
         background-position-x: 0%;
     } 
     &[data-type="2"],
     &[data-type="6"] {
-        background-position-x: 33.333%;
+        background-position-x: (1 % 8) * 100% / 7;
     } 
     &[data-type="3"],
     &[data-type="7"] {
-        background-position-x: 66.666%;
+        background-position-x: (2 % 8) * 100% / 7;
     } 
     &[data-type="4"],
     &[data-type="8"] {
-        background-position-x: 100%;
+        background-position-x: (3 % 8) * 100% / 7;
     } 
+    
+    &[data-type="11"],//PATRON_SCION_OF_VOID
+    &[data-type="15"] {//PATRON_IMPERIAL_ENVOY
+        background-position-x: (4 % 8) * 100% / 7;
+    } 
+    &[data-type="12"],
+    &[data-type="16"] {
+        background-position-x: (5 % 8) * 100% / 7;
+    } 
+    &[data-type="13"],
+    &[data-type="17"] {
+        background-position-x: (6 % 8) * 100% / 7;
+    } 
+    &[data-type="14"],
+    &[data-type="18"] {
+        background-position-x: (7 % 8) * 100% / 7;
+    } 
+    
+    //Clan Row in image :
     &[data-type="1"],
     &[data-type="2"],
     &[data-type="3"],
-    &[data-type="4"] {
+    &[data-type="4"],
+    &[data-type="11"],
+    &[data-type="12"],
+    &[data-type="13"],
+    &[data-type="14"]
+    {
         &[data-side="0"] {//Back with image
             background-position-y: 0%;
         }
@@ -199,7 +224,12 @@
     &[data-type="5"],
     &[data-type="6"],
     &[data-type="7"],
-    &[data-type="8"] {
+    &[data-type="8"],
+    &[data-type="15"],
+    &[data-type="16"],
+    &[data-type="17"],
+    &[data-type="18"]
+    {
         &[data-side="0"] {//Back with image
             background-position-y: 66.666%;
         }
@@ -295,10 +325,39 @@
                 .rog_icon{
                     transform: scale(calc(2 * math.div($fontSize, 30px)));
                     transform-origin: top left;
+                    &.rog_icon_influence{
+                        transform: scale(calc(2 * math.div($fontSize, 40px)));
+                    }
+                    &.rog_icon_bonus-23{//BONUS_TYPE_DRAW
+                        transform: scale(calc(2 * math.div($fontSize, 60px)));
+                    }
                 }
             }
         }
     }
+    //Some cards may have a different position for titles:
+    &[data-type="11"], //PATRON_SCION_OF_VOID
+    &[data-type="12"],
+    &[data-type="13"],
+    &[data-type="14"],
+    &[data-type="15"],
+    &[data-type="16"],
+    &[data-type="17"],
+    &[data-type="18"]
+    {
+        .rog_patron_name{
+            top: 7%;
+        }
+        .rog_patron_ability{
+            top: 15%;
+        }
+        .rog_patron_desc{
+            top: 62%;
+            left: 10%;
+            width: 82%;
+        }
+    }
+
 }
 .rog_card_tooltip{
     .rog_card_wrapper{
@@ -349,7 +408,32 @@
                 //will take 2em with a different font-size
                 .rog_icon{
                     transform: scale(calc(2 * math.div($fontSize, 30px))) !important;
+                    &.rog_icon_influence{
+                        transform: scale(calc(2 * math.div($fontSize, 40px))) !important;
+                    }
+                    &.rog_icon_bonus-23{//BONUS_TYPE_DRAW
+                        transform: scale(calc(2 * math.div($fontSize, 60px))) !important;
+                    }
                 }
+            }
+        }
+    }
+    .rog_clan_card{
+        //Some cards may have a different position for titles:
+        &[data-type="11"], //PATRON_SCION_OF_VOID
+        &[data-type="12"],
+        &[data-type="13"],
+        &[data-type="14"],
+        &[data-type="15"],
+        &[data-type="16"],
+        &[data-type="17"],
+        &[data-type="18"]
+        {
+            .rog_patron_name{
+                top: 7%;
+            }
+            .rog_patron_ability{
+                top: 16%;
             }
         }
     }
@@ -358,40 +442,73 @@
 .rog_panel{
 
     .rog_clan_card{
-        background-size: math.percentage(calc(math.div(1488px, 220px ))) math.percentage(math.div(2080px,220px ));
+        background-size: math.percentage(calc(math.div(2976px, 220px ))) math.percentage(math.div(2080px,220px ));
         background-repeat: repeat;
         //Hand made values to match ZOOM image of character...
-        &[data-type="1"] {
-            background-position-x: 6%;
+        &[data-type="1"] {//PATRON_MASTER_ENGINEER
+            background-position-x: 2.5%;
             background-position-y: 33%;
         } 
-        &[data-type="2"] {
-            background-position-x: 35%;
+        &[data-type="2"] { //PATRON_TRADER
+            background-position-x: 16%;
             background-position-y: 33%;
         } 
-        &[data-type="3"] {
-            background-position-x: 65%;
+        &[data-type="3"] { //PATRON_SON_OF_STORM
+            background-position-x: 29%;
             background-position-y: 32%;
         } 
         &[data-type="4"] {
-            background-position-x: 94%;
+            background-position-x: 43%;
             background-position-y: 32%;
         }
         &[data-type="5"] {
-            background-position-x: 5%;
+            background-position-x: 2.5%;
             background-position-y: 88%;
         }
         &[data-type="6"] {
-            background-position-x: 35%;
+            background-position-x: 16%;
             background-position-y: 88%;
         }
         &[data-type="7"] {
-            background-position-x: 65%;
+            background-position-x: 29%;
             background-position-y: 88%;
         }
         &[data-type="8"] {
-            background-position-x: 94%;
+            background-position-x: 43%;
             background-position-y: 88%;
+        }
+
+        &[data-type="11"] {//PATRON_SCION_OF_VOID
+            background-position-x: 56%;
+            background-position-y: 34%;
+        } 
+        &[data-type="12"] { //PATRON_SCION_OF_EARTH
+            background-position-x: 72%;
+            background-position-y: 34%;
+        } 
+        &[data-type="13"] { //PATRON_REVEREND_SENSEI
+            background-position-x: 84%;
+            background-position-y: 34%;
+        } 
+        &[data-type="14"] { //PATRON_LIONS_LADY
+            background-position-x: 98%;
+            background-position-y: 33%;
+        }
+        &[data-type="15"] {//PATRON_IMPERIAL_ENVOY
+            background-position-x: 56%;
+            background-position-y: 89%;
+        }
+        &[data-type="16"] {//PATRON_TATTOOED_MONK
+            background-position-x: 69%;
+            background-position-y: 89%;
+        }
+        &[data-type="17"] {//PATRON_MAGNATE_SAND_ROAD
+            background-position-x: 84%;
+            background-position-y: 89%;
+        }
+        &[data-type="18"] {//PATRON_MISTRESS_OF_WINDS
+            background-position-x: 98%;
+            background-position-y: 89%;
         }
     }
 
@@ -408,7 +525,7 @@
         width: calc(var(--rog_takeCardScale) * 770px);
         height: calc(var(--rog_takeCardScale) * 1065px);
 
-        @for $i from 0 through 7 {
+        @for $i from 0 through 18 {
             &[data-type="#{$i + 1}"] {
                 order: $i;
             }

@@ -372,6 +372,16 @@ class Cards extends \ROG\Helpers\Pieces
       PATRON_DARLING        => $f([CLAN_CRANE,    clienttranslate('Kakita Ryoku'),   clienttranslate('Darling of the Courts'),           '',  ]),
       PATRON_GOVERNOR       => $f([CLAN_SCORPION, clienttranslate('Shosuro Hyobu'),  clienttranslate('Governor of the City of lies'),    '',  ]),  
       PATRON_LADY           => $f([CLAN_SCORPION, clienttranslate('Bayushi Kashiko'),clienttranslate('Lady of Whispers'),                '',  ]),  
+      //+8 unique Clan Patron cards
+      PATRON_SCION_OF_VOID      => $f([CLAN_PHOENIX,  clienttranslate('Isawa Kaede'),         clienttranslate('Scion of Void'),             '',  ]), 
+      PATRON_SCION_OF_EARTH     => $f([CLAN_PHOENIX,  clienttranslate('Isawa Tadaka'),        clienttranslate('Scion of Earth'),            '',  ]), 
+      PATRON_REVEREND_SENSEI    => $f([CLAN_LION,     clienttranslate('Akodo Kage'),          clienttranslate('Reverend Sensei'),           '',  ]), 
+      PATRON_LIONS_LADY         => $f([CLAN_LION,     clienttranslate('Matsu Tsuko'),         clienttranslate('Lady of Lions'),             '',  ]), 
+      PATRON_IMPERIAL_ENVOY     => $f([CLAN_DRAGON,   clienttranslate('Kitsuki Yaruma'),      clienttranslate('Imperial Envoy'),            '',  ]), 
+      PATRON_TATTOOED_MONK      => $f([CLAN_DRAGON,   clienttranslate('Togashi Mitsu'),       clienttranslate('Ise Zumi Tattooed Monk'),    '',  ]), 
+      PATRON_MAGNATE_SAND_ROAD  => $f([CLAN_UNICORN,  clienttranslate('Ide Tadaji'),          clienttranslate('Magnate of the Sand Road'),  '',  ]), 
+      PATRON_MISTRESS_OF_WINDS  => $f([CLAN_UNICORN,  clienttranslate('Shinjo Altansarnai'),  clienttranslate('Mistress of the Five Winds'),'',  ]), 
+
     ];
   }
 }

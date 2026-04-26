@@ -107,6 +107,14 @@ function (dojo, declare) {
     const PATRON_DARLING         = 6;
     const PATRON_GOVERNOR        = 7;
     const PATRON_LADY            = 8;
+    const PATRON_SCION_OF_VOID     = 11;
+    const PATRON_SCION_OF_EARTH    = 12;
+    const PATRON_REVEREND_SENSEI   = 13;
+    const PATRON_LIONS_LADY        = 14;
+    const PATRON_IMPERIAL_ENVOY    = 15;
+    const PATRON_TATTOOED_MONK     = 16;
+    const PATRON_MAGNATE_SAND_ROAD = 17;
+    const PATRON_MISTRESS_OF_WINDS = 18;
 
     const RESOURCE_TYPE_SILK = 1;
     const RESOURCE_TYPE_POTTERY = 2;
@@ -2470,6 +2478,16 @@ function (dojo, declare) {
                 [PATRON_DARLING        , this.fsr(_('You may spend ${n} ${icon_favor} before you roll your die to set it to any number.'),{n:1,icon_favor:this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN])})],
                 [PATRON_GOVERNOR       , this.fsr(_('When another player passes your clan marker on an influence track, score ${icon_points}. (You must have 1 or more influence on the track to use this power.)'),{n:3,icon_points:this.formatIcon('score',3)})],
                 [PATRON_LADY           , this.fsr(_('When advancing on an influence track, you jump over other players\' markers. Collect all resources that you pass or reach.'),{ })],
+                //+8 in v2
+                [PATRON_SCION_OF_VOID       , this.fsr(_('Put ${n} random mastery cards on the 2-player side in front of you. Only you can claim those ${n} masteries.'),{ 'n':3 })],
+                [PATRON_SCION_OF_EARTH      , this.fsr(_('When you claim a mastery, gain ${n} ${favor} and an additional ${score}. You can claim masteries even if all their printed rewards have been claimed (place a clan marker on the card and gain ${n} ${favor} and ${score}.'),{ 'n':1, 'favor':this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN]),'score':this.formatIcon('score',3), })],
+                [PATRON_REVEREND_SENSEI     , this.fsr(_('At the end of Era 1, before the Emperor Visit, place a second clan marker on all buildings you own that do not already have a second clan marker.'),{ })],
+                [PATRON_LIONS_LADY          , this.fsr(_('During setup, place the ${lion} token on an empty shore space. Other players cannot build in its space. When you build in its space, gain the building owner reward or visitor reward, then move the ${lion} token to a new empty shore space.'),{'lion': this.formatIcon('clan-'+6) })],//CLAN_LION
+                [PATRON_IMPERIAL_ENVOY      , this.fsr(_('When you visit an Imperial Market, gain ${influence} in its region.'),{ 'influence': this.formatIcon("influence",2), 'n2':2 })],
+                [PATRON_TATTOOED_MONK       , this.fsr(_('When you discard a customer (after delivering or ${draw}), gain ${good}.'),{ 'draw': this.formatIcon('bonus-'+BONUS_TYPE_DRAW),'good': this.formatIcon(RESOURCES[RESOURCE_TYPE_SILK]), })],
+                [PATRON_MAGNATE_SAND_ROAD   , this.fsr(_('After setup, place your Royal Ship on the top river space. When sailing you may move any of your ${n} ships'),{'n':3 }) + '<br/><br/>' + this.fsr(_('When your Royal Ship sails, gain ${score} for each of your other ships in the river space you sailed to.'),{'score':this.formatIcon('score',2) })],
+                [PATRON_MISTRESS_OF_WINDS   , this.fsr(_("When you sail to a river space containing one or more other players' ships, you may pay them ${n} ${koku} to gain ${score}. You may do this for each other player in the river space."),{'n':1,  'koku':this.formatIcon(RESOURCES[RESOURCE_TYPE_MONEY]),'score':this.formatIcon('score',2), })],
+
             ]);
             let description = descriptionMap.get(card.type);
             let patron_name = _(card.name);
