@@ -3349,6 +3349,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_mastery_cards_resizeable .rog_tile_holder .rog_tile[data-nbPlayers="2"] .rog_meeple[data-pos="1"] {
   left: 150px;
 }
+.rog_mastery_cards_resizeable .rog_tile_holder .rog_tile[data-nbPlayers="2"] .rog_meeple[data-pos="2"] {
+  left: 300px;
+}
 .rog_mastery_cards_resizeable .rog_tile_holder .rog_tile[data-nbPlayers="3"] .rog_meeple[data-pos="1"], .rog_mastery_cards_resizeable .rog_tile_holder .rog_tile[data-nbPlayers="4"] .rog_meeple[data-pos="1"] {
   left: 54px;
 }
@@ -3357,6 +3360,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_mastery_cards_resizeable .rog_tile_holder .rog_tile[data-nbPlayers="3"] .rog_meeple[data-pos="3"], .rog_mastery_cards_resizeable .rog_tile_holder .rog_tile[data-nbPlayers="4"] .rog_meeple[data-pos="3"] {
   left: 246px;
+}
+.rog_mastery_cards_resizeable .rog_tile_holder .rog_tile[data-nbPlayers="3"] .rog_meeple[data-pos="4"], .rog_mastery_cards_resizeable .rog_tile_holder .rog_tile[data-nbPlayers="4"] .rog_meeple[data-pos="4"] {
+  left: 300px;
 }
 
 .rog_tile_tooltip[data-subtype="3"] .rog_tile,

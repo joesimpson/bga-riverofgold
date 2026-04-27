@@ -244,7 +244,10 @@ const SHORE_SPACE_IMPERIAL_MARKET =         2;
 const SHORE_SPACE_STARTING_BUILDING_FOR_2 = 3;
 const SHORE_SPACE_STARTING_BUILDING_FOR_3 = 4;
 
-
+const SCION_OF_EARTH_GAINS = [
+   RESOURCE_TYPE_SUN => 1,
+   BONUS_TYPE_POINTS => 3,
+ ];
 /////////////////////////////////////////////////////////
 //          INFLUENCE TRACK
 /////////////////////////////////////////////////////////

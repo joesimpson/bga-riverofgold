@@ -150,6 +150,9 @@
                     &[data-pos='1']{
                         left: 150px;
                     }
+                    &[data-pos='2']{//with Patron ability
+                        left: 300px;
+                    }
                 }
             }
             &[data-nbPlayers='3'],
@@ -164,6 +167,9 @@
                     }
                     &[data-pos='3']{
                         left: 246px;
+                    }
+                    &[data-pos='4']{//with Patron ability
+                        left: 300px;
                     }
                 }
             }

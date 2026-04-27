@@ -6,6 +6,7 @@ namespace Tests\Utils;
 
 class TestDatas {
     static int $test_activePlayerId = 1;
+    static int $lastInsertedId = 1;
     static array $players = [
     ];
     public static function resetPlayers(){

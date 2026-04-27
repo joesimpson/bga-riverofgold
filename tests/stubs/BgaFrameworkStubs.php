@@ -579,7 +579,7 @@ abstract class Table
     }
     public static function DbGetLastId(): int
     {
-        return 1;
+        return TestDatas::$lastInsertedId;
     }
     public static function DbQuery(string $sql): null|\mysqli_result|bool
     {
@@ -587,9 +587,11 @@ abstract class Table
         switch($sql){
             case "INSERT INTO `meeples` (`meeple_location`, `meeple_state`, `type`, `player_id`) VALUES('tile-31','1','2','1')":
                 TestDatas::$tokens[999] = ['result_associative_index' => 999, 'meeple_id' => 999, 'meeple_state' => 1, 'meeple_location'=> 'tile-31','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1, ];
+                TestDatas::$lastInsertedId = 999;
                 return true;
             case "INSERT INTO `meeples` (`meeple_location`, `meeple_state`, `type`, `player_id`) VALUES('tile-34','1','2','1')":
                 TestDatas::$tokens[999] = ['result_associative_index' => 999, 'meeple_id' => 999, 'meeple_state' => 1, 'meeple_location'=> 'tile-34','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1, ];
+                TestDatas::$lastInsertedId = 999;
                 return true;
 
             case "UPDATE `stats` SET `stats_value` = `stats_value` + 1 WHERE `stats_type` = 20 AND `stats_player_id` = 1":
@@ -614,6 +616,7 @@ abstract class Table
             $player_id = 1 + $player_ids[count($player_ids)-1];
             logForTests("DbQuery --- added player $player_id : $player_color, $player_name, $player_clan, '$resources' ");
             TestDatas::$players[$player_id] = ['result_associative_index' => $player_id, 'player_id' => $player_id, 'player_color' => $player_color, 'player_name'=> $player_name,'player_clan' => $player_clan,  'resources' => $resources, ];
+            TestDatas::$lastInsertedId = $player_id;
             
             $player_clan = intval( $matches['player_clan2']);
             $player_color = $matches['player_color2'];
@@ -624,6 +627,7 @@ abstract class Table
             $player_id = 1 + $player_ids[count($player_ids)-1];
             logForTests("DbQuery --- added player $player_id : $player_color, $player_name, $player_clan, '$resources' ");
             TestDatas::$players[$player_id] = ['result_associative_index' => $player_id, 'player_id' => $player_id, 'player_color' => $player_color, 'player_name'=> $player_name,'player_clan' => $player_clan,  'resources' => $resources, ];
+            TestDatas::$lastInsertedId = $player_id;
             return true;
         }
         if (preg_match("/^UPDATE `player` SET `resources` = '(?P<resources>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
@@ -713,6 +717,7 @@ abstract class Table
             $meeple_id = 1 + $meeple_ids[count($meeple_ids)-1];
             logForTests("DbQuery --- added token $meeple_id : $meeple_location, $type, $meeple_state,$player_id ");
             TestDatas::$tokens[$meeple_id] = ['result_associative_index' => $meeple_id, 'meeple_id' => $meeple_id, 'meeple_state' => $meeple_state, 'meeple_location'=> $meeple_location,'type' => $type,  'player_id' => $player_id, ];
+            TestDatas::$lastInsertedId = $meeple_id;
             return true;
         }
         if (preg_match("/^UPDATE `cards` SET `card_location` = '(?P<card_location>.*)' WHERE  `card_id` = (?P<card_id>\d+)$/", $sql, $matches) == 1) {

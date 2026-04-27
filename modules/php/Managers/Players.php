@@ -7,6 +7,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Models\ClanPatronCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Player;
 use ROG\Models\Tile;
@@ -416,14 +417,22 @@ class Players extends \ROG\Helpers\DB_Manager
     Game::get()->trace("claimMastery($pId, $tileId)"); 
 
     $clanMarkers = $tile->getMeeples();
-
-    //if already claimed by others, exit
-    $nbClaimed = count($clanMarkers);
-    if($nbClaimed >= count($tile->scores) ) return;
+    $claimGains = null;
+    $playerPatron = $player->getPatron();
+    if(isset($playerPatron) && PATRON_SCION_OF_EARTH == $playerPatron->getType()){
+      $claimGains = SCION_OF_EARTH_GAINS;
+    }
 
     foreach($clanMarkers as $clanMarker){
       //if already claimed by this player, exit
       if($clanMarker->getPId() == $pId) return;
+    }
+    
+    //if already claimed by others, exit
+    $nbClaimed = count($clanMarkers);
+    if($nbClaimed >= count($tile->scores) ){
+      if(!isset($claimGains)) return;
+      //else if there are claimGains we need to check claim anyway
     }
 
     $claim = false;
@@ -491,12 +500,33 @@ class Players extends \ROG\Helpers\DB_Manager
 
     if($claim){
       $claimPosition = $nbClaimed + 1;
-      $nextPlaceScore = $tile->scores[$claimPosition - 1];
+      if($nbClaimed >= count($tile->scores) ){//if no more spaces available
+        $nextPlaceScore = 0;
+      } else {//default 
+        $nextPlaceScore = $tile->scores[$claimPosition - 1];
+      }
       $meeple = Meeples::addClanMarkerOnMasteryCard($tile,$player,$claimPosition);
       $player->addPoints($nextPlaceScore,false);
       Notifications::claimMasteryCard($player,$nextPlaceScore,$tile,$meeple);
+      Players::claimBonus($player, $claimGains, $playerPatron);
     }
 
+  }
+  
+  public static function claimBonus(Player &$player, ?array $claimGains, ?ClanPatronCard $playerPatron,){
+    if(!isset($claimGains)) return;
+
+    foreach($claimGains as $type => $amount){
+      switch($type){
+        case RESOURCE_TYPE_SUN: 
+          $player->giveResource($amount,$type);
+          break;
+        case BONUS_TYPE_POINTS:
+          $player->addPoints($amount,false);
+          Notifications::scorePatron($player,$amount,$playerPatron);
+          break;
+      }
+    }
   }
   
   /**

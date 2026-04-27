@@ -573,7 +573,7 @@ class Notifications
    * @param int $points
    * @param ClanPatronCard $card
    */
-  public static function scorePatron($player,$points,$card){
+  public static function scorePatron(Player $player,int $points,ClanPatronCard $card){
     $msg = clienttranslate('${player_name} scores ${n} ${points} with ${patron_name}');
     self::notifyAll('scorePatron',$msg,[ 
         'i18n' => [ 'patron_name' ],
