@@ -7,6 +7,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Models\MasteryCard;
 use ROG\Models\Player;
 use ROG\Models\Tile;
 
@@ -394,10 +395,11 @@ class Players extends \ROG\Helpers\DB_Manager
    * check each mastery card to check if player can claim it
    * @param Player $player 
    */
-  public static function claimMasteries(&$player){
+  public static function claimMasteries(Player &$player){
     Game::get()->trace("claimMasteries()");
     //check each mastery card
-    $masteryCards = Tiles::getMasteryCards();
+    $masteryCards = Tiles::getMasteryToClaim()
+                    ->merge(Tiles::getMasteryReserved($player));
     foreach ($masteryCards as $tile) {
       self::claimMastery($player,$tile);
     }
@@ -408,7 +410,7 @@ class Players extends \ROG\Helpers\DB_Manager
    * @param Player $player 
    * @param MasteryCard $tile 
    */
-  public static function claimMastery(&$player, $tile){
+  public static function claimMastery(Player &$player, MasteryCard $tile){
     $pId = $player->getId();
     $tileId = $tile->getId();
     Game::get()->trace("claimMastery($pId, $tileId)"); 

@@ -498,6 +498,12 @@ abstract class Table
             logForTests("MOCK select tiles with subType $subType and types ".json_encode($types).": ".json_encode($filtered));
             return $filtered;
         }
+        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE `player_id` = (?P<player_id>.*) AND `tile_location` = '(?P<tile_location>.*)'$/", $sql, $matches) == 1) {
+            $tile_location = $matches['tile_location'];
+            $player_id = intval($matches['player_id']);
+            $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location, $player_id){return $tile['tile_location'] == $tile_location && $tile['player_id'] == $player_id;});
+            return $filtered;
+        }
         if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_id` IN \((?P<tile_ids>.*)\)\)$/", $sql, $matches) == 1) {
             $filtered = [];
             $tile_ids = explode(',',str_replace("'","",$matches['tile_ids']));
@@ -642,6 +648,20 @@ abstract class Table
             TestDatas::$players[$pid]['skip_roll_die'] = intval($skip_roll_die);
             return true;
         }
+        if (preg_match("/^UPDATE `player` SET `player_clan` = '(?P<player_clan>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+            $player_clan = $matches['player_clan'];
+            $pid = $matches['pid'];
+            logForTests("DbQuery --- updated player_clan for player $pid ... '$player_clan'");
+            TestDatas::$players[$pid]['player_clan'] = intval($player_clan);
+            return true;
+        }
+        if (preg_match("/^UPDATE `player` SET `player_color` = '(?P<player_color>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+            $player_color = $matches['player_color'];
+            $pid = $matches['pid'];
+            logForTests("DbQuery --- updated player_color for player $pid ... '$player_color'");
+            TestDatas::$players[$pid]['player_color'] = intval($player_color);
+            return true;
+        }
         if (preg_match("/^UPDATE `player` SET `die_face` = '(?P<die_face>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
             $die_face = $matches['die_face'];
             $pid = $matches['pid'];
@@ -733,6 +753,13 @@ abstract class Table
             TestDatas::$cards[$card_id]['player_id'] = intval($player_id);
             return true;
         }
+        if (preg_match("/^UPDATE `tiles` SET `player_id` = '(?P<player_id>.*)' WHERE  `tile_id` = (?P<card_id>\d+)$/", $sql, $matches) == 1) {
+            $player_id = $matches['player_id'];
+            $card_id = $matches['card_id'];
+            logForTests("DbQuery --- updated player_id for tile $card_id : $player_id");
+            TestDatas::$tiles[$card_id]['player_id'] = intval($player_id);
+            return true;
+        }
         if (preg_match("/^UPDATE `tiles` SET `tile_location` = '(?P<tile_location>.*)' WHERE  `tile_id` = (?P<tile_id>\d+)$/", $sql, $matches) == 1) {
             $tile_location = $matches['tile_location'];
             $tile_id = $matches['tile_id'];
@@ -745,6 +772,19 @@ abstract class Table
             $tile_id = $matches['tile_id'];
             logForTests("DbQuery --- updated state for tile $tile_id : $tile_state");
             TestDatas::$tiles[$tile_id]['tile_state'] = intval($tile_state);
+            return true;
+        }
+        if (preg_match("/^UPDATE `tiles` SET `tile_location` = '(?P<card_location>.*)',`tile_state` = '(?P<card_state>.*)' WHERE \(`tile_id` IN \((?P<card_ids>.*)\)\)$/", $sql, $matches) == 1) {
+            $card_location = $matches['card_location'];
+            $card_state = $matches['card_state'];
+            $card_ids = explode(',', str_replace("'","",$matches['card_ids']));
+            foreach($card_ids as $cardIdString){
+                $card_id = intval($cardIdString);
+                if(!array_key_exists($card_id,TestDatas::$tiles)) continue;
+                logForTests("DbQuery --- updated tile_location, tile_state for tile $card_id : $card_location, $card_state");
+                TestDatas::$tiles[$card_id]['tile_location'] = $card_location;
+                TestDatas::$tiles[$card_id]['tile_state'] = intval($card_state);
+            }
             return true;
         }
         if (preg_match("/^DELETE FROM `log` WHERE \(`id` > (?P<id>\d+)\)$/", $sql, $matches) == 1) {

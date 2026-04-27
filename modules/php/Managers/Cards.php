@@ -205,11 +205,13 @@ class Cards extends \ROG\Helpers\Pieces
    * @param Player $player
    * @param ClanPatronCard $card
    */
-  public static function giveClanCardTo($player, $card)
+  public static function giveClanCardTo(Player $player, ClanPatronCard $card)
   {
     $card->setLocation(CARD_CLAN_LOCATION_ASSIGNED);
     $card->setPId($player->getId());
     Notifications::giveClanCardTo($player, $card);
+
+    $card->abilityOnAssign($player);
   }
 
   /**

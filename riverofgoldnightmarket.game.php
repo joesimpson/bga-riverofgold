@@ -315,6 +315,12 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
                 $this->applyDbUpgradeToAllDB($sql);
             }
         }
+
+        if( $from_version <= 2602201646 )
+        {
+            $sql = "ALTER TABLE DBPREFIX_tiles ADD `player_id` int(10) NULL;";
+            $this->applyDbUpgradeToAllDB($sql);
+        }
     }    
      
     /////////////////////////////////////////////////////////////

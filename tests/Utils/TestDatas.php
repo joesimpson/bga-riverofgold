@@ -98,6 +98,9 @@ class TestDatas {
             1 => ['result_associative_index' => 1,'tile_id' => 1, 'tile_location' => TILE_LOCATION_MASTERY_CARD, 'tile_state' => 0,  'type' => 1, 'subtype' => TILE_TYPE_MASTERY_CARD, ],
             2 => ['result_associative_index' => 2,'tile_id' => 2, 'tile_location' => TILE_LOCATION_MASTERY_CARD, 'tile_state' => 0,  'type' => 2, 'subtype' => TILE_TYPE_MASTERY_CARD, ],
             3 => ['result_associative_index' => 3,'tile_id' => 3, 'tile_location' => TILE_LOCATION_MASTERY_CARD, 'tile_state' => 0,  'type' => 3, 'subtype' => TILE_TYPE_MASTERY_CARD, ],
+            4 => ['result_associative_index' => 4,'tile_id' => 4, 'tile_location' => TILE_LOCATION_MASTERY_DECK, 'tile_state' => 1,  'type' => 4, 'subtype' => TILE_TYPE_MASTERY_CARD, ],
+            5 => ['result_associative_index' => 5,'tile_id' => 5, 'tile_location' => TILE_LOCATION_MASTERY_DECK, 'tile_state' => 2,  'type' => 5, 'subtype' => TILE_TYPE_MASTERY_CARD, ],
+            6 => ['result_associative_index' => 6,'tile_id' => 6, 'tile_location' => TILE_LOCATION_MASTERY_DECK, 'tile_state' => 3,  'type' => 6, 'subtype' => TILE_TYPE_MASTERY_CARD, ],
             
             11 => ['result_associative_index' => 11,'tile_id' => 11, 'tile_location' => TILE_LOCATION_SCORING, 'tile_state' => 0,  'type' => 4, 'subtype' => TILE_TYPE_SCORING, ],
             12 => ['result_associative_index' => 12,'tile_id' => 12, 'tile_location' => TILE_LOCATION_SCORING, 'tile_state' => 1,  'type' => 5, 'subtype' => TILE_TYPE_SCORING, ],

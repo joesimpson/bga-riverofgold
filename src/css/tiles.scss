@@ -115,6 +115,7 @@
     flex-wrap: wrap;
     margin-left: 5px;
     margin-bottom: 5px;
+}
 
     .rog_mastery_cards_resizeable {
         display: flex;
@@ -169,10 +170,11 @@
         }
     }
     }
-}
 
 .rog_tile_tooltip[data-subtype='3'],//TILE_TYPE_MASTERY_CARD
-#rog_mastery_cards{ 
+#rog_mastery_cards,
+.rog_mastery_cards_resizeable
+{ 
     .rog_tile {
 
         background-image: url("img/cards/masterycards.jpg");

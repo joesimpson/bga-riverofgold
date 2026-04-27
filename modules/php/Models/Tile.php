@@ -18,6 +18,7 @@ class Tile extends \ROG\Helpers\DB_Model
     'state' => ['tile_state', 'int'],
     'location' => 'tile_location',
     'type' => ['type', 'int'],
+    'pId' => ['player_id', 'int'],
   ];
   
   protected $staticAttributes = [

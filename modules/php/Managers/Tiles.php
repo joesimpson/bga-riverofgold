@@ -5,6 +5,7 @@ namespace ROG\Managers;
 use ROG\Core\Game;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
+use ROG\Models\Player;
 use ROG\Models\Reward;
 use ROG\Models\Tile;
 
@@ -16,7 +17,7 @@ class Tiles extends \ROG\Helpers\Pieces
   protected static $prefix = 'tile_';
   protected static $autoIncrement = true;
   protected static $autoremovePrefix = false;
-  protected static $customFields = [ 'type', 'subtype'];
+  protected static $customFields = [ 'player_id', 'type', 'subtype'];
 
   protected static function cast($row)
   {
@@ -48,6 +49,7 @@ class Tiles extends \ROG\Helpers\Pieces
 
     $cards = self::getInLocationOrdered(TILE_LOCATION_SCORING)
       ->merge(self::getInLocation(TILE_LOCATION_MASTERY_CARD))
+      ->merge(self::getInLocation(TILE_LOCATION_MASTERY_RESERVED))
       ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_ROW))
       ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE));
     if(isset($nextEra1Card)) $cards->append($nextEra1Card);
@@ -116,9 +118,21 @@ class Tiles extends \ROG\Helpers\Pieces
   /**
    * @return Collection of MasteryCard
    */
-  public static function getMasteryCards()
+  public static function getMasteryCards(): Collection
   {
     return self::getAllByType(TILE_TYPE_MASTERY_CARD,array_keys(self::getMasteryCardsTypes()));
+  } 
+  public static function getMasteryToClaim(): Collection
+  {
+    return self::DB()
+      ->where(self::$prefix.'location', TILE_LOCATION_MASTERY_CARD)
+      ->get();
+  } 
+  public static function getMasteryReserved(Player $player): Collection
+  {
+    return self::DB()->wherePlayer($player->getId())
+      ->where(self::$prefix.'location', TILE_LOCATION_MASTERY_RESERVED)
+      ->get();
   } 
   /**
    * @return Collection of BuildingTile
@@ -161,7 +175,7 @@ class Tiles extends \ROG\Helpers\Pieces
     foreach ($masteryCards as $type => $tile) {
       if( in_array($nbPlayers,$tile['nbPlayers'])){
         $tiles[] = [
-          'location' => TILE_LOCATION_MASTERY_CARD,
+          'location' => TILE_LOCATION_MASTERY_DECK,
           'type' => $type,
           'subtype' => TILE_TYPE_MASTERY_CARD,
         ];
@@ -192,16 +206,14 @@ class Tiles extends \ROG\Helpers\Pieces
     if(count($tiles)>0){
       self::create($tiles);
       self::shuffle(TILE_LOCATION_SCORING);
-      self::shuffle(TILE_LOCATION_MASTERY_CARD);
+      self::shuffle(TILE_LOCATION_MASTERY_DECK);
       self::shuffle(TILE_LOCATION_BUILDING_SHORE);
       self::shuffle(TILE_LOCATION_BUILDING_DECK_ERA_1);
       self::shuffle(TILE_LOCATION_BUILDING_DECK_ERA_2);
 
-      //Remove 3 mastery cards 
-      $masteryCards = self::getTopOf(TILE_LOCATION_MASTERY_CARD,3);
-      foreach ($masteryCards as $tileId => $tile) {
-        self::DB()->delete($tileId);
-      }
+      //Pick 3 mastery cards for the game
+      $masteryCards = self::pickForLocation(3,TILE_LOCATION_MASTERY_DECK,TILE_LOCATION_MASTERY_CARD);
+      self::shuffle(TILE_LOCATION_MASTERY_CARD);
       
       //Random place for Imperial Markets & starting tiles
       $startings = self::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE);
@@ -347,7 +359,7 @@ class Tiles extends \ROG\Helpers\Pieces
   /**
    * @return array of all the different types of Mastery Cards
    */
-  public static function getMasteryCardsTypes()
+  public static function getMasteryCardsTypes() : array
   {
     $f = function ($t) {
       return [
@@ -371,6 +383,26 @@ class Tiles extends \ROG\Helpers\Pieces
       11 => $f([[3,4], [7,5,3] , MASTERY_TYPE_VOID    ]), 
       12 => $f([[3,4], [7,5,3] , MASTERY_TYPE_WATER   ]), 
     ];
+  }
+  
+  /**
+   * @param int $masteryCardType mastery tile type (2player face or 3player face)
+   * @return int $type Mastery tile type which meets the same tile but on 2 player side
+   */
+  public static function get2PlayerSideMasteryCardType(int $masteryCardType) : int
+  {
+    $allTypes = Tiles::getMasteryCardsTypes();
+    $currentMasteryCard = $allTypes[$masteryCardType];
+    $currentMasteryCardScoringType = $currentMasteryCard['scoringType'];
+    foreach($allTypes as $type => $typeDatas){
+      if(in_array(2,$typeDatas['nbPlayers'])
+        && $typeDatas['scoringType'] == $currentMasteryCardScoringType 
+      ){
+        return $type;
+      }
+    }
+    //Should not happen :
+    return $masteryCardType;
   }
   
   /**

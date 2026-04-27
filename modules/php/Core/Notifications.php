@@ -413,7 +413,7 @@ class Notifications
    * @param MasteryCard $masteryCard
    * @param Meeple $meeple
    */
-  public static function claimMasteryCard($player,$points,$masteryCard, $meeple){
+  public static function claimMasteryCard(Player $player,int $points,MasteryCard $masteryCard, $meeple){
     $msg = clienttranslate('${player_name} scores ${n} ${points} for claiming ${mastery_name}');
     self::notifyAll('claimMC',$msg,[ 
         'i18n' => ['mastery_name'],
@@ -423,6 +423,31 @@ class Notifications
         'mastery_name' => $masteryCard->getTitle(),
         //'meeple_id' => $meeple->getId(),
         'tile_id' => $masteryCard->getId(),
+      ],
+    );
+  }
+  
+  /**
+   * @param Player $player
+   * @param Collection $masteries
+   */
+  public static function giveMasteriesTo(Player $player, Collection $masteries,){
+    
+    $sortedMasteries = $masteries->ui();
+    usort($sortedMasteries, function ($a,$b)  {
+      return $a["type"] <=>  $b["type"];
+    });
+    $masteriesNames = $masteries->map(function($masteryCard) {return $masteryCard->getTitle();})->toArray();
+
+    $msg = clienttranslate('${player_name} reserves : ${masteries_names}');
+    self::notifyAll('giveMasteriesTo',$msg,[ 
+        'player' => $player,
+        'masteries_names' => $masteriesNames,
+        'tiles' => $sortedMasteries, //we need ids and datas because the tiles are not yet displayed
+        
+        'i18n' => ['masteries_names'],
+        'separator' => ['masteries_names' => ', '],
+        'preserve' => ['tiles'],
       ],
     );
   }

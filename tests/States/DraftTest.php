@@ -203,6 +203,29 @@ final class DraftTest extends TestCase
         
         assertSame(ST_DRAFT_PLAYER_MULTIACTIVE, GamestateMachine::$test_current_state);
     }
+    
+    public function test_actTakeCard_Pass_ScionOfVoid(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        TestDatas::$test_activePlayerId = 1;
+        $cardId = 101;
+        TestDatas::$cards[$cardId]['type'] = PATRON_SCION_OF_VOID;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
+
+        $game->actTakeCard($cardId);
+        
+        assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[4]['tile_location']);
+        assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[5]['tile_location']);
+        assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[6]['tile_location']);
+        assertSame(1, TestDatas::$tiles[4]['player_id']);
+        assertSame(1, TestDatas::$tiles[5]['player_id']);
+        assertSame(1, TestDatas::$tiles[6]['player_id']);
+        assertSame(4, TestDatas::$tiles[4]['type']);
+        assertSame(5, TestDatas::$tiles[5]['type']);
+        assertSame(6, TestDatas::$tiles[6]['type']);
+    }
 
     // ----------------------------------------------------------------------
 

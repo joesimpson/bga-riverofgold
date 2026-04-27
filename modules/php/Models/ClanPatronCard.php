@@ -4,7 +4,9 @@ namespace ROG\Models;
 
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Managers\Cards;
 use ROG\Managers\ShoreSpaces;
+use ROG\Managers\Tiles;
 
 /**
  * ClanPatronCard: all utility functions concerning a Clan Patron card
@@ -105,6 +107,26 @@ class ClanPatronCard extends Card
     switch($this->getType()){
       case PATRON_DARLING://Darling needs a step to decide whether or not to roll the die !
         Globals::addBonus($player,BONUS_TYPE_SET_DIE,'',false);
+        break;
+    }
+  }
+  
+  /**
+   * Apply a card ability right after assignment
+   * @param Player $player
+   */
+  public function abilityOnAssign(Player &$player){
+    switch($this->getType()){
+      case PATRON_SCION_OF_VOID: //Reserve 3 mastery tiles
+        $masteryCards = Tiles::pickForLocation(3,TILE_LOCATION_MASTERY_DECK,TILE_LOCATION_MASTERY_RESERVED);
+        foreach($masteryCards as $tile){
+          $tile->setPId($player->getId());
+          //Change tile for 2 player side :
+          $oldType = $tile->getType();
+          $newType = Tiles::get2PlayerSideMasteryCardType($oldType);
+          $tile->setType($newType);
+        }
+        Notifications::giveMasteriesTo($player, $masteryCards);
         break;
     }
   }

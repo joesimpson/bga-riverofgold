@@ -21,12 +21,13 @@ var debug = isDebug ? console.info.bind(window.console) : function () {};
 
 define([
     "dojo","dojo/_base/declare",
+    getLibUrl('bga-animations', '1.x'),
     "ebg/core/gamegui",
     "ebg/counter",
     g_gamethemeurl + 'modules/js/Core/game.js',
     g_gamethemeurl + 'modules/js/Core/modal.js',
 ],
-function (dojo, declare) {
+function (dojo, declare, BgaAnimations) {
 
     const REGION_1 =  1;
     const REGION_2 =  2;
@@ -89,6 +90,7 @@ function (dojo, declare) {
 
     const TILE_LOCATION_SCORING = 's';
     const TILE_LOCATION_MASTERY_CARD = 'm';
+    const TILE_LOCATION_MASTERY_RESERVED = 'm_reserved';
     const TILE_LOCATION_BUILDING_DECK = 'bd';
     const TILE_LOCATION_BUILDING_DECK_ERA_1 = TILE_LOCATION_BUILDING_DECK+'1';
     const TILE_LOCATION_BUILDING_DECK_ERA_2 = TILE_LOCATION_BUILDING_DECK+'2';
@@ -243,6 +245,7 @@ function (dojo, declare) {
                 ['giveClanCardTo', 1000],
                 ['giveCardToPublic', 10],
                 ['giveCardTo', 1000],
+                ['giveMasteriesTo', 2000],
                 ['deliver', 1000],
                 ['discardPublic', 10],
                 ['discard', 1000],
@@ -343,9 +346,13 @@ function (dojo, declare) {
 
             this._counters['deckSize1'] = this.createCounter('rog_deck_size-1',this.gamedatas.deckSize.era1);
             this._counters['deckSize2'] = this.createCounter('rog_deck_size-2',this.gamedatas.deckSize.era2);
-            
-            this.setupTiles();
+                
+            this.animationManager = new BgaAnimations.Manager({
+                animationsActive: () => this.bgaAnimationsActive(),
+            });
+
             this.setupPlayers();
+            this.setupTiles();
             this.setupInfoPanel();
             this.setupCards();
             this.setupMeeples();
@@ -1235,6 +1242,21 @@ function (dojo, declare) {
         notif_claimMC(n) {
             debug('notif_claimMC : new score after mastery card', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
+        },
+        notif_giveMasteriesTo(n) {
+            debug('notif_giveMasteriesTo', n);
+            let fromElement = document.getElementById(`rog_mastery_cards`);
+            Promise.all (
+                Object.values(n.args.tiles).map(async (tile, i) => {
+                    if (!$(`rog_tile-${tile.id}`)) this.addTile(tile);
+                    let tileDivHolder = document.getElementById(`rog_tile_holder-${tile.id}`).parentElement;
+                    return this.wait(150 * i).then(() => 
+                        this.animationManager.slideIn(tileDivHolder, fromElement, {duration: 1600})
+                    );
+                }),
+            ).then(() => {
+                this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
+            });
         },
         notif_computeFinalScore(n) {
             debug('notif_computeFinalScore', n);
@@ -2430,6 +2452,7 @@ function (dojo, declare) {
         },
         tplPlayerDeliveredCards(player) {
             return `<div class='rog_player_delivered_resizable' id='rog_player_delivered_resizable-${player.id}'>
+                <div id='rog_player_mastery_cards-${player.id}'></div>
                 <div id='rog_player_delivered-${player.id}' class='rog_player_delivered' data-color='${player.color}'>
                     <h3 class='rog_title' >${this.fsr(_('${player_name} delivered'), { player_name:this.coloredPlayerName(player.name)}) }</h3>
                     <div class='rog_cards_delivered' id='rog_cards_delivered-${player.id}'></div>
@@ -2708,6 +2731,13 @@ function (dojo, declare) {
             let elt = this.place('tplMasteryCardHolder', tile, $('rog_mastery_cards'));
             return elt.firstElementChild;
         },
+        addMasteryCardPlayerHolder(tile) {
+            debug("addMasteryCardPlayerHolder",tile);
+            let divId = `rog_tile_holder-${tile.id}`;
+            if ($(divId)) return $(divId);
+            let elt = this.place('tplMasteryCardHolder', tile, $(`rog_player_mastery_cards-${tile.pId}`));
+            return elt.firstElementChild;
+        },
         tplMasteryCardHolder(tile) {
             return `<div class="rog_mastery_cards_resizeable">
                 <div class="rog_tile_holder" id="rog_tile_holder-${tile.id}"></div>
@@ -2806,6 +2836,12 @@ function (dojo, declare) {
             }
             if (tile.location == TILE_LOCATION_MASTERY_CARD) {
                 let holder = this.addMasteryCardHolder(tile);
+                if( holder){
+                    return holder.id;
+                }
+            }
+            if (tile.location == TILE_LOCATION_MASTERY_RESERVED) {
+                let holder = this.addMasteryCardPlayerHolder(tile);
                 if( holder){
                     return holder.id;
                 }

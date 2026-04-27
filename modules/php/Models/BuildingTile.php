@@ -41,6 +41,7 @@ class BuildingTile extends Tile
     unset($data['ownerRewardArray']);
     unset($data['visitorRewardArray']);
     unset($data['state']);
+    unset($data['pId']);
     return $data;
   }
 

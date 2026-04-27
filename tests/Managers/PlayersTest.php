@@ -1575,6 +1575,46 @@ final class PlayersTest extends TestCase
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
     }
     
+    // Used for Scion of Void
+    public function test_claimMasteries_Type5_Reserved_ForMe(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        TestDatas::$tiles[5]['player_id'] = 1;
+        TestDatas::$tiles[5]['tile_location'] = TILE_LOCATION_MASTERY_RESERVED;
+        TestDatas::$tokens[1]['meeple_state'] = 1;
+        TestDatas::$tokens[2]['meeple_state'] = 1;
+        TestDatas::$tokens[3]['meeple_state'] = 1;
+        TestDatas::$tokens[4]['meeple_state'] = 1;
+        TestDatas::$tokens[5]['meeple_state'] = 1;
+        TestDatas::$tokens[6]['meeple_state'] = 1;
+
+        Players::claimMasteries($player);
+        
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        assertSame(2, TestDatas::$players[2]['player_score']);//2+0
+    }
+    public function test_claimMasteries_Type5_Reserved_ForOpponent(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        TestDatas::$tiles[5]['player_id'] = 2;
+        TestDatas::$tiles[5]['tile_location'] = TILE_LOCATION_MASTERY_RESERVED;
+        TestDatas::$tokens[1]['meeple_state'] = 1;
+        TestDatas::$tokens[2]['meeple_state'] = 1;
+        TestDatas::$tokens[3]['meeple_state'] = 1;
+        TestDatas::$tokens[4]['meeple_state'] = 1;
+        TestDatas::$tokens[5]['meeple_state'] = 1;
+        TestDatas::$tokens[6]['meeple_state'] = 1;
+
+        Players::claimMasteries($player);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(2, TestDatas::$players[2]['player_score']);//2+0
+    }
+    
     public function test_claimMasteries_Type6_Inactive(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

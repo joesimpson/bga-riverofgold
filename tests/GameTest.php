@@ -218,6 +218,7 @@ final class GameTest extends TestCase
                     'id' => 1,
                     'location' => 'm',
                     'type' => 1,
+                    'pId' => null,
                     'scoringType' => 1,
                     'nbPlayers' => [
                         0 => 2,
@@ -229,6 +230,7 @@ final class GameTest extends TestCase
                     'id' => 2,
                     'location' => 'm',
                     'type' => 2,
+                    'pId' => null,
                     'scoringType' => 2,
                     'nbPlayers' => [
                         0 => 2,
@@ -240,6 +242,7 @@ final class GameTest extends TestCase
                     'id' => 3,
                     'location' => 'm',
                     'type' => 3,
+                    'pId' => null,
                     'scoringType' => 3,
                     'nbPlayers' => [
                         0 => 2,
