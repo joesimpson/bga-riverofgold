@@ -4,7 +4,9 @@ namespace ROG\Models;
 
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Helpers\Collection;
 use ROG\Managers\Cards;
+use ROG\Managers\Meeples;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 
@@ -127,6 +129,29 @@ class ClanPatronCard extends Card
           $tile->setType($newType);
         }
         Notifications::giveMasteriesTo($player, $masteryCards);
+        break;
+    }
+  }
+  
+  /**
+   * Apply a card ability right before emperor visit
+   * @param Player $player
+   * @param Collection $buildingTiles
+   */
+  public function abilityOnEmperorVisit(Player &$player, Collection $buildingTiles){
+    switch($this->getType()){
+      case PATRON_REVEREND_SENSEI: //+1 clan marker on own buildings
+        $newMarkers = [];
+        foreach($buildingTiles as $tile){
+          $clanMarkers = $tile->getMeeples();
+          //check if only 1 marker on tile:
+          if($clanMarkers->count() != 1) continue;
+          $clanMarker = $clanMarkers->first();
+          if($clanMarker->getPId() == $player->getId()){
+            $newMarkers[] = Meeples::addClanMarkerOnShoreSpace($tile,$player,2,false);
+          }
+        }
+        Notifications::newBuildingMarkersWithPatron($player,$newMarkers,$this);
         break;
     }
   }

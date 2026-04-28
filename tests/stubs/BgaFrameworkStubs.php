@@ -292,6 +292,9 @@ abstract class Table
             case "SELECT *, card_id AS `result_associative_index` FROM `cards` WHERE `player_id` = 1 AND `card_location` = 'clans_assigned'":
                 $assigned = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'clans_assigned' && $card['player_id'] == 1;});
                 return $assigned;
+            case "SELECT *, card_id AS `result_associative_index` FROM `cards` WHERE `player_id` = 2 AND `card_location` = 'clans_assigned'":
+                $assigned = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'clans_assigned' && $card['player_id'] == 2;});
+                return $assigned;
             case "SELECT card_id AS `result_associative_index` , `card_id` , `card_location` , `card_state` , `player_id` , `type` , `subtype` FROM `cards` WHERE (`card_location` = 'deck') ORDER BY card_state DESC LIMIT 1":
                 $filtered = array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'deck';});
                 $mockDeck = count($filtered) > 0 ? [ $filtered[array_keys($filtered)[0]], ] : [];

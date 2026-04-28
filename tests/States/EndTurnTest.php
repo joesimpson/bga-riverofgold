@@ -13,6 +13,7 @@ use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
 use function PHPUnit\Framework\assertNotSame;
+use function PHPUnit\Framework\assertFalse;
 
 final class EndTurnTest extends TestCase
 {
@@ -93,6 +94,83 @@ final class EndTurnTest extends TestCase
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
         assertSame(1, TestDatas::$test_activePlayerId);
     }
+
+    public function test_runEmperorVisit_WithoutReverendSensei(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_TURN;
+        Globals::setEra(1);
+        TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
+        //add a second building tile  + 2 clan markers on it
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['type'] = 3;
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        TestDatas::$tokens[44] = TestDatas::$tokens[43];
+        TestDatas::$tokens[44]['meeple_id'] = 44;
+        TestDatas::$tokens[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44]['meeple_state'] = 2;
+
+        $game->runEmperorVisit();
+        
+        assertSame(2, Globals::getEra());
+        //Check PLAYER 1 owner rewards :
+        $resourcesPlayer1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesPlayer1[RESOURCE_TYPE_SILK]);
+        assertSame(2, $resourcesPlayer1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesPlayer1[RESOURCE_TYPE_RICE]);
+        assertSame(0, $resourcesPlayer1[RESOURCE_TYPE_SUN]);
+        assertSame(4, $resourcesPlayer1[RESOURCE_TYPE_MONEY]);//0+1*2+2
+        assertFalse( array_key_exists(45,TestDatas::$tokens));//no new clan marker
+        //Check PLAYER 2 owner rewards :
+        assertSame(2 + 1, TestDatas::$players[2]['player_score']);
+    }
+    public function test_runEmperorVisit_WithReverendSensei(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_TURN;
+        Globals::setEra(1);
+        TestDatas::$cards[101]['type'] = PATRON_REVEREND_SENSEI;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        //add a second building tile  + 2 clan markers on it
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['type'] = 3;
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        TestDatas::$tokens[44] = TestDatas::$tokens[43];
+        TestDatas::$tokens[44]['meeple_id'] = 44;
+        TestDatas::$tokens[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44]['meeple_state'] = 2;
+
+        $game->runEmperorVisit();
+        
+        assertSame(2, Globals::getEra());
+        //Check PLAYER 1 owner rewards :
+        $resourcesPlayer1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesPlayer1[RESOURCE_TYPE_SILK]);
+        assertSame(2, $resourcesPlayer1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesPlayer1[RESOURCE_TYPE_RICE]);
+        assertSame(0, $resourcesPlayer1[RESOURCE_TYPE_SUN]);
+        assertSame(6, $resourcesPlayer1[RESOURCE_TYPE_MONEY]);//0+1*2+2*2
+        $newClanMarker = TestDatas::$tokens[45];
+        assertSame(MEEPLE_LOCATION_TILE.'41', $newClanMarker['meeple_location']);
+        assertSame(2, $newClanMarker['meeple_state']);
+        assertSame(1, $newClanMarker['player_id']);
+        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        //Check PLAYER 2 owner rewards :
+        assertSame(2 + 1, TestDatas::$players[2]['player_score']);
+    }
+
     public function test_EnteringState_LastTurn(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

@@ -338,6 +338,22 @@ class Notifications
       'inc' => (isset($buildingType)) ? $increaseBuildingsCounter : 0,
     ]);
   }
+  
+  public static function newBuildingMarkersWithPatron(Player $player, array $markers, ?ClanPatronCard $playerPatron,)
+  {
+    $msg = clienttranslate('');
+    $patron_name = '';
+    if(isset($playerPatron)){
+      $patron_name = $playerPatron->getName();
+      $msg = clienttranslate('${player_name} places ${n} clan markers on buildings with ${patron_name} ability');
+    }
+    self::notifyAll('newBuildingMarkersWithPatron', $msg, [
+      'player' => $player,
+      'n' => count($markers),
+      'patron_name' => $patron_name,
+      'i18n' => [ 'patron_name' ],
+    ]);
+  }
   /**
    * @param Player $player
    * @param Meeple $meeple

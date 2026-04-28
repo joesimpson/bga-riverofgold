@@ -75,8 +75,18 @@ trait EndTurnTrait
   public function computeBuildingsOwnerRewards($isEmperorVisit = false)
   { 
     $players = Players::getAll();
-    $buidingTiles = Tiles::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE);
-    foreach($buidingTiles as $tile){
+    $buildingTiles = Tiles::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE);
+    
+    if($isEmperorVisit){
+      foreach($players as $player){
+        $playerPatron = $player->getPatron();
+        if(isset($playerPatron)){
+          $playerPatron->abilityOnEmperorVisit($player,$buildingTiles);
+        }
+      }
+    }
+    
+    foreach($buildingTiles as $tile){
       $clanMarkers = $tile->getMeeples();
       if($clanMarkers->count() == 0 ) continue;
       $region = $tile->getRegion();
