@@ -22,6 +22,8 @@ class Globals extends \ROG\Helpers\DB_Manager
     'firstPlayer' => 'int',
     //save player who ended the game
     'endPlayer' => 'int',
+
+    'lastBuiltTile' => 'int',
     
     //Trade is possible in many states, thus we need to keep a trace of the previous state
     'stateBeforeTrade' => 'int',
@@ -53,6 +55,7 @@ class Globals extends \ROG\Helpers\DB_Manager
 
     self::setEndPlayer(null);
     self::setEndScoring([]);
+    self::setLastBuiltTile(null);
 
     foreach($players as $pId => $player){
       self::setFirstPlayer($pId);

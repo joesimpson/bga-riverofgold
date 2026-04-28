@@ -33,6 +33,7 @@ spl_autoload_register($swdNamespaceAutoload, true, true);
 use ROG\Core\Globals;
 use ROG\Core\Preferences;
 use ROG\Exceptions\UserException;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -115,7 +116,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
           'firstPlayer' => $firstPlayer,
           'endTriggered' => Globals::isLastTurnTriggered(),
           'endScoring' => Globals::getEndScoring(),
-          'version'=> intval($this->bga->tableOptions->get(BGA_GAMESTATE_GAMEVERSION)),
+          'version'=> Utils::gameVersion(),
         ];
         return $result;
     }
@@ -201,8 +202,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
     */
     public function checkVersion(int $clientVersion)
     {
-        $gameVersion = $this->bga->tableOptions->get(BGA_GAMESTATE_GAMEVERSION);
-        if ($clientVersion != intval($gameVersion)) {
+        if ($clientVersion != Utils::gameVersion()) {
             throw new UserException('!!!checkVersion');
         }
     }

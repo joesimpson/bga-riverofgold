@@ -3,7 +3,9 @@
 namespace ROG\Managers;
 
 use ROG\Core\Game;
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Models\ClanPatronCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
 use ROG\Models\Player;
@@ -53,6 +55,18 @@ class Meeples extends \ROG\Helpers\Pieces
     $elt = self::singleCreate($meeple);
     Notifications::newClanMarker($player,$elt,$tile, $increaseBuildingsCounter ? 1 : 0 );
     return $elt;
+  }
+  
+  public static function removeClanMarkerOnShoreSpace(int $shoreSpace,Player $player,ClanPatronCard $playerPatron) : void
+  {
+    $meeple = Meeples::getInLocation(MEEPLE_LOCATION_SHORE.$shoreSpace)->first();
+    if(!isset($meeple)) return;
+    Notifications::removeClanMarker($player,$meeple);
+    self::DB()->delete($meeple->getId());
+    if(PATRON_LIONS_LADY == $playerPatron->getType()){
+      Globals::addBonus($player,BONUS_TYPE_BUILDING_REWARD,'',false);
+      Globals::addBonus($player,BONUS_TYPE_PLACE_LION,'',false);
+    }
   }
   
   /**
@@ -276,5 +290,18 @@ class Meeples extends \ROG\Helpers\Pieces
       ->where(self::$prefix.'location', MEEPLE_LOCATION_INFLUENCE.$region)
       ->whereIn(self::$prefix.'state', $watchedPositions)
       ->countDistinct(self::$prefix.'state');
+  }
+
+  public static function placeLionOnShoreSpace(Player $player, int $shore_space)
+  {
+    $meeple = [
+      'type' => MEEPLE_TYPE_CLAN_MARKER,
+      'location' => MEEPLE_LOCATION_SHORE.$shore_space,
+      'player_id' => $player->getId(),
+      'state' => 1,
+    ];
+    $elt = self::singleCreate($meeple);
+    Notifications::newClanMarker($player,$elt,null, false);
+    return $elt;
   }
 }

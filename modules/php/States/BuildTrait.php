@@ -11,6 +11,7 @@ use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
+use ROG\Models\Player;
 use ROG\Models\ShoreSpace;
 
 trait BuildTrait
@@ -51,9 +52,14 @@ trait BuildTrait
       throw new UnexpectedException(12,"You cannot build tile $tileId");
     }
     $previousPosition = $tile->getPosition();
+    $playerPatron = $player->getPatron();
 
     $cost = $this->buildingCost($player,$shoreSpace);
     Players::spendMoney($player,$cost);
+
+    if(isset($playerPatron)){
+      Meeples::removeClanMarkerOnShoreSpace($position,$player,$playerPatron);
+    }
 
     $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
     $tile->setPosition($position);
@@ -66,8 +72,8 @@ trait BuildTrait
     }
 
     Meeples::addClanMarkerOnShoreSpace($tile,$player);
+    Globals::setLastBuiltTile($tileId);
     
-    $playerPatron = $player->getPatron();
     if(isset($playerPatron)){
       $playerPatron->scoreWhenBuild($player,$shoreSpace);
       $playerPatron->addBonuses($player);
@@ -114,10 +120,14 @@ trait BuildTrait
    * @param ShoreSpace $space
    * @return true
    */
-  public function canBuildOnSpace($player,$space)
+  public function canBuildOnSpace(Player $player,ShoreSpace $space)
   { 
     $cost = $this->buildingCost($player,$space);
     if($cost > $player->getMoney() ) return false;
+    $meeple = Meeples::getInLocation(MEEPLE_LOCATION_SHORE."{$space->id}")->first();
+    if(isset($meeple)){
+      if($meeple->getPId() != $player->getId()) return false;
+    }
 
     return true;
   }
@@ -127,7 +137,7 @@ trait BuildTrait
    * @param ShoreSpace $space
    * @return int
    */
-  public function buildingCost($player,$space)
+  public function buildingCost(Player $player,ShoreSpace $space)
   { 
     $cost = $space->cost;
     $region = $space->region;

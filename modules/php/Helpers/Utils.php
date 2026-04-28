@@ -1,6 +1,8 @@
 <?php
 namespace ROG\Helpers;
 
+use ROG\Core\Game;
+
 abstract class Utils 
 {
     public static function filter(&$data, $filter)
@@ -33,6 +35,12 @@ abstract class Utils
         return $r;
     }
 
+    public static function gameVersion() : int
+    {
+        $options = Game::get()->bga->tableOptions;
+        $gameVersion = $options->get(BGA_GAMESTATE_GAMEVERSION);
+        return intval($gameVersion);
+    }
     ////////////////////////////////////////////////////////////////
     //////// GAME SPECIFIC
     ////////////////////////////////////////////////////////////////

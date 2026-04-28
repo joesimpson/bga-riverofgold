@@ -1621,6 +1621,12 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   clip-path: polygon(15.04% 9.19%, 95.78% 7.48%, 96.75% 92.7%, 17.24% 92.25%, 1.49% 59.79%, 1.21% 42.73%);
 }
 
+.rog_shore_space > .rog_meeple {
+  position: absolute;
+  top: 10px;
+  left: 100px;
+}
+
 .rog_river_space {
   position: absolute;
 }
@@ -4490,6 +4496,13 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   opacity: 0.3;
 }
 
+.rog_shore_space > .rog_meeple {
+  transition: opacity 0.5s ease;
+}
+.rog_shore_space:hover > .rog_meeple {
+  opacity: 0.3;
+}
+
 .rog_artisan_space,
 .rog_elder_space {
   position: absolute;
@@ -5416,6 +5429,13 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   background-position-x: -184.2px;
   background-position-y: -2127px;
   border-radius: 10px;
+}
+
+.rog_icon_bonus-36 {
+  background-size: 100% 100%;
+  width: 24px;
+  height: 22px;
+  background-image: url("img/clans/L5R_Icon_Lion.png");
 }
 
 .rog_icon_container_ship-3 {

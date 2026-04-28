@@ -392,6 +392,14 @@
     }
 }
 
+.rog_shore_space{
+    >.rog_meeple{
+        //Meeples placed directly on the space, not on a tile, (example: Lion ability)
+        position: absolute;
+        top: 10px;
+        left: 100px;
+    }
+}
 
 
 .rog_river_space{

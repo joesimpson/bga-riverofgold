@@ -711,6 +711,12 @@ abstract class Table
             TestDatas::$tokens[$meeple_id]['type'] = intval($type);
             return true;
         }
+        if (preg_match("/^DELETE FROM `meeples` WHERE  `meeple_id` = (?P<meeple_id>\d+)$/", $sql, $matches) == 1) {
+            $meeple_id = $matches['meeple_id'];
+            logForTests("DbQuery --- remove token $meeple_id");
+            unset(TestDatas::$tokens[$meeple_id]);
+            return true;
+        }
         if (preg_match("/^INSERT INTO `meeples` (.*) VALUES\('(?P<meeple_location>.*)','(?P<meeple_state>\d+)','(?P<type>\d+)','(?P<player_id>\d+)'\)$/", $sql, $matches) == 1) {
             $type = intval( $matches['type']);
             $meeple_location = $matches['meeple_location'];

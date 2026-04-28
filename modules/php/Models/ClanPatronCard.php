@@ -48,6 +48,10 @@ class ClanPatronCard extends Card
       case CLAN_MANTIS:   return clienttranslate('Mantis Clan');
       case CLAN_CRANE:    return clienttranslate('Crane Clan');
       case CLAN_SCORPION: return clienttranslate('Scorpion Clan');
+      case CLAN_PHOENIX:  return clienttranslate('Phoenix Clan');
+      case CLAN_LION:     return clienttranslate('Lion Clan');
+      case CLAN_DRAGON:   return clienttranslate('Dragon Clan');
+      case CLAN_UNICORN:  return clienttranslate('Unicorn Clan');
     }
     return '';
   } 

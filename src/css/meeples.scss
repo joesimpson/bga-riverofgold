@@ -249,6 +249,16 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         }
     }
 }
+.rog_shore_space{
+    >.rog_meeple{
+        transition: opacity 0.5s ease;
+    }
+    &:hover{
+        >.rog_meeple{
+            opacity: 0.3;
+        }
+    }
+}
 .rog_artisan_space,
 .rog_elder_space{
     position: absolute;

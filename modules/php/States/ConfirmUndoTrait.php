@@ -26,8 +26,7 @@ trait ConfirmUndoTrait
      */
     public function addStep()
     {
-        $stepId = Log::step($this->gamestate->getCurrentMainStateId());
-        Globals::incChoices();
+        Log::addStep();
     }
 
     public function argsConfirmTurn()
@@ -40,7 +39,11 @@ trait ConfirmUndoTrait
         $this->addArgsForUndo($data);
         return $data;
     }
-    function addArgsForUndo(&$args)
+    /**
+     * Update state args with some parameters used for canceling actions. To be called in each state args where we will want to cancel.
+     * 
+     */
+    public static function addArgsForUndo(&$args)
     {
         $args['previousSteps'] = Log::getUndoableSteps();
         $args['previousChoices'] = Globals::getChoices();
@@ -84,6 +87,14 @@ trait ConfirmUndoTrait
     public function actRestart()
     {
         self::checkAction('actRestart');
+        self::processRestartTurn();
+    }
+    /**
+     * undo ALL player steps
+     *
+     * @throws UnexpectedException
+     */
+    public static function processRestartTurn(){
         $player = Players::getCurrent();
         $pId = $player->id;
         if (Globals::getChoices($pId) < 1) {
@@ -96,6 +107,15 @@ trait ConfirmUndoTrait
     public function actUndoToStep($stepId)
     {
         self::checkAction('actRestart');
+        self::processUndoToStep($stepId);
+    }
+    /**
+     * undo to step
+     * @param int $stepId
+     *
+     * @throws UnexpectedException
+     */
+    public static function processUndoToStep(int $stepId){
         $player = Players::getCurrent();
         $steps = Log::getUndoableSteps($player->id);
         if(!in_array($stepId,$steps)){

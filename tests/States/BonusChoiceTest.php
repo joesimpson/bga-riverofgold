@@ -106,6 +106,58 @@ final class BonusChoiceTest extends TestCase
         
         assertSame($expectedArgs, $args);
     }
+    
+    public function test_Args_UnSkippableLion(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setChoices(0);
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonuses = [BONUS_TYPE_PLACE_LION];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+        $expectedArgs = [
+            'p' => $bonuses,
+            'trade' => false,
+            'canSkip' => false,
+            'cannotSetDie' => true,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argBonusChoice();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_SkippableLion(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setChoices(0);
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonuses = [BONUS_TYPE_PLACE_LION];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+        for($k = 0; $k<30;$k++){
+            //Fill all shore spaces
+            $index = 41+$k;
+            TestDatas::$tiles[$index] = TestDatas::$tiles[41];
+            TestDatas::$tiles[$index]['tile_id'] = $index;
+            TestDatas::$tiles[$index]['result_associative_index'] = $index;
+            TestDatas::$tiles[$index]['tile_state'] = $k +1;
+        }
+        $expectedArgs = [
+            'p' => $bonuses,
+            'trade' => false,
+            'canSkip' => true,
+            'cannotSetDie' => true,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argBonusChoice();
+        
+        assertSame($expectedArgs, $args);
+    }
     public function test_Args_WithTrades(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -362,6 +414,40 @@ final class BonusChoiceTest extends TestCase
         assertSame($bonusType, Globals::getCurrentBonus());
         //Next state differs for each bonus :
         assertSame(ST_BONUS_SET_DIE, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionBonus_Pass_PlaceLion(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_PLACE_LION;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_PLACE_LION, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionBonus_Pass_BuildingReward(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_BUILDING_REWARD;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $game->actBonus($bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_BUILDING_REWARD, GamestateMachine::$test_current_state);
     }
     
     public function test_ActionBonus_KO_WrongBonus(): void

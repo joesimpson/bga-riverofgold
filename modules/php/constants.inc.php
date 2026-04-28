@@ -213,6 +213,8 @@ const BONUS_TYPE_MONEY_PER_MARKET = 32;
 const BONUS_TYPE_MONEY_PER_SHRINE = 33;
 const BONUS_TYPE_MONEY_PER_CUSTOMER = 34;
 const BONUS_TYPE_SET_DIE = 35;
+const BONUS_TYPE_PLACE_LION         = 36;
+const BONUS_TYPE_BUILDING_REWARD    = 37;
 const RESOURCES = [
     0,
    'silk',//RESOURCE_TYPE_SILK
@@ -309,6 +311,7 @@ const MEEPLE_LOCATION_RIVER = 'r';
 CONST MEEPLE_LOCATION_ARTISAN = 'artisan-';//To be followed by region number
 CONST MEEPLE_LOCATION_ELDER = 'elder-';//To be followed by region number
 CONST MEEPLE_LOCATION_MERCHANT = 'merchant';
+const MEEPLE_LOCATION_SHORE   = 'shore-';//To be followed by space number
 
 const CLAN_CRAB =    1;
 const CLAN_MANTIS =  2;
@@ -414,6 +417,8 @@ const ST_BONUS_SECOND_MARKER_ON_BUILDING = 27;
 const ST_BONUS_MONEY_OR_GOOD = 28;
 const ST_BONUS_SELL_GOODS = 29;
 const ST_BONUS_SET_DIE = 30;
+const ST_BONUS_PLACE_LION = 31;
+const ST_BONUS_BUILDING_REWARD = 32;
 
 const ST_PLAYER_TURN_TRADE = 40;
 const ST_PLAYER_TURN_DIVINE_FAVOR = 41;

@@ -137,6 +137,22 @@ final class SetupTest extends TestCase
         assertSame(0, TestDatas::$players[1]['skip_roll_die']);
         assertSame(3, Cards::countPlayerCards(1,CARD_LOCATION_HAND));
     }
+    
+    public function testEnteringState_PlayerSetup_PatronLadyOfLions(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        TestDatas::$players[1]['skip_roll_die'] = 0;
+        TestDatas::$cards[101]['type'] = PATRON_LIONS_LADY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+
+        $game->stPlayerSetup();
+        
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertSame(json_encode([BONUS_TYPE_PLACE_LION]), TestDatas::$players[1]['bonuses']);
+        //assertSame(1, TestDatas::$players[1]['skip_roll_die']);
+    }
     // ----------------------------------------------------------------------
     
     

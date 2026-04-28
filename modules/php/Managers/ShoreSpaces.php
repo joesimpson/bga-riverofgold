@@ -130,12 +130,20 @@ class ShoreSpaces
    * @param int $pRegion the region to search
    * @return array list of spaces id
    */
-  public static function getEmptySpaces($pRegion){
+  public static function getEmptySpaces($pRegion) : array{
     $spaces = ShoreSpaces::getSpacesByRegion($pRegion);
     $usedSpaces = Tiles::getUsedPositionsOnShore();
     return array_diff($spaces, $usedSpaces);
   }
   
+  public static function getAllEmptySpaces() : array{
+    $emptySpaces = [];
+    foreach (REGIONS as $otherRegion){
+      $emptySpaces = array_merge($emptySpaces,ShoreSpaces::getEmptySpaces($otherRegion));
+    }
+    return $emptySpaces;
+  }
+
   /**
    * Search the 4 adjacent spaces to a given river space
    * @param int $riverSpace the space ON the river

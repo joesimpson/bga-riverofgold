@@ -178,7 +178,7 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       if (this._activeStates.includes(stateName) && !this.isCurrentPlayerActive()) return;
 
       // Restart turn button
-      if (this._displayRestartButtons && args.args && args.args.previousChoices && args.args.previousChoices >= 1 && !args.args.automaticAction) {
+      if (this.isCurrentPlayerActive() && this._displayRestartButtons && args.args && args.args.previousChoices && args.args.previousChoices >= 1 && !args.args.automaticAction) {
         if (args.args && args.args.previousSteps) {
           let lastStep = Math.max(...args.args.previousSteps);
           if (lastStep > 0){

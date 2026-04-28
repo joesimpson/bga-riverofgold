@@ -281,6 +281,25 @@ class Notifications
     self::notifyAll('checkORewards', clienttranslate('Checking owner rewards...'), [
     ]);
   }
+  public static function buildingOwnerRewards(Player $player,BuildingTile $tile)
+  {
+    self::notifyAll('buildingOwnerRewards', clienttranslate('${player_name} select owner rewards from tile ${building_tile}'), [
+      'player' => $player,
+      'preserve'=>['tile'],
+      'tile' => $tile->getUiData(),
+      'building_tile' => $tile->getType(),
+    ]);
+  }
+  
+  public static function buildingVisitorRewards(Player $player,BuildingTile $tile)
+  {
+    self::notifyAll('buildingVisitorRewards', clienttranslate('${player_name} select visitor rewards from tile ${building_tile}'), [
+      'player' => $player,
+      'preserve'=>['tile'],
+      'tile' => $tile->getUiData(),
+      'building_tile' => $tile->getType(),
+    ]);
+  }
   public static function checkRoyalShipAbilities()
   {
     self::notifyAll('checkRoyal', clienttranslate('Checking royal ship abilities...'), [
@@ -336,6 +355,15 @@ class Notifications
       'meeple' => $meeple->getUiData(),
       'buildingType' => $buildingType,
       'inc' => (isset($buildingType)) ? $increaseBuildingsCounter : 0,
+    ]);
+  }
+  
+  public static function removeClanMarker(Player $player, Meeple $meeple,)
+  {
+    $msg = '';//avoid spoiling notifs
+    self::notifyAll('removeClanMarker', $msg, [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
     ]);
   }
   

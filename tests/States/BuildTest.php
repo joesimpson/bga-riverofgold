@@ -16,6 +16,7 @@ use ROG\Managers\ShoreSpaces;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
+use function PHPUnit\Framework\assertFalse;
 
 final class BuildTest extends TestCase
 {
@@ -34,6 +35,53 @@ final class BuildTest extends TestCase
         $expectedArgs = [
             'spaces' => new Collection([
                 ShoreSpaces::getShoreSpace(1),
+                ShoreSpaces::getShoreSpace(2),
+                ShoreSpaces::getShoreSpace(3),
+            ]),
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argBuild();
+        
+        self::assertEquals($expectedArgs, $args);
+    }
+    
+    public function test_Args_Build_WithLionMarker_Own(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        Globals::setChoices(0);
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1,  ];
+        $expectedArgs = [
+            'spaces' => new Collection([
+                ShoreSpaces::getShoreSpace(1),
+                ShoreSpaces::getShoreSpace(2),
+                ShoreSpaces::getShoreSpace(3),
+            ]),
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argBuild();
+        
+        self::assertEquals($expectedArgs, $args);
+    }
+    public function test_Args_Build_WithLionMarker_Opponent(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        Globals::setChoices(0);
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        $expectedArgs = [
+            'spaces' => new Collection([
+                //No Space 1
                 ShoreSpaces::getShoreSpace(2),
                 ShoreSpaces::getShoreSpace(3),
             ]),
@@ -243,6 +291,29 @@ final class BuildTest extends TestCase
         $expectedBonuses = json_encode([BONUS_TYPE_SET_DIE]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_actBuildSelect_Pass_LadyOfLions(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":20}';
+        TestDatas::$players[1]['bonuses'] = '[]';
+        TestDatas::$cards[101]['type'] = PATRON_LIONS_LADY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1,  ];
+
+        $position = 1;
+        $tileId = 31;
+        $game->actBuildSelect($position,$tileId);
+        
+        $expectedBonuses = json_encode([BONUS_TYPE_BUILDING_REWARD, BONUS_TYPE_PLACE_LION]);
+        assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertFalse( array_key_exists(101,TestDatas::$tokens));//deleted clan marker
+        assertSame($tileId, Globals::getLastBuiltTile());
     }
     
     public function test_actBuildSelect_Pass_EnoughMoneyWithArtisanMarker(): void

@@ -38,6 +38,7 @@ trait EndTurnTrait
         return;
       }
     }
+    $turn = Globals::getTurn();
     if($lastEra2TileMoved){
       $this->triggerLastTurn($turnPlayer);
     }
@@ -51,6 +52,9 @@ trait EndTurnTrait
     //RULE : roll your die at the end of your turn, before others play
     if(Globals::isLastTurnTriggered()){
       //NO DIE ROLL because no future turn
+    }
+    else if($turn == 0){
+      //NO DIE ROLL because we were in player setup bonuses made with 1ft die roll
     }
     else {
       $turnPlayer->rollDie();

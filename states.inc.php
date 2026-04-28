@@ -68,8 +68,11 @@ require_once 'modules/php/constants.inc.php';
         |   |                   | 
         v   v                   v 
         playerSetup
-                |
-                v
+                | |
+                | v
+                | bonusChoice -> confirm --> endTurn
+                |                               |
+                v                               v
  /<----------- nextTurn     <-------------------------\                                
  |              |                                     ^
  |              v                                     |
@@ -166,6 +169,7 @@ $machinestates = array(
         "action" => "stPlayerSetup",
         "transitions" => [ 
             "next" => ST_NEXT_TURN,
+            "bonus" => ST_BONUS_CHOICE, 
         ],
     ),
     
@@ -265,6 +269,8 @@ $machinestates = array(
             'bonusSellGoods' => ST_BONUS_SELL_GOODS,
             'bonusDraw' => ST_DISCARD_CARD,
             'bonusSetDie' => ST_BONUS_SET_DIE,
+            'bonusPlaceLion' => ST_BONUS_PLACE_LION,
+            'bonusBuildingReward' => ST_BONUS_BUILDING_REWARD,
             "trade" => ST_PLAYER_TURN_TRADE, 
             'next' => ST_CONFIRM_CHOICES,
             'zombiePass'=> ST_CONFIRM_CHOICES,

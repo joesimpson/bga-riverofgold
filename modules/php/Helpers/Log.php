@@ -32,6 +32,14 @@ class Log
         Game::get()->setGameStateValue('logging', 0);
     }
     /**
+     * Add an undoable step 
+     */
+    public static function addStep()
+    {
+        $stepId = Log::step(Game::get()->gamestate->getCurrentMainStateId());
+        Globals::incChoices();
+    }
+    /**
      * Add an entry
      */
     static $moveId = null;

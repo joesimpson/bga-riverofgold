@@ -90,6 +90,21 @@ trait SetupTrait
         //no setup roll for darling
       }
       $player->rollDie();
+
+      if(isset($playerPatron) && PATRON_LIONS_LADY == $playerPatron->getType()){
+        Globals::addBonus($player,BONUS_TYPE_PLACE_LION,'',false);
+        //Don't roll die after end of bonuses
+        //$player->setSkipRollDie(true);
+        //Not enough -> don't roll in stEndTurn if turn 0
+      }
+    }
+    
+    //manage bonuses if any
+    $activePlayer = Players::getActive();
+    $nextPlayer = Players::getNextPlayerWithBonusToChoose($activePlayer->getId());
+    if($this->goToBonusStepIfNeeded($nextPlayer,true)){
+      $this->addCheckpoint(ST_BONUS_CHOICE);
+      return;
     }
 
     $this->addCheckpoint(ST_NEXT_TURN);

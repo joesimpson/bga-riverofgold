@@ -8,6 +8,7 @@ use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Collection;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
+use ROG\Managers\ShoreSpaces;
 use ROG\Models\Player;
 
 trait BonusChoiceTrait
@@ -119,6 +120,12 @@ trait BonusChoiceTrait
       case BONUS_TYPE_SET_DIE:
         $nextState = 'bonusSetDie';
         break;
+      case BONUS_TYPE_PLACE_LION:
+        $nextState = 'bonusPlaceLion';
+        break;
+      case BONUS_TYPE_BUILDING_REWARD:
+        $nextState = 'bonusBuildingReward';
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }
@@ -166,6 +173,9 @@ trait BonusChoiceTrait
       return false;
     }
     if(in_array(BONUS_TYPE_UPGRADE_SHIP,$bonuses)){
+      return false;
+    }
+    if(in_array(BONUS_TYPE_PLACE_LION,$bonuses) && !empty(ShoreSpaces::getAllEmptySpaces())){
       return false;
     }
     return true;

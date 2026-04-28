@@ -139,6 +139,8 @@ function (dojo, declare, BgaAnimations) {
     const BONUS_TYPE_MONEY_PER_SHRINE = 33;
     const BONUS_TYPE_MONEY_PER_CUSTOMER = 34;
     const BONUS_TYPE_SET_DIE = 35;
+    const BONUS_TYPE_PLACE_LION         = 36;
+    const BONUS_TYPE_BUILDING_REWARD    = 37;
     const RESOURCES = [
         0,
         'silk',//RESOURCE_TYPE_SILK
@@ -256,6 +258,7 @@ function (dojo, declare, BgaAnimations) {
                 ['newClanMarkers', 10],
                 ['influenceClanMarkers', null],
                 ['newClanMarker', 800],
+                ['removeClanMarker', 800],
                 ['newBoat', 800],
                 ['upgradeShip', 800],
                 ['rollDie', 800],
@@ -284,6 +287,7 @@ function (dojo, declare, BgaAnimations) {
             //Filter states where we don't want other players to display state actions
             this._activeStates = ['deliver','discardCard','draftMulti'];
             this._inactiveStates = ['draft','scoring','gameEnd'];
+            this._migratedStates = ['BonusPlaceLion','BonusBuildingReward'];
             
             this._hideNotifsWhenMultiActive = true;
             
@@ -571,7 +575,9 @@ function (dojo, declare, BgaAnimations) {
         onEnteringState(stateName, args) {
             debug('Entering state: ' + stateName, args);
             //In this game, we don't want inactive players to see active buttons
-            if (!this._inactiveStates.includes(stateName) && !this.isCurrentPlayerActive()) return;
+            if (!this._inactiveStates.includes(stateName) && !this.isCurrentPlayerActive()
+                && !this._migratedStates.includes(stateName)
+            ) return;
             this.inherited(arguments);
         },
         onEnteringStateDraft(args) {
@@ -669,7 +675,7 @@ function (dojo, declare, BgaAnimations) {
                     shoreSpacesDiv.querySelectorAll('.rog_shore_space').forEach((elt) => {
                         elt.classList.remove('selected');
                     });
-                    let div = evt.target;
+                    let div = elt2;
                     div.classList.add('selected');
                     this.selectedSpace = div.dataset.pos;
                     $('btnConfirm').innerHTML = this.fsr(_('Select and pay ${n} Koku'), { n: space.cost });
@@ -721,6 +727,7 @@ function (dojo, declare, BgaAnimations) {
                 if(BONUS_TYPE_REFILL_HAND == bonusType) buttonText = _('Refill hand');
                 if(BONUS_TYPE_SELL_GOODS == bonusType) buttonText = _('Sell goods');
                 if(BONUS_TYPE_SET_DIE == bonusType) buttonText = _('Set next turn die')+"<br><div class='rog_clan_special_ability'>"+_('Clan special ability')+"</div>";
+                if(BONUS_TYPE_BUILDING_REWARD == bonusType) buttonText = _('Building reward');
                 this.addImageActionButton(`btnBonus_${k}_${bonusType}`, `${buttonText}<div class='rog_trade'>
                     ${iconBonus}
                 </div>`, () =>  {
@@ -864,6 +871,47 @@ function (dojo, declare, BgaAnimations) {
             this.addPrimaryActionButton('btnEnd', this.fsr(_('End selling'), {}), () => {
                 this.takeAction('actStop', { });
             });
+        },
+        
+        onEnteringStateBonusPlaceLion(args){
+            debug('onEnteringStateBonusPlaceLion', args);
+   
+            Object.values(args.spaces).forEach((space) => {
+                let shoreSpaceDiv = document.getElementById(`rog_shore_space-${space}`);
+                let callbackSpaceSelection = (evt) => {
+                    this.takeAction('actPlaceLion', { 'shore_space': space, });
+                };
+                this.onClick(shoreSpaceDiv.id, callbackSpaceSelection);
+            });
+
+            let lionToken = this.formatIcon('bonus-'+BONUS_TYPE_PLACE_LION);
+            this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
+                _('${you} must place the ${token_icon} token on an empty shore space').replace('${token_icon}', lionToken) :
+                _('${actplayer} must place the ${token_icon} token on an empty shore space').replace('${token_icon}', lionToken)
+            );
+        },
+        
+        onEnteringStateBonusBuildingReward(args){
+            debug('onEnteringStateBonusBuildingReward', args);
+   
+            Object.entries(args.p).forEach(([ tileId,choices,]) => {
+                Object.values(choices).forEach((choice) => {
+                    let buttonText = '';
+                    switch(choice){
+                        case 1: buttonText = _('Owner Rewards'); break;
+                        case 2: buttonText = _('Visitor Rewards'); break;
+                    }
+                    let callbackSelection = (evt) => {
+                        this.takeAction('actSelectReward', { 'choice': choice, 'tileId':tileId});
+                    };
+                    this.addPrimaryActionButton(`btnBReward_${tileId}_${choice}`, this.fsr(buttonText, {}), callbackSelection); 
+                });
+            });
+
+            this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
+                _('${you} must select a building reward') :
+                _('${actplayer} must select a building reward')
+            );
         },
 
         onEnteringStateSail(args){
@@ -1183,6 +1231,11 @@ function (dojo, declare, BgaAnimations) {
                     this._counters[n.args.player_id].buildings[buildingType].incValue(n.args.inc);
                 }
             });
+        },
+        notif_removeClanMarker(n) {
+            debug('notif_removeClanMarker', n);
+            let tokenDiv = $(`rog_meeple-${n.args.meeple.id}`);
+            this.animationManager.slideOutAndDestroy(tokenDiv, this.getVisibleTitleContainer(), {duration: 700});
         },
         notif_newBoat(n) {
             debug('notif_newBoat', n);
@@ -2505,7 +2558,7 @@ function (dojo, declare, BgaAnimations) {
                 [PATRON_SCION_OF_VOID       , this.fsr(_('Put ${n} random mastery cards on the 2-player side in front of you. Only you can claim those ${n} masteries.'),{ 'n':3 })],
                 [PATRON_SCION_OF_EARTH      , this.fsr(_('When you claim a mastery, gain ${n} ${favor} and an additional ${score}. You can claim masteries even if all their printed rewards have been claimed (place a clan marker on the card and gain ${n} ${favor} and ${score}.)'),{ 'n':1, 'favor':this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN]),'score':this.formatIcon('score',3), })],
                 [PATRON_REVEREND_SENSEI     , this.fsr(_('At the end of Era 1, before the Emperor\'s Visit, place a second clan marker on all buildings you own that do not already have a second clan marker.'),{ })],
-                [PATRON_LIONS_LADY          , this.fsr(_('During setup, place the ${lion} token on an empty shore space. Other players cannot build in its space. When you build in its space, gain the building owner reward or visitor reward, then move the ${lion} token to a new empty shore space.'),{'lion': this.formatIcon('clan-'+6) })],//CLAN_LION
+                [PATRON_LIONS_LADY          , this.fsr(_('During setup, place the ${lion} token on an empty shore space. Other players cannot build in its space. When you build in its space, gain the building\'s owner reward or visitor reward, then move the ${lion} token to a new empty shore space.'),{'lion': this.formatIcon('clan-'+6) })],//CLAN_LION
                 [PATRON_IMPERIAL_ENVOY      , this.fsr(_('When you visit an Imperial Market, gain ${influence} in its region.'),{ 'influence': this.formatIcon("influence",2), 'n2':2 })],
                 [PATRON_TATTOOED_MONK       , this.fsr(_('When you discard a customer (after delivering or ${draw}), gain ${good}.'),{ 'draw': this.formatIcon('bonus-'+BONUS_TYPE_DRAW),'good': this.formatIcon(RESOURCES[RESOURCE_TYPE_SILK]), })],
                 [PATRON_MAGNATE_SAND_ROAD   , this.fsr(_('After setup, place your Royal Ship on the top river space. When sailing you may move any of your ${n} ships'),{'n':3 }) + '<br/><br/>' + this.fsr(_('When your Royal Ship sails, gain ${score} for each of your other ships in the river space you sailed to.'),{'score':this.formatIcon('score',2) })],
@@ -2966,6 +3019,10 @@ function (dojo, declare, BgaAnimations) {
             }
             if (locationParts[0] == 'merchant') {//MEEPLE_LOCATION_MERCHANT
                 return $(`rog_merchant_space`);
+            }
+            if (locationParts[0] == 'shore') {//MEEPLE_LOCATION_SHORE
+                let space = locationParts[1];
+                return document.getElementById(`rog_shore_space-${space}`);
             }
     
             console.error('Trying to get container of a meeple', meeple);
