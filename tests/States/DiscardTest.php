@@ -46,6 +46,7 @@ final class DiscardTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_DISCARD_CARD;
         $cardId = 13;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
 
         $game->actDiscardCard($cardId);
         
@@ -53,6 +54,33 @@ final class DiscardTest extends TestCase
         $cardDatas = TestDatas::$cards[$cardId];
         assertSame(CARD_LOCATION_DISCARD, $cardDatas['card_location']);
         assertSame(0, $cardDatas['player_id']);//null becomes '0' with Model
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionDiscardCard_Pass_TatooedMonk(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_DISCARD_CARD;
+        $cardId = 13;
+        TestDatas::$cards[101]['type'] = PATRON_TATTOOED_MONK;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+
+        $game->actDiscardCard($cardId);
+        
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
     }

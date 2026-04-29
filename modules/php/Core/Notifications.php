@@ -629,6 +629,18 @@ class Notifications
       ],
     );
   }
+  
+  public static function activePatron(Player $player,ClanPatronCard $card){
+    $msg = clienttranslate('${player_name} activates ${patron_name} ability');
+    self::notifyAll('activePatron',$msg,[ 
+        'i18n' => [ 'patron_name' ],
+        'player' => $player,
+        'points' => 'points',
+        'patron_name' => $card->getName(),
+        'card_id' => $card->getId(),
+      ],
+    );
+  }
   /**
    * @param BuildingTile $buildingTile
    * @param BuildingTile $nextEra1Card

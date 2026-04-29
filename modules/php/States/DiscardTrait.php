@@ -53,6 +53,11 @@ trait DiscardTrait
     $card->setPId(null);
     Notifications::discard($player,$card);
 
+    $playerPatron = $player->getPatron();
+    if(isset($playerPatron)){
+      $playerPatron->abilityOnCustomerDiscard($player);
+    }
+
     $this->gamestate->nextState('next');
   } 
 

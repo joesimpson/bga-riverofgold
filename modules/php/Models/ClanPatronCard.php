@@ -168,5 +168,14 @@ class ClanPatronCard extends Card
         break;
     }
   }
+  
+  public function abilityOnCustomerDiscard(Player &$player,){
+    switch($this->getType()){
+      case PATRON_TATTOOED_MONK:
+        Notifications::activePatron($player,$this);
+        $player->giveResource(1,RESOURCE_TYPE_SILK);
+        break;
+    }
+  }
 
 }
