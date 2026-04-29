@@ -318,7 +318,7 @@ class Players extends \ROG\Helpers\DB_Manager
    * @param ClanPatronCard $influencePatron (optional) clan patron that leads to this gain
    * @return bool true if player needs to do another choice  (! Currently not updated if recursive calls ! may return false even if a embedded call makes it true) -> read the current bonuses after the calls if you need to know whether a bonus choice is there or not
    */
-  public static function gainInfluence(&$player,$region,$amount,$influencePatron = null){
+  public static function gainInfluence(Player &$player,int $region,int $amount,?ClanPatronCard $influencePatron = null){
     $pid = $player->getId();
     Game::get()->trace("gainInfluence($pid, $region,$amount),". json_encode($influencePatron));
     if($amount == 0) return;

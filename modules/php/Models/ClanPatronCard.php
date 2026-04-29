@@ -7,6 +7,7 @@ use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
+use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 
@@ -159,4 +160,13 @@ class ClanPatronCard extends Card
         break;
     }
   }
+  
+  public function abilityOnVisitImperialMarket(Player &$player, int $region){
+    switch($this->getType()){
+      case PATRON_IMPERIAL_ENVOY:
+        Players::gainInfluence($player,$region,2, $this);
+        break;
+    }
+  }
+
 }

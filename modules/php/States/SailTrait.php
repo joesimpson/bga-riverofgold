@@ -63,10 +63,12 @@ trait SailTrait
     self::trace("actSailSelect($shipId,$riverSpace) adjacent spaces :".json_encode($adjacentSpaces));
 
     $players = Players::getAll();
+    $playerPatron = $player->getPatron();
 
     Notifications::checkVisitorRewards();
     $nbEmptySpaces = 0;
     foreach($adjacentSpaces as $adjacentSpace){
+      $shoreSpace = ShoreSpaces::getShoreSpace($adjacentSpace);
       $tile = Tiles::getTileOnShoreSpace($adjacentSpace);
       if(!isset($tile)){
         $nbEmptySpaces++;
@@ -74,6 +76,12 @@ trait SailTrait
       }
       else {
         $region = $tile->getRegion();
+
+        if($shoreSpace->type == SHORE_SPACE_IMPERIAL_MARKET){
+          if(isset($playerPatron)){
+            $playerPatron->abilityOnVisitImperialMarket($player,$region);
+          }
+        }
 
         //Visitor rewards
         $rewards = $tile->visitorReward;
@@ -140,7 +148,6 @@ trait SailTrait
       }
     }
     
-    $playerPatron = $player->getPatron();
     if(isset($playerPatron)){
       $playerPatron->scoreWhenSail($player,$ownBuilding,$opponentBuilding);
       $playerPatron->addBonuses($player);

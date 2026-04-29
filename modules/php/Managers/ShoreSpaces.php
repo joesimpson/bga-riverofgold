@@ -23,7 +23,7 @@ class ShoreSpaces
    * @param int $position Position on the River
    * @return ShoreSpace
    */
-  public static function getShoreSpace($position)
+  public static function getShoreSpace($position) : ShoreSpace
   {
     return self::getShoreSpaces()[$position];
   }

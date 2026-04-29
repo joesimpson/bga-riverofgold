@@ -464,6 +464,117 @@ final class SailTest extends TestCase
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
     }
     
+    public function test_ActionSail_Pass_ImperialEnvoy_Region2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$cards[101]['type'] = PATRON_IMPERIAL_ENVOY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 2;
+        $riverSpace = 3;
+        //Set an imperial market in space 6 :
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tiles[43]['tile_state'] = 6;
+
+        $game->actSailSelect($shipId,$riverSpace);
+
+        //check influences : +2 in region 2
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+    }
+    
+    public function test_ActionSail_Pass_ImperialEnvoy_Region4(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$cards[101]['type'] = PATRON_IMPERIAL_ENVOY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 8;
+        $riverSpace = 9;
+        //Set an imperial market in space 6 :
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tiles[43]['tile_state'] = 17;
+
+        $game->actSailSelect($shipId,$riverSpace);
+
+        //check influences : +2 in region 4
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+    }
+    
+    public function test_ActionSail_Pass_ImperialEnvoy_Region6(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$cards[101]['type'] = PATRON_IMPERIAL_ENVOY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 13;
+        $riverSpace = 14;
+        //Set an imperial market in space 6 :
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tiles[43]['tile_state'] = 29;
+
+        $game->actSailSelect($shipId,$riverSpace);
+
+        //check influences : +2 in region 6
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[6]['meeple_state']);
+    }
+    
+    public function test_ActionSail_Pass_WithoutImperialEnvoy_Region6(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 13;
+        $riverSpace = 14;
+        //Set an imperial market in space 6 :
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tiles[43]['tile_state'] = 29;
+
+        $game->actSailSelect($shipId,$riverSpace);
+
+        //check influences : +2 in region 6
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+    }
+    
     public function test_ActionSail_KO_WrongShip(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
