@@ -88,7 +88,7 @@ class ShoreSpaces
    * @return array list of spaces id
    */
   public static function getStartingSpaces($nbPlayers){
-    if($nbPlayers == 4) return [];
+    if($nbPlayers >= 4) return [];
     $spacesFor3 = self::getSpacesByType(SHORE_SPACE_STARTING_BUILDING_FOR_3);
     if($nbPlayers == 3) return $spacesFor3;
     $spacesFor2 = self::getSpacesByType(SHORE_SPACE_STARTING_BUILDING_FOR_2);

@@ -238,16 +238,16 @@ class Tiles extends \ROG\Helpers\Pieces
         }
       }
 
-      //Keep 16 /14/12 era 1 tiles <=> remove 8/10/12 tiles
-      $nbBuildingToRemove = [2=>12, 3=>10, 4=>8];
-      $buildingTiles = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1,$nbBuildingToRemove[$nbPlayers]);
+      //Keep 18/16 /14/12 era 1 tiles <=> remove 6/8/10/12 tiles
+      $nbBuildingToRemove = [2=>12, 3=>10, 4=>8, 5=>6,];
+      $buildingTiles = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1,$nbBuildingToRemove[$nbPlayers],false);
       foreach ($buildingTiles as $tileId => $tile) {
         self::DB()->delete($tileId);
       }
 
-      //Keep 13 /11/9 era 2 tiles <=> remove 3/5/7 tiles
-      $nbBuildingToRemove = [2=>7, 3=>5, 4=>3];
-      $buildingTiles = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2,$nbBuildingToRemove[$nbPlayers]);
+      //Keep 15/13 /11/9 era 2 tiles <=> remove 1/3/5/7 tiles
+      $nbBuildingToRemove = [2=>7, 3=>5, 4=>3, 5=>1,];
+      $buildingTiles = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2,$nbBuildingToRemove[$nbPlayers], false);
       foreach ($buildingTiles as $tileId => $tile) {
         self::DB()->delete($tileId);
       }
@@ -347,12 +347,12 @@ class Tiles extends \ROG\Helpers\Pieces
       4 => $f([ [2],   [8,4]    ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 
       5 => $f([ [2],   [6,3]    ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 
       6 => $f([ [2],   [7,3]    ,NB_SPACES_BETWEEN_2P_SCORINGTILE  ]), 
-      7 => $f([ [3,4], [7,3]    ,null ]), 
-      8 => $f([ [3,4], [9,5]    ,null ]), 
-      9 => $f([ [3,4], [8,4]    ,null ]), 
-      10 => $f([[3,4], [12,8,4] ,null ]), 
-      11 => $f([[3,4], [10,6,2] ,null ]), 
-      12 => $f([[3,4], [11,7,3] ,null ]), 
+      7 => $f([ [3,4,5, ], [7,3]    ,null ]), 
+      8 => $f([ [3,4,5, ], [9,5]    ,null ]), 
+      9 => $f([ [3,4,5, ], [8,4]    ,null ]), 
+      10 => $f([[3,4,5, ], [12,8,4] ,null ]), 
+      11 => $f([[3,4,5, ], [10,6,2] ,null ]), 
+      12 => $f([[3,4,5, ], [11,7,3] ,null ]), 
     ];
   }
   
@@ -376,12 +376,12 @@ class Tiles extends \ROG\Helpers\Pieces
       4 => $f([ [2],   [5]     , MASTERY_TYPE_FIRE    ]), 
       5 => $f([ [2],   [5]     , MASTERY_TYPE_VOID    ]), 
       6 => $f([ [2],   [5]     , MASTERY_TYPE_WATER   ]), 
-      7 => $f([ [3,4], [7,5,3] , MASTERY_TYPE_AIR     ]), 
-      8 => $f([ [3,4], [7,5,3] , MASTERY_TYPE_COURTS  ]), 
-      9 => $f([ [3,4], [7,5,3] , MASTERY_TYPE_EARTH   ]), 
-      10 => $f([[3,4], [7,5,3] , MASTERY_TYPE_FIRE    ]), 
-      11 => $f([[3,4], [7,5,3] , MASTERY_TYPE_VOID    ]), 
-      12 => $f([[3,4], [7,5,3] , MASTERY_TYPE_WATER   ]), 
+      7 => $f([ [3,4,5, ], [7,5,3] , MASTERY_TYPE_AIR     ]), 
+      8 => $f([ [3,4,5, ], [7,5,3] , MASTERY_TYPE_COURTS  ]), 
+      9 => $f([ [3,4,5, ], [7,5,3] , MASTERY_TYPE_EARTH   ]), 
+      10 => $f([[3,4,5, ], [7,5,3] , MASTERY_TYPE_FIRE    ]), 
+      11 => $f([[3,4,5, ], [7,5,3] , MASTERY_TYPE_VOID    ]), 
+      12 => $f([[3,4,5, ], [7,5,3] , MASTERY_TYPE_WATER   ]), 
     ];
   }
   

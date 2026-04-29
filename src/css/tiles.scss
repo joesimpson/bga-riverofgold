@@ -156,7 +156,8 @@
                 }
             }
             &[data-nbPlayers='3'],
-            &[data-nbPlayers='4']{
+            &[data-nbPlayers='4'],
+            &[data-nbPlayers='5']{
                 //3 spots
                 .rog_meeple{
                     &[data-pos='1']{

@@ -61,6 +61,38 @@ final class SetupTest extends TestCase
         assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
     }
 
+    public function test_setupNewGame_Draft_5players(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        TestDatas::$players[3] = TestDatas::$players[1];
+        TestDatas::$players[3]['player_id'] = 3;
+        TestDatas::$players[3]['result_associative_index'] = 3;
+        TestDatas::$players[4] = TestDatas::$players[1];
+        TestDatas::$players[4]['player_id'] = 4;
+        TestDatas::$players[4]['result_associative_index'] = 4;
+        TestDatas::$players[5] = TestDatas::$players[1];
+        TestDatas::$players[5]['player_id'] = 5;
+        TestDatas::$players[5]['result_associative_index'] = 5;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+            3 => TestDatas::$players[3],
+            4 => TestDatas::$players[4],
+            5 => TestDatas::$players[5],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_DRAFT,
+        ];
+        
+        //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.
+        //$game->setupNewGame($playersDatas, $options);
+        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
+    }
+
     // ----------------------------------------------------------------------
     public function testEnteringState_PlayerSetup(): void
     {
