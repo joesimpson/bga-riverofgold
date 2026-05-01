@@ -1295,6 +1295,7 @@ function (dojo, declare, BgaAnimations) {
             debug('notif_newBoat', n);
             if (!$(`rog_meeple-${n.args.meeple.id}`)) this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
             this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { });
+            this.updateRiverSpacesCounters();
         },
         notif_upgradeShip(n) {
             debug('notif_upgradeShip', n);
@@ -1308,6 +1309,7 @@ function (dojo, declare, BgaAnimations) {
                 if (tooltipDesc != null) {
                     this.addCustomTooltip(divMeeple, tooltipDesc);
                 }
+                this.updateRiverSpacesCounters();
             });
         },
         
@@ -1321,6 +1323,7 @@ function (dojo, declare, BgaAnimations) {
                 phantom: false,
             }).then( ()=> { 
                 divShip.dataset.pos = ship.pos;
+                this.updateRiverSpacesCounters();
             });
         },
         notif_setDie(n) {
@@ -2016,6 +2019,8 @@ function (dojo, declare, BgaAnimations) {
                 $(`rog_player_delivered_resizable-${player.id}`).style['border-color'] ='#'+ player.color;
                 }
             });
+
+            document.getElementById('rog_game_container').dataset.nbplayers = nPlayers;
     
             this.updateFirstPlayer();
         },
@@ -3013,6 +3018,7 @@ function (dojo, declare, BgaAnimations) {
             });
 
             this.addScoreTrackSpaces();
+            this.updateRiverSpacesCounters();
         },
     
         addMeeple(meeple, location = null) {
@@ -3156,6 +3162,14 @@ function (dojo, declare, BgaAnimations) {
         },
         tplElderSpace(region) {
             return `<div class="rog_elder_space" id="rog_elder_space_${region}" data-region='${region}'></div>`;
+        },
+
+        updateRiverSpacesCounters() { 
+            debug("updateRiverSpacesCounters");
+            document.querySelectorAll('#rog_river_spaces .rog_river_space').forEach((div) => {
+                let nbmeeples = div.querySelectorAll('.rog_meeple').length;
+                div.dataset.nbmeeples = nbmeeples;
+            });
         },
 
 

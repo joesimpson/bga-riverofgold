@@ -526,6 +526,17 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         position: absolute;
     }
 }
+//#rog_game_container[data-nbplayers='5']{
+.rog_river_space[data-nbmeeples='9'],
+.rog_river_space[data-nbmeeples='10'],
+.rog_river_space[data-nbmeeples='11']{
+    //Layout for ships on the river : max 11 ships on the same space !
+    //Reduce ship size ...
+    .rog_meeple{
+        width: 100px;
+        height: 80px;
+    }
+}
 #rog_river_space-1{
     .rog_meeple{
         //Starts children with 2 because index 1 is for rog_river_shape
@@ -560,6 +571,18 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         &:nth-of-type(9){
             top: 268px;
             left: -103px;
+        }
+        &:nth-of-type(10){ //9th ship
+            top: 215px;
+            left: -100px;
+        }
+        &:nth-of-type(11){ //10th ship
+            top: 197px;
+            left: 49px;
+        }
+        &:nth-of-type(12){ //11th ship
+            top: 130px;
+            left: 130px;
         }
     }
 }
@@ -606,6 +629,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         left: 22px;
         z-index: 8;
     }
+    &:nth-of-type(10){ //9th ship
+        top: -77px;
+        left: 143px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: -14px;
+        left: 43px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: 118px;
+        left: 144px;
+        z-index: 12;
+    }
 }
 
 #rog_river_space-3 .rog_meeple{
@@ -649,6 +687,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         left: -119px;
         z-index: 3;
     }
+    &:nth-of-type(10){ //9th ship
+        top: 51px;
+        left: 140px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: 116px;
+        left: 163px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: 178px;
+        left: 163px;
+        z-index: 12;
+    }
 }
 #rog_river_space-4 .rog_meeple{
     &:nth-of-type(2){
@@ -690,6 +743,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         top: -134px;
         left: -79px;
         z-index: 3;
+    }
+    &:nth-of-type(10){ //9th ship
+        top: 105px;
+        left: 64px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: 64px;
+        left: 133px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: 105px;
+        left: -6px;
+        z-index: 12;
     }
 }
 
@@ -734,6 +802,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         left: 86px;
         z-index: 3;
     }
+    &:nth-of-type(10){ //9th ship
+        top: 78px;
+        left: 45px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: 59px;
+        left: 120px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: -2px;
+        left: 159px;
+        z-index: 12;
+    }
 }
 
 #rog_river_space-6 .rog_meeple{
@@ -776,6 +859,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         z-index: 9;
         top: 258px;
         left: 138px;
+    }
+    &:nth-of-type(10){ //9th ship
+        top: -45px;
+        left: -115px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: -87px;
+        left: 50px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: -11px;
+        left: 90px;
+        z-index: 12;
     }
 }
 
@@ -820,6 +918,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         left: -71px;
         z-index: 2;
     }
+    &:nth-of-type(10){ //9th ship
+        top: 139px;
+        left: 157px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: 53px;
+        left: 93px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: -92px;
+        left: 11px;
+        z-index: 12;
+    }
 }
 #rog_river_space-8 .rog_meeple{
     &:nth-of-type(2){
@@ -861,6 +974,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         top: 12px;
         left: 155px;
         z-index: 3;
+    }
+    &:nth-of-type(10){ //9th ship
+        top: 140px;
+        left: 9px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: 126px;
+        left: 97px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: 138px;
+        left: 189px;
+        z-index: 12;
     }
 }
 
@@ -905,6 +1033,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         left: 93px;
         z-index: 3;
     }
+    &:nth-of-type(10){ //9th ship
+        top: -41px;
+        left: 116px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: 6px;
+        left: 103px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: 62px;
+        left: 60px;
+        z-index: 12;
+    }
 }
 #rog_river_space-10 .rog_meeple{
     &:nth-of-type(2){
@@ -947,6 +1090,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         left: 32px;
         z-index: 3;
     }
+    &:nth-of-type(10){ //9th ship
+        top: -131px;
+        left: 87px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: 33px;
+        left: 87px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: 93px;
+        left: 148px;
+        z-index: 12;
+    }
 }
 #rog_river_space-11 .rog_meeple{
     &:nth-of-type(2){
@@ -988,6 +1146,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         top: 139px;
         left: 19px;
         z-index: 8;
+    }
+    &:nth-of-type(10){ //9th ship
+        top: 113px;
+        left: 157px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: 173px;
+        left: 118px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: 241px;
+        left: 69px;
+        z-index: 12;
     }
 }
 
@@ -1032,6 +1205,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         left: -149px;
         z-index: 9;
     }
+    &:nth-of-type(10){ //9th ship
+        top: 74px;
+        left: 123px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: 94px;
+        left: 20px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: -39px;
+        left: 83px;
+        z-index: 12;
+    }
 }
 
 #rog_river_space-13 .rog_meeple{
@@ -1074,6 +1262,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         top: -37px;
         left: -47px;
         z-index: 5;
+    }
+    &:nth-of-type(10){ //9th ship
+        top: -90px;
+        left: 173px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: -34px;
+        left: 114px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: 162px;
+        left: 151px;
+        z-index: 12;
     }
 }
 #rog_river_space-14 .rog_meeple{
@@ -1118,6 +1321,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         top: 139px;
         left: 19px;
         z-index: 9;
+    }
+    &:nth-of-type(10){ //9th ship
+        top: 64px;
+        left: -174px;
+        z-index: 10;
+    }
+    &:nth-of-type(11){ //10th ship
+        top: 119px;
+        left: -117px;
+        z-index: 11;
+    }
+    &:nth-of-type(12){ //11th ship
+        top: 179px;
+        left: -70px;
+        z-index: 12;
     }
 }
 /////////////////////////////////////////////////////////////////////

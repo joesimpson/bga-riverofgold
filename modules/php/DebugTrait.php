@@ -264,17 +264,21 @@ trait DebugTrait
   }
 
   //Add Boats on each river space
-  function debug_BoatMeeples(){
+  function debug_BoatMeeples(bool $royalShip = true){
     $this->addStep();
     Meeples::DB()->delete()->whereIn('type', [MEEPLE_TYPE_SHIP,MEEPLE_TYPE_SHIP_ROYAL])->run();
     $players = Players::getAll();
-    $typeToTest = MEEPLE_TYPE_SHIP_ROYAL;
+    $typeToTest = $royalShip ? MEEPLE_TYPE_SHIP_ROYAL : MEEPLE_TYPE_SHIP;
     for($k=1;$k<=NB_RIVER_SPACES;$k++){
       foreach($players as $pid => $player){
         $meeple = Meeples::addBoatOnRiverSpace($player,$k,false);
         $meeple->setType($typeToTest);
         $meeple = Meeples::addBoatOnRiverSpace($player,$k,false);
         $meeple->setType($typeToTest);
+        if($player->getClan()==CLAN_UNICORN){//Test a third
+          $meeple = Meeples::addBoatOnRiverSpace($player,$k,false);
+          $meeple->setType(MEEPLE_TYPE_SHIP_ROYAL);
+        }
       }
     }
     $this->debug_UI();
