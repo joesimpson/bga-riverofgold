@@ -112,6 +112,13 @@ class ClanPatronCard extends Card
           Notifications::scorePatron($player,$points,$this);
         }
         break;
+      case PATRON_MISTRESS_OF_WINDS://give a bonus to pay opponents ships for points
+        $nbOpponentShips = Meeples::countOpponentShipsInLocation($player->getId(),$ship->getPosition());
+        if($nbOpponentShips > 0){
+          Notifications::activePatron($player,$this);
+          Globals::addBonus($player,BONUS_TYPE_PAY_SHIPS,clienttranslate("Pay ships for points"));
+        }
+        break;
     }
   }
   

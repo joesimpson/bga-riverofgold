@@ -54,6 +54,7 @@ trait SailTrait
     $ship = Meeples::get($shipId);
     $fromPosition = $ship->getPosition();
     $ship->setPosition($riverSpace);
+    Globals::setLastSailedShip($shipId);
     Notifications::sail($player,$ship,$riverSpace);
     if($riverSpace < $fromPosition){
       $this->completeJourney($player,$ship);

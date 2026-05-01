@@ -6169,6 +6169,9 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   background-color: rgb(255, 115, 0) !important;
   background-image: none !important;
 }
+.rog_selected_button .playername {
+  text-shadow: 2px 0px 2px white, 0px 2px 2px white, -2px 0px 2px white, 0px -2px 2px white;
+}
 .rog_selected_button:hover {
   background-color: rgba(255, 115, 0, 0.75) !important;
 }

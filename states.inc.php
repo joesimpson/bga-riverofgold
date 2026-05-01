@@ -271,6 +271,7 @@ $machinestates = array(
             'bonusSetDie' => ST_BONUS_SET_DIE,
             'bonusPlaceLion' => ST_BONUS_PLACE_LION,
             'bonusBuildingReward' => ST_BONUS_BUILDING_REWARD,
+            'bonusPayShips' => ST_BONUS_PAY_SHIPS,
             "trade" => ST_PLAYER_TURN_TRADE, 
             'next' => ST_CONFIRM_CHOICES,
             'zombiePass'=> ST_CONFIRM_CHOICES,

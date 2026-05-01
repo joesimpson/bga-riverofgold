@@ -5,6 +5,7 @@ namespace ROG\Managers;
 use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Helpers\Collection;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
@@ -240,13 +241,21 @@ class Meeples extends \ROG\Helpers\Pieces
     return self::getFilteredQuery($pId, MEEPLE_LOCATION_MERCHANT)->get()->first();
   }
   
-  public static function countPlayerShipsInLocation(int $pId, int $position) : int
+  public static function countPlayerShipsInLocation(?int $pId, int $position) : int
   {
     Game::get()->trace("countPlayerShipsInLocation($pId, $position)...");
     return self::DB()->wherePlayer($pId)
       ->where(self::$prefix.'location', MEEPLE_LOCATION_RIVER)
       ->where(self::$prefix.'state', $position)
       ->count();
+  }
+  
+  public static function countOpponentShipsInLocation(int $pId, int $position) : int
+  {
+    Game::get()->trace("countOpponentShipsInLocation($pId, $position)...");
+    $nbShipsInSpace = Meeples::countPlayerShipsInLocation(null,$position);
+    $nbPlayerShips = Meeples::countPlayerShipsInLocation($pId,$position);
+    return $nbShipsInSpace - $nbPlayerShips;
   }
 
   /**
@@ -321,5 +330,26 @@ class Meeples extends \ROG\Helpers\Pieces
     $elt = self::singleCreate($meeple);
     Notifications::newClanMarker($player,$elt,null, false);
     return $elt;
+  }
+  
+  public static function getPlayerShipsInRiverSpace(int $position, ) : Collection
+  {
+    Game::get()->trace("getPlayerShipsInRiverSpace( $position)...");
+    return self::DB()
+      ->where(self::$prefix.'location', MEEPLE_LOCATION_RIVER)
+      ->where(self::$prefix.'state', $position)
+      ->get();
+  }
+  /**
+   * @return array of Player ids
+   */
+  public static function getOpponentIdsInRiverSpace(int $position,int $pId, ) : array
+  {
+    $ships = Meeples::getPlayerShipsInRiverSpace($position);
+    return $ships->filter(function($meeple) use ($pId){
+        return $meeple->getPId() != $pId;
+      })->map(function($meeple){
+        return $meeple->getPId();
+      })->toArray(); 
   }
 }

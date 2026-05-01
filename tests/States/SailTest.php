@@ -529,6 +529,44 @@ final class SailTest extends TestCase
         assertSame(23,TestDatas::$players[1]['player_score']);//+2*2
     }
     
+    public function test_ActionSail_Pass_MistressOfWinds_2ShipsInSpace(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[101]['type'] = PATRON_MISTRESS_OF_WINDS;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 9;
+        TestDatas::$tokens[23]['meeple_state'] = 10;
+        TestDatas::$tokens[24]['meeple_state'] = 10;
+        $riverSpace = 10;
+
+        $game->actSailSelect($shipId,$riverSpace);
+        
+        assertSame(json_encode([BONUS_TYPE_PAY_SHIPS]), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionSail_Pass_MistressOfWinds_0OpponentsInSpace(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[101]['type'] = PATRON_MISTRESS_OF_WINDS;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 9;
+        TestDatas::$tokens[22]['meeple_state'] = 10;
+        $riverSpace = 10;
+
+        $game->actSailSelect($shipId,$riverSpace);
+        
+        assertSame(json_encode([]), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    
     public function test_ActionSail_Pass_ImperialEnvoy_Region2(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

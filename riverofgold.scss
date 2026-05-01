@@ -73,6 +73,12 @@
 .rog_selected_button{
     background-color: rgb(255, 115, 0) !important;
     background-image: none !important;
+    .playername{
+        text-shadow: 2px 0px 2px white, 
+                     0px 2px 2px white,
+                    -2px 0px 2px white,
+                    0px -2px 2px white;     
+    }
     &:hover{
         // overrides BGA default
         background-color: rgba(255, 115, 0, 0.75) !important;

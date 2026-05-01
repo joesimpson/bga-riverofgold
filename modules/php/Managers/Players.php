@@ -138,7 +138,7 @@ class Players extends \ROG\Helpers\DB_Manager
   /*
    * get : returns the Player object for the given player ID
    */
-  public static function get($pId = null)
+  public static function get($pId = null): Player
   {
     $pId = $pId ?: self::getActiveId();
     return self::DB()

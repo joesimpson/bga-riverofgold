@@ -179,11 +179,13 @@ abstract class Table
             logForTests("getUniqueValueFromDb: count is $count for tile_location $tile_location");
             return $count;
         }
-        if (preg_match("/^SELECT COUNT\(\*\) FROM `meeples` WHERE `player_id` = (?P<player_id>.*) AND `meeple_location` = '(?P<meeple_location>.*)' AND `meeple_state` = (?P<meeple_state>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT COUNT\(\*\) FROM `meeples` WHERE (`player_id` = (?P<player_id>.*) AND )*`meeple_location` = '(?P<meeple_location>.*)' AND `meeple_state` = (?P<meeple_state>\d+)$/", $sql, $matches) == 1) {
             $player_id = intval($matches['player_id']);
             $meeple_location = $matches['meeple_location'];
             $meeple_state = intval($matches['meeple_state']);
-            $count = count(array_filter(TestDatas::$tokens,function ($token) use($player_id,$meeple_location, $meeple_state) {return $token['player_id'] == $player_id && $token['meeple_location'] == $meeple_location && $token['meeple_state'] == $meeple_state ;}));
+            $count = count(array_filter(TestDatas::$tokens,function ($token) use($player_id,$meeple_location, $meeple_state) {
+                return ($player_id ==0 || $player_id>0 && $token['player_id'] == $player_id) && $token['meeple_location'] == $meeple_location && $token['meeple_state'] == $meeple_state ;
+            }));
             logForTests("getUniqueValueFromDb: count is $count for meeple_location $player_id, $meeple_location, $meeple_state");
             return $count;
         }
@@ -244,6 +246,15 @@ abstract class Table
                 return [
                     TestDatas::$players[2],
                     ];
+            case 'SELECT *, player_id AS `result_associative_index` FROM `player` WHERE  `player_id` = 3 LIMIT 1': 
+                logForTests("MOCK select  player 3 ");
+                return [ TestDatas::$players[3], ];
+            case 'SELECT *, player_id AS `result_associative_index` FROM `player` WHERE  `player_id` = 4 LIMIT 1': 
+                logForTests("MOCK select  player 4 ");
+                return [ TestDatas::$players[4], ];
+            case 'SELECT *, player_id AS `result_associative_index` FROM `player` WHERE  `player_id` = 5 LIMIT 1': 
+                logForTests("MOCK select  player 5 ");
+                return [ TestDatas::$players[5], ];
             case 'SELECT player_score,player_id FROM `player` WHERE `player_id` = 2':
                 return [
                     TestDatas::$players[2],
@@ -461,9 +472,12 @@ abstract class Table
             $filtered = array_filter(TestDatas::$tokens,function ($token) use ($meeple_locations, $player_id){return in_array($token['meeple_location'], $meeple_locations) && $token['player_id'] == $player_id;});
             return $filtered;
         }
-        if (preg_match("/^SELECT (.*) FROM `meeples` WHERE \(`meeple_location` = '(?P<meeple_location>.*)'\)$/", $sql, $matches) == 1) {
-            $meeple_location = $matches['meeple_location'];
-            $filtered = array_filter(TestDatas::$tokens,function ($token) use ($meeple_location,){return $token['meeple_location'] == $meeple_location ;});
+        if (preg_match("/^SELECT (.*) FROM `meeples` WHERE (\(?`meeple_location` = '(?P<meeple_location>.*)'\)?)?( AND `meeple_state` = (?P<meeple_state>\d+))?$/", $sql, $matches) == 1) {
+            $meeple_location = array_key_exists('meeple_location',$matches) ? $matches['meeple_location'] : null;
+            $meeple_state = array_key_exists('meeple_state',$matches) ? $matches['meeple_state'] : null;
+            //logForTests("BEFORE FILTER: ".json_encode(TestDatas::$tokens));
+            $filtered = array_filter(TestDatas::$tokens,function ($token) use ($meeple_location,$meeple_state){return (!isset($meeple_location) || $token['meeple_location'] == $meeple_location) && (!isset($meeple_state) || intval($meeple_state) == $token['meeple_state']) ;});
+            logForTests("MOCK select tokens: ".json_encode($filtered));
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `meeples` WHERE \(`meeple_id` IN \((?P<meeple_ids>.*)\)\)$/", $sql, $matches) == 1) {

@@ -185,6 +185,31 @@ final class SetupTest extends TestCase
         assertSame(json_encode([BONUS_TYPE_PLACE_LION]), TestDatas::$players[1]['bonuses']);
         //assertSame(1, TestDatas::$players[1]['skip_roll_die']);
     }
+    
+    public function testEnteringState_PlayerSetup_PatronMagnateSandRoad(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        TestDatas::$cards[101]['type'] = PATRON_MAGNATE_SAND_ROAD ;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+
+        $game->stPlayerSetup();
+        
+        assertSame(ST_NEXT_TURN, GamestateMachine::$test_current_state);
+        //Test 3 ships
+        assertSame(1,TestDatas::$tokens[49]['player_id']);
+        assertSame(MEEPLE_LOCATION_RIVER,TestDatas::$tokens[49]['meeple_location']);
+        assertSame(MEEPLE_TYPE_SHIP,TestDatas::$tokens[49]['type']);
+        assertSame(1,TestDatas::$tokens[50]['player_id']);
+        assertSame(MEEPLE_LOCATION_RIVER,TestDatas::$tokens[50]['meeple_location']);
+        assertSame(MEEPLE_TYPE_SHIP,TestDatas::$tokens[50]['type']);
+        assertSame(1,TestDatas::$tokens[51]['player_id']);
+        assertSame(MEEPLE_LOCATION_RIVER,TestDatas::$tokens[51]['meeple_location']);
+        assertSame(MEEPLE_TYPE_SHIP_ROYAL,TestDatas::$tokens[51]['type']);
+        assertSame(1,TestDatas::$tokens[51]['meeple_state']);
+        
+    }
     // ----------------------------------------------------------------------
     
     

@@ -141,6 +141,7 @@ function (dojo, declare, BgaAnimations) {
     const BONUS_TYPE_SET_DIE = 35;
     const BONUS_TYPE_PLACE_LION         = 36;
     const BONUS_TYPE_BUILDING_REWARD    = 37;
+    const BONUS_TYPE_PAY_SHIPS          = 38;
     const RESOURCES = [
         0,
         'silk',//RESOURCE_TYPE_SILK
@@ -287,7 +288,7 @@ function (dojo, declare, BgaAnimations) {
             //Filter states where we don't want other players to display state actions
             this._activeStates = ['deliver','discardCard','draftMulti'];
             this._inactiveStates = ['draft','scoring','gameEnd'];
-            this._migratedStates = ['BonusPlaceLion','BonusBuildingReward'];
+            this._migratedStates = ['BonusPlaceLion','BonusBuildingReward','BonusPayShips'];
             
             this._hideNotifsWhenMultiActive = true;
             
@@ -725,9 +726,14 @@ function (dojo, declare, BgaAnimations) {
                 let iconBonus = this.formatIcon('bonus-'+bonusType);
                 let buttonText = '';
                 if(BONUS_TYPE_REFILL_HAND == bonusType) buttonText = _('Refill hand');
-                if(BONUS_TYPE_SELL_GOODS == bonusType) buttonText = _('Sell goods');
-                if(BONUS_TYPE_SET_DIE == bonusType) buttonText = _('Set next turn die')+"<br><div class='rog_clan_special_ability'>"+_('Clan special ability')+"</div>";
-                if(BONUS_TYPE_BUILDING_REWARD == bonusType) buttonText = _('Building reward');
+                else if(BONUS_TYPE_SELL_GOODS == bonusType) buttonText = _('Sell goods');
+                else if(BONUS_TYPE_SET_DIE == bonusType) buttonText = _('Set next turn die')+"<br><div class='rog_clan_special_ability'>"+_('Clan special ability')+"</div>";
+                else if(BONUS_TYPE_BUILDING_REWARD == bonusType) buttonText = _('Building reward');
+                else if(BONUS_TYPE_PAY_SHIPS == bonusType) iconBonus = `
+                        ${this.formatIcon(RESOURCES[RESOURCE_TYPE_MONEY])}
+                        <i class="fa6 fa6-arrow-right"></i>
+                        ${this.formatIcon('score')}
+                    `;
                 this.addImageActionButton(`btnBonus_${k}_${bonusType}`, `${buttonText}<div class='rog_trade'>
                     ${iconBonus}
                 </div>`, () =>  {
@@ -912,6 +918,54 @@ function (dojo, declare, BgaAnimations) {
                 _('${you} must select a building reward') :
                 _('${actplayer} must select a building reward')
             );
+        },
+        
+        onEnteringStateBonusPayShips(args){
+            debug('onEnteringStateBonusPayShips', args);
+   
+            let costPerPlayer = args.cost_pp;
+            let pointsPerPlayer = args.points_pp;
+            let iconMoney = this.formatIcon(RESOURCES[RESOURCE_TYPE_MONEY]);
+            let iconScore = this.formatIcon('score');
+            this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
+                _('${you} may pay each opponent ${n} ${money} for ${x} ${score}').replace('${n}', costPerPlayer).replace('${money}', iconMoney).replace('${x}', pointsPerPlayer).replace('${score}', iconScore) :
+                _('${actplayer} may pay each opponent ${n} ${money} for ${x} ${score}').replace('${n}', costPerPlayer).replace('${money}', iconMoney).replace('${x}', pointsPerPlayer).replace('${score}', iconScore)
+            );
+            if(! this.bga.players.isCurrentPlayerActive()) return;
+
+            this.selectedPIds = [];
+            this.addPrimaryActionButton('btnConfirm', this.fsr(_('Select and pay ${n} Koku'), { 'n': 0 }), () => {
+                let sortedPids = this.selectedPIds.sort((a,b) =>  a - b );
+                this.takeAction('actPayShips', { 'p_ids': sortedPids.join(',')});
+            }); 
+            let maxToSelect = args.max;
+            Object.values(args.ships_pids).forEach((ship_pid) => {
+                let coloredPlayerName =  this.coloredPlayerName(this.gamedatas.players[ship_pid].name);
+                let buttonId = `btnPayShip_${ship_pid}`;
+                let callbackSelection = (evt) => {
+                    let elt = parseInt(ship_pid);
+                    let button = document.getElementById(buttonId);
+                    if(!this.selectedPIds.includes(elt)) {
+                        this.selectedPIds.push(elt);
+                        button.classList.add('rog_selected_button');
+                    }
+                    else {
+                        let index = this.selectedPIds.findIndex((t) => t == elt);
+                        this.selectedPIds.splice(index, 1);
+                        button.classList.remove('rog_selected_button');
+                    }
+                    let cost = this.selectedPIds.length;
+                    $('btnConfirm').innerHTML = this.fsr(_('Select and pay ${n} Koku'), { 'n': cost });
+                    if(cost <= maxToSelect){
+                        $(`btnConfirm`).classList.remove('disabled');
+                    }
+                    else {
+                        $(`btnConfirm`).classList.add('disabled');
+                    }
+                };
+                this.addSecondaryActionButton(buttonId, coloredPlayerName, callbackSelection); 
+            });
+
         },
 
         onEnteringStateSail(args){
