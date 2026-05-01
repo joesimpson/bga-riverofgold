@@ -96,12 +96,20 @@ class ClanPatronCard extends Card
    * @param bool $ownBuilding sailed to own buildings
    * @param bool $opponentBuilding sailed to opponent buildings
    */
-  public function scoreWhenSail(&$player,$ownBuilding,$opponentBuilding){
+  public function scoreWhenSail(Player &$player,bool $ownBuilding,bool $opponentBuilding, Meeple $ship){
     switch($this->getType()){
       case PATRON_IRON_CRANE://+2 points IF opponent buildings
         if($opponentBuilding){
           $player->addPoints(NB_POINTS_IRON_CRANE,false);
           Notifications::scorePatron($player,NB_POINTS_IRON_CRANE,$this);
+        }
+        break;
+      case PATRON_MAGNATE_SAND_ROAD://+2 points per own ships on space when sailing with royal ship
+        if($ship->getType() == MEEPLE_TYPE_SHIP_ROYAL){
+          $nbOtherShips = Meeples::countPlayerShipsInLocation($player->getId(),$ship->getPosition()) - 1;
+          $points = $nbOtherShips * NB_POINTS_MAGNATE_SAND_ROAD;
+          $player->addPoints($points,false);
+          Notifications::scorePatron($player,$points,$this);
         }
         break;
     }

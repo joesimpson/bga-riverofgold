@@ -64,6 +64,10 @@ trait SetupTrait
         $boatPosition = $space + $player->rollDie();
         $meeple = Meeples::addBoatOnRiverSpace($player,$boatPosition);
       }
+      
+      if(isset($playerPatron) && PATRON_MAGNATE_SAND_ROAD == $playerPatron->getType()){
+        $meeple = Meeples::addRoyalShipOnRiverSpace($player,STARTING_BOATS_SPACES[0]);
+      }
 
       //Draw first cards
       $startingCards = NB_CARDS_PER_PLAYER;

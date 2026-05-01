@@ -464,6 +464,71 @@ final class SailTest extends TestCase
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
     }
     
+    public function test_ActionSail_Pass_MagnateOfSandRoad_0ShipInSpace(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[101]['type'] = PATRON_MAGNATE_SAND_ROAD;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 10;
+        TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL;
+        TestDatas::$tokens[22]['meeple_state'] = 10;
+        TestDatas::$tokens[25] = TestDatas::$tokens[22];
+        TestDatas::$tokens[25]['meeple_id'] = 25;
+        TestDatas::$tokens[25]['result_associative_index'] = 25;
+        $riverSpace = 11;
+
+        $game->actSailSelect($shipId,$riverSpace);
+        
+        assertSame(19,TestDatas::$players[1]['player_score']);//+0
+    }
+    public function test_ActionSail_Pass_MagnateOfSandRoad_1ShipInSpace(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[101]['type'] = PATRON_MAGNATE_SAND_ROAD;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 9;
+        TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL;
+        TestDatas::$tokens[22]['meeple_state'] = 10;
+        TestDatas::$tokens[25] = TestDatas::$tokens[22];
+        TestDatas::$tokens[25]['meeple_id'] = 25;
+        TestDatas::$tokens[25]['result_associative_index'] = 25;
+        TestDatas::$tokens[25]['meeple_state'] = 11;
+        $riverSpace = 10;
+
+        $game->actSailSelect($shipId,$riverSpace);
+        
+        assertSame(21,TestDatas::$players[1]['player_score']);//+1*2
+    }
+    public function test_ActionSail_Pass_MagnateOfSandRoad_2ShipsInSpace(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[101]['type'] = PATRON_MAGNATE_SAND_ROAD;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 9;
+        TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL;
+        TestDatas::$tokens[22]['meeple_state'] = 10;
+        TestDatas::$tokens[25] = TestDatas::$tokens[22];
+        TestDatas::$tokens[25]['meeple_id'] = 25;
+        TestDatas::$tokens[25]['result_associative_index'] = 25;
+        $riverSpace = 10;
+
+        $game->actSailSelect($shipId,$riverSpace);
+        
+        assertSame(23,TestDatas::$players[1]['player_score']);//+2*2
+    }
+    
     public function test_ActionSail_Pass_ImperialEnvoy_Region2(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

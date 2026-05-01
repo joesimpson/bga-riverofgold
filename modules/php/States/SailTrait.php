@@ -149,7 +149,7 @@ trait SailTrait
     }
     
     if(isset($playerPatron)){
-      $playerPatron->scoreWhenSail($player,$ownBuilding,$opponentBuilding);
+      $playerPatron->scoreWhenSail($player,$ownBuilding,$opponentBuilding,$ship);
       $playerPatron->addBonuses($player);
     }
 

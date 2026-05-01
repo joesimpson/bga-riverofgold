@@ -167,7 +167,7 @@ class Meeples extends \ROG\Helpers\Pieces
    * @return Meeple
    * @param bool $sendNotif (optional) default true, means send a notif to UI
    */
-  public static function addBoatOnRiverSpace($player,$position,$sendNotif = true)
+  public static function addBoatOnRiverSpace($player,$position,$sendNotif = true) : Meeple
   {
     $meeple = [
       'type' => MEEPLE_TYPE_SHIP,
@@ -178,6 +178,14 @@ class Meeples extends \ROG\Helpers\Pieces
     $elt = self::singleCreate($meeple);
     if($sendNotif) Notifications::newBoat($player,$elt);
     return $elt;
+  }
+  
+  public static function addRoyalShipOnRiverSpace($player,$position,$sendNotif = true) : Meeple
+  {
+    $meeple = Meeples::addBoatOnRiverSpace($player,$position,false);
+    $meeple->setType(MEEPLE_TYPE_SHIP_ROYAL);
+    if($sendNotif) Notifications::newBoat($player,$meeple);
+    return $meeple;
   }
 
   /**
@@ -231,6 +239,16 @@ class Meeples extends \ROG\Helpers\Pieces
   {
     return self::getFilteredQuery($pId, MEEPLE_LOCATION_MERCHANT)->get()->first();
   }
+  
+  public static function countPlayerShipsInLocation(int $pId, int $position) : int
+  {
+    Game::get()->trace("countPlayerShipsInLocation($pId, $position)...");
+    return self::DB()->wherePlayer($pId)
+      ->where(self::$prefix.'location', MEEPLE_LOCATION_RIVER)
+      ->where(self::$prefix.'state', $position)
+      ->count();
+  }
+
   /**
    * @param int $pId
    * @param int $type of building to search for
