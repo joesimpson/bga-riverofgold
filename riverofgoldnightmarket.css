@@ -4695,28 +4695,42 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   transition: margin 0.5s;
 }
 .rog_influence_track .rog_influence_track_space .rog_meeple:nth-child(2) {
-  margin-top: -60px;
+  z-index: 2;
+  margin-top: -30px;
 }
 .rog_influence_track .rog_influence_track_space .rog_meeple:nth-child(3) {
-  margin-top: -65px;
+  z-index: 3;
+  margin-top: -30px;
 }
 .rog_influence_track .rog_influence_track_space .rog_meeple:nth-child(4) {
-  margin-top: -68px;
+  z-index: 4;
+  margin-top: -30px;
+}
+.rog_influence_track .rog_influence_track_space .rog_meeple:nth-child(5) {
+  z-index: 5;
+  margin-top: -30px;
 }
 .rog_influence_track .rog_influence_track_space.tooltipable .rog_meeple:nth-child(2) {
   margin-top: 0px;
 }
 .rog_influence_track .rog_influence_track_space.tooltipable .rog_meeple:nth-child(3) {
-  margin-top: -60px;
+  margin-top: -30px;
 }
 .rog_influence_track .rog_influence_track_space.tooltipable .rog_meeple:nth-child(4) {
-  margin-top: -65px;
+  margin-top: -30px;
 }
 .rog_influence_track .rog_influence_track_space.tooltipable .rog_meeple:nth-child(5) {
-  margin-top: -68px;
+  margin-top: -30px;
+}
+.rog_influence_track .rog_influence_track_space.tooltipable .rog_meeple:nth-child(6) {
+  z-index: 6;
+  margin-top: -30px;
 }
 .rog_influence_track .rog_influence_track_space:hover .rog_meeple {
   z-index: 5;
+}
+.rog_influence_track .rog_influence_track_space:hover .rog_meeple:nth-child(6), .rog_influence_track .rog_influence_track_space:hover .rog_meeple:nth-child(5) {
+  margin-top: -100px;
 }
 .rog_influence_track .rog_influence_track_space:hover .rog_meeple:nth-child(4) {
   margin-top: -100px;
@@ -4760,13 +4774,20 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   transition: margin 0.5s;
 }
 #rog_merchant_space .rog_meeple:nth-child(2) {
-  margin-top: -60px;
+  z-index: 2;
+  margin-top: -30px;
 }
 #rog_merchant_space .rog_meeple:nth-child(3) {
-  margin-top: -65px;
+  z-index: 3;
+  margin-top: -30px;
 }
 #rog_merchant_space .rog_meeple:nth-child(4) {
-  margin-top: -68px;
+  z-index: 4;
+  margin-top: -30px;
+}
+#rog_merchant_space .rog_meeple:nth-child(5) {
+  z-index: 5;
+  margin-top: -30px;
 }
 #rog_merchant_space:hover .rog_meeple {
   margin-top: -100px;

@@ -402,13 +402,20 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
             transition: margin .5s;
 
             &:nth-child(2){
-                margin-top: -60px;
+                z-index: 2;
+                margin-top: -30px;
             }
             &:nth-child(3){
-                margin-top: -65px;
+                z-index: 3;
+                margin-top: -30px;
             }
             &:nth-child(4){
-                margin-top: -68px;
+                z-index: 4;
+                margin-top: -30px;
+            }
+            &:nth-child(5){
+                z-index: 5;
+                margin-top: -30px;
             }
         }
         &.tooltipable .rog_meeple{
@@ -417,18 +424,26 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
                 margin-top: 0px;
             }
             &:nth-child(3){
-                margin-top: -60px;
+                margin-top: -30px;
             }
             &:nth-child(4){
-                margin-top: -65px;
+                margin-top: -30px;
             }
             &:nth-child(5){
-                margin-top: -68px;
+                margin-top: -30px;
+            }
+            &:nth-child(6){
+                z-index: 6;
+                margin-top: -30px;
             }
         }
         &:hover .rog_meeple{
             z-index: 5;//must be visible over elements like artisan space meeples
             //View behind meeple
+            &:nth-child(6),
+            &:nth-child(5){
+                margin-top: -100px;
+            }
             &:nth-child(4){
                 //transform:translateY(-50%);
                 margin-top: -100px;
@@ -484,13 +499,20 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         transition: margin .5s;
 
         &:nth-child(2){
-            margin-top: -60px;
+            z-index: 2;
+            margin-top: -30px;
         }
         &:nth-child(3){
-            margin-top: -65px;
+            z-index: 3;
+            margin-top: -30px;
         }
         &:nth-child(4){
-            margin-top: -68px;
+            z-index: 4;
+            margin-top: -30px;
+        }
+        &:nth-child(5){
+            z-index: 5;
+            margin-top: -30px;
         }
     }
     &:hover .rog_meeple{
