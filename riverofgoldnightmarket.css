@@ -798,11 +798,8 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 
 .rog_player_board_tooltip .rog_player_board {
   background-size: 100% auto;
-  background-position-x: -214.2857142857px;
-  background-position-y: 0px;
-  background-size: 142.8571428571% 100%;
   width: 500px;
-  height: 411.2903225806px;
+  height: 410.6813996317px;
 }
 .rog_player_board_tooltip .rog_player_board[data-clan="1"] {
   background-image: url("img/clans/Crab_2.jpg");
@@ -3591,8 +3588,8 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 
 .rog_era_tile_holder {
-  width: 1046px;
-  height: 960px;
+  width: 523px;
+  height: 480px;
   background-repeat: no-repeat;
   background-image: url("img/tiles/eraTileHolder.png");
   background-size: 100%;
@@ -3608,8 +3605,8 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 
 #rog_era_tile_resizable {
   position: relative;
-  width: calc(var(--rog_era_tile_holder_scale) * 1046px);
-  height: calc(var(--rog_era_tile_holder_scale) * 960px);
+  width: calc(var(--rog_era_tile_holder_scale) * 523px);
+  height: calc(var(--rog_era_tile_holder_scale) * 480px);
   margin-bottom: 10px;
 }
 #rog_era_tile_resizable #rog_era_tile_holder {
@@ -3625,18 +3622,18 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   color: black;
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_building_slot {
-  top: 250px;
+  top: 125px;
   clip-path: polygon(82.77% 10.15%, 96.27% 44.27%, 94.77% 60.73%, 83.49% 89.34%, 0.99% 92.71%, 0.71% 11.74%);
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_building_slot#rog_building_era-1 {
-  left: -155px;
+  left: -77px;
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_building_slot#rog_building_era-2 {
-  left: 288px;
+  left: 144px;
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_building_slot .rog_tile {
-  width: 890px;
-  height: 445px;
+  width: 445px;
+  height: 222px;
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_building_slot .rog_tile .help-marker {
   top: 13%;
@@ -3649,15 +3646,15 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   font-size: calc(20px * 1/var(--rog_era_tile_holder_scale) * var(--rog_deckSizeScale));
   position: absolute;
   text-align: center;
-  width: 367px;
-  bottom: 57px;
+  width: 183px;
+  bottom: 28px;
   cursor: help;
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_deck_size#rog_deck_size-1 {
-  left: 108px;
+  left: 54px;
 }
 #rog_era_tile_resizable #rog_era_tile_holder .rog_deck_size#rog_deck_size-2 {
-  left: 552px;
+  left: 276px;
 }
 
 #rog_building_row .rog_building_slot {

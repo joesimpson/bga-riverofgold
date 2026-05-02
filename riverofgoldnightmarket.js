@@ -346,7 +346,13 @@ function (dojo, declare, BgaAnimations) {
                 [CUSTOMER_TYPE_NOBLE   , _('Noble')],
             ]);
             
-            let toPreloadList = ['cards/masterycards.jpg','cards/customers.jpg'];
+            let toPreloadList = ['cards/masterycards.jpg','cards/customers.jpg',
+                'tiles/eraTileHolder.png',
+                'tiles/scoringtile.png',
+                'tiles/buildings.png',
+                'tiles/buildings_back.png',
+                'icons/icons_sprite.png',
+            ];
             this.ensureSpecificGameImageLoading(toPreloadList);
 
             this._counters['deckSize1'] = this.createCounter('rog_deck_size-1',this.gamedatas.deckSize.era1);
@@ -532,7 +538,8 @@ function (dojo, declare, BgaAnimations) {
             this.updateLayout();
         },
         onChangeEraTileWidthSetting(val) {
-            document.documentElement.style.setProperty('--rog_era_tile_holder_scale', val/100);
+            //*2 because I reuse v1 settings with image/2
+            document.documentElement.style.setProperty('--rog_era_tile_holder_scale', 2*val/100);
         },
 
         onChangeLogTileWidthSetting(val) {
