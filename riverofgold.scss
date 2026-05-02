@@ -285,6 +285,7 @@ body[data-rog_undo_style='2']{//PREF_UNDO_STYLE_ICON
     &.playername {
         color: #ffff00 !important;
         text-shadow: 1px 0px 1px black, 0px 1px 1px black,-1px 0px 1px black,0px -1px 1px black !important;
+        background-color: unset !important;;//not needed with text-shadow
     }
 }
 .playername_wrapper_298a47{//new green

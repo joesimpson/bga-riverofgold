@@ -2043,6 +2043,7 @@ function (dojo, declare, BgaAnimations) {
             //update player color :
             this.gamedatas.players[pid].color = color;
             this.gamedatas.players[pid].color_back = (color == "ffffff") ? "bbbbbb" : null;
+            this.gamedatas.players[pid].color_back = (color == "ffff00") ? "5e5e5e" : null;
             let divSidePanel = this.bga.playerPanels.getElement(pid).parentNode.parentNode.parentNode;
             divSidePanel.dataset.color = color;
             let divName = divSidePanel.querySelector(`#player_name_${pid}`).querySelector(`a:first-child` );
