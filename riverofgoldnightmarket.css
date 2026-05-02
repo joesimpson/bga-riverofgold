@@ -577,6 +577,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-size: 100% 100%;
   width: 35px;
   height: 30px;
+  position: relative;
 }
 .rog_icon_container .rog_icon.rog_icon_clan-5 {
   background-image: url("img/clans/L5R_Icon_Phoenix.png");
@@ -589,6 +590,19 @@ Icon extract in sprite with differents layers size (so % is not useful).
 }
 .rog_icon_container .rog_icon.rog_icon_clan-8 {
   background-image: url("img/clans/L5R_Icon_Unicorn.png");
+}
+.rog_icon_container.rog_icon_container_clan-5::before, .rog_icon_container.rog_icon_container_clan-6::before, .rog_icon_container.rog_icon_container_clan-7::before, .rog_icon_container.rog_icon_container_clan-8::before {
+  background: #fff;
+  content: "";
+  border-radius: 100%;
+  width: 35px;
+  height: 30px;
+  position: relative;
+  display: block;
+  left: 0;
+  right: 0;
+  top: 30px;
+  margin-top: -30px;
 }
 
 .rog_player_background_big_symbol {

@@ -1651,7 +1651,8 @@ function (dojo, declare, BgaAnimations) {
                         selectedCard = card.id;
                         $(`rog_clan_card-${selectedCard}`).classList.add('selected');
                         $(`rog_clan_card-${selectedCard}`).dataset.side = CLAN_CARD_FRONT;
-                        $('btnConfirm').innerHTML = this.fsr(confirmMessage, { patron_name: _(card.name) });
+                        let clanIcon = this.formatIcon('clan-'+card.clan);
+                        $('btnConfirm').innerHTML = this.fsr(confirmMessage, { 'patron_name': clanIcon + _(card.name) });
                         $(`btnConfirm`).classList.remove('disabled');
                     });
                 }

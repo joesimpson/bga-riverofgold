@@ -468,7 +468,9 @@
             background-size: 100% 100%;
             width: 35px;
             height: 30px;
+            position: relative;
         }
+
         &.rog_icon_clan-5{//CLAN_PHOENIX
             background-image: url("img/clans/L5R_Icon_Phoenix.png");
         }
@@ -482,6 +484,27 @@
             background-image: url("img/clans/L5R_Icon_Unicorn.png");
         }
 
+    }
+    
+    &.rog_icon_container_clan-5,
+    &.rog_icon_container_clan-6,
+    &.rog_icon_container_clan-7,
+    &.rog_icon_container_clan-8
+    {
+        //Add a white background behind 
+        &::before{
+            background: #fff;
+            content: "";
+            border-radius: 100%;
+            width: 35px;
+            height: 30px;
+            position: relative;
+            display: block;
+            left: 0;
+            right: 0;
+            top: 30px;
+            margin-top: -30px;
+        }
     }
 }
 
