@@ -2196,6 +2196,12 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: 2em !important;
   height: 1em !important;
 }
+.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container.rog_icon_container_clan-5::before, .rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container.rog_icon_container_clan-6::before, .rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container.rog_icon_container_clan-7::before, .rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container.rog_icon_container_clan-8::before {
+  width: 2em;
+  height: 2em;
+  top: 2em;
+  margin-top: -2em;
+}
 .rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container .rog_icon {
   transform: scale(0.5333333333);
   transform-origin: top left;

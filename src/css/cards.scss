@@ -322,6 +322,18 @@
                     width: 2em !important;
                     height: 1em !important;
                 }
+                &.rog_icon_container_clan-5,
+                &.rog_icon_container_clan-6,
+                &.rog_icon_container_clan-7,
+                &.rog_icon_container_clan-8
+                {
+                    &::before{
+                        width: 2em;
+                        height: 2em;
+                        top: 2em;
+                        margin-top: -2em;
+                    }
+                }
                 .rog_icon{
                     transform: scale(calc(2 * math.div($fontSize, 30px)));
                     transform-origin: top left;
