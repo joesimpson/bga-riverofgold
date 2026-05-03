@@ -273,3 +273,16 @@
         }
     }
 }
+
+// ------------------------------------------
+// GAME SPECIFIC
+// ------------------------------------------
+#player_config .player_config_row{
+    &#cards_counter_wrapper{
+        justify-content: center;
+        #rog_customers_deck_size{
+            margin-left: 0.1em;
+            margin-right: 0.1em;
+        }
+    }
+}

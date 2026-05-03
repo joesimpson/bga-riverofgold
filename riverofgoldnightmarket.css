@@ -6033,6 +6033,14 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   left: 30px;
 }
 
+#player_config .player_config_row#cards_counter_wrapper {
+  justify-content: center;
+}
+#player_config .player_config_row#cards_counter_wrapper #rog_customers_deck_size {
+  margin-left: 0.1em;
+  margin-right: 0.1em;
+}
+
 #rog_end_score_recap {
   display: flex;
   flex-flow: row;

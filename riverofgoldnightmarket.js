@@ -374,7 +374,7 @@ function (dojo, declare, BgaAnimations) {
             this.addCustomTooltip('rog_deck_size-2', `<h4>${this.fsr(_('Tiles in Era ${n} stack'), { n: 2 })}</h4>`); 
             this.addCustomTooltip('rog_complete_journey', this.getCompleteJourneyTooltip());
             this.addCustomTooltip('rog_building_bonus_favor', this.getBuildingRowBonusTooltip());
-
+            
             debug( "Ending specific game setup" );
 
             this.inherited(arguments);
@@ -1185,6 +1185,7 @@ function (dojo, declare, BgaAnimations) {
         notif_giveCardToPublic(n) {
             debug('notif_giveCardToPublic', n);
             //We want the text on top
+            this._counters['deckSizeCustomers'].incValue(-1);
         },
         notif_giveCardTo(n) {
             debug('notif_giveCardTo: receiving a new card', n);
@@ -2112,6 +2113,7 @@ function (dojo, declare, BgaAnimations) {
             let era = this.gamedatas.era;
             let gameLastTurns = this.gamedatas.endTriggered;
             if(gameLastTurns) this.bga.gameArea.addLastTurnBanner(_('Last turns !'));
+            let customersDeckSize = `<span id='rog_customers_deck_size'>${this.gamedatas.deckSize.customers}</span>`;
             return `
             <div class='player-board' id="player_board_config">
                 <div id="player_config" class="player_board_content">
@@ -2142,6 +2144,9 @@ function (dojo, declare, BgaAnimations) {
                         </g>
                     </svg>
                     </div>
+                </div>
+                <div class="player_config_row" id="cards_counter_wrapper">
+                    ${this.fsr(_('Customers deck size :${n} ${icon}'), { 'n': customersDeckSize, 'icon': this.formatIcon('customer_card') })}
                 </div>
             </div>
             `;
@@ -2366,6 +2371,9 @@ function (dojo, declare, BgaAnimations) {
                 }
                 return card.id;
             });
+            
+            if(!this._counters['deckSizeCustomers']) this._counters['deckSizeCustomers'] = this.createCounter('rog_customers_deck_size',this.gamedatas.deckSize.customers);
+            this._counters['deckSizeCustomers'].toValue(this.gamedatas.deckSize.customers);
         },
     
         addCard(card, location = null) {
