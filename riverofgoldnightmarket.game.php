@@ -148,7 +148,8 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
             "ffff00" /* Yellow */      => 'ffff00',
             "e94190" /* Pink */        => '982fff',
             "982fff" /* Purple */      => '982fff',
-            "72c3b1" /* Cyan */        => '008000', // map to 'green' used in v1 for mantis clan which is closer to cyan
+            //"72c3b1" /* Cyan */        => '008000', // map to 'green' used in v1 for mantis clan which is closer to cyan
+            "72c3b1" /* Cyan */        => '72c3b1',
             "f07f16" /* Orange */      => 'f07f16',
             "bdd002" /* Khaki green */ => '298a47',
             "7b7b7b" /* Gray */        => 'ffffff',
@@ -319,6 +320,9 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
         if( $from_version <= 2602201646 )
         {
             $sql = "ALTER TABLE DBPREFIX_tiles ADD `player_id` int(10) NULL;";
+            $this->applyDbUpgradeToAllDB($sql);
+            //FIX Mantis color with new 4 colors
+            $sql = "UPDATE DBPREFIX_player set player_color = '72c3b1' where player_color = '008000';";
             $this->applyDbUpgradeToAllDB($sql);
         }
     }    

@@ -24,6 +24,7 @@
             background-position-y: (1 % 8) * 100% / 7;
         }
         &[data-color="008000"] //green v1
+        ,&[data-color="72c3b1"] //cyan
         {
             background-position-y: (2 % 8) * 100% / 7;
         }
@@ -57,6 +58,7 @@
             clip-path: polygon(98.95% 25.12%, 66.82% 16.93%, 32.45% 31.51%, 2.30% 32.22%, 17.97% 78.75%, 41.79% 86.21%, 90.4% 66.69%);
         }
         &[data-color="008000"], //green v1
+        &[data-color="72c3b1"], //cyan
         &[data-color="982fff"]  //purple
         {
             //Shape for hovering on neighbours
@@ -83,6 +85,7 @@
             clip-path: polygon(81.24% 10.2%, 46.96% 1.31%, 28.67% 2.74%, 21.58% 42.85%, 1.4% 47.13%, 13.04% 95.82%, 44.85% 103.26%, 73.32% 92.95%, 92.94% 79.79%, 103.43% 35.77%, 81.55% 28.28%);
         }
         &[data-color="008000"], //green v1
+        &[data-color="72c3b1"], //cyan
         &[data-color="982fff"]  //purple
         {
             clip-path: polygon(65.04% 11.56%, 17.3% 14.75%, 19.87% 53.11%, 4.52% 60.57%, 18.16% 84.03%, 47.14% 90.4%, 70.16% 86.15%, 89.76% 60.58%, 97.44% 35%, 73.57% 28.6%);
@@ -101,6 +104,7 @@
         border-radius: 0px;
         box-shadow: none;
 
+        &[data-color="72c3b1"], //cyan
         &[data-color="008000"] {//green
             background-position-x: 0%;
         }
@@ -140,6 +144,7 @@
         &[data-color="000000"] {//black at start
             display: none;
         }
+        &[data-color="72c3b1"], //cyan
         &[data-color="008000"] {//green
             background-position-x: 0%;
         }

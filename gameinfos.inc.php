@@ -78,7 +78,7 @@ $gameinfos = array(
 'player_colors' => array( 
     // --------- V1 :
     "ff0000", // RED
-    "008000", // GREEN for Mantis
+    "72c3b1", // Cyan for Mantis
     "0000ff", // BLUE
     "ffffff", // WHITE
     // --------- V2 :

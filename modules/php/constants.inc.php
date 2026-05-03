@@ -329,7 +329,8 @@ const CLANS_COLORS = [
    //blue
    '0000ff' => CLAN_CRAB,
    //green v1
-   '008000' => CLAN_MANTIS,
+   //'008000' => CLAN_MANTIS,
+   '72c3b1' => CLAN_MANTIS,
    //white
    'ffffff' => CLAN_CRANE,
    //red

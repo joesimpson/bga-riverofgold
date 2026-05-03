@@ -42,7 +42,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   border-image-width: 10px;
   border-image-repeat: round;
 }
-#player_boards > .player-board[data-color="008000"] {
+#player_boards > .player-board[data-color="72c3b1"], #player_boards > .player-board[data-color="008000"] {
   box-shadow: 0px 0px 2px #72c3b1;
   -o-border-image: url("img/clans/greenBorders.png");
      border-image: url("img/clans/greenBorders.png");
@@ -110,7 +110,8 @@ Icon extract in sprite with differents layers size (so % is not useful).
 .player_board_inner > .player-name > a[style*="color: #bdd002"], .player_board_inner > .player-name > a[data-color=bdd002] {
   text-shadow: 1px 0px 1px black, 0px 1px 1px black, -1px 0px 1px black, 0px -1px 1px black;
 }
-.player_board_inner > .player-name > a[style*="color: #008000"], .player_board_inner > .player-name > a[data-color="008000"] {
+.player_board_inner > .player-name > a[style*="color: #008000"], .player_board_inner > .player-name > a[data-color="008000"],
+.player_board_inner > .player-name > a[style*="color: #72c3b1"], .player_board_inner > .player-name > a[data-color="72c3b1"] {
   color: #72c3b1 !important;
   text-shadow: 1px 0px 1px black, 0px 1px 1px black, -1px 0px 1px black, 0px -1px 1px black;
 }
@@ -2609,21 +2610,35 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_player_delivered_resizable .rog_player_delivered .playername[data-color=bdd002] {
   text-shadow: 2px 0px 2px black, 0px 2px 2px black, -2px 0px 2px black, 0px -2px 2px black;
 }
-.rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#008000"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color="008000"],
+.rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#008000"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color="008000"], .rog_player_hand_resizable .rog_player_hand .player-name[style*="color:#72c3b1"], .rog_player_hand_resizable .rog_player_hand .player-name[data-color="72c3b1"],
 .rog_player_hand_resizable .rog_player_hand .playername[style*="color:#008000"],
 .rog_player_hand_resizable .rog_player_hand .playername[data-color="008000"],
+.rog_player_hand_resizable .rog_player_hand .playername[style*="color:#72c3b1"],
+.rog_player_hand_resizable .rog_player_hand .playername[data-color="72c3b1"],
 .rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#008000"],
 .rog_player_hand_resizable .rog_player_delivered .player-name[data-color="008000"],
+.rog_player_hand_resizable .rog_player_delivered .player-name[style*="color:#72c3b1"],
+.rog_player_hand_resizable .rog_player_delivered .player-name[data-color="72c3b1"],
 .rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#008000"],
 .rog_player_hand_resizable .rog_player_delivered .playername[data-color="008000"],
+.rog_player_hand_resizable .rog_player_delivered .playername[style*="color:#72c3b1"],
+.rog_player_hand_resizable .rog_player_delivered .playername[data-color="72c3b1"],
 .rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#008000"],
 .rog_player_delivered_resizable .rog_player_hand .player-name[data-color="008000"],
+.rog_player_delivered_resizable .rog_player_hand .player-name[style*="color:#72c3b1"],
+.rog_player_delivered_resizable .rog_player_hand .player-name[data-color="72c3b1"],
 .rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#008000"],
 .rog_player_delivered_resizable .rog_player_hand .playername[data-color="008000"],
+.rog_player_delivered_resizable .rog_player_hand .playername[style*="color:#72c3b1"],
+.rog_player_delivered_resizable .rog_player_hand .playername[data-color="72c3b1"],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#008000"],
 .rog_player_delivered_resizable .rog_player_delivered .player-name[data-color="008000"],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[style*="color:#72c3b1"],
+.rog_player_delivered_resizable .rog_player_delivered .player-name[data-color="72c3b1"],
 .rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#008000"],
-.rog_player_delivered_resizable .rog_player_delivered .playername[data-color="008000"] {
+.rog_player_delivered_resizable .rog_player_delivered .playername[data-color="008000"],
+.rog_player_delivered_resizable .rog_player_delivered .playername[style*="color:#72c3b1"],
+.rog_player_delivered_resizable .rog_player_delivered .playername[data-color="72c3b1"] {
   color: #72c3b1 !important;
   text-shadow: 2px 0px 2px black, 0px 2px 2px black, -2px 0px 2px black, 0px -2px 2px black;
 }
@@ -4340,7 +4355,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_meeple[data-type="1"][data-color=ffffff], .rog_meeple[data-type="3"][data-color=ffffff] {
   background-position-y: 14.2857142857%;
 }
-.rog_meeple[data-type="1"][data-color="008000"], .rog_meeple[data-type="3"][data-color="008000"] {
+.rog_meeple[data-type="1"][data-color="008000"], .rog_meeple[data-type="1"][data-color="72c3b1"], .rog_meeple[data-type="3"][data-color="008000"], .rog_meeple[data-type="3"][data-color="72c3b1"] {
   background-position-y: 28.5714285714%;
 }
 .rog_meeple[data-type="1"][data-color=ff0000], .rog_meeple[data-type="3"][data-color=ff0000] {
@@ -4364,7 +4379,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_meeple[data-type="1"][data-color=ffffff], .rog_meeple[data-type="1"][data-color=f07f16], .rog_meeple[data-type="3"][data-color=ffffff], .rog_meeple[data-type="3"][data-color=f07f16] {
   clip-path: polygon(98.95% 25.12%, 66.82% 16.93%, 32.45% 31.51%, 2.3% 32.22%, 17.97% 78.75%, 41.79% 86.21%, 90.4% 66.69%);
 }
-.rog_meeple[data-type="1"][data-color="008000"], .rog_meeple[data-type="1"][data-color="982fff"], .rog_meeple[data-type="3"][data-color="008000"], .rog_meeple[data-type="3"][data-color="982fff"] {
+.rog_meeple[data-type="1"][data-color="008000"], .rog_meeple[data-type="1"][data-color="72c3b1"], .rog_meeple[data-type="1"][data-color="982fff"], .rog_meeple[data-type="3"][data-color="008000"], .rog_meeple[data-type="3"][data-color="72c3b1"], .rog_meeple[data-type="3"][data-color="982fff"] {
   clip-path: polygon(70.16% 16.88%, 42.03% 33.93%, 7.08% 52.05%, 22.42% 90.41%, 83.8% 72.29%, 97.44% 26.47%);
 }
 .rog_meeple[data-type="1"][data-color=ff0000], .rog_meeple[data-type="1"][data-color="298a47"], .rog_meeple[data-type="3"][data-color=ff0000], .rog_meeple[data-type="3"][data-color="298a47"] {
@@ -4379,7 +4394,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_meeple[data-type="3"][data-color=ffffff], .rog_meeple[data-type="3"][data-color=f07f16] {
   clip-path: polygon(81.24% 10.2%, 46.96% 1.31%, 28.67% 2.74%, 21.58% 42.85%, 1.4% 47.13%, 13.04% 95.82%, 44.85% 103.26%, 73.32% 92.95%, 92.94% 79.79%, 103.43% 35.77%, 81.55% 28.28%);
 }
-.rog_meeple[data-type="3"][data-color="008000"], .rog_meeple[data-type="3"][data-color="982fff"] {
+.rog_meeple[data-type="3"][data-color="008000"], .rog_meeple[data-type="3"][data-color="72c3b1"], .rog_meeple[data-type="3"][data-color="982fff"] {
   clip-path: polygon(65.04% 11.56%, 17.3% 14.75%, 19.87% 53.11%, 4.52% 60.57%, 18.16% 84.03%, 47.14% 90.4%, 70.16% 86.15%, 89.76% 60.58%, 97.44% 35%, 73.57% 28.6%);
 }
 .rog_meeple[data-type="3"][data-color=ff0000], .rog_meeple[data-type="3"][data-color="298a47"] {
@@ -4392,7 +4407,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   border-radius: 0px;
   box-shadow: none;
 }
-.rog_meeple[data-type="2"][data-color="008000"] {
+.rog_meeple[data-type="2"][data-color="72c3b1"], .rog_meeple[data-type="2"][data-color="008000"] {
   background-position-x: 0%;
 }
 .rog_meeple[data-type="2"][data-color="0000ff"] {
@@ -4428,7 +4443,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_meeple.rog_score_meeple[data-color="000000"] {
   display: none;
 }
-.rog_meeple.rog_score_meeple[data-color="008000"] {
+.rog_meeple.rog_score_meeple[data-color="72c3b1"], .rog_meeple.rog_score_meeple[data-color="008000"] {
   background-position-x: 0%;
 }
 .rog_meeple.rog_score_meeple[data-color="0000ff"] {
@@ -6588,7 +6603,9 @@ body[data-rog_undo_style="2"] #btnTextRestartTurn {
   color: #ff0000 !important;
 }
 
-.playername_wrapper_008000 .playername, .playername_wrapper_008000.playername {
+.playername_wrapper_72c3b1 .playername, .playername_wrapper_72c3b1.playername,
+.playername_wrapper_008000 .playername,
+.playername_wrapper_008000.playername {
   color: #72c3b1 !important;
 }
 

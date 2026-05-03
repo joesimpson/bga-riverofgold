@@ -2020,12 +2020,7 @@ function (dojo, declare, BgaAnimations) {
                 let order = ((player.no - currentPlayerNo + nPlayers) % nPlayers) + 1;
                 if (isCurrent) order = 1;
                 $(`rog_player_delivered_resizable-${player.id}`).style.order = order;
-                if(player.color == '008000'){// Mantis clan should have been defined as closer to Cyan 
-                    $(`rog_player_delivered_resizable-${player.id}`).style['border-color'] ='#72c3b1';
-                }
-                else {
                 $(`rog_player_delivered_resizable-${player.id}`).style['border-color'] ='#'+ player.color;
-                }
             });
 
             document.getElementById('rog_game_container').dataset.nbplayers = nPlayers;
