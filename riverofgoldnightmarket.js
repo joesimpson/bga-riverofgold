@@ -2535,9 +2535,17 @@ function (dojo, declare, BgaAnimations) {
             let delivAbility = this.getCustomerDeliveryAbilityText(card);
             let ongoingAbility = this.getCustomerOngoingAbilityText(card);
             let endgameAbility = this.getCustomerEndgameAbilityText(card);
+            let costs = '';
+            Object.entries(card.cost).forEach(([ type, amount,]) => {
+                for(let k=1;k<=amount;k++){
+                    costs += this.formatIcon(RESOURCES[type]);
+                }
+            });
             return `<div class="rog_card" id="rog_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-customertype="${card.customerType}" data-customer_name="${customerName}">
                     <div class="rog_card_wrapper">
+                        <div class='rog_customer_die'>${this.formatIcon('die_face-'+card.region)}</div>
                         <span class='rog_customer_name'><div class='reduceToFit'>${_(card.title)}</div></span>
+                        <div class='rog_customer_cost'>${costs}</div>
                         <span class='rog_delivery_ability'><div class='reduceToFit'>${delivAbility}</div></span>
                         ${ongoingAbility}
                         ${endgameAbility}

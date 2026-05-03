@@ -154,7 +154,7 @@ trait DebugTrait
   function debug_DrawWithEmptyDeck(){
     $this->addStep();
     Cards::moveAllInLocation(CARD_LOCATION_DECK,CARD_LOCATION_DISCARD);
-    Cards::moveAllInLocation(CARD_LOCATION_DISCARD,"FAKE_FOR_TEST");
+    //Cards::moveAllInLocation(CARD_LOCATION_DISCARD,"FAKE_FOR_TEST");
     $player = Players::getCurrent();
     $player->setBonuses([]);
     Globals::addBonus($player,BONUS_TYPE_REFILL_HAND);

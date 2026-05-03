@@ -6,12 +6,20 @@
     border-radius: 5px;
 
     //sprite positions
-    background-size: 600% 500%;
-    @for $i from 0 through 29 {
-        &[data-type="#{$i + 1}"] {
-            background-image: url("img/cards/customers.jpg");
-            background-position-x: ($i % 6) * 100% / 5;
-            background-position-y: (($i - ($i % 6)) / 6) * 100% / 4;
+    background-size: 200% 500%;
+    background-image: url("img/cards/customers.jpg");
+    @for $i from 0 through 4 {
+        //BASE GAME CUSTOMERS on left column
+        &[data-customertype="#{$i + 1}"] {
+            background-position-x: 0%;
+            background-position-y: $i * 100% / 4;
+        }
+    }
+    @for $i from 5 through 9 {
+        //BASE GAME CUSTOMERS on right column
+        &[data-customertype="#{$i + 1}"] {
+            background-position-x: 100%;
+            background-position-y: calc(($i - 5) * 100% / 4);
         }
     }
 
@@ -52,6 +60,31 @@
 
     .rog_card_wrapper{//WRAPPER For text datas
         user-select: none;
+        .rog_customer_die{
+            position: absolute;
+            width: 18%;
+            height: 13%;
+            top: 3.8%;
+            left: 4%;
+            .rog_icon_container{
+                &.rog_icon_container_die_face-1,
+                &.rog_icon_container_die_face-2,
+                &.rog_icon_container_die_face-3,
+                &.rog_icon_container_die_face-4,
+                &.rog_icon_container_die_face-5,
+                &.rog_icon_container_die_face-6,
+                .rog_icon_die_face-1,
+                .rog_icon_die_face-2,
+                .rog_icon_die_face-3,
+                .rog_icon_die_face-4,
+                .rog_icon_die_face-5,
+                .rog_icon_die_face-6
+                {
+                    width: 100%;
+                    height: 100%;
+                }
+            }
+        }
         .rog_customer_name{
             position: absolute;
             top: 31%;
@@ -64,6 +97,47 @@
             font-size: 10px;
             font-weight: bold;
             color: white;
+        }
+        .rog_customer_cost{
+            position: absolute;
+            top: 38%;
+            left: 3%;
+            width: 94%;
+            height: 16%;
+            text-align: center;
+            justify-content: center;
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            .rog_icon_container
+            {
+                //transform: scale(0.75);
+                transform-origin: top left;
+                //Order resources as ordered in printed cards : silk, rice, pottery
+                &.rog_icon_container_silk{
+                    order: 1;
+                }
+                &.rog_icon_container_rice{
+                    order: 2;
+                }
+                &.rog_icon_container_pottery{
+                    order: 3;
+                }
+                $iconRatio : 0.8;
+                .rog_icon_silk{
+                    @include rog_icons_sprite(-605px,-384px,$iconRatio * 30px,$iconRatio * 27px,290px,260px);
+                }
+                .rog_icon_rice{
+                    @include rog_icons_sprite(-263px,-691px,$iconRatio * 30px,$iconRatio * 30px,260px,260px);
+                }
+                .rog_icon_pottery{
+                    @include rog_icons_sprite(-1px,-691px,$iconRatio * 30px,$iconRatio * 30px,260px,260px);
+                }
+                .rog_icon_rice{
+                    //Rice is horizontal
+                    transform: rotate(90deg);
+                }
+            }
         }
         .rog_delivery_ability,
         .rog_ongoing_ability,
@@ -375,6 +449,15 @@
     .rog_card_wrapper{
         .rog_customer_name{
             font-size: 28px;
+        }
+        .rog_customer_cost{
+            column-gap: 35px;
+            .rog_icon_container
+            {
+                transform: scale(2.5);
+                transform-origin: top left;
+                margin-top: -8%;
+            }
         }
         .rog_delivery_ability,
         .rog_ongoing_ability,

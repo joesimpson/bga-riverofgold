@@ -464,6 +464,7 @@ final class GameTest extends TestCase
             'deckSize' => [
                 'era1' => 6,
                 'era2' => 6,
+                'customers' => 3,
             ],
             'firstPlayer' => 1,
             'endTriggered' => false,

@@ -361,6 +361,7 @@ final class BonusChoiceTest extends TestCase
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        foreach(TestDatas::$cards as &$card) assertSame(CARD_LOCATION_DISCARD,$card['card_location']);
     }
     public function test_ActionBonus_Pass_Refill(): void
     {
