@@ -32,9 +32,10 @@ final class SetupTest extends TestCase
         
         //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.
         //$game->setupNewGame($playersDatas, $options);
-        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+        $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
         assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
+        assertSame(ST_CLAN_SELECTION, $returnState);
         
         $player1Resources = json_decode(TestDatas::$players[3]['resources'], true);
         assertSame(7, $player1Resources [RESOURCE_TYPE_MONEY]);
@@ -56,9 +57,10 @@ final class SetupTest extends TestCase
         
         //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.
         //$game->setupNewGame($playersDatas, $options);
-        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+        $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
         assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
+        assertSame(ST_CLAN_SELECTION, $returnState);
     }
 
     public function test_setupNewGame_Draft_5players(): void
@@ -88,9 +90,10 @@ final class SetupTest extends TestCase
         
         //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.
         //$game->setupNewGame($playersDatas, $options);
-        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+        $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
         assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
+        assertSame(ST_CLAN_SELECTION, $returnState);
     }
 
     // ----------------------------------------------------------------------

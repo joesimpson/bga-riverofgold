@@ -103,15 +103,6 @@ require_once 'modules/php/constants.inc.php';
 
 $machinestates = array(
 
-    // The initial state. Please do not modify.
-    ST_GAME_SETUP => array(
-        "name" => "gameSetup",
-        "description" => "",
-        "type" => "manager",
-        "action" => "stGameSetup",
-        "transitions" => array( "" => ST_CLAN_SELECTION)
-    ),
-    
     ST_CLAN_SELECTION => array(
         "name" => "clanSelection",
         "action" => "stClanSelection",
@@ -536,15 +527,6 @@ $machinestates = array(
         ] 
     ],
     */
-    // Final state.
-    // Please do not modify (and do not overload action/args methods).
-    ST_END_GAME => array(
-        "name" => "gameEnd",
-        "description" => clienttranslate("End of the game !"),
-        "type" => "manager",
-        "action" => "stGameEnd",
-        "args" => "argGameEnd"
-    )
 
 );
 
