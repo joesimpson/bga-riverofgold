@@ -2020,7 +2020,6 @@ function (dojo, declare, BgaAnimations) {
                 let order = ((player.no - currentPlayerNo + nPlayers) % nPlayers) + 1;
                 if (isCurrent) order = 1;
                 $(`rog_player_delivered_resizable-${player.id}`).style.order = order;
-                $(`rog_player_delivered_resizable-${player.id}`).style['border-color'] ='#'+ player.color;
             });
 
             document.getElementById('rog_game_container').dataset.nbplayers = nPlayers;
@@ -2064,6 +2063,7 @@ function (dojo, declare, BgaAnimations) {
             let divDelivered =  $(`rog_player_delivered-${pid}`);
             divDelivered.dataset.color = color;
             divDelivered.querySelector(`.rog_title`).innerHTML = this.fsr(_('${player_name} delivered'), { player_name:this.coloredPlayerName(this.gamedatas.players[pid].name)});
+            $(`rog_player_delivered_resizable-${pid}`).style['border-color'] ='#'+ color;
             this.updateScoreMarkerColor(pid,color,clan);
         },
         updatePlayerOrdering() {
