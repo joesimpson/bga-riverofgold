@@ -1128,7 +1128,7 @@ function (dojo, declare, BgaAnimations) {
             debug('notif_newPlayerColor: receiving a new color', n);
             let pid = n.args.player_id;
             let clanId = n.args.player_clan;
-            this.refreshPlayerColor(n.args.player_id,n.args.player_color);
+            this.refreshPlayerColor(n.args.player_id,n.args.player_color,clanId);
             let rog_player_clan_panel =  `rog_player_clan_panel-${pid}`;
             
             let iconClan = $(rog_player_clan_panel).querySelector(`[class*='rog_icon_container_clan']`);
@@ -1524,7 +1524,7 @@ function (dojo, declare, BgaAnimations) {
     
             this.forEachPlayer((player) => {
                 let pId = player.id;
-                this.refreshPlayerColor(pId,player.color);
+                this.refreshPlayerColor(pId,player.color,player.clan);
                 $(`rog_player_background_big_symbol-${pId}`).dataset.clan = player.clan;
                 if(!player.clan){//should not be necessary except in DEV/DEBUG
                     let rog_player_clan_panel = `rog_player_clan_panel-${pId}`;
@@ -1957,7 +1957,7 @@ function (dojo, declare, BgaAnimations) {
                 this.place('tplPlayerDeliveredCards', player, 'rog_players_deliveries');
                 
                 let pId = player.id;
-                this.refreshPlayerColor(pId,player.color);
+                this.refreshPlayerColor(pId,player.color,player.clan);
                 this._counters[pId] = {
                     money: this.createCounter(`rog_counter_${pId}_money`, player.money),
                     silk: this.createCounter(`rog_counter_${pId}_silk`, player.silk),
@@ -2041,14 +2041,16 @@ function (dojo, declare, BgaAnimations) {
         // |___|_| |_|_|  \___/  |_|   \__,_|_| |_|\___|_|
         ////////////////////////////////////////////////////////
         
-        refreshPlayerColor(pid,color) {
-            debug("refreshPlayerColor",pid,color);
+        refreshPlayerColor(pid,color,clan) {
+            debug("refreshPlayerColor",pid,color,clan);
             //update player color :
+            this.gamedatas.players[pid].clan = clan;
             this.gamedatas.players[pid].color = color;
             this.gamedatas.players[pid].color_back = (color == "ffffff") ? "bbbbbb" : null;
             this.gamedatas.players[pid].color_back = (color == "ffff00") ? "5e5e5e" : null;
             let divSidePanel = this.bga.playerPanels.getElement(pid).parentNode.parentNode.parentNode;
             divSidePanel.dataset.color = color;
+            divSidePanel.dataset.clan = clan;
             let divName = divSidePanel.querySelector(`#player_name_${pid}`).querySelector(`a:first-child` );
             divName.style.color = ` #${color}`;
             divName.dataset.color = color;
@@ -2062,7 +2064,7 @@ function (dojo, declare, BgaAnimations) {
             let divDelivered =  $(`rog_player_delivered-${pid}`);
             divDelivered.dataset.color = color;
             divDelivered.querySelector(`.rog_title`).innerHTML = this.fsr(_('${player_name} delivered'), { player_name:this.coloredPlayerName(this.gamedatas.players[pid].name)});
-            this.updateScoreMarkerColor(pid,color);
+            this.updateScoreMarkerColor(pid,color,clan);
         },
         updatePlayerOrdering() {
             debug("updatePlayerOrdering");
@@ -3047,9 +3049,11 @@ function (dojo, declare, BgaAnimations) {
         tplMeeple(meeple, prefix ='') {
             const PERSONAL = [MEEPLE_TYPE_SHIP,MEEPLE_TYPE_CLAN_MARKER,MEEPLE_TYPE_SHIP_ROYAL,MEEPLE_TYPE_SCORE_MARKER];
             let color = PERSONAL.includes(meeple.type) ? ` data-color="${this.getPlayerColor(meeple.pId)}" data-pId="${meeple.pId}" ` : '';
+            let clan = PERSONAL.includes(meeple.type) ? ` data-clan="${this.gamedatas.players[meeple.pId].clan}" ` : '';
             return `<div class="rog_meeple" id="rog_meeple${prefix}-${meeple.id}"
                  data-id="${meeple.id}" 
                  ${color}
+                 ${clan}
                  data-type="${meeple.type}"
                  data-pos="${meeple.pos}">
                 </div>`;
@@ -3128,11 +3132,12 @@ function (dojo, declare, BgaAnimations) {
             }).then( ()=> {
             });
         },
-        updateScoreMarkerColor(pid,color){
-            debug("updateScoreMarkerColor",pid,color);
+        updateScoreMarkerColor(pid,color,clan){
+            debug("updateScoreMarkerColor",pid,color,clan);
             let meeple_id = `score_${pid}`;
             let meeple = $(`rog_meeple-${meeple_id}`);
             if(meeple) meeple.dataset.color = color;
+            if(meeple) meeple.dataset.clan = clan;
         },
         addInfluenceTracks() {
             debug("addInfluenceTracks");

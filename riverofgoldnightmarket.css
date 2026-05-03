@@ -34,7 +34,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
 #player_boards > .player-board {
   box-shadow: 1px 1px 10px black;
 }
-#player_boards > .player-board[data-color=ff0000] {
+#player_boards > .player-board[data-clan="4"] {
   box-shadow: 1px 1px 10px #ff0000;
   -o-border-image: url("img/clans/redBorders.png");
      border-image: url("img/clans/redBorders.png");
@@ -42,7 +42,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   border-image-width: 10px;
   border-image-repeat: round;
 }
-#player_boards > .player-board[data-color="72c3b1"], #player_boards > .player-board[data-color="008000"] {
+#player_boards > .player-board[data-clan="2"] {
   box-shadow: 0px 0px 2px #72c3b1;
   -o-border-image: url("img/clans/greenBorders.png");
      border-image: url("img/clans/greenBorders.png");
@@ -50,7 +50,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   border-image-width: 10px;
   border-image-repeat: round;
 }
-#player_boards > .player-board[data-color="0000ff"] {
+#player_boards > .player-board[data-clan="1"] {
   box-shadow: 1px 1px 10px #0000ff;
   -o-border-image: url("img/clans/blueBorders.png");
      border-image: url("img/clans/blueBorders.png");
@@ -58,7 +58,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   border-image-width: 10px;
   border-image-repeat: round;
 }
-#player_boards > .player-board[data-color=ffffff] {
+#player_boards > .player-board[data-clan="3"] {
   box-shadow: 1px 1px 5px black, 1px 1px 10px 5px #fff;
   -o-border-image: url("img/clans/whiteBorders.png");
      border-image: url("img/clans/whiteBorders.png");
@@ -67,7 +67,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   border-image-repeat: round;
   box-shadow: none;
 }
-#player_boards > .player-board[data-color=f07f16] {
+#player_boards > .player-board[data-clan="5"] {
   box-shadow: 0px 0px 0px 2px #f07f16;
   -o-border-image: url("img/clans/orangeBorders.png");
      border-image: url("img/clans/orangeBorders.png");
@@ -75,7 +75,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   border-image-width: 10px;
   border-image-repeat: round;
 }
-#player_boards > .player-board[data-color=ffff00] {
+#player_boards > .player-board[data-clan="6"] {
   box-shadow: 0px 0px 0px 2px #c9a62e;
   -o-border-image: url("img/clans/yellowBorders.png");
      border-image: url("img/clans/yellowBorders.png");
@@ -83,7 +83,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   border-image-width: 10px;
   border-image-repeat: round;
 }
-#player_boards > .player-board[data-color="298a47"] {
+#player_boards > .player-board[data-clan="7"] {
   box-shadow: 0px 0px 0px 2px #298a47;
   -o-border-image: url("img/clans/dragonBorders.png");
      border-image: url("img/clans/dragonBorders.png");
@@ -91,7 +91,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   border-image-width: 10px;
   border-image-repeat: round;
 }
-#player_boards > .player-board[data-color="982fff"] {
+#player_boards > .player-board[data-clan="8"] {
   box-shadow: 0px 0px 0px 2px #5f3c64;
   -o-border-image: url("img/clans/purpleBorders.png");
      border-image: url("img/clans/purpleBorders.png");
@@ -4349,55 +4349,55 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: 150px;
   height: 120px;
 }
-.rog_meeple[data-type="1"][data-color="0000ff"], .rog_meeple[data-type="3"][data-color="0000ff"] {
+.rog_meeple[data-type="1"][data-clan="1"], .rog_meeple[data-type="3"][data-clan="1"] {
   background-position-y: 0%;
 }
-.rog_meeple[data-type="1"][data-color=ffffff], .rog_meeple[data-type="3"][data-color=ffffff] {
+.rog_meeple[data-type="1"][data-clan="3"], .rog_meeple[data-type="3"][data-clan="3"] {
   background-position-y: 14.2857142857%;
 }
-.rog_meeple[data-type="1"][data-color="008000"], .rog_meeple[data-type="1"][data-color="72c3b1"], .rog_meeple[data-type="3"][data-color="008000"], .rog_meeple[data-type="3"][data-color="72c3b1"] {
+.rog_meeple[data-type="1"][data-clan="2"], .rog_meeple[data-type="3"][data-clan="2"] {
   background-position-y: 28.5714285714%;
 }
-.rog_meeple[data-type="1"][data-color=ff0000], .rog_meeple[data-type="3"][data-color=ff0000] {
+.rog_meeple[data-type="1"][data-clan="4"], .rog_meeple[data-type="3"][data-clan="4"] {
   background-position-y: 42.8571428571%;
 }
-.rog_meeple[data-type="1"][data-color=f07f16], .rog_meeple[data-type="3"][data-color=f07f16] {
+.rog_meeple[data-type="1"][data-clan="5"], .rog_meeple[data-type="3"][data-clan="5"] {
   background-position-y: 57.1428571429%;
 }
-.rog_meeple[data-type="1"][data-color=ffff00], .rog_meeple[data-type="3"][data-color=ffff00] {
+.rog_meeple[data-type="1"][data-clan="6"], .rog_meeple[data-type="3"][data-clan="6"] {
   background-position-y: 71.4285714286%;
 }
-.rog_meeple[data-type="1"][data-color="298a47"], .rog_meeple[data-type="3"][data-color="298a47"] {
+.rog_meeple[data-type="1"][data-clan="7"], .rog_meeple[data-type="3"][data-clan="7"] {
   background-position-y: 85.7142857143%;
 }
-.rog_meeple[data-type="1"][data-color="982fff"], .rog_meeple[data-type="3"][data-color="982fff"] {
+.rog_meeple[data-type="1"][data-clan="8"], .rog_meeple[data-type="3"][data-clan="8"] {
   background-position-y: 100%;
 }
-.rog_meeple[data-type="1"][data-color="0000ff"], .rog_meeple[data-type="1"][data-color=ffff00], .rog_meeple[data-type="3"][data-color="0000ff"], .rog_meeple[data-type="3"][data-color=ffff00] {
+.rog_meeple[data-type="1"][data-clan="1"], .rog_meeple[data-type="1"][data-clan="6"], .rog_meeple[data-type="3"][data-clan="1"], .rog_meeple[data-type="3"][data-clan="6"] {
   clip-path: polygon(104.26% 23.28%, 83.8% 17.95%, 63.58% 32.39%, 24.37% 47.88%, -6.87% 56.4%, 30.86% 83.52%, 96.59% 61.64%);
 }
-.rog_meeple[data-type="1"][data-color=ffffff], .rog_meeple[data-type="1"][data-color=f07f16], .rog_meeple[data-type="3"][data-color=ffffff], .rog_meeple[data-type="3"][data-color=f07f16] {
+.rog_meeple[data-type="1"][data-clan="3"], .rog_meeple[data-type="1"][data-clan="5"], .rog_meeple[data-type="3"][data-clan="3"], .rog_meeple[data-type="3"][data-clan="5"] {
   clip-path: polygon(98.95% 25.12%, 66.82% 16.93%, 32.45% 31.51%, 2.3% 32.22%, 17.97% 78.75%, 41.79% 86.21%, 90.4% 66.69%);
 }
-.rog_meeple[data-type="1"][data-color="008000"], .rog_meeple[data-type="1"][data-color="72c3b1"], .rog_meeple[data-type="1"][data-color="982fff"], .rog_meeple[data-type="3"][data-color="008000"], .rog_meeple[data-type="3"][data-color="72c3b1"], .rog_meeple[data-type="3"][data-color="982fff"] {
+.rog_meeple[data-type="1"][data-clan="2"], .rog_meeple[data-type="1"][data-clan="8"], .rog_meeple[data-type="3"][data-clan="2"], .rog_meeple[data-type="3"][data-clan="8"] {
   clip-path: polygon(70.16% 16.88%, 42.03% 33.93%, 7.08% 52.05%, 22.42% 90.41%, 83.8% 72.29%, 97.44% 26.47%);
 }
-.rog_meeple[data-type="1"][data-color=ff0000], .rog_meeple[data-type="1"][data-color="298a47"], .rog_meeple[data-type="3"][data-color=ff0000], .rog_meeple[data-type="3"][data-color="298a47"] {
+.rog_meeple[data-type="1"][data-clan="4"], .rog_meeple[data-type="1"][data-clan="7"], .rog_meeple[data-type="3"][data-clan="4"], .rog_meeple[data-type="3"][data-clan="7"] {
   clip-path: polygon(71.87% 16.88%, 39.47% 21.15%, -4.86% 46.72%, 21.57% 86.15%, 100% 60.56%, 103.41% 28.6%);
 }
 .rog_meeple[data-type="3"] {
   background-position-x: 100%;
 }
-.rog_meeple[data-type="3"][data-color="0000ff"], .rog_meeple[data-type="3"][data-color=ffff00] {
+.rog_meeple[data-type="3"][data-clan="1"], .rog_meeple[data-type="3"][data-clan="6"] {
   clip-path: polygon(68.45% 6.23%, 15.59% 12.62%, 14.76% 60.57%, -8.03% 62.9%, 26.37% 91.29%, 47.14% 90.4%, 71.01% 84.02%, 96.58% 73.37%, 106.82% 36.06%, 74.42% 29.67%);
 }
-.rog_meeple[data-type="3"][data-color=ffffff], .rog_meeple[data-type="3"][data-color=f07f16] {
+.rog_meeple[data-type="3"][data-clan="3"], .rog_meeple[data-type="3"][data-clan="5"] {
   clip-path: polygon(81.24% 10.2%, 46.96% 1.31%, 28.67% 2.74%, 21.58% 42.85%, 1.4% 47.13%, 13.04% 95.82%, 44.85% 103.26%, 73.32% 92.95%, 92.94% 79.79%, 103.43% 35.77%, 81.55% 28.28%);
 }
-.rog_meeple[data-type="3"][data-color="008000"], .rog_meeple[data-type="3"][data-color="72c3b1"], .rog_meeple[data-type="3"][data-color="982fff"] {
+.rog_meeple[data-type="3"][data-clan="2"], .rog_meeple[data-type="3"][data-clan="8"] {
   clip-path: polygon(65.04% 11.56%, 17.3% 14.75%, 19.87% 53.11%, 4.52% 60.57%, 18.16% 84.03%, 47.14% 90.4%, 70.16% 86.15%, 89.76% 60.58%, 97.44% 35%, 73.57% 28.6%);
 }
-.rog_meeple[data-type="3"][data-color=ff0000], .rog_meeple[data-type="3"][data-color="298a47"] {
+.rog_meeple[data-type="3"][data-clan="4"], .rog_meeple[data-type="3"][data-clan="7"] {
   clip-path: polygon(58.22% 7.3%, 42.88% 20.08%, 13.06% 19.01%, 7.94% 50.97%, -3.15% 53.11%, 17.31% 89.36%, 40.32% 90.4%, 85.5% 74.42%, 99.99% 46.73%, 88.91% 30.74%, 82.1% 13.68%);
 }
 .rog_meeple[data-type="2"] {
@@ -4407,28 +4407,28 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   border-radius: 0px;
   box-shadow: none;
 }
-.rog_meeple[data-type="2"][data-color="72c3b1"], .rog_meeple[data-type="2"][data-color="008000"] {
+.rog_meeple[data-type="2"][data-clan="2"] {
   background-position-x: 0%;
 }
-.rog_meeple[data-type="2"][data-color="0000ff"] {
+.rog_meeple[data-type="2"][data-clan="1"] {
   background-position-x: 14.2857142857%;
 }
-.rog_meeple[data-type="2"][data-color=ffffff] {
+.rog_meeple[data-type="2"][data-clan="3"] {
   background-position-x: 28.5714285714%;
 }
-.rog_meeple[data-type="2"][data-color=ff0000] {
+.rog_meeple[data-type="2"][data-clan="4"] {
   background-position-x: 42.8571428571%;
 }
-.rog_meeple[data-type="2"][data-color=f07f16] {
+.rog_meeple[data-type="2"][data-clan="5"] {
   background-position-x: 57.1428571429%;
 }
-.rog_meeple[data-type="2"][data-color=ffff00] {
+.rog_meeple[data-type="2"][data-clan="6"] {
   background-position-x: 71.4285714286%;
 }
-.rog_meeple[data-type="2"][data-color="298a47"] {
+.rog_meeple[data-type="2"][data-clan="7"] {
   background-position-x: 85.7142857143%;
 }
-.rog_meeple[data-type="2"][data-color="982fff"] {
+.rog_meeple[data-type="2"][data-clan="8"] {
   background-position-x: 100%;
 }
 .rog_meeple.rog_score_meeple {
@@ -4443,28 +4443,28 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_meeple.rog_score_meeple[data-color="000000"] {
   display: none;
 }
-.rog_meeple.rog_score_meeple[data-color="72c3b1"], .rog_meeple.rog_score_meeple[data-color="008000"] {
+.rog_meeple.rog_score_meeple[data-clan="2"] {
   background-position-x: 0%;
 }
-.rog_meeple.rog_score_meeple[data-color="0000ff"] {
+.rog_meeple.rog_score_meeple[data-clan="1"] {
   background-position-x: 14.2857142857%;
 }
-.rog_meeple.rog_score_meeple[data-color=ffffff] {
+.rog_meeple.rog_score_meeple[data-clan="3"] {
   background-position-x: 28.5714285714%;
 }
-.rog_meeple.rog_score_meeple[data-color=ff0000] {
+.rog_meeple.rog_score_meeple[data-clan="4"] {
   background-position-x: 42.8571428571%;
 }
-.rog_meeple.rog_score_meeple[data-color=f07f16] {
+.rog_meeple.rog_score_meeple[data-clan="5"] {
   background-position-x: 57.1428571429%;
 }
-.rog_meeple.rog_score_meeple[data-color=ffff00] {
+.rog_meeple.rog_score_meeple[data-clan="6"] {
   background-position-x: 71.4285714286%;
 }
-.rog_meeple.rog_score_meeple[data-color="298a47"] {
+.rog_meeple.rog_score_meeple[data-clan="7"] {
   background-position-x: 85.7142857143%;
 }
-.rog_meeple.rog_score_meeple[data-color="982fff"] {
+.rog_meeple.rog_score_meeple[data-clan="8"] {
   background-position-x: 100%;
 }
 .rog_meeple.tooltipable:not(.selectable):hover {

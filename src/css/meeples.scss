@@ -17,55 +17,69 @@
         width: 150px;
         height: 120px;
 
-        &[data-color="0000ff"] {//blue
+        &[data-clan="1"]//CLAN_CRAB
+        {//blue
             background-position-y: 0%;
         }
-        &[data-color="ffffff"] {//white
+        &[data-clan="3"]//CLAN_CRANE
+        {//white
             background-position-y: (1 % 8) * 100% / 7;
         }
-        &[data-color="008000"] //green v1
-        ,&[data-color="72c3b1"] //cyan
-        {
+        &[data-clan="2"]//CLAN_MANTIS
+        {//cyan
             background-position-y: (2 % 8) * 100% / 7;
         }
-        &[data-color="ff0000"] {//red
+        &[data-clan="4"]//CLAN_SCORPION
+        {//red
             background-position-y: (3 % 8) * 100% / 7;
         }
         
-        &[data-color="f07f16"] {//orange
+        &[data-clan="5"]//CLAN_PHOENIX
+        {//orange
             background-position-y: (4 % 8) * 100% / 7;
         }
-        &[data-color="ffff00"] {//yellow
+        &[data-clan="6"]//CLAN_LION
+        {//yellow
             background-position-y: (5 % 8) * 100% / 7;
         }
-        &[data-color="298a47"] {//new green
+        &[data-clan="7"]//CLAN_DRAGON
+        {//new green
             background-position-y: (6 % 8) * 100% / 7;
         }
-        &[data-color="982fff"] {//purple
+        &[data-clan="8"]//CLAN_UNICORN
+        {//purple
             background-position-y: 100%;
         }
         
-        &[data-color="0000ff"], //blue
-        &[data-color="ffff00"]  //yellow
+        &[data-clan="1"],//CLAN_CRAB
+        &[data-clan="6"]//CLAN_LION
+         //blue
+          //yellow
         {
             //Shape for hovering on neighbours
             clip-path: polygon(104.26% 23.28%, 83.8% 17.95%, 63.58% 32.39%, 24.37% 47.88%, -6.87% 56.4%, 30.86% 83.52%, 96.59% 61.64%);
         }
-        &[data-color="ffffff"], //white
-        &[data-color="f07f16"]  //orange
+        &[data-clan="3"],//CLAN_CRANE
+        &[data-clan="5"]//CLAN_PHOENIX
+        //white
+        //orange
         {
             //Shape for hovering on neighbours
             clip-path: polygon(98.95% 25.12%, 66.82% 16.93%, 32.45% 31.51%, 2.30% 32.22%, 17.97% 78.75%, 41.79% 86.21%, 90.4% 66.69%);
         }
-        &[data-color="008000"], //green v1
-        &[data-color="72c3b1"], //cyan
-        &[data-color="982fff"]  //purple
+        &[data-clan="2"],//CLAN_MANTIS
+        &[data-clan="8"]//CLAN_UNICORN
+        //green v1
+        //cyan
+        //purple
         {
             //Shape for hovering on neighbours
             clip-path: polygon(70.16% 16.88%, 42.03% 33.93%, 7.08% 52.05%, 22.42% 90.41%, 83.80% 72.29%, 97.44% 26.47%);
         }
-        &[data-color="ff0000"], //red
-        &[data-color="298a47"]  //green v2
+        &[data-clan="4"],//CLAN_SCORPION
+        &[data-clan="7"]//CLAN_DRAGON
+        //red
+        //green v2
         {
             //Shape for hovering on neighbours
             clip-path: polygon(71.87% 16.88%, 39.47% 21.15%, -4.86% 46.72%, 21.57% 86.15%, 100.00% 60.56%, 103.41% 28.6%);
@@ -74,24 +88,32 @@
     &[data-type='3'] {//MEEPLE_TYPE_SHIP_ROYAL
         background-position-x: 100%;
         
-        &[data-color="0000ff"], //blue
-        &[data-color="ffff00"]  //yellow
+        &[data-clan="1"],//CLAN_CRAB
+        &[data-clan="6"]//CLAN_LION
+        //blue
+        //yellow
         {
             clip-path: polygon(68.45% 6.23%, 15.59% 12.62%, 14.76% 60.57%, -8.03% 62.9%, 26.37% 91.29%, 47.14% 90.4%, 71.01% 84.02%, 96.58% 73.37%, 106.82% 36.06%, 74.42% 29.67%);
         }
-        &[data-color="ffffff"], //white
-        &[data-color="f07f16"]  //orange
+        &[data-clan="3"],//CLAN_CRANE
+        &[data-clan="5"]//CLAN_PHOENIX
+        //white
+        //orange
         {
             clip-path: polygon(81.24% 10.2%, 46.96% 1.31%, 28.67% 2.74%, 21.58% 42.85%, 1.4% 47.13%, 13.04% 95.82%, 44.85% 103.26%, 73.32% 92.95%, 92.94% 79.79%, 103.43% 35.77%, 81.55% 28.28%);
         }
-        &[data-color="008000"], //green v1
-        &[data-color="72c3b1"], //cyan
-        &[data-color="982fff"]  //purple
+        &[data-clan="2"],//CLAN_MANTIS
+        &[data-clan="8"]//CLAN_UNICORN
+        //green v1
+        //cyan
+        //purple
         {
             clip-path: polygon(65.04% 11.56%, 17.3% 14.75%, 19.87% 53.11%, 4.52% 60.57%, 18.16% 84.03%, 47.14% 90.4%, 70.16% 86.15%, 89.76% 60.58%, 97.44% 35%, 73.57% 28.6%);
         }
-        &[data-color="ff0000"], //red
-        &[data-color="298a47"]  //green v2
+        &[data-clan="4"],//CLAN_SCORPION
+        &[data-clan="7"]//CLAN_DRAGON
+        //red
+        //green v2
         {
             clip-path: polygon(58.22% 7.3%, 42.88% 20.08%, 13.06% 19.01%, 7.94% 50.97%, -3.15% 53.11%, 17.31% 89.36%, 40.32% 90.4%, 85.5% 74.42%, 99.99% 46.73%, 88.91% 30.74%, 82.1% 13.68%);
         }
@@ -104,30 +126,38 @@
         border-radius: 0px;
         box-shadow: none;
 
-        &[data-color="72c3b1"], //cyan
-        &[data-color="008000"] {//green
+        &[data-clan="2"]//CLAN_MANTIS
+        //cyan //green
+        {
             background-position-x: 0%;
         }
-        &[data-color="0000ff"] {//blue
+        &[data-clan="1"]//CLAN_CRAB
+        {//blue
             background-position-x: (1 % 8) * 100% / 7;
         }
-        &[data-color="ffffff"] {//white
+        &[data-clan="3"]//CLAN_CRANE
+        {//white
             background-position-x: (2 % 8) * 100% / 7;
         }
-        &[data-color="ff0000"] {//red
+        &[data-clan="4"]//CLAN_SCORPION
+        {//red
             background-position-x: (3 % 8) * 100% / 7;
         }
         
-        &[data-color="f07f16"] {//orange
+        &[data-clan="5"]//CLAN_PHOENIX
+        {//orange
             background-position-x: (4 % 8) * 100% / 7;
         }
-        &[data-color="ffff00"] {//yellow
+        &[data-clan="6"]//CLAN_LION
+        {//yellow
             background-position-x: (5 % 8) * 100% / 7;
         }
-        &[data-color="298a47"] {//new green
+        &[data-clan="7"]//CLAN_DRAGON
+        {//new green
             background-position-x: (6 % 8) * 100% / 7;
         }
-        &[data-color="982fff"] {//purple
+        &[data-clan="8"]//CLAN_UNICORN
+        {//purple
             background-position-x: 100%;
         }
     }
@@ -144,30 +174,38 @@
         &[data-color="000000"] {//black at start
             display: none;
         }
-        &[data-color="72c3b1"], //cyan
-        &[data-color="008000"] {//green
+        &[data-clan="2"]//CLAN_MANTIS
+         //cyan
+        {//green
             background-position-x: 0%;
         }
-        &[data-color="0000ff"] {//blue
+        &[data-clan="1"]//CLAN_CRAB
+        {//blue
             background-position-x: (1 % 8) * 100% / 7;
         }
-        &[data-color="ffffff"] {//white
+        &[data-clan="3"]//CLAN_CRANE
+        {//white
             background-position-x: (2 % 8) * 100% / 7;
         }
-        &[data-color="ff0000"] {//red
+        &[data-clan="4"]//CLAN_SCORPION
+        {//red
             background-position-x: (3 % 8) * 100% / 7;
         }
         
-        &[data-color="f07f16"] {//orange
+        &[data-clan="5"]//CLAN_PHOENIX
+        {//orange
             background-position-x: (4 % 8) * 100% / 7;
         }
-        &[data-color="ffff00"] {//yellow
+        &[data-clan="6"]//CLAN_LION
+        {//yellow
             background-position-x: (5 % 8) * 100% / 7;
         }
-        &[data-color="298a47"] {//new green
+        &[data-clan="7"]//CLAN_DRAGON
+        {//new green
             background-position-x: (6 % 8) * 100% / 7;
         }
-        &[data-color="982fff"] {//purple
+        &[data-clan="8"]//CLAN_UNICORN
+        {//purple
             background-position-x: 100%;
         }
     }

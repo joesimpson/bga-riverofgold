@@ -2,22 +2,24 @@
 #player_boards{
     >.player-board{
         box-shadow: 1px 1px 10px black;
-        &[data-color="ff0000"]{
+        &[data-clan="4"]//CLAN_SCORPION
+        {
             box-shadow: 1px 1px 10px #ff0000;
             border-image: url('img/clans/redBorders.png');
             border-image-slice: 100 100 100 100;
             border-image-width: 10px;
             border-image-repeat: round;
         }
-        &[data-color="72c3b1"], //cyan
-        &[data-color='008000']{
+        &[data-clan="2"]//CLAN_MANTIS
+        {
             box-shadow: 0px 0px 2px #72c3b1;
             border-image: url('img/clans/greenBorders.png');
             border-image-slice: 100 100 100 100;
             border-image-width: 10px;
             border-image-repeat: round;
         }
-        &[data-color='0000ff']{
+        &[data-clan="1"]//CLAN_CRAB
+        {
             box-shadow: 1px 1px 10px #0000ff;
             border-image: url('img/clans/blueBorders.png');
             border-image-slice: 100 100 100 100;
@@ -25,7 +27,8 @@
             border-image-repeat: round;
 
         }
-        &[data-color="ffffff"]{
+        &[data-clan="3"]//CLAN_CRANE
+        {
             box-shadow: 1px 1px 5px black, 1px 1px 10px 5px #fff;
 
             border-image: url('img/clans/whiteBorders.png');
@@ -34,7 +37,8 @@
             border-image-repeat: round;
             box-shadow: none;
         }
-        &[data-color="f07f16"]{
+        &[data-clan="5"]//CLAN_PHOENIX
+        {
             //box-shadow: 0px 0px 0px 5px #f07f16;
             box-shadow: 0px 0px 0px 2px #f07f16;
             
@@ -43,7 +47,8 @@
             border-image-width: 10px;
             border-image-repeat: round;
         }
-        &[data-color="ffff00"]{
+        &[data-clan="6"]//CLAN_LION
+        {
             //box-shadow: 0px 0px 0px 5px #c9a62e;
             box-shadow: 0px 0px 0px 2px #c9a62e;
 
@@ -52,7 +57,8 @@
             border-image-width: 10px;
             border-image-repeat: round;
         }
-        &[data-color="298a47"]{
+        &[data-clan="7"]//CLAN_DRAGON
+        {
             box-shadow: 0px 0px 0px 2px #298a47;
 
             border-image: url('img/clans/dragonBorders.png');
@@ -60,7 +66,8 @@
             border-image-width: 10px;
             border-image-repeat: round;
         }
-        &[data-color="982fff"]{
+        &[data-clan="8"]//CLAN_UNICORN
+        {
             box-shadow: 0px 0px 0px 2px #5f3c64;
 
             border-image: url('img/clans/purpleBorders.png');
