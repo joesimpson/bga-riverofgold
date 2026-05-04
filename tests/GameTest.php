@@ -469,6 +469,7 @@ final class GameTest extends TestCase
             'firstPlayer' => 1,
             'endTriggered' => false,
             'endScoring' => [],
+            'customerTypes' => [1,2,3,4,5],
             'version' => 999999,
         ];
 

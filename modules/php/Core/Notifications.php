@@ -15,6 +15,20 @@ use ROG\Models\Player;
 class Notifications
 { 
   
+  public static function initCustomersDeck(array $customerTypes)
+  {
+    $customerNames = [];
+    foreach($customerTypes as $type) {
+      $customerNames[] = Cards::getCustomerTypeName($type);
+    }
+    self::notifyAll('initCustomersDeck', clienttranslate('Customers deck is shuffled with ${customers_icons}'), [
+      'customers_types' => $customerTypes,
+      'customers_icons' => $customerNames,
+      'preserve'=>['customers_types',],
+      'i18n' => ['customers_icons'],
+      'separator' => ['customers_icons' => ', '],
+    ]);
+  }
   /**
    * @param Player $player
    * @param int $money

@@ -542,6 +542,13 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-position-y: -207.3px;
   background-size: 1048% 1002%;
 }
+.rog_icon_container .rog_icon.rog_icon_customer-6::before, .rog_icon_container .rog_icon.rog_icon_customer-7::before, .rog_icon_container .rog_icon.rog_icon_customer-8::before, .rog_icon_container .rog_icon.rog_icon_customer-9::before, .rog_icon_container .rog_icon.rog_icon_customer-10::before {
+  content: "?";
+  width: 30px;
+  height: 30px;
+  font-size: 30px;
+  color: red;
+}
 .rog_icon_container .rog_icon.rog_icon_clan-1 {
   width: 35px;
   height: 30px;
@@ -5727,6 +5734,12 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   border-radius: 15%;
 }
 
+.rog_card_wrapper .rog_customer_cost .rog_icon_money .rog_icon_qty {
+  color: black;
+  display: inline-block;
+  margin-left: -2em;
+  font-size: 1.5em;
+}
 .rog_card_wrapper .rog_delivery_ability .rog_icon_container_bonus-21 .rog_icon,
 .rog_card_wrapper .rog_ongoing_ability .rog_icon_container_bonus-21 .rog_icon,
 .rog_card_wrapper .rog_endgame_ability .rog_icon_container_bonus-21 .rog_icon {

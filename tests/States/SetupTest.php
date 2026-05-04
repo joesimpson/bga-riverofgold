@@ -28,6 +28,7 @@ final class SetupTest extends TestCase
         ] ;
         $options = [
             OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
         
         //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.
@@ -53,6 +54,7 @@ final class SetupTest extends TestCase
         ] ;
         $options = [
             OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_ALTERNATIVE,
+            OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
         
         //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.
@@ -86,6 +88,7 @@ final class SetupTest extends TestCase
         ] ;
         $options = [
             OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_DRAFT,
+            OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
         
         //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.

@@ -250,7 +250,10 @@ class Cards extends \ROG\Helpers\Pieces
   {
     $cards = [];
 
+    $customerTypes = Globals::getCustomerTypes();
+    Notifications::initCustomersDeck($customerTypes);
     foreach (self::getCustomerCardsTypes() as $type => $card) {
+      if(!in_array($card['customerType'],$customerTypes)) continue;
       $cards[] = [
         'location' => CARD_LOCATION_DECK,
         'type' => $type,
@@ -300,6 +303,22 @@ class Cards extends \ROG\Helpers\Pieces
     }
     return $types;
   }
+  
+  public static function getCustomerTypeName(int $customerType): string{
+    switch($customerType){
+      case CUSTOMER_TYPE_ARTISAN    : return clienttranslate('Artisan');
+      case CUSTOMER_TYPE_ELDER      : return clienttranslate('Elder');
+      case CUSTOMER_TYPE_MERCHANT   : return clienttranslate('Merchant');
+      case CUSTOMER_TYPE_MONK       : return clienttranslate('Monk');
+      case CUSTOMER_TYPE_NOBLE      : return clienttranslate('Noble');
+      case CUSTOMER_TYPE_MAGISTRATE : return clienttranslate('Magistrate');
+      case CUSTOMER_TYPE_SMUGGLER   : return clienttranslate('Smuggler');
+      case CUSTOMER_TYPE_SHINDOSHI  : return clienttranslate('Shindōshi');
+      case CUSTOMER_TYPE_SPY        : return clienttranslate('Spy');
+      case CUSTOMER_TYPE_TRADER     : return clienttranslate('Trader');
+    }
+    return '';
+  }
   /**
    * @return array of all the different types of Customer Cards
    */
@@ -316,36 +335,68 @@ class Cards extends \ROG\Helpers\Pieces
     };
     return [
       // 30 unique CUSTOMER cards
-      CARD_ARTISAN_1 => $f([CUSTOMER_TYPE_ARTISAN, REGION_1,  clienttranslate('Artisan'), '',  [RESOURCE_TYPE_POTTERY=>2],]), 
-      CARD_ARTISAN_2 => $f([CUSTOMER_TYPE_ARTISAN, REGION_2,  clienttranslate('Artisan'), '',  [RESOURCE_TYPE_POTTERY=>2],]), 
-      CARD_ARTISAN_3 => $f([CUSTOMER_TYPE_ARTISAN, REGION_3,  clienttranslate('Artisan'), '',  [RESOURCE_TYPE_SILK=>2],]), 
-      CARD_ARTISAN_4 => $f([CUSTOMER_TYPE_ARTISAN, REGION_4,  clienttranslate('Artisan'), '',  [RESOURCE_TYPE_SILK=>2],]), 
-      CARD_ARTISAN_5 => $f([CUSTOMER_TYPE_ARTISAN, REGION_5,  clienttranslate('Artisan'), '',  [RESOURCE_TYPE_RICE=>2],]), 
-      CARD_ARTISAN_6 => $f([CUSTOMER_TYPE_ARTISAN, REGION_6,  clienttranslate('Artisan'), '',  [RESOURCE_TYPE_RICE=>2],]), 
-      CARD_ELDER_1 => $f([CUSTOMER_TYPE_ELDER, REGION_1 ,   clienttranslate('Elder')   , '',   [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>2,],]), 
-      CARD_ELDER_2 => $f([CUSTOMER_TYPE_ELDER, REGION_2 ,   clienttranslate('Elder')   , '',   [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1,],]), 
-      CARD_ELDER_3 => $f([CUSTOMER_TYPE_ELDER, REGION_3 ,   clienttranslate('Elder')   , '',   [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>2,],]), 
-      CARD_ELDER_4 => $f([CUSTOMER_TYPE_ELDER, REGION_4 ,   clienttranslate('Elder')   , '',   [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1,],]), 
-      CARD_ELDER_5 => $f([CUSTOMER_TYPE_ELDER, REGION_5 ,   clienttranslate('Elder')   , '',   [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>2,],]), 
-      CARD_ELDER_6 => $f([CUSTOMER_TYPE_ELDER, REGION_6 ,   clienttranslate('Elder')   , '',   [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>2,],]), 
-      CARD_MERCHANT_1 => $f([CUSTOMER_TYPE_MERCHANT, REGION_1,clienttranslate('Merchant') , '',[RESOURCE_TYPE_POTTERY=>3],]), 
-      CARD_MERCHANT_2 => $f([CUSTOMER_TYPE_MERCHANT, REGION_2,clienttranslate('Merchant') , '',[RESOURCE_TYPE_RICE=>3],]), 
-      CARD_MERCHANT_3 => $f([CUSTOMER_TYPE_MERCHANT, REGION_3,clienttranslate('Merchant') , '',[RESOURCE_TYPE_SILK=>3],]), 
-      CARD_MERCHANT_4 => $f([CUSTOMER_TYPE_MERCHANT, REGION_4,clienttranslate('Merchant') , '',[RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1],]), 
-      CARD_MERCHANT_5 => $f([CUSTOMER_TYPE_MERCHANT, REGION_5,clienttranslate('Merchant') , '',[RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1],]), 
-      CARD_MERCHANT_6 => $f([CUSTOMER_TYPE_MERCHANT, REGION_6,clienttranslate('Merchant') , '',[RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>2],]), 
-      CARD_MONK_1 => $f([CUSTOMER_TYPE_MONK, REGION_1,    clienttranslate('Monk')   , '',      [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1],]), 
-      CARD_MONK_2 => $f([CUSTOMER_TYPE_MONK, REGION_2,    clienttranslate('Monk')   , '',      [RESOURCE_TYPE_SILK=>3,RESOURCE_TYPE_RICE=>2],]), 
-      CARD_MONK_3 => $f([CUSTOMER_TYPE_MONK, REGION_3,    clienttranslate('Monk')   , '',      [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>1],]), 
-      CARD_MONK_4 => $f([CUSTOMER_TYPE_MONK, REGION_4,    clienttranslate('Monk')   , '',      [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>3],]), 
-      CARD_MONK_5 => $f([CUSTOMER_TYPE_MONK, REGION_5,    clienttranslate('Monk')   , '',      [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1],]), 
-      CARD_MONK_6 => $f([CUSTOMER_TYPE_MONK, REGION_6,    clienttranslate('Monk')   , '',      [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>2],]), 
-      CARD_NOBLE_1 => $f([CUSTOMER_TYPE_NOBLE, REGION_1,   clienttranslate('Noble') , '',      [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>2],]), 
-      CARD_NOBLE_2 => $f([CUSTOMER_TYPE_NOBLE, REGION_2,   clienttranslate('Noble') , '',      [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_POTTERY=>2],]), 
-      CARD_NOBLE_3 => $f([CUSTOMER_TYPE_NOBLE, REGION_3,   clienttranslate('Noble') , '',      [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>1],]), 
-      CARD_NOBLE_4 => $f([CUSTOMER_TYPE_NOBLE, REGION_4,   clienttranslate('Noble') , '',      [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>2],]), 
-      CARD_NOBLE_5 => $f([CUSTOMER_TYPE_NOBLE, REGION_5,   clienttranslate('Noble') , '',      [RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>2],]), 
-      CARD_NOBLE_6 => $f([CUSTOMER_TYPE_NOBLE, REGION_6,   clienttranslate('Noble') , '',      [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1],]), 
+      CARD_ARTISAN_1 => $f([CUSTOMER_TYPE_ARTISAN, REGION_1,  Cards::getCustomerTypeName(CUSTOMER_TYPE_ARTISAN), '',  [RESOURCE_TYPE_POTTERY=>2],]), 
+      CARD_ARTISAN_2 => $f([CUSTOMER_TYPE_ARTISAN, REGION_2,  Cards::getCustomerTypeName(CUSTOMER_TYPE_ARTISAN), '',  [RESOURCE_TYPE_POTTERY=>2],]), 
+      CARD_ARTISAN_3 => $f([CUSTOMER_TYPE_ARTISAN, REGION_3,  Cards::getCustomerTypeName(CUSTOMER_TYPE_ARTISAN), '',  [RESOURCE_TYPE_SILK=>2],]), 
+      CARD_ARTISAN_4 => $f([CUSTOMER_TYPE_ARTISAN, REGION_4,  Cards::getCustomerTypeName(CUSTOMER_TYPE_ARTISAN), '',  [RESOURCE_TYPE_SILK=>2],]), 
+      CARD_ARTISAN_5 => $f([CUSTOMER_TYPE_ARTISAN, REGION_5,  Cards::getCustomerTypeName(CUSTOMER_TYPE_ARTISAN), '',  [RESOURCE_TYPE_RICE=>2],]), 
+      CARD_ARTISAN_6 => $f([CUSTOMER_TYPE_ARTISAN, REGION_6,  Cards::getCustomerTypeName(CUSTOMER_TYPE_ARTISAN), '',  [RESOURCE_TYPE_RICE=>2],]), 
+      CARD_ELDER_1 => $f([CUSTOMER_TYPE_ELDER, REGION_1 ,   Cards::getCustomerTypeName(CUSTOMER_TYPE_ELDER)   , '',   [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>2,],]), 
+      CARD_ELDER_2 => $f([CUSTOMER_TYPE_ELDER, REGION_2 ,   Cards::getCustomerTypeName(CUSTOMER_TYPE_ELDER)   , '',   [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1,],]), 
+      CARD_ELDER_3 => $f([CUSTOMER_TYPE_ELDER, REGION_3 ,   Cards::getCustomerTypeName(CUSTOMER_TYPE_ELDER)   , '',   [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>2,],]), 
+      CARD_ELDER_4 => $f([CUSTOMER_TYPE_ELDER, REGION_4 ,   Cards::getCustomerTypeName(CUSTOMER_TYPE_ELDER)   , '',   [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1,],]), 
+      CARD_ELDER_5 => $f([CUSTOMER_TYPE_ELDER, REGION_5 ,   Cards::getCustomerTypeName(CUSTOMER_TYPE_ELDER)   , '',   [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>2,],]), 
+      CARD_ELDER_6 => $f([CUSTOMER_TYPE_ELDER, REGION_6 ,   Cards::getCustomerTypeName(CUSTOMER_TYPE_ELDER)   , '',   [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>2,],]), 
+      CARD_MERCHANT_1 => $f([CUSTOMER_TYPE_MERCHANT, REGION_1,Cards::getCustomerTypeName(CUSTOMER_TYPE_MERCHANT) , '',[RESOURCE_TYPE_POTTERY=>3],]), 
+      CARD_MERCHANT_2 => $f([CUSTOMER_TYPE_MERCHANT, REGION_2,Cards::getCustomerTypeName(CUSTOMER_TYPE_MERCHANT) , '',[RESOURCE_TYPE_RICE=>3],]), 
+      CARD_MERCHANT_3 => $f([CUSTOMER_TYPE_MERCHANT, REGION_3,Cards::getCustomerTypeName(CUSTOMER_TYPE_MERCHANT) , '',[RESOURCE_TYPE_SILK=>3],]), 
+      CARD_MERCHANT_4 => $f([CUSTOMER_TYPE_MERCHANT, REGION_4,Cards::getCustomerTypeName(CUSTOMER_TYPE_MERCHANT) , '',[RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1],]), 
+      CARD_MERCHANT_5 => $f([CUSTOMER_TYPE_MERCHANT, REGION_5,Cards::getCustomerTypeName(CUSTOMER_TYPE_MERCHANT) , '',[RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1],]), 
+      CARD_MERCHANT_6 => $f([CUSTOMER_TYPE_MERCHANT, REGION_6,Cards::getCustomerTypeName(CUSTOMER_TYPE_MERCHANT) , '',[RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>2],]), 
+      CARD_MONK_1 => $f([CUSTOMER_TYPE_MONK, REGION_1,    Cards::getCustomerTypeName(CUSTOMER_TYPE_MONK)   , '',      [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1],]), 
+      CARD_MONK_2 => $f([CUSTOMER_TYPE_MONK, REGION_2,    Cards::getCustomerTypeName(CUSTOMER_TYPE_MONK)   , '',      [RESOURCE_TYPE_SILK=>3,RESOURCE_TYPE_RICE=>2],]), 
+      CARD_MONK_3 => $f([CUSTOMER_TYPE_MONK, REGION_3,    Cards::getCustomerTypeName(CUSTOMER_TYPE_MONK)   , '',      [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>1],]), 
+      CARD_MONK_4 => $f([CUSTOMER_TYPE_MONK, REGION_4,    Cards::getCustomerTypeName(CUSTOMER_TYPE_MONK)   , '',      [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>3],]), 
+      CARD_MONK_5 => $f([CUSTOMER_TYPE_MONK, REGION_5,    Cards::getCustomerTypeName(CUSTOMER_TYPE_MONK)   , '',      [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1],]), 
+      CARD_MONK_6 => $f([CUSTOMER_TYPE_MONK, REGION_6,    Cards::getCustomerTypeName(CUSTOMER_TYPE_MONK)   , '',      [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>2],]), 
+      CARD_NOBLE_1 => $f([CUSTOMER_TYPE_NOBLE, REGION_1,   Cards::getCustomerTypeName(CUSTOMER_TYPE_NOBLE) , '',      [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>2],]), 
+      CARD_NOBLE_2 => $f([CUSTOMER_TYPE_NOBLE, REGION_2,   Cards::getCustomerTypeName(CUSTOMER_TYPE_NOBLE) , '',      [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_POTTERY=>2],]), 
+      CARD_NOBLE_3 => $f([CUSTOMER_TYPE_NOBLE, REGION_3,   Cards::getCustomerTypeName(CUSTOMER_TYPE_NOBLE) , '',      [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>1],]), 
+      CARD_NOBLE_4 => $f([CUSTOMER_TYPE_NOBLE, REGION_4,   Cards::getCustomerTypeName(CUSTOMER_TYPE_NOBLE) , '',      [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>2],]), 
+      CARD_NOBLE_5 => $f([CUSTOMER_TYPE_NOBLE, REGION_5,   Cards::getCustomerTypeName(CUSTOMER_TYPE_NOBLE) , '',      [RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>2],]), 
+      CARD_NOBLE_6 => $f([CUSTOMER_TYPE_NOBLE, REGION_6,   Cards::getCustomerTypeName(CUSTOMER_TYPE_NOBLE) , '',      [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1],]), 
+      //V2 : 30 new cards
+      31 => $f([CUSTOMER_TYPE_MAGISTRATE, REGION_1,  Cards::getCustomerTypeName(CUSTOMER_TYPE_MAGISTRATE), '',  [RESOURCE_TYPE_MONEY=>5, RESOURCE_TYPE_RICE=>2,],]), 
+      32 => $f([CUSTOMER_TYPE_MAGISTRATE, REGION_2,  Cards::getCustomerTypeName(CUSTOMER_TYPE_MAGISTRATE), '',  [RESOURCE_TYPE_MONEY=>5, RESOURCE_TYPE_SILK=>2,],]), 
+      33 => $f([CUSTOMER_TYPE_MAGISTRATE, REGION_3,  Cards::getCustomerTypeName(CUSTOMER_TYPE_MAGISTRATE), '',  [RESOURCE_TYPE_MONEY=>5, RESOURCE_TYPE_RICE=>2,],]), 
+      34 => $f([CUSTOMER_TYPE_MAGISTRATE, REGION_4,  Cards::getCustomerTypeName(CUSTOMER_TYPE_MAGISTRATE), '',  [RESOURCE_TYPE_MONEY=>5, RESOURCE_TYPE_POTTERY=>2,],]), 
+      35 => $f([CUSTOMER_TYPE_MAGISTRATE, REGION_5,  Cards::getCustomerTypeName(CUSTOMER_TYPE_MAGISTRATE), '',  [RESOURCE_TYPE_MONEY=>5, RESOURCE_TYPE_POTTERY=>2,],]), 
+      36 => $f([CUSTOMER_TYPE_MAGISTRATE, REGION_6,  Cards::getCustomerTypeName(CUSTOMER_TYPE_MAGISTRATE), '',  [RESOURCE_TYPE_MONEY=>5, RESOURCE_TYPE_SILK=>2,],]), 
+      37 => $f([CUSTOMER_TYPE_SMUGGLER, REGION_1,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SMUGGLER), '',  [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_RICE=>2,    ],]), 
+      38 => $f([CUSTOMER_TYPE_SMUGGLER, REGION_2,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SMUGGLER), '',  [RESOURCE_TYPE_SILK=>2,    RESOURCE_TYPE_POTTERY=>1, ],]), 
+      39 => $f([CUSTOMER_TYPE_SMUGGLER, REGION_3,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SMUGGLER), '',  [RESOURCE_TYPE_RICE=>2,    RESOURCE_TYPE_POTTERY=>1, ],]), 
+      40 => $f([CUSTOMER_TYPE_SMUGGLER, REGION_4,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SMUGGLER), '',  [RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>2, ],]), 
+      41 => $f([CUSTOMER_TYPE_SMUGGLER, REGION_5,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SMUGGLER), '',  [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_POTTERY=>2, ],]), 
+      42 => $f([CUSTOMER_TYPE_SMUGGLER, REGION_6,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SMUGGLER), '',  [RESOURCE_TYPE_SILK=>2,    RESOURCE_TYPE_RICE=>1,    ],]), 
+      43 => $f([CUSTOMER_TYPE_SHINDOSHI, REGION_1,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SHINDOSHI), '',  [RESOURCE_TYPE_SUN=>1,    RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_POTTERY=>2, ],]), 
+      44 => $f([CUSTOMER_TYPE_SHINDOSHI, REGION_2,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SHINDOSHI), '',  [RESOURCE_TYPE_SUN=>1,    RESOURCE_TYPE_RICE=>2,    RESOURCE_TYPE_POTTERY=>1, ],]), 
+      45 => $f([CUSTOMER_TYPE_SHINDOSHI, REGION_3,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SHINDOSHI), '',  [RESOURCE_TYPE_SUN=>1,    RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>2, ],]), 
+      46 => $f([CUSTOMER_TYPE_SHINDOSHI, REGION_4,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SHINDOSHI), '',  [RESOURCE_TYPE_SUN=>1,    RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>1, ],]), 
+      47 => $f([CUSTOMER_TYPE_SHINDOSHI, REGION_5,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SHINDOSHI), '',  [RESOURCE_TYPE_SUN=>1,    RESOURCE_TYPE_SILK=>2,    RESOURCE_TYPE_RICE=>1,    ],]),
+      48 => $f([CUSTOMER_TYPE_SHINDOSHI, REGION_6,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SHINDOSHI), '',  [RESOURCE_TYPE_SUN=>1,    RESOURCE_TYPE_SILK=>2,    RESOURCE_TYPE_RICE=>1,    ],]),
+      49 => $f([CUSTOMER_TYPE_SPY, REGION_1,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SPY), '',  [RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>3,                           ],]), 
+      50 => $f([CUSTOMER_TYPE_SPY, REGION_2,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SPY), '',  [RESOURCE_TYPE_SILK=>2,    RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>1, ],]), 
+      51 => $f([CUSTOMER_TYPE_SPY, REGION_3,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SPY), '',  [RESOURCE_TYPE_RICE=>3,    RESOURCE_TYPE_POTTERY=>1,                           ],]), 
+      52 => $f([CUSTOMER_TYPE_SPY, REGION_4,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SPY), '',  [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>2, ],]), 
+      53 => $f([CUSTOMER_TYPE_SPY, REGION_5,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SPY), '',  [RESOURCE_TYPE_SILK=>3,    RESOURCE_TYPE_POTTERY=>1,                           ],]), 
+      54 => $f([CUSTOMER_TYPE_SPY, REGION_6,  Cards::getCustomerTypeName(CUSTOMER_TYPE_SPY), '',  [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_RICE=>2,    RESOURCE_TYPE_POTTERY=>1, ],]), 
+      55 => $f([CUSTOMER_TYPE_TRADER, REGION_1,  Cards::getCustomerTypeName(CUSTOMER_TYPE_TRADER), '',  [RESOURCE_TYPE_SILK=>2,    RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>1, ],]), 
+      56 => $f([CUSTOMER_TYPE_TRADER, REGION_2,  Cards::getCustomerTypeName(CUSTOMER_TYPE_TRADER), '',  [RESOURCE_TYPE_RICE=>3,    RESOURCE_TYPE_POTTERY=>1,                           ],]), 
+      57 => $f([CUSTOMER_TYPE_TRADER, REGION_3,  Cards::getCustomerTypeName(CUSTOMER_TYPE_TRADER), '',  [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>2, ],]), 
+      58 => $f([CUSTOMER_TYPE_TRADER, REGION_4,  Cards::getCustomerTypeName(CUSTOMER_TYPE_TRADER), '',  [RESOURCE_TYPE_SILK=>3,    RESOURCE_TYPE_POTTERY=>1,                           ],]), 
+      59 => $f([CUSTOMER_TYPE_TRADER, REGION_5,  Cards::getCustomerTypeName(CUSTOMER_TYPE_TRADER), '',  [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_RICE=>2,    RESOURCE_TYPE_POTTERY=>1, ],]), 
+      60 => $f([CUSTOMER_TYPE_TRADER, REGION_6,  Cards::getCustomerTypeName(CUSTOMER_TYPE_TRADER), '',  [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_POTTERY=>3,                           ],]), 
+      
     ];
   }
   

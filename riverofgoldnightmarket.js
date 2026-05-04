@@ -1887,6 +1887,13 @@ function (dojo, declare, BgaAnimations) {
                 if(bonus_icon in args) {
                     args.bonus_icon = this.formatIcon('bonus-'+args.bonus_icon);
                 }
+                if('customers_types' in args && 'customers_icons' in args){
+                    let icons = '';
+                    Object.values(args.customers_types).forEach((t) => {
+                        icons += this.formatIcon(`customer-${t}`);
+                    });
+                    args.customers_icons = icons;
+                }
             }
             } catch (e) {
                 console.error(log, args, 'Exception thrown', e.stack);
@@ -2537,6 +2544,10 @@ function (dojo, declare, BgaAnimations) {
             let endgameAbility = this.getCustomerEndgameAbilityText(card);
             let costs = '';
             Object.entries(card.cost).forEach(([ type, amount,]) => {
+                if(type == RESOURCE_TYPE_MONEY){
+                    costs += this.formatIcon(RESOURCES[type], amount);
+                    return;
+                }
                 for(let k=1;k<=amount;k++){
                     costs += this.formatIcon(RESOURCES[type]);
                 }
@@ -2573,7 +2584,7 @@ function (dojo, declare, BgaAnimations) {
             }
     
             console.error('Trying to get container of a card', card);
-            return 'game_play_area';
+            return 'rog_select_piece_container';
         },
             
         tplPlayerHand(player) {
