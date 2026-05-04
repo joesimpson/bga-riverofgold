@@ -49,6 +49,39 @@ $game_options = [
     'default' => OPTION_EXPANSION_CLANS_OFF,
      
   ), 
+  
+  OPTION_CUSTOMERS => array(
+    'name' => 'Customer types',    
+    'values' => [
+      OPTION_CUSTOMERS_BASE => [
+        'name' => 'Base game', 
+        'description' => 'Play with Artisan, Elder, Merchant, Monk, Noble', 
+      ],
+      OPTION_CUSTOMERS_TRADEFAVOR => [
+        'name' => 'Trade & Favor', 
+        'tmdisplay' => 'Trade & Favor',
+        'description' => 'Play with Artisan, Monk, Noble, Smuggler, Shindōshi, Trader', 
+      ],
+      OPTION_CUSTOMERS_INTOCITY => [
+        'name' => 'Into the City', 
+        'tmdisplay' => 'Into the City',
+        'description' => 'Play with Elder, Merchant, Monk, Noble, Magistrate, Spy (uses the City of Lies module)', 
+      ],
+      
+      OPTION_CUSTOMERS_NIGHT_MONKS => [
+        'name' => 'Night Market & Monks', 
+        'tmdisplay' => 'Night Market & Monks',
+        'description' => 'Play with Monk, Magistrate, Smuggler, Shindōshi, Spy (uses the City of Lies module), Trader', 
+      ],
+      OPTION_CUSTOMERS_RANDOM => [
+        'name' => 'Random', 
+        'tmdisplay' => 'Random customers',
+        'description' => 'Play with 6 random customer types', 
+      ],
+    ],
+    'default' => OPTION_CUSTOMERS_BASE,
+     
+  ), 
 
 ];
 

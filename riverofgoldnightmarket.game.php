@@ -117,6 +117,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
           'firstPlayer' => $firstPlayer,
           'endTriggered' => Globals::isLastTurnTriggered(),
           'endScoring' => Globals::getEndScoring(),
+          'customerTypes' => Globals::getCustomerTypes(),
           'version'=> Utils::gameVersion(),
         ];
         return $result;
@@ -324,6 +325,12 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
             $this->applyDbUpgradeToAllDB($sql);
             //FIX Mantis color with new 4 colors
             $sql = "UPDATE DBPREFIX_player set player_color = '72c3b1' where player_color = '008000';";
+            $this->applyDbUpgradeToAllDB($sql);
+
+            $baseTypes = json_encode([CUSTOMER_TYPE_ARTISAN,CUSTOMER_TYPE_ELDER,CUSTOMER_TYPE_MERCHANT,CUSTOMER_TYPE_MONK,CUSTOMER_TYPE_NOBLE]);
+            $sql = "INSERT IGNORE INTO DBPREFIX_global_variables (`name`, `value`) VALUES ('customerTypes', '$baseTypes' );";
+            $this->applyDbUpgradeToAllDB($sql);
+            $sql = "UPDATE DBPREFIX_global_variables set `value` = '$baseTypes' where JSON_LENGTH(`value`) = 0 AND `name` = 'customerTypes';";
             $this->applyDbUpgradeToAllDB($sql);
         }
     }    

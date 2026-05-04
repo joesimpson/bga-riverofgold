@@ -34,12 +34,14 @@ class Globals extends \ROG\Helpers\DB_Manager
     //'bonuses' => 'obj',
 
     'endScoring' => 'obj',
+    'customerTypes' => 'obj',
 
     //Undo log module
     'choices' => 'int',
 
     // Game options
     'optionClanPatrons' => 'int', 
+    'optionCustomers' => 'int', 
 
   ];
  
@@ -70,6 +72,56 @@ class Globals extends \ROG\Helpers\DB_Manager
     //              --------------------------------------------
 
     self::setOptionClanPatrons($options[OPTION_EXPANSION_CLANS]);
+    
+    $optionCustomers = $options[OPTION_CUSTOMERS];
+    $customerTypes = [];
+    switch($optionCustomers){
+      case OPTION_CUSTOMERS_BASE:
+      default:
+        $customerTypes = [ 
+          CUSTOMER_TYPE_ARTISAN, 
+          CUSTOMER_TYPE_ELDER, 
+          CUSTOMER_TYPE_MERCHANT, 
+          CUSTOMER_TYPE_MONK, 
+          CUSTOMER_TYPE_NOBLE, 
+        ];
+        break;
+      case OPTION_CUSTOMERS_TRADEFAVOR:
+        $customerTypes = [ 
+          CUSTOMER_TYPE_ARTISAN, 
+          CUSTOMER_TYPE_MONK, 
+          CUSTOMER_TYPE_NOBLE, 
+          CUSTOMER_TYPE_SMUGGLER, 
+          CUSTOMER_TYPE_SHINDOSHI, 
+          CUSTOMER_TYPE_TRADER, 
+        ];
+        break;
+      case OPTION_CUSTOMERS_INTOCITY:
+        $customerTypes = [ 
+          CUSTOMER_TYPE_ELDER, 
+          CUSTOMER_TYPE_MERCHANT, 
+          CUSTOMER_TYPE_MONK, 
+          CUSTOMER_TYPE_NOBLE, 
+          CUSTOMER_TYPE_MAGISTRATE, 
+          CUSTOMER_TYPE_SPY, 
+        ];
+        break;
+      case OPTION_CUSTOMERS_NIGHT_MONKS:
+        $customerTypes = [ 
+          CUSTOMER_TYPE_MONK, 
+          CUSTOMER_TYPE_MAGISTRATE, 
+          CUSTOMER_TYPE_SMUGGLER, 
+          CUSTOMER_TYPE_SHINDOSHI, 
+          CUSTOMER_TYPE_SPY, 
+          CUSTOMER_TYPE_TRADER, 
+        ];
+        break;
+      case OPTION_CUSTOMERS_RANDOM:
+        $customerTypes = array_rand(array_flip(ALL_CUSTOMER_TYPES), 6);
+        break;
+    }
+    self::setOptionCustomers($optionCustomers);
+    Globals::setCustomerTypes($customerTypes);
   }
 
   /**

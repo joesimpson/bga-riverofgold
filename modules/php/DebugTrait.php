@@ -59,6 +59,7 @@ trait DebugTrait
   function debug_RESET(
     bool $expansionClans = true,
     bool $expansionClansAlt = true,
+    int $optionCustomers = OPTION_CUSTOMERS_BASE,
   ){
     Log::disable();
     $this->debug_ClearLogs();
@@ -70,8 +71,7 @@ trait DebugTrait
           ) : 
           OPTION_EXPANSION_CLANS_OFF
         ) ,
-      //OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_DRAFT,
-      //OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_ALTERNATIVE
+      OPTION_CUSTOMERS => $optionCustomers,
     ];
     $players = self::loadPlayersBasicInfos();
     Globals::DB()->delete()->run();
