@@ -753,6 +753,26 @@ abstract class Table
             TestDatas::$lastInsertedId = $meeple_id;
             return true;
         }
+        $mutiplesGroups = "";
+        for($k=1;$k<100;$k++) $mutiplesGroups .= "(,?\('(\w+)','(\w+)',(?:'(\w+)'|NULL),'(\w+)','(\w+)'\))?";
+        if (preg_match("/^INSERT INTO `cards` (.*) VALUES(,?\('(\w+)','(\w+)',(?:'(\w+)'|NULL),'(\w+)','(\w+)'\))?$mutiplesGroups$/", $sql, $matches) == 1) {
+            $k =2;
+            while(array_key_exists($k,$matches)){
+                $card_location = $matches[$k+1];
+                $card_state = intval($matches[$k+2]);
+                $player_id = null;
+                $type = intval($matches[$k+4]);
+                $subtype = intval($matches[$k+5]);
+                $cards_ids = array_keys(TestDatas::$cards);
+                $nbCards = count($cards_ids);
+                $id = 1 + ($nbCards>0 ? $cards_ids[count($cards_ids)-1] : 0);
+                logForTests("DbQuery --- added card $id : $card_location, $card_state, $player_id,$type, $subtype ");
+                TestDatas::$cards[$id] = ['result_associative_index' => $id,'card_id' => $id, 'card_location' => $card_location, 'card_state' => $card_state, 'player_id' => $player_id, 'type' => $type, 'subtype' => $subtype,];
+                TestDatas::$lastInsertedId = $id;
+                $k+=6;
+            }
+            return true;
+        }
         if (preg_match("/^UPDATE `cards` SET `card_location` = '(?P<card_location>.*)' WHERE  `card_id` = (?P<card_id>\d+)$/", $sql, $matches) == 1) {
             $card_location = $matches['card_location'];
             $card_id = $matches['card_id'];

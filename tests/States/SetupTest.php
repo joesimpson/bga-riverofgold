@@ -9,10 +9,12 @@ use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Managers\Cards;
+use ROG\Models\CustomerCard;
 use Tests\Utils\PHPUnitUtil;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
+use function PHPUnit\Framework\assertTrue;
 
 final class SetupTest extends TestCase
 {
@@ -97,6 +99,91 @@ final class SetupTest extends TestCase
 
         assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
         assertSame(ST_CLAN_SELECTION, $returnState);
+    }
+    
+    public function test_setupNewGame_Customers_Base(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
+        ];
+        TestDatas::$cards = [];
+        $expectedCustomerTypes = [1,2,3,4,5];
+        
+        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        //We need 6*5 cards
+        assertSame(30, count(TestDatas::$cards));
+        foreach(TestDatas::$cards as $cardRow){
+            $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardRow['type']]);
+            $cType = $card->getCustomerType();
+            assertTrue(in_array($card->getCustomerType(),$expectedCustomerTypes), "Customer type $cType must be in ".json_encode($expectedCustomerTypes));
+        }
+    }
+    
+    public function test_setupNewGame_Customers_IntoCity(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_CUSTOMERS => OPTION_CUSTOMERS_INTOCITY,
+        ];
+        TestDatas::$cards = [];
+        $expectedCustomerTypes = [CUSTOMER_TYPE_ELDER,CUSTOMER_TYPE_MERCHANT,CUSTOMER_TYPE_MONK,CUSTOMER_TYPE_NOBLE,CUSTOMER_TYPE_MAGISTRATE,CUSTOMER_TYPE_SPY];
+        
+        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        //We need 6*6 cards
+        assertSame(36, count(TestDatas::$cards));
+        foreach(TestDatas::$cards as $cardRow){
+            $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardRow['type']]);
+            $cType = $card->getCustomerType();
+            assertTrue(in_array($card->getCustomerType(),$expectedCustomerTypes), "Customer type $cType must be in ".json_encode($expectedCustomerTypes));
+            assertSame(CARD_LOCATION_DECK,$card->getLocation());
+        }
+        
+    }
+    
+    public function test_setupNewGame_Customers_Random(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_CUSTOMERS => OPTION_CUSTOMERS_INTOCITY,
+        ];
+        TestDatas::$cards = [];
+        $expectedCustomerTypes = ALL_CUSTOMER_TYPES;
+        
+        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        //We need 6*6 cards
+        assertSame(36, count(TestDatas::$cards));
+        foreach(TestDatas::$cards as $cardRow){
+            $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardRow['type']]);
+            $cType = $card->getCustomerType();
+            assertTrue(in_array($card->getCustomerType(),$expectedCustomerTypes), "Customer type $cType must be in ".json_encode($expectedCustomerTypes));
+            assertSame(CARD_LOCATION_DECK,$card->getLocation());
+        }
+        
     }
 
     // ----------------------------------------------------------------------
