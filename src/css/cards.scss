@@ -109,20 +109,31 @@
             align-items: center;
             display: flex;
             flex-direction: row;
+            .rog_cost_resource{
+                display: flex;
+                flex-direction: row;
+                //Order resources as ordered in printed cards : money, favor, silk, rice, pottery
+                &[data-res='6']{//RESOURCE_TYPE_MONEY
+                    order: 1;
+                    margin-right: 1em;
+                }
+                &[data-res='1']{//RESOURCE_TYPE_SILK
+                    order: 3;
+                }
+                &[data-res='3']{//RESOURCE_TYPE_RICE
+                    order: 4;
+                }
+                &[data-res='2']{//RESOURCE_TYPE_POTTERY
+                    order: 5;
+                }
+
+                //for tests:
+                //outline: 1px solid red;
+            }
             .rog_icon_container
             {
                 //transform: scale(0.75);
                 transform-origin: top left;
-                //Order resources as ordered in printed cards : silk, rice, pottery
-                &.rog_icon_container_silk{
-                    order: 1;
-                }
-                &.rog_icon_container_rice{
-                    order: 2;
-                }
-                &.rog_icon_container_pottery{
-                    order: 3;
-                }
                 $iconRatio : 0.8;
                 .rog_icon_silk{
                     @include rog_icons_sprite(-605px,-384px,$iconRatio * 30px,$iconRatio * 27px,290px,260px);
@@ -220,6 +231,20 @@
         }
     }
 
+    &[data-customertype='6'] //CUSTOMER_TYPE_MAGISTRATE
+    {
+        .rog_customer_name{
+            top: 36%;
+        }
+        .rog_customer_cost{
+            top: 44%;
+            height: 16%;
+        }
+        .rog_delivery_ability{
+            top: 64%;
+            height: 33%;
+        }
+    }
     &[data-customertype='7'] //CUSTOMER_TYPE_SMUGGLER
     {
         .rog_customer_name{
@@ -467,11 +492,25 @@
         }
         .rog_customer_cost{
             column-gap: 35px;
+            column-gap: 20px;
+            $scale: 2.5;
             .rog_icon_container
             {
                 transform: scale(2.5);
-                transform-origin: top left;
-                margin-top: -8%;
+            }
+            .rog_cost_resource
+            {
+                column-gap: 20px;
+                height: calc($scale * 25px);
+                @for $i from 0 through 3 {
+                    &[data-amount="#{$i}"] {
+                        width: calc($scale * 20px * $i);
+                    }
+                }
+                &[data-res="6"] {//RESOURCE_TYPE_MONEY
+                    width: calc($scale * 20px * 2);
+                    margin-right: 0px;
+                }
             }
         }
         .rog_delivery_ability,

@@ -95,6 +95,7 @@ final class DeliverTest extends TestCase
         $this->expectExceptionMessage("You cannot Deliver card $cardId");
         $game->actDeliverSelect($cardId);
     }
+    
     public function test_ActionDeliver_KO_WrongRegion(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -150,6 +151,45 @@ final class DeliverTest extends TestCase
         //Test score +NB_POINTS_PRIESTESS
         assertSame(22, TestDatas::$players[TestDatas::$test_activePlayerId]['player_score']);
 
+    }
+    
+    public function test_ActionDeliver_Magistrate_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        $cardId = 13;
+        TestDatas::$cards[$cardId]['type'] = 31;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":3,"4":0,"5":0,"6":9}';
+        TestDatas::$tokens[1]['meeple_state'] = 12;
+
+        $game->actDeliverSelect($cardId);
+        
+        //check card datas
+        $cardDatas = TestDatas::$cards[$cardId];
+        assertSame(CARD_LOCATION_DELIVERED, $cardDatas['card_location']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);//-2
+        assertSame(0, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(4, $resources[RESOURCE_TYPE_MONEY]);//-5
+    }
+    public function test_ActionDeliver_Magistrate_KO_NotEnoughMoney(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        $cardId = 13;
+        TestDatas::$cards[$cardId]['type'] = 31;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":3,"4":0,"5":0,"6":4}';
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot Deliver card $cardId");
+        $game->actDeliverSelect($cardId);
     }
     
     // -------------------------------------------------

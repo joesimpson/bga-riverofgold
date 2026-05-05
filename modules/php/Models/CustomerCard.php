@@ -72,7 +72,10 @@ class CustomerCard extends Card
         $royalShip = $player->getRoyalShip();
         if(!isset($royalShip)) Globals::addBonus($player,BONUS_TYPE_UPGRADE_SHIP);
         break;
-        
+
+      case CUSTOMER_TYPE_MAGISTRATE:
+        Players::gainInfluence($player,$this->getRegion(),NB_INFLUENCE_MAGISTRATE);
+        break;
       case CUSTOMER_TYPE_SMUGGLER:
         Players::gainInfluence($player,$this->getRegion(),NB_INFLUENCE_SMUGGLER);
         //Ask player to choose a building owner reward

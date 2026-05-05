@@ -1930,17 +1930,25 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   display: flex;
   flex-direction: row;
 }
+.rog_card .rog_card_wrapper .rog_customer_cost .rog_cost_resource {
+  display: flex;
+  flex-direction: row;
+}
+.rog_card .rog_card_wrapper .rog_customer_cost .rog_cost_resource[data-res="6"] {
+  order: 1;
+  margin-right: 1em;
+}
+.rog_card .rog_card_wrapper .rog_customer_cost .rog_cost_resource[data-res="1"] {
+  order: 3;
+}
+.rog_card .rog_card_wrapper .rog_customer_cost .rog_cost_resource[data-res="3"] {
+  order: 4;
+}
+.rog_card .rog_card_wrapper .rog_customer_cost .rog_cost_resource[data-res="2"] {
+  order: 5;
+}
 .rog_card .rog_card_wrapper .rog_customer_cost .rog_icon_container {
   transform-origin: top left;
-}
-.rog_card .rog_card_wrapper .rog_customer_cost .rog_icon_container.rog_icon_container_silk {
-  order: 1;
-}
-.rog_card .rog_card_wrapper .rog_customer_cost .rog_icon_container.rog_icon_container_rice {
-  order: 2;
-}
-.rog_card .rog_card_wrapper .rog_customer_cost .rog_icon_container.rog_icon_container_pottery {
-  order: 3;
 }
 .rog_card .rog_card_wrapper .rog_customer_cost .rog_icon_container .rog_icon_silk {
   width: 24px;
@@ -2042,6 +2050,17 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_card[data-customertype="5"] .rog_delivery_ability {
   height: 13%;
+}
+.rog_card[data-customertype="6"] .rog_customer_name {
+  top: 36%;
+}
+.rog_card[data-customertype="6"] .rog_customer_cost {
+  top: 44%;
+  height: 16%;
+}
+.rog_card[data-customertype="6"] .rog_delivery_ability {
+  top: 64%;
+  height: 33%;
 }
 .rog_card[data-customertype="7"] .rog_customer_name {
   top: 34%;
@@ -2212,11 +2231,32 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_card_tooltip .rog_card_wrapper .rog_customer_cost {
   -moz-column-gap: 35px;
        column-gap: 35px;
+  -moz-column-gap: 20px;
+       column-gap: 20px;
 }
 .rog_card_tooltip .rog_card_wrapper .rog_customer_cost .rog_icon_container {
   transform: scale(2.5);
-  transform-origin: top left;
-  margin-top: -8%;
+}
+.rog_card_tooltip .rog_card_wrapper .rog_customer_cost .rog_cost_resource {
+  -moz-column-gap: 20px;
+       column-gap: 20px;
+  height: 62.5px;
+}
+.rog_card_tooltip .rog_card_wrapper .rog_customer_cost .rog_cost_resource[data-amount="0"] {
+  width: 0px;
+}
+.rog_card_tooltip .rog_card_wrapper .rog_customer_cost .rog_cost_resource[data-amount="1"] {
+  width: 50px;
+}
+.rog_card_tooltip .rog_card_wrapper .rog_customer_cost .rog_cost_resource[data-amount="2"] {
+  width: 100px;
+}
+.rog_card_tooltip .rog_card_wrapper .rog_customer_cost .rog_cost_resource[data-amount="3"] {
+  width: 150px;
+}
+.rog_card_tooltip .rog_card_wrapper .rog_customer_cost .rog_cost_resource[data-res="6"] {
+  width: 100px;
+  margin-right: 0px;
 }
 .rog_card_tooltip .rog_card_wrapper .rog_delivery_ability,
 .rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability,

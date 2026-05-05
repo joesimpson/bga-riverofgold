@@ -2464,8 +2464,8 @@ function (dojo, declare, BgaAnimations) {
                 [CUSTOMER_TYPE_MERCHANT,    this.fsr(_('Gain ${influence_3} in ${region}. Place a clan marker on ${merchant_space} at the end of the river.'),{influence_3:this.formatIcon("influence",3), region: regionIcon,merchant_space:customerIcon })],
                 [CUSTOMER_TYPE_MONK,        this.fsr(_('${moon_up} and gain 2 ${icon_favor}.<br>Place a second clan marker on ${icon_building}.'),{moon_up:this.formatIcon("moon_up"), icon_favor:this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN]), icon_building:this.formatIcon("bonus-"+ (card.monkType==MONK_TYPE_OWN_BUILDING ? BONUS_TYPE_SECOND_MARKER_ON_BUILDING : BONUS_TYPE_SECOND_MARKER_ON_OPPONENT )) })],
                 [CUSTOMER_TYPE_NOBLE,       this.fsr(_('${ship_upgrade} and gain ${influence_2} in ${region}.'),{ship_upgrade:this.formatIcon("bonus-"+BONUS_TYPE_UPGRADE_SHIP),influence_2:this.formatIcon("influence",2), region: regionIcon,})],
-                [CUSTOMER_TYPE_MAGISTRATE,       this.fsr(_(''),{ })],
-                [CUSTOMER_TYPE_SMUGGLER  ,       this.fsr(_('Gain ${influence_2} in ${region}. Gain an owner benefit from any ${icon_building}.'),{'influence_2':this.formatIcon("influence",2), 'region': regionIcon, 'icon_building':this.formatIcon("own_building")})],
+                [CUSTOMER_TYPE_MAGISTRATE,       this.fsr(_('Gain ${influence} in ${region}.'),{ 'influence':this.formatIcon("influence",6),'n2':6, 'region': regionIcon,})],
+                [CUSTOMER_TYPE_SMUGGLER  ,       this.fsr(_('Gain ${influence} in ${region}. Gain an owner benefit from any ${icon_building}.'),{'influence':this.formatIcon("influence",2),'n2':2, 'region': regionIcon, 'icon_building':this.formatIcon("own_building")})],
                 [CUSTOMER_TYPE_SHINDOSHI ,       this.fsr(_(''),{ })],
                 [CUSTOMER_TYPE_SPY       ,       this.fsr(_(''),{ })],
                 [CUSTOMER_TYPE_TRADER    ,       this.fsr(_(''),{ })],
@@ -2619,13 +2619,16 @@ function (dojo, declare, BgaAnimations) {
             let endgameAbility = this.getCustomerEndgameAbilityText(card);
             let costs = '';
             Object.entries(card.cost).forEach(([ type, amount,]) => {
+                costs += `<div class="rog_cost_resource" data-res="${type}" data-amount="${amount}">`;
                 if(type == RESOURCE_TYPE_MONEY){
                     costs += this.formatIcon(RESOURCES[type], amount);
-                    return;
                 }
-                for(let k=1;k<=amount;k++){
-                    costs += this.formatIcon(RESOURCES[type]);
+                else {
+                    for(let k=1;k<=amount;k++){
+                        costs += this.formatIcon(RESOURCES[type]);
+                    }
                 }
+                costs += `</div>`;
             });
             return `<div class="rog_card" id="rog_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-customertype="${card.customerType}" data-customer_name="${customerName}">
                     <div class="rog_card_wrapper">
