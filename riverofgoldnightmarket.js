@@ -154,6 +154,7 @@ function (dojo, declare, BgaAnimations) {
     const BONUS_TYPE_BUILDING_REWARD    = 37;
     const BONUS_TYPE_PAY_SHIPS          = 38;
     const BONUS_TYPE_ANY_OWNER_REWARD   = 39;
+    const BONUS_TYPE_ADVANCE_OR_POINTS  = 40;
     const RESOURCES = [
         0,
         'silk',//RESOURCE_TYPE_SILK
@@ -300,7 +301,7 @@ function (dojo, declare, BgaAnimations) {
             //Filter states where we don't want other players to display state actions
             this._activeStates = ['deliver','discardCard','draftMulti'];
             this._inactiveStates = ['draft','scoring','gameEnd'];
-            this._migratedStates = ['BonusPlaceLion','BonusBuildingReward','BonusPayShips'];
+            this._migratedStates = ['BonusPlaceLion','BonusBuildingReward','BonusPayShips','BonusAdvanceCity'];
             
             this._hideNotifsWhenMultiActive = true;
             
@@ -766,6 +767,7 @@ function (dojo, declare, BgaAnimations) {
                         <i class="fa6 fa6-arrow-right"></i>
                         ${this.formatIcon('score')}
                     `;
+                else if(BONUS_TYPE_ADVANCE_OR_POINTS == bonusType) buttonText = _('Advance / Points');
                 this.addImageActionButton(`btnBonus_${k}_${bonusType}`, `${buttonText}<div class='rog_trade'>
                     ${iconBonus}
                 </div>`, () =>  {
@@ -1022,6 +1024,36 @@ function (dojo, declare, BgaAnimations) {
                 };
                 this.addSecondaryActionButton(buttonId, coloredPlayerName, callbackSelection); 
             });
+
+        },
+        
+        onEnteringStateBonusAdvanceCity(args){
+            debug('onEnteringStateBonusAdvanceCity', args);
+   
+            let scoreIcon = this.formatIcon('score',args.score);
+            this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
+                _('${you} must advance in the City of Lies or score ${n} points').replace('${n}', args.score) :
+                _('${actplayer} must advance in the City of Lies or score ${n} points').replace('${n}', args.score)
+            );
+            let possiblechoices = args.p;
+            Object.values(args.p).forEach((choice) => {
+                switch(choice){
+                    case 1: //BonusAdvanceCityChoice::ADVANCE
+                        this.addImageActionButton(`btnBonusAdvance`, _('Advance'), () =>  {
+                            this.takeAction('actSelectAdvance', {'choice':choice});
+                        });
+                        //Disabled until available
+                        document.getElementById(`btnBonusAdvance`).classList.add('disabled');
+                        break;
+                    case 2: //BonusAdvanceCityChoice::POINTS
+                        this.addImageActionButton(`btnBonusAdvancePoints`, scoreIcon, () =>  {
+                            this.takeAction('actSelectAdvance', {'choice':choice});
+                        });
+                        break;
+                }
+               
+            });
+            
 
         },
 
@@ -2477,7 +2509,7 @@ function (dojo, declare, BgaAnimations) {
                 [CUSTOMER_TYPE_MAGISTRATE,       this.fsr(_('Gain ${influence} in ${region}.'),{ 'influence':this.formatIcon("influence",6),'n2':6, 'region': regionIcon,})],
                 [CUSTOMER_TYPE_SMUGGLER  ,       this.fsr(_('Gain ${influence} in ${region}. Gain an owner benefit from any ${icon_building}.'),{'influence':this.formatIcon("influence",2),'n2':2, 'region': regionIcon, 'icon_building':this.formatIcon("own_building")})],
                 [CUSTOMER_TYPE_SHINDOSHI ,       this.fsr(_(''),{ })],
-                [CUSTOMER_TYPE_SPY       ,       this.fsr(_(''),{ })],
+                [CUSTOMER_TYPE_SPY       ,       this.fsr(_('Advance 1 step in the city of Lies without matching the die or losing influence ${line_break}OR${line_break} Gain ${icon_points}'),{ 'line_break':"<br><br>",'icon_points':this.formatIcon('score',5)})],
                 [CUSTOMER_TYPE_TRADER    ,       this.fsr(_(''),{ })],
             ]);
             return descriptionMap.get(card.customerType);

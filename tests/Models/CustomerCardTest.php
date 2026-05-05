@@ -770,6 +770,21 @@ final class CustomerCardTest extends TestCase
         assertSame(6, TestDatas::$tokens[6]['meeple_state']);
         assertSame([], json_decode(TestDatas::$players[1]['bonuses']));
     }
+    
+    public function test_playDeliveryAbility_Spy(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $cardType = 50;
+        $cardRow = TestDatas::$cards[11];
+        $cardRow['type'] = $cardType;
+        $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardType]);
+
+        $card->playDeliveryAbility($player);
+        
+        assertSame([BONUS_TYPE_ADVANCE_OR_POINTS], json_decode(TestDatas::$players[1]['bonuses']));
+    }
     public function test_playDeliveryAbility_Smuggler_1_WithBuildings(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

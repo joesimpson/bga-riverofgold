@@ -259,6 +259,26 @@
             width: 84%;
         }
     }
+    &[data-customertype='9'] //CUSTOMER_TYPE_SPY
+    {
+        .rog_customer_die{
+            top: 7%;
+            left: 8%;
+        }
+        .rog_customer_name{
+            top: 34%;
+        }
+        .rog_customer_cost{
+            top: 43%;
+            height: 15%;
+        }
+        .rog_delivery_ability{
+            top: 59%;
+            height: 30%;
+            left: 5%;
+            width: 90%;
+        }
+    }
  
 }
 .rog_clan_card {

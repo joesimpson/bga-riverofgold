@@ -130,6 +130,9 @@ trait BonusChoiceTrait
       case BONUS_TYPE_PAY_SHIPS:
         $nextState = 'bonusPayShips';
         break;
+      case BONUS_TYPE_ADVANCE_OR_POINTS:
+        $nextState = 'bonusAdvanceCity';
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }

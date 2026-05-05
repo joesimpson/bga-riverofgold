@@ -2070,6 +2070,23 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: 8%;
   width: 84%;
 }
+.rog_card[data-customertype="9"] .rog_customer_die {
+  top: 7%;
+  left: 8%;
+}
+.rog_card[data-customertype="9"] .rog_customer_name {
+  top: 34%;
+}
+.rog_card[data-customertype="9"] .rog_customer_cost {
+  top: 43%;
+  height: 15%;
+}
+.rog_card[data-customertype="9"] .rog_delivery_ability {
+  top: 59%;
+  height: 30%;
+  left: 5%;
+  width: 90%;
+}
 
 .rog_clan_card {
   width: 154px;

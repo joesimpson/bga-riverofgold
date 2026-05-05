@@ -43,7 +43,7 @@ class CustomerCard extends Card
    * Play  the instantaneous effect of this card
    * @param Player $player
    */
-  public function playDeliveryAbility(&$player)
+  public function playDeliveryAbility(Player &$player)
   {
     switch($this->getCustomerType()){
       case CUSTOMER_TYPE_ARTISAN:
@@ -81,6 +81,10 @@ class CustomerCard extends Card
         //Ask player to choose a building owner reward
         $nbBuildings = Meeples::countPlayerBuildings($player->getId());
         if($nbBuildings>0) Globals::addBonus($player,BONUS_TYPE_ANY_OWNER_REWARD);
+        break;
+
+      case CUSTOMER_TYPE_SPY:
+        Globals::addBonus($player,BONUS_TYPE_ADVANCE_OR_POINTS);
         break;
     }
   } 

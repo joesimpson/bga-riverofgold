@@ -263,6 +263,7 @@ $machinestates = array(
             'bonusPlaceLion' => ST_BONUS_PLACE_LION,
             'bonusBuildingReward' => ST_BONUS_BUILDING_REWARD,
             'bonusPayShips' => ST_BONUS_PAY_SHIPS,
+            'bonusAdvanceCity' => ST_BONUS_ADVANCE_CITY,
             "trade" => ST_PLAYER_TURN_TRADE, 
             'next' => ST_CONFIRM_CHOICES,
             'zombiePass'=> ST_CONFIRM_CHOICES,
