@@ -47,14 +47,20 @@ class Meeple extends \ROG\Helpers\DB_Model
     return $this->getState();
   }
   
+  public function getBuildingTileId(): int|null{
+    $location = $this->getLocation();
+    if (preg_match("/^" . MEEPLE_LOCATION_TILE . "(?P<tile>\d+)$/", $location, $matches) == 1) {
+      return $matches['tile'];
+    }
+    return null;
+  }
   /**
    * @return int region where this meeple is (when on building tile),
    * null otherwise
    */
-  public function getBuildingRegion(){
-    $location = $this->getLocation();
-    if (preg_match("/^" . MEEPLE_LOCATION_TILE . "(?P<tile>\d+)$/", $location, $matches) == 1) {
-      $tileId = $matches['tile'];
+  public function getBuildingRegion(): int|null{
+    $tileId = $this->getBuildingTileId();
+    if (isset($tileId)) {
       $tile = Tiles::get($tileId);
       if($tile instanceof BuildingTile){
         return $tile->getRegion();
@@ -62,4 +68,5 @@ class Meeple extends \ROG\Helpers\DB_Model
     }
     return null;
   }
+  
 }

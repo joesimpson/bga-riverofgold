@@ -311,12 +311,16 @@ Icon extract in sprite with differents layers size (so % is not useful).
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_customer-3,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_customer-4,
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_customer-5,
-.rog_panel .rog_player_infos .rog_player_resource .rog_resource_customer-6 {
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_customer-6,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_customer-7,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_customer-8,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_customer-9,
+.rog_panel .rog_player_infos .rog_player_resource .rog_resource_customer-10 {
   font-size: 15px;
   font-weight: bold;
   vertical-align: middle;
 }
-.rog_panel .rog_player_infos .rog_player_resource.rog_resource_port.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_manor.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_market.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_shrine.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-1.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-2.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-3.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-4.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-5.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-6.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-1.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-2.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-3.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-4.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-5.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-6.counter_empty {
+.rog_panel .rog_player_infos .rog_player_resource.rog_resource_port.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_manor.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_market.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_shrine.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-1.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-2.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-3.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-4.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-5.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-6.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-7.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-8.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-9.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_customer-10.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-1.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-2.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-3.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-4.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-5.counter_empty, .rog_panel .rog_player_infos .rog_player_resource.rog_resource_influence-6.counter_empty {
   opacity: 0.5;
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_favor_total {
@@ -2038,6 +2042,17 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_card[data-customertype="5"] .rog_delivery_ability {
   height: 13%;
+}
+.rog_card[data-customertype="7"] .rog_customer_name {
+  top: 34%;
+}
+.rog_card[data-customertype="7"] .rog_customer_cost {
+  top: 42%;
+  height: 9%;
+}
+.rog_card[data-customertype="7"] .rog_delivery_ability {
+  left: 8%;
+  width: 84%;
 }
 
 .rog_clan_card {

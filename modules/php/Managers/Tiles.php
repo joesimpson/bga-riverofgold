@@ -142,6 +142,14 @@ class Tiles extends \ROG\Helpers\Pieces
     return self::getAllByType(TILE_TYPE_BUILDING,array_keys(self::getBuildingTilesTypes()));
   } 
 
+  public static function getPlayerBuildingTilesIds(int $player_id) : array
+  {
+    $markersOnBuildings = Meeples::getPlayerBuildingsMarkers($player_id);
+    $tilesIds = array_unique( $markersOnBuildings->map( function($meeple) { 
+      return $meeple->getBuildingTileId();
+    })->toArray());
+    return $tilesIds;
+  } 
   /**
    */
   public static function removeLastInBuildingRow()

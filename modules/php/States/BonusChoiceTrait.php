@@ -123,6 +123,7 @@ trait BonusChoiceTrait
       case BONUS_TYPE_PLACE_LION:
         $nextState = 'bonusPlaceLion';
         break;
+      case BONUS_TYPE_ANY_OWNER_REWARD:
       case BONUS_TYPE_BUILDING_REWARD:
         $nextState = 'bonusBuildingReward';
         break;

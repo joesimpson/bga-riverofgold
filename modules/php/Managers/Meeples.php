@@ -263,10 +263,11 @@ class Meeples extends \ROG\Helpers\Pieces
    * @param int $type of building to search for
    * @return int number of DISTINCT buildings of that type (even if we have 2 meeples on the same)
    */
-  public static function countPlayerBuildings($pId, $type)
+  public static function countPlayerBuildings(int $pId, ?int $type = null)
   {
     Game::get()->trace("countPlayerBuildings($pId, $type)...");
-    $tilesTypes = Tiles::getTilesTypesByBuilding($type);
+    if(isset($type)) $tilesTypes = Tiles::getTilesTypesByBuilding($type);
+    else $tilesTypes = array_keys(Tiles::getBuildingTilesTypes());
     $tileIds = Tiles::getIdsByType(TILE_TYPE_BUILDING,$tilesTypes);
     $buildingTiles = [];
     foreach($tileIds as $tileId){

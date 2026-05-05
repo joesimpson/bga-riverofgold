@@ -57,6 +57,11 @@ function (dojo, declare, BgaAnimations) {
     const CUSTOMER_TYPE_MERCHANT = 3;
     const CUSTOMER_TYPE_MONK =     4;
     const CUSTOMER_TYPE_NOBLE =    5;
+    const CUSTOMER_TYPE_MAGISTRATE  = 6;
+    const CUSTOMER_TYPE_SMUGGLER    = 7;
+    const CUSTOMER_TYPE_SHINDOSHI   = 8;
+    const CUSTOMER_TYPE_SPY         = 9;
+    const CUSTOMER_TYPE_TRADER      = 10;
 
     const CARD_MERCHANT_1 = 13;
     const CARD_MERCHANT_2 = 14;
@@ -142,6 +147,7 @@ function (dojo, declare, BgaAnimations) {
     const BONUS_TYPE_PLACE_LION         = 36;
     const BONUS_TYPE_BUILDING_REWARD    = 37;
     const BONUS_TYPE_PAY_SHIPS          = 38;
+    const BONUS_TYPE_ANY_OWNER_REWARD   = 39;
     const RESOURCES = [
         0,
         'silk',//RESOURCE_TYPE_SILK
@@ -344,6 +350,18 @@ function (dojo, declare, BgaAnimations) {
                 [CUSTOMER_TYPE_MERCHANT, _('Merchant')],
                 [CUSTOMER_TYPE_MONK    , _('Monk')],
                 [CUSTOMER_TYPE_NOBLE   , _('Noble')],
+            ]);
+            this.ALL_CUSTOMER_TYPES =  new Map([
+                [CUSTOMER_TYPE_ARTISAN , _('Artisan')],
+                [CUSTOMER_TYPE_ELDER   , _('Elder')],
+                [CUSTOMER_TYPE_MERCHANT, _('Merchant')],
+                [CUSTOMER_TYPE_MONK    , _('Monk')],
+                [CUSTOMER_TYPE_NOBLE   , _('Noble')],
+                [CUSTOMER_TYPE_MAGISTRATE, _('Magistrate')],
+                [CUSTOMER_TYPE_SMUGGLER  , _('Smuggler')],
+                [CUSTOMER_TYPE_SHINDOSHI , _('Shindōshi')],
+                [CUSTOMER_TYPE_SPY       , _('Spy')],
+                [CUSTOMER_TYPE_TRADER    , _('Trader')],
             ]);
             
             let toPreloadList = ['cards/masterycards.jpg','cards/customers.jpg',
@@ -736,6 +754,7 @@ function (dojo, declare, BgaAnimations) {
                 else if(BONUS_TYPE_SELL_GOODS == bonusType) buttonText = _('Sell goods');
                 else if(BONUS_TYPE_SET_DIE == bonusType) buttonText = _('Set next turn die')+"<br><div class='rog_clan_special_ability'>"+_('Clan special ability')+"</div>";
                 else if(BONUS_TYPE_BUILDING_REWARD == bonusType) buttonText = _('Building reward');
+                else if(BONUS_TYPE_ANY_OWNER_REWARD == bonusType) buttonText = _('Building reward');
                 else if(BONUS_TYPE_PAY_SHIPS == bonusType) iconBonus = `
                         ${this.formatIcon(RESOURCES[RESOURCE_TYPE_MONEY])}
                         <i class="fa6 fa6-arrow-right"></i>
@@ -906,19 +925,44 @@ function (dojo, declare, BgaAnimations) {
         
         onEnteringStateBonusBuildingReward(args){
             debug('onEnteringStateBonusBuildingReward', args);
-   
-            Object.entries(args.p).forEach(([ tileId,choices,]) => {
-                Object.values(choices).forEach((choice) => {
-                    let buttonText = '';
-                    switch(choice){
-                        case 1: buttonText = _('Owner Rewards'); break;
-                        case 2: buttonText = _('Visitor Rewards'); break;
-                    }
-                    let callbackSelection = (evt) => {
-                        this.takeAction('actSelectReward', { 'choice': choice, 'tileId':tileId});
+
+            let tilesDatas = args.t;
+            let nbTiles = Object.keys(args.p).length;
+            this.selectedTileId = null;
+            Object.entries(args.p).forEach(([ tileId,datas,]) => {
+                let callbackDisplayButtons = () => {
+                    let imageBefore = false;
+                    Object.values(datas.choices).forEach((choice) => {
+                        let buttonText = '';
+                        switch(choice){
+                            case 1: buttonText = _('Owner Rewards'); break;
+                            case 2: buttonText = _('Visitor Rewards'); imageBefore=true; break;
+                        }
+                        let callbackSelection = (evt) => {
+                            this.takeAction('actSelectReward', { 'choice': choice, 'tileId':tileId});
+                        };
+                        
+                        buttonText = this.fsr(buttonText, {});
+                        let imageDiv = `<div class='rog_button_building_tile_image' data-type='${datas.type}' data-id='${tileId}'></div>`;
+                        if(imageBefore) buttonText = imageDiv + buttonText;
+                        else buttonText = buttonText + imageDiv;
+                        this.addImageActionButton(`btnBReward_${tileId}_${choice}`, buttonText, callbackSelection);
+                    });
+                };
+                //display actions as buttons if not too many
+                if(nbTiles <= 3) callbackDisplayButtons();
+                let tileDiv = document.getElementById(`rog_tile-${tileId}`);
+                if(tileDiv){
+                    let callbackTileSelection = (evt) => {
+                        this.selectedTileId = tileId;
+                        //clear other tiles buttons
+                        document.querySelectorAll('#customActions [id^="btnBReward_"]').forEach((b) => {
+                            this.destroy(b);
+                        });
+                        callbackDisplayButtons();
                     };
-                    this.addPrimaryActionButton(`btnBReward_${tileId}_${choice}`, this.fsr(buttonText, {}), callbackSelection); 
-                });
+                    this.onClick(`${tileDiv.id}`, callbackTileSelection);
+                }
             });
 
             this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
@@ -1553,7 +1597,7 @@ function (dojo, declare, BgaAnimations) {
                 Object.values(REGIONS).forEach((region) =>{
                     this._counters[pId].influence[region].toValue (player.influence[region]);
                 });
-                this.CUSTOMER_TYPES.forEach((value, key, map) =>{
+                this.ALL_CUSTOMER_TYPES.forEach((value, key, map) =>{
                     let customer = key;
                     this._counters[pId].customers[customer].toValue(player.customers[customer]);
                 });
@@ -1996,8 +2040,7 @@ function (dojo, declare, BgaAnimations) {
                     this._counters[pId].influence[region] = this.createCounter(`rog_counter_${pId}_influence-${region}`, player.influence[region]);
                     this.addCustomTooltip(`rog_reserve_${pId}_influence-${region}`, this.fsr(_('Influence in region ${n} : ${region_desc}'),{n:region,region_desc:regions_desc.get(region)}));
                 });
-                this.CUSTOMER_TYPES.forEach((value, key, map) =>{
-                    //let customerName = this.CUSTOMER_TYPES.get(customer);
+                this.ALL_CUSTOMER_TYPES.forEach((value, key, map) =>{
                     let customer = key;
                     let customerName = value;
                     this._counters[pId].customers[customer] = this.createCounter(`rog_counter_${pId}_customer-${customer}`, player.customers[customer]);
@@ -2159,6 +2202,10 @@ function (dojo, declare, BgaAnimations) {
             `;
         },
         tplPlayerPanel(player) {
+            let customerTypes = '';
+            this.ALL_CUSTOMER_TYPES.forEach((value, key, map) =>{
+                customerTypes += this.tplResourceCounter(player, 'customer-'+key);
+            });
             return `<div class='rog_panel'>
             <div class="rog_first_player_holder"></div>
             <div class='rog_player_infos'>
@@ -2195,11 +2242,7 @@ function (dojo, declare, BgaAnimations) {
                 </div>
                 <div class='rog_player_resource_line rog_player_resource_line_customers'>
                     <hr>
-                    ${this.tplResourceCounter(player, 'customer-1')}
-                    ${this.tplResourceCounter(player, 'customer-2')}
-                    ${this.tplResourceCounter(player, 'customer-3')}
-                    ${this.tplResourceCounter(player, 'customer-4')}
-                    ${this.tplResourceCounter(player, 'customer-5')}
+                    ${customerTypes}
                 </div>
                 <hr class='rog_player_resource_line_separator'>
                 <div class='rog_player_resource_line rog_player_resource_line_clan'>
@@ -2415,6 +2458,11 @@ function (dojo, declare, BgaAnimations) {
                 [CUSTOMER_TYPE_MERCHANT,    this.fsr(_('Gain ${influence_3} in ${region}. Place a clan marker on ${merchant_space} at the end of the river.'),{influence_3:this.formatIcon("influence",3), region: regionIcon,merchant_space:customerIcon })],
                 [CUSTOMER_TYPE_MONK,        this.fsr(_('${moon_up} and gain 2 ${icon_favor}.<br>Place a second clan marker on ${icon_building}.'),{moon_up:this.formatIcon("moon_up"), icon_favor:this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN]), icon_building:this.formatIcon("bonus-"+ (card.monkType==MONK_TYPE_OWN_BUILDING ? BONUS_TYPE_SECOND_MARKER_ON_BUILDING : BONUS_TYPE_SECOND_MARKER_ON_OPPONENT )) })],
                 [CUSTOMER_TYPE_NOBLE,       this.fsr(_('${ship_upgrade} and gain ${influence_2} in ${region}.'),{ship_upgrade:this.formatIcon("bonus-"+BONUS_TYPE_UPGRADE_SHIP),influence_2:this.formatIcon("influence",2), region: regionIcon,})],
+                [CUSTOMER_TYPE_MAGISTRATE,       this.fsr(_(''),{ })],
+                [CUSTOMER_TYPE_SMUGGLER  ,       this.fsr(_('Gain ${influence_2} in ${region}. Gain an owner benefit from any ${icon_building}.'),{'influence_2':this.formatIcon("influence",2), 'region': regionIcon, 'icon_building':this.formatIcon("own_building")})],
+                [CUSTOMER_TYPE_SHINDOSHI ,       this.fsr(_(''),{ })],
+                [CUSTOMER_TYPE_SPY       ,       this.fsr(_(''),{ })],
+                [CUSTOMER_TYPE_TRADER    ,       this.fsr(_(''),{ })],
             ]);
             return descriptionMap.get(card.customerType);
         },

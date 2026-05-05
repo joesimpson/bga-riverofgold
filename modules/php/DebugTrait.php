@@ -10,6 +10,7 @@ use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
+use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 use ROG\Models\CustomerCard;
 use ROG\States\EndTurnTrait;
@@ -299,7 +300,7 @@ trait DebugTrait
   function debug_MC(){
     $this->addStep();
     $player = Players::getCurrent();
-    $typesToTest = [7,8,9];
+    $typesToTest = [1,2,3,4,5,6];
 
     //remove previous claims
     $masteryCards = Tiles::getMasteryCards();
@@ -330,7 +331,7 @@ trait DebugTrait
 
     Players::gainInfluence($player,1,NB_INLUENCE_FLOWER);
     Players::claimMasteries($player);
-    $this->gamestate->jumpToState(ST_PLAYER_TURN);
+    $this->refresh_state();
   }
   
   //test mastery cards 2
@@ -356,7 +357,28 @@ trait DebugTrait
     }
     $this->debug_UI();
     Players::claimMasteries($player);
-    $this->gamestate->jumpToState(ST_PLAYER_TURN);
+    $this->refresh_state();
+  }
+  
+  function debug_BuildMore(int $nbBuildingsToAdd = 2){
+    $this->addStep();
+    $player = Players::getCurrent();
+    for($k=0; $k<$nbBuildingsToAdd;$k++){
+      $tile = Tiles::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1);
+      if(isset($tile)) $tile = Tiles::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2);
+      $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
+      $position = ShoreSpaces::getAllEmptySpaces()[0];
+      $tile->setPosition($position);
+      //$meeple = Meeples::addClanMarkerOnShoreSpace($tile,$player);
+      Meeples::singleCreate([
+        'type' => MEEPLE_TYPE_CLAN_MARKER,
+        'location' => MEEPLE_LOCATION_TILE.$tile->id,
+        'player_id' => $player->getId(),
+        'state' => $position,
+      ]);
+    }
+    $this->debug_UI();
+    $this->refresh_state();
   }
   
   function debug_Merchants(){

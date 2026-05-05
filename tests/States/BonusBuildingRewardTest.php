@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\States;
 
 use Bga\Games\RiverOfGoldNightMarket\States\BonusBuildingReward;
+use Bga\Games\RiverOfGoldNightMarket\States\BonusBuildingRewardChoice;
 use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
@@ -19,18 +20,49 @@ final class BonusBuildingRewardTest extends TestCase
 {
 
     // -------------------------------------------------
-    public function test_Args(): void
+    public function test_Args_BuildingReward(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setChoices(0);
         Globals::setLastBuiltTile(41);
+        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
         $expectedArgs = [
+            'c' => BONUS_TYPE_BUILDING_REWARD,
             'p' => [
                 41 => [
-                    1,2,
-                ]
+                    'type' => 5,
+                    'choices' => [
+                        BonusBuildingRewardChoice::OWNER->value,
+                        BonusBuildingRewardChoice::VISITOR->value,
+                    ],
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_AnyOwnerReward(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusBuildingReward($game);
+        Globals::setChoices(0);
+        Globals::setCurrentBonus(BONUS_TYPE_ANY_OWNER_REWARD);
+        $expectedArgs = [
+            'c' => BONUS_TYPE_ANY_OWNER_REWARD,
+            'p' => [
+                41 => [
+                    'type' => 5,
+                    'choices' => [
+                        BonusBuildingRewardChoice::OWNER->value,
+                    ],
+                ],
             ],
             'previousSteps' => [],
             'previousChoices' => 0,
@@ -48,6 +80,7 @@ final class BonusBuildingRewardTest extends TestCase
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setLastBuiltTile(41);
+        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
         $args = $state->getArgs();
 
         $newState = $state->onEnteringState(1, $args);
@@ -62,13 +95,16 @@ final class BonusBuildingRewardTest extends TestCase
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setLastBuiltTile(41);
+        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
         $args = $state->getArgs();
         $tileId = 41;
-        $choice = 1;//OWner
+        $choice = BonusBuildingRewardChoice::OWNER->value;//OWner
 
         $newState = $state->actSelectReward($choice, $tileId,999999, 1, $args);
         
         assertSame(ST_BONUS_CHOICE, $newState);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_MONEY]);
     }
     
     public function test_ActionSelectReward_Pass_VisitorReward(): void
@@ -77,24 +113,50 @@ final class BonusBuildingRewardTest extends TestCase
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setLastBuiltTile(41);
+        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
         $args = $state->getArgs();
         $tileId = 41;
-        $choice = 2;//Visitor
+        $choice = BonusBuildingRewardChoice::VISITOR->value;//Visitor
 
         $newState = $state->actSelectReward($choice, $tileId,999999, 1, $args);
         
         assertSame(ST_BONUS_CHOICE, $newState);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(3, $resources[RESOURCE_TYPE_MONEY]);
     }
     
+    public function test_ActionSelectReward_Pass_OwnerReward_x2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusBuildingReward($game);
+        Globals::setLastBuiltTile(41);
+        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
+        $args = $state->getArgs();
+        $tileId = 41;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_state'] = 2;
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        $choice = BonusBuildingRewardChoice::OWNER->value;//OWner
+
+        $newState = $state->actSelectReward($choice, $tileId,999999, 1, $args);
+        
+        assertSame(ST_BONUS_CHOICE, $newState);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
+    }
+
     public function test_ActionSelectReward_KO_WrongTile(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setLastBuiltTile(41);
+        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
         $args = $state->getArgs();
         $tileId = 456;
-        $choice = 1;
+        $choice = BonusBuildingRewardChoice::OWNER->value;
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Invalid tile $tileId");
@@ -106,9 +168,25 @@ final class BonusBuildingRewardTest extends TestCase
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setLastBuiltTile(41);
+        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
         $args = $state->getArgs();
         $tileId = 41;
         $choice = 3;
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid choice $choice");
+        $state->actSelectReward($choice, $tileId,999999, 1, $args);
+    }
+    public function test_ActionSelectReward_KO_WrongChoiceVisitor(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusBuildingReward($game);
+        Globals::setLastBuiltTile(41);
+        Globals::setCurrentBonus(BONUS_TYPE_ANY_OWNER_REWARD);
+        $args = $state->getArgs();
+        $tileId = 41;
+        $choice = BonusBuildingRewardChoice::VISITOR->value;
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Invalid choice $choice");

@@ -15,6 +15,11 @@ use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\Player;
 
+enum BonusBuildingRewardChoice: int
+{
+    case OWNER     = 1;
+    case VISITOR   = 2;
+}
 class BonusBuildingReward extends GameState
 {
    
@@ -34,17 +39,47 @@ class BonusBuildingReward extends GameState
   public function getArgs(): array
   {
 
-    //For now we manage only last built tile
-    $lastBuiltTile = Globals::getLastBuiltTile();
+    $currentBonus = Globals::getCurrentBonus();
+    $player = Players::getActive();
+    $player_id = $player->getId();
+
+    $possibleActions = [];
+    switch($currentBonus){
+      default:
+      case BONUS_TYPE_BUILDING_REWARD:
+        $lastBuiltTile = Globals::getLastBuiltTile();
+        $tile = Tiles::get($lastBuiltTile);
+        $possibleActions = [
+          $lastBuiltTile => [
+            'type' => $tile->getType(),
+            'choices' => [
+              BonusBuildingRewardChoice::OWNER->value,
+              BonusBuildingRewardChoice::VISITOR->value,
+            ],
+          ],
+        ];
+        //$tilesDatas[$lastBuiltTile] = $tile->getUiData();
+        //$tilesDatas[$lastBuiltTile] = ['type' => $tile->getType(), 'choices' => ];
+        break;
+      case BONUS_TYPE_ANY_OWNER_REWARD:
+        $tilesIds = Tiles::getPlayerBuildingTilesIds($player_id);
+        $tiles = Tiles::getMany($tilesIds);
+        //foreach($tilesIds as $tileId){
+        foreach($tiles as $tileId => $tile){
+          $possibleActions[$tileId]['type'] = $tile->getType();
+          $possibleActions[$tileId]['choices'] = [BonusBuildingRewardChoice::OWNER->value,];
+        }
+        //$tilesDatas = $tiles->uiAssoc();
+        //$tilesDatas = $tiles->map(function ($tile) {
+        //    return ['type' => $tile->getType()];
+        //})->toAssoc();
+        break;
+    }
 
     $args = [
-      'p' => [
-        $lastBuiltTile => [
-          1, //=>owner reward
-          2, // visitor reward
-        ],
-      ],
-
+      'c' => $currentBonus,
+      'p' => $possibleActions,
+      //'t' => $tilesDatas,
     ];
 
     $this->game->addArgsForUndo($args);
@@ -74,7 +109,7 @@ class BonusBuildingReward extends GameState
     if (!in_array($tileId,array_keys($tilesDatas))) {
       throw new UnexpectedException(503,"Invalid tile $tileId");
     } 
-    $choices = $tilesDatas[$tileId];
+    $choices = $tilesDatas[$tileId]['choices'];
     if (!in_array($choice,$choices)) {
       throw new UnexpectedException(503,"Invalid choice $choice");
     } 
@@ -83,20 +118,29 @@ class BonusBuildingReward extends GameState
     Log::addStep();
     $tile = Tiles::get($tileId);
     $region = $tile->getRegion();
+    $multiplier = 0;
+    $clanMarkers = $tile->getMeeples();
+    foreach($clanMarkers as $clanMarker){
+      if($clanMarker->getPId() == $player->getId()) $multiplier++;
+    }
     switch($choice){
-      case 1://OWNER REWARD
+      case BonusBuildingRewardChoice::OWNER->value:
         Notifications::buildingOwnerRewards($player,$tile);
         $rewards = $tile->ownerReward;
         foreach($rewards->entries as $reward){
-          $reward->rewardPlayer($player,$region,$tile);
+          for($k=1;$k<=$multiplier;$k++){
+            $reward->rewardPlayer($player,$region,$tile);
+          }
         }
         Players::claimMasteries($player);
         break;
-      case 2://VISITOR
+      case BonusBuildingRewardChoice::VISITOR->value:
         Notifications::buildingVisitorRewards($player,$tile);
         $rewards = $tile->visitorReward;
         foreach($rewards->entries as $reward){
-          $reward->rewardPlayer($player,$region,$tile);
+          for($k=1;$k<=$multiplier;$k++){
+            $reward->rewardPlayer($player,$region,$tile);
+          }
         }
         Players::claimMasteries($player);
         break;

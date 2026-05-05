@@ -68,7 +68,7 @@ class Player extends \ROG\Helpers\DB_Model
       $data['influence'][$region] = $this->getInfluence($region);
     }
     $data['customers'] = [];
-    foreach (CUSTOMER_TYPES as $customer){
+    foreach (ALL_CUSTOMER_TYPES as $customer){
       $data['customers'][$customer] = $this->getNbDeliveredCustomerByType($customer);
     }
     return $data;

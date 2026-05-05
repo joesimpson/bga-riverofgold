@@ -648,6 +648,150 @@ final class CustomerCardTest extends TestCase
         assertSame(2, TestDatas::$tokens[6]['meeple_state']);
         assertSame([BONUS_TYPE_UPGRADE_SHIP], json_decode(TestDatas::$players[1]['bonuses']));
     }
+    
+    public function test_playDeliveryAbility_Smuggler_1_WithBuildings(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $cardType = 37;
+        $cardRow = TestDatas::$cards[11];
+        $cardRow['type'] = $cardType;
+        $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardType]);
+
+        $card->playDeliveryAbility($player);
+        
+        assertSame(2, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame([BONUS_TYPE_ANY_OWNER_REWARD], json_decode(TestDatas::$players[1]['bonuses']));
+    }
+    
+    public function test_playDeliveryAbility_Smuggler_1_NoBuildings(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $cardType = 37;
+        $cardRow = TestDatas::$cards[11];
+        $cardRow['type'] = $cardType;
+        $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardType]);
+        unset(TestDatas::$tokens[41]);
+
+        $card->playDeliveryAbility($player);
+        
+        assertSame(2, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses']));
+    }
+    
+    public function test_playDeliveryAbility_Smuggler_2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $cardType = 38;
+        $cardRow = TestDatas::$cards[11];
+        $cardRow['type'] = $cardType;
+        $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardType]);
+
+        $card->playDeliveryAbility($player);
+        
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame([BONUS_TYPE_ANY_OWNER_REWARD], json_decode(TestDatas::$players[1]['bonuses']));
+    }
+    public function test_playDeliveryAbility_Smuggler_3(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $cardType = 39;
+        $cardRow = TestDatas::$cards[11];
+        $cardRow['type'] = $cardType;
+        $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardType]);
+
+        $card->playDeliveryAbility($player);
+        
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame([BONUS_TYPE_ANY_OWNER_REWARD], json_decode(TestDatas::$players[1]['bonuses']));
+    }
+    public function test_playDeliveryAbility_Smuggler_4(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $cardType = 40;
+        $cardRow = TestDatas::$cards[11];
+        $cardRow['type'] = $cardType;
+        $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardType]);
+
+        $card->playDeliveryAbility($player);
+        
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame([BONUS_TYPE_ANY_OWNER_REWARD], json_decode(TestDatas::$players[1]['bonuses']));
+    }
+    public function test_playDeliveryAbility_Smuggler_5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $cardType = 41;
+        $cardRow = TestDatas::$cards[11];
+        $cardRow['type'] = $cardType;
+        $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardType]);
+
+        $card->playDeliveryAbility($player);
+        
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame([BONUS_TYPE_ANY_OWNER_REWARD], json_decode(TestDatas::$players[1]['bonuses']));
+    }
+    public function test_playDeliveryAbility_Smuggler_6(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $cardType = 42;
+        $cardRow = TestDatas::$cards[11];
+        $cardRow['type'] = $cardType;
+        $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardType]);
+
+        $card->playDeliveryAbility($player);
+        
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[6]['meeple_state']);
+        assertSame([BONUS_TYPE_ANY_OWNER_REWARD], json_decode(TestDatas::$players[1]['bonuses']));
+    }
     // -------------------------------------------------
 
 }

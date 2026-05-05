@@ -219,6 +219,21 @@
             height: 13%;
         }
     }
+
+    &[data-customertype='7'] //CUSTOMER_TYPE_SMUGGLER
+    {
+        .rog_customer_name{
+            top: 34%;
+        }
+        .rog_customer_cost{
+            top: 42%;
+            height: 9%;
+        }
+        .rog_delivery_ability{
+            left: 8%;
+            width: 84%;
+        }
+    }
  
 }
 .rog_clan_card {
