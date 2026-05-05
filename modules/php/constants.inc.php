@@ -129,6 +129,12 @@ const CARD_NOBLE_3 = 27;
 const CARD_NOBLE_4 = 28;
 const CARD_NOBLE_5 = 29;
 const CARD_NOBLE_6 = 30;
+const CARD_SMUGGLER_1   = 37;
+const CARD_SMUGGLER_2   = 38;
+const CARD_SMUGGLER_3   = 39;
+const CARD_SMUGGLER_4   = 40;
+const CARD_SMUGGLER_5   = 41;
+const CARD_SMUGGLER_6   = 42;
 
 const MERCHANT_TYPES = [
    CARD_MERCHANT_1,

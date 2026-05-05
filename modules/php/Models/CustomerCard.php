@@ -4,7 +4,9 @@ namespace ROG\Models;
 
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
+use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
@@ -135,7 +137,7 @@ class CustomerCard extends Card
    * @param Player $player
    * @return int score for this player
    */
-  public function computeScore($player)
+  public function computeScore(Player $player, Collection $allDelivered)
   {
     $score = 0;
     switch($this->getType()){
@@ -160,6 +162,22 @@ class CustomerCard extends Card
         break;
       case CARD_NOBLE_6://1 point per different region of buildings
         $score = count($player->getBuiltRegions());
+        break;
+
+      case CARD_SMUGGLER_1: //+1 / 2 rice on delivered cards
+      case CARD_SMUGGLER_3:
+        $nbResources = Utils::countCardsCost($allDelivered,RESOURCE_TYPE_RICE);
+        $score = round (1/2 * $nbResources,0,PHP_ROUND_HALF_DOWN);
+        break;
+      case CARD_SMUGGLER_2: //+1 / 2 silk on delivered cards 
+      case CARD_SMUGGLER_6:
+        $nbResources = Utils::countCardsCost($allDelivered,RESOURCE_TYPE_SILK);
+        $score = round (1/2 * $nbResources,0,PHP_ROUND_HALF_DOWN);
+        break;
+      case CARD_SMUGGLER_4: //+1 / 2 pottery on delivered cards 
+      case CARD_SMUGGLER_5:
+        $nbResources = Utils::countCardsCost($allDelivered,RESOURCE_TYPE_POTTERY);
+        $score = round (1/2 * $nbResources,0,PHP_ROUND_HALF_DOWN);
         break;
     }
     if($score>0){

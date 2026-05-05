@@ -129,10 +129,18 @@ trait ScoringTrait
       $delivered = Cards::getPlayerDeliveredOrders($player->getId());
       $deliveredNobles = $delivered->filter(function($card) {return CUSTOMER_TYPE_NOBLE == $card->getCustomerType();});
       foreach($deliveredNobles as $deliveredNoble){
-        $scoreNoble = $deliveredNoble->computeScore($player);
+        $scoreNoble = $deliveredNoble->computeScore($player,$delivered);
         $player->addPoints($scoreNoble,false);
         //Specific notif has been sent
         $endScoringDatas[$pid][SCORING_CUSTOMERS] += $scoreNoble;
+      }
+      //3.5 :  Smuggler Specific score 
+      $deliveredSmugglers = $delivered->filter(function($card) {return CUSTOMER_TYPE_SMUGGLER == $card->getCustomerType();});
+      foreach($deliveredSmugglers as $deliveredSmuggler){
+        $scoreTmp = $deliveredSmuggler->computeScore($player,$delivered);
+        $player->addPoints($scoreTmp,false);
+        //Specific notif has been sent
+        $endScoringDatas[$pid][SCORING_CUSTOMERS] += $scoreTmp;
       }
 
       //TIE BREAKER : DIVINE FAVOR 

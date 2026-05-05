@@ -74,5 +74,19 @@ abstract class Utils
     //    }
     //    return $regions;
     //}
+
+    public static function countCardsCost(Collection $cards, int $resourceToCount)
+    {
+        $nbResources = $cards->map(function($card) use ($resourceToCount) {
+            $cost = $card->getCost();
+            if(array_key_exists($resourceToCount,$cost)){
+            return $cost[$resourceToCount];
+            }
+            return 0;
+        })->reduce(function ($ax, $dx) {
+            return $ax + (int)$dx;
+        }, 0);
+        return $nbResources;
+    }
     
 }

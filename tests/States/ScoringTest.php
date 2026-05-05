@@ -788,6 +788,162 @@ final class ScoringTest extends TestCase
         assertSame(2, TestDatas::$players[2]['player_score']);
         assertSame(0, TestDatas::$players[2]['player_score_aux']);
     }
+
+    public function test_computeScoring_Smuggler1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":0,"3":1,"4":5,"5":0,"6":15}';
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_MERCHANT_1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SMUGGLER_1;
+        TestDatas::$players[2]['resources'] = '{"1":0,"2":6,"3":4,"4":5,"5":0,"6":17}';
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = CARD_MERCHANT_3;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 5, 
+                SCORING_CUSTOMERS=> 4.0,//3 + 1
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, 
+                SCORING_CUSTOMERS=> 3.0,//!\ Float used in computation
+            ],
+        ];
+
+        $game->stScoring();
+        
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(28, TestDatas::$players[1]['player_score']);
+        assertSame(0, TestDatas::$players[1]['player_score_aux']);
+        assertSame(7, TestDatas::$players[2]['player_score']);
+        assertSame(0, TestDatas::$players[2]['player_score_aux']);
+    }
+    
+    public function test_computeScoring_Smuggler5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":0,"3":1,"4":5,"5":0,"6":15}';
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_MERCHANT_1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SMUGGLER_5;
+        TestDatas::$players[2]['resources'] = '{"1":0,"2":6,"3":4,"4":5,"5":0,"6":17}';
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = CARD_MERCHANT_3;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 5, 
+                SCORING_CUSTOMERS=> 5.0,//3 + 2
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, 
+                SCORING_CUSTOMERS=> 3.0,//!\ Float used in computation
+            ],
+        ];
+
+        $game->stScoring();
+        
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(29, TestDatas::$players[1]['player_score']);
+        assertSame(0, TestDatas::$players[1]['player_score_aux']);
+        assertSame(7, TestDatas::$players[2]['player_score']);
+        assertSame(0, TestDatas::$players[2]['player_score_aux']);
+    }
+    
+    public function test_computeScoring_Smuggler6(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":0,"3":1,"4":5,"5":0,"6":25}';
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_MERCHANT_3;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SMUGGLER_6;
+        TestDatas::$players[2]['resources'] = '{"1":0,"2":6,"3":4,"4":5,"5":0,"6":17}';
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = CARD_MERCHANT_3;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 5, 
+                SCORING_CUSTOMERS=> 7.0,//5 + 2
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, 
+                SCORING_CUSTOMERS=> 3.0,//!\ Float used in computation
+            ],
+        ];
+
+        $game->stScoring();
+        
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(31, TestDatas::$players[1]['player_score']);
+        assertSame(0, TestDatas::$players[1]['player_score_aux']);
+        assertSame(7, TestDatas::$players[2]['player_score']);
+        assertSame(0, TestDatas::$players[2]['player_score_aux']);
+    }
     
     // -------------------------------------------------
     

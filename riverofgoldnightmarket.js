@@ -75,6 +75,12 @@ function (dojo, declare, BgaAnimations) {
     const CARD_NOBLE_4 = 28;
     const CARD_NOBLE_5 = 29;
     const CARD_NOBLE_6 = 30;
+    const CARD_SMUGGLER_1   = 37;
+    const CARD_SMUGGLER_2   = 38;
+    const CARD_SMUGGLER_3   = 39;
+    const CARD_SMUGGLER_4   = 40;
+    const CARD_SMUGGLER_5   = 41;
+    const CARD_SMUGGLER_6   = 42;
 
     const MONK_TYPE_OWN_BUILDING = 1;
     const MONK_TYPE_OPPONENT_BUILDING = 2;
@@ -2538,21 +2544,22 @@ function (dojo, declare, BgaAnimations) {
         getCustomerEndgameAbilityText(card) {
             let endgameAbility = null;
             let regionIcon =  this.formatIcon('influence-'+card.region);
+            let icon_score = this.formatIcon("score_1");
+            let resource = null;
             switch(card.customerType){
                 case CUSTOMER_TYPE_ARTISAN:   
-                    endgameAbility = this.fsr(_('${score} : ${n} ${element}'), {score:this.formatIcon('score_1'),n:3, element: this.formatIcon('bonus-'+BONUS_TYPE_CHOICE)});
+                    endgameAbility = this.fsr(_('${score} : ${n} ${element}'), {score:icon_score,n:3, element: this.formatIcon('bonus-'+BONUS_TYPE_CHOICE)});
                     break;
                 case CUSTOMER_TYPE_ELDER:     
                     endgameAbility = this.fsr(_('2x ${score} from ${region}'), {score:this.formatIcon('score'),region:regionIcon}); 
                     break;
                 case CUSTOMER_TYPE_MERCHANT:  
-                    endgameAbility = this.fsr(_('${score} : ${n} ${element}'), {score:this.formatIcon('score_1'),n:5, element: this.formatIcon('money')});
+                    endgameAbility = this.fsr(_('${score} : ${n} ${element}'), {score:icon_score,n:5, element: this.formatIcon('money')});
                     break;
                 case CUSTOMER_TYPE_MONK:      
                     endgameAbility = null;
                     break;
                 case CUSTOMER_TYPE_NOBLE:
-                    let icon_score = this.formatIcon("score_1");
                     switch(card.type){
                         case CARD_NOBLE_1:
                             icon_building = this.formatIcon("market");
@@ -2577,6 +2584,26 @@ function (dojo, declare, BgaAnimations) {
                         case CARD_NOBLE_6:
                             icon_building = this.formatIcon("bonus-"+BONUS_TYPE_SECOND_MARKER_ON_BUILDING);
                             endgameAbility = this.fsr(_('${score} : region with ${building}'), {score:icon_score, building:icon_building});
+                            break;
+                    }
+                    break;
+                    
+                case CUSTOMER_TYPE_SMUGGLER:
+                    switch(card.type){
+                        case CARD_SMUGGLER_1:
+                        case CARD_SMUGGLER_3:
+                            resource = RESOURCE_TYPE_RICE;
+                            endgameAbility = this.fsr(_('${score} : ${res_icon} ${res_icon} delivered'), {'score':icon_score, 'n':'', 'res_type':resource, 'res_icon':''});
+                            break;
+                        case CARD_SMUGGLER_2:
+                        case CARD_SMUGGLER_6:
+                            resource = RESOURCE_TYPE_SILK;
+                            endgameAbility = this.fsr(_('${score} : ${res_icon} ${res_icon} delivered'), {'score':icon_score, 'n':'', 'res_type':resource, 'res_icon':''});
+                            break;
+                        case CARD_SMUGGLER_4:
+                        case CARD_SMUGGLER_5:
+                            resource = RESOURCE_TYPE_POTTERY;
+                            endgameAbility = this.fsr(_('${score} : ${res_icon} ${res_icon} delivered'), {'score':icon_score, 'n':'', 'res_type':resource, 'res_icon':''});
                             break;
                     }
                     break;
