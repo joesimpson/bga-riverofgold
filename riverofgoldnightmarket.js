@@ -2170,6 +2170,11 @@ function (dojo, declare, BgaAnimations) {
             let gameLastTurns = this.gamedatas.endTriggered;
             if(gameLastTurns) this.bga.gameArea.addLastTurnBanner(_('Last turns !'));
             let customersDeckSize = `<span id='rog_customers_deck_size'>${this.gamedatas.deckSize.customers}</span>`;
+            let typesIcons = '<div class="rog_customers_deck_icons">';
+            Object.values(this.gamedatas.customerTypes).forEach((customerType) => {
+                    typesIcons += this.formatIcon(`customer-${customerType}`);
+                });
+                typesIcons += '</div>';
             return `
             <div class='player-board' id="player_board_config">
                 <div id="player_config" class="player_board_content">
@@ -2202,7 +2207,12 @@ function (dojo, declare, BgaAnimations) {
                     </div>
                 </div>
                 <div class="player_config_row" id="cards_counter_wrapper">
-                    ${this.fsr(_('Customers deck size :${n} ${icon}'), { 'n': customersDeckSize, 'icon': this.formatIcon('customer_card') })}
+                    <span>${this.fsr(_('${n} ${icon} customers in deck'), { 
+                        'n': customersDeckSize, 
+                        'icon': this.formatIcon('customer_card'),
+                        //'types': typesIcons,
+                    })}</span>
+                    ${typesIcons}
                 </div>
             </div>
             `;

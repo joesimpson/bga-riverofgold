@@ -444,7 +444,13 @@
         &.rog_icon_customer-2,
         &.rog_icon_customer-3,
         &.rog_icon_customer-4,
-        &.rog_icon_customer-5{
+        &.rog_icon_customer-5,
+        &.rog_icon_customer-6,
+        &.rog_icon_customer-7,
+        &.rog_icon_customer-8,
+        &.rog_icon_customer-9,
+        &.rog_icon_customer-10
+        {
             border-radius: 50%;
             border: 1px solid black;
         }
@@ -468,16 +474,11 @@
         &.rog_icon_customer-7, //CUSTOMER_TYPE_SMUGGLER 
         &.rog_icon_customer-8, //CUSTOMER_TYPE_SHINDOSHI
         &.rog_icon_customer-9, //CUSTOMER_TYPE_SPY      
-        &.rog_icon_customer-10//CUSTOMER_TYPE_TRADER   
+        &.rog_icon_customer-10 //CUSTOMER_TYPE_TRADER   
         {
+            width: 30px;
+            height: 30px;
             //TODO JSA ICON 
-            &::before{
-                content: "?";
-                width: 30px;
-                height: 30px;
-                font-size: 30px;
-                color: red;
-            }
         }
 
         &.rog_icon_clan-1{

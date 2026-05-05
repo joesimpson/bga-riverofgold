@@ -502,7 +502,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-position-y: -449.4827586207px;
   background-size: 1871.4285714286% 1727.5862068966%;
 }
-.rog_icon_container .rog_icon.rog_icon_customer-1, .rog_icon_container .rog_icon.rog_icon_customer-2, .rog_icon_container .rog_icon.rog_icon_customer-3, .rog_icon_container .rog_icon.rog_icon_customer-4, .rog_icon_container .rog_icon.rog_icon_customer-5 {
+.rog_icon_container .rog_icon.rog_icon_customer-1, .rog_icon_container .rog_icon.rog_icon_customer-2, .rog_icon_container .rog_icon.rog_icon_customer-3, .rog_icon_container .rog_icon.rog_icon_customer-4, .rog_icon_container .rog_icon.rog_icon_customer-5, .rog_icon_container .rog_icon.rog_icon_customer-6, .rog_icon_container .rog_icon.rog_icon_customer-7, .rog_icon_container .rog_icon.rog_icon_customer-8, .rog_icon_container .rog_icon.rog_icon_customer-9, .rog_icon_container .rog_icon.rog_icon_customer-10 {
   border-radius: 50%;
   border: 1px solid black;
 }
@@ -546,12 +546,9 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-position-y: -207.3px;
   background-size: 1048% 1002%;
 }
-.rog_icon_container .rog_icon.rog_icon_customer-6::before, .rog_icon_container .rog_icon.rog_icon_customer-7::before, .rog_icon_container .rog_icon.rog_icon_customer-8::before, .rog_icon_container .rog_icon.rog_icon_customer-9::before, .rog_icon_container .rog_icon.rog_icon_customer-10::before {
-  content: "?";
+.rog_icon_container .rog_icon.rog_icon_customer-6, .rog_icon_container .rog_icon.rog_icon_customer-7, .rog_icon_container .rog_icon.rog_icon_customer-8, .rog_icon_container .rog_icon.rog_icon_customer-9, .rog_icon_container .rog_icon.rog_icon_customer-10 {
   width: 30px;
   height: 30px;
-  font-size: 30px;
-  color: red;
 }
 .rog_icon_container .rog_icon.rog_icon_clan-1 {
   width: 35px;
@@ -6071,10 +6068,16 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
 
 #player_config .player_config_row#cards_counter_wrapper {
   justify-content: center;
+  display: flex;
+  flex-direction: column;
 }
 #player_config .player_config_row#cards_counter_wrapper #rog_customers_deck_size {
   margin-left: 0.1em;
   margin-right: 0.1em;
+}
+#player_config .player_config_row#cards_counter_wrapper .rog_customers_deck_icons {
+  display: flex;
+  flex-direction: row;
 }
 
 #rog_end_score_recap {
