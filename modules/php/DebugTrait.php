@@ -387,12 +387,12 @@ trait DebugTrait
     $this->addStep();
     //Globals::setBonuses([]);
     $player->setBonuses([]);
-    CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_1);
-    CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_2);
-    CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_3);
-    CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_4);
-    CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_5);
-    CustomerCard::playOngoingMerchantAbility($player,CARD_MERCHANT_6);
+    CustomerCard::playOngoingAbility($player,CARD_MERCHANT_1);
+    CustomerCard::playOngoingAbility($player,CARD_MERCHANT_2);
+    CustomerCard::playOngoingAbility($player,CARD_MERCHANT_3);
+    CustomerCard::playOngoingAbility($player,CARD_MERCHANT_4);
+    CustomerCard::playOngoingAbility($player,CARD_MERCHANT_5);
+    CustomerCard::playOngoingAbility($player,CARD_MERCHANT_6);
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
   

@@ -128,20 +128,23 @@ trait ScoringTrait
       //3.3 : Noble score is specific :
       $delivered = Cards::getPlayerDeliveredOrders($player->getId());
       $deliveredNobles = $delivered->filter(function($card) {return CUSTOMER_TYPE_NOBLE == $card->getCustomerType();});
+      $customScore = function ($deliveredNobles) use(&$player,$pid,$delivered, &$endScoringDatas){
       foreach($deliveredNobles as $deliveredNoble){
         $scoreNoble = $deliveredNoble->computeScore($player,$delivered);
         $player->addPoints($scoreNoble,false);
         //Specific notif has been sent
         $endScoringDatas[$pid][SCORING_CUSTOMERS] += $scoreNoble;
       }
+      };
+      $customScore($deliveredNobles);
+
       //3.5 :  Smuggler Specific score 
       $deliveredSmugglers = $delivered->filter(function($card) {return CUSTOMER_TYPE_SMUGGLER == $card->getCustomerType();});
-      foreach($deliveredSmugglers as $deliveredSmuggler){
-        $scoreTmp = $deliveredSmuggler->computeScore($player,$delivered);
-        $player->addPoints($scoreTmp,false);
-        //Specific notif has been sent
-        $endScoringDatas[$pid][SCORING_CUSTOMERS] += $scoreTmp;
-      }
+      $customScore($deliveredSmugglers);
+
+      //3.7 :  Traders scores
+      $deliveredTraders = $delivered->filter(function($card) {return CUSTOMER_TYPE_TRADER == $card->getCustomerType();});
+      $customScore($deliveredTraders);
 
       //TIE BREAKER : DIVINE FAVOR 
       $player->setScoreAux($player->getResource(RESOURCE_TYPE_SUN));

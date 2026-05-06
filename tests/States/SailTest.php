@@ -445,6 +445,27 @@ final class SailTest extends TestCase
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
     }
+    
+    public function test_ActionSail_Pass_Trader6(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 6;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_TRADER_6;
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 7;
+        $riverSpace = 13;
+
+        $game->actSailSelect($shipId,$riverSpace);
+        
+        $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
+        assertSame(4, $resources[RESOURCE_TYPE_MONEY]);//EMPTY_SPACE_REWARD*4
+        assertSame(19+1,TestDatas::$players[1]['player_score']);//+1
+        assertSame(json_encode([BONUS_TYPE_DRAW]), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
 
     public function test_ActionSail_Pass_IronCrane(): void
     {

@@ -253,7 +253,7 @@ final class BuildTest extends TestCase
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
     }
     
-    public function test_actBuildSelect_Pass_Trader(): void
+    public function test_actBuildSelect_Pass_PatronTrader(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
@@ -338,6 +338,26 @@ final class BuildTest extends TestCase
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot build on $position");
         $game->actBuildSelect($position,$tileId);
+    }
+    
+    public function test_actBuildSelect_Pass_CustomerTrader(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 2;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":20}';
+        TestDatas::$cards[13]['type'] = CARD_TRADER_2;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        $position = 7;
+        $tileId = 31;
+        
+        $game->actBuildSelect($position,$tileId);
+        
+        //ONGOING Ability must be activated right now :
+        assertSame(20, TestDatas::$players[1]['player_score']);//+1
+        assertSame(json_encode([BONUS_TYPE_DRAW]), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
     }
     // -------------------------------------------------
 }

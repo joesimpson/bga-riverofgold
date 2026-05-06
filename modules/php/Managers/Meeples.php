@@ -263,7 +263,7 @@ class Meeples extends \ROG\Helpers\Pieces
    * @param int $type of building to search for
    * @return int number of DISTINCT buildings of that type (even if we have 2 meeples on the same)
    */
-  public static function countPlayerBuildings(int $pId, ?int $type = null)
+  public static function countPlayerBuildings(int $pId, ?int $type = null) : int
   {
     Game::get()->trace("countPlayerBuildings($pId, $type)...");
     if(isset($type)) $tilesTypes = Tiles::getTilesTypesByBuilding($type);
@@ -276,6 +276,25 @@ class Meeples extends \ROG\Helpers\Pieces
     return self::DB()->wherePlayer($pId)
       ->whereIn(self::$prefix.'location', $buildingTiles)
       //->count();
+      ->countDistinct(self::$prefix.'location');
+  }
+  
+  /**
+   * @param int $pId
+   * @param int $region of building to search for
+   * @return int number of DISTINCT buildings (even if we have 2 meeples on the same)
+   */
+  public static function countPlayerBuildingsInRegion(int $pId, int $region) : int
+  {
+    Game::get()->trace("countPlayerBuildingsInRegion($pId, $region)...");
+    
+    $tileIds = Tiles::getBuiltTilesIdsInRegion($region);
+    $buildingTiles = [];
+    foreach($tileIds as $tileId){
+      $buildingTiles[] = MEEPLE_LOCATION_TILE.$tileId;
+    }
+    return self::DB()->wherePlayer($pId)
+      ->whereIn(self::$prefix.'location', $buildingTiles)
       ->countDistinct(self::$prefix.'location');
   }
 

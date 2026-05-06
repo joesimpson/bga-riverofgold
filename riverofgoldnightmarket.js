@@ -2514,7 +2514,7 @@ function (dojo, declare, BgaAnimations) {
                 [CUSTOMER_TYPE_SMUGGLER  ,       this.fsr(_('Gain ${influence} in ${region}. Gain an owner benefit from any ${icon_building}.'),{'influence':this.formatIcon("influence",2),'n2':2, 'region': regionIcon, 'icon_building':this.formatIcon("own_building")})],
                 [CUSTOMER_TYPE_SHINDOSHI ,       this.fsr(_(''),{ })],
                 [CUSTOMER_TYPE_SPY       ,       this.fsr(_('Advance 1 step in the city of Lies without matching the die or losing influence ${line_break}OR${line_break} Gain ${icon_points}'),{ 'line_break':"<br><br>",'icon_points':this.formatIcon('score',5)})],
-                [CUSTOMER_TYPE_TRADER    ,       this.fsr(_(''),{ })],
+                [CUSTOMER_TYPE_TRADER    ,       this.fsr(_('Gain ${influence} in ${region}.'),{ 'influence':this.formatIcon("influence",1),'n2':1, 'region': regionIcon,})],//NB_INFLUENCE_TRADER
             ]);
             return descriptionMap.get(card.customerType);
         },
@@ -2522,6 +2522,7 @@ function (dojo, declare, BgaAnimations) {
             let ongoingAbility = null;
             let regionIcon =  this.formatIcon('influence-'+card.region);
             let moneyIcon =  this.formatIcon('money');
+            let icon_score = this.formatIcon("score_1");
             switch(card.customerType){
                 case CUSTOMER_TYPE_ARTISAN:   
                     ongoingAbility = this.fsr(_('Pay 2 ${money} less to build in ${region}.'), {money:moneyIcon, region:regionIcon});
@@ -2582,6 +2583,9 @@ function (dojo, declare, BgaAnimations) {
                             ongoingAbility = this.fsr(_('After your ${ship_type} sails, gain ${score} if you visited at least 1 ${building}.'), {ship_type:MEEPLE_TYPE_SHIP_ROYAL,score:this.formatIcon("score_1"),building:this.formatIcon("bonus-"+BONUS_TYPE_SECOND_MARKER_ON_BUILDING) });
                             break;
                     }
+                    break;
+                case CUSTOMER_TYPE_TRADER:
+                    ongoingAbility = this.fsr(_('After taking your main action, if your die value is ${region}, gain ${score} & ${bonus}.'), {'region':regionIcon,'score':icon_score,'bonus':this.formatIcon('bonus-'+BONUS_TYPE_DRAW)});
                     break;
             }
             ongoingAbility = (ongoingAbility ==null) ? '' :`<span class='rog_ongoing_ability'><div class='reduceToFit'>${ongoingAbility}</div></span>`;
@@ -2652,6 +2656,10 @@ function (dojo, declare, BgaAnimations) {
                             endgameAbility = this.fsr(_('${score} : ${res_icon} ${res_icon} delivered'), {'score':icon_score, 'n':'', 'res_type':resource, 'res_icon':''});
                             break;
                     }
+                    break;
+                case CUSTOMER_TYPE_TRADER:
+                    icon_building = this.formatIcon('own_building');
+                    endgameAbility = this.fsr(_('${score} : ${customer} or ${building} in ${region}'), {'score':this.formatIcon('score',2), 'customer':this.formatIcon('customer_card'),'building':icon_building,'region':regionIcon});
                     break;
             }
             endgameAbility = (endgameAbility ==null) ?'' :`<span class='rog_endgame_ability'><div class='reduceToFit'>${endgameAbility}</div></span>`;

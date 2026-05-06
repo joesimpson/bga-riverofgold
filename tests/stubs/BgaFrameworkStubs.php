@@ -518,6 +518,13 @@ abstract class Table
             $filtered = array_slice($filtered, 0, $limit, true);
             return $filtered;
         }
+        
+        if (preg_match("/^SELECT .* FROM `tiles` WHERE `tile_location` = '(?P<tile_location>.*)' AND \(`tile_state` IN \((?P<tile_states>.*)\)\)$/", $sql, $matches) == 1) {
+            $tile_states = explode(',', str_replace("'","",$matches['tile_states']) );
+            $tile_location = ($matches['tile_location']);
+            $filtered = array_filter(TestDatas::$tiles,function ($t) use($tile_location, $tile_states) {return $t['tile_location'] == $tile_location && in_array($t['tile_state'], $tile_states);});
+            return $filtered;
+        }
         if (preg_match("/^SELECT (.*) FROM `tiles` WHERE `subType` = (?P<subType>\d+) AND \(`type` IN \((?P<types>.*)\)\)$/", $sql, $matches) == 1) {
             $subType = intval($matches['subType']);
             $types = explode(',',str_replace("'","",$matches['types']));

@@ -191,6 +191,35 @@ final class DeliverTest extends TestCase
         $this->expectExceptionMessage("You cannot Deliver card $cardId");
         $game->actDeliverSelect($cardId);
     }
+    public function test_ActionDeliver_Pass_Trader1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        $cardId = 13;
+        TestDatas::$cards[$cardId]['type'] = CARD_TRADER_1;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":4,"3":5,"4":0,"5":0,"6":9}';
+
+        $game->actDeliverSelect($cardId);
+        
+        //check card datas
+        $cardDatas = TestDatas::$cards[$cardId];
+        assertSame(CARD_LOCATION_DELIVERED, $cardDatas['card_location']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);//-2
+        assertSame(3, $resources[RESOURCE_TYPE_POTTERY]);//-1
+        assertSame(4, $resources[RESOURCE_TYPE_RICE]);//-1
+        assertSame(0, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(9, $resources[RESOURCE_TYPE_MONEY]);
+        //INFLUENCe
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);
+        //ONGOING Ability must be activated right now :
+        assertSame(20, TestDatas::$players[1]['player_score']);//+1
+        assertSame(json_encode([BONUS_TYPE_DRAW, BONUS_TYPE_REFILL_HAND]), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
     
     // -------------------------------------------------
 }

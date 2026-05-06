@@ -319,6 +319,11 @@ class Cards extends \ROG\Helpers\Pieces
     }
     return '';
   }
+  
+  public static function getCustomerRegionFromType(int $type): int{
+    $customerCardDatas = self::getCustomerCardsTypes()[$type];
+    return $customerCardDatas['region'];
+  }
   /**
    * @return array of all the different types of Customer Cards
    */
@@ -390,12 +395,12 @@ class Cards extends \ROG\Helpers\Pieces
       52 => $f([CUSTOMER_TYPE_SPY, REGION_4,    [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>2, ],]), 
       53 => $f([CUSTOMER_TYPE_SPY, REGION_5,    [RESOURCE_TYPE_SILK=>3,    RESOURCE_TYPE_POTTERY=>1,                           ],]), 
       54 => $f([CUSTOMER_TYPE_SPY, REGION_6,    [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_RICE=>2,    RESOURCE_TYPE_POTTERY=>1, ],]), 
-      55 => $f([CUSTOMER_TYPE_TRADER, REGION_1,    [RESOURCE_TYPE_SILK=>2,    RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>1, ],]), 
-      56 => $f([CUSTOMER_TYPE_TRADER, REGION_2,    [RESOURCE_TYPE_RICE=>3,    RESOURCE_TYPE_POTTERY=>1,                           ],]), 
-      57 => $f([CUSTOMER_TYPE_TRADER, REGION_3,    [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>2, ],]), 
-      58 => $f([CUSTOMER_TYPE_TRADER, REGION_4,    [RESOURCE_TYPE_SILK=>3,    RESOURCE_TYPE_POTTERY=>1,                           ],]), 
-      59 => $f([CUSTOMER_TYPE_TRADER, REGION_5,    [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_RICE=>2,    RESOURCE_TYPE_POTTERY=>1, ],]), 
-      60 => $f([CUSTOMER_TYPE_TRADER, REGION_6,    [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_POTTERY=>3,                           ],]), 
+      CARD_TRADER_1 => $f([CUSTOMER_TYPE_TRADER, REGION_1,    [RESOURCE_TYPE_SILK=>2,    RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>1, ],]), 
+      CARD_TRADER_2 => $f([CUSTOMER_TYPE_TRADER, REGION_2,    [RESOURCE_TYPE_RICE=>3,    RESOURCE_TYPE_POTTERY=>1,                           ],]), 
+      CARD_TRADER_3 => $f([CUSTOMER_TYPE_TRADER, REGION_3,    [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_RICE=>1,    RESOURCE_TYPE_POTTERY=>2, ],]), 
+      CARD_TRADER_4 => $f([CUSTOMER_TYPE_TRADER, REGION_4,    [RESOURCE_TYPE_SILK=>3,    RESOURCE_TYPE_POTTERY=>1,                           ],]), 
+      CARD_TRADER_5 => $f([CUSTOMER_TYPE_TRADER, REGION_5,    [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_RICE=>2,    RESOURCE_TYPE_POTTERY=>1, ],]), 
+      CARD_TRADER_6 => $f([CUSTOMER_TYPE_TRADER, REGION_6,    [RESOURCE_TYPE_SILK=>1,    RESOURCE_TYPE_POTTERY=>3,                           ],]), 
       
     ];
   }

@@ -79,6 +79,17 @@ class Tiles extends \ROG\Helpers\Pieces
   {
     return self::getInLocation(TILE_LOCATION_BUILDING_SHORE,$position)->first();
   }
+  
+  public static function getBuiltTilesIdsInRegion(int $region) : array
+  {
+    Game::get()->trace("getBuiltTilesIdsInRegion($region)");
+    $spaces = ShoreSpaces::getSpacesByRegion($region);
+    return self::DB()->select([self::$prefix.'id'])
+      ->where(static::$prefix . 'location', TILE_LOCATION_BUILDING_SHORE)
+      ->whereIn(static::$prefix . 'state', $spaces)
+      ->get()
+      ->getIds();
+  }
   /**
    * @param int $subType
    * @param array $tilesTypes

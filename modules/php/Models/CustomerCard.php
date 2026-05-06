@@ -6,10 +6,8 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
-use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
-use ROG\Managers\Tiles;
 
 /**
  * CustomerCard: all utility functions concerning a Customer card
@@ -86,6 +84,9 @@ class CustomerCard extends Card
       case CUSTOMER_TYPE_SPY:
         Globals::addBonus($player,BONUS_TYPE_ADVANCE_OR_POINTS);
         break;
+      case CUSTOMER_TYPE_TRADER:
+        Players::gainInfluence($player,$this->getRegion(),NB_INFLUENCE_TRADER);
+        break;
     }
   } 
   
@@ -109,9 +110,9 @@ class CustomerCard extends Card
   
   /**
    * @param Player $player
-   * @param int $type
+   * @param int $type : customer type
    */
-  public static function playOngoingMerchantAbility(&$player,$type)
+  public static function playOngoingAbility(Player &$player,int $type)
   {
     switch($type){
       case CARD_MERCHANT_1://+ 1 Influence in built regions
@@ -134,6 +135,16 @@ class CustomerCard extends Card
         break;
       case CARD_MERCHANT_6://+3 Koku
         $player->giveResource(3,RESOURCE_TYPE_MONEY);
+        break;
+        
+      case CARD_TRADER_1:
+      case CARD_TRADER_2:
+      case CARD_TRADER_3:
+      case CARD_TRADER_4:
+      case CARD_TRADER_5:
+      case CARD_TRADER_6:
+        $player->addPoints(NB_POINTS_TRADER);
+        Globals::addBonus($player,BONUS_TYPE_DRAW);
         break;
     }
   }
@@ -186,6 +197,19 @@ class CustomerCard extends Card
         $nbResources = Utils::countCardsCost($allDelivered,RESOURCE_TYPE_POTTERY);
         $score = round (1/2 * $nbResources,0,PHP_ROUND_HALF_DOWN);
         break;
+        
+      case CARD_TRADER_1:
+      case CARD_TRADER_2:
+      case CARD_TRADER_3:
+      case CARD_TRADER_4:
+      case CARD_TRADER_5:
+      case CARD_TRADER_6:
+        $region = $this->getRegion();
+        $nbDeliveriesInRegion = $player->getNbDeliveredCustomerByRegion($region);
+        $nbBuildingsInRegion = Meeples::countPlayerBuildingsInRegion($player->getId(),$region);
+        $score = 2 * ($nbDeliveriesInRegion + $nbBuildingsInRegion);
+        break;
+
     }
     if($score>0){
       Notifications::scoreCustomer($player,$this,$score);

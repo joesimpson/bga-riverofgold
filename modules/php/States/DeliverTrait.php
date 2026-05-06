@@ -6,6 +6,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
 use ROG\Models\CustomerCard;
@@ -64,6 +65,7 @@ trait DeliverTrait
       $player->giveResource(-$neededAmount,$neededType);
     }
     $card->playDeliveryAbility($player);
+    Utils::playTradersAbilities($player);
 
     Players::claimMasteries($player);
 

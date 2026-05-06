@@ -279,6 +279,26 @@
             width: 90%;
         }
     }
+    
+    &[data-customertype='10'] //CUSTOMER_TYPE_TRADER
+    {
+        .rog_customer_name{
+            top: 35%;
+        }
+        .rog_customer_cost{
+            top: 43%;
+            height: 10%;
+        }
+        .rog_ongoing_ability{
+            top: 68%;
+            height: 18%;
+            left: 4%;
+            width: 92%;
+        }
+        .rog_delivery_ability{
+            height: 13%;
+        }
+    }
  
 }
 .rog_clan_card {
@@ -521,7 +541,8 @@
             .rog_cost_resource
             {
                 column-gap: 20px;
-                height: calc($scale * 25px);
+                height: calc($scale * 24px);
+                align-self: center;
                 @for $i from 0 through 3 {
                     &[data-amount="#{$i}"] {
                         width: calc($scale * 20px * $i);

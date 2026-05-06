@@ -15,6 +15,7 @@ use ROG\Managers\Tiles;
 use ROG\Models\Meeple;
 use ROG\Models\BuildingTile;
 use ROG\Models\CustomerCard;
+use ROG\Models\Player;
 
 trait SailTrait
 {
@@ -148,6 +149,8 @@ trait SailTrait
         $player->addPoints(NB_POINTS_NOBLE_6);
       }
     }
+
+    Utils::playTradersAbilities($player);
     
     if(isset($playerPatron)){
       $playerPatron->scoreWhenSail($player,$ownBuilding,$opponentBuilding,$ship);
@@ -200,7 +203,7 @@ trait SailTrait
    * @param Player $player
    * @param Meeple $ship
    */
-  public function completeJourney(&$player,$ship)
+  public function completeJourney(Player &$player,Meeple $ship)
   {
     Notifications::reachRiverEnd($player,$ship);
     Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);
@@ -209,7 +212,7 @@ trait SailTrait
 
     foreach(MERCHANT_TYPES as $merchantType){
       if(Cards::hasPlayerDeliveredOrder($player->getId(),$merchantType)){
-        CustomerCard::playOngoingMerchantAbility($player,$merchantType);
+        CustomerCard::playOngoingAbility($player,$merchantType);
       }
     }
   }

@@ -2,6 +2,9 @@
 namespace ROG\Helpers;
 
 use ROG\Core\Game;
+use ROG\Managers\Cards;
+use ROG\Models\CustomerCard;
+use ROG\Models\Player;
 
 abstract class Utils 
 {
@@ -75,7 +78,7 @@ abstract class Utils
     //    return $regions;
     //}
 
-    public static function countCardsCost(Collection $cards, int $resourceToCount)
+    public static function countCardsCost(Collection $cards, int $resourceToCount) : int
     {
         $nbResources = $cards->map(function($card) use ($resourceToCount) {
             $cost = $card->getCost();
@@ -89,4 +92,14 @@ abstract class Utils
         return $nbResources;
     }
     
+    public static function playTradersAbilities(Player &$player) : void
+    {
+        $regionDie = $player->getDie();
+        foreach(TRADER_TYPES as $traderType){
+            if($regionDie == Cards::getCustomerRegionFromType($traderType) 
+                && Cards::hasPlayerDeliveredOrder($player->getId(),$traderType)){
+                CustomerCard::playOngoingAbility($player,$traderType);
+            }
+        }
+    }
 }

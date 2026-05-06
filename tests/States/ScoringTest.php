@@ -945,6 +945,59 @@ final class ScoringTest extends TestCase
         assertSame(0, TestDatas::$players[2]['player_score_aux']);
     }
     
+    public function test_computeScoring_Traders(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":0,"3":1,"4":5,"5":0,"6":25}';
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_MERCHANT_3;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_TRADER_3;
+        TestDatas::$tiles[41]['tile_state'] = 11;//in region 3
+        TestDatas::$players[2]['resources'] = '{"1":0,"2":6,"3":4,"4":5,"5":0,"6":17}';
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = CARD_TRADER_6;
+        TestDatas::$tiles[42]['tile_state'] = 11;//in region 3
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 5, 
+                SCORING_CUSTOMERS=> 11.0,//5 + 6 (2*2 for cards in region 3 + 2 for 1 building in region 3 )
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, 
+                SCORING_CUSTOMERS=> 2,// 2 for cards in region + 0 for buildings in region
+            ],
+        ];
+
+        $game->stScoring();
+        
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(35, TestDatas::$players[1]['player_score']);
+        assertSame(0, TestDatas::$players[1]['player_score_aux']);
+        assertSame(6, TestDatas::$players[2]['player_score']);
+        assertSame(0, TestDatas::$players[2]['player_score_aux']);
+    }
     // -------------------------------------------------
     
     public function test_compute_TieBreaker(): void

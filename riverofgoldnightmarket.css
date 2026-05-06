@@ -2105,6 +2105,22 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: 5%;
   width: 90%;
 }
+.rog_card[data-customertype="10"] .rog_customer_name {
+  top: 35%;
+}
+.rog_card[data-customertype="10"] .rog_customer_cost {
+  top: 43%;
+  height: 10%;
+}
+.rog_card[data-customertype="10"] .rog_ongoing_ability {
+  top: 68%;
+  height: 18%;
+  left: 4%;
+  width: 92%;
+}
+.rog_card[data-customertype="10"] .rog_delivery_ability {
+  height: 13%;
+}
 
 .rog_clan_card {
   width: 154px;
@@ -2272,7 +2288,8 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_card_tooltip .rog_card_wrapper .rog_customer_cost .rog_cost_resource {
   -moz-column-gap: 20px;
        column-gap: 20px;
-  height: 62.5px;
+  height: 60px;
+  align-self: center;
 }
 .rog_card_tooltip .rog_card_wrapper .rog_customer_cost .rog_cost_resource[data-amount="0"] {
   width: 0px;
@@ -5831,6 +5848,17 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
 .rog_card_wrapper .rog_ongoing_ability .rog_icon_container_bonus-21 .rog_icon,
 .rog_card_wrapper .rog_endgame_ability .rog_icon_container_bonus-21 .rog_icon {
   transform: scale(0.2083333333) !important;
+}
+.rog_card_wrapper .rog_delivery_ability .rog_icon_container_bonus-23,
+.rog_card_wrapper .rog_ongoing_ability .rog_icon_container_bonus-23,
+.rog_card_wrapper .rog_endgame_ability .rog_icon_container_bonus-23 {
+  width: 2em !important;
+  height: 4em !important;
+}
+.rog_card_wrapper .rog_delivery_ability .rog_icon_container_bonus-23 .rog_icon,
+.rog_card_wrapper .rog_ongoing_ability .rog_icon_container_bonus-23 .rog_icon,
+.rog_card_wrapper .rog_endgame_ability .rog_icon_container_bonus-23 .rog_icon {
+  transform: scale(0.3614457831) !important;
 }
 .rog_card_wrapper .rog_delivery_ability .rog_icon_container_bonus-24,
 .rog_card_wrapper .rog_ongoing_ability .rog_icon_container_bonus-24,

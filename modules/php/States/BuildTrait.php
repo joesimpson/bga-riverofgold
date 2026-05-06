@@ -7,6 +7,7 @@ use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Collection;
+use ROG\Helpers\Utils;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
@@ -73,6 +74,8 @@ trait BuildTrait
 
     Meeples::addClanMarkerOnShoreSpace($tile,$player);
     Globals::setLastBuiltTile($tileId);
+    
+    Utils::playTradersAbilities($player);
     
     if(isset($playerPatron)){
       $playerPatron->scoreWhenBuild($player,$shoreSpace);
