@@ -1881,7 +1881,11 @@ function (dojo, declare, BgaAnimations) {
                 CUSTOMER_TYPE_ARTISAN, 
                 CUSTOMER_TYPE_ELDER, 
                 CUSTOMER_TYPE_MERCHANT, 
-                CUSTOMER_TYPE_NOBLE
+                CUSTOMER_TYPE_NOBLE,
+                CUSTOMER_TYPE_SMUGGLER,
+                CUSTOMER_TYPE_SHINDOSHI,
+                CUSTOMER_TYPE_SPY,
+                CUSTOMER_TYPE_TRADER,
             ]).forEach((cType) =>{
                 customersIcons += this.formatIcon('customer-'+cType);
             });
