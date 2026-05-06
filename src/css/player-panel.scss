@@ -478,7 +478,24 @@
         {
             width: 30px;
             height: 30px;
-            //TODO JSA ICON 
+            background-image: url("img/icons/miniCustomers.jpg");
+            background-position-y: 0%;
+            background-size: 500% 100%;
+        }
+        &.rog_icon_customer-6{
+            background-position-x: 0%;
+        }
+        &.rog_icon_customer-7{
+            background-position-x: 25%;
+        }
+        &.rog_icon_customer-8{
+            background-position-x: 50%;
+        }
+        &.rog_icon_customer-9{
+            background-position-x: 75%;
+        }
+        &.rog_icon_customer-10{
+            background-position-x: 100%;
         }
 
         &.rog_icon_clan-1{
