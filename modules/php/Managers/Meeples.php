@@ -6,6 +6,7 @@ use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
+use ROG\Models\Card;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
@@ -157,6 +158,19 @@ class Meeples extends \ROG\Helpers\Pieces
       'location' => MEEPLE_LOCATION_MERCHANT,
       'player_id' => $player->getId(),
       'state' => 0,
+    ];
+    $elt = self::singleCreate($meeple);
+    Notifications::newClanMarker($player,$elt);
+    return $elt;
+  }
+  
+  public static function addClanMarkerOnCard(Player $player, Card $card)
+  {
+    $meeple = [
+      'type' => MEEPLE_TYPE_CLAN_MARKER,
+      'location' => MEEPLE_LOCATION_CARD.$card->getId(),
+      'player_id' => $player->getId(),
+      'state' => 1,
     ];
     $elt = self::singleCreate($meeple);
     Notifications::newClanMarker($player,$elt);
@@ -371,5 +385,28 @@ class Meeples extends \ROG\Helpers\Pieces
       })->map(function($meeple){
         return $meeple->getPId();
       })->toArray(); 
+  }
+
+  /**
+   * @return Collection of Meeple placed on player cards filtered by Subtype and types
+   */
+  public static function getPlayerCardsMarkers(int $pId, int $cardSubType,array $cardTypes): Collection
+  {
+    $cardsIds = Cards::getIdsByTypes($cardSubType,$cardTypes);
+    $cardLocations = [];
+    foreach($cardsIds as $cardId){
+      $cardLocations[] = MEEPLE_LOCATION_CARD.$cardId;
+    }
+    return self::DB()->wherePlayer($pId)
+      ->whereIn(self::$prefix.'location', $cardLocations)
+      ->get();
+  }
+  
+  public static function removeClanMarkerById(Player $player,int $id) : void
+  {
+    $meeple = Meeples::get($id);
+    if(!isset($meeple)) return;
+    Notifications::removeClanMarker($player,$meeple);
+    self::DB()->delete($meeple->getId());
   }
 }

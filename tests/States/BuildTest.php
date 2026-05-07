@@ -45,6 +45,7 @@ final class BuildTest extends TestCase
         $args = $game->argBuild();
         
         self::assertEquals($expectedArgs, $args);
+        assertSame(false, Globals::getTurnMainActionDone());
     }
     
     public function test_Args_Build_WithLionMarker_Own(): void
@@ -192,6 +193,7 @@ final class BuildTest extends TestCase
         
         //Test go to next state
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+        assertSame(true, Globals::getTurnMainActionDone());
         //Test spend money to build :
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
         assertSame(14, $resources[RESOURCE_TYPE_MONEY]);

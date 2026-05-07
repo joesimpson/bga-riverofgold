@@ -81,6 +81,12 @@ function (dojo, declare, BgaAnimations) {
     const CARD_SMUGGLER_4   = 40;
     const CARD_SMUGGLER_5   = 41;
     const CARD_SMUGGLER_6   = 42;
+    const CARD_SHINDOSHI_1   = 43;
+    const CARD_SHINDOSHI_2   = 44;
+    const CARD_SHINDOSHI_3   = 45;
+    const CARD_SHINDOSHI_4   = 46;
+    const CARD_SHINDOSHI_5   = 47;
+    const CARD_SHINDOSHI_6   = 48;
 
     const MONK_TYPE_OWN_BUILDING = 1;
     const MONK_TYPE_OPPONENT_BUILDING = 2;
@@ -285,6 +291,7 @@ function (dojo, declare, BgaAnimations) {
                 ['scoreElder', 1200],
                 ['scoreArtisans', 1200],
                 ['scoreMerchants', 1200],
+                ['scoreMultiCustomers', 1200],
                 ['scoreCustomer', 1200],
                 ['addPoints', 1200],
                 ['scorePatron', 1200],
@@ -1099,16 +1106,26 @@ function (dojo, declare, BgaAnimations) {
                         this.selectedSpace = null; 
                     }
 
-                    Object.values(possibleMoves[shipId]).forEach((space) => {
-                        let div = $(`rog_river_space-${space}`);
-                        this.onClick(`${div.id}`, (evt) => {
-                            //CLICK SHIP DESTINATION
-                            [...riverSpacesDiv.querySelectorAll('.rog_river_space')].forEach((elt) => { elt.classList.remove('selected');});
-                            div.classList.add('selected');
-                            this.selectedSpace = div.dataset.pos;
-                            $(`btnConfirm`).classList.remove('disabled');
-                            $('btnConfirm').innerHTML = this.fsr(confirmMessage, { n: this.selectedSpace });
-                        });
+                    Object.entries(possibleMoves[shipId]).forEach(([key, space]) => {
+                        let callbackEachSpace = (space) => {
+                            let div = $(`rog_river_space-${space}`);
+                            this.onClick(`${div.id}`, (evt) => {
+                                //CLICK SHIP DESTINATION
+                                [...riverSpacesDiv.querySelectorAll('.rog_river_space')].forEach((elt) => { elt.classList.remove('selected');});
+                                div.classList.add('selected');
+                                this.selectedSpace = div.dataset.pos;
+                                $(`btnConfirm`).classList.remove('disabled');
+                                $('btnConfirm').innerHTML = this.fsr(confirmMessage, { n: this.selectedSpace });
+                            });
+                        };
+                        if(Array.isArray(space)){//key 'upriver'
+                            Object.values(space).forEach(( upSpace) => {  
+                                callbackEachSpace(upSpace.space);
+                            });
+                        }
+                        else {
+                            callbackEachSpace(space);
+                        }
                     });
                 });
             });
@@ -1484,6 +1501,11 @@ function (dojo, declare, BgaAnimations) {
         },
         notif_scoreMerchants(n) {
             debug('notif_scoreMerchants', n);
+            this.gainPoints(n.args.player_id,n.args.n);
+            this._counters[n.args.player_id].scoringRecap.customerBonuses.incValue(n.args.n);
+        },
+        notif_scoreMultiCustomers(n) {
+            debug('notif_scoreMultiCustomers', n);
             this.gainPoints(n.args.player_id,n.args.n);
             this._counters[n.args.player_id].scoringRecap.customerBonuses.incValue(n.args.n);
         },
@@ -1972,6 +1994,10 @@ function (dojo, declare, BgaAnimations) {
                 let bonus_icon = 'bonus_icon';
                 if(bonus_icon in args) {
                     args.bonus_icon = this.formatIcon('bonus-'+args.bonus_icon);
+                }
+                
+                if('customer_type' in args && 'customer_name' in args) {
+                    args.customer_name = this.formatIcon(`customer-${args.customer_type}`);
                 }
                 if('customers_types' in args && 'customers_icons' in args){
                     let icons = '';
@@ -2512,7 +2538,7 @@ function (dojo, declare, BgaAnimations) {
                 [CUSTOMER_TYPE_NOBLE,       this.fsr(_('${ship_upgrade} and gain ${influence_2} in ${region}.'),{ship_upgrade:this.formatIcon("bonus-"+BONUS_TYPE_UPGRADE_SHIP),influence_2:this.formatIcon("influence",2), region: regionIcon,})],
                 [CUSTOMER_TYPE_MAGISTRATE,       this.fsr(_('Gain ${influence} in ${region}.'),{ 'influence':this.formatIcon("influence",6),'n2':6, 'region': regionIcon,})],
                 [CUSTOMER_TYPE_SMUGGLER  ,       this.fsr(_('Gain ${influence} in ${region}. Gain an owner benefit from any ${icon_building}.'),{'influence':this.formatIcon("influence",2),'n2':2, 'region': regionIcon, 'icon_building':this.formatIcon("own_building")})],
-                [CUSTOMER_TYPE_SHINDOSHI ,       this.fsr(_(''),{ })],
+                [CUSTOMER_TYPE_SHINDOSHI ,       this.fsr(_('Gain ${influence} in ${region}. Place a clan marker on this card.'),{ 'influence':this.formatIcon("influence",2),'n2':2, 'region': regionIcon,})],
                 [CUSTOMER_TYPE_SPY       ,       this.fsr(_('Advance 1 step in the city of Lies without matching the die or losing influence ${line_break}OR${line_break} Gain ${icon_points}'),{ 'line_break':"<br><br>",'icon_points':this.formatIcon('score',5)})],
                 [CUSTOMER_TYPE_TRADER    ,       this.fsr(_('Gain ${influence} in ${region}.'),{ 'influence':this.formatIcon("influence",1),'n2':1, 'region': regionIcon,})],//NB_INFLUENCE_TRADER
             ]);
@@ -2584,6 +2610,13 @@ function (dojo, declare, BgaAnimations) {
                             break;
                     }
                     break;
+                case CUSTOMER_TYPE_SHINDOSHI:
+                    switch(card.type){
+                        case CARD_SHINDOSHI_1:
+                            ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to sail your ship upriver. You may not take this action if your ship would go above the northernmost space of the river.'), {});
+                            break;
+                    }
+                    break;
                 case CUSTOMER_TYPE_TRADER:
                     ongoingAbility = this.fsr(_('After taking your main action, if your die value is ${region}, gain ${score} & ${bonus}.'), {'region':regionIcon,'score':icon_score,'bonus':this.formatIcon('bonus-'+BONUS_TYPE_DRAW)});
                     break;
@@ -2638,6 +2671,9 @@ function (dojo, declare, BgaAnimations) {
                     }
                     break;
                     
+                case CUSTOMER_TYPE_SHINDOSHI:
+                    endgameAbility = this.fsr(_('${score} : ${n} ${element}'), {'score':icon_score,'n':'', 'element': this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN])});
+                    break;
                 case CUSTOMER_TYPE_SMUGGLER:
                     switch(card.type){
                         case CARD_SMUGGLER_1:
@@ -3250,6 +3286,12 @@ function (dojo, declare, BgaAnimations) {
             if (locationParts[0] == 'shore') {//MEEPLE_LOCATION_SHORE
                 let space = locationParts[1];
                 return document.getElementById(`rog_shore_space-${space}`);
+            }
+            if (locationParts[0] == 'card') {//MEEPLE_LOCATION_CARD
+                // on card
+                let cardId = locationParts[1];
+                $tileElt = $(`rog_card-${cardId}`);
+                return $tileElt;
             }
     
             console.error('Trying to get container of a meeple', meeple);

@@ -1826,7 +1826,6 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: 148px;
   height: 200px;
   border: 1px solid black;
-  box-shadow: 1px 1px 5px black;
   border-radius: 5px;
   background-size: 200% 500%;
   background-image: url("img/cards/customers.jpg");
@@ -1873,14 +1872,14 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-position-y: 100%;
 }
 .rog_card.selectable {
-  box-shadow: 0px 0px 7px 2px blue;
+  box-shadow: 0px 0px 0px 3px blue;
   cursor: pointer;
 }
 .rog_card.selectable:hover {
   transform: scale(1.1);
 }
 .rog_card.selected, .rog_card.selected:hover {
-  box-shadow: 0px 0px 7px 2px green;
+  box-shadow: 0px 0px 0px 3px green;
   z-index: 2;
 }
 .rog_card.selected.rog_selectedToDiscard .rog_card_wrapper::before, .rog_card.selected:hover.rog_selectedToDiscard .rog_card_wrapper::before {
@@ -1953,6 +1952,10 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   order: 1;
   margin-right: 1em;
 }
+.rog_card .rog_card_wrapper .rog_customer_cost .rog_cost_resource[data-res="5"] {
+  order: 2;
+  margin-right: 1em;
+}
 .rog_card .rog_card_wrapper .rog_customer_cost .rog_cost_resource[data-res="1"] {
   order: 3;
 }
@@ -1991,6 +1994,14 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_card .rog_card_wrapper .rog_customer_cost .rog_icon_container .rog_icon_rice {
   transform: rotate(90deg);
+}
+.rog_card .rog_card_wrapper .rog_customer_cost .rog_icon_container .rog_icon_favor {
+  width: 24px;
+  height: 24px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -168.3636363636px;
+  background-position-y: -111.8769230769px;
+  background-size: 1587.8787878788% 1541.5384615385%;
 }
 .rog_card .rog_card_wrapper .rog_delivery_ability,
 .rog_card .rog_card_wrapper .rog_ongoing_ability,
@@ -2087,6 +2098,22 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_card[data-customertype="7"] .rog_delivery_ability {
   left: 8%;
   width: 84%;
+}
+.rog_card[data-customertype="8"] .rog_customer_name {
+  top: 27%;
+}
+.rog_card[data-customertype="8"] .rog_customer_cost {
+  top: 37%;
+  height: 15%;
+}
+.rog_card[data-customertype="8"] .rog_delivery_ability {
+  height: 11%;
+}
+.rog_card[data-customertype="8"] .rog_ongoing_ability {
+  top: 68%;
+  height: 18%;
+  left: 4%;
+  width: 92%;
 }
 .rog_card[data-customertype="9"] .rog_customer_die {
   top: 7%;
@@ -2577,7 +2604,6 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   display: flex;
   border-radius: 10px;
   border: 2px solid black;
-  box-shadow: 1px 1px 10px black;
   background-color: rgba(213, 162, 87, 0.5098039216);
   position: relative;
   margin-left: 10px;
@@ -4604,6 +4630,16 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
       transform:translateY(-100%);
   }
   */
+  opacity: 0.3;
+}
+
+.rog_card .rog_meeple {
+  position: absolute;
+  width: 40px;
+  height: 40px;
+  right: 0;
+}
+.rog_card:hover .rog_meeple {
   opacity: 0.3;
 }
 

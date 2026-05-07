@@ -80,7 +80,10 @@ class CustomerCard extends Card
         $nbBuildings = Meeples::countPlayerBuildings($player->getId());
         if($nbBuildings>0) Globals::addBonus($player,BONUS_TYPE_ANY_OWNER_REWARD);
         break;
-
+      case CUSTOMER_TYPE_SHINDOSHI:
+        Players::gainInfluence($player,$this->getRegion(),NB_INFLUENCE_SHIN);
+        Meeples::addClanMarkerOnCard($player,$this);
+        break;
       case CUSTOMER_TYPE_SPY:
         Globals::addBonus($player,BONUS_TYPE_ADVANCE_OR_POINTS);
         break;

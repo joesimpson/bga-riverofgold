@@ -74,6 +74,7 @@ trait BuildTrait
 
     Meeples::addClanMarkerOnShoreSpace($tile,$player);
     Globals::setLastBuiltTile($tileId);
+    Globals::setTurnMainActionDone(true);
     
     Utils::playTradersAbilities($player);
     

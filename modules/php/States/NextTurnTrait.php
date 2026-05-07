@@ -36,6 +36,7 @@ trait NextTurnTrait
     Players::changeActive($nextPlayer->id);
     $nextPlayer->giveExtraTime();
     Globals::setTurnPlayer($nextPlayer->id);
+    Globals::setTurnMainActionDone(false);
 
     $this->addCheckpoint(ST_BEFORE_TURN);
     $this->gamestate->nextState('next');

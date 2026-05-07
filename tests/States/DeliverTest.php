@@ -39,6 +39,7 @@ final class DeliverTest extends TestCase
         $args = $game->argDeliver();
         
         assertSame($expectedArgs, $args);
+        assertSame(false, Globals::getTurnMainActionDone());
     }
     // -------------------------------------------------
  
@@ -69,6 +70,7 @@ final class DeliverTest extends TestCase
         assertSame(json_encode([BONUS_TYPE_REFILL_HAND]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsDeliver']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertSame(true, Globals::getTurnMainActionDone());
     }
     
     public function test_ActionDeliver_KO_WrongLocation(): void

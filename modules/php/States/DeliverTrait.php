@@ -54,6 +54,7 @@ trait DeliverTrait
 
     $card->setLocation(CARD_LOCATION_DELIVERED);
     Notifications::deliver($player,$card);
+    Globals::setTurnMainActionDone(true);
     
     $playerPatron = $player->getPatron();
     if(isset($playerPatron)){

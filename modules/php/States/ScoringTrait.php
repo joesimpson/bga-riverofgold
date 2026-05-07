@@ -138,6 +138,17 @@ trait ScoringTrait
       };
       $customScore($deliveredNobles);
 
+      //3.4 : SHin score remaining favor :
+      $resourceScored = RESOURCE_TYPE_SUN;
+      $favor = $player->getResource($resourceScored);
+      $nbShins = $player->getNbDeliveredCustomerByType(CUSTOMER_TYPE_SHINDOSHI);
+      $scoreForRemainingFavor = $nbShins * floor( $favor / NB_RESOURCES_FOR_1POINT_WITH_SHIN);
+      if($scoreForRemainingFavor>0) {
+        $player->addPoints($scoreForRemainingFavor,false);
+        Notifications::scoreMultiCustomers($player,CUSTOMER_TYPE_SHINDOSHI,$nbShins,$resourceScored,$favor,$scoreForRemainingFavor);
+        $endScoringDatas[$pid][SCORING_CUSTOMERS] += $scoreForRemainingFavor;
+      }
+
       //3.5 :  Smuggler Specific score 
       $deliveredSmugglers = $delivered->filter(function($card) {return CUSTOMER_TYPE_SMUGGLER == $card->getCustomerType();});
       $customScore($deliveredSmugglers);

@@ -462,6 +462,13 @@ abstract class Table
             $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location, $type, $subtype){return $card['card_location'] == $card_location && $card['type'] == $type && $card['subtype'] == $subtype;});
             return $filtered;
         }
+        if (preg_match("/^SELECT .* FROM `cards` WHERE `subType` = (?P<subtype>.*) AND \(`type` IN \((?P<types>.*)\)\)$/", $sql, $matches) == 1) {
+            $filtered = [];
+            $subtype = $matches['subtype'];
+            $types = explode(',',str_replace("'","",$matches['types']));
+            $filtered = array_filter(TestDatas::$cards,function ($card) use ( $types, $subtype){return in_array($card['type'], $types) && $card['subtype'] == $subtype;});
+            return $filtered;
+        }
         if (preg_match("/^SELECT (.*) FROM `meeples` WHERE `player_id` = (?P<player_id>.*) AND \(`meeple_location` = '(?P<meeple_location>.*)'\)$/", $sql, $matches) == 1) {
             $meeple_location = $matches['meeple_location'];
             $player_id = $matches['player_id'];

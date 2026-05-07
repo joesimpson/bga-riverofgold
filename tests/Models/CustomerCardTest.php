@@ -929,6 +929,54 @@ final class CustomerCardTest extends TestCase
         assertSame([BONUS_TYPE_ANY_OWNER_REWARD], json_decode(TestDatas::$players[1]['bonuses']));
     }
     
+    public function test_playDeliveryAbility_Shin_1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $cardType = 43;
+        $cardId = 11;
+        $cardRow = TestDatas::$cards[$cardId];
+        $cardRow['type'] = $cardType;
+        $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardType]);
+
+        $card->playDeliveryAbility($player);
+        
+        assertSame(2, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses']));
+        $expectedToken = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."$cardId",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        assertSame($expectedToken, TestDatas::$tokens[43]);
+    }
+    
+    public function test_playDeliveryAbility_Shin_6(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $cardType = 48;
+        $cardId = 11;
+        $cardRow = TestDatas::$cards[$cardId];
+        $cardRow['type'] = $cardType;
+        $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardType]);
+
+        $card->playDeliveryAbility($player);
+        
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[6]['meeple_state']);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses']));
+        $expectedToken = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."$cardId",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        assertSame($expectedToken, TestDatas::$tokens[43]);
+    }
+
     public function test_playDeliveryAbility_Trader_1(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

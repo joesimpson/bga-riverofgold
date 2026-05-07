@@ -13,6 +13,7 @@ use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
 use function PHPUnit\Framework\assertNotSame;
+use function PHPUnit\Framework\assertFalse;
 
 final class SailTest extends TestCase
 {
@@ -40,6 +41,7 @@ final class SailTest extends TestCase
         $args = $game->argSail();
         
         assertSame($expectedArgs, $args);
+        assertSame(false, Globals::getTurnMainActionDone());
     }
 
     public function test_Args_Noble5_ship1(): void
@@ -97,6 +99,125 @@ final class SailTest extends TestCase
         assertSame($expectedArgs, $args);
     }
     
+    public function test_Args_Shin1_upriver_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        Globals::setChoices(0);
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 2;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_5;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_1;
+        TestDatas::$tokens[21]['meeple_state'] = 5 ;
+        TestDatas::$tokens[21]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."13",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $expectedArgs = [
+            'spaces' => [
+                //['shipId' => positions]
+                21 => [ 
+                        7, //down
+                        'upriver' => [
+                            ['space' => 3, 'markerId' => 43], // up
+                            ['space' => 2, 'markerId' => 43], // up Noble +1
+                            ['space' => 4, 'markerId' => 43], // up Noble -1
+                        ],
+                        8, // down Noble +1
+                        6, // down Noble -1
+                       
+                    ],
+                22 => [
+                    2, //14 +2 = 2
+                    'upriver' => [
+                        ['space' => 12, 'markerId' => 43],// 14 -2 = 12
+                    ]
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argSail();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_Shin1_upriver_Pass_SomeUnreachable(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        Globals::setChoices(0);
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_5;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_1;
+        TestDatas::$tokens[21]['meeple_state'] = 2 ;
+        TestDatas::$tokens[21]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
+        TestDatas::$tokens[22]['meeple_state'] = 1 ;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."13",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $expectedArgs = [
+            'spaces' => [
+                //['shipId' => positions]
+                21 => [ 
+                        3, //down
+                        'upriver' => [
+                            ['space' => 1, 'markerId' => 43], // up
+                            //0, // up Noble +1         unreachable
+                            //-4, // up Noble -1 (=6)   unreachable
+                        ],
+                        4, // down Noble +1
+                        8, // down Noble -1 (=6)
+                       
+                    ],
+                22 => [
+                    2, //1+ 1 = 2
+                    //'upriver' => [
+                    //    0,//1-1 =0 unreachable
+                    //]
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argSail();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_Shin1_upriver_KO_clanMarkerSpent(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        Globals::setChoices(0);
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 2;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_5;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_1;
+        TestDatas::$tokens[21]['state'] = 5 ;
+        TestDatas::$tokens[21]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> 'discard','type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $expectedArgs = [
+            'spaces' => [
+                //['shipId' => positions]
+                21 => [7, 8,6],
+                22 => [
+                    2, //14 +2 = 2
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argSail();
+        
+        assertSame($expectedArgs, $args);
+    }
     // -------------------------------------------------
     public function test_ActionSail_Pass_Ship1(): void
     {
@@ -114,6 +235,7 @@ final class SailTest extends TestCase
         assertSame(4, $resources[RESOURCE_TYPE_MONEY]);//EMPTY_SPACE_REWARD*4
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsSail']);
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+        assertSame(true, Globals::getTurnMainActionDone());
     }
     
     public function test_ActionSail_Pass_CompleteJourney(): void
@@ -443,6 +565,30 @@ final class SailTest extends TestCase
         assertSame(19+1,TestDatas::$players[1]['player_score']);//+NB_POINTS_NOBLE_6
         $expectedBonuses = json_encode([ ]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionSail_Pass_Noble5_WithShin1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_5;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_1;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."13",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $shipId = 21;
+        $riverSpace = 1;//Move UPRIVER 
+        TestDatas::$tokens[$shipId]['meeple_state'] = 7;
+        TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
+
+        $game->actSailSelect($shipId,$riverSpace);
+        
+        assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
+        assertFalse( array_key_exists(43,TestDatas::$tokens));//removed clan marker
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
     }
     

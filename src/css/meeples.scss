@@ -292,6 +292,19 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         }
     }
 }
+.rog_card{
+    .rog_meeple{
+        position: absolute;
+        width: 40px;
+        height: 40px;
+        right: 0;
+    }
+    &:hover{
+        .rog_meeple{
+            opacity: 0.3;
+        }
+    }
+}
 .rog_shore_space{
     >.rog_meeple{
         transition: opacity 0.5s ease;

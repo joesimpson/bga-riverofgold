@@ -602,6 +602,24 @@ class Notifications
     );
   }
   
+  public static function scoreMultiCustomers(Player $player,int $customer_type, int $nbCustomers,int $typeResource,int $amountResources,int $points){
+    $msg = clienttranslate('${player_name} scores ${n} ${points} with ${n2} ${customer_name} and ${n3} remaining ${res_icon}');
+    self::notifyAll('scoreMultiCustomers',$msg,[ 
+        'player' => $player,
+        'n' => $points,
+        'points' => 'points',
+        'n2' => $nbCustomers,
+        'n3' => $amountResources,
+        'res_icon' => RESOURCES[$typeResource],
+        'res_type' => $typeResource,
+        'customer_name' => Cards::getCustomerTypeName($customer_type),
+        'customer_type' => $customer_type,
+        'preserve' => ['res_type','customer_type'],
+        'i18n' => ['customer_name'],
+      ],
+    );
+  }
+  
   /**
    * @param Player $player
    * @param CustomerCard $card

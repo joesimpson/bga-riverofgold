@@ -34,6 +34,7 @@ const BGA_GAMESTATE_GAMEVERSION = 300;
  const NB_INLUENCE_NOBLE = 2;
  const NB_INFLUENCE_SMUGGLER = 2;
  const NB_INFLUENCE_MAGISTRATE = 6;
+ const NB_INFLUENCE_SHIN = 2;
  const NB_INFLUENCE_TRADER = 1;
  const NB_INLUENCE_FLOWER = 11;
  const NB_INLUENCE_VOID = 1;
@@ -48,6 +49,7 @@ const BGA_GAMESTATE_GAMEVERSION = 300;
 
  const NB_RESOURCES_FOR_1POINT_WITH_ARTISAN = 3;
  const NB_RESOURCES_FOR_1POINT_WITH_MERCHANT = 5;
+ const NB_RESOURCES_FOR_1POINT_WITH_SHIN     = 1;
 
  const NB_INLUENCE_MERCHANT_1 = 1;
  const NB_MONEY_FOR_SELLING_MERCHANT_4 = 5;
@@ -138,6 +140,12 @@ const CARD_SMUGGLER_3   = 39;
 const CARD_SMUGGLER_4   = 40;
 const CARD_SMUGGLER_5   = 41;
 const CARD_SMUGGLER_6   = 42;
+const CARD_SHINDOSHI_1   = 43;
+const CARD_SHINDOSHI_2   = 44;
+const CARD_SHINDOSHI_3   = 45;
+const CARD_SHINDOSHI_4   = 46;
+const CARD_SHINDOSHI_5   = 47;
+const CARD_SHINDOSHI_6   = 48;
 const CARD_TRADER_1   = 55;
 const CARD_TRADER_2   = 56;
 const CARD_TRADER_3   = 57;
@@ -356,12 +364,14 @@ const MEEPLE_TYPE_SHIP_ROYAL = 3;
 const MEEPLE_TYPE_CLAN_MARKER = 2;
 
 const MEEPLE_LOCATION_TILE = 'tile-';//To be followed by tile id
+const MEEPLE_LOCATION_CARD = 'card-';//To be followed by card id
 CONST MEEPLE_LOCATION_INFLUENCE = 'i-';//To be followed by region number
 const MEEPLE_LOCATION_RIVER = 'r';
 CONST MEEPLE_LOCATION_ARTISAN = 'artisan-';//To be followed by region number
 CONST MEEPLE_LOCATION_ELDER = 'elder-';//To be followed by region number
 CONST MEEPLE_LOCATION_MERCHANT = 'merchant';
 const MEEPLE_LOCATION_SHORE   = 'shore-';//To be followed by space number
+
 
 const CLAN_CRAB =    1;
 const CLAN_MANTIS =  2;

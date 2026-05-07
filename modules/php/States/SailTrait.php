@@ -35,7 +35,7 @@ trait SailTrait
    * @param int $shipId
    * @param int $riverSpace
    */
-  public function actSailSelect($shipId,$riverSpace)
+  public function actSailSelect(int $shipId,int $riverSpace)
   { 
     self::checkAction('actSailSelect'); 
     self::trace("actSailSelect($shipId,$riverSpace)");
@@ -49,16 +49,37 @@ trait SailTrait
       throw new UnexpectedException(20,"You cannot Sail ship $shipId, see : ".json_encode($possibleShips));
     } 
     $possibleShipsDest = $possibleSpaces[$shipId];
+    $upriver = false;
+    $upspaces = [];
+    $markerId = null;
+    if(isset($possibleShipsDest['upriver']) ){
+      $upspaces = $possibleShipsDest['upriver'];
+    }
     if(!in_array($riverSpace, $possibleShipsDest)){
-      throw new UnexpectedException(21,"You cannot Sail to $riverSpace, see : ".json_encode($possibleShipsDest));
+      foreach($upspaces as $upspace){
+        if($riverSpace == $upspace['space']){
+          $markerId = $upspace['markerId'];
+          $upriver = true;
+          break;
+        }
+      }
+      if(!isset($markerId)){
+        throw new UnexpectedException(21,"You cannot Sail to $riverSpace, see : ".json_encode($possibleShipsDest));
+      }
     } 
     $ship = Meeples::get($shipId);
     $fromPosition = $ship->getPosition();
     $ship->setPosition($riverSpace);
     Globals::setLastSailedShip($shipId);
+    Globals::setTurnMainActionDone(true);
     Notifications::sail($player,$ship,$riverSpace);
     if($riverSpace < $fromPosition){
-      $this->completeJourney($player,$ship);
+      if($upriver){
+        Meeples::removeClanMarkerById($player,$markerId);
+      }
+      else {
+        $this->completeJourney($player,$ship);
+      }
     }
 
     $adjacentSpaces = ShoreSpaces::getAdjacentSpaces($riverSpace);
@@ -176,6 +197,13 @@ trait SailTrait
     $indexDieFace = array_search($nbMoves,DIE_FACES);
     $possibleSpaces = [];
     $boats = Meeples::getBoats($player->getId());
+    $upriver = false;
+    $cardMarkers = Meeples::getPlayerCardsMarkers($player->getId(),CARD_TYPE_CUSTOMER,[CARD_SHINDOSHI_1]);
+    if($cardMarkers->count() > 0){
+      //we may go upriver
+      $upriver = true;
+      $markerId = $cardMarkers->first()->getId();
+    }
     foreach($boats as $boat){
       
       //Basically 1 face only
@@ -192,7 +220,17 @@ trait SailTrait
         //ship position is between 1 and NB_RIVER_SPACES, and comes back at 1 after completing the journey
         $diePosition = $boat->getPosition() + $playableDieFace -1;
         $possibleSpaces[$boat->getId()][] = $diePosition % NB_RIVER_SPACES +1;
+
+        $diePositionUpRiver = $boat->getPosition() - $playableDieFace -1;
+        if($upriver && $diePositionUpRiver >= 0){
+          //we may go upriver but not farther than space 1
+          $possibleSpaces[$boat->getId()]['upriver'][] = [
+            'space' => $diePositionUpRiver % NB_RIVER_SPACES +1,
+            'markerId' => $markerId,
+          ];
+        }
       }
+
     }
     return $possibleSpaces;
   }
