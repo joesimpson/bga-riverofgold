@@ -10,6 +10,7 @@ use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
 use ROG\Models\CustomerCard;
+use ROG\Models\MAIN_ACTION;
 
 trait DeliverTrait
 {
@@ -54,7 +55,7 @@ trait DeliverTrait
 
     $card->setLocation(CARD_LOCATION_DELIVERED);
     Notifications::deliver($player,$card);
-    Globals::setTurnMainActionDone(true);
+    Globals::setTurnMainActionDone(MAIN_ACTION::DELIVER->value);
     
     $playerPatron = $player->getPatron();
     if(isset($playerPatron)){

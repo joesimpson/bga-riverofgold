@@ -13,6 +13,7 @@ use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Collection;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
+use ROG\Models\MAIN_ACTION;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -38,6 +39,8 @@ final class BuildTest extends TestCase
                 ShoreSpaces::getShoreSpace(2),
                 ShoreSpaces::getShoreSpace(3),
             ]),
+            'tiles' => [31,32,33,34],
+            'markerForEraTiles' => null,
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -45,7 +48,35 @@ final class BuildTest extends TestCase
         $args = $game->argBuild();
         
         self::assertEquals($expectedArgs, $args);
-        assertSame(false, Globals::getTurnMainActionDone());
+        assertSame(null, Globals::getTurnMainActionDone());
+    }
+    
+    public function test_Args_Build_Shin3(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_3;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        Globals::setChoices(0);
+        $expectedArgs = [
+            'spaces' => new Collection([
+                ShoreSpaces::getShoreSpace(1),
+                ShoreSpaces::getShoreSpace(2),
+                ShoreSpaces::getShoreSpace(3),
+            ]),
+            'tiles' => [31,32,33,34, 21, 101, ],
+            'markerForEraTiles' => 43,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argBuild();
+        
+        self::assertEquals($expectedArgs, $args);
     }
     
     public function test_Args_Build_WithLionMarker_Own(): void
@@ -63,6 +94,8 @@ final class BuildTest extends TestCase
                 ShoreSpaces::getShoreSpace(2),
                 ShoreSpaces::getShoreSpace(3),
             ]),
+            'tiles' => [31,32,33,34],
+            'markerForEraTiles' => null,
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -86,6 +119,8 @@ final class BuildTest extends TestCase
                 ShoreSpaces::getShoreSpace(2),
                 ShoreSpaces::getShoreSpace(3),
             ]),
+            'tiles' => [31,32,33,34],
+            'markerForEraTiles' => null,
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -193,7 +228,7 @@ final class BuildTest extends TestCase
         
         //Test go to next state
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
-        assertSame(true, Globals::getTurnMainActionDone());
+        assertSame(MAIN_ACTION::BUILD->value, Globals::getTurnMainActionDone());
         //Test spend money to build :
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
         assertSame(14, $resources[RESOURCE_TYPE_MONEY]);
@@ -360,6 +395,70 @@ final class BuildTest extends TestCase
         assertSame(20, TestDatas::$players[1]['player_score']);//+1
         assertSame(json_encode([BONUS_TYPE_DRAW]), TestDatas::$players[1]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+
+    public function test_actBuildSelect_Pass_CustomerShin3_Era1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 2;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":20}';
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_3;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        
+        $position = 9;
+        $tileId = 21;
+        
+        $game->actBuildSelect($position,$tileId);
+
+        //Test built Tile :
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[$tileId]['tile_location']);
+        assertSame($position, TestDatas::$tiles[$tileId]['tile_state']);
+        assertSame(TILE_LOCATION_BUILDING_DECK_ERA_1, Globals::getLastBuiltLocationOrigin());
+        //Test new clan marker on building Instead of old one :
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> "tile-$tileId",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1, ] );
+        assertSame(1, TestDatas::$stats[1]['nbActionsBuild']);
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE]);//No influence gain
+        assertSame(4, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(8, $resourcesP1[RESOURCE_TYPE_MONEY]);
+    }
+
+    public function test_actBuildSelect_Pass_CustomerShin3_Era2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 2;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":20}';
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_3;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        
+        $position = 9;
+        $tileId = 101;
+        
+        $game->actBuildSelect($position,$tileId);
+
+        //Test built Tile :
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[$tileId]['tile_location']);
+        assertSame($position, TestDatas::$tiles[$tileId]['tile_state']);
+        assertSame(TILE_LOCATION_BUILDING_DECK_ERA_2, Globals::getLastBuiltLocationOrigin());
+        //Test new clan marker on building Instead of old one :
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> "tile-$tileId",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1, ] );
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsBuild']);
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resourcesP1[RESOURCE_TYPE_RICE]);//Influence gain
+        assertSame(4, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(8, $resourcesP1[RESOURCE_TYPE_MONEY]);
     }
     // -------------------------------------------------
 }

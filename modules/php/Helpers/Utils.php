@@ -2,8 +2,12 @@
 namespace ROG\Helpers;
 
 use ROG\Core\Game;
+use ROG\Core\Globals;
 use ROG\Managers\Cards;
+use ROG\Managers\Meeples;
 use ROG\Models\CustomerCard;
+use ROG\Models\MAIN_ACTION;
+use ROG\Models\Meeple;
 use ROG\Models\Player;
 
 abstract class Utils 
@@ -101,5 +105,32 @@ abstract class Utils
                 CustomerCard::playOngoingAbility($player,$traderType);
             }
         }
+    }
+    
+    public static function getShindoshiMarker(int $player_id, int $type) : Meeple | null
+    {
+        $cardMarkers = Meeples::getPlayerCardsMarkers($player_id,CARD_TYPE_CUSTOMER,[$type]);
+        if($cardMarkers->count() > 0){
+            return $cardMarkers->first();
+        }
+        return null;
+    }
+    
+    /**
+     * @param int $stack : 1 or 2
+     * @return bool true if we don't want to see next tiles in that stack until some actions
+     */
+    public static function hideTopEraDeck(int $stack) : bool
+    {
+        if(Globals::getTurnMainActionDone() == MAIN_ACTION::BUILD->value) {
+            $builtTileLocation = Globals::getLastBuiltLocationOrigin();
+            if($stack == 1 && $builtTileLocation == TILE_LOCATION_BUILDING_DECK_ERA_1 ){
+                return true;
+            }
+            if($stack == 2 && $builtTileLocation == TILE_LOCATION_BUILDING_DECK_ERA_2 ){
+                return true;
+            }
+        }
+        return false;
     }
 }

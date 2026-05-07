@@ -12,6 +12,7 @@ use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
+use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
 use ROG\Models\ShoreSpace;
 
@@ -20,10 +21,24 @@ trait BuildTrait
    
   public function argBuild()
   { 
+    self::trace("argBuild().. ");
     $activePlayer = Players::getActive();
     $possibleSpaces = $this->listPossibleSpacesToBuild($activePlayer);
+    $possibleTiles = Tiles::getInLocation(TILE_LOCATION_BUILDING_ROW)->getIds();
+    $markerForEraTiles = null;
+    $shindoshi3 = Utils::getShindoshiMarker($activePlayer->getId(),CARD_SHINDOSHI_3);
+    if(isset($shindoshi3)){
+      self::trace("argBuild().. Shindoshi 3 may be used");
+      $markerForEraTiles = $shindoshi3->getId();
+      $nextEra1Card = Tiles::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1);
+      $nextEra2Card = Tiles::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2);
+      if(isset($nextEra1Card)) $possibleTiles[] = $nextEra1Card->getId();
+      if(isset($nextEra2Card)) $possibleTiles[] = $nextEra2Card->getId();
+    }
     $args = [
       'spaces' => $possibleSpaces,
+      'tiles' => $possibleTiles,
+      'markerForEraTiles' => $markerForEraTiles,
     ];
     $this->addArgsForUndo($args);
     return $args;
@@ -42,15 +57,25 @@ trait BuildTrait
     $pId = $player->id;
     $this->addStep();
 
-    $possibleSpaces = $this->listPossibleSpacesToBuild($player);
+    $args = $this->argBuild();
+    $possibleSpaces = $args['spaces'];
     $possibleSpacesIds = $possibleSpaces->map(function($space) {return $space->id;})->toArray();
     if(!in_array($position, $possibleSpacesIds)){
-      throw new UnexpectedException(10,"You cannot build on $position, see ids: ".json_encode($possibleSpaces->getIds()));
+      throw new UnexpectedException(10,"You cannot build on $position, see ids: ".json_encode($possibleSpacesIds));
     }
     $shoreSpace = ShoreSpaces::getShoreSpace($position); 
     $tile = Tiles::get($tileId);
-    if( TILE_LOCATION_BUILDING_ROW != $tile->getLocation()){
-      throw new UnexpectedException(12,"You cannot build tile $tileId");
+    $possibleTiles = $args['tiles'];
+    if(!in_array($tileId,$possibleTiles)){
+      throw new UnexpectedException(12,"You cannot build tile $tileId, see ids: ".json_encode($possibleTiles));
+    }
+    $previousLocation = $tile->getLocation();
+    if(in_array($previousLocation, [TILE_LOCATION_BUILDING_DECK_ERA_1,TILE_LOCATION_BUILDING_DECK_ERA_2] )){
+      $markerForEraTiles = $args['markerForEraTiles'];
+      if(isset($markerForEraTiles)){
+        Meeples::removeClanMarkerById($player,$markerForEraTiles);
+        $player->giveResource(NB_FAVOR_WITH_SHINDOSHI_3,RESOURCE_TYPE_SUN);
+      }
     }
     $previousPosition = $tile->getPosition();
     $playerPatron = $player->getPatron();
@@ -65,7 +90,7 @@ trait BuildTrait
     $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
     $tile->setPosition($position);
 
-    Notifications::build($player,$tile,$previousPosition);
+    Notifications::build($player,$tile,$previousPosition,$previousLocation);
     Stats::inc("nbActionsBuild", $player->getId());
 
     if(BUILDING_ROW_END == $previousPosition){
@@ -74,7 +99,8 @@ trait BuildTrait
 
     Meeples::addClanMarkerOnShoreSpace($tile,$player);
     Globals::setLastBuiltTile($tileId);
-    Globals::setTurnMainActionDone(true);
+    Globals::setLastBuiltLocationOrigin($previousLocation);
+    Globals::setTurnMainActionDone(MAIN_ACTION::BUILD->value);
     
     Utils::playTradersAbilities($player);
     

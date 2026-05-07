@@ -9,6 +9,7 @@ use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Models\MAIN_ACTION;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -43,7 +44,7 @@ final class SailTest extends TestCase
         $args = $game->argSail();
         
         assertSame($expectedArgs, $args);
-        assertSame(false, Globals::getTurnMainActionDone());
+        assertSame(null, Globals::getTurnMainActionDone());
     }
 
     public function test_Args_Noble5_ship1(): void
@@ -340,7 +341,7 @@ final class SailTest extends TestCase
         assertSame(4, $resources[RESOURCE_TYPE_MONEY]);//EMPTY_SPACE_REWARD*4
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsSail']);
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
-        assertSame(true, Globals::getTurnMainActionDone());
+        assertSame(MAIN_ACTION::SAIL->value, Globals::getTurnMainActionDone());
     }
     
     public function test_ActionSail_Pass_CompleteJourney(): void

@@ -249,6 +249,7 @@ final class BonusBuildingRewardTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
+        Globals::setLastBuiltTile(41);
         $args = $state->getArgs();
 
         $newState = $state->zombie(1, $args);

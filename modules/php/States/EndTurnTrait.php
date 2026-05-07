@@ -59,6 +59,8 @@ trait EndTurnTrait
     else {
       $turnPlayer->rollDie();
     }
+    //we can reveal now, because of the next checkpoint
+    Tiles::revealTopEraTiles();
     
     $this->addCheckpoint(ST_NEXT_TURN);
     $this->gamestate->nextState('next');

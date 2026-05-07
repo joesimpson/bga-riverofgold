@@ -30,6 +30,8 @@ $swdNamespaceAutoload = function ($class) {
 };
 spl_autoload_register($swdNamespaceAutoload, true, true);
 
+require_once 'modules/php/Models/Enums.php';
+
 use ROG\Core\Globals;
 use ROG\Core\Preferences;
 use ROG\Exceptions\UserException;

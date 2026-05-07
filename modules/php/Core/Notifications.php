@@ -258,15 +258,17 @@ class Notifications
    * @param Player $player
    * @param BuildingTile $tile
    * @param int $previousPosition
+   * @param string $previousLocation
    */
-  public static function build($player,$tile,$previousPosition)
+  public static function build(Player $player,BuildingTile $tile,int $previousPosition,string $previousLocation)
   {
     self::notifyAll('build', clienttranslate('${player_name} builds ${building_tile}'), [
       'player' => $player,
-      'preserve'=>['tile'],
+      'preserve'=>['tile','from','fromLoc'],
       'tile' => $tile->getUiData(),
       'building_tile' => $tile->getType(),
       'from' => $previousPosition,
+      'fromLoc' => $previousLocation,
     ]);
   }
   
@@ -693,6 +695,15 @@ class Notifications
           'era1' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1),
           'era2' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2),
         ],
+      ],
+    );
+  }
+
+  public static function revealTopEraTiles(?BuildingTile $nextEra1Card,?BuildingTile $nextEra2Card){
+    $msg = '';
+    self::notifyAll('revealTopEraTiles',$msg,[ 
+        'era1' => isset($nextEra1Card) ? $nextEra1Card->getUiData() : null,
+        'era2' => isset($nextEra2Card) ? $nextEra2Card->getUiData() : null,
       ],
     );
   }

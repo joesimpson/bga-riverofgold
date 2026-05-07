@@ -24,9 +24,10 @@ class Globals extends \ROG\Helpers\DB_Manager
     'endPlayer' => 'int',
 
     'lastBuiltTile' => 'int',
+    'lastBuiltLocationOrigin' => 'str',
     'lastSailedShip' => 'int',
     
-    'turnMainActionDone' => 'bool',
+    'turnMainActionDone' => 'str',
     
     //Trade is possible in many states, thus we need to keep a trace of the previous state
     'stateBeforeTrade' => 'int',
@@ -61,8 +62,9 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::setEndPlayer(null);
     self::setEndScoring([]);
     self::setLastBuiltTile(null);
+    self::setLastBuiltLocationOrigin(null);
     self::setLastSailedShip(null);
-    self::setTurnMainActionDone(false);
+    self::setTurnMainActionDone(null);
 
     foreach($players as $pId => $player){
       self::setFirstPlayer($pId);

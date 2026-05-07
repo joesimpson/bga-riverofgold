@@ -15,6 +15,7 @@ use ROG\Managers\Tiles;
 use ROG\Models\Meeple;
 use ROG\Models\BuildingTile;
 use ROG\Models\CustomerCard;
+use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
 
 trait SailTrait
@@ -25,9 +26,9 @@ trait SailTrait
     $activePlayer = Players::getActive();
     $possibleSpaces = $this->listPossibleSpacesToSail($activePlayer);
     $canSkipOwnerMarkerId = null;
-    $cardMarkers = Meeples::getPlayerCardsMarkers($activePlayer->getId(),CARD_TYPE_CUSTOMER,[CARD_SHINDOSHI_6]);
-    if($cardMarkers->count() > 0){
-      $canSkipOwnerMarkerId = $cardMarkers->first()->getId();
+    $shindoshi6 = Utils::getShindoshiMarker($activePlayer->getId(),CARD_SHINDOSHI_6);
+    if(isset($shindoshi6)){
+      $canSkipOwnerMarkerId = $shindoshi6->getId();
     }
     $args = [
       'spaces' => $possibleSpaces,
@@ -87,7 +88,7 @@ trait SailTrait
     $fromPosition = $ship->getPosition();
     $ship->setPosition($riverSpace);
     Globals::setLastSailedShip($shipId);
-    Globals::setTurnMainActionDone(true);
+    Globals::setTurnMainActionDone(MAIN_ACTION::SAIL->value);
     Notifications::sail($player,$ship,$riverSpace);
     if($riverSpace < $fromPosition){
       if($upriver){
@@ -222,11 +223,11 @@ trait SailTrait
     $possibleSpaces = [];
     $boats = Meeples::getBoats($player->getId());
     $upriver = false;
-    $cardMarkers = Meeples::getPlayerCardsMarkers($player->getId(),CARD_TYPE_CUSTOMER,[CARD_SHINDOSHI_1]);
-    if($cardMarkers->count() > 0){
+    $shindoshi1 = Utils::getShindoshiMarker($player->getId(),CARD_SHINDOSHI_1);
+     if(isset($shindoshi1)){
       //we may go upriver
       $upriver = true;
-      $markerId = $cardMarkers->first()->getId();
+      $markerId = $shindoshi1->getId();
     }
     foreach($boats as $boat){
       

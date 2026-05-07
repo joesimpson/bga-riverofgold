@@ -889,7 +889,7 @@
                 //    margin-bottom: 15px;
                 //}
                 //ORDER CARDS by type :
-                @for $i from 1 through 30 {
+                @for $i from 1 through 60 {
                     &[data-type="#{$i}"] {
                         order: $i;
                     }

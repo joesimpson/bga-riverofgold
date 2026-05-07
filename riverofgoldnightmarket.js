@@ -298,6 +298,7 @@ function (dojo, declare, BgaAnimations) {
                 ['discardBuildingRow', 500],
                 ['slideBuildingRow', null],
                 ['refillBuildingRow', 800],
+                ['revealTopEraTiles', 800],
                 ['emperorVisit', 2000],
                 ['emperorReward', 1500],
                 ['emperorVisitEnd', 2000],
@@ -699,6 +700,7 @@ function (dojo, declare, BgaAnimations) {
             this.selectedSpace = null; 
             let shoreSpacesDiv = $(`rog_shore_spaces`);
             let buildingRowDiv = $(`rog_building_row`);
+            let eraTileHolder = document.getElementById('rog_era_tile_holder');
             this.addPrimaryActionButton('btnConfirm', this.fsr(_('Select and pay ${n} Koku'), { n: 0 }), () => {
                 //let selectedBuilding = buildingRowDiv.querySelector(`.rog_tile.selected`);
                 //let selectedTileId = document.querySelector('.rog_button_building_tile.selected').dataset.id;
@@ -724,12 +726,18 @@ function (dojo, declare, BgaAnimations) {
                     }
                 });
             });
-            [...buildingRowDiv.querySelectorAll('.rog_tile')].forEach((tile) => {
+            let possibleTilesIds = args.tiles;
+            [...buildingRowDiv.querySelectorAll('.rog_tile'),
+             ...eraTileHolder.querySelectorAll('.rog_tile'),
+            ].forEach((tile) => {
                 let tileId = tile.dataset.id;
+                if(!possibleTilesIds.includes(parseInt(tileId))) return;
                 let buttonId = `btnTile_${tileId}`;
                 let callbackTileSelection = (evt) => {
                     document.querySelectorAll('.rog_button_building_tile').forEach( (e) => e.classList.remove('rog_selected_button') );
-                    buildingRowDiv.querySelectorAll('.rog_building_slot,.rog_tile').forEach( (e) => e.classList.remove('selected') );
+                    [...buildingRowDiv.querySelectorAll('.rog_building_slot,.rog_tile'),
+                        ...eraTileHolder.querySelectorAll('.rog_building_slot,.rog_tile'),
+                    ].forEach( (e) => e.classList.remove('selected') );
                     tile.classList.toggle('selected');
                     tile.parentNode.classList.toggle('selected');
                     $(buttonId).classList.toggle('rog_selected_button');
@@ -1369,7 +1377,16 @@ function (dojo, declare, BgaAnimations) {
         notif_build(n) {
             debug('notif_build: building a tile to the shore', n);
             if (!$(`rog_tile-${n.args.tile.id}`)) this.addTile(n.args.tile, this.getVisibleTitleContainer());
+            let fromLocation = n.args.fromLoc;
             let fromDiv = $(`rog_building_slot-${n.args.from}`);
+            if(fromLocation == TILE_LOCATION_BUILDING_DECK_ERA_1){
+                fromDiv = $(`rog_building_era-1`);
+                this._counters['deckSize1'].incValue(-1);
+            }
+            else if(fromLocation == TILE_LOCATION_BUILDING_DECK_ERA_2){
+                fromDiv = $(`rog_building_era-2`);
+                this._counters['deckSize2'].incValue(-1);
+            }
             let buildingType = n.args.tile.buildingType;
             this.slide(`rog_tile-${n.args.tile.id}`, this.getTileContainer(n.args.tile), {  
                 from: fromDiv.id, 
@@ -1584,6 +1601,17 @@ function (dojo, declare, BgaAnimations) {
             this._counters['deckSize1'].toValue(n.args.deckSize.era1);
             this._counters['deckSize2'].toValue(n.args.deckSize.era2);
 
+        },
+        notif_revealTopEraTiles(n) {
+            debug('notif_revealTopEraTiles: ', n);
+            //Era 1/2 stack top tile is updated :
+            [n.args.era1, n.args.era2,].forEach((eraTile) => {
+                if(!eraTile) return;
+                let tileEraDivId = `rog_tile-${eraTile.id}`;
+                if (!$(tileEraDivId)) {
+                    this.addTile(eraTile, this.getTileContainer(eraTile));
+                }
+            }); 
         },
         notif_emperorVisit(n) {
             debug('notif_emperorVisit: new era !', n);
@@ -2629,6 +2657,9 @@ function (dojo, declare, BgaAnimations) {
                     switch(card.type){
                         case CARD_SHINDOSHI_1:
                             ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to sail your ship upriver. You may not take this action if your ship would go above the northernmost space of the river.'), {});
+                            break;
+                        case CARD_SHINDOSHI_3:
+                            ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to build the top building off of either the Era 1 or the Era 2 stack and gain ${n} ${res_icon}'), {'n':1,'res_type':RESOURCE_TYPE_SUN,'res_icon':''});
                             break;
                         case CARD_SHINDOSHI_6:
                             ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to prevent other players from receving owner rewards from the buildings you visit.'), {});

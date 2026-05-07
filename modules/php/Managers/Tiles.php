@@ -3,8 +3,11 @@
 namespace ROG\Managers;
 
 use ROG\Core\Game;
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
+use ROG\Helpers\Utils;
+use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
 use ROG\Models\Reward;
 use ROG\Models\Tile;
@@ -52,9 +55,16 @@ class Tiles extends \ROG\Helpers\Pieces
       ->merge(self::getInLocation(TILE_LOCATION_MASTERY_RESERVED))
       ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_ROW))
       ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE));
-    if(isset($nextEra1Card)) $cards->append($nextEra1Card);
-    if(isset($nextEra2Card)) $cards->append($nextEra2Card);
+    if(isset($nextEra1Card) && !Utils::hideTopEraDeck(1)) $cards->append($nextEra1Card);
+    if(isset($nextEra2Card) && !Utils::hideTopEraDeck(2)) $cards->append($nextEra2Card);
     return $cards->ui();
+  } 
+  
+  public static function revealTopEraTiles()
+  {
+    $nextEra1Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1);
+    $nextEra2Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2);
+    Notifications::revealTopEraTiles($nextEra1Card,$nextEra2Card);
   } 
    
   /**
@@ -287,7 +297,7 @@ class Tiles extends \ROG\Helpers\Pieces
    * @return array  [1=> bool,2=> bool] true when last Era tile is moved to the row,
    * false otherwise
    */
-  public static function refillBuildingRow()
+  public static function refillBuildingRow() : array
   {
     Game::get()->trace("refillBuildingRow()");
     
@@ -342,6 +352,23 @@ class Tiles extends \ROG\Helpers\Pieces
           Game::get()->trace("Cannot refill $k from Era 2, we must be near the end");
         }
       }
+    if(Globals::getTurnMainActionDone() == MAIN_ACTION::BUILD->value) {
+      if(Globals::getLastBuiltLocationOrigin() == TILE_LOCATION_BUILDING_DECK_ERA_1 
+        && Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1) == 0
+      )
+      {
+        //Shindoshi 3 may build the last tile of the stack
+        $lastEra1TileMoved = true;
+      }
+      else if(Globals::getLastBuiltLocationOrigin() == TILE_LOCATION_BUILDING_DECK_ERA_2 
+        && Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2) == 0
+      )
+      {
+        //Shindoshi 3 may build the last tile of the stack
+        $lastEra2TileMoved = true;
+      }
+    }
+
     return [1=> $lastEra1TileMoved,2=> $lastEra2TileMoved];
   }
 
