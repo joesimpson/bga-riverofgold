@@ -14,6 +14,7 @@ use Tests\Utils\TestDatas;
 use function PHPUnit\Framework\assertSame;
 use function PHPUnit\Framework\assertNotSame;
 use function PHPUnit\Framework\assertFalse;
+use function PHPUnit\Framework\assertTrue;
 
 final class SailTest extends TestCase
 {
@@ -34,6 +35,7 @@ final class SailTest extends TestCase
                 21 => [6],
                 22 => [1],//14 +1 = 1
             ],
+            'canSkipOwner' => null,
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -62,6 +64,7 @@ final class SailTest extends TestCase
                     2, //14 +2 = 2
                 ],
             ],
+            'canSkipOwner' => null,
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -90,6 +93,7 @@ final class SailTest extends TestCase
                     6, //14 +1 +6 = 6
                 ],
             ],
+            'canSkipOwner' => null,
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -134,6 +138,7 @@ final class SailTest extends TestCase
                     ]
                 ],
             ],
+            'canSkipOwner' => null,
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -179,6 +184,7 @@ final class SailTest extends TestCase
                     //]
                 ],
             ],
+            'canSkipOwner' => null,
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -210,6 +216,105 @@ final class SailTest extends TestCase
                     2, //14 +2 = 2
                 ],
             ],
+            'canSkipOwner' => null,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argSail();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_Shin6_CanSkip(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        Globals::setChoices(0);
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_5;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_1;
+        TestDatas::$cards[12]['player_id'] = 1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_6;
+        TestDatas::$tokens[21]['meeple_state'] = 7;
+        TestDatas::$tokens[21]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."12",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."13",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $expectedArgs = [
+            'spaces' => [
+                //['shipId' => positions]
+                21 => [ 
+                        8, //down
+                        'upriver' => [
+                            ['space' => 6, 'markerId' => 43], // up
+                            ['space' => 5, 'markerId' => 43], // up Noble +1
+                            ['space' => 1, 'markerId' => 43], // up Noble -1 (=6)
+                        ],
+                        9, // down Noble +1
+                        13, // down Noble -1 (=+6)
+                       
+                    ],
+                22 => [
+                    1, //14 +1 = 1
+                    'upriver' => [
+                        ['space' => 13, 'markerId' => 43],// 14 -1 = 13
+                    ]
+                ],
+            ],
+            'canSkipOwner' => 44,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argSail();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_Shin6_CannotSkip(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        Globals::setChoices(0);
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_5;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_1;
+        TestDatas::$cards[12]['player_id'] = 1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_6;
+        TestDatas::$tokens[21]['meeple_state'] = 7;
+        TestDatas::$tokens[21]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."12",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        //if marker is not on card we cannot use it
+        //TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."13",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $expectedArgs = [
+            'spaces' => [
+                //['shipId' => positions]
+                21 => [ 
+                        8, //down
+                        'upriver' => [
+                            ['space' => 6, 'markerId' => 43], // up
+                            ['space' => 5, 'markerId' => 43], // up Noble +1
+                            ['space' => 1, 'markerId' => 43], // up Noble -1 (=6)
+                        ],
+                        9, // down Noble +1
+                        13, // down Noble -1 (=+6)
+                       
+                    ],
+                22 => [
+                    1, //14 +1 = 1
+                    'upriver' => [
+                        ['space' => 13, 'markerId' => 43],// 14 -1 = 13
+                    ]
+                ],
+            ],
+            'canSkipOwner' => null,
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -590,6 +695,124 @@ final class SailTest extends TestCase
         assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
         assertFalse( array_key_exists(43,TestDatas::$tokens));//removed clan marker
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionSail_Pass_Noble5_WithShin2_dontSkipRewards_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_5;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_1;
+        TestDatas::$cards[12]['player_id'] = 1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_6;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."12",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."13",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        TestDatas::$tiles[42]['tile_state'] = 3;//set opponent building next to this river space
+        $shipId = 21;
+        $riverSpace = 1;//Move UPRIVER thanks to Shin 1
+        $skipORewards = false;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 7;
+        TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
+
+        $game->actSailSelect($shipId,$riverSpace,$skipORewards);
+        
+        assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
+        assertFalse( array_key_exists(43,TestDatas::$tokens));//removed clan marker
+        assertSame( ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."13",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ], TestDatas::$tokens[44]);//NOT removed clan marker
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(9, $resourcesP1[RESOURCE_TYPE_MONEY]);//EMPTY_SPACE_REWARD*2 + 1 as owner reward + 3*2 as visitor reward
+        assertSame(19, TestDatas::$players[1]['player_score']);//+0
+        $resourcesP2 = json_decode(TestDatas::$players[2]['resources'], true);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP2[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_MONEY]);
+        assertSame(3, TestDatas::$players[2]['player_score']);//+1
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionSail_Pass_Noble5_WithShin2_skipRewards_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_5;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_1;
+        TestDatas::$cards[12]['player_id'] = 1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_6;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."12",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."13",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        TestDatas::$tiles[42]['tile_state'] = 3;//set opponent building next to this river space
+        $shipId = 21;
+        $riverSpace = 1;//Move UPRIVER thanks to Shin 1
+        $skipORewards = true;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 7;
+        TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
+
+        $game->actSailSelect($shipId,$riverSpace,$skipORewards);
+        
+        assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
+        assertFalse( array_key_exists(43,TestDatas::$tokens));//removed clan marker
+        assertFalse( array_key_exists(44,TestDatas::$tokens));//removed clan marker
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(9, $resourcesP1[RESOURCE_TYPE_MONEY]);//EMPTY_SPACE_REWARD*2 + 1 as owner reward + 3*2 as visitor reward
+        assertSame(19, TestDatas::$players[1]['player_score']);//+0
+        $resourcesP2 = json_decode(TestDatas::$players[2]['resources'], true);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP2[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_MONEY]);
+        assertSame(2, TestDatas::$players[2]['player_score']);//+0
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionSail_Pass_Noble5_WithShin2_skipRewards_KO(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_5;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_1;
+        TestDatas::$cards[12]['player_id'] = 1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_6;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."12",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        //TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."13",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $shipId = 21;
+        $riverSpace = 1;//Move UPRIVER thanks to Shin 1
+        $skipORewards = true;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 7;
+        TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot skip owner rewards now");
+        $game->actSailSelect($shipId,$riverSpace,$skipORewards);
     }
     
     public function test_ActionSail_Pass_Trader6(): void

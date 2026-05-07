@@ -295,6 +295,11 @@ class Notifications
     self::notifyAll('checkORewards', clienttranslate('Checking owner rewards...'), [
     ]);
   }
+  public static function skipOpponentOwnerRewards()
+  {
+    self::notifyAll('skipOORewards', clienttranslate('Skipping opponents\'s owner rewards...'), [
+    ]);
+  }
   public static function buildingOwnerRewards(Player $player,BuildingTile $tile)
   {
     self::notifyAll('buildingOwnerRewards', clienttranslate('${player_name} select owner rewards from tile ${building_tile}'), [

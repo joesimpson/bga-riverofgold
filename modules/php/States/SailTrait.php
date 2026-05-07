@@ -24,8 +24,14 @@ trait SailTrait
   { 
     $activePlayer = Players::getActive();
     $possibleSpaces = $this->listPossibleSpacesToSail($activePlayer);
+    $canSkipOwnerMarkerId = null;
+    $cardMarkers = Meeples::getPlayerCardsMarkers($activePlayer->getId(),CARD_TYPE_CUSTOMER,[CARD_SHINDOSHI_6]);
+    if($cardMarkers->count() > 0){
+      $canSkipOwnerMarkerId = $cardMarkers->first()->getId();
+    }
     $args = [
       'spaces' => $possibleSpaces,
+      'canSkipOwner' => $canSkipOwnerMarkerId,
     ];
     $this->addArgsForUndo($args);
     return $args;
@@ -34,16 +40,18 @@ trait SailTrait
   /**
    * @param int $shipId
    * @param int $riverSpace
+   * @param bool $skipOwner (Default false)
    */
-  public function actSailSelect(int $shipId,int $riverSpace)
+  public function actSailSelect(int $shipId,int $riverSpace, bool $skipOwner = false)
   { 
     self::checkAction('actSailSelect'); 
-    self::trace("actSailSelect($shipId,$riverSpace)");
+    self::trace("actSailSelect($shipId,$riverSpace,$skipOwner)");
 
     $player = Players::getCurrent();
     $this->addStep();
 
-    $possibleSpaces = $this->listPossibleSpacesToSail($player);
+    $args = $this->argSail();
+    $possibleSpaces = $args['spaces'];
     $possibleShips = array_keys($possibleSpaces);
     if(!in_array($shipId, $possibleShips)){
       throw new UnexpectedException(20,"You cannot Sail ship $shipId, see : ".json_encode($possibleShips));
@@ -52,6 +60,7 @@ trait SailTrait
     $upriver = false;
     $upspaces = [];
     $markerId = null;
+    $skipOwnerMarkerId = null;
     if(isset($possibleShipsDest['upriver']) ){
       $upspaces = $possibleShipsDest['upriver'];
     }
@@ -67,6 +76,13 @@ trait SailTrait
         throw new UnexpectedException(21,"You cannot Sail to $riverSpace, see : ".json_encode($possibleShipsDest));
       }
     } 
+    if($skipOwner){
+      if(!isset($args['canSkipOwner'])){
+        throw new UnexpectedException(22,"You cannot skip owner rewards now ");
+      }
+      $skipOwnerMarkerId = $args['canSkipOwner'];
+    }
+
     $ship = Meeples::get($shipId);
     $fromPosition = $ship->getPosition();
     $ship->setPosition($riverSpace);
@@ -127,6 +143,10 @@ trait SailTrait
     $players[$player->getId()] = $player;
     
     Notifications::checkOwnerRewards();
+    if(isset($skipOwnerMarkerId)){
+      Meeples::removeClanMarkerById($player,$skipOwnerMarkerId);
+      Notifications::skipOpponentOwnerRewards($player);
+    }
     $ownBuilding = false;
     $opponentBuilding = false;
     foreach($adjacentSpaces as $adjacentSpace){
@@ -138,9 +158,13 @@ trait SailTrait
         foreach($tile->ownerReward->entries as $reward){
           foreach($clanMarkers as $clanMarker){
             $owner = $players[$clanMarker->getPId()];
-            $reward->rewardPlayer($owner,$region,$tile);
             $ownBuilding = $ownBuilding || $clanMarker->getPId() == $player->getId();
             $opponentBuilding = $opponentBuilding || $clanMarker->getPId() != $player->getId();
+            if($clanMarker->getPId() != $player->getId() && isset($skipOwnerMarkerId)){
+              //Skip opponent rewards
+              continue;
+            }
+            $reward->rewardPlayer($owner,$region,$tile);
             //SAVE UPDATED PLAYER datas
             $players[$clanMarker->getPId()] = $owner;
           }

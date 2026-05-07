@@ -2337,17 +2337,17 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_card_tooltip .rog_card_wrapper .rog_delivery_ability,
 .rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability,
 .rog_card_tooltip .rog_card_wrapper .rog_endgame_ability {
-  font-size: 17px;
+  font-size: 16px;
 }
 .rog_card_tooltip .rog_card_wrapper .rog_delivery_ability .rog_icon_container .rog_icon,
 .rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability .rog_icon_container .rog_icon,
 .rog_card_tooltip .rog_card_wrapper .rog_endgame_ability .rog_icon_container .rog_icon {
-  transform: scale(1.1333333333) !important;
+  transform: scale(1.0666666667) !important;
 }
 .rog_card_tooltip .rog_card_wrapper .rog_delivery_ability .rog_icon_container .rog_icon.rog_icon_influence,
 .rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability .rog_icon_container .rog_icon.rog_icon_influence,
 .rog_card_tooltip .rog_card_wrapper .rog_endgame_ability .rog_icon_container .rog_icon.rog_icon_influence {
-  transform: scale(0.85) !important;
+  transform: scale(0.8) !important;
 }
 .rog_card_tooltip .rog_card_wrapper .rog_delivery_ability .rog_icon_container .rog_icon.rog_icon_influence .rog_icon_qty,
 .rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability .rog_icon_container .rog_icon.rog_icon_influence .rog_icon_qty,
@@ -2357,12 +2357,12 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_card_tooltip .rog_card_wrapper .rog_delivery_ability .rog_icon_container .rog_icon.rog_icon_bonus-21,
 .rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability .rog_icon_container .rog_icon.rog_icon_bonus-21,
 .rog_card_tooltip .rog_card_wrapper .rog_endgame_ability .rog_icon_container .rog_icon.rog_icon_bonus-21 {
-  transform: scale(0.5902777778) !important;
+  transform: scale(0.5555555556) !important;
 }
 .rog_card_tooltip .rog_card_wrapper .rog_delivery_ability .rog_icon_container .rog_icon.rog_icon_bonus-24,
 .rog_card_tooltip .rog_card_wrapper .rog_ongoing_ability .rog_icon_container .rog_icon.rog_icon_bonus-24,
 .rog_card_tooltip .rog_card_wrapper .rog_endgame_ability .rog_icon_container .rog_icon.rog_icon_bonus-24 {
-  transform: scale(1.0542635659) !important;
+  transform: scale(0.992248062) !important;
 }
 .rog_card_tooltip .rog_clan_card_wrapper .rog_clan_name {
   font-size: 20px;

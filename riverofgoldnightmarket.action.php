@@ -179,7 +179,8 @@
       self::checkVersion();
       $shipId = self::getArg( "s", AT_posint, true );
       $riverSpace = self::getArg( "r", AT_posint, true );
-      $this->game->actSailSelect($shipId,$riverSpace);
+      $skipOwner = self::getArg( "skipOwner", AT_bool, false, false );
+      $this->game->actSailSelect($shipId,$riverSpace,$skipOwner);
       self::ajaxResponse();
     }
     public function actDeliver()

@@ -1071,11 +1071,18 @@ function (dojo, declare, BgaAnimations) {
             this.selectedSpace = null; 
             let riverSpacesDiv = $(`rog_river_spaces`);
             let confirmMessage = _('Sail to river space #${n}');
+            let confirmMessageSkipO = _('Sail to #${n} and skip owner rewards');
             this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {n:0}), () => {
                 this.takeAction('actSailSelect', { s: this.selectedShipId,r: this.selectedSpace});
             }); 
+            if(args.canSkipOwner){
+                this.addPrimaryActionButton('btnConfirmSkipOwners', this.fsr(confirmMessageSkipO, {n:0}), () => {
+                    this.takeAction('actSailSelect', { s: this.selectedShipId,r: this.selectedSpace,'skipOwner':true});
+                }); 
+            }
             //DISABLED by default
             $(`btnConfirm`).classList.add('disabled');
+            if($(`btnConfirmSkipOwners`)) $(`btnConfirmSkipOwners`).classList.add('disabled');
 
             let possibleMoves = args.spaces;
             Object.keys(possibleMoves).forEach((shipId) => {
@@ -1085,6 +1092,10 @@ function (dojo, declare, BgaAnimations) {
                     //disable confirm while we don't know destination
                     $(`btnConfirm`).classList.add('disabled');
                     $('btnConfirm').innerHTML = this.fsr(confirmMessage, { n: 0 });
+                    if($(`btnConfirmSkipOwners`)) {
+                        $(`btnConfirmSkipOwners`).classList.add('disabled');
+                        $('btnConfirmSkipOwners').innerHTML = this.fsr(confirmMessageSkipO, { n: 0 });
+                    }
                     [...riverSpacesDiv.querySelectorAll('.rog_river_space')].forEach((elt) => { 
                         elt.classList.remove('selectable'); 
                         elt.classList.remove('selected');
@@ -1116,6 +1127,10 @@ function (dojo, declare, BgaAnimations) {
                                 this.selectedSpace = div.dataset.pos;
                                 $(`btnConfirm`).classList.remove('disabled');
                                 $('btnConfirm').innerHTML = this.fsr(confirmMessage, { n: this.selectedSpace });
+                                if($(`btnConfirmSkipOwners`)) {
+                                    $(`btnConfirmSkipOwners`).classList.remove('disabled');
+                                    $('btnConfirmSkipOwners').innerHTML = this.fsr(confirmMessageSkipO, { n: this.selectedSpace });
+                                }
                             });
                         };
                         if(Array.isArray(space)){//key 'upriver'
@@ -2614,6 +2629,9 @@ function (dojo, declare, BgaAnimations) {
                     switch(card.type){
                         case CARD_SHINDOSHI_1:
                             ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to sail your ship upriver. You may not take this action if your ship would go above the northernmost space of the river.'), {});
+                            break;
+                        case CARD_SHINDOSHI_6:
+                            ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to prevent other players from receving owner rewards from the buildings you visit.'), {});
                             break;
                     }
                     break;
