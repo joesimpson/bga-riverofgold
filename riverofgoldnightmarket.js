@@ -1710,7 +1710,7 @@ function (dojo, declare, BgaAnimations) {
             debug('notif_refreshHand: refreshing hand', n);
             this.gamedatas.cards = this.gamedatas.cards.concat(n.args.hand);
     
-            this.setupCards(); 
+            this.setupCards(false,true); 
         },
         
         ///////////////////////////////////////////////////
@@ -2510,12 +2510,14 @@ function (dojo, declare, BgaAnimations) {
         //  | |__| (_| | | | (_| \__ \
         //   \____\__,_|_|  \__,_|___/
         //////////////////////////////////////////////////////////
-        setupCards(keepHand = false) {
-            debug("setupCards",keepHand);
+        setupCards(keepHand = false, keepOthers = false) {
+            debug("setupCards",keepHand,keepOthers);
             // This function is refreshUI compatible
             //destroy previous cards
             document.querySelectorAll('.rog_card[id^="rog_card-"], .rog_clan_card[id^="rog_clan_card-"]').forEach((oCard) => {
-                if(keepHand && oCard.parentNode.parentNode.parentNode.classList.contains('rog_cards_hand')) return;
+                let inHand = oCard.parentNode.parentNode.parentNode.classList.contains('rog_cards_hand');
+                if(keepHand && inHand) return;
+                if(keepOthers && !inHand) return;
                 this.destroy(oCard);
             });
             if(!keepHand){
@@ -2523,9 +2525,11 @@ function (dojo, declare, BgaAnimations) {
                     this.empty(div);
                 });
             }
-            document.querySelectorAll('.rog_cards_delivered').forEach((div) => {
-                this.empty(div);
-            });
+            if(!keepOthers){
+                document.querySelectorAll('.rog_cards_delivered').forEach((div) => {
+                    this.empty(div);
+                });
+            }
             let cardIds = this.gamedatas.cards.map((card) => {
                 let divCardId = `rog_card-${card.id}`;
                 if(card.subtype == CARD_TYPE_CLAN_PATRON ) divCardId = `rog_clan_card-${card.id}`;
