@@ -134,6 +134,10 @@ trait PlayerTurnTrait
       throw new UnexpectedException(45,"You cannot play card $cardId with Action ".json_encode($action).", see ".json_encode(array_keys($possibleActions)));
     }
     $actionDatas = $possibleActions[$action];
+    
+    $customer = Cards::get($cardId);
+    Notifications::playCustomerAbility($player,$customer);
+    
     switch($action){
       case BEFORE_ACTION::SWAP_BOATS->value: 
         $sourceShips = $actionDatas['source'];
@@ -144,8 +148,6 @@ trait PlayerTurnTrait
         if(!in_array($dest, $destShips)){
           throw new UnexpectedException(45,"You cannot swap ships from $source to $dest");
         }
-        $customer = Cards::get($cardId);
-        Notifications::playCustomerAbility($player,$customer);
         Meeples::removeClanMarkerById($player,$markerId);
         $ship1 = Meeples::get($source);
         $ship2 = Meeples::get($dest);
@@ -161,9 +163,21 @@ trait PlayerTurnTrait
 
         break;
       case BEFORE_ACTION::MOVE_BUILDING->value: 
-        Notifications::message("TODO JSA MOVE_BUILDING $cardId, $markerId, $source,$dest");
-
-
+        $sourceTiles = $actionDatas['tiles'];
+        $destSpaces = $actionDatas['spaces'];
+        if(!in_array($source, $sourceTiles)){
+          throw new UnexpectedException(46,"You cannot move tile $source");
+        }
+        if(!in_array($dest, $destSpaces)){
+          throw new UnexpectedException(46,"You cannot move tile $source to $dest");
+        }
+        Meeples::removeClanMarkerById($player,$markerId);
+        $tile = Tiles::get($source);
+        $previousLocation = $tile->getLocation();
+        $previousPosition = $tile->getPosition();
+        $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
+        $tile->setPosition($dest);
+        Notifications::moveBuilding($player,$tile,$previousPosition,$previousLocation);
         break;
     }
 
@@ -215,6 +229,7 @@ trait PlayerTurnTrait
       if(isset($shindoshi4)){
         $cardId = $shindoshi4->getCardId();
         $cards[$cardId]['marker'] = $shindoshi4->getId();
+        $cards[$cardId]['actions'] = [];
         $playDatas = [];
         $playDatas['source'] = Meeples::getBoats($player->getId())->getIds();
         $playDatas['dest'] = Meeples::getBoats(null)->getIds();
@@ -224,10 +239,13 @@ trait PlayerTurnTrait
       if(isset($shindoshi5)){
         $cardId = $shindoshi5->getCardId();
         $cards[$cardId]['marker'] = $shindoshi5->getId();
+        $cards[$cardId]['actions'] = [];
         $playDatas = [];
         $playDatas['tiles'] = Tiles::getPlayerBuildingTilesIds($player->getId());
         $playDatas['spaces'] = ShoreSpaces::getAllEmptySpaces();
-        $cards[$cardId]['actions'][BEFORE_ACTION::MOVE_BUILDING->value] = $playDatas;
+        if(count($playDatas['tiles'])> 0 && count($playDatas['spaces'])> 0 ){
+          $cards[$cardId]['actions'][BEFORE_ACTION::MOVE_BUILDING->value] = $playDatas;
+        }
       }
     }
     return $cards;

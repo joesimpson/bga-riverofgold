@@ -272,6 +272,18 @@ class Notifications
     ]);
   }
   
+  public static function moveBuilding(Player $player,BuildingTile $tile,int $previousPosition,string $previousLocation)
+  {
+    self::notifyAll('moveBuilding', clienttranslate('${player_name} moves ${building_tile}'), [
+      'player' => $player,
+      'preserve'=>['tile','from','fromLoc'],
+      'tile' => $tile->getUiData(),
+      'building_tile' => $tile->getType(),
+      'from' => $previousPosition,
+      'fromLoc' => $previousLocation,
+    ]);
+  }
+  
   /**
    * @param Player $player
    * @param Meeple $ship

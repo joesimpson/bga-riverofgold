@@ -216,7 +216,7 @@ final class PlayerTurnTest extends TestCase
                                 'source' => [21,22,],
                                 'dest' => [21,22,23,24],
                             ],
-                        ] 
+                        ],
                     ],
                 13 => [ 'marker' => 44, 
                         'actions' => [
@@ -228,7 +228,57 @@ final class PlayerTurnTest extends TestCase
                                     21,22,23,24,25,26,27,28,29,30
                                 ],
                             ],
-                        ] 
+                        ],
+                    ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_PlayableCards_Shin4and5_NoEmptyShoreSpace(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_4;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_5;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."13",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        for($k = 0; $k<30;$k++){
+            //Fill all shore spaces
+            $index = 41+$k;
+            TestDatas::$tiles[$index] = TestDatas::$tiles[41];
+            TestDatas::$tiles[$index]['tile_id'] = $index;
+            TestDatas::$tiles[$index]['result_associative_index'] = $index;
+            TestDatas::$tiles[$index]['tile_state'] = $k +1;
+        }
+        Globals::setChoices(0);
+        $expectedArgs = [
+            'a' => [
+                'actSail',
+                'actPlayCard',
+            ],
+            'die_face' => 1,
+            'p_cards' => [ 
+                11 => [ 'marker' => 43, 
+                        'actions' => [
+                            BEFORE_ACTION::SWAP_BOATS->value => [
+                                'source' => [21,22,],
+                                'dest' => [21,22,23,24],
+                            ],
+                        ],
+                    ],
+                13 => [ 'marker' => 44, 
+                        'actions' => [
+                        ],
                     ],
             ],
             'previousSteps' => [],
@@ -479,6 +529,66 @@ final class PlayerTurnTest extends TestCase
         $game->actPlayCard($answer);
     }
     
+    public function test_ActionPlayCard_Shin5_MoveBuilding_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_5;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 11;
+        $markerId = 43;
+        $action = BEFORE_ACTION::MOVE_BUILDING->value;
+        $source = 41;
+        $dest = 20;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $game->actPlayCard($answer);
+        
+        //Test moved tile: 
+        assertSame($dest, TestDatas::$tiles[41]['tile_state']);
+        //Test stay in state
+        assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionPlayCard_Shin5_MoveBuilding_KO_Source(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_5;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 11;
+        $markerId = 43;
+        $action = BEFORE_ACTION::MOVE_BUILDING->value;
+        $source = 42;
+        $dest = 20;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot move tile $source");
+        $game->actPlayCard($answer);
+    }
+    public function test_ActionPlayCard_Shin5_MoveBuilding_KO_Dest(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_5;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 11;
+        $markerId = 43;
+        $action = BEFORE_ACTION::MOVE_BUILDING->value;
+        $source = 41;
+        $dest = 99;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot move tile $source to $dest");
+        $game->actPlayCard($answer);
+    }
     // -------------------------------------------------
  
     public function test_goToBonusStepIfNeeded_False(): void

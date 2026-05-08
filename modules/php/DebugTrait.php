@@ -365,7 +365,9 @@ trait DebugTrait
     $player = Players::getCurrent();
     for($k=0; $k<$nbBuildingsToAdd;$k++){
       $tile = Tiles::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1);
-      if(isset($tile)) $tile = Tiles::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2);
+      if(!isset($tile)) $tile = Tiles::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2);
+      if(!isset($tile)) $tile = Tiles::getTopOf(TILE_LOCATION_DISCARD);
+      if(!isset($tile)) $tile = Tiles::getTopOf(TILE_LOCATION_BUILDING_ROW);
       $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
       $position = ShoreSpaces::getAllEmptySpaces()[0];
       $tile->setPosition($position);

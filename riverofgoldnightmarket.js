@@ -274,6 +274,7 @@ function (dojo, declare, BgaAnimations) {
                 ['giveResource', 1000],
                 ['spendResource', 800],
                 ['build', 1300],
+                ['moveBuilding', 1300],
                 ['sail', 1300],
                 ['swapBoats', 1600],
                 ['newClanMarkers', 10],
@@ -776,8 +777,77 @@ function (dojo, declare, BgaAnimations) {
         //CLIENT STATE
         onEnteringStatePlayCardMoveBuilding(args) {
             debug('onEnteringStatePlayCardMoveBuilding', args);
+             this.bga.statusBar.setTitle( 
+                _('Select your building and an empty space')
+            );
+
+            let cardId = parseInt(args.cardId);
+            let markerId = parseInt(args.markerId);
+            let possibleSources = args.actionDatas.tiles;
+            let possibleDests = args.actionDatas.spaces;
+
             this.addCancelStateBtn(_('Return'));
-            //TODO JSA 
+            let confirmMessage = _('Confirm');
+
+            document.getElementById(`rog_card-${cardId}`).classList.add('selected');
+            
+            this.selectedTile = null; 
+            this.selectedSpace = null; 
+            this.selectedSpaceOrigin = null; 
+            this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {}), () => {
+                this.takeAction('actPlayCard', { 
+                    'answer': JSON.stringify({
+                        'cardId': cardId, 
+                        'markerId': markerId, 
+                        'action': args.action,
+                        'source': parseInt(this.selectedTile.dataset.id),
+                        'dest': parseInt(this.selectedSpace),
+                    }),
+                });
+            }); 
+            //DISABLED by default
+            $(`btnConfirm`).classList.add('disabled');
+
+            let shoreSpacesDiv = $(`rog_shore_spaces`);
+            Object.values(possibleDests).forEach((space) => {
+                let elt2 = $(`rog_shore_space-${space}`);
+                this.onClick(`${elt2.id}`, (evt) => {
+                    //CLICK SELECT DESTINATION
+                    shoreSpacesDiv.querySelectorAll('.rog_shore_space').forEach((elt) => {
+                        if(this.selectedTile && this.selectedTile.parentNode == elt) return;
+                        elt.classList.remove('selected');
+                    });
+                    let div = elt2;
+                    div.classList.add('selected');
+                    this.selectedSpace = div.dataset.pos;
+                    if(this.selectedTile != null){
+                        $(`btnConfirm`).classList.remove('disabled');
+                    }
+                });
+            });
+            let possibleTilesIds = possibleSources;
+            let builtTiles = [...shoreSpacesDiv.querySelectorAll('.rog_tile'),
+            ];
+            builtTiles.forEach((tile) => {
+                let tileId = tile.dataset.id;
+                if(!possibleTilesIds.includes(parseInt(tileId))) return;
+                let callbackTileSelection = (evt) => {
+                    builtTiles.forEach( (e) => e.classList.remove('selected') );
+                    tile.classList.toggle('selected');
+                    tile.parentNode.classList.toggle('selected');
+                    $(`btnConfirm`).classList.add('disabled');
+                    this.selectedTile = tile;
+                    if(this.selectedSpace != null){
+                        $(`btnConfirm`).classList.remove('disabled');
+                    }
+                    //For hover tile display :
+                    shoreSpacesDiv.querySelectorAll('.rog_shore_space.selectable').forEach((elt) => {
+                        elt.dataset.type = tile.dataset.type;
+                    });
+                };
+                this.onClick(`${tile.parentNode.id}`, callbackTileSelection);
+            });
+
         },
         
         onEnteringStateBeforeTurn(args){
@@ -1517,6 +1587,18 @@ function (dojo, declare, BgaAnimations) {
             }).then( ()=> {
                 //Not needed anymore, it is done in notif_newClanMarker
                 //this._counters[n.args.player_id].buildings[buildingType].incValue(1);
+            });
+        },
+        notif_moveBuilding(n) {
+            debug('notif_moveBuilding: moving a building tile already on the shore', n);
+            if (!$(`rog_tile-${n.args.tile.id}`)) this.addTile(n.args.tile, this.getVisibleTitleContainer());
+            let fromLocation = n.args.fromLoc;
+            let fromDiv = $(`rog_shore_space-${n.args.from}`);
+            let buildingType = n.args.tile.buildingType;
+            this.slide(`rog_tile-${n.args.tile.id}`, this.getTileContainer(n.args.tile), {  
+                from: fromDiv.id, 
+                phantom: false,
+            }).then( ()=> {
             });
         },
         notif_newClanMarkers(n) {
@@ -2804,7 +2886,10 @@ function (dojo, declare, BgaAnimations) {
                             ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to build the top building off of either the Era 1 or the Era 2 stack and gain ${n} ${res_icon}'), {'n':1,'res_type':RESOURCE_TYPE_SUN,'res_icon':''});
                             break;
                         case CARD_SHINDOSHI_4:
-                            ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to swap the position of one of your boats with any other boat on the river.'), {});
+                            ongoingAbility = this.fsr(_('Before taking your main action, you may remove the clan marker from this card to swap the position of one of your boats with any other boat on the river.'), {});
+                            break;
+                        case CARD_SHINDOSHI_5:
+                            ongoingAbility = this.fsr(_('Before taking your main action, you may remove the clan marker from this card to move a building you own to any open building site. Don\'t adjust the influence track for the build bonus, or pay additional koku.'), {});
                             break;
                         case CARD_SHINDOSHI_6:
                             ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to prevent other players from receving owner rewards from the buildings you visit.'), {});
