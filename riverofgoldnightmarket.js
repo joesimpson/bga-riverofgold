@@ -1355,7 +1355,9 @@ function (dojo, declare, BgaAnimations) {
             let cardsCosts = [];
             if(args._private.canReplaceGoods){
                 this.selectedMarkerId = args._private.canReplaceGoods.marker;
-                cardsCanReplaceGoods = args._private.canReplaceGoods.cards;
+                if(args._private.canReplaceGoods.cards){
+                    cardsCanReplaceGoods = args._private.canReplaceGoods.cards ;
+                }
                 cardsCosts = args._private.canReplaceGoods.cardsCosts;
             }
 
