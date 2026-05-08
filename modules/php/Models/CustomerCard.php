@@ -219,4 +219,15 @@ class CustomerCard extends Card
     }
     return $score;
   }
+
+  public function getCostAsTradeGoods() : int{
+    $sumNeededGoods = 0;
+    foreach($this->getCost() as $neededType => $neededAmount){
+      $isTradeGood = in_array($neededType, [RESOURCE_TYPE_SILK,RESOURCE_TYPE_RICE,RESOURCE_TYPE_POTTERY]);
+      if($isTradeGood){
+        $sumNeededGoods += $neededAmount;
+      }
+    }
+    return $sumNeededGoods;
+  }
 }

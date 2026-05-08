@@ -393,6 +393,7 @@ $machinestates = array(
         'type' => 'activeplayer',
         "possibleactions" => [
             "actDeliverSelect", 
+            "actDeliverReplace",
             'actRestart',
         ],
         "transitions" => [ 

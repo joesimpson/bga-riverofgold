@@ -1350,27 +1350,139 @@ function (dojo, declare, BgaAnimations) {
         onEnteringStateDeliver(args){
             debug('onEnteringStateDeliver', args);
 
+            let cards = args._private.c;
+            let cardsCanReplaceGoods = [];
+            let cardsCosts = [];
+            if(args._private.canReplaceGoods){
+                this.selectedMarkerId = args._private.canReplaceGoods.marker;
+                cardsCanReplaceGoods = args._private.canReplaceGoods.cards;
+                cardsCosts = args._private.canReplaceGoods.cardsCosts;
+            }
+
             this.selectedCardId = null;
             let confirmMessage = _('Deliver to ${customer_name}');
+            let confirmReplace = _('Deliver to ${customer_name} with ${icon_goods}');
             this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {customer_name:''}), () => {
                 this.takeAction('actDeliverSelect', { c: this.selectedCardId});
             }); 
             //DISABLED by default
             $(`btnConfirm`).classList.add('disabled');
 
-            let cards = args._private.c;
-            Object.values(cards).forEach((cardId) => {
-                let div = $(`rog_card-${cardId}`);
-                this.onClick(`${div.id}`, (evt) => {
-                    [...$(`rog_player_hand-${this.player_id}`).querySelectorAll('.rog_card')].forEach((elt) => { elt.classList.remove('selected');});
+            let icon_goods = this.formatIcon('bonus-'+BONUS_TYPE_CHOICE);
+            if(cardsCanReplaceGoods.length>0){
+                this.addImageActionButton('btnConfirmReplaceGoods', this.fsr(confirmReplace, {'customer_name':'', 'icon_goods':icon_goods}), () => {
+                    this.clientState('playCardDeliverAnyGood','', {
+                                            'cardId': this.selectedCardId,
+                                            'markerId': this.selectedMarkerId,
+                                            'cardsCosts': cardsCosts,
+                                        });
+                }); 
+                $(`btnConfirmReplaceGoods`).classList.add('disabled');
+            }
+
+            let playerCardsDivs = [...$(`rog_player_hand-${this.player_id}`).querySelectorAll('.rog_card')];
+            
+            playerCardsDivs.forEach((div) => {
+                let cardId = parseInt(div.dataset.id);
+                if(!cards.includes(cardId) && !cardsCanReplaceGoods.includes(cardId)) return;
+
+                let callbackCard =  (evt) => {
+                    playerCardsDivs.forEach((elt) => { elt.classList.remove('selected');});
                     div.classList.add('selected');
                     this.selectedCardId = cardId;
-                    $(`btnConfirm`).classList.remove('disabled');
+                    if(cards.includes(cardId)){
+                        $(`btnConfirm`).classList.remove('disabled');
+                    }
+                    else {
+                        $(`btnConfirm`).classList.add('disabled');
+                    }
                     $('btnConfirm').innerHTML = this.fsr(confirmMessage, { customer_name: div.dataset.customer_name });
-                });
+                    if($(`btnConfirmReplaceGoods`)){
+                        $('btnConfirmReplaceGoods').innerHTML = this.fsr(confirmReplace, { 'customer_name': div.dataset.customer_name,'icon_goods':icon_goods });
+                        if(cardsCanReplaceGoods.includes(cardId)){
+                            $(`btnConfirmReplaceGoods`).classList.remove('disabled');
+                        }
+                        else {
+                            $(`btnConfirmReplaceGoods`).classList.add('disabled');
+                        }
+                    }
+                };
+                
+                this.onClick(`${div.id}`, callbackCard);
             });
         },
         
+        //CLIENT STATE
+        onEnteringStatePlayCardDeliverAnyGood(args) {
+            debug('onEnteringStatePlayCardDeliverAnyGood', args);
+            this.bga.statusBar.setTitle( 
+                _('Select the goods to spend')
+            );
+            this.addCancelStateBtn(_('Return'));
+            
+            let cardId = parseInt(args.cardId);
+            let markerId = parseInt(args.markerId);
+            let cardsCosts = args.cardsCosts[cardId];
+            let totalCardCostAsGoods = 0;
+            if(cardsCosts[RESOURCE_TYPE_SILK]) totalCardCostAsGoods+= cardsCosts[RESOURCE_TYPE_SILK];
+            if(cardsCosts[RESOURCE_TYPE_RICE]) totalCardCostAsGoods+= cardsCosts[RESOURCE_TYPE_RICE];
+            if(cardsCosts[RESOURCE_TYPE_POTTERY]) totalCardCostAsGoods+= cardsCosts[RESOURCE_TYPE_POTTERY];
+            this.totalCount = 0;
+
+            document.getElementById(`rog_card-${cardId}`).classList.add('selected');
+
+            let iconSilk = this.formatIcon(RESOURCES[RESOURCE_TYPE_SILK]);
+            let iconRice = this.formatIcon(RESOURCES[RESOURCE_TYPE_RICE]);
+            let iconPottery = this.formatIcon(RESOURCES[RESOURCE_TYPE_POTTERY]);
+            this.quantities = new Map([
+                [RESOURCE_TYPE_SILK,0],
+                [RESOURCE_TYPE_RICE, 0],
+                [RESOURCE_TYPE_POTTERY, 0],
+            ]);
+
+            this.addImageActionButton(`btnReplaceGood`, `<div class='rog_trade'>
+                    <div class='rog_button_qty' id='qtyReplaceGood_${RESOURCE_TYPE_SILK}'>0</div>${iconSilk}
+                    <div class='rog_button_qty' id='qtyReplaceGood_${RESOURCE_TYPE_RICE}'>0</div>${iconRice}
+                    <div class='rog_button_qty' id='qtyReplaceGood_${RESOURCE_TYPE_POTTERY}'>0</div>${iconPottery}
+                </div>`, () =>  {
+                    this.takeAction('actDeliverReplace', {
+                        'cardId':cardId, 
+                        'silk': this.quantities.get(RESOURCE_TYPE_SILK  ),
+                        'rice': this.quantities.get(RESOURCE_TYPE_RICE  ),
+                        'pottery': this.quantities.get(RESOURCE_TYPE_POTTERY),
+                    });
+                });
+            $(`btnReplaceGood`).classList.add('disabled');
+            let callbackIncreaseResource = (res_type) => {
+                if(this.totalCount >= totalCardCostAsGoods){
+                    return;
+                } 
+                let count = this.quantities.get(res_type);
+                let maxToSpend = this._counters[this.player_id][RESOURCES[res_type]].getValue();
+                count++;
+                if(count > maxToSpend) return;
+                this.quantities.set(res_type,count);
+                document.getElementById(`qtyReplaceGood_${res_type}`).innerHTML = this.quantities.get(res_type);
+                this.totalCount = this.quantities.get(RESOURCE_TYPE_SILK)
+                                + this.quantities.get(RESOURCE_TYPE_RICE) 
+                                + this.quantities.get(RESOURCE_TYPE_POTTERY) ;
+                if(this.totalCount >= totalCardCostAsGoods){
+                    $(`btnReplaceGood`).classList.remove('disabled');
+                } 
+            };
+                
+            this.addSecondaryActionButton(`btnIncSilk`, `<div class='rog_trade'>
+                    <div class='rog_button_qty'>+1</div>${iconSilk}
+                </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_SILK)); 
+            this.addSecondaryActionButton(`btnIncRice`, `<div class='rog_trade'>
+                    <div class='rog_button_qty'>+1</div>${iconRice}
+                </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_RICE)); 
+            this.addSecondaryActionButton(`btnIncPottery`, `<div class='rog_trade'>
+                    <div class='rog_button_qty'>+1</div>${iconPottery}
+                </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_POTTERY)); 
+
+        },
+
         onEnteringStateDiscardCard(args){
             debug('onEnteringStateDiscardCard', args);
 
@@ -2881,6 +2993,9 @@ function (dojo, declare, BgaAnimations) {
                     switch(card.type){
                         case CARD_SHINDOSHI_1:
                             ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to sail your ship upriver. You may not take this action if your ship would go above the northernmost space of the river.'), {});
+                            break;
+                        case CARD_SHINDOSHI_2:
+                            ongoingAbility = this.fsr(_('When taking the deliver action, you may remove the clan marker from this card. If you do so, your die does not have to match the customer and all trade goods required are ${icon_goods}'), {'icon_goods':this.formatIcon('bonus-'+BONUS_TYPE_CHOICE)});
                             break;
                         case CARD_SHINDOSHI_3:
                             ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to build the top building off of either the Era 1 or the Era 2 stack and gain ${n} ${res_icon}'), {'n':1,'res_type':RESOURCE_TYPE_SUN,'res_icon':''});

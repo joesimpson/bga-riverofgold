@@ -37,7 +37,10 @@ trait PlayerTurnTrait
     }
     //Sail always possible
     $actions[] = 'actSail';
-    if(count($this->listPossibleCardsToDeliver($activePlayer))>0 ){
+    $argDeliver = $this->argDeliver()['_private'][$activePlayer->getId()];
+    if(count($argDeliver['c'])>0 
+    || count($argDeliver['canReplaceGoods'])>0 && count($argDeliver['canReplaceGoods']['cards'])>0
+    ){
       $actions[] = 'actDeliver';
     }
     $playableCards = $this->listPossibleCardsToPlay($activePlayer);
