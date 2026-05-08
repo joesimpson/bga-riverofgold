@@ -337,8 +337,14 @@
     &.rog_icon_container_customer-2,
     &.rog_icon_container_customer-3,
     &.rog_icon_container_customer-4,
-    &.rog_icon_container_customer-5{
-        margin-left: 0.2em;
+    &.rog_icon_container_customer-5,
+    &.rog_icon_container_customer-6,
+    &.rog_icon_container_customer-7,
+    &.rog_icon_container_customer-8,
+    &.rog_icon_container_customer-9,
+    &.rog_icon_container_customer-10
+    {
+        margin-left: 0.1em;
         margin-right: 0.1em;
     }
     
@@ -556,6 +562,22 @@
             top: 30px;
             margin-top: -30px;
         }
+    }
+}
+
+.rog_panel .rog_icon_container {
+    &.rog_icon_container_customer-1,
+    &.rog_icon_container_customer-2,
+    &.rog_icon_container_customer-3,
+    &.rog_icon_container_customer-4,
+    &.rog_icon_container_customer-5,
+    &.rog_icon_container_customer-6,
+    &.rog_icon_container_customer-7,
+    &.rog_icon_container_customer-8,
+    &.rog_icon_container_customer-9,
+    &.rog_icon_container_customer-10
+    {
+        display: block;
     }
 }
 

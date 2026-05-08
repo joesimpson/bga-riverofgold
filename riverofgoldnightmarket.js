@@ -2488,6 +2488,10 @@ function (dojo, declare, BgaAnimations) {
                     let customerName = value;
                     this._counters[pId].customers[customer] = this.createCounter(`rog_counter_${pId}_customer-${customer}`, player.customers[customer]);
                     this.addCustomTooltip(`rog_reserve_${pId}_customer-${customer}`, this.fsr(_('Deliveries to ${customer}'),{customer:customerName}));
+                    if(!this.gamedatas.customerTypes.includes(customer)){
+                        //HIDE this Resource in side panel if not used in current game
+                        this._counters[pId].customers[customer].span.parentElement.classList.add('rog_nodisplay');
+                    }
                 });
 
                 this.addCustomTooltip(`icon_point_${pId}`, _('Score'));
