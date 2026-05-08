@@ -8,7 +8,10 @@ use Bga\GameFramework\GamestateMachine;
 use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
+use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\ClientAnswer;
 use ROG\Managers\Players;
+use ROG\Models\BEFORE_ACTION;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -31,6 +34,7 @@ final class PlayerTurnTest extends TestCase
                 'actSail',
             ],
             'die_face' => 1,
+            'p_cards' => [],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -55,6 +59,7 @@ final class PlayerTurnTest extends TestCase
                 'actSail',
             ],
             'die_face' => 1,
+            'p_cards' => [],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -79,6 +84,7 @@ final class PlayerTurnTest extends TestCase
                 'actSail',
             ],
             'die_face' => 1,
+            'p_cards' => [],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -103,6 +109,7 @@ final class PlayerTurnTest extends TestCase
                 'actSail',
             ],
             'die_face' => 1,
+            'p_cards' => [],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -130,6 +137,100 @@ final class PlayerTurnTest extends TestCase
                 'actDeliver',
             ],
             'die_face' => 1,
+            'p_cards' => [],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_PlayableCards_Shin5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_4;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_5;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."13",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        Globals::setChoices(0);
+        $expectedArgs = [
+            'a' => [
+                'actBuild',
+                'actSail',
+                'actPlayCard',
+            ],
+            'die_face' => 1,
+            'p_cards' => [ 
+                13 => [ 'marker' => 43, 
+                        'actions' => [
+                            BEFORE_ACTION::MOVE_BUILDING->value => [
+                                'tiles' => [41,],
+                                'spaces' => [
+                                    1,2,3, 6,7,8,9,10,
+                                    11,12,13,14,15,16,17,18,19,20,
+                                    21,22,23,24,25,26,27,28,29,30
+                                ],
+                            ],
+                        ] 
+                    ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_PlayableCards_Shin4and5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_4;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_5;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."13",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        Globals::setChoices(0);
+        $expectedArgs = [
+            'a' => [
+                'actBuild',
+                'actSail',
+                'actPlayCard',
+            ],
+            'die_face' => 1,
+            'p_cards' => [ 
+                11 => [ 'marker' => 43, 
+                        'actions' => [
+                            BEFORE_ACTION::SWAP_BOATS->value => [
+                                'source' => [21,22,],
+                                'dest' => [21,22,23,24],
+                            ],
+                        ] 
+                    ],
+                13 => [ 'marker' => 44, 
+                        'actions' => [
+                            BEFORE_ACTION::MOVE_BUILDING->value => [
+                                'tiles' => [41,],
+                                'spaces' => [
+                                    1,2,3, 6,7,8,9,10,
+                                    11,12,13,14,15,16,17,18,19,20,
+                                    21,22,23,24,25,26,27,28,29,30
+                                ],
+                            ],
+                        ] 
+                    ],
+            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -204,6 +305,178 @@ final class PlayerTurnTest extends TestCase
         
         //Test go to next state
         assertSame(ST_PLAYER_TURN_DELIVER, GamestateMachine::$test_current_state);
+    }
+    
+    // -------------------------------------------------
+    public function test_ActionPlayCard_Shin4_SwapBoats_Pass_OwnBoats(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_4;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 11;
+        $markerId = 43;
+        $action = BEFORE_ACTION::SWAP_BOATS->value;
+        $source = 21;
+        $dest = 22;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $game->actPlayCard($answer);
+        
+        //Test moved ships positions: 
+        assertSame(14, TestDatas::$tokens[21]['meeple_state']);
+        assertSame(5,  TestDatas::$tokens[22]['meeple_state']);
+        //Test not moved ships positions: 
+        assertSame(3,  TestDatas::$tokens[23]['meeple_state']);
+        assertSame(24,  TestDatas::$tokens[24]['meeple_state']);
+        //Test stay in state
+        assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionPlayCard_SwapBoats_Pass_OpponentBoat(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_4;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 11;
+        $markerId = 43;
+        $action = BEFORE_ACTION::SWAP_BOATS->value;
+        $source = 21;
+        $dest = 23;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $game->actPlayCard($answer);
+        
+        //Test moved ships positions: 
+        assertSame(3,  TestDatas::$tokens[21]['meeple_state']);
+        assertSame(5,  TestDatas::$tokens[23]['meeple_state']);
+        //test unchanged player id :
+        assertSame(1,  TestDatas::$tokens[21]['player_id']);
+        assertSame(2,  TestDatas::$tokens[23]['player_id']);
+        //Test not moved ships positions: 
+        assertSame(14,  TestDatas::$tokens[22]['meeple_state']);
+        assertSame(24,  TestDatas::$tokens[24]['meeple_state']);
+        //Test stay in state
+        assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionPlayCard_Shin4_SwapBoats_KO_WrongCard(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_4;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 999;
+        $markerId = 43;
+        $action = BEFORE_ACTION::SWAP_BOATS->value;
+        $source = 21;
+        $dest = 22;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot play card $cardId");
+        $game->actPlayCard($answer);
+    }
+    
+    public function test_ActionPlayCard_Shin4_SwapBoats_KO_WrongMarker(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_4;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 11;
+        $markerId = 999;
+        $action = BEFORE_ACTION::SWAP_BOATS->value;
+        $source = 21;
+        $dest = 22;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot play card $cardId with marker $markerId");
+        $game->actPlayCard($answer);
+    }
+    public function test_ActionPlayCard_KO_WrongAction(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_4;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 11;
+        $markerId = 43;
+        $action = "WWWWWW";
+        $source = 21;
+        $dest = 22;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot play card $cardId with Action");
+        $game->actPlayCard($answer);
+    }
+    public function test_ActionPlayCard_KO_WrongSource(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_4;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 11;
+        $markerId = 43;
+        $action = BEFORE_ACTION::SWAP_BOATS->value;
+        $source = 23;
+        $dest = 22;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot swap ships from $source");
+        $game->actPlayCard($answer);
+    }
+    public function test_ActionPlayCard_KO_WrongDest(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_4;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 11;
+        $markerId = 43;
+        $action = BEFORE_ACTION::SWAP_BOATS->value;
+        $source = 21;
+        $dest = 99;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot swap ships from $source to $dest");
+        $game->actPlayCard($answer);
+    }
+    public function test_ActionPlayCard_KO_SourceDest(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_4;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 11;
+        $markerId = 43;
+        $action = BEFORE_ACTION::SWAP_BOATS->value;
+        $source = 21;
+        $dest = $source;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot swap ships in the same space");
+        $game->actPlayCard($answer);
     }
     
     // -------------------------------------------------

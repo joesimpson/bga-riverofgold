@@ -69,4 +69,15 @@ class Meeple extends \ROG\Helpers\DB_Model
     return null;
   }
   
+  /**
+   * @return int $cardId if this meeple is on a card, null otherwise
+   */
+  public function getCardId(): int|null{
+    $location = $this->getLocation();
+    if (preg_match("/^" . MEEPLE_LOCATION_CARD . "(?P<card>\d+)$/", $location, $matches) == 1) {
+      return $matches['card'];
+    }
+    return null;
+  }
+  
 }

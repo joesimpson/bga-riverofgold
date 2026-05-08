@@ -275,6 +275,7 @@ function (dojo, declare, BgaAnimations) {
                 ['spendResource', 800],
                 ['build', 1300],
                 ['sail', 1300],
+                ['swapBoats', 1600],
                 ['newClanMarkers', 10],
                 ['influenceClanMarkers', null],
                 ['newClanMarker', 800],
@@ -655,6 +656,128 @@ function (dojo, declare, BgaAnimations) {
             if(!possibleActions.includes('actDeliver')){
                 $('btnDeliver').classList.add('disabled');
             }
+            
+            if(possibleActions.includes('actPlayCard')){
+                
+                Object.entries(args.p_cards).forEach( ([cardId, cardDatas]) => {
+                    let markerId = cardDatas['marker'];
+                    let actions = cardDatas['actions'];
+                    let div = $(`rog_card-${cardId}`);
+                    let callbackCardSelection = null;
+                    Object.entries(actions).forEach( ([action, actionDatas]) => {
+                        switch(action){
+                            case 'SWAP_BOATS'://BEFORE_ACTION::SWAP_BOATS
+                                callbackCardSelection = () => {
+                                    this.clientState('playCardSwapBoats','', {
+                                        cardId: cardId,
+                                        markerId: markerId,
+                                        action: action,
+                                        actionDatas: actionDatas,
+                                    });
+                                };
+                                break;
+                            case 'MOVE_BUILDING'://BEFORE_ACTION::MOVE_BUILDING
+                                callbackCardSelection = () => {
+                                    this.clientState('playCardMoveBuilding','', {
+                                        cardId: cardId,
+                                        markerId: markerId,
+                                        action: action,
+                                        actionDatas: actionDatas,
+                                    });
+                                };
+                                break;
+                        }
+                    });
+                    if(callbackCardSelection) this.onClick(`${div.id}`, callbackCardSelection);
+                });
+            }
+        },
+        
+        //CLIENT STATE
+        onEnteringStatePlayCardSwapBoats(args) {
+            debug('onEnteringStatePlayCardSwapBoats', args);
+            this.bga.statusBar.setTitle( 
+                _('Select ${n} ships').replace('${n}',2) 
+            );
+
+            this.addCancelStateBtn(_('Return'));
+            
+            let cardId = parseInt(args.cardId);
+            let markerId = parseInt(args.markerId);
+            let possibleSources = args.actionDatas.source;
+            let possibleDests = args.actionDatas.dest;
+
+            this.selectedSource = null; 
+            this.selectedDest = null; 
+            this.selectedPosition1 = 0; 
+            this.selectedPosition2 = 0; 
+
+            document.getElementById(`rog_card-${cardId}`).classList.add('selected');
+            let riverSpacesDiv = $(`rog_river_spaces`);
+            let confirmMessage = _('Swap ships between river space #${n1} and #${n2}');
+            this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {'n1':0,'n2':0}), () => {
+                this.takeAction('actPlayCard', { 
+                    'answer': JSON.stringify({
+                        'cardId': cardId, 
+                        'markerId': markerId, 
+                        'action': args.action,
+                        'source': parseInt(this.selectedSource.dataset.id),
+                        'dest': parseInt(this.selectedDest.dataset.id),
+                    }),
+                });
+            }); 
+            //DISABLED by default
+            $(`btnConfirm`).classList.add('disabled');
+
+            let allShipsDivs = [...riverSpacesDiv.querySelectorAll('.rog_river_space .rog_meeple')];
+            allShipsDivs.forEach((divShip) => { 
+                let shipId = parseInt(divShip.dataset.id);
+                let possibleSource = possibleSources.includes(shipId);
+                let possibleDest = possibleDests.includes(shipId);
+                if(! possibleSource && ! possibleDest) return;
+                
+                this.onClick(divShip.id, (evt) => {
+                    if(this.selectedSource == divShip){
+                        //UNSELECT SOURCE
+                        this.selectedSource = null; 
+                        this.selectedPosition1 = 0;
+                        divShip.classList.remove('selected');
+                    } else if(this.selectedDest == divShip){
+                        //UNSELECT DEST
+                        this.selectedDest = null; 
+                        this.selectedPosition2 = 0;
+                        divShip.classList.remove('selected');
+                    } else {
+                        //SELECT
+                        divShip.classList.add('selected');
+                        if(!this.selectedSource && possibleSource){
+                            //SELECT SOURCE
+                            this.selectedSource = divShip;
+                            this.selectedPosition1 = divShip.parentNode.dataset.pos;//rog_river_space
+                        } else {
+                            //SELECT DEST
+                            if(this.selectedDest) this.selectedDest.classList.remove('selected');
+                            this.selectedDest = divShip;
+                            this.selectedPosition2 = divShip.parentNode.dataset.pos;//rog_river_space
+                        }
+                    }
+                    $('btnConfirm').innerHTML = this.fsr(confirmMessage, {'n1':this.selectedPosition1,'n2':this.selectedPosition2});
+                    if(this.selectedSource && this.selectedDest && (this.selectedPosition1 != this.selectedPosition2)){
+                        $(`btnConfirm`).classList.remove('disabled');
+                    }
+                    else {
+                        $(`btnConfirm`).classList.add('disabled');
+                    }
+                    
+                });
+
+            });
+        },
+        //CLIENT STATE
+        onEnteringStatePlayCardMoveBuilding(args) {
+            debug('onEnteringStatePlayCardMoveBuilding', args);
+            this.addCancelStateBtn(_('Return'));
+            //TODO JSA 
         },
         
         onEnteringStateBeforeTurn(args){
@@ -1463,6 +1586,21 @@ function (dojo, declare, BgaAnimations) {
             }).then( ()=> { 
                 divShip.dataset.pos = ship.pos;
                 this.updateRiverSpacesCounters();
+            });
+        },
+        
+        notif_swapBoats(n) {
+            debug('notif_swapBoats: ships are moved', n);
+            [n.args.ship1,n.args.ship2].forEach((ship) => {
+                let divShip = document.getElementById(`rog_meeple-${ship.id}`);
+                let fromDiv = divShip.parentNode;
+                this.slide(divShip.id, this.getMeepleContainer(ship), {  
+                    from: fromDiv.id, 
+                    phantom: false,
+                }).then( ()=> { 
+                    divShip.dataset.pos = ship.pos;
+                    this.updateRiverSpacesCounters();
+                });
             });
         },
         notif_setDie(n) {
@@ -2664,6 +2802,9 @@ function (dojo, declare, BgaAnimations) {
                             break;
                         case CARD_SHINDOSHI_3:
                             ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to build the top building off of either the Era 1 or the Era 2 stack and gain ${n} ${res_icon}'), {'n':1,'res_type':RESOURCE_TYPE_SUN,'res_icon':''});
+                            break;
+                        case CARD_SHINDOSHI_4:
+                            ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to swap the position of one of your boats with any other boat on the river.'), {});
                             break;
                         case CARD_SHINDOSHI_6:
                             ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to prevent other players from receving owner rewards from the buildings you visit.'), {});

@@ -287,6 +287,22 @@ class Notifications
     ]);
   }
   
+  public static function swapBoats(Player $player, Meeple $ship1, Player $player2,Meeple $ship2)
+  {
+    $sourcePosition = $ship2->getPosition();
+    $destPosition = $ship1->getPosition();
+    self::notifyAll('swapBoats', clienttranslate('${player_name} swaps a ${player_name2} ship at river space #${n1} with ${player_name3} ship at river space #${n2}'), [
+      'player' => $player,
+      'player2' => $player,
+      'player3' => $player2,
+      'ship1' => $ship1->getUiData(),
+      'ship2' => $ship2->getUiData(),
+      'n1' => $sourcePosition,
+      'n2' => $destPosition,
+      'preserve' => ['ship1','ship2'],
+    ]);
+  }
+  
   public static function checkVisitorRewards()
   {
     self::notifyAll('checkVRewards', clienttranslate('Checking visitor rewards...'), [
@@ -650,6 +666,24 @@ class Notifications
       ],
     );
   }
+
+  
+  public static function playCustomerAbility(Player $player,CustomerCard $card){
+    $msg = clienttranslate('${player_name} plays ${customer_name} ability');
+    self::notifyAll('playCustomerAbility',$msg,[ 
+        'player' => $player,
+        'card_id' => $card->getId(),
+        'customer_name' => [
+          'log'=> '${customer_type} ${region}',
+          'args'=> [
+            'i18n' => ['customer_type'],
+            'customer_type' => $card->getTitle(),
+            'region' => $card->getRegion(),
+          ]
+        ],
+      ],
+    );
+  }
   
   /**
    * @param Player $player
@@ -855,19 +889,23 @@ class Notifications
 
       unset($data['player']);
     }
-    /* not used in this game for now
     if (isset($data['player2'])) {
       $data['player_name2'] = $data['player2']->getName();
       $data['player_id2'] = $data['player2']->getId();
+      //for playername_wrapper
+      $data['player_color2'] = $data['player2']->getColor();
       unset($data['player2']);
+      $data['preserve'][] = 'player_color2';
     }
     
     if (isset($data['player3'])) {
       $data['player_name3'] = $data['player3']->getName();
       $data['player_id3'] = $data['player3']->getId();
+      //for playername_wrapper
+      $data['player_color3'] = $data['player3']->getColor();
       unset($data['player3']);
+      $data['preserve'][] = 'player_color3';
     }
-    */
   }
   
   /************************************

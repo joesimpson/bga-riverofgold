@@ -208,9 +208,11 @@ $machinestates = array(
             "actDeliver", 
             "actTrade", 
             "actSpendFavor", 
+            "actPlayCard",
             'actRestart',
         ],
         "transitions" => [ 
+            "continue" => ST_PLAYER_TURN,
             "build" => ST_PLAYER_TURN_BUILD, 
             "sail" => ST_PLAYER_TURN_SAIL, 
             "deliver" => ST_PLAYER_TURN_DELIVER, 
