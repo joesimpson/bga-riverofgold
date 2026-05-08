@@ -2539,8 +2539,8 @@ function (dojo, declare, BgaAnimations) {
             //update player color :
             this.gamedatas.players[pid].clan = clan;
             this.gamedatas.players[pid].color = color;
-            this.gamedatas.players[pid].color_back = (color == "ffffff") ? "bbbbbb" : null;
-            this.gamedatas.players[pid].color_back = (color == "ffff00") ? "5e5e5e" : null;
+            if(color == "ffffff") this.gamedatas.players[pid].color_back = "bbbbbb";
+            if(color == "ffff00") this.gamedatas.players[pid].color_back = "5e5e5e";
             let divSidePanel = this.bga.playerPanels.getElement(pid).parentNode.parentNode.parentNode;
             divSidePanel.dataset.color = color;
             divSidePanel.dataset.clan = clan;
