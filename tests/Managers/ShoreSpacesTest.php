@@ -93,4 +93,34 @@ final class ShoreSpacesTest extends TestCase
         assertSame( $expectedSpaces, $spaces );
     }
     // -------------------------------------------------
+    public function test_getUniqueAdjacentRiverSpaces(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $shoreSpaces = [
+            4,6,25
+        ];
+        $expectedSpaces = [
+            1,2,3,4,
+            11,12,13,
+        ];
+
+        $spaces = ShoreSpaces::getUniqueAdjacentRiverSpaces($shoreSpaces);
+        
+        assertSame( $expectedSpaces, $spaces );
+    }
+    public function test_getUniqueAdjacentRiverSpaces_Empty(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $shoreSpaces = [
+        ];
+        $expectedSpaces = [
+        ];
+
+        $spaces = ShoreSpaces::getUniqueAdjacentRiverSpaces($shoreSpaces);
+        
+        assertSame( $expectedSpaces, $spaces );
+    }
+    // -------------------------------------------------
 }

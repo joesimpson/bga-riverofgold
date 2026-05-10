@@ -64,11 +64,8 @@ class ClanPatronCard extends Card
   public function scoreWhenBuild(&$player,$shoreSpace){
     switch($this->getType()){
       case PATRON_TRADER://+1 point per adjacent river space
-        $nb = 0;
-        for($k=1;$k<=NB_RIVER_SPACES;$k++){
-          $shoresSpaces = ShoreSpaces::getAdjacentSpaces($k);
-          if(in_array($shoreSpace->id,$shoresSpaces)) $nb++;
-        }
+        $riverSpaces = ShoreSpaces::getAdjacentRiverSpaces($shoreSpace->id);
+        $nb = count($riverSpaces);
         $player->addPoints($nb,false);
         Notifications::scorePatron($player,$nb,$this);
         break;
@@ -189,6 +186,7 @@ class ClanPatronCard extends Card
       case PATRON_TATTOOED_MONK:
         Notifications::activePatron($player,$this);
         Players::gainInfluence($player,$customerRegion,NB_INFLUENCE_TATTOOED_MONK, $this);
+        Players::claimMasteries($player);
         break;
     }
   }

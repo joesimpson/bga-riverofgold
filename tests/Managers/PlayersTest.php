@@ -1936,5 +1936,140 @@ final class PlayersTest extends TestCase
         
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
     }
+    
+    // -------------------------------------------------
+    public function test_claimMasteries_typeWave_Inactive(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 13;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['type'] = 19;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tiles[43]['tile_state'] = 10;
+        TestDatas::$tokens[44] = TestDatas::$tokens[41];
+        TestDatas::$tokens[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44]['meeple_location'] = MEEPLE_LOCATION_TILE.'44';
+        TestDatas::$tiles[44] = TestDatas::$tiles[41];
+        TestDatas::$tiles[44]['tile_id'] = 44;
+        TestDatas::$tiles[44]['type'] = 25;
+        TestDatas::$tiles[44]['result_associative_index'] = 44;
+        TestDatas::$tiles[44]['tile_state'] = 11;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+    }
+    public function test_claimMasteries_typeWaves_Active_2Players_First(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 13;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['type'] = 19;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tiles[43]['tile_state'] = 10;
+        TestDatas::$tokens[44] = TestDatas::$tokens[41];
+        TestDatas::$tokens[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44]['meeple_location'] = MEEPLE_LOCATION_TILE.'44';
+        TestDatas::$tiles[44] = TestDatas::$tiles[41];
+        TestDatas::$tiles[44]['tile_id'] = 44;
+        TestDatas::$tiles[44]['type'] = 25;
+        TestDatas::$tiles[44]['result_associative_index'] = 44;
+        TestDatas::$tiles[44]['tile_state'] = 12;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+    }
+    
+    // -------------------------------------------------
+    public function test_claimMasteries_typeSunMoon_Inactive(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":5,"5":4,"6":0}';
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 14;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+    }
+    public function test_claimMasteries_typeSunMoon_Active_2Players_First(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":5,"5":5,"6":0}';
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 14;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+    }
+    
+    // -------------------------------------------------
+    public function test_claimMasteries_typeLightning_Inactive(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        TestDatas::$players[1]['player_score'] = 29;
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 15;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(29, TestDatas::$players[1]['player_score']);//29+0
+    }
+    public function test_claimMasteries_typeLightning_Active_2Players_First(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        TestDatas::$players[1]['player_score'] = 30;
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 15;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(35, TestDatas::$players[1]['player_score']);//30+5
+    }
+    public function test_claimMasteries_typeLightning_Active_AfterOtherMasteries(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":5,"5":5,"6":0}';
+        TestDatas::$players[1]['player_score'] = 25;
+        $player = Players::get(1);
+        TestDatas::$tiles[1]['type'] = 15;
+        TestDatas::$tiles[2]['type'] = 14;
+
+        Players::claimMasteries($player);
+        
+        assertSame(35, TestDatas::$players[1]['player_score']);//25+5+5
+    }
+    
     // -------------------------------------------------
 }

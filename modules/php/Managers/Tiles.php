@@ -171,6 +171,19 @@ class Tiles extends \ROG\Helpers\Pieces
     })->toArray());
     return $tilesIds;
   } 
+
+  public static function getPlayerBuildingTilesShoreSpace(int $player_id) : array
+  {
+    $tilesIds = Tiles::getPlayerBuildingTilesIds($player_id);
+    return self::DB()->select([self::$prefix.'state'])
+        ->where(static::$prefix . 'location', TILE_LOCATION_BUILDING_SHORE)
+        ->whereIn(static::$prefix . 'id', $tilesIds)
+        ->get()
+        ->map(function ($tile) {
+          return $tile->state;
+        })
+        ->toArray();
+  } 
   /**
    */
   public static function removeLastInBuildingRow()
@@ -428,6 +441,13 @@ class Tiles extends \ROG\Helpers\Pieces
       10 => $f([[3,4,5, ], [7,5,3] , MASTERY_TYPE_FIRE    ]), 
       11 => $f([[3,4,5, ], [7,5,3] , MASTERY_TYPE_VOID    ]), 
       12 => $f([[3,4,5, ], [7,5,3] , MASTERY_TYPE_WATER   ]), 
+      //New in V2
+      13 => $f([ [2],   [5]     , MASTERY_TYPE_WAVES       ]), 
+      14 => $f([ [2],   [5]     , MASTERY_TYPE_SUN_MOON    ]), 
+      15 => $f([ [2],   [5]     , MASTERY_TYPE_LIGHTNING   ]), 
+      16 => $f([[3,4,5, ], [7,5,3] , MASTERY_TYPE_WAVES       ]), 
+      17 => $f([[3,4,5, ], [7,5,3] , MASTERY_TYPE_SUN_MOON    ]), 
+      18 => $f([[3,4,5, ], [7,5,3] , MASTERY_TYPE_LIGHTNING   ]), 
     ];
   }
   

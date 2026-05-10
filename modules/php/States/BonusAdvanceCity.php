@@ -96,6 +96,7 @@ class BonusAdvanceCity extends GameState
         break;
       case BonusAdvanceCityChoice::POINTS->value :
         $player->addPoints(5);
+        Players::claimScoreMasteries($player);
         break;
     }
 

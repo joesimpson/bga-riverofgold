@@ -7,6 +7,7 @@ use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
+use ROG\Models\Player;
 
 trait EndTurnTrait
 {
@@ -113,10 +114,11 @@ trait EndTurnTrait
   /**
    * @param Player $player
    */
-  public function triggerLastTurn(&$player)
+  public function triggerLastTurn(Player &$player)
   { 
     Notifications::triggerLastTurn($player);
     $player->addPoints(NB_POINTS_FOR_GAME_END);
+    Players::claimScoreMasteries($player);
     Globals::setEndPlayer($player->getId());
     Stats::set( "endPlayer", $player->getId(), 1);
   }

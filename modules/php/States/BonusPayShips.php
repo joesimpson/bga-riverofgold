@@ -96,6 +96,8 @@ class BonusPayShips extends GameState
       $player->addPoints($args['points_pp']);
     }
 
+    Players::claimScoreMasteries($player);
+
     return ST_BONUS_CHOICE;
   }
 

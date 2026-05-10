@@ -119,6 +119,17 @@ class Players extends \ROG\Helpers\DB_Manager
       ->wherePlayer($pId)
       ->run();
   }
+  
+  public static function getUpdatedPlayerScore(int $pId) : int
+  {
+    Game::get()->trace("getUpdatedPlayerScore($pId)");
+
+    return self::DB()
+      ->select(['player_score'])
+      ->wherePlayer($pId)
+      ->get()->first()
+      ->getScore();
+  }
 
   public static function getActiveId()
   {
@@ -392,18 +403,41 @@ class Players extends \ROG\Helpers\DB_Manager
 
   }
   
+  public static function claimNotScoreMasteries(Player &$player){
+    Game::get()->trace("claimNotScoreMasteries()");
+    $masteryCards = Tiles::getMasteryToClaim()
+                    ->merge(Tiles::getMasteryReserved($player));
+    $masteriesTypesAboutScore = [MASTERY_TYPE_LIGHTNING];
+    $masteriesAboutScore = [];
+    foreach ($masteryCards as $tile) {
+      if(in_array($tile->scoringType,$masteriesTypesAboutScore)){
+        $masteriesAboutScore[] = $tile;
+        continue;
+      }
+      self::claimMastery($player,$tile);
+    }
+  }
+  public static function claimScoreMasteries(Player &$player){
+    Game::get()->trace("claimScoreMasteries()");
+    $masteryCards = Tiles::getMasteryToClaim()
+                    ->merge(Tiles::getMasteryReserved($player));
+    $masteriesTypesAboutScore = [MASTERY_TYPE_LIGHTNING];
+    foreach ($masteryCards as $tile) {
+      if(!in_array($tile->scoringType,$masteriesTypesAboutScore)){
+        continue;
+      }
+      self::claimMastery($player,$tile);
+    }
+  }
+
   /**
    * check each mastery card to check if player can claim it
    * @param Player $player 
    */
   public static function claimMasteries(Player &$player){
     Game::get()->trace("claimMasteries()");
-    //check each mastery card
-    $masteryCards = Tiles::getMasteryToClaim()
-                    ->merge(Tiles::getMasteryReserved($player));
-    foreach ($masteryCards as $tile) {
-      self::claimMastery($player,$tile);
-    }
+    Players::claimNotScoreMasteries($player);
+    Players::claimScoreMasteries($player);
   }
   
   /**
@@ -493,6 +527,30 @@ class Players extends \ROG\Helpers\DB_Manager
             $claim = true;
             break;
           }
+        }
+        break;
+      //----------------------------------------------------------------------
+      case MASTERY_TYPE_WAVES: //7 unique river spaces near player buildings
+        $shoreSpaces = Tiles::getPlayerBuildingTilesShoreSpace($pId);
+        $riverSpaces = ShoreSpaces::getUniqueAdjacentRiverSpaces($shoreSpaces);
+        if(count($riverSpaces) >= NB_SPACES_FOR_MASTERY_WAVES){
+          $claim = true;
+        }
+        break;
+      //----------------------------------------------------------------------
+      case MASTERY_TYPE_SUN_MOON: //>=5 favor
+        if($player->getResource(RESOURCE_TYPE_SUN) >= NB_FAVOR_FOR_MASTERY_SUN_MOON){
+          $claim = true;
+        }
+        break;
+      //----------------------------------------------------------------------
+      case MASTERY_TYPE_LIGHTNING:
+        $playerScore = Players::getUpdatedPlayerScore($pId);
+        if($playerScore >= NB_POINTS_FOR_MASTERY_LIGHTNING){
+          $claim = true;
+        }
+        else {
+          Game::get()->trace("claimMastery(MASTERY_TYPE_LIGHTNING) score $playerScore is not enough "); 
         }
         break;
       //----------------------------------------------------------------------

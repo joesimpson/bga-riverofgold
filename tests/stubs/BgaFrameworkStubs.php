@@ -526,6 +526,12 @@ abstract class Table
             return $filtered;
         }
         
+        if (preg_match("/^SELECT .* FROM `tiles` WHERE `tile_location` = '(?P<tile_location>.*)' AND \(`tile_id` IN \((?P<tile_ids>.*)\)\)$/", $sql, $matches) == 1) {
+            $tile_ids = explode(',', str_replace("'","",$matches['tile_ids']) );
+            $tile_location = ($matches['tile_location']);
+            $filtered = array_filter(TestDatas::$tiles,function ($t) use($tile_location, $tile_ids) {return $t['tile_location'] == $tile_location && in_array($t['tile_id'], $tile_ids);});
+            return $filtered;
+        }
         if (preg_match("/^SELECT .* FROM `tiles` WHERE `tile_location` = '(?P<tile_location>.*)' AND \(`tile_state` IN \((?P<tile_states>.*)\)\)$/", $sql, $matches) == 1) {
             $tile_states = explode(',', str_replace("'","",$matches['tile_states']) );
             $tile_location = ($matches['tile_location']);

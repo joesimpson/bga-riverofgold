@@ -221,4 +221,26 @@ class ShoreSpaces
     }
     return [];
   }
+  
+  public static function getAdjacentRiverSpaces(int $shoreSpace) : array 
+  {
+    $riverSpaces = [];
+    for($k=1;$k<=NB_RIVER_SPACES;$k++){
+      $shoresSpaces = ShoreSpaces::getAdjacentSpaces($k);
+      if(in_array($shoreSpace,$shoresSpaces)) {
+        $riverSpaces[] = $k;
+      }
+    }
+    return $riverSpaces;
+  }
+  
+  public static function getUniqueAdjacentRiverSpaces(array $shoreSpaces) : array 
+  {
+    $riverSpaces = [];
+    foreach($shoreSpaces as $shoreSpace){
+      $riverSpaces = array_merge($riverSpaces,ShoreSpaces::getAdjacentRiverSpaces($shoreSpace));
+    }
+    $uniqueRiverSpaces = array_values(array_unique($riverSpaces));
+    return $uniqueRiverSpaces;
+  }
 }

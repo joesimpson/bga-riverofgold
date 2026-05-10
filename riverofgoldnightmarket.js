@@ -104,6 +104,9 @@ function (dojo, declare, BgaAnimations) {
     const MASTERY_TYPE_FIRE   = 4;
     const MASTERY_TYPE_VOID   = 5;
     const MASTERY_TYPE_WATER  = 6;
+    const MASTERY_TYPE_WAVES     = 7;
+    const MASTERY_TYPE_SUN_MOON  = 8;
+    const MASTERY_TYPE_LIGHTNING = 9;
 
     const TILE_LOCATION_SCORING = 's';
     const TILE_LOCATION_MASTERY_CARD = 'm';
@@ -3477,6 +3480,9 @@ function (dojo, declare, BgaAnimations) {
                 [MASTERY_TYPE_FIRE,     this.fsr(_('Deliver to 2 customers of the same type.'),{})],
                 [MASTERY_TYPE_VOID,     this.fsr(_('Have at least ${influence_1} in all 6 regions.'),{influence_1:this.formatIcon("influence",1)})],
                 [MASTERY_TYPE_WATER,    this.fsr(_('Own 1 building of each type.'),{})],
+                [MASTERY_TYPE_WAVES    ,this.fsr(_('Own buildings adjacent to ${n} unique river spaces.'),{'n':7})],//NB_SPACES_FOR_MASTERY_WAVES
+                [MASTERY_TYPE_SUN_MOON ,this.fsr(_('Have ${n} or more divine favor on hand.'),{'n':5})],//NB_FAVOR_FOR_MASTERY_SUN_MOON
+                [MASTERY_TYPE_LIGHTNING,this.fsr(_('Reach ${score} or higher.'),{'n':30,'score':this.formatIcon('score',30)})],//NB_POINTS_FOR_MASTERY_LIGHTNING
             ]);
             let description = descriptionMap.get(tile.scoringType);
             return description;
