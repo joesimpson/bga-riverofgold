@@ -107,11 +107,11 @@ trait BonusChoiceTrait
         $nextState = 'bonusDraw';
         Notifications::refillHand($player);
         $missingInDeck = Cards::drawCardsToHand($player,2);
-        if($missingInDeck==0){
+        if($missingInDeck < 2 ){
           //ACTION IS NOT UNDOABLE
           $this->addCheckpoint(ST_DISCARD_CARD);
         }
-        else {
+        if($missingInDeck > 0){
           //Don't force a discard in this case
           $nextState = 'continue';
         }
