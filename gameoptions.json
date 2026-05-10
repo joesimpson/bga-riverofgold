@@ -31,14 +31,19 @@
                 "tmdisplay": "Trade & Favor",
                 "description": "Play with Artisan, Monk, Noble, Smuggler, Shindōshi, Trader"
             },
+            "4": {
+                "name": "Building Influence",
+                "tmdisplay": "Building Influence",
+                "description": "Play with Artisan, Elder, Merchant, Magistrate, Smuggler, Trader"
+            },
             "2": {
                 "name": "Into the City",
                 "tmdisplay": "Into the City",
                 "description": "Play with Elder, Merchant, Monk, Noble, Magistrate, Spy (uses the City of Lies module)"
             },
             "3": {
-                "name": "Night Market & Monks",
-                "tmdisplay": "Night Market & Monks",
+                "name": "Night Market",
+                "tmdisplay": "Night Market",
                 "description": "Play with Monk, Magistrate, Smuggler, Shindōshi, Spy (uses the City of Lies module), Trader"
             },
             "10": {

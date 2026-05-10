@@ -101,6 +101,16 @@ class Globals extends \ROG\Helpers\DB_Manager
           CUSTOMER_TYPE_TRADER, 
         ];
         break;
+      case OPTION_CUSTOMERS_BUILDING_INFLUENCE:
+        $customerTypes = [ 
+          CUSTOMER_TYPE_ARTISAN, 
+          CUSTOMER_TYPE_ELDER, 
+          CUSTOMER_TYPE_MERCHANT, 
+          CUSTOMER_TYPE_MAGISTRATE, 
+          CUSTOMER_TYPE_SMUGGLER, 
+          CUSTOMER_TYPE_TRADER, 
+        ];
+        break;
       case OPTION_CUSTOMERS_INTOCITY:
         $customerTypes = [ 
           CUSTOMER_TYPE_ELDER, 

@@ -62,6 +62,11 @@ $game_options = [
         'tmdisplay' => 'Trade & Favor',
         'description' => 'Play with Artisan, Monk, Noble, Smuggler, Shindōshi, Trader', 
       ],
+      OPTION_CUSTOMERS_BUILDING_INFLUENCE => [
+        'name' => 'Building Influence', 
+        'tmdisplay' => 'Building Influence',
+        'description' => 'Play with Artisan, Elder, Merchant, Magistrate, Smuggler, Trader', 
+      ],
       OPTION_CUSTOMERS_INTOCITY => [
         'name' => 'Into the City', 
         'tmdisplay' => 'Into the City',
@@ -69,8 +74,8 @@ $game_options = [
       ],
       
       OPTION_CUSTOMERS_NIGHT_MONKS => [
-        'name' => 'Night Market & Monks', 
-        'tmdisplay' => 'Night Market & Monks',
+        'name' => 'Night Market', 
+        'tmdisplay' => 'Night Market',
         'description' => 'Play with Monk, Magistrate, Smuggler, Shindōshi, Spy (uses the City of Lies module), Trader', 
       ],
       OPTION_CUSTOMERS_RANDOM => [
