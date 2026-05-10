@@ -3465,8 +3465,7 @@ function (dojo, declare, BgaAnimations) {
             this.reduceTextSizeOnCardElements(o);
             return o;
         },
-        tplMasteryCard(tile, prefix ='') {
-            let nbPlayers = tile.nbPlayers ? Object.values(this.gamedatas.players).length : '';
+        getMasteryCardDesc(tile){
             let descriptionMap = new Map([
                 [MASTERY_TYPE_AIR,      this.fsr(_('Deliver to 3 different customer types.'),{})],
                 [MASTERY_TYPE_COURTS,   this.fsr(_('Reach the ${imperial_flower} in any region.'),{imperial_flower:this.formatIcon('imperial_flower')})],
@@ -3476,6 +3475,11 @@ function (dojo, declare, BgaAnimations) {
                 [MASTERY_TYPE_WATER,    this.fsr(_('Own 1 building of each type.'),{})],
             ]);
             let description = descriptionMap.get(tile.scoringType);
+            return description;
+        },
+        tplMasteryCard(tile, prefix ='') {
+            let nbPlayers = tile.nbPlayers ? Object.values(this.gamedatas.players).length : '';
+            let description = this.getMasteryCardDesc(tile);
             let customer_types = '';
             let building_types = '';
             if([MASTERY_TYPE_AIR,MASTERY_TYPE_FIRE].indexOf(tile.scoringType) >= 0){
@@ -3508,6 +3512,13 @@ function (dojo, declare, BgaAnimations) {
             let subtype = tile.subtype;
             let titleSize = 'h1';
             let divImage = this.tplMasteryCard(cardDatas,'_tmp');
+            let description = this.getMasteryCardDesc(cardDatas);
+            if([MASTERY_TYPE_AIR,MASTERY_TYPE_FIRE].indexOf(tile.scoringType) >= 0){
+                this.ALL_CUSTOMER_TYPES.forEach((value, key, map) =>{
+                    let customer = key;
+                    description += this.formatIcon('customer-'+customer);
+                });
+            }
 
             let title = _('Immediate score for claiming this goal');
             let titleLine1 = _('Clan position');
@@ -3537,6 +3548,7 @@ function (dojo, declare, BgaAnimations) {
             return `<div class='rog_tile_tooltip rog_masterycard_tooltip rog_tooltip' data-subtype='${subtype}'>
                     <${titleSize}>${title}</${titleSize}>
                     ${table}
+                    ${description}
                     ${divImage}
                 </div>`;
         },

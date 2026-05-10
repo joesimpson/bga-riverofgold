@@ -1365,6 +1365,30 @@ final class PlayersTest extends TestCase
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
     }
     
+    public function test_claimMasteries_Type1_Active_2Players_NewCustomers(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type']  = CARD_SMUGGLER_2;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        TestDatas::$cards[12]['type']  = CARD_ELDER_1;
+        TestDatas::$cards[13] = TestDatas::$cards[11];
+        TestDatas::$cards[13]['type']  = CARD_SHINDOSHI_5;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        $newClanMarker = TestDatas::$tokens[43];
+        assertSame(MEEPLE_LOCATION_TILE.'1', $newClanMarker['meeple_location']);
+        assertSame(1, $newClanMarker['meeple_state']);
+        assertSame(1, $newClanMarker['player_id']);
+        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+    }
+    
     public function test_claimMasteries_Type1_Active_4Players_First(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -1507,6 +1531,23 @@ final class PlayersTest extends TestCase
         Players::claimMastery($player,$tile);
         
         assertSame(19, TestDatas::$players[1]['player_score']);
+    }
+    public function test_claimMasteries_Type4_Active_2Players_newCustomers(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tileRow['type'] = 4;
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_TRADER_2;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        TestDatas::$cards[12]['type'] = CARD_TRADER_5;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
     }
     public function test_claimMasteries_Type4_Active_4Players_First(): void
     {
