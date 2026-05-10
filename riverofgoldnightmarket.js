@@ -2998,13 +2998,13 @@ function (dojo, declare, BgaAnimations) {
                 case CUSTOMER_TYPE_SHINDOSHI:
                     switch(card.type){
                         case CARD_SHINDOSHI_1:
-                            ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to sail your ship upriver. You may not take this action if your ship would go above the northernmost space of the river.'), {});
+                            ongoingAbility = this.fsr(_('Remove this card\'s clan marker when taking the sail action to sail your ship upriver. You may not do this if your ship would go above the northernmost space of the river.'), {});
                             break;
                         case CARD_SHINDOSHI_2:
-                            ongoingAbility = this.fsr(_('When taking the deliver action, you may remove the clan marker from this card. If you do so, your die does not have to match the customer and all trade goods required are ${icon_goods}'), {'icon_goods':this.formatIcon('bonus-'+BONUS_TYPE_CHOICE)});
+                            ongoingAbility = this.fsr(_('Remove this card\'s clan marker when taking the deliver action to ignore the customer\'s die requirement  and treat all trade goods requested as ${icon_goods}'), {'icon_goods':this.formatIcon('bonus-'+BONUS_TYPE_CHOICE)});
                             break;
                         case CARD_SHINDOSHI_3:
-                            ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to build the top building off of either the Era 1 or the Era 2 stack and gain ${n} ${res_icon}'), {'n':1,'res_type':RESOURCE_TYPE_SUN,'res_icon':''});
+                            ongoingAbility = this.fsr(_('Remove this card\'s clan marker when taking the sail action to build the top building off of the Era 1 or 2 stack and gain ${n} ${res_icon}'), {'n':1,'res_type':RESOURCE_TYPE_SUN,'res_icon':''});
                             break;
                         case CARD_SHINDOSHI_4:
                             ongoingAbility = this.fsr(_('Before taking your main action, you may remove the clan marker from this card to swap the position of one of your boats with any other boat on the river.'), {});
@@ -3013,7 +3013,7 @@ function (dojo, declare, BgaAnimations) {
                             ongoingAbility = this.fsr(_('Before taking your main action, you may remove the clan marker from this card to move a building you own to any open building site. Don\'t adjust the influence track for the build bonus, or pay additional koku.'), {});
                             break;
                         case CARD_SHINDOSHI_6:
-                            ongoingAbility = this.fsr(_('When taking the sail action, you may remove the clan marker from this card to prevent other players from receving owner rewards from the buildings you visit.'), {});
+                            ongoingAbility = this.fsr(_('Remove this card\'s clan marker when taking the sail action to prevent other players from receiving owner rewards from the buildings you visit.'), {});
                             break;
                     }
                     break;
