@@ -224,6 +224,7 @@ function (dojo, declare, BgaAnimations) {
     const MEEPLE_TYPE_SHIP = 1;
     const MEEPLE_TYPE_SHIP_ROYAL = 3;
     const MEEPLE_TYPE_CLAN_MARKER = 2;
+    const MEEPLE_TYPE_LION_MARKER = 4;
     const MEEPLE_TYPE_SCORE_MARKER = 9;
 
     const CLAN_CARD_BACK = 0;//Back with image
@@ -2373,6 +2374,9 @@ function (dojo, declare, BgaAnimations) {
                     args.bonus_icon = this.formatIcon('bonus-'+args.bonus_icon);
                 }
                 
+                if('lion_marker' in args) {
+                    args.lion_marker = this.formatIcon('bonus-'+BONUS_TYPE_PLACE_LION);
+                }
                 if('customer_type' in args && 'customer_name' in args) {
                     args.customer_name = this.formatIcon(`customer-${args.customer_type}`);
                 }
@@ -3654,7 +3658,7 @@ function (dojo, declare, BgaAnimations) {
         },
     
         tplMeeple(meeple, prefix ='') {
-            const PERSONAL = [MEEPLE_TYPE_SHIP,MEEPLE_TYPE_CLAN_MARKER,MEEPLE_TYPE_SHIP_ROYAL,MEEPLE_TYPE_SCORE_MARKER];
+            const PERSONAL = [MEEPLE_TYPE_SHIP,MEEPLE_TYPE_CLAN_MARKER,MEEPLE_TYPE_SHIP_ROYAL, MEEPLE_TYPE_LION_MARKER,MEEPLE_TYPE_SCORE_MARKER];
             let color = PERSONAL.includes(meeple.type) ? ` data-color="${this.getPlayerColor(meeple.pId)}" data-pId="${meeple.pId}" ` : '';
             let clan = PERSONAL.includes(meeple.type) ? ` data-clan="${this.gamedatas.players[meeple.pId].clan}" ` : '';
             return `<div class="rog_meeple" id="rog_meeple${prefix}-${meeple.id}"

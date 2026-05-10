@@ -407,6 +407,22 @@ class Notifications
     ]);
   }
   
+  public static function newLionMarker(
+    Player $player,
+    Meeple $meeple,
+  )
+  {
+    $msg = clienttranslate('${player_name} places a ${lion_marker} marker on a shore space');
+
+    self::notifyAll('newClanMarker', $msg, [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
+      'lion_marker' => clienttranslate('Lady of Lions'),
+      'preserve' => ['meeple'],
+      'i18' => ['lion_marker'],
+    ]);
+  }
+
   public static function removeClanMarker(Player $player, Meeple $meeple,)
   {
     $msg = '';//avoid spoiling notifs

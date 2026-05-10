@@ -394,10 +394,10 @@
 
 .rog_shore_space{
     >.rog_meeple{
-        //Meeples placed directly on the space, not on a tile, (example: Lion ability)
+        //Meeples placed directly on the space, not on a tile, (example: Lion ability MEEPLE_TYPE_CLAN_MARKER)
         position: absolute;
-        top: 10px;
-        left: 100px;
+        top: 23px;
+        left: 103px;
     }
 }
 

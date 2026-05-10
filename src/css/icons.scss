@@ -49,10 +49,10 @@
     //Use Lady of Lions face :
     width: 35px;
     height: 35px;
-    background-size: math.percentage(calc(math.div(1488px, 110px ))) math.percentage(math.div(1040px,110px ));
+    background-size: math.percentage(calc(math.div(1488px, 75px ))) math.percentage(math.div(1040px,75px ));
     background-repeat: repeat;
     background-image: url("img/clans/clans.jpg");
-    background-position-x: 98%;
+    background-position-x: 97%;
     background-position-y: 33%;
     border-radius: 50%;
 }

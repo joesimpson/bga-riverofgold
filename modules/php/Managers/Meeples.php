@@ -356,13 +356,13 @@ class Meeples extends \ROG\Helpers\Pieces
   public static function placeLionOnShoreSpace(Player $player, int $shore_space)
   {
     $meeple = [
-      'type' => MEEPLE_TYPE_CLAN_MARKER,
+      'type' => MEEPLE_TYPE_LION_MARKER,
       'location' => MEEPLE_LOCATION_SHORE.$shore_space,
       'player_id' => $player->getId(),
       'state' => 1,
     ];
     $elt = self::singleCreate($meeple);
-    Notifications::newClanMarker($player,$elt,null, false);
+    Notifications::newLionMarker($player,$elt);
     return $elt;
   }
   

@@ -87,7 +87,7 @@ final class BuildTest extends TestCase
         TestDatas::$players[1]['die_face'] = 1;
         TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
         Globals::setChoices(0);
-        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1,  ];
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE.'1','type' => MEEPLE_TYPE_LION_MARKER,  'player_id' => 1,  ];
         $expectedArgs = [
             'spaces' => new Collection([
                 ShoreSpaces::getShoreSpace(1),
@@ -112,7 +112,7 @@ final class BuildTest extends TestCase
         TestDatas::$players[1]['die_face'] = 1;
         TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
         Globals::setChoices(0);
-        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE.'1','type' => MEEPLE_TYPE_LION_MARKER,  'player_id' => 2,  ];
         $expectedArgs = [
             'spaces' => new Collection([
                 //No Space 1
@@ -340,7 +340,7 @@ final class BuildTest extends TestCase
         TestDatas::$players[1]['bonuses'] = '[]';
         TestDatas::$cards[101]['type'] = PATRON_LIONS_LADY;
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
-        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1,  ];
+        TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE.'1','type' => MEEPLE_TYPE_LION_MARKER,  'player_id' => 1,  ];
 
         $position = 1;
         $tileId = 31;

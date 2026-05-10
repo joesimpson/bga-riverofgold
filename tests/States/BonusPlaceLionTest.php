@@ -95,7 +95,7 @@ final class BonusPlaceLionTest extends TestCase
         assertSame(MEEPLE_LOCATION_SHORE."$shore_space", $newClanMarker['meeple_location']);
         assertSame(1, $newClanMarker['meeple_state']);
         assertSame(1, $newClanMarker['player_id']);
-        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        assertSame(MEEPLE_TYPE_LION_MARKER, $newClanMarker['type']);
     }
     
     public function test_ActionPlaceLion_KO(): void
@@ -177,7 +177,7 @@ final class BonusPlaceLionTest extends TestCase
         assertSame(MEEPLE_LOCATION_SHORE."$shore_space", $newClanMarker['meeple_location']);
         assertSame(1, $newClanMarker['meeple_state']);
         assertSame(1, $newClanMarker['player_id']);
-        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        assertSame(MEEPLE_TYPE_LION_MARKER, $newClanMarker['type']);
     }
     
     public function test_Zombie_Pass_Empty(): void

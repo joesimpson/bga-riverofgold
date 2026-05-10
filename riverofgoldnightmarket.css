@@ -1665,8 +1665,8 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 
 .rog_shore_space > .rog_meeple {
   position: absolute;
-  top: 10px;
-  left: 100px;
+  top: 23px;
+  left: 103px;
 }
 
 .rog_river_space {
@@ -5086,6 +5086,16 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_meeple[data-type="2"][data-clan="8"] {
   background-position-x: 100%;
 }
+.rog_meeple[data-type="4"] {
+  width: 110px;
+  height: 110px;
+  background-size: 1984% 1386.6666666667%;
+  background-repeat: repeat;
+  background-image: url("img/clans/clans.jpg");
+  background-position-x: 97%;
+  background-position-y: 33%;
+  border-radius: 50%;
+}
 .rog_meeple.rog_score_meeple {
   background-image: url("img/score_markers.png");
   background-size: 800% 100%;
@@ -6370,10 +6380,10 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   background-image: url("img/clans/L5R_Icon_Lion.png");
   width: 35px;
   height: 35px;
-  background-size: 1352.7272727273% 945.4545454545%;
+  background-size: 1984% 1386.6666666667%;
   background-repeat: repeat;
   background-image: url("img/clans/clans.jpg");
-  background-position-x: 98%;
+  background-position-x: 97%;
   background-position-y: 33%;
   border-radius: 50%;
 }
