@@ -260,6 +260,11 @@ trait DebugTrait
     Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);
     Globals::addBonus($player,BONUS_TYPE_REFILL_HAND);
     Globals::addBonus($player,BONUS_TYPE_SET_DIE,'',false);
+    Globals::addBonus($player,BONUS_TYPE_PLACE_LION       );
+    Globals::addBonus($player,BONUS_TYPE_BUILDING_REWARD  );
+    Globals::addBonus($player,BONUS_TYPE_PAY_SHIPS        );
+    Globals::addBonus($player,BONUS_TYPE_ANY_OWNER_REWARD );
+    Globals::addBonus($player,BONUS_TYPE_ADVANCE_OR_POINTS);
     
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }

@@ -6368,6 +6368,14 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   width: 24px;
   height: 22px;
   background-image: url("img/clans/L5R_Icon_Lion.png");
+  width: 35px;
+  height: 35px;
+  background-size: 1352.7272727273% 945.4545454545%;
+  background-repeat: repeat;
+  background-image: url("img/clans/clans.jpg");
+  background-position-x: 98%;
+  background-position-y: 33%;
+  border-radius: 50%;
 }
 
 .rog_icon_container_ship-3 {
