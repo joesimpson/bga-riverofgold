@@ -516,6 +516,10 @@
                         margin-top: -2em;
                     }
                 }
+                &.rog_icon_container_bonus-23{//BONUS_TYPE_DRAW
+                    width: 1.4em !important;
+                    height: 2em !important;
+                }
                 .rog_icon{
                     transform: scale(calc(2 * math.div($fontSize, 30px)));
                     transform-origin: top left;

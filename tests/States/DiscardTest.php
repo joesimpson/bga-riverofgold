@@ -76,13 +76,20 @@ final class DiscardTest extends TestCase
         $game->actDiscardCard($cardId);
         
         $resources = json_decode(TestDatas::$players[1]['resources'], true);
-        assertSame(1, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);// no more silk gained
         assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
         assertSame(0, $resources[RESOURCE_TYPE_RICE]);
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
         assertSame(0, $resources[RESOURCE_TYPE_SUN]);
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        //Test gained influence in region 3 : +1
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(1, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
     }
     
     public function test_ActionDiscardCard_KO_WrongLocation(): void

@@ -55,7 +55,7 @@ trait DiscardTrait
 
     $playerPatron = $player->getPatron();
     if(isset($playerPatron)){
-      $playerPatron->abilityOnCustomerDiscard($player);
+      $playerPatron->abilityOnCustomerDiscard($player, $card->getRegion());
     }
 
     $this->gamestate->nextState('next');

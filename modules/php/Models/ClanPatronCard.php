@@ -184,11 +184,11 @@ class ClanPatronCard extends Card
     }
   }
   
-  public function abilityOnCustomerDiscard(Player &$player,){
+  public function abilityOnCustomerDiscard(Player &$player,int $customerRegion){
     switch($this->getType()){
       case PATRON_TATTOOED_MONK:
         Notifications::activePatron($player,$this);
-        $player->giveResource(1,RESOURCE_TYPE_SILK);
+        Players::gainInfluence($player,$customerRegion,NB_INFLUENCE_TATTOOED_MONK, $this);
         break;
     }
   }
