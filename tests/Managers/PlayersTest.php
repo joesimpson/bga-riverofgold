@@ -1302,6 +1302,7 @@ final class PlayersTest extends TestCase
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":1,"5":0,"6":0}';
         $player = Players::get(1);
         $tileRow = TestDatas::$tiles[1];
         $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
@@ -1316,7 +1317,7 @@ final class PlayersTest extends TestCase
 
         Players::claimMastery($player,$tile);
         
-        assertSame(27, TestDatas::$players[1]['player_score']);//19+5+3
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5+0
         $newClanMarker = TestDatas::$tokens[43];
         assertSame(MEEPLE_LOCATION_TILE.'1', $newClanMarker['meeple_location']);
         assertSame(1, $newClanMarker['meeple_state']);
@@ -1326,14 +1327,15 @@ final class PlayersTest extends TestCase
         assertSame(0, $resources[RESOURCE_TYPE_SILK]);
         assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
         assertSame(0, $resources[RESOURCE_TYPE_RICE]);
-        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
-        assertSame(1, $resources[RESOURCE_TYPE_SUN]);//+1
+        assertSame(2, $resources[RESOURCE_TYPE_MOON]);//+1
+        assertSame(2, $resources[RESOURCE_TYPE_SUN]);//+3 max 2
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
     }
     public function test_claimMasteries_Active_2Players_Last_ScionOfEarth(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":2,"5":0,"6":0}';
         $player = Players::get(1);
         $tileRow = TestDatas::$tiles[1];
         $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
@@ -1350,7 +1352,7 @@ final class PlayersTest extends TestCase
 
         Players::claimMastery($player,$tile);
         
-        assertSame(22, TestDatas::$players[1]['player_score']);//19+3
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
         $newClanMarker = TestDatas::$tokens[102];
         assertSame(MEEPLE_LOCATION_TILE.'1', $newClanMarker['meeple_location']);
         assertSame(2, $newClanMarker['meeple_state']);
@@ -1360,8 +1362,8 @@ final class PlayersTest extends TestCase
         assertSame(0, $resources[RESOURCE_TYPE_SILK]);
         assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
         assertSame(0, $resources[RESOURCE_TYPE_RICE]);
-        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
-        assertSame(1, $resources[RESOURCE_TYPE_SUN]);//+1
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);//+1
+        assertSame(3, $resources[RESOURCE_TYPE_SUN]);//+3
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
     }
     
@@ -1581,7 +1583,7 @@ final class PlayersTest extends TestCase
 
         Players::claimMastery($player,$tile);
         
-        assertSame(29, TestDatas::$players[1]['player_score']);//19+7+3
+        assertSame(26, TestDatas::$players[1]['player_score']);//19+7+0
         $newClanMarker = TestDatas::$tokens[43];
         assertSame(MEEPLE_LOCATION_TILE.'1', $newClanMarker['meeple_location']);
         assertSame(1, $newClanMarker['meeple_state']);
@@ -1591,8 +1593,8 @@ final class PlayersTest extends TestCase
         assertSame(0, $resources[RESOURCE_TYPE_SILK]);
         assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
         assertSame(0, $resources[RESOURCE_TYPE_RICE]);
-        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
-        assertSame(1, $resources[RESOURCE_TYPE_SUN]);//+1
+        assertSame(4, $resources[RESOURCE_TYPE_MOON]);//+1
+        assertSame(3, $resources[RESOURCE_TYPE_SUN]);//+3
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
     }
     public function test_claimMasteries_Type4_Active_4Players_Second(): void
@@ -1638,7 +1640,7 @@ final class PlayersTest extends TestCase
         assertSame(0, $resources[RESOURCE_TYPE_SILK]);
         assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
         assertSame(0, $resources[RESOURCE_TYPE_RICE]);
-        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);//+0
         assertSame(0, $resources[RESOURCE_TYPE_SUN]);//+0
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
     }
@@ -1699,7 +1701,7 @@ final class PlayersTest extends TestCase
 
         Players::claimMastery($player,$tile);
         
-        assertSame(22, TestDatas::$players[1]['player_score']);//19+3
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
         $newClanMarker = TestDatas::$tokens[104];
         assertSame(MEEPLE_LOCATION_TILE.'1', $newClanMarker['meeple_location']);
         assertSame(4, $newClanMarker['meeple_state']);
@@ -1709,8 +1711,8 @@ final class PlayersTest extends TestCase
         assertSame(0, $resources[RESOURCE_TYPE_SILK]);
         assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
         assertSame(0, $resources[RESOURCE_TYPE_RICE]);
-        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
-        assertSame(1, $resources[RESOURCE_TYPE_SUN]);//+1
+        assertSame(4, $resources[RESOURCE_TYPE_MOON]);//+1
+        assertSame(3, $resources[RESOURCE_TYPE_SUN]);//+3
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
     }
     public function test_claimMasteries_Type4_Active_4Players_LastAgain_ScionOfEarth(): void
@@ -1741,7 +1743,7 @@ final class PlayersTest extends TestCase
         assertSame(0, $resources[RESOURCE_TYPE_SILK]);
         assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
         assertSame(0, $resources[RESOURCE_TYPE_RICE]);
-        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);//+0
         assertSame(0, $resources[RESOURCE_TYPE_SUN]);//+0
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
     }

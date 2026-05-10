@@ -518,6 +518,7 @@ class Players extends \ROG\Helpers\DB_Manager
 
     foreach($claimGains as $type => $amount){
       switch($type){
+        case RESOURCE_TYPE_MOON: 
         case RESOURCE_TYPE_SUN: 
           $player->giveResource($amount,$type);
           break;

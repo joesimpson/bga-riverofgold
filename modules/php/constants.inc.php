@@ -299,8 +299,9 @@ const SHORE_SPACE_STARTING_BUILDING_FOR_2 = 3;
 const SHORE_SPACE_STARTING_BUILDING_FOR_3 = 4;
 
 const SCION_OF_EARTH_GAINS = [
-   RESOURCE_TYPE_SUN => 1,
-   BONUS_TYPE_POINTS => 3,
+   RESOURCE_TYPE_MOON => 1,
+   RESOURCE_TYPE_SUN => 3,
+   BONUS_TYPE_POINTS => 0,
  ];
 /////////////////////////////////////////////////////////
 //          INFLUENCE TRACK
