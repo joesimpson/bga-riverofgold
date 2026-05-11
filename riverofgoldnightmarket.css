@@ -249,7 +249,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   position: relative;
 }
 .rog_panel .rog_player_infos .rog_player_resource_line.rog_player_resource_line_i1, .rog_panel .rog_player_infos .rog_player_resource_line.rog_player_resource_line_i2 {
-  line-height: 2em;
+  line-height: 1.15em;
 }
 .rog_panel .rog_player_infos .rog_player_resource_line.rog_player_resource_line_customers {
   line-height: 1.15em;
@@ -636,7 +636,13 @@ Icon extract in sprite with differents layers size (so % is not useful).
   margin-top: -30px;
 }
 
-.rog_panel .rog_icon_container.rog_icon_container_customer-1, .rog_panel .rog_icon_container.rog_icon_container_customer-2, .rog_panel .rog_icon_container.rog_icon_container_customer-3, .rog_panel .rog_icon_container.rog_icon_container_customer-4, .rog_panel .rog_icon_container.rog_icon_container_customer-5, .rog_panel .rog_icon_container.rog_icon_container_customer-6, .rog_panel .rog_icon_container.rog_icon_container_customer-7, .rog_panel .rog_icon_container.rog_icon_container_customer-8, .rog_panel .rog_icon_container.rog_icon_container_customer-9, .rog_panel .rog_icon_container.rog_icon_container_customer-10 {
+.rog_panel .rog_icon_container .rog_icon_influence {
+  position: absolute;
+}
+.rog_panel .rog_icon_container.rog_icon_container_influence-1, .rog_panel .rog_icon_container.rog_icon_container_influence-2, .rog_panel .rog_icon_container.rog_icon_container_influence-3, .rog_panel .rog_icon_container.rog_icon_container_influence-4, .rog_panel .rog_icon_container.rog_icon_container_influence-5, .rog_panel .rog_icon_container.rog_icon_container_influence-6 {
+  margin: 0;
+}
+.rog_panel .rog_icon_container.rog_icon_container_influence-1, .rog_panel .rog_icon_container.rog_icon_container_influence-2, .rog_panel .rog_icon_container.rog_icon_container_influence-3, .rog_panel .rog_icon_container.rog_icon_container_influence-4, .rog_panel .rog_icon_container.rog_icon_container_influence-5, .rog_panel .rog_icon_container.rog_icon_container_influence-6, .rog_panel .rog_icon_container.rog_icon_container_customer-1, .rog_panel .rog_icon_container.rog_icon_container_customer-2, .rog_panel .rog_icon_container.rog_icon_container_customer-3, .rog_panel .rog_icon_container.rog_icon_container_customer-4, .rog_panel .rog_icon_container.rog_icon_container_customer-5, .rog_panel .rog_icon_container.rog_icon_container_customer-6, .rog_panel .rog_icon_container.rog_icon_container_customer-7, .rog_panel .rog_icon_container.rog_icon_container_customer-8, .rog_panel .rog_icon_container.rog_icon_container_customer-9, .rog_panel .rog_icon_container.rog_icon_container_customer-10 {
   display: block;
 }
 
@@ -737,12 +743,14 @@ Icon extract in sprite with differents layers size (so % is not useful).
 }
 
 .rog_player_resource_line .rog_icon_influence {
-  width: 21px;
-  height: 30px;
+  width: 16px;
+  height: 23px;
   background-image: url("img/icons/icons_sprite.png");
-  background-position-x: -59.5135135135px;
-  background-position-y: -0.0831024931px;
+  background-position-x: -45.3436293436px;
+  background-position-y: -0.0637119114px;
   background-size: 404.6332046332% 277.5623268698%;
+  position: absolute;
+  top: 6px;
 }
 
 #pin-panel-switch {

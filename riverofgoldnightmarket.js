@@ -2717,9 +2717,6 @@ function (dojo, declare, BgaAnimations) {
                     ${this.tplResourceCounter(player, 'influence-1')}
                     ${this.tplResourceCounter(player, 'influence-2')}
                     ${this.tplResourceCounter(player, 'influence-3')}
-                </div>
-                <div class='rog_player_resource_line rog_player_resource_line_i2'>
-                    <div class='rog_icon_influence' style='visibility: hidden;'></div>
                     ${this.tplResourceCounter(player, 'influence-4')}
                     ${this.tplResourceCounter(player, 'influence-5')}
                     ${this.tplResourceCounter(player, 'influence-6')}

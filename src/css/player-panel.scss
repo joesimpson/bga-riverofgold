@@ -180,7 +180,7 @@
                         
             &.rog_player_resource_line_i1,
             &.rog_player_resource_line_i2{
-                line-height: 2em;
+                line-height: 1.15em;
             }
             &.rog_player_resource_line_customers
             {
@@ -572,6 +572,24 @@
 }
 
 .rog_panel .rog_icon_container {
+    .rog_icon_influence{
+        position: absolute;
+    }
+    &.rog_icon_container_influence-1,
+    &.rog_icon_container_influence-2,
+    &.rog_icon_container_influence-3,
+    &.rog_icon_container_influence-4,
+    &.rog_icon_container_influence-5,
+    &.rog_icon_container_influence-6
+    {
+        margin: 0;
+    }
+    &.rog_icon_container_influence-1,
+    &.rog_icon_container_influence-2,
+    &.rog_icon_container_influence-3,
+    &.rog_icon_container_influence-4,
+    &.rog_icon_container_influence-5,
+    &.rog_icon_container_influence-6,
     &.rog_icon_container_customer-1,
     &.rog_icon_container_customer-2,
     &.rog_icon_container_customer-3,
@@ -689,7 +707,9 @@
 }
 .rog_player_resource_line {
     .rog_icon_influence{
-        @include rog_icons_sprite(-734px,-1px,21px,30px,259px,361px);
+        @include rog_icons_sprite(-734px,-1px,16px,23px,259px,361px);
+        position: absolute;
+        top: 6px;
     }
 }
 
