@@ -38,12 +38,14 @@ class Globals extends \ROG\Helpers\DB_Manager
 
     'endScoring' => 'obj',
     'customerTypes' => 'obj',
+    'regionCustomTracks' => 'obj',
 
     //Undo log module
     'choices' => 'int',
 
     // Game options
     'optionClanPatrons' => 'int', 
+    'optionTracks' => 'int', 
     'optionCustomers' => 'int', 
 
   ];
@@ -78,6 +80,20 @@ class Globals extends \ROG\Helpers\DB_Manager
 
     self::setOptionClanPatrons($options[OPTION_EXPANSION_CLANS]);
     
+    $regionTracks = null;
+    $optionTracks = $options[OPTION_TRACKS];
+    if($optionTracks == OPTION_TRACKS_CUSTOM) {
+      //PICK 6 RANDOM 
+      $tracksToAssign = array_keys(CUSTOM_REGION_TRACKS);
+      shuffle($tracksToAssign);
+      foreach (REGIONS as $region){
+        $trackIndex = array_shift($tracksToAssign);
+        $regionTracks[$region] = $trackIndex;
+      }
+    }
+    self::setOptionTracks($optionTracks);
+    self::setRegionCustomTracks($regionTracks);
+
     $optionCustomers = $options[OPTION_CUSTOMERS];
     $customerTypes = [];
     switch($optionCustomers){

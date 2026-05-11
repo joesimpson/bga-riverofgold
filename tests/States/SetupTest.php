@@ -30,6 +30,7 @@ final class SetupTest extends TestCase
         ] ;
         $options = [
             OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_TRACKS => OPTION_TRACKS_OFF,
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
         
@@ -44,6 +45,7 @@ final class SetupTest extends TestCase
         assertSame(7, $player1Resources [RESOURCE_TYPE_MONEY]);
         $player2Resources = json_decode(TestDatas::$players[4]['resources'], true);
         assertSame(8, $player2Resources [RESOURCE_TYPE_MONEY]);
+        assertSame(null, Globals::getRegionCustomTracks());
     }
     public function test_setupNewGame_DraftAlternative(): void
     {
@@ -56,6 +58,7 @@ final class SetupTest extends TestCase
         ] ;
         $options = [
             OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_ALTERNATIVE,
+            OPTION_TRACKS => OPTION_TRACKS_OFF,
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
         
@@ -90,6 +93,7 @@ final class SetupTest extends TestCase
         ] ;
         $options = [
             OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_DRAFT,
+            OPTION_TRACKS => OPTION_TRACKS_OFF,
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
         
@@ -112,6 +116,7 @@ final class SetupTest extends TestCase
         ] ;
         $options = [
             OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_TRACKS => OPTION_TRACKS_OFF,
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
         TestDatas::$cards = [];
@@ -139,6 +144,7 @@ final class SetupTest extends TestCase
         ] ;
         $options = [
             OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_TRACKS => OPTION_TRACKS_OFF,
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_INTOCITY,
         ];
         TestDatas::$cards = [];
@@ -168,6 +174,7 @@ final class SetupTest extends TestCase
         ] ;
         $options = [
             OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_TRACKS => OPTION_TRACKS_OFF,
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_INTOCITY,
         ];
         TestDatas::$cards = [];
@@ -182,6 +189,34 @@ final class SetupTest extends TestCase
             $cType = $card->getCustomerType();
             assertTrue(in_array($card->getCustomerType(),$expectedCustomerTypes), "Customer type $cType must be in ".json_encode($expectedCustomerTypes));
             assertSame(CARD_LOCATION_DECK,$card->getLocation());
+        }
+        
+    }
+
+    public function test_setupNewGame_Tracks_Random(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_TRACKS => OPTION_TRACKS_CUSTOM,
+            OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
+        ];
+        TestDatas::$cards = [];
+        $expectedTracks = [1,2,3,4,5,6];
+        
+        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        $customTracks = Globals::getRegionCustomTracks();
+        assertSame(6, count($customTracks));
+        foreach (REGIONS as $region){
+            $track = $customTracks[$region];
+            assertTrue(in_array($track,$expectedTracks), "Region track $region : $track must be in ".json_encode($expectedTracks));
         }
         
     }

@@ -393,6 +393,10 @@ function (dojo, declare, BgaAnimations) {
                 'tiles/buildings_back.png',
                 'icons/icons_sprite.png',
             ];
+            if(this.gamedatas.customTracks && Object.keys(this.gamedatas.customTracks).length>0){
+                toPreloadList.push('regions/track_back.png');
+                toPreloadList.push('regions/6tracks.png',);
+            }
             this.ensureSpecificGameImageLoading(toPreloadList);
 
             this._counters['deckSize1'] = this.createCounter('rog_deck_size-1',this.gamedatas.deckSize.era1);
@@ -3798,7 +3802,12 @@ function (dojo, declare, BgaAnimations) {
             this.addInfluenceTrackTooltips();
         },
         tplInfluenceTrack(region) {
-            return `<div class="rog_influence_track" id="rog_influence_track_${region}" data-region='${region}'></div>`;
+            let customTrack = this.gamedatas.customTracks ? this.gamedatas.customTracks[region] : null;
+            return `<div class="rog_influence_track" id="rog_influence_track_${region}" data-region='${region}' data-customtrack='${customTrack}'>
+                        <div class="rog_influence_track_background">
+                            <div class="rog_influence_track_bonuses"></div>
+                        </div>
+                    </div>`;
         },
         tplInfluenceTrackSpace(datas) {
             return `<div class="rog_influence_track_space" id="rog_influence_track_space_${datas.region}_${datas.space}" data-pos='${datas.space}'></div>`;

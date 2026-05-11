@@ -358,6 +358,15 @@ const INFLUENCE_TRACK_REWARDS = [
    ],
  ];
 
+const CUSTOM_REGION_TRACKS = [
+   1 => 'TODO JSA REWARDS 1',
+   2 => 'TODO JSA REWARDS 2',
+   3 => 'TODO JSA REWARDS 3',
+   4 => 'TODO JSA REWARDS 4',
+   5 => 'TODO JSA REWARDS 5',
+   6 => 'TODO JSA REWARDS 6',
+];
+
 /////////////////////////////////////////////////////////
 //          MEEPLES
 /////////////////////////////////////////////////////////
@@ -420,6 +429,10 @@ const OPTION_EXPANSION_CLANS = 110;
 const OPTION_EXPANSION_CLANS_OFF = 0;
 const OPTION_EXPANSION_CLANS_DRAFT = 1;
 const OPTION_EXPANSION_CLANS_ALTERNATIVE = 2;
+
+const OPTION_TRACKS = 115;
+const OPTION_TRACKS_OFF      = 0;
+const OPTION_TRACKS_CUSTOM   = 1;
 
 const OPTION_CUSTOMERS = 120;
 const OPTION_CUSTOMERS_BASE         = 0;

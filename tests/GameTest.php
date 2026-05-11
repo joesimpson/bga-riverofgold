@@ -481,6 +481,7 @@ final class GameTest extends TestCase
             'endTriggered' => false,
             'endScoring' => [],
             'customerTypes' => [1,2,3,4,5],
+            'customTracks' => [],
             'version' => 999999,
         ];
 

@@ -121,6 +121,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
           'endTriggered' => Globals::isLastTurnTriggered(),
           'endScoring' => Globals::getEndScoring(),
           'customerTypes' => Globals::getCustomerTypes(),
+          'customTracks' => Globals::getRegionCustomTracks(),
           'version'=> Utils::gameVersion(),
         ];
         return $result;

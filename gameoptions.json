@@ -19,6 +19,21 @@
         ],
         "default": 0
     },
+    "115": {
+        "name": "Region Influence Tracks",
+        "values": [
+            {
+                "name": "Base game",
+                "description": ""
+            },
+            {
+                "name": "Custom",
+                "tmdisplay": "Random tracks",
+                "description": "6 new influence track boards randomly placed in regions to change their rewards."
+            }
+        ],
+        "default": 0
+    },
     "120": {
         "name": "Customer types",
         "values": {

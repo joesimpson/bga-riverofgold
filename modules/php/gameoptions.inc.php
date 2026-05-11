@@ -50,6 +50,23 @@ $game_options = [
      
   ), 
   
+  OPTION_TRACKS => array(
+    'name' => 'Region Influence Tracks',    
+    'values' => [
+      OPTION_TRACKS_OFF => [
+        'name' => 'Base game', 
+        'description' => '', 
+      ],
+      OPTION_TRACKS_CUSTOM => [
+        'name' => 'Custom', 
+        'tmdisplay' => 'Random tracks',
+        'description' => '6 new influence track boards randomly placed in regions to change their rewards.', 
+      ],
+    ],
+    'default' => OPTION_TRACKS_OFF,
+     
+  ), 
+  
   OPTION_CUSTOMERS => array(
     'name' => 'Customer types',    
     'values' => [

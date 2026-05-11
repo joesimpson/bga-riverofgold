@@ -60,6 +60,7 @@ trait DebugTrait
   function debug_RESET(
     bool $expansionClans = true,
     bool $expansionClansAlt = true,
+    bool $customTracks = true,
     int $optionCustomers = OPTION_CUSTOMERS_BASE,
   ){
     Log::disable();
@@ -72,6 +73,7 @@ trait DebugTrait
           ) : 
           OPTION_EXPANSION_CLANS_OFF
         ) ,
+      OPTION_TRACKS => $customTracks,
       OPTION_CUSTOMERS => $optionCustomers,
     ];
     $players = self::loadPlayersBasicInfos();

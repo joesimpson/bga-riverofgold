@@ -42,6 +42,7 @@ class GameMock extends RiverOfGoldNightMarket {
         Globals::setLastBuiltTile(null);
         Globals::setLastBuiltLocationOrigin(null);
         Globals::setCustomerTypes([1,2,3,4,5]);
+        Globals::setRegionCustomTracks([]);
         TestDatas::$lastInsertedId = 1;
     }
 

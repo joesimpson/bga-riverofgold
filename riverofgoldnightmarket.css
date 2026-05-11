@@ -5336,6 +5336,68 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   top: 3024px;
   left: 1623px;
 }
+.rog_influence_track[data-customtrack="1"][data-region="1"], .rog_influence_track[data-customtrack="2"][data-region="1"], .rog_influence_track[data-customtrack="3"][data-region="1"], .rog_influence_track[data-customtrack="4"][data-region="1"], .rog_influence_track[data-customtrack="5"][data-region="1"], .rog_influence_track[data-customtrack="6"][data-region="1"] {
+  left: 1528px;
+}
+.rog_influence_track[data-customtrack="1"][data-region="2"], .rog_influence_track[data-customtrack="2"][data-region="2"], .rog_influence_track[data-customtrack="3"][data-region="2"], .rog_influence_track[data-customtrack="4"][data-region="2"], .rog_influence_track[data-customtrack="5"][data-region="2"], .rog_influence_track[data-customtrack="6"][data-region="2"] {
+  left: 1617px;
+}
+.rog_influence_track[data-customtrack="1"][data-region="3"], .rog_influence_track[data-customtrack="2"][data-region="3"], .rog_influence_track[data-customtrack="3"][data-region="3"], .rog_influence_track[data-customtrack="4"][data-region="3"], .rog_influence_track[data-customtrack="5"][data-region="3"], .rog_influence_track[data-customtrack="6"][data-region="3"] {
+  left: 1681px;
+}
+.rog_influence_track[data-customtrack="1"][data-region="4"], .rog_influence_track[data-customtrack="2"][data-region="4"], .rog_influence_track[data-customtrack="3"][data-region="4"], .rog_influence_track[data-customtrack="4"][data-region="4"], .rog_influence_track[data-customtrack="5"][data-region="4"], .rog_influence_track[data-customtrack="6"][data-region="4"] {
+  left: 1680px;
+}
+.rog_influence_track[data-customtrack="1"][data-region="5"], .rog_influence_track[data-customtrack="2"][data-region="5"], .rog_influence_track[data-customtrack="3"][data-region="5"], .rog_influence_track[data-customtrack="4"][data-region="5"], .rog_influence_track[data-customtrack="5"][data-region="5"], .rog_influence_track[data-customtrack="6"][data-region="5"] {
+  left: 1708px;
+}
+.rog_influence_track[data-customtrack="1"][data-region="6"], .rog_influence_track[data-customtrack="2"][data-region="6"], .rog_influence_track[data-customtrack="3"][data-region="6"], .rog_influence_track[data-customtrack="4"][data-region="6"], .rog_influence_track[data-customtrack="5"][data-region="6"], .rog_influence_track[data-customtrack="6"][data-region="6"] {
+  left: 1601px;
+}
+.rog_influence_track[data-customtrack="1"] .rog_influence_track_background, .rog_influence_track[data-customtrack="2"] .rog_influence_track_background, .rog_influence_track[data-customtrack="3"] .rog_influence_track_background, .rog_influence_track[data-customtrack="4"] .rog_influence_track_background, .rog_influence_track[data-customtrack="5"] .rog_influence_track_background, .rog_influence_track[data-customtrack="6"] .rog_influence_track_background {
+  position: absolute;
+  top: -29px;
+  left: -58px;
+  width: 784px;
+  height: 347px;
+  background-repeat: no-repeat;
+  background-image: url("img/regions/track_back.png");
+  background-size: 100%;
+}
+.rog_influence_track[data-customtrack="1"] .rog_influence_track_background .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="2"] .rog_influence_track_background .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="3"] .rog_influence_track_background .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="4"] .rog_influence_track_background .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="5"] .rog_influence_track_background .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="6"] .rog_influence_track_background .rog_influence_track_bonuses {
+  position: absolute;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  background-repeat: no-repeat;
+  background-image: url("img/regions/6tracks.png");
+  background-size: 200% 300%;
+}
+.rog_influence_track[data-customtrack="1"][data-customtrack="1"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="2"][data-customtrack="1"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="3"][data-customtrack="1"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="4"][data-customtrack="1"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="5"][data-customtrack="1"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="6"][data-customtrack="1"] .rog_influence_track_bonuses {
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+.rog_influence_track[data-customtrack="1"][data-customtrack="2"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="2"][data-customtrack="2"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="3"][data-customtrack="2"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="4"][data-customtrack="2"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="5"][data-customtrack="2"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="6"][data-customtrack="2"] .rog_influence_track_bonuses {
+  background-position-x: 0%;
+  background-position-y: 50%;
+}
+.rog_influence_track[data-customtrack="1"][data-customtrack="3"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="2"][data-customtrack="3"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="3"][data-customtrack="3"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="4"][data-customtrack="3"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="5"][data-customtrack="3"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="6"][data-customtrack="3"] .rog_influence_track_bonuses {
+  background-position-x: 0%;
+  background-position-y: 100%;
+}
+.rog_influence_track[data-customtrack="1"][data-customtrack="4"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="2"][data-customtrack="4"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="3"][data-customtrack="4"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="4"][data-customtrack="4"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="5"][data-customtrack="4"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="6"][data-customtrack="4"] .rog_influence_track_bonuses {
+  background-position-x: 100%;
+  background-position-y: 0%;
+}
+.rog_influence_track[data-customtrack="1"][data-customtrack="5"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="2"][data-customtrack="5"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="3"][data-customtrack="5"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="4"][data-customtrack="5"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="5"][data-customtrack="5"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="6"][data-customtrack="5"] .rog_influence_track_bonuses {
+  background-position-x: 100%;
+  background-position-y: 50%;
+}
+.rog_influence_track[data-customtrack="1"][data-customtrack="6"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="2"][data-customtrack="6"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="3"][data-customtrack="6"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="4"][data-customtrack="6"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="5"][data-customtrack="6"] .rog_influence_track_bonuses, .rog_influence_track[data-customtrack="6"][data-customtrack="6"] .rog_influence_track_bonuses {
+  background-position-x: 100%;
+  background-position-y: 100%;
+}
 .rog_influence_track .rog_influence_track_space {
   display: flex;
   flex-direction: column;

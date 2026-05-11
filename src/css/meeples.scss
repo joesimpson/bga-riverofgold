@@ -432,6 +432,89 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         top: 3024px;
         left: 1623px;
     }
+    &[data-customtrack='1'],
+    &[data-customtrack='2'],
+    &[data-customtrack='3'],
+    &[data-customtrack='4'],
+    &[data-customtrack='5'],
+    &[data-customtrack='6']
+    {
+        $regionTrackOffset: 22px; 
+        &[data-region='1']{
+            left: calc(1550px - $regionTrackOffset);
+        }
+        &[data-region='2']{
+            left: calc(1639px - $regionTrackOffset);
+        }
+        &[data-region='3']{
+            left: calc(1703px - $regionTrackOffset);
+        }
+        &[data-region='4']{
+            left: calc(1702px - $regionTrackOffset);
+        }
+        &[data-region='5']{
+            left: calc(1730px - $regionTrackOffset);
+        }
+        &[data-region='6']{
+            left: calc(1623px - $regionTrackOffset);
+        }
+        .rog_influence_track_background{
+            position: absolute;
+            top: -29px;
+            left: calc(-80px + $regionTrackOffset);
+            width: 784px;
+            height: 347px;
+            background-repeat: no-repeat;
+            background-image: url("img/regions/track_back.png");
+            background-size: 100%;
+            .rog_influence_track_bonuses{
+                position: absolute;
+                top: 0px;
+                left: 0px;
+                width: 100%;
+                height: 100%;
+                background-repeat: no-repeat;
+                background-image: url("img/regions/6tracks.png");
+                background-size: 200% 300%;
+            }
+        }
+        &[data-customtrack='1']{
+            .rog_influence_track_bonuses{
+                background-position-x: 0%;
+                background-position-y: 0%;
+            }
+        }
+        &[data-customtrack='2']{
+            .rog_influence_track_bonuses{
+                background-position-x: 0%;
+                background-position-y: 50%;
+            }
+        }
+        &[data-customtrack='3']{
+            .rog_influence_track_bonuses{
+                background-position-x: 0%;
+                background-position-y: 100%;
+            }
+        }
+        &[data-customtrack='4']{
+            .rog_influence_track_bonuses{
+                background-position-x: 100%;
+                background-position-y: 0%;
+            }
+        }
+        &[data-customtrack='5']{
+            .rog_influence_track_bonuses{
+                background-position-x: 100%;
+                background-position-y: 50%;
+            }
+        }
+        &[data-customtrack='6']{
+            .rog_influence_track_bonuses{
+                background-position-x: 100%;
+                background-position-y: 100%;
+            }
+        }
+    }
     .rog_influence_track_space{
         display: flex;
         flex-direction: column;
