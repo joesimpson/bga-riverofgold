@@ -183,6 +183,14 @@ class Notifications
     ]);
   }
   
+  public static function reshuffleDeck(int $deckSize, int $discardSize)
+  { 
+    self::notifyAll('reshuffleDeck', clienttranslate('Customers\'s deck is reshuffled'), [
+      'deckSize' => $deckSize,
+      'discardSize' => $discardSize,
+      'preserve' => ['deckSize','discardSize'],
+    ]);
+  }
   /**
    * @param Player $player
    * @param int $n

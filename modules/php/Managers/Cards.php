@@ -22,6 +22,14 @@ class Cards extends \ROG\Helpers\Pieces
   protected static $customFields = ['player_id', 'type', 'subtype'];
   protected static $autoreshuffle = true;
   protected static $autoreshuffleCustom = [CARD_LOCATION_DECK => CARD_LOCATION_DISCARD];
+  protected static $autoreshuffleListener = array( 'obj' => self::class, 'method' => 'reshuffleDeck' );
+
+  protected static function reshuffleDeck($fromLocation)
+  {
+    $deckSize = Cards::countInLocation(CARD_LOCATION_DECK);
+    $discardSize = Cards::countInLocation(CARD_LOCATION_DISCARD);
+    Notifications::reshuffleDeck($deckSize, $discardSize);
+  }
 
   protected static function cast($row)
   {

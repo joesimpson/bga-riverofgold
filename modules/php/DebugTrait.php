@@ -161,6 +161,7 @@ trait DebugTrait
     Globals::addBonus($player,BONUS_TYPE_REFILL_HAND);
     Globals::addBonus($player,BONUS_TYPE_DRAW);
     Globals::addBonus($player,BONUS_TYPE_CHOICE);
+    $this->debug_UI();
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
 

@@ -273,6 +273,7 @@ function (dojo, declare, BgaAnimations) {
                 ['giveCardTo', 1000],
                 ['giveMasteriesTo', 2000],
                 ['deliver', 1000],
+                ['reshuffleDeck', 10],
                 ['discardPublic', 10],
                 ['discard', 1000],
                 ['giveResource', 1000],
@@ -1637,9 +1638,16 @@ function (dojo, declare, BgaAnimations) {
             });
             this._counters[card.pId].customers[card.customerType].incValue(+1);
         },
+        
+        notif_reshuffleDeck(n) {
+            debug('notif_reshuffleDeck', n);
+            this._counters['deckSizeCustomers'].toValue(n.args.deckSize);
+            this._counters['deckSizeCustomerDiscard'].toValue(n.args.discardSize);
+        },
         notif_discardPublic(n) {
             debug('notif_discardPublic', n);
             //We want the text on top
+            this._counters['deckSizeCustomerDiscard'].incValue(1);
         },
         notif_discard(n) {
             debug('notif_discard: discarding a private card', n);
@@ -2620,6 +2628,7 @@ function (dojo, declare, BgaAnimations) {
             let gameLastTurns = this.gamedatas.endTriggered;
             if(gameLastTurns) this.bga.gameArea.addLastTurnBanner(_('Last turns !'));
             let customersDeckSize = `<span id='rog_customers_deck_size'>${this.gamedatas.deckSize.customers}</span>`;
+            let customersDiscardSize = `<span id='rog_customers_discard_size'>${this.gamedatas.deckSize.customerDiscard}</span>`;
             let typesIcons = '<div class="rog_customers_deck_icons">';
             Object.values(this.gamedatas.customerTypes).forEach((customerType) => {
                     typesIcons += this.formatIcon(`customer-${customerType}`);
@@ -2657,12 +2666,15 @@ function (dojo, declare, BgaAnimations) {
                     </div>
                 </div>
                 <div class="player_config_row" id="cards_counter_wrapper">
-                    <span>${this.fsr(_('${n} ${icon} customers in deck'), { 
-                        'n': customersDeckSize, 
-                        'icon': this.formatIcon('customer_card'),
-                        //'types': typesIcons,
-                    })}</span>
                     ${typesIcons}
+                    <span>${this.fsr(_('${n1} ${icon} customers in deck'), { 
+                        'n1': customersDeckSize, 
+                        'icon': this.formatIcon('customer_card'),
+                    })}</span>
+                    <span>${this.fsr(_('${n2} ${icon} customers in discard'), { 
+                        'n2': customersDiscardSize, 
+                        'icon': this.formatIcon('customer_card'),
+                    })}</span>
                 </div>
             </div>
             `;
@@ -2894,6 +2906,8 @@ function (dojo, declare, BgaAnimations) {
             
             if(!this._counters['deckSizeCustomers']) this._counters['deckSizeCustomers'] = this.createCounter('rog_customers_deck_size',this.gamedatas.deckSize.customers);
             this._counters['deckSizeCustomers'].toValue(this.gamedatas.deckSize.customers);
+            if(!this._counters['deckSizeCustomerDiscard']) this._counters['deckSizeCustomerDiscard'] = this.createCounter('rog_customers_discard_size',this.gamedatas.deckSize.customerDiscard);
+            this._counters['deckSizeCustomerDiscard'].toValue(this.gamedatas.deckSize.customerDiscard);
         },
     
         addCard(card, location = null) {

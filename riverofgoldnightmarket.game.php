@@ -115,6 +115,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
             'era1' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1),
             'era2' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2),
             'customers' => Cards::countInLocation(CARD_LOCATION_DECK),
+            'customerDiscard' => Cards::countInLocation(CARD_LOCATION_DISCARD),
           ],
           'firstPlayer' => $firstPlayer,
           'endTriggered' => Globals::isLastTurnTriggered(),
