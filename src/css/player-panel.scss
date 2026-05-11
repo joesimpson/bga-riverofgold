@@ -155,6 +155,7 @@
 
         hr{
             width: 100%;
+            font-size: smaller;
         }
         hr,
         .rog_player_resource_line,
@@ -181,7 +182,12 @@
             &.rog_player_resource_line_i2{
                 line-height: 2em;
             }
+            &.rog_player_resource_line_customers
+            {
+                line-height: 1.15em;
+            }
         }
+        
     
         .rog_player_resource {
             position: relative;

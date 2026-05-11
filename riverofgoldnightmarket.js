@@ -2592,7 +2592,11 @@ function (dojo, declare, BgaAnimations) {
             dojo.place(this.tplConfigPlayerBoard(), 'player_boards', 'first');
             this._counters['era'] = this.createCounter('rog_counter_era',this.gamedatas.era);
             //this._counters['turn'] = this.createCounter('rog_counter_turn',this.gamedatas.turn);
-            
+            this.ALL_CUSTOMER_TYPES.forEach((value, key, map) =>{
+                if(!$(`rog_deck_icon_customer-${key}`)) return;
+                this.addCustomTooltip(`rog_deck_icon_customer-${key}`, _(value));
+            });
+
             let chk = $('help-mode-chk');
             dojo.connect(chk, 'onchange', () => this.toggleHelpMode(chk.checked));
             this.addTooltip('help-mode-switch', '', _('Toggle help/safe mode.'));
@@ -2631,7 +2635,9 @@ function (dojo, declare, BgaAnimations) {
             let customersDiscardSize = `<span id='rog_customers_discard_size'>${this.gamedatas.deckSize.customerDiscard}</span>`;
             let typesIcons = '<div class="rog_customers_deck_icons">';
             Object.values(this.gamedatas.customerTypes).forEach((customerType) => {
+                    typesIcons += `<div id="rog_deck_icon_customer-${customerType}">`;
                     typesIcons += this.formatIcon(`customer-${customerType}`);
+                    typesIcons += '</div>';
                 });
                 typesIcons += '</div>';
             return `

@@ -234,6 +234,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
 }
 .rog_panel .rog_player_infos hr {
   width: 100%;
+  font-size: smaller;
 }
 .rog_panel .rog_player_infos hr,
 .rog_panel .rog_player_infos .rog_player_resource_line,
@@ -249,6 +250,9 @@ Icon extract in sprite with differents layers size (so % is not useful).
 }
 .rog_panel .rog_player_infos .rog_player_resource_line.rog_player_resource_line_i1, .rog_panel .rog_player_infos .rog_player_resource_line.rog_player_resource_line_i2 {
   line-height: 2em;
+}
+.rog_panel .rog_player_infos .rog_player_resource_line.rog_player_resource_line_customers {
+  line-height: 1.15em;
 }
 .rog_panel .rog_player_infos .rog_player_resource {
   position: relative;
