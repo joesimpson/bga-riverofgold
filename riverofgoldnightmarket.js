@@ -179,51 +179,6 @@ function (dojo, declare, BgaAnimations) {
     const BUILDING_TYPE_MANOR =    3;
     const BUILDING_TYPE_SHRINE =   4;
     
-    const INFLUENCE_TRACK_REWARDS = {
-        1/*REGION_1*/ : {
-           2 : {'n' : 1, 'type' : RESOURCE_TYPE_POTTERY}, 
-           5 : {'n' : 2, 'type' : RESOURCE_TYPE_MONEY}, 
-           9 : {'n' : 1, 'type' : RESOURCE_TYPE_SUN}, 
-           13: {'n' : 3, 'type' : BONUS_TYPE_POINTS}, 
-           18: {'n' : 1, 'type' : BONUS_TYPE_CHOICE}, 
-        },
-        2/*REGION_2*/  : {
-           2 : {'n' : 1, 'type' : RESOURCE_TYPE_RICE}, 
-           5 : {'n' : 2, 'type' : RESOURCE_TYPE_MONEY}, 
-           9 : {'n' : 1, 'type' : RESOURCE_TYPE_SUN}, 
-           13: {'n' : 3, 'type' : BONUS_TYPE_POINTS}, 
-           18: {'n' : 1, 'type' : BONUS_TYPE_CHOICE}, 
-        },
-        3/*REGION_3*/  : {
-           2 : {'n' : 1, 'type' : RESOURCE_TYPE_SILK}, 
-           5 : {'n' : 2, 'type' : RESOURCE_TYPE_MONEY}, 
-           9 : {'n' : 1, 'type' : RESOURCE_TYPE_SUN}, 
-           13: {'n' : 3, 'type' : BONUS_TYPE_POINTS}, 
-           18: {'n' : 1, 'type' : BONUS_TYPE_CHOICE}, 
-        },
-        4/*REGION_4*/  : {
-           2 : {'n' : 1, 'type' : RESOURCE_TYPE_POTTERY}, 
-           5 : {'n' : 2, 'type' : RESOURCE_TYPE_MONEY}, 
-           9 : {'n' : 1, 'type' : RESOURCE_TYPE_SUN}, 
-           13: {'n' : 3, 'type' : BONUS_TYPE_POINTS}, 
-           18: {'n' : 1, 'type' : BONUS_TYPE_CHOICE}, 
-        },
-        5/*REGION_5*/  : {
-           2 : {'n' : 1, 'type' : RESOURCE_TYPE_RICE}, 
-           5 : {'n' : 2, 'type' : RESOURCE_TYPE_MONEY}, 
-           9 : {'n' : 1, 'type' : RESOURCE_TYPE_SUN}, 
-           13: {'n' : 3, 'type' : BONUS_TYPE_POINTS}, 
-           18: {'n' : 1, 'type' : BONUS_TYPE_CHOICE}, 
-        },
-        6/*REGION_6*/  : {
-           2 : {'n' : 1, 'type' : RESOURCE_TYPE_SILK}, 
-           5 : {'n' : 2, 'type' : RESOURCE_TYPE_MONEY}, 
-           9 : {'n' : 1, 'type' : RESOURCE_TYPE_SUN}, 
-           13: {'n' : 3, 'type' : BONUS_TYPE_POINTS}, 
-           18: {'n' : 1, 'type' : BONUS_TYPE_CHOICE}, 
-        },
-    };
-    
     const MEEPLE_TYPE_SHIP = 1;
     const MEEPLE_TYPE_SHIP_ROYAL = 3;
     const MEEPLE_TYPE_CLAN_MARKER = 2;
@@ -2428,7 +2383,8 @@ function (dojo, declare, BgaAnimations) {
                 case RESOURCE_TYPE_RICE: return this.fsr(_('Trade good : ${n} ${element}'), {n:quantity, element:_('Rice') });
                 case RESOURCE_TYPE_POTTERY: return this.fsr(_('Trade good : ${n} ${element}'), {n:quantity, element:_('Porcelain') });
                 case RESOURCE_TYPE_SILK: return this.fsr(_('Trade good : ${n} ${element}'), {n:quantity, element:_('Silk') });
-                case RESOURCE_TYPE_SUN: return _('Divine favor');
+                case RESOURCE_TYPE_MOON: return this.fsr(_('Raise your ${element} limit by ${n}'), {'n':quantity, 'element':_('Divine favor') }); 
+                case RESOURCE_TYPE_SUN: return this.fsr(_('${n} ${element}'), {'n':quantity, 'element':_('Divine favor') }); 
                 case RESOURCE_TYPE_MONEY: return this.fsr(_('${n} ${element}'), {n:quantity, element:_('Koku') });
                 case BONUS_TYPE_POINTS: return this.fsr(_('${n} Victory points'), {n:quantity });
                 case BONUS_TYPE_CHOICE: return _('Choose any trade good');
@@ -3439,14 +3395,15 @@ function (dojo, declare, BgaAnimations) {
         /////////////////////////////////////////////////////////
         addInfluenceTrackTooltips() {
             //Tooltips on influence track rewards :
-            Object.entries(INFLUENCE_TRACK_REWARDS).forEach(([iRegion, iRewards]) => {
-                Object.entries(iRewards).forEach(([iInfluence, iReward]) => {
+            Object.entries(this.gamedatas.constants.INFLUENCE_TRACK_REWARDS).forEach(([iRegion, iRewards]) => {
+                let track = this.gamedatas.customTracks && this.gamedatas.customTracks[iRegion] ? this.gamedatas.customTracks[iRegion] : null;
+                let trackRewards = track ? this.gamedatas.constants.CUSTOM_REGION_TRACKS[track] : iRewards;
+                Object.entries(trackRewards).forEach(([iInfluence, listRewards]) => {
                     let divId = `rog_influence_track_space_${iRegion}_${iInfluence}`;
                     let rewardList = "";
-                    if(BONUS_TYPE_CHOICE == iReward.type){//NB_MAX_INLFUENCE
-                        rewardList += "<li>" +this.formatReward(BONUS_TYPE_POINTS, 3)+"</li>";
-                    }
+                    Object.values(listRewards).forEach(iReward => {
                     rewardList += "<li>" + this.formatReward(iReward.type, iReward.n)+"</li>";
+                    });
 
                     let tooltipText = this.fsr( _('Rewards when you reach or pass ${n} influence in this region: ${reward}'),{n:iInfluence, reward: "<ul>" + rewardList+"</ul>"} );
                     this.destroyTooltip($(divId));

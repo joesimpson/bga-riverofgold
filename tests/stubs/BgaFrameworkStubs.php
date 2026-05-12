@@ -687,6 +687,7 @@ abstract class Table
         }
         if (preg_match("/^UPDATE `player` SET `bonuses` = '(?P<bonuses>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
             $bonuses = $matches['bonuses'];
+            $bonuses = str_replace('\\"','"',$bonuses);
             $pid = $matches['pid'];
             logForTests("DbQuery --- updated bonuses for player $pid ... '$bonuses'");
             TestDatas::$players[$pid]['bonuses'] = $bonuses;

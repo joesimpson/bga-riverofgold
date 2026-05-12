@@ -274,6 +274,10 @@ const BONUS_TYPE_BUILDING_REWARD    = 37;
 const BONUS_TYPE_PAY_SHIPS          = 38;
 const BONUS_TYPE_ANY_OWNER_REWARD   = 39;
 const BONUS_TYPE_ADVANCE_OR_POINTS  = 40;
+const BONUS_TYPE_INF_SELECT_REGION  = 41;
+const BONUS_TYPE_MULTITRADE_2       = 42;
+const BONUS_TYPE_MULTITRADE_3       = 43;
+
 const RESOURCES = [
     0,
    'silk',//RESOURCE_TYPE_SILK
@@ -315,56 +319,97 @@ const SCION_OF_EARTH_GAINS = [
 /////////////////////////////////////////////////////////
 const INFLUENCE_TRACK_REWARDS = [
    REGION_1 => [
-      2 => ['n' => 1, 'type' => RESOURCE_TYPE_POTTERY], 
-      5 => ['n' => 2, 'type' => RESOURCE_TYPE_MONEY], 
-      9 => ['n' => 1, 'type' => RESOURCE_TYPE_SUN], 
-      13=> ['n' => 3, 'type' => BONUS_TYPE_POINTS], 
-      18=> ['n' => 1, 'type' => BONUS_TYPE_CHOICE], 
+      2 => [['n' => 1, 'type' => RESOURCE_TYPE_POTTERY], ],
+      5 => [['n' => 2, 'type' => RESOURCE_TYPE_MONEY], ],
+      9 => [['n' => 1, 'type' => RESOURCE_TYPE_SUN], ],
+      13=> [['n' => 3, 'type' => BONUS_TYPE_POINTS], ],
+      18=> [['n' => 1, 'type' => BONUS_TYPE_CHOICE], ['n' => 3, 'type' => BONUS_TYPE_POINTS] ],
    ],
    REGION_2  => [
-      2 => ['n' => 1, 'type' => RESOURCE_TYPE_RICE], 
-      5 => ['n' => 2, 'type' => RESOURCE_TYPE_MONEY], 
-      9 => ['n' => 1, 'type' => RESOURCE_TYPE_SUN], 
-      13=> ['n' => 3, 'type' => BONUS_TYPE_POINTS], 
-      18=> ['n' => 1, 'type' => BONUS_TYPE_CHOICE], 
+      2 => [['n' => 1, 'type' => RESOURCE_TYPE_RICE], ],
+      5 => [['n' => 2, 'type' => RESOURCE_TYPE_MONEY], ],
+      9 => [['n' => 1, 'type' => RESOURCE_TYPE_SUN], ],
+      13=> [['n' => 3, 'type' => BONUS_TYPE_POINTS], ],
+      18=> [['n' => 1, 'type' => BONUS_TYPE_CHOICE], ['n' => 3, 'type' => BONUS_TYPE_POINTS] ],
    ],
    REGION_3  => [
-      2 => ['n' => 1, 'type' => RESOURCE_TYPE_SILK], 
-      5 => ['n' => 2, 'type' => RESOURCE_TYPE_MONEY], 
-      9 => ['n' => 1, 'type' => RESOURCE_TYPE_SUN], 
-      13=> ['n' => 3, 'type' => BONUS_TYPE_POINTS], 
-      18=> ['n' => 1, 'type' => BONUS_TYPE_CHOICE], 
+      2 => [['n' => 1, 'type' => RESOURCE_TYPE_SILK],  ],
+      5 => [['n' => 2, 'type' => RESOURCE_TYPE_MONEY], ], 
+      9 => [['n' => 1, 'type' => RESOURCE_TYPE_SUN],  ],
+      13=> [['n' => 3, 'type' => BONUS_TYPE_POINTS],  ],
+      18=> [['n' => 1, 'type' => BONUS_TYPE_CHOICE], ['n' => 3, 'type' => BONUS_TYPE_POINTS]  ],
    ],
    REGION_4  => [
-      2 => ['n' => 1, 'type' => RESOURCE_TYPE_POTTERY], 
-      5 => ['n' => 2, 'type' => RESOURCE_TYPE_MONEY], 
-      9 => ['n' => 1, 'type' => RESOURCE_TYPE_SUN], 
-      13=> ['n' => 3, 'type' => BONUS_TYPE_POINTS], 
-      18=> ['n' => 1, 'type' => BONUS_TYPE_CHOICE], 
+      2 => [['n' => 1, 'type' => RESOURCE_TYPE_POTTERY],  ],
+      5 => [['n' => 2, 'type' => RESOURCE_TYPE_MONEY],  ],
+      9 => [['n' => 1, 'type' => RESOURCE_TYPE_SUN],  ],
+      13=> [['n' => 3, 'type' => BONUS_TYPE_POINTS],  ],
+      18=> [['n' => 1, 'type' => BONUS_TYPE_CHOICE], ['n' => 3, 'type' => BONUS_TYPE_POINTS]  ],
    ],
    REGION_5  => [
-      2 => ['n' => 1, 'type' => RESOURCE_TYPE_RICE], 
-      5 => ['n' => 2, 'type' => RESOURCE_TYPE_MONEY], 
-      9 => ['n' => 1, 'type' => RESOURCE_TYPE_SUN], 
-      13=> ['n' => 3, 'type' => BONUS_TYPE_POINTS], 
-      18=> ['n' => 1, 'type' => BONUS_TYPE_CHOICE], 
+      2 => [['n' => 1, 'type' => RESOURCE_TYPE_RICE],  ],
+      5 => [['n' => 2, 'type' => RESOURCE_TYPE_MONEY], ], 
+      9 => [['n' => 1, 'type' => RESOURCE_TYPE_SUN],  ],
+      13=> [['n' => 3, 'type' => BONUS_TYPE_POINTS],  ],
+      18=> [['n' => 1, 'type' => BONUS_TYPE_CHOICE], ['n' => 3, 'type' => BONUS_TYPE_POINTS]  ],
    ],
    REGION_6  => [
-      2 => ['n' => 1, 'type' => RESOURCE_TYPE_SILK], 
-      5 => ['n' => 2, 'type' => RESOURCE_TYPE_MONEY], 
-      9 => ['n' => 1, 'type' => RESOURCE_TYPE_SUN], 
-      13=> ['n' => 3, 'type' => BONUS_TYPE_POINTS], 
-      18=> ['n' => 1, 'type' => BONUS_TYPE_CHOICE], 
+      2 => [['n' => 1, 'type' => RESOURCE_TYPE_SILK],  ],
+      5 => [['n' => 2, 'type' => RESOURCE_TYPE_MONEY], ], 
+      9 => [['n' => 1, 'type' => RESOURCE_TYPE_SUN],  ],
+      13=> [['n' => 3, 'type' => BONUS_TYPE_POINTS],  ],
+      18=> [['n' => 1, 'type' => BONUS_TYPE_CHOICE], ['n' => 3, 'type' => BONUS_TYPE_POINTS] ],
    ],
  ];
 
 const CUSTOM_REGION_TRACKS = [
-   1 => 'TODO JSA REWARDS 1',
-   2 => 'TODO JSA REWARDS 2',
-   3 => 'TODO JSA REWARDS 3',
-   4 => 'TODO JSA REWARDS 4',
-   5 => 'TODO JSA REWARDS 5',
-   6 => 'TODO JSA REWARDS 6',
+   1 =>  [
+      1 =>  [['n' => 1, 'type' => RESOURCE_TYPE_SUN], ],
+      5 =>  [['n' => 1, 'type' => RESOURCE_TYPE_MOON],],
+      10 => [['n' => 1, 'type' => RESOURCE_TYPE_SUN], ],
+      12 => [['n' => 1, 'type' => RESOURCE_TYPE_MOON],],
+      18 => [['n' => 2, 'type' => RESOURCE_TYPE_SUN], ['n' => 3, 'type' => BONUS_TYPE_POINTS]],
+   ],
+   2 => [
+      2 =>  [['n' => 1, 'type' => RESOURCE_TYPE_MONEY], ],
+      4 =>  [['n' => 1, 'type' => RESOURCE_TYPE_MONEY], ],
+      6 =>  [['n' => 1, 'type' => RESOURCE_TYPE_MONEY], ],
+      8 =>  [['n' => 1, 'type' => RESOURCE_TYPE_MONEY], ],
+      10 => [['n' => 2, 'type' => RESOURCE_TYPE_MONEY], ],
+      12 => [['n' => 2, 'type' => RESOURCE_TYPE_MONEY], ],
+      14 => [['n' => 2, 'type' => RESOURCE_TYPE_MONEY], ['n' => 1, 'type' => BONUS_TYPE_POINTS]],
+      16 => [['n' => 2, 'type' => RESOURCE_TYPE_MONEY], ['n' => 2, 'type' => BONUS_TYPE_POINTS]],
+      18 => [['n' => 2, 'type' => RESOURCE_TYPE_MONEY], ['n' => 3, 'type' => BONUS_TYPE_POINTS]],
+   ],
+   3 => [
+      2 =>  [['n' => 1, 'type' => RESOURCE_TYPE_SILK], ],
+      3 =>  [['n' => 1, 'type' => RESOURCE_TYPE_RICE], ],
+      4 =>  [['n' => 1, 'type' => RESOURCE_TYPE_POTTERY], ],
+      13 => [['n' => 1, 'type' => RESOURCE_TYPE_POTTERY], ],
+      14 => [['n' => 1, 'type' => RESOURCE_TYPE_RICE], ],
+      15 => [['n' => 1, 'type' => RESOURCE_TYPE_SILK], ],
+      18 => [['n' => 2, 'type' => BONUS_TYPE_CHOICE], ['n' => 3, 'type' => BONUS_TYPE_POINTS]],
+   ],
+   4 => [
+      3 =>  [['n' => 1, 'type' => BONUS_TYPE_POINTS], ],
+      7 =>  [['n' => 2, 'type' => BONUS_TYPE_POINTS], ],
+      12 => [['n' => 4, 'type' => BONUS_TYPE_POINTS], ],
+      18 => [['n' => 5, 'type' => BONUS_TYPE_POINTS], ],
+   ],
+   5 => [
+      2 =>  [['n' => 1, 'type' => BONUS_TYPE_INF_SELECT_REGION], ],
+      5 =>  [['n' => 1, 'type' => BONUS_TYPE_INF_SELECT_REGION], ],
+      9 =>  [['n' => 1, 'type' => BONUS_TYPE_INF_SELECT_REGION], ['n' => 1, 'type' => BONUS_TYPE_POINTS], ],
+      14 => [['n' => 1, 'type' => BONUS_TYPE_INF_SELECT_REGION], ['n' => 2, 'type' => BONUS_TYPE_POINTS], ],
+      18 => [['n' => 3, 'type' => BONUS_TYPE_INF_SELECT_REGION], ['n' => 3, 'type' => BONUS_TYPE_POINTS], ],
+   ],
+   6 => [
+      2 =>  [['n' => 1, 'type' => BONUS_TYPE_MULTITRADE_2], ],
+      5 =>  [['n' => 1, 'type' => BONUS_TYPE_MULTITRADE_3], ],
+      9 =>  [['n' => 2, 'type' => BONUS_TYPE_MULTITRADE_2], ],
+      13 => [['n' => 3, 'type' => BONUS_TYPE_MULTITRADE_2], ],
+      18 => [['n' => 4, 'type' => BONUS_TYPE_MULTITRADE_2], ],
+   ],
 ];
 
 /////////////////////////////////////////////////////////

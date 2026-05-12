@@ -123,6 +123,10 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
           'customerTypes' => Globals::getCustomerTypes(),
           'customTracks' => Globals::getRegionCustomTracks(),
           'version'=> Utils::gameVersion(),
+          'constants' => [
+            'INFLUENCE_TRACK_REWARDS' => INFLUENCE_TRACK_REWARDS,
+            'CUSTOM_REGION_TRACKS' => CUSTOM_REGION_TRACKS,
+          ]
         ];
         return $result;
     }

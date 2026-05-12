@@ -6,6 +6,7 @@ use ROG\Core\Game;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
+use ROG\Models\Player;
 
 /*
  * Globals
@@ -203,6 +204,16 @@ class Globals extends \ROG\Helpers\DB_Manager
   {
     $bonuses = $player->getBonuses();
     $bonuses[] = $type;
+    $player->setBonuses($bonuses);
+    if($sendNotif) Notifications::addBonus($player, $type, $typeText);
+  }
+  
+  public static function addBonusWithDatas(Player &$player,int $type,array $datas,string $typeText = '',bool $sendNotif = true)
+  {
+    $bonuses = $player->getBonuses();
+    $datasToSave = $datas;
+    $datasToSave['type'] = $type;
+    $bonuses[] = $datasToSave;
     $player->setBonuses($bonuses);
     if($sendNotif) Notifications::addBonus($player, $type, $typeText);
   }

@@ -133,4 +133,16 @@ abstract class Utils
         }
         return false;
     }
+
+    public static function getInfluenceTrackRewards(int $region){
+
+        $customTracks = Globals::getRegionCustomTracks();
+        if(isset($customTracks) && array_key_exists($region,$customTracks)){
+            $trackId = $customTracks[$region];
+            if(array_key_exists($trackId,CUSTOM_REGION_TRACKS)){
+                return CUSTOM_REGION_TRACKS[$trackId];
+            }
+        } 
+        return INFLUENCE_TRACK_REWARDS[$region];
+    }
 }

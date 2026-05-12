@@ -7,6 +7,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\Utils;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Player;
@@ -112,7 +113,7 @@ class Players extends \ROG\Helpers\DB_Manager
    */
   public static function incPlayerScore($pId, $score)
   {
-    Game::get()->trace("incPlayerScore($pId)");
+    Game::get()->trace("incPlayerScore($pId, $score)");
 
     return self::DB()
       ->inc(['player_score' => $score])
@@ -366,8 +367,8 @@ class Players extends \ROG\Helpers\DB_Manager
     
     //Earn bonus on track :
     $goToBonusChoice = false;
-    $bonuses = INFLUENCE_TRACK_REWARDS[$region];
-    foreach($bonuses as $influence => $bonus){
+    $bonuses = Utils::getInfluenceTrackRewards($region);
+    foreach($bonuses as $influence => $bonusList){ foreach($bonusList as $bonus){
       if($influence > $currentInfluence && $influence<=$newInfluence){
         //if this position is new, let's win bonus
         $bonusQuantity = $bonus['n'];
@@ -375,18 +376,27 @@ class Players extends \ROG\Helpers\DB_Manager
         if(BONUS_TYPE_POINTS == $bonusType){
           $player->addPoints($bonusQuantity);
         }
-        else if(BONUS_TYPE_CHOICE == $bonusType){
-          //3 points + bonus
-          //!\\ WARNING : part of code is copied on front side for track tooltip
+        else if(in_array($bonusType,[
+            BONUS_TYPE_INF_SELECT_REGION,
+            BONUS_TYPE_MULTITRADE_2,
+            BONUS_TYPE_MULTITRADE_3,
+          ])
+        ){
+          Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity]);
           $goToBonusChoice = true;
-          $player->addPoints(3);
+        }
+        else if(in_array($bonusType,[
+            BONUS_TYPE_CHOICE,
+          ])
+        ){
+          Globals::addBonus($player,$bonusType);
+          $goToBonusChoice = true;
         }
         else {
           $player->giveResource($bonusQuantity,$bonusType);
         }
       }
-    }
-    if($goToBonusChoice) Globals::addBonus($player,BONUS_TYPE_CHOICE);
+    }}
     return $goToBonusChoice;
   }
   
