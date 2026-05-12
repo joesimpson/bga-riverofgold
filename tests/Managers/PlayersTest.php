@@ -1186,11 +1186,16 @@ final class PlayersTest extends TestCase
         $amount = 18;
         Globals::setRegionCustomTracks([$region => $regionCustom]);
         $expectedBonuses = [
-            ['region'=>$region,'bonusQuantity'=>1,'type' => BONUS_TYPE_INF_SELECT_REGION,],
-            ['region'=>$region,'bonusQuantity'=>1,'type' => BONUS_TYPE_INF_SELECT_REGION,],
-            ['region'=>$region,'bonusQuantity'=>1,'type' => BONUS_TYPE_INF_SELECT_REGION,],
-            ['region'=>$region,'bonusQuantity'=>1,'type' => BONUS_TYPE_INF_SELECT_REGION,],
-            ['region'=>$region,'bonusQuantity'=>3,'type' => BONUS_TYPE_INF_SELECT_REGION,],
+            'datas' => [
+                BONUS_TYPE_INF_SELECT_REGION => [
+                    1 => ['region'=>$region,'bonusQuantity'=>1,],
+                    2 => ['region'=>$region,'bonusQuantity'=>1,],
+                    3 => ['region'=>$region,'bonusQuantity'=>1,],
+                    4 => ['region'=>$region,'bonusQuantity'=>1,],
+                    5 => ['region'=>$region,'bonusQuantity'=>3,],
+                ],
+                
+            ],
         ];
 
         $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
@@ -1218,11 +1223,18 @@ final class PlayersTest extends TestCase
         $amount = 18;
         Globals::setRegionCustomTracks([$region => $regionCustom]);
         $expectedBonuses = [
-            ['region'=>$region,'bonusQuantity'=>1,'type' => BONUS_TYPE_MULTITRADE_2,],
-            ['region'=>$region,'bonusQuantity'=>1,'type' => BONUS_TYPE_MULTITRADE_3,],
-            ['region'=>$region,'bonusQuantity'=>2,'type' => BONUS_TYPE_MULTITRADE_2,],
-            ['region'=>$region,'bonusQuantity'=>3,'type' => BONUS_TYPE_MULTITRADE_2,],
-            ['region'=>$region,'bonusQuantity'=>4,'type' => BONUS_TYPE_MULTITRADE_2,],
+            'datas' => [
+                BONUS_TYPE_MULTITRADE_2 => [
+                    1 => ['region'=>$region,'bonusQuantity'=>1,],
+                    2 => ['region'=>$region,'bonusQuantity'=>2,],
+                    3 => ['region'=>$region,'bonusQuantity'=>3,],
+                    4 => ['region'=>$region,'bonusQuantity'=>4,],
+                ],
+                
+                BONUS_TYPE_MULTITRADE_3 => [
+                    1 => ['region'=>$region,'bonusQuantity'=>1,],
+                ],
+            ],
         ];
 
         $goToBonusChoice = Players::gainInfluence($player,$region,$amount);

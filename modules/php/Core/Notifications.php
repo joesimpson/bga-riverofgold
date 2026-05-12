@@ -225,7 +225,7 @@ class Notifications
    * @param int $type
    * @param string $typeText (optional)
    */
-  public static function addBonus($player,$type,$typeText = '')
+  public static function addBonus($player,$type,$typeText = '',?int $amount = null)
   {
     $msg = clienttranslate('${player_name} receives a bonus decision ${bonus_icon}${bonus_text}');
     self::notifyAll('addBonus', $msg, [
@@ -233,6 +233,7 @@ class Notifications
       'player' => $player,
       'bonus_icon' => $type,
       'bonus_text' => $typeText,
+      'n' => $amount,
     ]);
     
   }

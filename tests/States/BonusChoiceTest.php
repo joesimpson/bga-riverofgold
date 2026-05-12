@@ -502,6 +502,47 @@ final class BonusChoiceTest extends TestCase
         assertSame(ST_BONUS_ADVANCE_CITY, GamestateMachine::$test_current_state);
     }
     
+    public function test_ActionBonus_Pass_InfluenceRewardSelectRegion(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $region = 1;
+        $bonusType = BONUS_TYPE_INF_SELECT_REGION;
+        $bonusKey = 3;
+        $bonuses = [
+            'datas' => [
+                $bonusType => [
+                    1 => ['region'=>$region,'bonusQuantity'=>1,],
+                    2 => ['region'=>$region,'bonusQuantity'=>1,],
+                    3 => ['region'=>$region,'bonusQuantity'=>1,],
+                    4 => ['region'=>$region,'bonusQuantity'=>1,],
+                    5 => ['region'=>$region,'bonusQuantity'=>3,],
+                ],
+                
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [
+            'datas' => [
+                $bonusType => [
+                    1 => ['region'=>$region,'bonusQuantity'=>1,],
+                    2 => ['region'=>$region,'bonusQuantity'=>1,],
+                    4 => ['region'=>$region,'bonusQuantity'=>1,],
+                    5 => ['region'=>$region,'bonusQuantity'=>3,],
+                ],
+                
+            ],
+        ];
+
+        $game->actBonus($bonusType,$bonusKey);
+        
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame(['region'=>$region,'bonusQuantity'=>1,], Globals::getCurrentBonusDatas());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_SELECT_REGION, GamestateMachine::$test_current_state);
+    }
     
     public function test_ActionBonus_KO_WrongBonus(): void
     {

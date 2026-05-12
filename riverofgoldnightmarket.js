@@ -164,6 +164,10 @@ function (dojo, declare, BgaAnimations) {
     const BONUS_TYPE_PAY_SHIPS          = 38;
     const BONUS_TYPE_ANY_OWNER_REWARD   = 39;
     const BONUS_TYPE_ADVANCE_OR_POINTS  = 40;
+    const BONUS_TYPE_INF_SELECT_REGION  = 41;
+    const BONUS_TYPE_MULTITRADE_2       = 42;
+    const BONUS_TYPE_MULTITRADE_3       = 43;
+
     const RESOURCES = [
         0,
         'silk',//RESOURCE_TYPE_SILK
@@ -271,7 +275,11 @@ function (dojo, declare, BgaAnimations) {
             //Filter states where we don't want other players to display state actions
             this._activeStates = ['deliver','discardCard','draftMulti'];
             this._inactiveStates = ['draft','scoring','gameEnd'];
-            this._migratedStates = ['BonusPlaceLion','BonusBuildingReward','BonusPayShips','BonusAdvanceCity'];
+            this._migratedStates = [
+                //States extending GameState that don't already define title -> we must display dynamic title
+                'BonusPlaceLion','BonusBuildingReward','BonusPayShips','BonusAdvanceCity',
+                'BonusSelectRegion',
+            ];
             
             this._hideNotifsWhenMultiActive = true;
             
@@ -925,9 +933,10 @@ function (dojo, declare, BgaAnimations) {
                 $('btnTrade').classList.add('disabled');
             }
 
+            let possibleBonuses = args.p;
             let k=0;
-            Object.values(args.p).forEach((bonusType) => {
-                let iconBonus = this.formatIcon('bonus-'+bonusType);
+            let manageBonus = (bonusType,bonusKey, amount = null) => {
+                let iconBonus = this.formatIcon('bonus-'+bonusType,amount);
                 let buttonText = '';
                 if(BONUS_TYPE_REFILL_HAND == bonusType) buttonText = _('Refill hand');
                 else if(BONUS_TYPE_SELL_GOODS == bonusType) buttonText = _('Sell goods');
@@ -952,17 +961,31 @@ function (dojo, declare, BgaAnimations) {
                     }
                     if(confirmMessage){
                         this.confirmationDialog(confirmMessage, () => {
-                            this.takeAction('actBonus', {t:bonusType});
+                            this.takeAction('actBonus', {'t':bonusType, 'bonusKey':bonusKey});
                         });
                     }
                     else {
-                        this.takeAction('actBonus', {t:bonusType});
+                        this.takeAction('actBonus', {'t':bonusType, 'bonusKey':bonusKey});
                     }
                 });
                 if(BONUS_TYPE_SET_DIE == bonusType && args.cannotSetDie){
                     $(`btnBonus_${k}_${bonusType}`).classList.add('disabled');
                 }
                 k++;
+            };
+            Object.entries(possibleBonuses).forEach( ([key, bonusDatas]) => {
+                if(key == 'datas'){
+                    //arrays with datas
+                    Object.entries(bonusDatas).forEach( ([bonusType, bonusList]) => {
+                        Object.entries(bonusList).forEach( ([bonusKey, bonusData]) => {
+                            manageBonus(bonusType,bonusKey,bonusData['bonusQuantity']);
+                        });
+                    });
+                }
+                else {
+                    //simple value
+                    manageBonus(bonusDatas);
+                }
             });
 
             this.addPrimaryActionButton(`btnSkip`, _('Skip') , () =>  { 
@@ -1226,6 +1249,33 @@ function (dojo, declare, BgaAnimations) {
                
             });
             
+
+        },
+        
+        onEnteringStateBonusSelectRegion(args){
+            debug('onEnteringStateBonusSelectRegion', args);
+   
+            let currentBonus = args.c;
+            let currentBonusDatas = args.cbd;
+            let amount = currentBonusDatas.bonusQuantity;
+            let bonusIcon = this.formatIcon('bonus-'+currentBonus, amount);
+            this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
+                _('${you} must select a region for ${bonus}').replace('${bonus}', bonusIcon) :
+                _('${actplayer} must select a region for ${bonus}').replace('${bonus}', bonusIcon)
+            );
+
+            let possibles = (args.p);
+            Object.values(possibles).forEach((region) => {
+                let iconRegion = this.formatIcon("influence-"+region, region);
+                this.addImageActionButton(`btnSelectRegion_${region}`, 
+                    `<div class='rog_trade'>
+                        ${iconRegion}
+                    </div>`,
+                    () =>  {
+                        this.takeAction('actSelectRegion', {'choice':region});
+                    }
+                );
+            });
 
         },
 
@@ -2341,7 +2391,7 @@ function (dojo, declare, BgaAnimations) {
                 }
                 let bonus_icon = 'bonus_icon';
                 if(bonus_icon in args) {
-                    args.bonus_icon = this.formatIcon('bonus-'+args.bonus_icon);
+                    args.bonus_icon = this.formatIcon('bonus-'+args.bonus_icon, args.n);
                 }
                 
                 if('lion_marker' in args) {
@@ -2367,7 +2417,7 @@ function (dojo, declare, BgaAnimations) {
         formatIcon(name, n = null) {
             let type = name;
             let text = n == null ? '' : `<span class='rog_icon_qty'>${n}</span>`;
-            return `<div class="rog_icon_container rog_icon_container_${type}">
+            return `<div class="rog_icon_container rog_icon_container_${type}" data-qty="${n}">
                 <div class="rog_icon rog_icon_${type}">${text}</div>
                 </div>`;
         },
@@ -2397,6 +2447,8 @@ function (dojo, declare, BgaAnimations) {
                 case BONUS_TYPE_MONEY_PER_MANOR:    return this.fsr(_('Gain ${n} Koku per ${building} you own'), {n:quantity, building:_('Manor') });
                 case BONUS_TYPE_MONEY_PER_MARKET:   return this.fsr(_('Gain ${n} Koku per ${building} you own'), {n:quantity, building:_('Market') });
                 case BONUS_TYPE_MONEY_PER_SHRINE:   return this.fsr(_('Gain ${n} Koku per ${building} you own'), {n:quantity, building:_('Shrine') });
+
+                case BONUS_TYPE_INF_SELECT_REGION:   return this.fsr(_('Gain ${n} influence in another region.'), {'n':quantity, });
             }
             return '';
         },

@@ -153,6 +153,23 @@
                 display: none;
             }
         }
+        .rog_icon_container_influence-1,
+        .rog_icon_container_influence-2,
+        .rog_icon_container_influence-3,
+        .rog_icon_container_influence-4,
+        .rog_icon_container_influence-5,
+        .rog_icon_container_influence-6
+        {
+            background-color: white;
+            border-radius: 50%;
+            .rog_icon_qty{
+                //display number on the left
+                color: white;
+                display: inline-block;
+                margin-left: -1.3em;
+                font-size: 2em;
+            }
+        }
     }
 }
 body[data-rog_undo_style='1']{//PREF_UNDO_STYLE_TEXT

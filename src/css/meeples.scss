@@ -473,7 +473,7 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
                 left: 0px;
                 width: 100%;
                 height: 100%;
-                background-repeat: no-repeat;
+                background-repeat: repeat;
                 background-image: url("img/regions/6tracks.png");
                 background-size: 200% 300%;
             }

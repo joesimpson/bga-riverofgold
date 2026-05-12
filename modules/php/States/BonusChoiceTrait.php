@@ -60,20 +60,21 @@ trait BonusChoiceTrait
   /**
    * @param int $bonusType
    */
-  public function actBonus($bonusType)
+  public function actBonus(int $bonusType, ?int $bonusKey = null)
   { 
     self::checkAction('actBonus'); 
-    self::trace("actBonus($bonusType)");
+    self::trace("actBonus($bonusType,$bonusKey)");
 
     $player = Players::getCurrent();
     $this->addStep();
 
-    if(!$this->canSelectBonusType($player,$bonusType)){
-      throw new UnexpectedException(405,"You don't have this bonus $bonusType");
+    if(!$this->canSelectBonusType($player,$bonusType,$bonusKey)){
+      throw new UnexpectedException(405,"You don't have this bonus $bonusType (#$bonusKey)");
     }
 
     Globals::setCurrentBonus($bonusType);
-    Globals::removeBonus($player,$bonusType);
+    $removeDatas = Globals::removeBonus($player,$bonusType,$bonusKey);
+    if(isset($removeDatas)) Globals::setCurrentBonusDatas($removeDatas);
 
     switch($bonusType){
       case BONUS_TYPE_CHOICE:
@@ -133,6 +134,9 @@ trait BonusChoiceTrait
       case BONUS_TYPE_ADVANCE_OR_POINTS:
         $nextState = 'bonusAdvanceCity';
         break;
+      case BONUS_TYPE_INF_SELECT_REGION:
+        $nextState = 'bonusSelectRegion';
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }
@@ -144,7 +148,7 @@ trait BonusChoiceTrait
    * @param Player $player
    * @return array of int
    */
-  public function listPossibleBonusTypes($player)
+  public function listPossibleBonusTypes(Player $player)
   { 
     return $player->getBonuses();
   }
@@ -156,10 +160,17 @@ trait BonusChoiceTrait
    * false otherwise
    * 
    */
-  public function canSelectBonusType($player,$bonusType)
+  public function canSelectBonusType(Player $player,int $bonusType, ?int $bonusKey = null) : bool
   { 
     $bonuses = $this->listPossibleBonusTypes($player);
-    if(!in_array($bonusType,$bonuses) ) return false;
+    if(isset($bonusKey)){
+      if(!array_key_exists('datas',$bonuses) ) return false;
+      if(!array_key_exists($bonusType,$bonuses['datas']) ) return false;
+      if(!array_key_exists($bonusKey, $bonuses['datas'][$bonusType]) ) return false;
+    }
+    else {
+      if(!in_array($bonusType,$bonuses) ) return false;
+    }
 
     return true;
   }

@@ -130,7 +130,8 @@
       self::setAjaxMode();
       self::checkVersion();
       $bonusType = self::getArg( "t", AT_posint, true );
-      $this->game->actBonus($bonusType);
+      $bonusKey = self::getArg( "bonusKey", AT_posint, false );
+      $this->game->actBonus($bonusType,$bonusKey);
       self::ajaxResponse();
     }
     

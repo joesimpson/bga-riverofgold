@@ -56,6 +56,34 @@
     background-position-y: 33%;
     border-radius: 50%;
 }
+.rog_icon_bonus-41{//BONUS_TYPE_INF_SELECT_REGION
+    //Extract from bonus track
+    @include rog_icons_on_influence_tracks(-1318px,-503px,35px,35px,90px,90px);
+    .rog_icon_qty{
+        display: none;
+    }
+}
+.rog_icon_container_bonus-41{//BONUS_TYPE_INF_SELECT_REGION
+    &[data-qty="3"]{
+        .rog_icon{
+            @include rog_icons_on_influence_tracks(-1818px,-776px,35px,35px,54px,54px);
+        }
+    }
+}
+.rog_icon_bonus-42{//BONUS_TYPE_MULTITRADE_2
+    //Extract from bonus track
+    @include rog_icons_on_influence_tracks(-1314px,-938px,35px,35px,100px,100px);
+    .rog_icon_qty{
+        display: none;
+    }
+}
+.rog_icon_bonus-43{//BONUS_TYPE_MULTITRADE_3
+    //Extract from bonus track
+    @include rog_icons_on_influence_tracks(-1670px,-940px,35px,35px,100px,100px);
+    .rog_icon_qty{
+        display: none;
+    }
+}
 
 .rog_icon_container_ship-3{
     vertical-align: baseline;

@@ -34,6 +34,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     'stateBeforeTrade' => 'int',
 
     'currentBonus' => 'int',
+    'currentBonusDatas' => 'obj',
     //array of Bonuses to be earned by selection of something -> moved to player table
     //'bonuses' => 'obj',
 
@@ -60,6 +61,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::setEra(1);
     //self::setBonuses([]);
     self::setCurrentBonus(null);
+    self::setCurrentBonusDatas(null);
     self::setStateBeforeTrade(null);
 
     self::setEndPlayer(null);
@@ -212,22 +214,40 @@ class Globals extends \ROG\Helpers\DB_Manager
   {
     $bonuses = $player->getBonuses();
     $datasToSave = $datas;
-    $datasToSave['type'] = $type;
-    $bonuses[] = $datasToSave;
+    //$datasToSave['type'] = $type;
+    $nextKey = 1;
+    if(isset($bonuses) && array_key_exists('datas',$bonuses) && array_key_exists($type,$bonuses['datas']) ){
+      $nextKey = max(array_keys($bonuses['datas'][$type])) +1;
+    }
+    $bonuses['datas'][$type][$nextKey] = $datasToSave;
     $player->setBonuses($bonuses);
-    if($sendNotif) Notifications::addBonus($player, $type, $typeText);
+    if($sendNotif) Notifications::addBonus($player, $type, $typeText,$datas['bonusQuantity']);
   }
   /**
+   * Remove bonus from player pending list while we treat the bonus
    * @param Player $player
    * @param int $type
+   * @param ?int $bonusKey (Optional) key to remove in 'datas' array
+   * @return array|int|null removed datas
    */
-  public static function removeBonus($player, $type)
+  public static function removeBonus(Player $player, int $type,?int $bonusKey = null) : array|int|null
   {
     $bonuses = $player->getBonuses();
-    $key = array_search($type,$bonuses);
-    if(!isset($key)) return;
-    unset($bonuses[$key]);
+    if(isset($bonusKey)){
+      if(!array_key_exists('datas',$bonuses)) return null;
+      if(!array_key_exists($type,$bonuses['datas'])) return null;
+      //$old = ['type' =>$type, 'datas' => $bonuses['datas'][$type][$bonusKey]];
+      $old = $bonuses['datas'][$type][$bonusKey];
+      unset($bonuses['datas'][$type][$bonusKey]);
+    }
+    else {
+      $key = array_search($type,$bonuses);
+      if(!isset($key)) return null;
+      $old = $bonuses[$key];
+      unset($bonuses[$key]);
+    }
     $player->setBonuses($bonuses);
+    return $old;
   }
   
   /**

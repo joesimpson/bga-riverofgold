@@ -268,6 +268,11 @@ trait DebugTrait
     Globals::addBonus($player,BONUS_TYPE_PAY_SHIPS        );
     Globals::addBonus($player,BONUS_TYPE_ANY_OWNER_REWARD );
     Globals::addBonus($player,BONUS_TYPE_ADVANCE_OR_POINTS);
+    Globals::addBonusWithDatas($player,BONUS_TYPE_INF_SELECT_REGION,['region'=>2,'bonusQuantity'=>1]);
+    Globals::addBonusWithDatas($player,BONUS_TYPE_INF_SELECT_REGION,['region'=>2,'bonusQuantity'=>3]);
+    Globals::addBonusWithDatas($player,BONUS_TYPE_INF_SELECT_REGION,['region'=>3,'bonusQuantity'=>1]);
+    Globals::addBonusWithDatas($player,BONUS_TYPE_MULTITRADE_2,['region'=>3,'bonusQuantity'=>4]);
+    Globals::addBonusWithDatas($player,BONUS_TYPE_MULTITRADE_3,['region'=>3,'bonusQuantity'=>1]);
     
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }

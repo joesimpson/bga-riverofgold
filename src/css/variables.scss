@@ -31,3 +31,14 @@ Icon extract in sprite with differents layers size (so % is not useful).
         math.percentage(math.div($rog_icons_sprite_width, $layer_width )) 
         math.percentage(math.div($rog_icons_sprite_height,$layer_height ));
 }
+
+@mixin rog_icons_on_influence_tracks($iconPosX,$iconPosY,$width,$height,$layer_width,$layer_height){
+    width: $width;
+    height: $height;
+    background-image: url("img/regions/6tracks.png");
+    background-position-x: calc(math.div($width, $layer_width) * $iconPosX);
+    background-position-y: calc(math.div($height, $layer_height ) * $iconPosY);
+    background-size: 
+        math.percentage(math.div(2008px, $layer_width )) 
+        math.percentage(math.div(1329px,$layer_height ));
+}
