@@ -6496,11 +6496,11 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
 }
 
 .rog_icon_bonus-42 {
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  height: 45px;
   background-image: url("img/regions/6tracks.png");
-  background-position-x: -459.9px;
-  background-position-y: -328.3px;
+  background-position-x: -591.3px;
+  background-position-y: -422.1px;
   background-size: 2008% 1329%;
 }
 .rog_icon_bonus-42 .rog_icon_qty {
@@ -6508,11 +6508,11 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
 }
 
 .rog_icon_bonus-43 {
-  width: 35px;
-  height: 35px;
+  width: 45px;
+  height: 45px;
   background-image: url("img/regions/6tracks.png");
-  background-position-x: -584.5px;
-  background-position-y: -329px;
+  background-position-x: -751.5px;
+  background-position-y: -423px;
   background-size: 2008% 1329%;
 }
 .rog_icon_bonus-43 .rog_icon_qty {
@@ -7319,6 +7319,9 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   display: flex;
   align-content: center;
   align-items: center;
+  -webkit-user-select: none;
+     -moz-user-select: none;
+          user-select: none;
 }
 .customimagebutton .rog_trade .rog_button_qty {
   font-size: large;

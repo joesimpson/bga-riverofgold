@@ -196,6 +196,39 @@ class Player extends \ROG\Helpers\DB_Model
     return false;
   }
   
+  public function canSpendResource(int $resourceType, int $amount) : bool
+  {
+    switch($resourceType){
+      case BONUS_TYPE_POINTS: 
+        $currentQty = Players::getUpdatedPlayerScore($this->getId());
+        break;
+      default:
+        $currentQty = $this->getResource($resourceType);
+        break;
+    }
+    if($currentQty < $amount) return false;
+    return true;
+  }
+  public function canReceiveResource(int $resourceType) : bool
+  {
+    switch($resourceType){
+      case BONUS_TYPE_POINTS: 
+        $currentQty = $this->getScore();
+        break;
+      default:
+        $currentQty = $this->getResource($resourceType);
+        break;
+    }
+    if(array_key_exists($resourceType,RESOURCES_LIMIT) ) {
+      $maxDest = RESOURCES_LIMIT[$resourceType];
+    } else if(RESOURCE_TYPE_SUN == $resourceType){
+      $maxDest = $this->getResource(RESOURCE_TYPE_MOON); 
+    }
+    if(isset($maxDest) && $currentQty >= $maxDest) return false;
+
+    return true;
+  }
+  
   /**
    * @param int $region
    * @return int 

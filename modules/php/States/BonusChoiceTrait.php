@@ -74,7 +74,7 @@ trait BonusChoiceTrait
 
     Globals::setCurrentBonus($bonusType);
     $removeDatas = Globals::removeBonus($player,$bonusType,$bonusKey);
-    if(isset($removeDatas)) Globals::setCurrentBonusDatas($removeDatas);
+    Globals::setCurrentBonusDatas($removeDatas);
 
     switch($bonusType){
       case BONUS_TYPE_CHOICE:
@@ -136,6 +136,10 @@ trait BonusChoiceTrait
         break;
       case BONUS_TYPE_INF_SELECT_REGION:
         $nextState = 'bonusSelectRegion';
+        break;
+      case BONUS_TYPE_MULTITRADE_2:
+      case BONUS_TYPE_MULTITRADE_3:
+        $nextState = 'bonusMultiTrades';
         break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");

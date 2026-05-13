@@ -469,6 +469,9 @@ abstract class Table
             $filtered = array_filter(TestDatas::$cards,function ($card) use ( $types, $subtype){return in_array($card['type'], $types) && $card['subtype'] == $subtype;});
             return $filtered;
         }
+        if (preg_match("/^SELECT (.*) FROM `meeples`$/", $sql, $matches) == 1) {
+            return TestDatas::$tokens;
+        }
         if (preg_match("/^SELECT (.*) FROM `meeples` WHERE `player_id` = (?P<player_id>.*) AND \(`meeple_location` = '(?P<meeple_location>.*)'\)$/", $sql, $matches) == 1) {
             $meeple_location = $matches['meeple_location'];
             $player_id = $matches['player_id'];
@@ -721,7 +724,7 @@ abstract class Table
             TestDatas::$players[$pid]['die_face'] = intval($die_face);
             return true;
         }
-        if (preg_match("/^UPDATE `player` SET `player_score` = `player_score` \+ (?P<player_score>\d+) WHERE (\s*)`player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^UPDATE `player` SET `player_score` = `player_score` \+ (?P<player_score>.*) WHERE (\s*)`player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
             $player_score = $matches['player_score'];
             $pid = $matches['pid'];
             logForTests("DbQuery --- INC player_score for player $pid ... '$player_score'");

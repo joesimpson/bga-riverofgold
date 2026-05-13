@@ -1,0 +1,269 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\States;
+
+use Bga\Games\RiverOfGoldNightMarket\States\BonusMultiTrades;
+use GameMock;
+use PHPUnit\Framework\TestCase;
+use ROG\Core\Globals;
+use ROG\Exceptions\UnexpectedException;
+use ROG\Exceptions\UserException;
+use Tests\Utils\TestDatas;
+
+use function PHPUnit\Framework\assertSame;
+use function PHPUnit\Framework\assertFalse;
+
+final class BonusMultiTradesTest extends TestCase
+{
+
+    // -------------------------------------------------
+    public function test_Args_MultiTrade2Points(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        Globals::setChoices(0);
+        $currentBonus = BONUS_TYPE_MULTITRADE_2;
+        $currentBonusDatas = ['bonusQuantity'=>4,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
+        $expectedArgs = [
+            'c' => $currentBonus,
+            'nb' => 4,
+            //'trades' => [
+            //    BONUS_TYPE_POINTS =>  [ 'amount' => 2, ] ,
+            //    BONUS_TYPE_CHOICE =>  [ 'amount' => 1,
+            //        'selection' => [
+            //            RESOURCE_TYPE_SILK,
+            //            RESOURCE_TYPE_RICE,
+            //            RESOURCE_TYPE_POTTERY, 
+            //        ],
+            //    ],
+            //    RESOURCE_TYPE_MONEY => [ 'amount' => 3, ] ,
+            //],
+            
+            'trades' => [
+                ['src' => ['type' => BONUS_TYPE_POINTS,'amount' => 2 ], 'dest' => ['type' => RESOURCE_TYPE_SILK     ,'amount' => 1 ]],
+                ['src' => ['type' => BONUS_TYPE_POINTS,'amount' => 2 ], 'dest' => ['type' => RESOURCE_TYPE_RICE     ,'amount' => 1 ]],
+                ['src' => ['type' => BONUS_TYPE_POINTS,'amount' => 2 ], 'dest' => ['type' => RESOURCE_TYPE_POTTERY  ,'amount' => 1 ]],
+                ['src' => ['type' => BONUS_TYPE_POINTS,'amount' => 2 ], 'dest' => ['type' => RESOURCE_TYPE_MONEY    ,'amount' => 3 ]],
+                
+                ['src' => ['type' => RESOURCE_TYPE_SILK ,'amount' =>1 ],    'dest' => ['type' => BONUS_TYPE_POINTS    ,'amount' =>2 ]],
+                ['src' => ['type' => RESOURCE_TYPE_SILK ,'amount' =>1 ],    'dest' => ['type' => RESOURCE_TYPE_MONEY  ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_RICE ,'amount' =>1 ],    'dest' => ['type' => BONUS_TYPE_POINTS    ,'amount' =>2 ]],
+                ['src' => ['type' => RESOURCE_TYPE_RICE ,'amount' =>1 ],    'dest' => ['type' => RESOURCE_TYPE_MONEY  ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_POTTERY ,'amount' =>1 ], 'dest' => ['type' => BONUS_TYPE_POINTS    ,'amount' =>2 ]],
+                ['src' => ['type' => RESOURCE_TYPE_POTTERY ,'amount' =>1 ], 'dest' => ['type' => RESOURCE_TYPE_MONEY  ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_MONEY ,'amount' => 3 ],  'dest' => ['type' => BONUS_TYPE_POINTS    ,'amount' =>2 ]],
+                ['src' => ['type' => RESOURCE_TYPE_MONEY ,'amount' => 3 ],  'dest' => ['type' => RESOURCE_TYPE_SILK   ,'amount' =>1 ]],
+                ['src' => ['type' => RESOURCE_TYPE_MONEY ,'amount' => 3 ],  'dest' => ['type' => RESOURCE_TYPE_RICE   ,'amount' =>1 ]],
+                ['src' => ['type' => RESOURCE_TYPE_MONEY ,'amount' => 3 ],  'dest' => ['type' => RESOURCE_TYPE_POTTERY,'amount' =>1 ]],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_MultiTrade3Points(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        Globals::setChoices(0);
+        $currentBonus = BONUS_TYPE_MULTITRADE_3;
+        $currentBonusDatas = ['bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
+        $expectedArgs = [
+            'c' => $currentBonus,
+            'nb' => 1,
+            //'trades' => [
+            //    BONUS_TYPE_POINTS =>  [ 'amount' => 3, ] ,
+            //    BONUS_TYPE_CHOICE =>  [ 'amount' => 1,
+            //        'selection' => [
+            //            RESOURCE_TYPE_SILK,
+            //            RESOURCE_TYPE_RICE,
+            //            RESOURCE_TYPE_POTTERY, 
+            //        ],
+            //    ],
+            //    RESOURCE_TYPE_MONEY => [ 'amount' => 3, ] ,
+            //],
+
+            'trades' => [
+                ['src' => ['type' => BONUS_TYPE_POINTS,'amount' => 3 ], 'dest' => ['type' => RESOURCE_TYPE_SILK     ,'amount' => 1 ]],
+                ['src' => ['type' => BONUS_TYPE_POINTS,'amount' => 3 ], 'dest' => ['type' => RESOURCE_TYPE_RICE     ,'amount' => 1 ]],
+                ['src' => ['type' => BONUS_TYPE_POINTS,'amount' => 3 ], 'dest' => ['type' => RESOURCE_TYPE_POTTERY  ,'amount' => 1 ]],
+                ['src' => ['type' => BONUS_TYPE_POINTS,'amount' => 3 ], 'dest' => ['type' => RESOURCE_TYPE_MONEY    ,'amount' => 3 ]],
+                
+                ['src' => ['type' => RESOURCE_TYPE_SILK ,'amount' =>1 ],    'dest' => ['type' => BONUS_TYPE_POINTS    ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_SILK ,'amount' =>1 ],    'dest' => ['type' => RESOURCE_TYPE_MONEY  ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_RICE ,'amount' =>1 ],    'dest' => ['type' => BONUS_TYPE_POINTS    ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_RICE ,'amount' =>1 ],    'dest' => ['type' => RESOURCE_TYPE_MONEY  ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_POTTERY ,'amount' =>1 ], 'dest' => ['type' => BONUS_TYPE_POINTS    ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_POTTERY ,'amount' =>1 ], 'dest' => ['type' => RESOURCE_TYPE_MONEY  ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_MONEY ,'amount' => 3 ],  'dest' => ['type' => BONUS_TYPE_POINTS    ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_MONEY ,'amount' => 3 ],  'dest' => ['type' => RESOURCE_TYPE_SILK   ,'amount' =>1 ]],
+                ['src' => ['type' => RESOURCE_TYPE_MONEY ,'amount' => 3 ],  'dest' => ['type' => RESOURCE_TYPE_RICE   ,'amount' =>1 ]],
+                ['src' => ['type' => RESOURCE_TYPE_MONEY ,'amount' => 3 ],  'dest' => ['type' => RESOURCE_TYPE_POTTERY,'amount' =>1 ]],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
+    // -------------------------------------------------
+ 
+    public function test_EnteringState_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        $currentBonus = BONUS_TYPE_MULTITRADE_2;
+        $currentBonusDatas = ['bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        $args = $state->getArgs();
+
+        $newState = $state->onEnteringState(1, $args);
+        
+        assertSame(null, $newState);
+    }
+    public function test_EnteringState_Pass_NoMoreTrades(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        $currentBonus = BONUS_TYPE_MULTITRADE_2;
+        $currentBonusDatas = ['bonusQuantity'=>0,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        $args = $state->getArgs();
+
+        $newState = $state->onEnteringState(1, $args);
+        
+        assertSame(ST_BONUS_CHOICE, $newState);
+    }
+    // -------------------------------------------------
+ 
+    public function test_ActionMultiTrade_Pass_2Points_Money(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        $currentBonus = BONUS_TYPE_MULTITRADE_2;
+        $currentBonusDatas = ['bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
+        $args = $state->getArgs();
+        $src = BONUS_TYPE_POINTS;
+        $dest = RESOURCE_TYPE_MONEY;
+
+        $newState = $state->actMultiTrade($src,$dest,999999, 1, $args);
+        
+        //check RESOURCES ANd points :
+        assertSame(17, TestDatas::$players[1]['player_score']);//-2
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(3, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(2, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(8, $resources[RESOURCE_TYPE_MONEY]);//+3
+        assertSame(['bonusQuantity'=>0,], Globals::getCurrentBonusDatas());
+        assertSame(BonusMultiTrades::class, $newState);
+    }
+    public function test_ActionMultiTrade_KO_LowPoints(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        $currentBonus = BONUS_TYPE_MULTITRADE_2;
+        $currentBonusDatas = ['bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['player_score'] = 1;//not enough score to trade
+        $args = $state->getArgs();
+        $src = BONUS_TYPE_POINTS;
+        $dest = RESOURCE_TYPE_MONEY;
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid src $src / dest $dest");
+        $state->actMultiTrade($src,$dest,999999, 1, $args);
+    }
+    // -------------------------------------------------
+ 
+    public function test_ActionRestart_KO_WrongVersion(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+
+        $this->expectException(UserException::class);
+        $this->expectExceptionMessage("!!!checkVersion");
+        $state->actRestart(1, 1,);
+    }
+    
+    public function test_ActionRestart_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        Globals::setChoices(1);
+        TestDatas::$logs[1] = ['result_associative_index' => 1,'id' => 1, 'move_id' => 1, 'table' => '', 'primary'=>'', 'type' => 'step', 'affected' => '[{"name": "currentBonus","value": "24"}]', ];
+
+        $state->actRestart(999999,);
+        
+        assertSame(1, 1);
+    }
+    // -------------------------------------------------
+ 
+    public function test_ActionUndo_KO_WrongVersion(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+
+        $this->expectException(UserException::class);
+        $this->expectExceptionMessage("!!!checkVersion");
+        $state->actUndoToStep(1, 1,);
+    }
+    public function test_ActionUndo_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        Globals::setChoices(1);
+        TestDatas::$logs[1] = ['result_associative_index' => 1,'id' => 1, 'move_id' => 1, 'table' => '', 'primary'=>'', 'type' => 'step', 'affected' => '[{"name": "currentBonus","value": "24"}]', ];
+
+        $state->actUndoToStep(1, 999999,);
+        
+        assertSame(1, 1);
+    }
+    
+    // -------------------------------------------------
+ 
+    public function test_Zombie_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        $args = $state->getArgs();
+
+        $newState = $state->zombie(1, $args);
+        
+        assertSame(ST_BONUS_CHOICE, $newState);
+    }
+    
+    // -------------------------------------------------
+}

@@ -278,7 +278,7 @@ function (dojo, declare, BgaAnimations) {
             this._migratedStates = [
                 //States extending GameState that don't already define title -> we must display dynamic title
                 'BonusPlaceLion','BonusBuildingReward','BonusPayShips','BonusAdvanceCity',
-                'BonusSelectRegion',
+                'BonusSelectRegion', 'BonusMultiTrades',
             ];
             
             this._hideNotifsWhenMultiActive = true;
@@ -1273,6 +1273,56 @@ function (dojo, declare, BgaAnimations) {
                     </div>`,
                     () =>  {
                         this.takeAction('actSelectRegion', {'choice':region});
+                    }
+                );
+            });
+
+        },
+        
+        onEnteringStateBonusMultiTrades(args){
+            debug('onEnteringStateBonusMultiTrades', args);
+   
+            let currentBonus = args.c;
+            let amount = args.nb;
+            let bonusIcon = this.formatIcon('bonus-'+currentBonus, amount);
+            this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
+                _('${you} must select ${n} trades for ${bonus}').replace('${bonus}', bonusIcon).replace('${n}', amount) :
+                _('${actplayer} must select ${n} trades for ${bonus}').replace('${bonus}', bonusIcon).replace('${n}', amount)
+            );
+
+            let possibles = args.trades;
+            Object.values(possibles).forEach((trade) => {
+                let src = parseInt(trade.src.type);
+                let dest = parseInt(trade.dest.type);
+                let qtySrc = parseInt(trade.src.amount);
+                let qtyDest = parseInt(trade.dest.amount);
+                let iconSrc = '';
+                let iconDest = '';
+                switch(src){
+                    case BONUS_TYPE_POINTS:
+                        iconSrc = this.formatIcon('score',qtySrc);
+                        qtySrc = '';
+                        break;
+                    default:
+                        iconSrc = this.formatIcon(RESOURCES[src],null);
+                        break;
+                }
+                switch(dest){
+                    case BONUS_TYPE_POINTS:
+                        iconDest = this.formatIcon('score',qtyDest);
+                        qtyDest = '';
+                        break;
+                    default:
+                        iconDest = this.formatIcon(RESOURCES[dest],null);
+                        break;
+                }
+                this.addImageActionButton(`btnTrade_${src}_${dest}`, `<div class='rog_trade'>
+                    <div class='rog_button_qty'>${qtySrc}</div>${iconSrc}
+                    <i class="fa6 fa6-arrow-right"></i>
+                    <div class='rog_button_qty'>${qtyDest}</div>${iconDest}
+                </div>`, 
+                    () =>  {
+                        this.takeAction('actMultiTrade', {'src':src,'dest':dest});
                     }
                 );
             });
@@ -2449,6 +2499,22 @@ function (dojo, declare, BgaAnimations) {
                 case BONUS_TYPE_MONEY_PER_SHRINE:   return this.fsr(_('Gain ${n} Koku per ${building} you own'), {n:quantity, building:_('Shrine') });
 
                 case BONUS_TYPE_INF_SELECT_REGION:   return this.fsr(_('Gain ${n} influence in another region.'), {'n':quantity, });
+                case BONUS_TYPE_MULTITRADE_2:   return this.fsr(_('You may make ${n} trade(s) among : ${list}'), {
+                        'n':quantity, 
+                        'list': "<ul>" 
+                               + "<li>" + this.formatReward(RESOURCE_TYPE_MONEY,3) + "</li>"
+                               + "<li>" + this.formatReward(BONUS_TYPE_POINTS,2) + "</li>"
+                               + "<li>" + this.formatReward(BONUS_TYPE_CHOICE,1) + "</li>"
+                            +"</ul>",
+                    });
+                case BONUS_TYPE_MULTITRADE_3:   return this.fsr(_('You may make ${n} trade(s) among : ${list}'), {
+                        'n':quantity, 
+                        'list': "<ul>" 
+                               + "<li>" + this.formatReward(RESOURCE_TYPE_MONEY,3) + "</li>"
+                               + "<li>" + this.formatReward(BONUS_TYPE_POINTS,3) + "</li>"
+                               + "<li>" + this.formatReward(BONUS_TYPE_CHOICE,1) + "</li>"
+                            +"</ul>",
+                    });
             }
             return '';
         },

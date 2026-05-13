@@ -88,7 +88,7 @@ trait TradeTrait
    * @param int $typeDest
    * @return bool true if this player can trade resources from type SRC to DEST
    */
-  public function canTrade($player,$typeSrc, $typeDest)
+  public function canTrade(Player $player,int $typeSrc, int $typeDest) : bool
   { 
     //Opponent cannot trade during a player turn, even when receiving bonus resources
     if($player->getId() != Globals::getTurnPlayer()) return false;
@@ -99,16 +99,10 @@ trait TradeTrait
     if(RESOURCE_TYPE_SUN == $typeSrc ) return false;
     if(RESOURCE_TYPE_MONEY == $typeDest ) return false;
 
-    $currentSrc = $player->getResource($typeSrc);
-    if($currentSrc < RESOURCES_TO_TRADE[$typeSrc]['src']) return false;
+    if(!$player->canSpendResource($typeSrc,RESOURCES_TO_TRADE[$typeSrc]['src'])) return false;
 
-    $currentDest = $player->getResource($typeDest);
-    if(array_key_exists($typeDest,RESOURCES_LIMIT) ) {
-      $maxDest = RESOURCES_LIMIT[$typeDest];
-    } else if(RESOURCE_TYPE_SUN == $typeDest){
-      $maxDest = $player->getResource(RESOURCE_TYPE_MOON); 
-    }
-    if($currentDest >= $maxDest) return false;
+    $canReceive = $player->canReceiveResource($typeDest);
+    if(!$canReceive) return false;
 
     return true;
   }
