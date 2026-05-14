@@ -210,7 +210,7 @@ final class BonusChoiceTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
 
-        $game->actSkipBonuses();
+        $game->actSkipBonuses(999999);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
@@ -225,7 +225,7 @@ final class BonusChoiceTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You should not skip these bonuses !");
-        $game->actSkipBonuses();
+        $game->actSkipBonuses(999999);
     }
     
     // -------------------------------------------------
@@ -544,6 +544,72 @@ final class BonusChoiceTest extends TestCase
         assertSame(ST_BONUS_SELECT_REGION, GamestateMachine::$test_current_state);
     }
     
+    public function test_ActionBonus_Pass_MultiTrade2Points(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_MULTITRADE_2;
+        $bonusKey = 1;
+        $bonuses = [
+            'datas' => [
+                $bonusType => [
+                    1 => ['region'=>6,'bonusQuantity'=>4,],
+                    2 => ['region'=>6,'bonusQuantity'=>2,],
+                ],
+                BONUS_TYPE_MULTITRADE_3 => [
+                    1 => ['region'=>5,'bonusQuantity'=>1,],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [
+            'datas' => [
+                $bonusType => [
+                    2 => ['region'=>6,'bonusQuantity'=>2,],
+                ],
+                BONUS_TYPE_MULTITRADE_3 => [
+                    1 => ['region'=>5,'bonusQuantity'=>1,],
+                ],
+            ],
+        ];
+
+        $game->actBonus($bonusType,$bonusKey);
+        
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame(['region'=>6,'bonusQuantity'=>4,], Globals::getCurrentBonusDatas());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_MULTI_TRADES, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionBonus_Pass_MultiTrade3Points(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_MULTITRADE_3;
+        $bonusKey = 1;
+        $bonuses = [
+            'datas' => [
+                $bonusType => [
+                    1 => ['region'=>6,'bonusQuantity'=>1,],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [
+        ];
+
+        $game->actBonus($bonusType,$bonusKey);
+        
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame(['region'=>6,'bonusQuantity'=>1,], Globals::getCurrentBonusDatas());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_MULTI_TRADES, GamestateMachine::$test_current_state);
+    }
+
     public function test_ActionBonus_KO_WrongBonus(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

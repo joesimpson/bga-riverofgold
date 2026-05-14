@@ -37,9 +37,13 @@ class BonusMultiTrades extends GameState
     $currentBonus = Globals::getCurrentBonus();
     $currentBonusDatas = Globals::getCurrentBonusDatas();
 
+    $canSkip = true;
     $trades = [];
     $possibleTrades = [];
-    $nbTrades = $currentBonusDatas['bonusQuantity'];
+    $nbTrades = 0;
+    if(isset($currentBonusDatas)){
+      $nbTrades = $currentBonusDatas['bonusQuantity'];
+    }
     //FILTER on bonus type :
     switch($currentBonus){
       case BONUS_TYPE_MULTITRADE_2:
@@ -68,6 +72,10 @@ class BonusMultiTrades extends GameState
           RESOURCE_TYPE_MONEY => [ 'amount' => 3, ] ,
         ];
         break;
+    }
+
+    if($nbTrades < 1){
+      $trades = [];
     }
     
     // FILTER ON player min/max 
@@ -107,6 +115,7 @@ class BonusMultiTrades extends GameState
     }
 
     $args = [
+      'skip' => $canSkip,
       'c' => $currentBonus,
       'nb' => $nbTrades,
       'trades' => $possibleTrades,
@@ -182,6 +191,30 @@ class BonusMultiTrades extends GameState
 
     //stay in state until all trades are done
     return self::class;
+  }
+
+  /**
+   * Player action
+   */
+  #[PossibleAction]
+  public function actSkipBonuses(
+      int $version,
+      int $activePlayerId, array $args,
+    )
+  {
+    $this->game->checkVersion($version);
+    $this->game->trace(__CLASS__.".".__FUNCTION__."($activePlayerId)");
+    
+    Log::addStep();
+
+    if(!$args['skip']){
+      throw new UnexpectedException(405,"You should not skip these bonuses !");
+    }
+
+    Globals::setCurrentBonus(null);
+    Globals::setCurrentBonusDatas(null);
+
+    return ST_BONUS_CHOICE;
   }
 
   function zombie(int $playerId, array $args) {

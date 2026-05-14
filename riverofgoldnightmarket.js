@@ -988,7 +988,7 @@ function (dojo, declare, BgaAnimations) {
                 }
             });
 
-            this.addPrimaryActionButton(`btnSkip`, _('Skip') , () =>  { 
+            this.addSecondaryActionButton(`btnSkip`, _('Skip') , () =>  { 
                 this.confirmationDialog(_('Are you sure to skip bonuses ?'), () => {
                     this.takeAction('actSkipBonuses', {});
                 });
@@ -1325,6 +1325,10 @@ function (dojo, declare, BgaAnimations) {
                         this.takeAction('actMultiTrade', {'src':src,'dest':dest});
                     }
                 );
+            });
+            
+            this.addSecondaryActionButton(`btnSkip`, _('Skip') , () =>  { 
+                this.takeAction('actSkipBonuses', {});
             });
 
         },

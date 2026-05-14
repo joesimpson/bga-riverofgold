@@ -239,6 +239,9 @@ class Globals extends \ROG\Helpers\DB_Manager
       //$old = ['type' =>$type, 'datas' => $bonuses['datas'][$type][$bonusKey]];
       $old = $bonuses['datas'][$type][$bonusKey];
       unset($bonuses['datas'][$type][$bonusKey]);
+      //REmove datas if empty :
+      if(empty($bonuses['datas'][$type])) unset($bonuses['datas'][$type]);
+      if(empty($bonuses['datas'])) unset($bonuses['datas']);
     }
     else {
       $key = array_search($type,$bonuses);

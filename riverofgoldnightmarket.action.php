@@ -56,13 +56,6 @@
       self::ajaxResponse();
     }
     
-    public function actSkipBonuses()
-    {
-      self::setAjaxMode();
-      self::checkVersion();
-      $this->game->actSkipBonuses();
-      self::ajaxResponse();
-    }
     public function actStop()
     {
       self::setAjaxMode();

@@ -2,10 +2,12 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Collection;
+use ROG\Helpers\Log;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
@@ -45,11 +47,15 @@ trait BonusChoiceTrait
    
   /**
    */
-  public function actSkipBonuses()
+  #[PossibleAction]
+  public function actSkipBonuses(
+    int $version,
+  )
   { 
     self::checkAction('actSkipBonuses'); 
-    self::trace("actSkipBonuses()");
-    $this->addStep();
+    $this->checkVersion($version);
+    self::trace(__CLASS__.".".__FUNCTION__."()");
+    Log::addStep();
     $player = Players::getCurrent();
     if(!$this->canSkipBonuses($player)){ //$currentTurnPlayer == $player->getId()
       throw new UnexpectedException(405,"You should not skip these bonuses !");
