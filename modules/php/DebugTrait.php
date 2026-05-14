@@ -282,20 +282,40 @@ trait DebugTrait
   }
 
   //Add Boats on each river space
-  function debug_BoatMeeples(bool $royalShip = true){
+  function debug_BoatMeeples(
+    bool $royalShipCurrentPlayer = true, 
+    bool $royalShipOthers = true,
+    int $nbShipsInSpaces = 11,
+  ){
     $this->addStep();
+    $player = Players::getCurrent();
+    $player_id = $player->getId();
     Meeples::DB()->delete()->whereIn('type', [MEEPLE_TYPE_SHIP,MEEPLE_TYPE_SHIP_ROYAL])->run();
     $players = Players::getAll();
-    $typeToTest = $royalShip ? MEEPLE_TYPE_SHIP_ROYAL : MEEPLE_TYPE_SHIP;
     for($k=1;$k<=NB_RIVER_SPACES;$k++){
+      $nbShipsInSpace = 0;
       foreach($players as $pid => $player){
+        if($pid == $player_id){
+          $typeToTest = $royalShipCurrentPlayer ? MEEPLE_TYPE_SHIP_ROYAL : MEEPLE_TYPE_SHIP;
+        }
+        else {
+          $typeToTest = $royalShipOthers ? MEEPLE_TYPE_SHIP_ROYAL : MEEPLE_TYPE_SHIP;
+        }
+        if($nbShipsInSpace >= $nbShipsInSpaces) break;
         $meeple = Meeples::addBoatOnRiverSpace($player,$k,false);
         $meeple->setType($typeToTest);
+        $nbShipsInSpace++;
+
+        if($nbShipsInSpace >= $nbShipsInSpaces) break;
         $meeple = Meeples::addBoatOnRiverSpace($player,$k,false);
         $meeple->setType($typeToTest);
+        $nbShipsInSpace++;
+
+        if($nbShipsInSpace >= $nbShipsInSpaces) break;
         if($player->getClan()==CLAN_UNICORN){//Test a third
           $meeple = Meeples::addBoatOnRiverSpace($player,$k,false);
           $meeple->setType(MEEPLE_TYPE_SHIP_ROYAL);
+          $nbShipsInSpace++;
         }
       }
     }
