@@ -78,7 +78,7 @@ class CustomerCard extends Card
         Players::gainInfluence($player,$this->getRegion(),NB_INFLUENCE_SMUGGLER);
         //Ask player to choose a building owner reward
         $nbBuildings = Meeples::countPlayerBuildings($player->getId());
-        if($nbBuildings>0) Globals::addBonus($player,BONUS_TYPE_ANY_OWNER_REWARD);
+        if($nbBuildings>0) Globals::addBonus($player,BONUS_TYPE_ANY_OWNER_REWARD,clienttranslate('Building reward'));
         break;
       case CUSTOMER_TYPE_SHINDOSHI:
         Players::gainInfluence($player,$this->getRegion(),NB_INFLUENCE_SHIN);

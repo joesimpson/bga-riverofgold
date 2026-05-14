@@ -56,6 +56,15 @@
     background-position-y: 33%;
     border-radius: 50%;
 }
+.rog_icon_bonus-37,
+.rog_icon_bonus-38,
+.rog_icon_bonus-39
+{
+    // only text
+    .rog_icon_qty{
+        display: none;
+    }
+}
 .rog_icon_bonus-41{//BONUS_TYPE_INF_SELECT_REGION
     //Extract from bonus track
     @include rog_icons_on_influence_tracks(-1318px,-503px,35px,35px,90px,90px);

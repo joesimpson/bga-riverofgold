@@ -27,7 +27,10 @@ final class BonusBuildingRewardTest extends TestCase
         $state = new BonusBuildingReward($game);
         Globals::setChoices(0);
         Globals::setLastBuiltTile(41);
-        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
+        $currentBonus = BONUS_TYPE_BUILDING_REWARD;
+        $currentBonusDatas = ['tile'=>41,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         $expectedArgs = [
             'c' => BONUS_TYPE_BUILDING_REWARD,
             'p' => [
@@ -80,7 +83,10 @@ final class BonusBuildingRewardTest extends TestCase
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setLastBuiltTile(41);
-        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
+        $currentBonus = BONUS_TYPE_BUILDING_REWARD;
+        $currentBonusDatas = ['tile'=>41,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
 
         $newState = $state->onEnteringState(1, $args);
@@ -95,7 +101,10 @@ final class BonusBuildingRewardTest extends TestCase
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setLastBuiltTile(41);
-        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
+        $currentBonus = BONUS_TYPE_BUILDING_REWARD;
+        $currentBonusDatas = ['tile'=>41,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
         $tileId = 41;
         $choice = BonusBuildingRewardChoice::OWNER->value;//OWner
@@ -113,7 +122,10 @@ final class BonusBuildingRewardTest extends TestCase
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setLastBuiltTile(41);
-        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
+        $currentBonus = BONUS_TYPE_BUILDING_REWARD;
+        $currentBonusDatas = ['tile'=>41,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
         $tileId = 41;
         $choice = BonusBuildingRewardChoice::VISITOR->value;//Visitor
@@ -131,7 +143,10 @@ final class BonusBuildingRewardTest extends TestCase
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setLastBuiltTile(41);
-        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
+        $currentBonus = BONUS_TYPE_BUILDING_REWARD;
+        $currentBonusDatas = ['tile'=>41,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
         $tileId = 41;
         TestDatas::$tokens[43] = TestDatas::$tokens[41];
@@ -153,7 +168,10 @@ final class BonusBuildingRewardTest extends TestCase
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setLastBuiltTile(41);
-        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
+        $currentBonus = BONUS_TYPE_BUILDING_REWARD;
+        $currentBonusDatas = ['tile'=>41,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
         $tileId = 456;
         $choice = BonusBuildingRewardChoice::OWNER->value;
@@ -168,7 +186,10 @@ final class BonusBuildingRewardTest extends TestCase
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setLastBuiltTile(41);
-        Globals::setCurrentBonus(BONUS_TYPE_BUILDING_REWARD);
+        $currentBonus = BONUS_TYPE_BUILDING_REWARD;
+        $currentBonusDatas = ['tile'=>41,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
         $tileId = 41;
         $choice = 3;
@@ -250,6 +271,10 @@ final class BonusBuildingRewardTest extends TestCase
         $game = new GameMock();
         $state = new BonusBuildingReward($game);
         Globals::setLastBuiltTile(41);
+        $currentBonus = BONUS_TYPE_BUILDING_REWARD;
+        $currentBonusDatas = ['tile'=>41,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
 
         $newState = $state->zombie(1, $args);

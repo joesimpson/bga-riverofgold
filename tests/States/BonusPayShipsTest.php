@@ -27,6 +27,10 @@ final class BonusPayShipsTest extends TestCase
         $state = new BonusPayShips($game);
         Globals::setChoices(0);
         Globals::setLastSailedShip(21);
+        $currentBonus = BONUS_TYPE_PAY_SHIPS;
+        $currentBonusDatas = ['ship'=>21,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":1}';
         TestDatas::$tokens[23]['meeple_state'] = TestDatas::$tokens[21]['meeple_state'];
         $expectedArgs = [
@@ -49,6 +53,10 @@ final class BonusPayShipsTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         $state = new BonusPayShips($game);
+        $currentBonus = BONUS_TYPE_PAY_SHIPS;
+        $currentBonusDatas = ['ship'=>21,'position'=>21,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
 
         $newState = $state->onEnteringState(1, $args);
@@ -63,6 +71,10 @@ final class BonusPayShipsTest extends TestCase
         $game = new GameMock();
         $state = new BonusPayShips($game);
         Globals::setLastSailedShip(21);
+        $currentBonus = BONUS_TYPE_PAY_SHIPS;
+        $currentBonusDatas = ['ship'=>21,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":1}';
         TestDatas::$tokens[23]['meeple_state'] = TestDatas::$tokens[21]['meeple_state'];
         $p_ids = [2];
@@ -84,6 +96,10 @@ final class BonusPayShipsTest extends TestCase
         $game = new GameMock();
         $state = new BonusPayShips($game);
         Globals::setLastSailedShip(21);
+        $currentBonus = BONUS_TYPE_PAY_SHIPS;
+        $currentBonusDatas = ['ship'=>21,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":1}';
         TestDatas::$tokens[23]['meeple_state'] = TestDatas::$tokens[21]['meeple_state'];
         $p_ids = [];
@@ -114,6 +130,10 @@ final class BonusPayShipsTest extends TestCase
         TestDatas::$players[5]['player_id'] = 5;
         TestDatas::$players[5]['result_associative_index'] = 5;
         Globals::setLastSailedShip(21);
+        $currentBonus = BONUS_TYPE_PAY_SHIPS;
+        $currentBonusDatas = ['ship'=>21,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":10}';
         TestDatas::$tokens[23]['meeple_state'] = TestDatas::$tokens[21]['meeple_state'];
         TestDatas::$tokens[25] = TestDatas::$tokens[23];
@@ -157,6 +177,10 @@ final class BonusPayShipsTest extends TestCase
         TestDatas::$players[5]['player_id'] = 5;
         TestDatas::$players[5]['result_associative_index'] = 5;
         Globals::setLastSailedShip(21);
+        $currentBonus = BONUS_TYPE_PAY_SHIPS;
+        $currentBonusDatas = ['ship'=>21,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":10}';
         TestDatas::$tokens[23]['meeple_state'] = TestDatas::$tokens[21]['meeple_state'];
         TestDatas::$tokens[25] = TestDatas::$tokens[23];
@@ -192,6 +216,10 @@ final class BonusPayShipsTest extends TestCase
         $game = new GameMock();
         $state = new BonusPayShips($game);
         Globals::setLastSailedShip(21);
+        $currentBonus = BONUS_TYPE_PAY_SHIPS;
+        $currentBonusDatas = ['ship'=>21,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":0}';
         TestDatas::$tokens[23]['meeple_state'] = TestDatas::$tokens[21]['meeple_state'];
         $p_ids = [2];
@@ -207,6 +235,10 @@ final class BonusPayShipsTest extends TestCase
         $game = new GameMock();
         $state = new BonusPayShips($game);
         Globals::setLastSailedShip(21);
+        $currentBonus = BONUS_TYPE_PAY_SHIPS;
+        $currentBonusDatas = ['ship'=>21,'position'=>5,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":3}';
         TestDatas::$tokens[23]['meeple_state'] = TestDatas::$tokens[21]['meeple_state'];
         $p_ids = [3];
@@ -273,6 +305,10 @@ final class BonusPayShipsTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         $state = new BonusPayShips($game);
+        $currentBonus = BONUS_TYPE_PAY_SHIPS;
+        $currentBonusDatas = ['ship'=>21,'position'=>21,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
 
         $newState = $state->zombie(1, $args);

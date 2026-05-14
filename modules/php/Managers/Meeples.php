@@ -6,6 +6,7 @@ use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
+use ROG\Models\BuildingTile;
 use ROG\Models\Card;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\MasteryCard;
@@ -59,15 +60,15 @@ class Meeples extends \ROG\Helpers\Pieces
     return $elt;
   }
   
-  public static function removeClanMarkerOnShoreSpace(int $shoreSpace,Player $player,ClanPatronCard $playerPatron) : void
+  public static function removeClanMarkerOnShoreSpace(int $shoreSpace,Player $player, BuildingTile $tile,ClanPatronCard $playerPatron) : void
   {
     $meeple = Meeples::getInLocation(MEEPLE_LOCATION_SHORE.$shoreSpace)->first();
     if(!isset($meeple)) return;
     Notifications::removeClanMarker($player,$meeple);
     self::DB()->delete($meeple->getId());
     if(PATRON_LIONS_LADY == $playerPatron->getType()){
-      Globals::addBonus($player,BONUS_TYPE_BUILDING_REWARD,'',false);
-      Globals::addBonus($player,BONUS_TYPE_PLACE_LION,'',false);
+      Globals::addBonusWithDatas($player,BONUS_TYPE_BUILDING_REWARD,['tile'=>$tile->getId(),'position'=>$shoreSpace,'bonusQuantity'=>1,],clienttranslate('Building reward'));
+      Globals::addBonus($player,BONUS_TYPE_PLACE_LION);
     }
   }
   

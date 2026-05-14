@@ -243,6 +243,10 @@ trait DebugTrait
     $player2 = Players::get($player->getId());
     $royalShip = $player->getRoyalShip();
     if(isset($royalShip)) $royalShip->setType(MEEPLE_TYPE_SHIP);
+    $ship = Meeples::getBoats($player->getId())->first();
+    $tileId = Tiles::getPlayerBuildingTilesIds($player->getId())[0];
+    $shoreSpaces = Tiles::getPlayerBuildingTilesShoreSpace($player->getId());
+    $shoreSpace = $shoreSpaces ? $shoreSpaces[0] : 1;
     $this->debug_UI();
 
     $player->setBonuses([]);
@@ -261,12 +265,12 @@ trait DebugTrait
     Globals::addBonus($player,BONUS_TYPE_SECOND_MARKER_ON_BUILDING);
     Globals::addBonus($player,BONUS_TYPE_SECOND_MARKER_ON_OPPONENT);
     Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);
-    Globals::addBonus($player,BONUS_TYPE_REFILL_HAND);
+    Globals::addBonus($player,BONUS_TYPE_REFILL_HAND,'',false);
     Globals::addBonus($player,BONUS_TYPE_SET_DIE,'',false);
     Globals::addBonus($player,BONUS_TYPE_PLACE_LION       );
-    Globals::addBonus($player,BONUS_TYPE_BUILDING_REWARD  );
-    Globals::addBonus($player,BONUS_TYPE_PAY_SHIPS        );
-    Globals::addBonus($player,BONUS_TYPE_ANY_OWNER_REWARD );
+    Globals::addBonusWithDatas($player,BONUS_TYPE_BUILDING_REWARD,['tile'=>$tileId,'position'=>$shoreSpace,'bonusQuantity'=>1,],clienttranslate('Building reward'));
+    Globals::addBonusWithDatas($player,BONUS_TYPE_PAY_SHIPS,['ship'=>$ship->getId(),'position'=>$ship->getPosition(),'bonusQuantity'=>1,],clienttranslate("Pay ships for points"));
+    Globals::addBonus($player,BONUS_TYPE_ANY_OWNER_REWARD ,clienttranslate('Building reward'));
     Globals::addBonus($player,BONUS_TYPE_ADVANCE_OR_POINTS);
     Globals::addBonusWithDatas($player,BONUS_TYPE_INF_SELECT_REGION,['region'=>2,'bonusQuantity'=>1]);
     Globals::addBonusWithDatas($player,BONUS_TYPE_INF_SELECT_REGION,['region'=>2,'bonusQuantity'=>3]);

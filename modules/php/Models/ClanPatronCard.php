@@ -113,7 +113,7 @@ class ClanPatronCard extends Card
         $nbOpponentShips = Meeples::countOpponentShipsInLocation($player->getId(),$ship->getPosition());
         if($nbOpponentShips > 0){
           Notifications::activePatron($player,$this);
-          Globals::addBonus($player,BONUS_TYPE_PAY_SHIPS,clienttranslate("Pay ships for points"));
+          Globals::addBonusWithDatas($player,BONUS_TYPE_PAY_SHIPS,['ship'=>$ship->getId(),'position'=>$ship->getPosition(),'bonusQuantity'=>1,],clienttranslate("Pay ships for points"));
         }
         break;
     }

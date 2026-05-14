@@ -936,7 +936,7 @@ final class SailTest extends TestCase
 
         $game->actSailSelect($shipId,$riverSpace);
         
-        assertSame(json_encode([BONUS_TYPE_PAY_SHIPS]), TestDatas::$players[1]['bonuses']);
+        assertSame(json_encode(['datas' => [BONUS_TYPE_PAY_SHIPS=>[ 1 => ['ship'=>21,'position'=>10,'bonusQuantity'=>1,]]]]), TestDatas::$players[1]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
     }
     public function test_ActionSail_Pass_MistressOfWinds_0OpponentsInSpace(): void

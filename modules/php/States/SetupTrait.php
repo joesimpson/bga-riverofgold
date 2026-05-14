@@ -97,7 +97,7 @@ trait SetupTrait
       $player->rollDie();
 
       if(isset($playerPatron) && PATRON_LIONS_LADY == $playerPatron->getType()){
-        Globals::addBonus($player,BONUS_TYPE_PLACE_LION,'',false);
+        Globals::addBonus($player,BONUS_TYPE_PLACE_LION);
         //Don't roll die after end of bonuses
         //$player->setSkipRollDie(true);
         //Not enough -> don't roll in stEndTurn if turn 0

@@ -36,13 +36,10 @@ class BonusPayShips extends GameState
   public function getArgs(): array
   {
     $player = Players::getActive();
-    $lastSailedShipId = Globals::getLastSailedShip();
-    $ships_pids = [];
-    if(isset($lastSailedShipId) && $lastSailedShipId>0){
-      $lastSailedShip = Meeples::get($lastSailedShipId);
-      $lastSailedSpace = $lastSailedShip->getPosition();
-      $ships_pids = Meeples::getOpponentIdsInRiverSpace($lastSailedSpace,$player->getId());
-    }
+    $currentBonusDatas = Globals::getCurrentBonusDatas();
+    $lastSailedShipId = $currentBonusDatas['ship'];
+    $lastSailedSpace = $currentBonusDatas['position'];
+    $ships_pids = Meeples::getOpponentIdsInRiverSpace($lastSailedSpace,$player->getId());
     $costPerPlayer = NB_MONEY_FOR_PAYING_SHIPS;
     $pointsPerPlayer = NB_POINTS_MISTRESS_OF_WINDS;
     $maxToSelect = $player->getMoney()/$costPerPlayer;

@@ -40,6 +40,7 @@ class BonusBuildingReward extends GameState
   {
 
     $currentBonus = Globals::getCurrentBonus();
+    $currentBonusDatas = Globals::getCurrentBonusDatas();
     $player = Players::getActive();
     $player_id = $player->getId();
 
@@ -47,7 +48,7 @@ class BonusBuildingReward extends GameState
     switch($currentBonus){
       default:
       case BONUS_TYPE_BUILDING_REWARD:
-        $lastBuiltTile = Globals::getLastBuiltTile();
+        $lastBuiltTile = $currentBonusDatas['tile'];
         $tile = Tiles::get($lastBuiltTile);
         $possibleActions = [
           $lastBuiltTile => [

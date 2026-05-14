@@ -84,7 +84,7 @@ trait BuildTrait
     Players::spendMoney($player,$cost);
 
     if(isset($playerPatron)){
-      Meeples::removeClanMarkerOnShoreSpace($position,$player,$playerPatron);
+      Meeples::removeClanMarkerOnShoreSpace($position,$player,$tile,$playerPatron);
     }
 
     $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);

@@ -341,13 +341,18 @@ final class BuildTest extends TestCase
         TestDatas::$cards[101]['type'] = PATRON_LIONS_LADY;
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
         TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE.'1','type' => MEEPLE_TYPE_LION_MARKER,  'player_id' => 1,  ];
-
         $position = 1;
         $tileId = 31;
+        $expectedBonuses = [
+            'datas'=>[
+                BONUS_TYPE_BUILDING_REWARD => [ 1=> ['tile'=> $tileId ,'position'=>$position,'bonusQuantity'=>1,]], 
+            ],
+            BONUS_TYPE_PLACE_LION,
+        ];
+
         $game->actBuildSelect($position,$tileId);
         
-        $expectedBonuses = json_encode([BONUS_TYPE_BUILDING_REWARD, BONUS_TYPE_PLACE_LION]);
-        assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
         assertFalse( array_key_exists(101,TestDatas::$tokens));//deleted clan marker
         assertSame($tileId, Globals::getLastBuiltTile());

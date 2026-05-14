@@ -440,13 +440,22 @@ final class BonusChoiceTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
         $bonusType = BONUS_TYPE_BUILDING_REWARD;
-        $bonuses = [$bonusType];
-        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+        $bonusKey = 1;
+        $bonuses = [
+            'datas' => [
+                $bonusType => [
+                    1 => ['tile'=>41,'position'=>5,],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [];
 
-        $game->actBonus($bonusType);
+        $game->actBonus($bonusType,$bonusKey);
         
-        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame(['tile'=>41,'position'=>5,], Globals::getCurrentBonusDatas());
         //Next state differs for each bonus :
         assertSame(ST_BONUS_BUILDING_REWARD, GamestateMachine::$test_current_state);
     }
@@ -474,13 +483,22 @@ final class BonusChoiceTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
         $bonusType = BONUS_TYPE_PAY_SHIPS;
-        $bonuses = [$bonusType];
-        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+        $bonusKey = 1;
+        $bonuses = [
+            'datas' => [
+                $bonusType => [
+                    1 => ['ship'=>21,'position'=>10,],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [];
 
-        $game->actBonus($bonusType);
+        $game->actBonus($bonusType,$bonusKey);
         
-        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame(['ship'=>21,'position'=>10,], Globals::getCurrentBonusDatas());
         //Next state differs for each bonus :
         assertSame(ST_BONUS_PAY_SHIPS, GamestateMachine::$test_current_state);
     }
