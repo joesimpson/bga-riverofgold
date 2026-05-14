@@ -2755,11 +2755,8 @@ function (dojo, declare, BgaAnimations) {
                 </div>
                 <div class="player_config_row" id="cards_counter_wrapper">
                     ${typesIcons}
-                    <span>${this.fsr(_('${n1} ${icon} customers in deck'), { 
+                    <span>${this.fsr(_('Deck/Discard : ${n1}/${n2} ${icon}'), { 
                         'n1': customersDeckSize, 
-                        'icon': this.formatIcon('customer_card'),
-                    })}</span>
-                    <span>${this.fsr(_('${n2} ${icon} customers in discard'), { 
                         'n2': customersDiscardSize, 
                         'icon': this.formatIcon('customer_card'),
                     })}</span>
