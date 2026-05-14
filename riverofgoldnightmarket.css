@@ -2126,8 +2126,8 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   height: 11%;
 }
 .rog_card[data-customertype="8"] .rog_ongoing_ability {
-  top: 68%;
-  height: 18%;
+  top: 66%;
+  height: 20%;
   left: 4%;
   width: 92%;
 }
