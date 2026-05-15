@@ -244,7 +244,10 @@ trait DebugTrait
     $royalShip = $player->getRoyalShip();
     if(isset($royalShip)) $royalShip->setType(MEEPLE_TYPE_SHIP);
     $ship = Meeples::getBoats($player->getId())->first();
-    $tileId = Tiles::getPlayerBuildingTilesIds($player->getId())[0];
+    $playerTiles = Tiles::getPlayerBuildingTilesIds($player->getId());
+    if(empty($playerTiles)) $this->debug_BuildMore(1);
+    $playerTiles = Tiles::getPlayerBuildingTilesIds($player->getId());
+    $tileId = $playerTiles[0];
     $shoreSpaces = Tiles::getPlayerBuildingTilesShoreSpace($player->getId());
     $shoreSpace = $shoreSpaces ? $shoreSpaces[0] : 1;
     $this->debug_UI();
