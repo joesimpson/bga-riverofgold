@@ -413,27 +413,39 @@ class Players extends \ROG\Helpers\DB_Manager
 
   }
   
-  public static function claimNotScoreMasteries(Player &$player){
+  /**
+   * @return bool $claim : true if one tile is being claimed
+   */
+  public static function claimNotScoreMasteries(Player &$player): bool {
     Game::get()->trace("claimNotScoreMasteries()");
     $masteriesTypesAboutScore = [MASTERY_TYPE_LIGHTNING];
-    Players::claimMasteriesSubset($player,$masteriesTypesAboutScore,false);
+    $claim = Players::claimMasteriesSubset($player,$masteriesTypesAboutScore,false);
+    return $claim;
   }
-  public static function claimScoreMasteries(Player &$player){
+  /**
+   * @return bool $claim : true if one tile is being claimed
+   */
+  public static function claimScoreMasteries(Player &$player) : bool {
     Game::get()->trace("claimScoreMasteries()");
     $masteriesTypesAboutScore = [MASTERY_TYPE_LIGHTNING];
-    Players::claimMasteriesSubset($player,$masteriesTypesAboutScore,true);
+    $claim = Players::claimMasteriesSubset($player,$masteriesTypesAboutScore,true);
+    return $claim;
   }
 
   /**
    * @param Player $player
    * @param array $masteriesTypes : list of mastery tiles types
    * @param bool $include (default true) : filter on given types or on different types
+   * @return bool $claim : true if one tile is being claimed
    * 
    */
-  public static function claimMasteriesSubset(Player &$player, array $masteriesTypes, bool $include = true){
+  public static function claimMasteriesSubset(Player &$player, array $masteriesTypes, bool $include = true) : bool
+  {
     Game::get()->trace("claimMasteriesSubset($include)...".json_encode($masteriesTypes));
-    if($include && count($masteriesTypes) <1) return ;
+    if($include && count($masteriesTypes) <1) return false;
     
+    $claim = false;
+
     $masteryCards = Tiles::getMasteryToClaim()
                     ->merge(Tiles::getMasteryReserved($player));
     foreach ($masteryCards as $tile) {
@@ -443,25 +455,43 @@ class Players extends \ROG\Helpers\DB_Manager
       if(!$include && in_array($tile->scoringType,$masteriesTypes)){
         continue;
       }
-      self::claimMastery($player,$tile);
+      if(Players::claimMastery($player,$tile)){
+        $claim = true;
+      }
     }
+    
+    //After claim, double check 
+    if($claim){
+      Players::claimScoreMasteries($player);
+    }
+
+    return $claim;
   }
   /**
    * check each mastery card to check if player can claim it
    * @param Player $player 
+   * @return bool $claim : true if one tile is being claimed
    */
-  public static function claimMasteries(Player &$player){
+  public static function claimMasteries(Player &$player) : bool{
     Game::get()->trace("claimMasteries()");
-    Players::claimNotScoreMasteries($player);
-    Players::claimScoreMasteries($player);
+    $claim = false;
+    if(Players::claimNotScoreMasteries($player) ){
+      $claim = true;
+    }
+    if(Players::claimScoreMasteries($player) ){
+      $claim = true;
+    }
+    return $claim;
   }
   
   /**
    * check this mastery card to check if player can claim it
    * @param Player $player 
    * @param MasteryCard $tile 
+   * @return bool $claim : true if the tile is being claimed
    */
-  public static function claimMastery(Player &$player, MasteryCard $tile){
+  public static function claimMastery(Player &$player, MasteryCard $tile) : bool
+  {
     $pId = $player->getId();
     $tileId = $tile->getId();
     Game::get()->trace("claimMastery($pId, $tileId)"); 
@@ -475,13 +505,13 @@ class Players extends \ROG\Helpers\DB_Manager
 
     foreach($clanMarkers as $clanMarker){
       //if already claimed by this player, exit
-      if($clanMarker->getPId() == $pId) return;
+      if($clanMarker->getPId() == $pId) return false;
     }
     
     //if already claimed by others, exit
     $nbClaimed = count($clanMarkers);
     if($nbClaimed >= count($tile->scores) ){
-      if(!isset($claimGains)) return;
+      if(!isset($claimGains)) return false;
       //else if there are claimGains we need to check claim anyway
     }
 
@@ -585,6 +615,7 @@ class Players extends \ROG\Helpers\DB_Manager
       Players::claimBonus($player, $claimGains, $playerPatron);
     }
 
+    return $claim;
   }
   
   public static function claimBonus(Player &$player, ?array $claimGains, ?ClanPatronCard $playerPatron,){

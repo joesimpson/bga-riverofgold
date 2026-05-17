@@ -261,6 +261,7 @@ function (dojo, declare, BgaAnimations) {
                 ['scoreCustomer', 1200],
                 ['addPoints', 1200],
                 ['scorePatron', 1200],
+                ['activePatron', 1200],
                 ['discardBuildingRow', 500],
                 ['slideBuildingRow', null],
                 ['refillBuildingRow', 800],
@@ -1958,6 +1959,10 @@ function (dojo, declare, BgaAnimations) {
         notif_scorePatron(n) {
             debug('notif_scorePatron', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_clan_card-${n.args.card_id}`));
+        },
+        notif_activePatron(n) {
+            debug('notif_activePatron', n);
+            //let's see notif message displayed on top
         },
         notif_discardBuildingRow(n) {
             debug('notif_discardBuildingRow: building tile discarded from building row', n);
