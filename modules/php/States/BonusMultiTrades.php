@@ -180,6 +180,7 @@ class BonusMultiTrades extends GameState
     switch($dest){
       case BONUS_TYPE_POINTS:
         $player->addPoints(+$qtyDest);
+        Players::claimScoreMasteries($player);
         break;
       default:
         $player->giveResource(+$qtyDest,$dest);

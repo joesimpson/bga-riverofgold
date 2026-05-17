@@ -369,6 +369,37 @@ final class BonusMultiTradesTest extends TestCase
         assertSame(['bonusQuantity'=>0,], Globals::getCurrentBonusDatas());
         assertSame(BonusMultiTrades::class, $newState);
     }
+    
+    public function test_ActionMultiTrade_Pass_Money_3Points_claimMastery(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        $currentBonus = BONUS_TYPE_MULTITRADE_3;
+        $currentBonusDatas = ['bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['player_score'] = 29;
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
+        TestDatas::$tiles[1]['type'] = 15;
+        $args = $state->getArgs();
+        $src = RESOURCE_TYPE_MONEY;
+        $dest = BONUS_TYPE_POINTS;
+
+        $newState = $state->actMultiTrade($src,$dest,999999, 1, $args);
+        
+        //check RESOURCES ANd points :
+        assertSame(37, TestDatas::$players[1]['player_score']);//29+3+5
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(3, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(2, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);//-3
+        assertSame(['bonusQuantity'=>0,], Globals::getCurrentBonusDatas());
+        assertSame(BonusMultiTrades::class, $newState);
+    }
     public function test_ActionMultiTrade_Pass_Money_Pottery(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

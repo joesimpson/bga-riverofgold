@@ -554,7 +554,7 @@ class Players extends \ROG\Helpers\DB_Manager
         }
         break;
       //----------------------------------------------------------------------
-      case MASTERY_TYPE_LIGHTNING:
+      case MASTERY_TYPE_LIGHTNING: // score >= 30 points
         $playerScore = Players::getUpdatedPlayerScore($pId);
         if($playerScore >= NB_POINTS_FOR_MASTERY_LIGHTNING){
           $claim = true;
