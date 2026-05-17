@@ -551,6 +551,51 @@ final class PlayerTurnTest extends TestCase
         //Test stay in state
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
     }
+    
+    public function test_ActionPlayCard_Shin5_MoveBuilding_Pass_MasteryOfWaves(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_5;
+        // -------------------- WAVES    --------------------------------
+        TestDatas::$tiles[1]['type'] = 13;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['type'] = 19;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tiles[43]['tile_state'] = 10;
+        TestDatas::$tokens[44] = TestDatas::$tokens[41];
+        TestDatas::$tokens[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44]['meeple_location'] = MEEPLE_LOCATION_TILE.'44';
+        TestDatas::$tiles[44] = TestDatas::$tiles[41];
+        TestDatas::$tiles[44]['tile_id'] = 44;
+        TestDatas::$tiles[44]['type'] = 25;
+        TestDatas::$tiles[44]['result_associative_index'] = 44;
+        TestDatas::$tiles[44]['tile_state'] = 11;
+        // River spaces before moving : 1,2,3,4,5,6,
+        // -----------------------------------------------------------------
+        $cardId = 11;
+        $markerId = 45;
+        TestDatas::$tokens[$markerId] = ['result_associative_index' => $markerId, 'meeple_id' => $markerId, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $action = BEFORE_ACTION::MOVE_BUILDING->value;
+        $source = 44;
+        $dest = 25;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $game->actPlayCard($answer);
+        
+        //Test moved tile: 
+        assertSame($dest, TestDatas::$tiles[44]['tile_state']);
+        // River spaces before moving : 1,2,3,4,5, 11,12,13
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        //Test stay in state
+        assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+    }
     public function test_ActionPlayCard_Shin5_MoveBuilding_KO_Source(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

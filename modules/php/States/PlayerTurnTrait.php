@@ -181,6 +181,7 @@ trait PlayerTurnTrait
         $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
         $tile->setPosition($dest);
         Notifications::moveBuilding($player,$tile,$previousPosition,$previousLocation);
+        Players::claimMasteries($player);
         break;
     }
 
