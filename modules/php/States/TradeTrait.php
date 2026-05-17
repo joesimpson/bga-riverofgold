@@ -47,6 +47,8 @@ trait TradeTrait
       $player->giveResource(-$qtySrc,$typeSrc);
     }
     $player->giveResource(+$qtyDest,$typeDest);
+    //Check masteries ('Mastery of Sun and Moon')
+    Players::claimMasteries($player);
 
     //LOOK for the state we where before player clicked 'Trade'
     $previousState = Globals::getStateBeforeTrade();

@@ -89,7 +89,7 @@ final class TradeTest extends TestCase
         $game = new GameMock();
         Globals::setStateBeforeTrade(ST_PLAYER_TURN);
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
-        TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":0,"2":0,"3":0,"4":5,"5":0,"6":5}';
+        TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":0,"2":0,"3":0,"4":5,"5":4,"6":5}';
         $typeSrc = RESOURCE_TYPE_MONEY;
         $typeDest = RESOURCE_TYPE_SUN;
 
@@ -101,8 +101,33 @@ final class TradeTest extends TestCase
         assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
         assertSame(0, $resources[RESOURCE_TYPE_RICE]);
         assertSame(5, $resources[RESOURCE_TYPE_MOON]);
-        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(5, $resources[RESOURCE_TYPE_SUN]);
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+    }
+    
+    public function test_ActionTradeSelect_Pass_Money_Favor_MasterySun(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setStateBeforeTrade(ST_PLAYER_TURN);
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
+        TestDatas::$tiles[1]['type'] = 14;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":0,"2":0,"3":0,"4":5,"5":4,"6":5}';
+        $typeSrc = RESOURCE_TYPE_MONEY;
+        $typeDest = RESOURCE_TYPE_SUN;
+
+        $game->actTradeSelect($typeSrc,$typeDest);
+        
+        assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+        $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(5, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(5, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5
     }
 
     public function test_ActionTradeSelect_Pass_PreviousStateBonus(): void
