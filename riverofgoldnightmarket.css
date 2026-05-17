@@ -4202,6 +4202,14 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   transform: scale(1.3333333333);
   transform-origin: top left;
 }
+.rog_masterycard .rog_masterycard_wrapper .rog_masterydesc .rog_icon_container.rog_icon_container_score {
+  width: 2em;
+  height: 2em;
+}
+.rog_masterycard .rog_masterycard_wrapper .rog_masterydesc .rog_icon_container.rog_icon_container_score .rog_icon_score {
+  transform: scale(1.3333333333);
+  transform-origin: top left;
+}
 .rog_masterycard .rog_masterycard_wrapper .rog_mastery_buildings,
 .rog_masterycard .rog_masterycard_wrapper .rog_mastery_customers {
   position: absolute;
@@ -4287,7 +4295,8 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   font-size: 27.7777777778px;
 }
 .rog_masterycard_tooltip .rog_tile .rog_masterydesc .rog_icon_imperial_flower,
-.rog_masterycard_tooltip .rog_tile .rog_masterydesc .rog_icon_influence {
+.rog_masterycard_tooltip .rog_tile .rog_masterydesc .rog_icon_influence,
+.rog_masterycard_tooltip .rog_tile .rog_masterydesc .rog_icon_score {
   transform: scale(1.8518518519) !important;
 }
 .rog_masterycard_tooltip .rog_tile .rog_mastery_buildings,

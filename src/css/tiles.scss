@@ -250,6 +250,14 @@
                         transform-origin: top left;
                     }
                 }
+                &.rog_icon_container_score{
+                    width: 2em;
+                    height: 2em;
+                    .rog_icon_score{
+                        transform: scale(calc(2 * math.div($fontSize, 30px)));
+                        transform-origin: top left;
+                    }
+                }
             }
         }    
         .rog_mastery_buildings,
@@ -374,7 +382,8 @@
             $fontSize: calc(math.div(500,360) * 20px);
             font-size: $fontSize;
             .rog_icon_imperial_flower,
-            .rog_icon_influence
+            .rog_icon_influence,
+            .rog_icon_score
             {
                 transform: scale(calc(2 * math.div($fontSize, 30px))) !important;
             }
