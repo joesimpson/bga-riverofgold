@@ -415,31 +415,37 @@ class Players extends \ROG\Helpers\DB_Manager
   
   public static function claimNotScoreMasteries(Player &$player){
     Game::get()->trace("claimNotScoreMasteries()");
-    $masteryCards = Tiles::getMasteryToClaim()
-                    ->merge(Tiles::getMasteryReserved($player));
     $masteriesTypesAboutScore = [MASTERY_TYPE_LIGHTNING];
-    $masteriesAboutScore = [];
-    foreach ($masteryCards as $tile) {
-      if(in_array($tile->scoringType,$masteriesTypesAboutScore)){
-        $masteriesAboutScore[] = $tile;
-        continue;
-      }
-      self::claimMastery($player,$tile);
-    }
+    Players::claimMasteriesSubset($player,$masteriesTypesAboutScore,false);
   }
   public static function claimScoreMasteries(Player &$player){
     Game::get()->trace("claimScoreMasteries()");
+    $masteriesTypesAboutScore = [MASTERY_TYPE_LIGHTNING];
+    Players::claimMasteriesSubset($player,$masteriesTypesAboutScore,true);
+  }
+
+  /**
+   * @param Player $player
+   * @param array $masteriesTypes : list of mastery tiles types
+   * @param bool $include (default true) : filter on given types or on different types
+   * 
+   */
+  public static function claimMasteriesSubset(Player &$player, array $masteriesTypes, bool $include = true){
+    Game::get()->trace("claimMasteriesSubset($include)...".json_encode($masteriesTypes));
+    if($include && count($masteriesTypes) <1) return ;
+    
     $masteryCards = Tiles::getMasteryToClaim()
                     ->merge(Tiles::getMasteryReserved($player));
-    $masteriesTypesAboutScore = [MASTERY_TYPE_LIGHTNING];
     foreach ($masteryCards as $tile) {
-      if(!in_array($tile->scoringType,$masteriesTypesAboutScore)){
+      if($include && !in_array($tile->scoringType,$masteriesTypes)){
+        continue;
+      }
+      if(!$include && in_array($tile->scoringType,$masteriesTypes)){
         continue;
       }
       self::claimMastery($player,$tile);
     }
   }
-
   /**
    * check each mastery card to check if player can claim it
    * @param Player $player 
@@ -583,19 +589,24 @@ class Players extends \ROG\Helpers\DB_Manager
   
   public static function claimBonus(Player &$player, ?array $claimGains, ?ClanPatronCard $playerPatron,){
     if(!isset($claimGains)) return;
+    if(isset($playerPatron)){
+      Notifications::activePatron($player,$playerPatron);
+    }
 
+    $checkOtherMasteries = [];
     foreach($claimGains as $type => $amount){
       switch($type){
         case RESOURCE_TYPE_MOON: 
         case RESOURCE_TYPE_SUN: 
           $player->giveResource($amount,$type);
+          $checkOtherMasteries = [MASTERY_TYPE_SUN_MOON];
           break;
         case BONUS_TYPE_POINTS:
-          $player->addPoints($amount,false);
-          Notifications::scorePatron($player,$amount,$playerPatron);
+          $player->addPoints($amount);
           break;
       }
     }
+    Players::claimMasteriesSubset($player,$checkOtherMasteries);
   }
   
   /**

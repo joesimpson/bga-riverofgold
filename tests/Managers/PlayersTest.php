@@ -1547,7 +1547,42 @@ final class PlayersTest extends TestCase
         assertSame(3, $resources[RESOURCE_TYPE_SUN]);//+3
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
     }
-    
+    // Check that claiming a Mastery will give enough favor to claim Mastery of Sun and regain favor
+    public function test_claimMasteries_ScionOfEarth_MasteryOfSun(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":2,"6":0}';
+        $player = Players::get(1);
+        $tileRow = TestDatas::$tiles[1];
+        $tile = new MasteryCard($tileRow, Tiles::getMasteryCardsTypes()[ $tileRow['type']]);
+        TestDatas::$tiles[8]['tile_location'] = TILE_LOCATION_MASTERY_CARD;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12] = TestDatas::$cards[11];
+        TestDatas::$cards[12]['type']  = CARD_ELDER_1;
+        TestDatas::$cards[13] = TestDatas::$cards[11];
+        TestDatas::$cards[13]['type']  = CARD_MERCHANT_1;
+        //with patron abiliy
+        TestDatas::$cards[101]['type'] = PATRON_SCION_OF_EARTH;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+
+        Players::claimMastery($player,$tile);
+        
+        assertSame(29, TestDatas::$players[1]['player_score']);//19+5+5
+        $newClanMarker = TestDatas::$tokens[43];
+        assertSame(MEEPLE_LOCATION_TILE.'1', $newClanMarker['meeple_location']);
+        assertSame(1, $newClanMarker['meeple_state']);
+        assertSame(1, $newClanMarker['player_id']);
+        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(6, $resources[RESOURCE_TYPE_MOON]);//+1 * 2
+        assertSame(6, $resources[RESOURCE_TYPE_SUN]);//+3 * 2 max 6
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+    }
+
     public function test_claimMasteries_Type1_Active_2Players_NewCustomers(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
