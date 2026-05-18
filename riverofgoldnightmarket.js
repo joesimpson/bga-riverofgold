@@ -167,6 +167,8 @@ function (dojo, declare, BgaAnimations) {
     const BONUS_TYPE_INF_SELECT_REGION  = 41;
     const BONUS_TYPE_MULTITRADE_2       = 42;
     const BONUS_TYPE_MULTITRADE_3       = 43;
+    const BONUS_TYPE_TRADE_KOKU         = 44;
+    const BONUS_TYPE_TRADE_POINTS       = 45;
 
     const RESOURCES = [
         0,
@@ -2521,6 +2523,20 @@ function (dojo, declare, BgaAnimations) {
                         'list': "<ul>" 
                                + "<li>" + this.formatReward(RESOURCE_TYPE_MONEY,3) + "</li>"
                                + "<li>" + this.formatReward(BONUS_TYPE_POINTS,3) + "</li>"
+                               + "<li>" + this.formatReward(BONUS_TYPE_CHOICE,1) + "</li>"
+                            +"</ul>",
+                    });
+                case BONUS_TYPE_TRADE_KOKU:   return this.fsr(_('You may make ${n} trade(s) among : ${list}'), {
+                        'n':quantity, 
+                        'list': "<ul>" 
+                               + "<li>" + this.formatReward(RESOURCE_TYPE_MONEY,3) + "</li>"
+                               + "<li>" + this.formatReward(BONUS_TYPE_CHOICE,1) + "</li>"
+                            +"</ul>",
+                    });
+                case BONUS_TYPE_TRADE_POINTS:   return this.fsr(_('You may make ${n} trade(s) among : ${list}'), {
+                        'n':quantity, 
+                        'list': "<ul>" 
+                               + "<li>" + this.formatReward(BONUS_TYPE_POINTS,2) + "</li>"
                                + "<li>" + this.formatReward(BONUS_TYPE_CHOICE,1) + "</li>"
                             +"</ul>",
                     });

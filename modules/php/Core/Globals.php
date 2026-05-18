@@ -49,6 +49,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     'optionClanPatrons' => 'int', 
     'optionTracks' => 'int', 
     'optionCustomers' => 'int', 
+    'optionImperialMarkets' => 'int', 
 
   ];
  
@@ -97,7 +98,8 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::setOptionTracks($optionTracks);
     self::setRegionCustomTracks($regionTracks);
 
-    $optionCustomers = $options[OPTION_CUSTOMERS];
+    $optionCustomers = OPTION_CUSTOMERS_BASE;
+    Utils::updateDataFromArray($options,OPTION_CUSTOMERS,$optionCustomers);
     $customerTypes = [];
     switch($optionCustomers){
       case OPTION_CUSTOMERS_BASE:
@@ -156,6 +158,10 @@ class Globals extends \ROG\Helpers\DB_Manager
     }
     self::setOptionCustomers($optionCustomers);
     Globals::setCustomerTypes($customerTypes);
+    
+    $optionImperialMarkets = OPTION_MARKETS_BASE;
+    Utils::updateDataFromArray($options,OPTION_MARKETS,$optionImperialMarkets);
+    Globals::setOptionImperialMarkets($optionImperialMarkets);
   }
 
   /**

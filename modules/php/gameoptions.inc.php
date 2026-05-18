@@ -105,6 +105,28 @@ $game_options = [
      
   ), 
 
+  OPTION_MARKETS => array(
+    'name' => 'Imperial Markets',    
+    'values' => [
+      OPTION_MARKETS_BASE => [
+        'name' => 'Base game', 
+        'description' => '', 
+      ],
+      OPTION_MARKETS_NIGHT => [
+        'name' => 'Night markets', 
+        'tmdisplay' => 'Night markets',
+        'description' => '3 new imperial markets to place during setup', 
+      ],
+      OPTION_MARKETS_RANDOM => [
+        'name' => 'Random', 
+        'tmdisplay' => 'Random markets',
+        'description' => 'Pick 3 random imperial markets to place during setup', 
+      ],
+    ],
+    'default' => OPTION_MARKETS_BASE,
+     
+  ), 
+
 ];
 
 

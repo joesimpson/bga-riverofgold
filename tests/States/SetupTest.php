@@ -9,6 +9,7 @@ use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Managers\Cards;
+use ROG\Managers\Tiles;
 use ROG\Models\CustomerCard;
 use Tests\Utils\PHPUnitUtil;
 use Tests\Utils\TestDatas;
@@ -219,6 +220,116 @@ final class SetupTest extends TestCase
             assertTrue(in_array($track,$expectedTracks), "Region track $region : $track must be in ".json_encode($expectedTracks));
         }
         
+    }
+    
+    public function test_setupNewGame_Markets_Base(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        TestDatas::$players[3] = TestDatas::$players[1];
+        TestDatas::$players[3]['player_id'] = 3;
+        TestDatas::$players[3]['result_associative_index'] = 3;
+        TestDatas::$players[4] = TestDatas::$players[1];
+        TestDatas::$players[4]['player_id'] = 4;
+        TestDatas::$players[4]['result_associative_index'] = 4;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+            3 => TestDatas::$players[3],
+            4 => TestDatas::$players[4],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_TRACKS => OPTION_TRACKS_CUSTOM,
+            OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
+            OPTION_MARKETS => OPTION_MARKETS_BASE,
+        ];
+        TestDatas::$tiles = [];
+        $expectedMarketTypes = [44,45,46];
+        
+        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        $tiles = Tiles::getInLocation(TILE_LOCATION_BUILDING_SHORE);
+        assertSame(3, count($tiles));// 3+ 0 with 4+ players
+        foreach ($tiles as $tile){
+            $type = $tile->getType();
+            assertTrue(in_array($type,$expectedMarketTypes), "Imperial market type $type must be in ".json_encode($expectedMarketTypes));
+        }
+        
+    }
+    public function test_setupNewGame_Markets_Night(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        TestDatas::$players[3] = TestDatas::$players[1];
+        TestDatas::$players[3]['player_id'] = 3;
+        TestDatas::$players[3]['result_associative_index'] = 3;
+        TestDatas::$players[4] = TestDatas::$players[1];
+        TestDatas::$players[4]['player_id'] = 4;
+        TestDatas::$players[4]['result_associative_index'] = 4;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+            3 => TestDatas::$players[3],
+            4 => TestDatas::$players[4],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_TRACKS => OPTION_TRACKS_CUSTOM,
+            OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
+            OPTION_MARKETS => OPTION_MARKETS_NIGHT,
+        ];
+        TestDatas::$tiles = [];
+        $expectedMarketTypes = [47,48,49];
+        
+        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        $tiles = Tiles::getInLocation(TILE_LOCATION_BUILDING_SHORE);
+        assertSame(3, count($tiles));// 3+ 0 with 4+ players
+        foreach ($tiles as $tile){
+            $type = $tile->getType();
+            assertTrue(in_array($type,$expectedMarketTypes), "Imperial market type $type must be in ".json_encode($expectedMarketTypes));
+        }
+    }
+    
+    public function test_setupNewGame_Markets_Random(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        TestDatas::$players[3] = TestDatas::$players[1];
+        TestDatas::$players[3]['player_id'] = 3;
+        TestDatas::$players[3]['result_associative_index'] = 3;
+        TestDatas::$players[4] = TestDatas::$players[1];
+        TestDatas::$players[4]['player_id'] = 4;
+        TestDatas::$players[4]['result_associative_index'] = 4;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+            3 => TestDatas::$players[3],
+            4 => TestDatas::$players[4],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_TRACKS => OPTION_TRACKS_CUSTOM,
+            OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
+            OPTION_MARKETS => OPTION_MARKETS_RANDOM,
+        ];
+        TestDatas::$tokens = [];
+        TestDatas::$cards = [];
+        TestDatas::$tiles = [];
+        $expectedMarketTypes = [44,45,46,47,48,49];
+        
+        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        $tiles = Tiles::getInLocation(TILE_LOCATION_BUILDING_SHORE);
+        assertSame(3, count($tiles));// 3+ 0 with 4+ players
+        foreach ($tiles as $tile){
+            $type = $tile->getType();
+            assertTrue(in_array($type,$expectedMarketTypes), "Imperial market type $type must be in ".json_encode($expectedMarketTypes));
+        }
     }
 
     // ----------------------------------------------------------------------

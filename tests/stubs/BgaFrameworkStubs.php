@@ -655,6 +655,14 @@ abstract class Table
                 return true;
 
         }
+        
+        if (preg_match("/^UPDATE `stats` SET `stats_value` = `stats_value` \+ (?P<stats_value>.*) WHERE `stats_type` = (?P<stats_type>\d+) AND `stats_player_id` = (?P<stats_player_id>\d+)$/", $sql, $matches) == 1) {
+            $stats_value = $matches['stats_value'];
+            $stats_type = $matches['stats_type'];
+            $stats_player_id = $matches['stats_player_id'];
+            logForTests("DbQuery --- nothing done for INC stat $stats_value, $stats_type, $stats_player_id... ");
+            return true;
+        }
         //2 inserts at the same time
         if (preg_match("/^INSERT INTO `player` (.*) VALUES(\('(?P<player_id>\d+)','(?P<player_color>\w+)','(?P<player_name>\w+)','(?P<player_clan>\d+)','(?P<resources>[\w\":,{}]+)'\)),(\('(?P<player_id2>\d+)','(?P<player_color2>\w+)','(?P<player_name2>\w+)','(?P<player_clan2>\d+)','(?P<resources2>[\w\":,{}]+)'\))$/", $sql, $matches) == 1) {
             $player_clan = intval( $matches['player_clan']);
@@ -678,6 +686,25 @@ abstract class Table
             logForTests("DbQuery --- added player $player_id : $player_color, $player_name, $player_clan, '$resources' ");
             TestDatas::$players[$player_id] = ['result_associative_index' => $player_id, 'player_id' => $player_id, 'player_color' => $player_color, 'player_name'=> $player_name,'player_clan' => $player_clan,  'resources' => $resources, ];
             TestDatas::$lastInsertedId = $player_id;
+            return true;
+        }
+        $mutiplesGroups = "";
+        for($k=1;$k<100;$k++) $mutiplesGroups .= "(,?\('(\w+)','(\w+)','(\w+)','(\w+)','([\w\":,{}]+)'\))?";
+        if (preg_match("/^INSERT INTO `player` (.*) VALUES(,?\('(\w+)','(\w+)','(\w+)','(\w+)','([\w\":,{}]+)'\))?$mutiplesGroups$/", $sql, $matches) == 1) {
+            $k =2;
+            while(array_key_exists($k,$matches)){
+                $player_id = intval($matches[$k+1]);
+                $player_color = ($matches[$k+2]);
+                $player_name = ($matches[$k+3]);
+                $player_clan = intval($matches[$k+4]);
+                $resources = ($matches[$k+5]);
+                $player_ids = array_keys(TestDatas::$players);
+                $player_id = 1 + $player_ids[count($player_ids)-1];
+                logForTests("DbQuery --- added player $player_id : $player_color, $player_name, $player_clan, '$resources' ");
+                TestDatas::$players[$player_id] = ['result_associative_index' => $player_id, 'player_id' => $player_id, 'player_color' => $player_color, 'player_name'=> $player_name,'player_clan' => $player_clan,  'resources' => $resources, ];
+                TestDatas::$lastInsertedId = $player_id;
+                $k+=6;
+            }
             return true;
         }
         if (preg_match("/^UPDATE `player` SET `resources` = '(?P<resources>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
@@ -833,6 +860,33 @@ abstract class Table
             $card_id = $matches['card_id'];
             logForTests("DbQuery --- updated player_id for card $card_id : $player_id");
             TestDatas::$cards[$card_id]['player_id'] = intval($player_id);
+            return true;
+        }
+        
+        $mutiplesGroups = "";
+        for($k=1;$k<100;$k++) $mutiplesGroups .= "(,?\('(\w+)','(\w+)',(?:'(\w+)'|NULL),'(\w+)','(\w+)'\))?";
+        if (preg_match("/^INSERT INTO `tiles` (.*) VALUES(,?\('(\w+)','(\w+)',(?:'(\w+)'|NULL),'(\w+)','(\w+)'\))?$mutiplesGroups$/", $sql, $matches) == 1) {
+            $k =2;
+            while(array_key_exists($k,$matches)){
+                $card_location = $matches[$k+1];
+                $card_state = intval($matches[$k+2]);
+                $player_id = intval($matches[$k+3]);
+                $type = intval($matches[$k+4]);
+                $subtype = intval($matches[$k+5]);
+                $cards_ids = array_keys(TestDatas::$tiles);
+                $nbCards = count($cards_ids);
+                $id = 1 + ($nbCards>0 ? $cards_ids[count($cards_ids)-1] : 0);
+                logForTests("DbQuery --- added tile $id : $card_location, $card_state, $player_id,$type, $subtype ");
+                TestDatas::$tiles[$id] = ['result_associative_index' => $id,'tile_id' => $id, 'tile_location' => $card_location, 'tile_state' => $card_state, 'player_id' => $player_id, 'type' => $type, 'subtype' => $subtype,];
+                TestDatas::$lastInsertedId = $id;
+                $k+=6;
+            }
+            return true;
+        }
+        if (preg_match("/^DELETE FROM `tiles` WHERE  `tile_id` = (?P<tile_id>\d+)$/", $sql, $matches) == 1) {
+            $tile_id = $matches['tile_id'];
+            logForTests("DbQuery --- remove tile $tile_id");
+            unset(TestDatas::$tiles[$tile_id]);
             return true;
         }
         if (preg_match("/^UPDATE `tiles` SET `player_id` = '(?P<player_id>.*)' WHERE  `tile_id` = (?P<card_id>\d+)$/", $sql, $matches) == 1) {

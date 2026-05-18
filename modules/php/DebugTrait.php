@@ -62,6 +62,7 @@ trait DebugTrait
     bool $expansionClansAlt = true,
     bool $customTracks = true,
     int $optionCustomers = OPTION_CUSTOMERS_BASE,
+    int $optionMarkets = OPTION_MARKETS_BASE,
   ){
     Log::disable();
     $this->debug_ClearLogs();
@@ -75,6 +76,7 @@ trait DebugTrait
         ) ,
       OPTION_TRACKS => $customTracks,
       OPTION_CUSTOMERS => $optionCustomers,
+      OPTION_MARKETS => $optionMarkets,
     ];
     $players = self::loadPlayersBasicInfos();
     Globals::DB()->delete()->run();

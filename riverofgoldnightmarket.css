@@ -4431,7 +4431,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile {
   width: 333px;
   height: 170px;
-  background-size: 500% 1000%;
+  background-size: 500% 1100%;
 }
 .rog_tile[data-subtype="2"].rog_slideBuildingRow,
 .rog_shore_space .rog_tile.rog_slideBuildingRow,
@@ -4507,7 +4507,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="6"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
-  background-position-y: 11.1111111111%;
+  background-position-y: 10%;
 }
 .rog_tile[data-subtype="2"][data-type="7"],
 .rog_shore_space .rog_tile[data-type="7"],
@@ -4518,7 +4518,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="7"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
-  background-position-y: 11.1111111111%;
+  background-position-y: 10%;
 }
 .rog_tile[data-subtype="2"][data-type="8"],
 .rog_shore_space .rog_tile[data-type="8"],
@@ -4529,7 +4529,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="8"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
-  background-position-y: 11.1111111111%;
+  background-position-y: 10%;
 }
 .rog_tile[data-subtype="2"][data-type="9"],
 .rog_shore_space .rog_tile[data-type="9"],
@@ -4540,7 +4540,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="9"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
-  background-position-y: 11.1111111111%;
+  background-position-y: 10%;
 }
 .rog_tile[data-subtype="2"][data-type="10"],
 .rog_shore_space .rog_tile[data-type="10"],
@@ -4551,7 +4551,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="10"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
-  background-position-y: 11.1111111111%;
+  background-position-y: 10%;
 }
 .rog_tile[data-subtype="2"][data-type="11"],
 .rog_shore_space .rog_tile[data-type="11"],
@@ -4562,7 +4562,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="11"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
-  background-position-y: 22.2222222222%;
+  background-position-y: 20%;
 }
 .rog_tile[data-subtype="2"][data-type="12"],
 .rog_shore_space .rog_tile[data-type="12"],
@@ -4573,7 +4573,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="12"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
-  background-position-y: 22.2222222222%;
+  background-position-y: 20%;
 }
 .rog_tile[data-subtype="2"][data-type="13"],
 .rog_shore_space .rog_tile[data-type="13"],
@@ -4584,7 +4584,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="13"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
-  background-position-y: 22.2222222222%;
+  background-position-y: 20%;
 }
 .rog_tile[data-subtype="2"][data-type="14"],
 .rog_shore_space .rog_tile[data-type="14"],
@@ -4595,7 +4595,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="14"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
-  background-position-y: 22.2222222222%;
+  background-position-y: 20%;
 }
 .rog_tile[data-subtype="2"][data-type="15"],
 .rog_shore_space .rog_tile[data-type="15"],
@@ -4606,7 +4606,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="15"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
-  background-position-y: 22.2222222222%;
+  background-position-y: 20%;
 }
 .rog_tile[data-subtype="2"][data-type="16"],
 .rog_shore_space .rog_tile[data-type="16"],
@@ -4617,7 +4617,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="16"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 30%;
 }
 .rog_tile[data-subtype="2"][data-type="17"],
 .rog_shore_space .rog_tile[data-type="17"],
@@ -4628,7 +4628,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="17"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 30%;
 }
 .rog_tile[data-subtype="2"][data-type="18"],
 .rog_shore_space .rog_tile[data-type="18"],
@@ -4639,7 +4639,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="18"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 30%;
 }
 .rog_tile[data-subtype="2"][data-type="19"],
 .rog_shore_space .rog_tile[data-type="19"],
@@ -4650,7 +4650,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="19"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 30%;
 }
 .rog_tile[data-subtype="2"][data-type="20"],
 .rog_shore_space .rog_tile[data-type="20"],
@@ -4661,7 +4661,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="20"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
-  background-position-y: 33.3333333333%;
+  background-position-y: 30%;
 }
 .rog_tile[data-subtype="2"][data-type="21"],
 .rog_shore_space .rog_tile[data-type="21"],
@@ -4672,7 +4672,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="21"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
-  background-position-y: 44.4444444444%;
+  background-position-y: 40%;
 }
 .rog_tile[data-subtype="2"][data-type="22"],
 .rog_shore_space .rog_tile[data-type="22"],
@@ -4683,7 +4683,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="22"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
-  background-position-y: 44.4444444444%;
+  background-position-y: 40%;
 }
 .rog_tile[data-subtype="2"][data-type="23"],
 .rog_shore_space .rog_tile[data-type="23"],
@@ -4694,7 +4694,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="23"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
-  background-position-y: 44.4444444444%;
+  background-position-y: 40%;
 }
 .rog_tile[data-subtype="2"][data-type="24"],
 .rog_shore_space .rog_tile[data-type="24"],
@@ -4705,7 +4705,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="24"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
-  background-position-y: 44.4444444444%;
+  background-position-y: 40%;
 }
 .rog_tile[data-subtype="2"][data-type="25"],
 .rog_shore_space .rog_tile[data-type="25"],
@@ -4716,7 +4716,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="25"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
-  background-position-y: 44.4444444444%;
+  background-position-y: 40%;
 }
 .rog_tile[data-subtype="2"][data-type="26"],
 .rog_shore_space .rog_tile[data-type="26"],
@@ -4727,7 +4727,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="26"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
-  background-position-y: 55.5555555556%;
+  background-position-y: 50%;
 }
 .rog_tile[data-subtype="2"][data-type="27"],
 .rog_shore_space .rog_tile[data-type="27"],
@@ -4738,7 +4738,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="27"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
-  background-position-y: 55.5555555556%;
+  background-position-y: 50%;
 }
 .rog_tile[data-subtype="2"][data-type="28"],
 .rog_shore_space .rog_tile[data-type="28"],
@@ -4749,7 +4749,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="28"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
-  background-position-y: 55.5555555556%;
+  background-position-y: 50%;
 }
 .rog_tile[data-subtype="2"][data-type="29"],
 .rog_shore_space .rog_tile[data-type="29"],
@@ -4760,7 +4760,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="29"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
-  background-position-y: 55.5555555556%;
+  background-position-y: 50%;
 }
 .rog_tile[data-subtype="2"][data-type="30"],
 .rog_shore_space .rog_tile[data-type="30"],
@@ -4771,7 +4771,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="30"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
-  background-position-y: 55.5555555556%;
+  background-position-y: 50%;
 }
 .rog_tile[data-subtype="2"][data-type="31"],
 .rog_shore_space .rog_tile[data-type="31"],
@@ -4782,7 +4782,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="31"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 60%;
 }
 .rog_tile[data-subtype="2"][data-type="32"],
 .rog_shore_space .rog_tile[data-type="32"],
@@ -4793,7 +4793,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="32"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 60%;
 }
 .rog_tile[data-subtype="2"][data-type="33"],
 .rog_shore_space .rog_tile[data-type="33"],
@@ -4804,7 +4804,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="33"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 60%;
 }
 .rog_tile[data-subtype="2"][data-type="34"],
 .rog_shore_space .rog_tile[data-type="34"],
@@ -4815,7 +4815,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="34"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 60%;
 }
 .rog_tile[data-subtype="2"][data-type="35"],
 .rog_shore_space .rog_tile[data-type="35"],
@@ -4826,7 +4826,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="35"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
-  background-position-y: 66.6666666667%;
+  background-position-y: 60%;
 }
 .rog_tile[data-subtype="2"][data-type="36"],
 .rog_shore_space .rog_tile[data-type="36"],
@@ -4837,7 +4837,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="36"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
-  background-position-y: 77.7777777778%;
+  background-position-y: 70%;
 }
 .rog_tile[data-subtype="2"][data-type="37"],
 .rog_shore_space .rog_tile[data-type="37"],
@@ -4848,7 +4848,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="37"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
-  background-position-y: 77.7777777778%;
+  background-position-y: 70%;
 }
 .rog_tile[data-subtype="2"][data-type="38"],
 .rog_shore_space .rog_tile[data-type="38"],
@@ -4859,7 +4859,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="38"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
-  background-position-y: 77.7777777778%;
+  background-position-y: 70%;
 }
 .rog_tile[data-subtype="2"][data-type="39"],
 .rog_shore_space .rog_tile[data-type="39"],
@@ -4870,7 +4870,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="39"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
-  background-position-y: 77.7777777778%;
+  background-position-y: 70%;
 }
 .rog_tile[data-subtype="2"][data-type="40"],
 .rog_shore_space .rog_tile[data-type="40"],
@@ -4881,7 +4881,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="40"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
-  background-position-y: 77.7777777778%;
+  background-position-y: 70%;
 }
 .rog_tile[data-subtype="2"][data-type="41"],
 .rog_shore_space .rog_tile[data-type="41"],
@@ -4892,7 +4892,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="41"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
-  background-position-y: 88.8888888889%;
+  background-position-y: 80%;
 }
 .rog_tile[data-subtype="2"][data-type="42"],
 .rog_shore_space .rog_tile[data-type="42"],
@@ -4903,7 +4903,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="42"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 25%;
-  background-position-y: 88.8888888889%;
+  background-position-y: 80%;
 }
 .rog_tile[data-subtype="2"][data-type="43"],
 .rog_shore_space .rog_tile[data-type="43"],
@@ -4914,7 +4914,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="43"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
-  background-position-y: 88.8888888889%;
+  background-position-y: 80%;
 }
 .rog_tile[data-subtype="2"][data-type="44"],
 .rog_shore_space .rog_tile[data-type="44"],
@@ -4925,7 +4925,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="44"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 75%;
-  background-position-y: 88.8888888889%;
+  background-position-y: 80%;
 }
 .rog_tile[data-subtype="2"][data-type="45"],
 .rog_shore_space .rog_tile[data-type="45"],
@@ -4936,7 +4936,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="45"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 100%;
-  background-position-y: 88.8888888889%;
+  background-position-y: 80%;
 }
 .rog_tile[data-subtype="2"][data-type="46"],
 .rog_shore_space .rog_tile[data-type="46"],
@@ -4947,14 +4947,47 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_building_slot .rog_tile[data-type="46"] {
   background-image: url("img/tiles/buildings.png");
   background-position-x: 0%;
-  background-position-y: 100%;
+  background-position-y: 90%;
+}
+.rog_tile[data-subtype="2"][data-type="47"],
+.rog_shore_space .rog_tile[data-type="47"],
+.rog_shore_space.selectable:hover[data-type="47"],
+.rog_shore_space.selectable.selected[data-type="47"],
+.rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="47"],
+.rog_button_building_tile_image[data-type="47"],
+.rog_building_slot .rog_tile[data-type="47"] {
+  background-image: url("img/tiles/buildings.png");
+  background-position-x: 25%;
+  background-position-y: 90%;
+}
+.rog_tile[data-subtype="2"][data-type="48"],
+.rog_shore_space .rog_tile[data-type="48"],
+.rog_shore_space.selectable:hover[data-type="48"],
+.rog_shore_space.selectable.selected[data-type="48"],
+.rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="48"],
+.rog_button_building_tile_image[data-type="48"],
+.rog_building_slot .rog_tile[data-type="48"] {
+  background-image: url("img/tiles/buildings.png");
+  background-position-x: 50%;
+  background-position-y: 90%;
+}
+.rog_tile[data-subtype="2"][data-type="49"],
+.rog_shore_space .rog_tile[data-type="49"],
+.rog_shore_space.selectable:hover[data-type="49"],
+.rog_shore_space.selectable.selected[data-type="49"],
+.rog_tile_tooltip[data-subtype="2"] .rog_tile[data-type="49"],
+.rog_button_building_tile_image[data-type="49"],
+.rog_building_slot .rog_tile[data-type="49"] {
+  background-image: url("img/tiles/buildings.png");
+  background-position-x: 75%;
+  background-position-y: 90%;
 }
 
 .rog_building_slot.selectable,
 .rog_shore_space.selectable {
   width: 333px;
   height: 170px;
-  background-size: 500% 1000%;
+  background-size: 500% 1100%;
   background-image: url("img/tiles/buildings.png");
   background-position-x: 50%;
   background-position-y: 100%;

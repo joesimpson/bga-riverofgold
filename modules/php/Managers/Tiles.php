@@ -224,10 +224,21 @@ class Tiles extends \ROG\Helpers\Pieces
       }
     }
     
+    $optionMarketSetup = Globals::getOptionImperialMarkets();
+    $imperialMarketTiles = [];
     $buildingTiles = self::getBuildingTilesTypes();
     foreach ($buildingTiles as $type => $tile) {
       $era = $tile['era'];
+      $option = $tile['option'];
       if( $era == 0){
+        if(BUILDING_TYPE_MARKET == $tile['buildingType']){
+          if($option == $optionMarketSetup || $optionMarketSetup == OPTION_MARKETS_RANDOM ){
+            $imperialMarketTiles[] = ['type'=>$type, 'tile' => $tile];
+          }
+          continue;
+          //manage 3 random imperial markets after the loop
+        }
+
         //manage starting tiles (with 2 of some)
         $tiles[] = [
           'location' => TILE_LOCATION_BUILDING_SHORE,
@@ -243,6 +254,21 @@ class Tiles extends \ROG\Helpers\Pieces
           'subtype' => TILE_TYPE_BUILDING,
         ];
       }
+    }
+
+    shuffle($imperialMarketTiles);
+    //KEEP ONLY 3 Imperial Markets
+    $nbImperialMarkets = 0;
+    foreach ($imperialMarketTiles as $tileDatas) {
+      $tile = $tileDatas['tile'];
+      $tiles[] = [
+        'location' => TILE_LOCATION_BUILDING_SHORE,
+        'type' => $tileDatas['type'],
+        'subtype' => TILE_TYPE_BUILDING,
+        'nbr' => $tile['nbr'],
+      ];
+      $nbImperialMarkets++;
+      if($nbImperialMarkets >= NB_IMPERIAL_MARKETS) break;
     }
 
     if(count($tiles)>0){
@@ -486,6 +512,7 @@ class Tiles extends \ROG\Helpers\Pieces
         'ownerRewardArray' => $t[3],
         'visitorRewardArray' => $t[4],
         'nbr' => isset($t[5]) ? $t[5] : 1,
+        'option' => isset($t[6]) ? $t[6] : null,
       ];
     };
     return [
@@ -547,9 +574,14 @@ class Tiles extends \ROG\Helpers\Pieces
       // 2 identical starting red 
       43 => $f([ 0, 0  , BUILDING_TYPE_SHRINE,[], [BONUS_TYPE_POINTS=>2], 2]), 
       // 3 starting green 
-      44 => $f([ 0, 0  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_POTTERY=>1,RESOURCE_TYPE_SUN=>1]  ]), 
-      45 => $f([ 0, 0  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_SUN=>1]     ]), 
-      46 => $f([ 0, 0  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_SILK=>1,BONUS_TYPE_DRAW =>1]      ]), 
+      44 => $f([ 0, 0  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_POTTERY=>1,RESOURCE_TYPE_SUN=>1]  , 1,  OPTION_MARKETS_BASE ]), 
+      45 => $f([ 0, 0  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_SUN=>1]     , 1,  OPTION_MARKETS_BASE ]), 
+      46 => $f([ 0, 0  , BUILDING_TYPE_MARKET,[], [RESOURCE_TYPE_SILK=>1,BONUS_TYPE_DRAW =>1]      , 1,  OPTION_MARKETS_BASE ]), 
+      
+      // V2 : +3 starting green 
+      47 => $f([ 0, 0  , BUILDING_TYPE_MARKET,[], [BONUS_TYPE_DRAW => 1, RESOURCE_TYPE_SUN=>1,    ]   , 1,  OPTION_MARKETS_NIGHT  ]), 
+      48 => $f([ 0, 0  , BUILDING_TYPE_MARKET,[], [BONUS_TYPE_DRAW => 1, BONUS_TYPE_TRADE_KOKU=>1,]   , 1,  OPTION_MARKETS_NIGHT  ]), 
+      49 => $f([ 0, 0  , BUILDING_TYPE_MARKET,[], [BONUS_TYPE_DRAW => 1, BONUS_TYPE_TRADE_POINTS=>1,] , 1,  OPTION_MARKETS_NIGHT  ] ), 
     ];
   }
   

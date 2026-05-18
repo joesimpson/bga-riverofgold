@@ -145,4 +145,14 @@ abstract class Utils
         } 
         return INFLUENCE_TRACK_REWARDS[$region];
     }
+
+    
+    /**
+     * @param array $array
+     * @param int $key in array
+     * @param int $value to change from array datas if the key is found in the array, else nothing is done
+     */
+    public static function updateDataFromArray ($array, $key, &$value) {
+        if(array_key_exists($key,$array)) $value = $array[$key];
+    }
 }

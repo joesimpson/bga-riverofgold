@@ -68,5 +68,25 @@
             }
         },
         "default": 0
+    },
+    "130": {
+        "name": "Imperial Markets",
+        "values": {
+            "0": {
+                "name": "Base game",
+                "description": ""
+            },
+            "1": {
+                "name": "Night markets",
+                "tmdisplay": "Night markets",
+                "description": "3 new imperial markets to place during setup"
+            },
+            "10": {
+                "name": "Random",
+                "tmdisplay": "Random markets",
+                "description": "Pick 3 random imperial markets to place during setup"
+            }
+        },
+        "default": 0
     }
 }
