@@ -420,7 +420,7 @@ trait DebugTrait
         'type' => MEEPLE_TYPE_CLAN_MARKER,
         'location' => MEEPLE_LOCATION_TILE.$tile->id,
         'player_id' => $player->getId(),
-        'state' => $position,
+        'state' => 1,
       ]);
     }
     $this->debug_UI();

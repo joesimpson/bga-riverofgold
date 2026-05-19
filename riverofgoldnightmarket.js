@@ -1132,9 +1132,16 @@ function (dojo, declare, BgaAnimations) {
         onEnteringStateBonusBuildingReward(args){
             debug('onEnteringStateBonusBuildingReward', args);
 
+            this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
+                _('${you} must select a building reward') :
+                _('${actplayer} must select a building reward')
+            );
+            this.addSecondaryActionButton('btnClear', '<i class="fa fa-undo"></i>', () => this.clearClientState());
+
             let tilesDatas = args.t;
             let nbTiles = Object.keys(args.p).length;
             this.selectedTileId = null;
+            let shoreSpacesDiv = $(`rog_shore_spaces`);
             Object.entries(args.p).forEach(([ tileId,datas,]) => {
                 let callbackDisplayButtons = () => {
                     let imageBefore = false;
@@ -1165,16 +1172,17 @@ function (dojo, declare, BgaAnimations) {
                         document.querySelectorAll('#customActions [id^="btnBReward_"]').forEach((b) => {
                             this.destroy(b);
                         });
+                        shoreSpacesDiv.querySelectorAll('.rog_tile').forEach((elt) => {
+                            elt.classList.remove('selected');
+                        });
+                        
+                        tileDiv.classList.add('selected');
                         callbackDisplayButtons();
                     };
                     this.onClick(`${tileDiv.id}`, callbackTileSelection);
                 }
             });
-
-            this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
-                _('${you} must select a building reward') :
-                _('${actplayer} must select a building reward')
-            );
+            
         },
         
         onEnteringStateBonusPayShips(args){
