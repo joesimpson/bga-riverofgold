@@ -26,7 +26,7 @@ final class BonusMultiTradesTest extends TestCase
         $state = new BonusMultiTrades($game);
         Globals::setChoices(0);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>0,];
+        $currentBonusDatas = ['bonusQuantity'=>0,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
@@ -50,7 +50,7 @@ final class BonusMultiTradesTest extends TestCase
         $state = new BonusMultiTrades($game);
         Globals::setChoices(0);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>4,];
+        $currentBonusDatas = ['bonusQuantity'=>4,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['player_score'] = 1;//not enough score to trade
@@ -75,7 +75,7 @@ final class BonusMultiTradesTest extends TestCase
         $state = new BonusMultiTrades($game);
         Globals::setChoices(0);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>4,];
+        $currentBonusDatas = ['bonusQuantity'=>4,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
@@ -127,7 +127,7 @@ final class BonusMultiTradesTest extends TestCase
         $state = new BonusMultiTrades($game);
         Globals::setChoices(0);
         $currentBonus = BONUS_TYPE_MULTITRADE_3;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>3,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
@@ -245,7 +245,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
@@ -260,7 +260,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>0,];
+        $currentBonusDatas = ['bonusQuantity'=>0,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
@@ -277,7 +277,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
@@ -297,7 +297,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
@@ -316,7 +316,7 @@ final class BonusMultiTradesTest extends TestCase
         assertSame(3, $resources[RESOURCE_TYPE_MOON]);
         assertSame(1, $resources[RESOURCE_TYPE_SUN]);
         assertSame(8, $resources[RESOURCE_TYPE_MONEY]);//+3
-        assertSame(['bonusQuantity'=>0,], Globals::getCurrentBonusDatas());
+        assertSame(['bonusQuantity'=>0,'points'=>2,'koku'=>3,], Globals::getCurrentBonusDatas());
         assertSame(BonusMultiTrades::class, $newState);
     }
     
@@ -326,7 +326,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
@@ -345,7 +345,7 @@ final class BonusMultiTradesTest extends TestCase
         assertSame(3, $resources[RESOURCE_TYPE_MOON]);
         assertSame(1, $resources[RESOURCE_TYPE_SUN]);
         assertSame(5, $resources[RESOURCE_TYPE_MONEY]);
-        assertSame(['bonusQuantity'=>0,], Globals::getCurrentBonusDatas());
+        assertSame(['bonusQuantity'=>0,'points'=>2,'koku'=>3,], Globals::getCurrentBonusDatas());
         assertSame(BonusMultiTrades::class, $newState);
     }
 
@@ -355,7 +355,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>2,];
+        $currentBonusDatas = ['bonusQuantity'=>2,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
@@ -374,7 +374,7 @@ final class BonusMultiTradesTest extends TestCase
         assertSame(3, $resources[RESOURCE_TYPE_MOON]);
         assertSame(1, $resources[RESOURCE_TYPE_SUN]);
         assertSame(5, $resources[RESOURCE_TYPE_MONEY]);
-        assertSame(['bonusQuantity'=>1,], Globals::getCurrentBonusDatas());
+        assertSame(['bonusQuantity'=>1,'points'=>2,'koku'=>3,], Globals::getCurrentBonusDatas());
         assertSame(BonusMultiTrades::class, $newState);
     }
     public function test_ActionMultiTrade_Pass_Silk_Money(): void
@@ -383,7 +383,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>3,];
+        $currentBonusDatas = ['bonusQuantity'=>3,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
@@ -402,17 +402,44 @@ final class BonusMultiTradesTest extends TestCase
         assertSame(3, $resources[RESOURCE_TYPE_MOON]);
         assertSame(1, $resources[RESOURCE_TYPE_SUN]);
         assertSame(8, $resources[RESOURCE_TYPE_MONEY]);//+3
-        assertSame(['bonusQuantity'=>2,], Globals::getCurrentBonusDatas());
+        assertSame(['bonusQuantity'=>2,'points'=>2,'koku'=>3,], Globals::getCurrentBonusDatas());
         assertSame(BonusMultiTrades::class, $newState);
     }
-    
+    public function test_ActionMultiTrade_Pass_Silk_2Points_Unique(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        $currentBonus = BONUS_TYPE_TRADE_POINTS;
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
+        $args = $state->getArgs();
+        $src = RESOURCE_TYPE_SILK;
+        $dest = BONUS_TYPE_POINTS;
+
+        $newState = $state->actMultiTrade($src,$dest,999999, 1, $args);
+        
+        //check RESOURCES ANd points :
+        assertSame(21, TestDatas::$players[1]['player_score']);//+2
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(2, $resources[RESOURCE_TYPE_SILK]);//-1
+        assertSame(2, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(5, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(['bonusQuantity'=>0,'points'=>2,], Globals::getCurrentBonusDatas());
+        assertSame(BonusMultiTrades::class, $newState);
+    }
     public function test_ActionMultiTrade_Pass_Money_3Points(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_3;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>3,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
@@ -431,7 +458,7 @@ final class BonusMultiTradesTest extends TestCase
         assertSame(3, $resources[RESOURCE_TYPE_MOON]);
         assertSame(1, $resources[RESOURCE_TYPE_SUN]);
         assertSame(2, $resources[RESOURCE_TYPE_MONEY]);//-3
-        assertSame(['bonusQuantity'=>0,], Globals::getCurrentBonusDatas());
+        assertSame(['bonusQuantity'=>0,'points'=>3,'koku'=>3,], Globals::getCurrentBonusDatas());
         assertSame(BonusMultiTrades::class, $newState);
     }
     
@@ -441,7 +468,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_3;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>3,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['player_score'] = 29;
@@ -462,7 +489,7 @@ final class BonusMultiTradesTest extends TestCase
         assertSame(3, $resources[RESOURCE_TYPE_MOON]);
         assertSame(1, $resources[RESOURCE_TYPE_SUN]);
         assertSame(2, $resources[RESOURCE_TYPE_MONEY]);//-3
-        assertSame(['bonusQuantity'=>0,], Globals::getCurrentBonusDatas());
+        assertSame(['bonusQuantity'=>0,'points'=>3,'koku'=>3,], Globals::getCurrentBonusDatas());
         assertSame(BonusMultiTrades::class, $newState);
     }
     public function test_ActionMultiTrade_Pass_Money_Pottery(): void
@@ -471,7 +498,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_3;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>3,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
@@ -490,7 +517,36 @@ final class BonusMultiTradesTest extends TestCase
         assertSame(3, $resources[RESOURCE_TYPE_MOON]);
         assertSame(1, $resources[RESOURCE_TYPE_SUN]);
         assertSame(2, $resources[RESOURCE_TYPE_MONEY]);//-3
-        assertSame(['bonusQuantity'=>0,], Globals::getCurrentBonusDatas());
+        assertSame(['bonusQuantity'=>0,'points'=>3,'koku'=>3,], Globals::getCurrentBonusDatas());
+        assertSame(BonusMultiTrades::class, $newState);
+    }
+    
+    public function test_ActionMultiTrade_Pass_Money_Pottery_Unique(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        $currentBonus = BONUS_TYPE_TRADE_KOKU;
+        $currentBonusDatas = ['bonusQuantity'=>1,'koku'=>3,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
+        $args = $state->getArgs();
+        $src = RESOURCE_TYPE_MONEY;
+        $dest = RESOURCE_TYPE_POTTERY;
+
+        $newState = $state->actMultiTrade($src,$dest,999999, 1, $args);
+        
+        //check RESOURCES ANd points :
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(3, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(3, $resources[RESOURCE_TYPE_POTTERY]);//+1
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(2, $resources[RESOURCE_TYPE_MONEY]);//-3
+        assertSame(['bonusQuantity'=>0,'koku'=>3,], Globals::getCurrentBonusDatas());
         assertSame(BonusMultiTrades::class, $newState);
     }
 
@@ -500,7 +556,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['player_score'] = 1;//not enough score to trade
@@ -519,7 +575,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":0,"2":1,"3":1,"4":3,"5":1,"6":25}';
@@ -537,7 +593,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":1,"2":0,"3":1,"4":3,"5":1,"6":25}';
@@ -555,7 +611,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":1,"2":1,"3":0,"4":3,"5":1,"6":25}';
@@ -573,7 +629,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":1,"2":1,"3":0,"4":3,"5":1,"6":2}';
@@ -592,7 +648,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":1,"6":25}';
@@ -611,7 +667,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":6,"2":0,"3":0,"4":3,"5":1,"6":0}';
@@ -629,7 +685,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":2,"2":6,"3":1,"4":3,"5":1,"6":0}';
@@ -647,7 +703,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":2,"2":0,"3":6,"4":3,"5":1,"6":0}';
@@ -666,7 +722,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":2,"2":2,"3":2,"4":3,"5":1,"6":0}';
@@ -684,7 +740,7 @@ final class BonusMultiTradesTest extends TestCase
         $game = new GameMock();
         $state = new BonusMultiTrades($game);
         $currentBonus = BONUS_TYPE_MULTITRADE_2;
-        $currentBonusDatas = ['bonusQuantity'=>1,];
+        $currentBonusDatas = ['bonusQuantity'=>1,'points'=>2,'koku'=>3,];
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":2,"2":2,"3":2,"4":3,"5":1,"6":0}';

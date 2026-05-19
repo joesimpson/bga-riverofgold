@@ -1226,14 +1226,14 @@ final class PlayersTest extends TestCase
         $expectedBonuses = [
             'datas' => [
                 BONUS_TYPE_MULTITRADE_2 => [
-                    1 => ['region'=>$region,'bonusQuantity'=>1,],
-                    2 => ['region'=>$region,'bonusQuantity'=>2,],
-                    3 => ['region'=>$region,'bonusQuantity'=>3,],
-                    4 => ['region'=>$region,'bonusQuantity'=>4,],
+                    1 => ['region'=>$region,'bonusQuantity'=>1,'points'=>2,'koku'=>3,],
+                    2 => ['region'=>$region,'bonusQuantity'=>2,'points'=>2,'koku'=>3,],
+                    3 => ['region'=>$region,'bonusQuantity'=>3,'points'=>2,'koku'=>3,],
+                    4 => ['region'=>$region,'bonusQuantity'=>4,'points'=>2,'koku'=>3,],
                 ],
                 
                 BONUS_TYPE_MULTITRADE_3 => [
-                    1 => ['region'=>$region,'bonusQuantity'=>1,],
+                    1 => ['region'=>$region,'bonusQuantity'=>1,'points'=>3,'koku'=>3,],
                 ],
             ],
         ];

@@ -373,27 +373,29 @@ class Players extends \ROG\Helpers\DB_Manager
         //if this position is new, let's win bonus
         $bonusQuantity = $bonus['n'];
         $bonusType = $bonus['type'];
-        if(BONUS_TYPE_POINTS == $bonusType){
-          $player->addPoints($bonusQuantity);
-        }
-        else if(in_array($bonusType,[
-            BONUS_TYPE_INF_SELECT_REGION,
-            BONUS_TYPE_MULTITRADE_2,
-            BONUS_TYPE_MULTITRADE_3,
-          ])
-        ){
-          Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity]);
-          $goToBonusChoice = true;
-        }
-        else if(in_array($bonusType,[
-            BONUS_TYPE_CHOICE,
-          ])
-        ){
-          Globals::addBonus($player,$bonusType);
-          $goToBonusChoice = true;
-        }
-        else {
-          $player->giveResource($bonusQuantity,$bonusType);
+        switch($bonusType){
+          case BONUS_TYPE_POINTS: 
+            $player->addPoints($bonusQuantity);
+            break;
+          case BONUS_TYPE_INF_SELECT_REGION: 
+            Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity]);
+            $goToBonusChoice = true;
+            break;
+          case BONUS_TYPE_MULTITRADE_2: 
+            Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity,'points'=>2,'koku'=>3,]);
+            $goToBonusChoice = true;
+            break;
+          case BONUS_TYPE_MULTITRADE_3: 
+            Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity,'points'=>3,'koku'=>3,]);
+            $goToBonusChoice = true;
+            break;
+          case BONUS_TYPE_CHOICE: 
+            Globals::addBonus($player,$bonusType);
+            $goToBonusChoice = true;
+            break;
+          default: 
+            $player->giveResource($bonusQuantity,$bonusType);
+            break;
         }
       }
     }}

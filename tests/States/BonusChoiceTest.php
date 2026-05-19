@@ -572,11 +572,11 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [
             'datas' => [
                 $bonusType => [
-                    1 => ['region'=>6,'bonusQuantity'=>4,],
-                    2 => ['region'=>6,'bonusQuantity'=>2,],
+                    1 => ['region'=>6,'bonusQuantity'=>4,'koku'=>3,'points'=>2,],
+                    2 => ['region'=>6,'bonusQuantity'=>2,'koku'=>3,'points'=>2,],
                 ],
                 BONUS_TYPE_MULTITRADE_3 => [
-                    1 => ['region'=>5,'bonusQuantity'=>1,],
+                    1 => ['region'=>5,'bonusQuantity'=>1,'koku'=>3,'points'=>3,],
                 ],
             ],
         ];
@@ -584,10 +584,10 @@ final class BonusChoiceTest extends TestCase
         $expectedBonuses = [
             'datas' => [
                 $bonusType => [
-                    2 => ['region'=>6,'bonusQuantity'=>2,],
+                    2 => ['region'=>6,'bonusQuantity'=>2,'koku'=>3,'points'=>2,],
                 ],
                 BONUS_TYPE_MULTITRADE_3 => [
-                    1 => ['region'=>5,'bonusQuantity'=>1,],
+                    1 => ['region'=>5,'bonusQuantity'=>1,'koku'=>3,'points'=>3,],
                 ],
             ],
         ];
@@ -596,7 +596,7 @@ final class BonusChoiceTest extends TestCase
         
         assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
-        assertSame(['region'=>6,'bonusQuantity'=>4,], Globals::getCurrentBonusDatas());
+        assertSame(['region'=>6,'bonusQuantity'=>4,'koku'=>3,'points'=>2,], Globals::getCurrentBonusDatas());
         //Next state differs for each bonus :
         assertSame(ST_BONUS_MULTI_TRADES, GamestateMachine::$test_current_state);
     }
@@ -611,7 +611,7 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [
             'datas' => [
                 $bonusType => [
-                    1 => ['region'=>6,'bonusQuantity'=>1,],
+                    1 => ['region'=>6,'bonusQuantity'=>1,'koku'=>3,'points'=>3,],
                 ],
             ],
         ];
@@ -623,7 +623,7 @@ final class BonusChoiceTest extends TestCase
         
         assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
-        assertSame(['region'=>6,'bonusQuantity'=>1,], Globals::getCurrentBonusDatas());
+        assertSame(['region'=>6,'bonusQuantity'=>1,'koku'=>3,'points'=>3,], Globals::getCurrentBonusDatas());
         //Next state differs for each bonus :
         assertSame(ST_BONUS_MULTI_TRADES, GamestateMachine::$test_current_state);
     }
