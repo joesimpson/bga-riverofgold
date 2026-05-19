@@ -166,12 +166,19 @@
         //Use Lady of Lions face :
         width: 110px;
         height: 110px;
+        background: unset;
+        /*
         background-size: math.percentage(calc(math.div(1488px, 75px ))) math.percentage(math.div(1040px,75px ));
         background-repeat: repeat;
         background-image: url("img/clans/clans.jpg");
         background-position-x: 97%;
         background-position-y: 33%;
+        */
         border-radius: 50%;
+        
+        background-size: 100% 100%;
+        background-image: url("img/icons/lady_lion_token.png");
+
     }
     
     &.rog_score_meeple { //[data-type='9'] {//MEEPLE_TYPE_SCORE_MARKER

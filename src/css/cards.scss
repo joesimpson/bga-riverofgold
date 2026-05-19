@@ -520,6 +520,10 @@
                     width: 1.4em !important;
                     height: 2em !important;
                 }
+                &.rog_icon_container_bonus-36{//BONUS_TYPE_PLACE_LION
+                    width: 2.5em !important;
+                    height: 2.5em !important;
+                }
                 .rog_icon{
                     transform: scale(calc(2 * math.div($fontSize, 30px)));
                     transform-origin: top left;

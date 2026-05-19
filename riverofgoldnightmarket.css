@@ -2298,6 +2298,10 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: 1.4em !important;
   height: 2em !important;
 }
+.rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container.rog_icon_container_bonus-36 {
+  width: 2.5em !important;
+  height: 2.5em !important;
+}
 .rog_clan_card .rog_clan_card_wrapper .rog_patron_desc .rog_icon_container .rog_icon {
   transform: scale(0.5333333333);
   transform-origin: top left;
@@ -5155,12 +5159,17 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_meeple[data-type="4"] {
   width: 110px;
   height: 110px;
-  background-size: 1984% 1386.6666666667%;
+  background: unset;
+  /*
+  background-size: math.percentage(calc(math.div(1488px, 75px ))) math.percentage(math.div(1040px,75px ));
   background-repeat: repeat;
   background-image: url("img/clans/clans.jpg");
   background-position-x: 97%;
   background-position-y: 33%;
+  */
   border-radius: 50%;
+  background-size: 100% 100%;
+  background-image: url("img/icons/lady_lion_token.png");
 }
 .rog_meeple.rog_score_meeple {
   background-image: url("img/score_markers.png");
@@ -6502,18 +6511,26 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
 }
 
 .rog_icon_bonus-36 {
+  /*
   background-size: 100% 100%;
   width: 24px;
   height: 22px;
   background-image: url("img/clans/L5R_Icon_Lion.png");
+
+  //Use Lady of Lions face :
   width: 35px;
   height: 35px;
-  background-size: 1984% 1386.6666666667%;
+  background-size: math.percentage(calc(math.div(1488px, 75px ))) math.percentage(math.div(1040px,75px ));
   background-repeat: repeat;
-  background-image: url("img/clans/clans.jpg");
+  background-image: url("img/icons/clans.jpg");
   background-position-x: 97%;
   background-position-y: 33%;
   border-radius: 50%;
+  */
+  background-size: 100% 100%;
+  width: 35px;
+  height: 35px;
+  background-image: url("img/icons/lady_lion_token.png");
 }
 
 .rog_icon_bonus-37 .rog_icon_qty,

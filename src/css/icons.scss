@@ -41,6 +41,7 @@
 }
 
 .rog_icon_bonus-36{//BONUS_TYPE_PLACE_LION
+    /*
     background-size: 100% 100%;
     width: 24px;
     height: 22px;
@@ -51,10 +52,17 @@
     height: 35px;
     background-size: math.percentage(calc(math.div(1488px, 75px ))) math.percentage(math.div(1040px,75px ));
     background-repeat: repeat;
-    background-image: url("img/clans/clans.jpg");
+    background-image: url("img/icons/clans.jpg");
     background-position-x: 97%;
     background-position-y: 33%;
     border-radius: 50%;
+    */
+
+    background-size: 100% 100%;
+    width: 35px;
+    height: 35px;
+    background-image: url("img/icons/lady_lion_token.png");
+
 }
 .rog_icon_bonus-37,
 .rog_icon_bonus-38,
