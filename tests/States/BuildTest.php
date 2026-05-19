@@ -145,7 +145,7 @@ final class BuildTest extends TestCase
         $tileId = 1;
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot build on $position");
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
     }
     
     public function test_actBuildSelect_KO_NotEnoughMoney(): void
@@ -161,7 +161,7 @@ final class BuildTest extends TestCase
         $tileId = 1;
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot build on $position");
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
     }
     
     public function test_actBuildSelect_KO_WrongRegion(): void
@@ -177,7 +177,7 @@ final class BuildTest extends TestCase
         $tileId = 1;
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot build on $position");
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
     }
     
     public function test_actBuildSelect_KO_WrongTileId(): void
@@ -193,7 +193,7 @@ final class BuildTest extends TestCase
         $tileId = 1;
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot build tile $tileId");
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
     }
     
     public function test_actBuildSelect_KO_WrongTileLocation(): void
@@ -209,7 +209,7 @@ final class BuildTest extends TestCase
         $tileId = 999;
         $this->expectException(feException::class);
         $this->expectExceptionMessage("Class Pieces: getMany, some pieces have not been found ! Table tiles [$tileId]");
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
     }
     
     public function test_actBuildSelect_Pass_Standard(): void
@@ -224,7 +224,7 @@ final class BuildTest extends TestCase
 
         $position = 1;
         $tileId = 31;
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
         
         //Test go to next state
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
@@ -254,7 +254,7 @@ final class BuildTest extends TestCase
 
         $position = 1;
         $tileId = 34;
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
         
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -285,7 +285,7 @@ final class BuildTest extends TestCase
 
         $position = 29;
         $tileId = 31;
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
         
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
     }
@@ -303,7 +303,7 @@ final class BuildTest extends TestCase
 
         $position = 1;
         $tileId = 31;
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
         
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
         //Test score +1
@@ -323,7 +323,7 @@ final class BuildTest extends TestCase
 
         $position = 1;
         $tileId = 31;
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
         
         $expectedBonuses = json_encode([BONUS_TYPE_SET_DIE]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
@@ -350,7 +350,7 @@ final class BuildTest extends TestCase
             BONUS_TYPE_PLACE_LION,
         ];
 
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
         
         assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
@@ -371,7 +371,7 @@ final class BuildTest extends TestCase
 
         //TEST 1 with Artisan marker -> PASS 
         TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_ARTISAN.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1,  ];
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
         assertSame(1, $resources[RESOURCE_TYPE_MONEY]);
 
@@ -379,7 +379,7 @@ final class BuildTest extends TestCase
         unset(TestDatas::$tokens[101]);
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot build on $position");
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
     }
     
     public function test_actBuildSelect_Pass_CustomerTrader(): void
@@ -394,7 +394,7 @@ final class BuildTest extends TestCase
         $position = 7;
         $tileId = 31;
         
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
         
         //ONGOING Ability must be activated right now :
         assertSame(20, TestDatas::$players[1]['player_score']);//+1
@@ -416,7 +416,7 @@ final class BuildTest extends TestCase
         $position = 9;
         $tileId = 21;
         
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
 
         //Test built Tile :
         assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[$tileId]['tile_location']);
@@ -448,7 +448,7 @@ final class BuildTest extends TestCase
         $position = 9;
         $tileId = 101;
         
-        $game->actBuildSelect($position,$tileId);
+        $game->actBuildSelect($position,$tileId,999999);
 
         //Test built Tile :
         assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[$tileId]['tile_location']);

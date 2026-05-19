@@ -3133,7 +3133,7 @@ function (dojo, declare, BgaAnimations) {
                             ongoingAbility = this.fsr(_('Remove this card\'s clan marker when taking the sail action to sail your ship upriver. You may not do this if your ship would go above the northernmost space of the river.'), {});
                             break;
                         case CARD_SHINDOSHI_2:
-                            ongoingAbility = this.fsr(_('Remove this card\'s clan marker when taking the deliver action to ignore the customer\'s die requirement  and treat all trade goods requested as ${icon_goods}'), {'icon_goods':this.formatIcon('bonus-'+BONUS_TYPE_CHOICE)});
+                            ongoingAbility = this.fsr(_('Remove this card\'s clan marker when taking the deliver action to ignore the customer\'s die requirement and treat all trade goods requested as ${icon_goods}'), {'icon_goods':this.formatIcon('bonus-'+BONUS_TYPE_CHOICE)});
                             break;
                         case CARD_SHINDOSHI_3:
                             ongoingAbility = this.fsr(_('Remove this card\'s clan marker when taking the sail action to build the top building off of the Era 1 or 2 stack and gain ${n} ${res_icon}'), {'n':1,'res_type':RESOURCE_TYPE_SUN,'res_icon':''});

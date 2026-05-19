@@ -2,6 +2,8 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
@@ -25,8 +27,10 @@ trait BonusSetDieTrait
   /**
    * @param int $dieFace
    */
-  public function actBonusSetDie($dieFace)
+  #[PossibleAction]
+  public function actBonusSetDie(#[IntParam(name: 'd')] int $dieFace, int $version)
   { 
+    $this->checkVersion($version);
     self::checkAction('actBonusSetDie'); 
     self::trace("actBonusSetDie($dieFace)");
 

@@ -2,10 +2,13 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\CheckAction;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Log;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
 
@@ -52,12 +55,14 @@ trait ConfirmUndoTrait
     public function stConfirmTurn()
     {
         if (Globals::getChoices() == 0) {
-            $this->actConfirmTurn(true);
+            $this->actConfirmTurn(Utils::gameVersion(),true);
         }
     }
 
-    public function actConfirmTurn($auto = false)
+    #[PossibleAction]
+    public function actConfirmTurn(int $version, ?bool $auto = false)
     {
+        $this->checkVersion($version);
         if (!$auto) {
             self::checkAction('actConfirmTurn');
         }
@@ -83,9 +88,11 @@ trait ConfirmUndoTrait
         $this->gamestate->nextState('confirm');
     }
 
-
-    public function actRestart()
+    #[PossibleAction]
+    #[CheckAction(false)]
+    public function actRestart(int $version,)
     {
+        $this->checkVersion($version);
         self::checkAction('actRestart');
         self::processRestartTurn();
     }
@@ -104,8 +111,11 @@ trait ConfirmUndoTrait
         Notifications::restartTurn($player);
     }
 
-    public function actUndoToStep($stepId)
+    #[PossibleAction]
+    #[CheckAction(false)]
+    public function actUndoToStep(int $stepId, int $version,)
     {
+        $this->checkVersion($version);
         self::checkAction('actRestart');
         self::processUndoToStep($stepId);
     }

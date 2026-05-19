@@ -2,6 +2,8 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
@@ -48,8 +50,14 @@ trait BuildTrait
    * @param int $position
    * @param int $tileId
    */
-  public function actBuildSelect($position,$tileId)
+  #[PossibleAction]
+  public function actBuildSelect(
+    #[IntParam(name: 'p')] int $position,
+    #[IntParam(name: 't')] int $tileId,
+    int $version,
+  )
   { 
+    $this->checkVersion($version);
     self::checkAction('actBuildSelect'); 
     self::trace("actBuildSelect($position,$tileId)");
 

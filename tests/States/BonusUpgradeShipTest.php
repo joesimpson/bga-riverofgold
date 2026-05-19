@@ -62,7 +62,7 @@ final class BonusUpgradeShipTest extends TestCase
         GamestateMachine::$test_current_state = ST_BONUS_UPGRADE_SHIP;
         $shipId = 21;
 
-        $game->actBonusUpgrade($shipId);
+        $game->actBonusUpgrade($shipId,999999);
         
         assertSame(MEEPLE_TYPE_SHIP_ROYAL, TestDatas::$tokens[$shipId]['type']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
@@ -77,7 +77,7 @@ final class BonusUpgradeShipTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot upgrade this ship");
-        $game->actBonusUpgrade($shipId);
+        $game->actBonusUpgrade($shipId,999999);
     }
     public function test_ActionBonusUpgrade_KO_WrongMeepleLocation(): void
     {
@@ -88,7 +88,7 @@ final class BonusUpgradeShipTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot upgrade this ship");
-        $game->actBonusUpgrade($shipId);
+        $game->actBonusUpgrade($shipId,999999);
     }
     
     // -------------------------------------------------

@@ -82,7 +82,7 @@ final class BonusResourceTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
         $resourceType = RESOURCE_TYPE_SILK;
 
-        $game->actBonusResource($resourceType);
+        $game->actBonusResource($resourceType,999999);
         
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -96,7 +96,7 @@ final class BonusResourceTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
         $resourceType = RESOURCE_TYPE_RICE;
 
-        $game->actBonusResource($resourceType);
+        $game->actBonusResource($resourceType,999999);
         
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -112,7 +112,7 @@ final class BonusResourceTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot receive this resource ($resourceType)");
-        $game->actBonusResource($resourceType);
+        $game->actBonusResource($resourceType,999999);
     }
     public function test_ActionBonusResource_KO_WrongResource2(): void
     {
@@ -124,7 +124,7 @@ final class BonusResourceTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot receive this resource ($resourceType)");
-        $game->actBonusResource($resourceType);
+        $game->actBonusResource($resourceType,999999);
     }
     
     // -------------------------------------------------

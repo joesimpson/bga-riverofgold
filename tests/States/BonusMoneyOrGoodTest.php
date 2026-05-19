@@ -85,7 +85,7 @@ final class BonusMoneyOrGoodTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
         $resourceType = RESOURCE_TYPE_SILK;
 
-        $game->actBonusResource($resourceType);
+        $game->actBonusResource($resourceType,999999);
         
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -99,7 +99,7 @@ final class BonusMoneyOrGoodTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
         $resourceType = RESOURCE_TYPE_RICE;
 
-        $game->actBonusResource($resourceType);
+        $game->actBonusResource($resourceType,999999);
         
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -114,7 +114,7 @@ final class BonusMoneyOrGoodTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
         $resourceType = RESOURCE_TYPE_MONEY;
 
-        $game->actBonus3Money();
+        $game->actBonus3Money(999999);
         
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -129,7 +129,7 @@ final class BonusMoneyOrGoodTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot receive money");
-        $game->actBonus3Money();
+        $game->actBonus3Money(999999);
     }
     
     // -------------------------------------------------

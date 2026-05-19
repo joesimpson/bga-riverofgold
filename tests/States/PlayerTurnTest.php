@@ -298,7 +298,7 @@ final class PlayerTurnTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
 
-        $game->actSpendFavor();
+        $game->actSpendFavor(999999);
         
         //Test go to next state
         assertSame(ST_PLAYER_TURN_DIVINE_FAVOR, GamestateMachine::$test_current_state);
@@ -312,7 +312,7 @@ final class PlayerTurnTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
 
-        $game->actTrade();
+        $game->actTrade(999999);
         
         //Test go to next state
         assertSame(ST_PLAYER_TURN_TRADE, GamestateMachine::$test_current_state);
@@ -325,7 +325,7 @@ final class PlayerTurnTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
 
-        $game->actBuild();
+        $game->actBuild(999999);
         
         //Test go to next state
         assertSame(ST_PLAYER_TURN_BUILD, GamestateMachine::$test_current_state);
@@ -338,7 +338,7 @@ final class PlayerTurnTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
 
-        $game->actSail();
+        $game->actSail(999999);
         
         //Test go to next state
         assertSame(ST_PLAYER_TURN_SAIL, GamestateMachine::$test_current_state);
@@ -351,7 +351,7 @@ final class PlayerTurnTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
 
-        $game->actDeliver();
+        $game->actDeliver(999999);
         
         //Test go to next state
         assertSame(ST_PLAYER_TURN_DELIVER, GamestateMachine::$test_current_state);
@@ -373,7 +373,7 @@ final class PlayerTurnTest extends TestCase
         $dest = 22;
         $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
 
-        $game->actPlayCard($answer);
+        $game->actPlayCard($answer,999999);
         
         //Test moved ships positions: 
         assertSame(14, TestDatas::$tokens[21]['meeple_state']);
@@ -399,7 +399,7 @@ final class PlayerTurnTest extends TestCase
         $dest = 23;
         $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
 
-        $game->actPlayCard($answer);
+        $game->actPlayCard($answer,999999);
         
         //Test moved ships positions: 
         assertSame(3,  TestDatas::$tokens[21]['meeple_state']);
@@ -430,7 +430,7 @@ final class PlayerTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot play card $cardId");
-        $game->actPlayCard($answer);
+        $game->actPlayCard($answer,999999);
     }
     
     public function test_ActionPlayCard_Shin4_SwapBoats_KO_WrongMarker(): void
@@ -450,7 +450,7 @@ final class PlayerTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot play card $cardId with marker $markerId");
-        $game->actPlayCard($answer);
+        $game->actPlayCard($answer,999999);
     }
     public function test_ActionPlayCard_KO_WrongAction(): void
     {
@@ -469,7 +469,7 @@ final class PlayerTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot play card $cardId with Action");
-        $game->actPlayCard($answer);
+        $game->actPlayCard($answer,999999);
     }
     public function test_ActionPlayCard_KO_WrongSource(): void
     {
@@ -488,7 +488,7 @@ final class PlayerTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot swap ships from $source");
-        $game->actPlayCard($answer);
+        $game->actPlayCard($answer,999999);
     }
     public function test_ActionPlayCard_KO_WrongDest(): void
     {
@@ -507,7 +507,7 @@ final class PlayerTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot swap ships from $source to $dest");
-        $game->actPlayCard($answer);
+        $game->actPlayCard($answer,999999);
     }
     public function test_ActionPlayCard_KO_SourceDest(): void
     {
@@ -526,7 +526,7 @@ final class PlayerTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot swap ships in the same space");
-        $game->actPlayCard($answer);
+        $game->actPlayCard($answer,999999);
     }
     
     public function test_ActionPlayCard_Shin5_MoveBuilding_Pass(): void
@@ -544,7 +544,7 @@ final class PlayerTurnTest extends TestCase
         $dest = 20;
         $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
 
-        $game->actPlayCard($answer);
+        $game->actPlayCard($answer,999999);
         
         //Test moved tile: 
         assertSame($dest, TestDatas::$tiles[41]['tile_state']);
@@ -587,7 +587,7 @@ final class PlayerTurnTest extends TestCase
         $dest = 25;
         $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
 
-        $game->actPlayCard($answer);
+        $game->actPlayCard($answer,999999);
         
         //Test moved tile: 
         assertSame($dest, TestDatas::$tiles[44]['tile_state']);
@@ -613,7 +613,7 @@ final class PlayerTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot move tile $source");
-        $game->actPlayCard($answer);
+        $game->actPlayCard($answer,999999);
     }
     public function test_ActionPlayCard_Shin5_MoveBuilding_KO_Dest(): void
     {
@@ -632,7 +632,7 @@ final class PlayerTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot move tile $source to $dest");
-        $game->actPlayCard($answer);
+        $game->actPlayCard($answer,999999);
     }
     // -------------------------------------------------
  

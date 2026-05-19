@@ -2,6 +2,8 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
@@ -26,8 +28,14 @@ trait TradeTrait
    * @param int $typeSrc
    * @param int $typeDest
    */
-  public function actTradeSelect($typeSrc,$typeDest)
+  #[PossibleAction]
+  public function actTradeSelect(
+    #[IntParam(name: 'src')] int $typeSrc,
+    #[IntParam(name: 'dest')] int $typeDest, 
+    int $version,
+  )
   { 
+    $this->checkVersion($version);
     self::checkAction('actTradeSelect'); 
     self::trace("actTradeSelect($typeSrc,$typeDest)");
 

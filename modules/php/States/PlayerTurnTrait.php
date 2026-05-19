@@ -57,8 +57,10 @@ trait PlayerTurnTrait
     return $args;
   } 
 
-  public function actSpendFavor()
+  #[PossibleAction]
+  public function actSpendFavor(int $version)
   { 
+    $this->checkVersion($version);
     self::checkAction('actSpendFavor'); 
     self::trace("actSpendFavor()");
 
@@ -67,8 +69,10 @@ trait PlayerTurnTrait
     $this->gamestate->nextState('favor');
   }
 
-  public function actTrade()
+  #[PossibleAction]
+  public function actTrade(int $version)
   { 
+    $this->checkVersion($version);
     self::checkAction('actTrade'); 
     self::trace("actTrade()");
 
@@ -79,8 +83,10 @@ trait PlayerTurnTrait
     $this->gamestate->nextState('trade');
   }
 
-  public function actBuild()
+  #[PossibleAction]
+  public function actBuild(int $version)
   { 
+    $this->checkVersion($version);
     self::checkAction('actBuild'); 
     self::trace("actBuild()");
 
@@ -89,8 +95,10 @@ trait PlayerTurnTrait
     $this->gamestate->nextState('build');
   }
 
-  public function actSail()
+  #[PossibleAction]
+  public function actSail(int $version)
   { 
+    $this->checkVersion($version);
     self::checkAction('actSail'); 
     self::trace("actSail()");
     $this->addStep();
@@ -98,8 +106,10 @@ trait PlayerTurnTrait
     $this->gamestate->nextState('sail');
   }
   
-  public function actDeliver()
+  #[PossibleAction]
+  public function actDeliver(int $version)
   { 
+    $this->checkVersion($version);
     self::checkAction('actDeliver'); 
     self::trace("actDeliver()");
     $this->addStep();
@@ -110,8 +120,10 @@ trait PlayerTurnTrait
   #[PossibleAction]
   public function actPlayCard(
     #[JsonParam] ClientAnswer $answer,
+    int $version,
   )
   { 
+    $this->checkVersion($version);
     self::trace("actPlayCard(".json_encode($answer).")");
     $player = Players::getCurrent();
     $this->addStep();

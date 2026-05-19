@@ -52,7 +52,7 @@ final class TradeTest extends TestCase
         $typeSrc = RESOURCE_TYPE_SILK;
         $typeDest = RESOURCE_TYPE_POTTERY;
 
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
         
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -71,7 +71,7 @@ final class TradeTest extends TestCase
         $typeSrc = RESOURCE_TYPE_RICE;
         $typeDest = RESOURCE_TYPE_POTTERY;
 
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
         
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -93,7 +93,7 @@ final class TradeTest extends TestCase
         $typeSrc = RESOURCE_TYPE_MONEY;
         $typeDest = RESOURCE_TYPE_SUN;
 
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
         
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -117,7 +117,7 @@ final class TradeTest extends TestCase
         $typeSrc = RESOURCE_TYPE_MONEY;
         $typeDest = RESOURCE_TYPE_SUN;
 
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
         
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -140,7 +140,7 @@ final class TradeTest extends TestCase
         $typeSrc = RESOURCE_TYPE_SILK;
         $typeDest = RESOURCE_TYPE_POTTERY;
 
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
         
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
     }
@@ -155,7 +155,7 @@ final class TradeTest extends TestCase
         $typeSrc = RESOURCE_TYPE_SILK;
         $typeDest = RESOURCE_TYPE_POTTERY;
 
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
         
         assertSame(ST_CONFIRM_TURN, GamestateMachine::$test_current_state);
     }
@@ -171,7 +171,7 @@ final class TradeTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot do that trade");
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
     }
     public function test_ActionTradeSelect_KO_Money_Pottery(): void
     {
@@ -184,7 +184,7 @@ final class TradeTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot do that trade");
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
     }
     public function test_ActionTradeSelect_KO_Money_Silk(): void
     {
@@ -197,7 +197,7 @@ final class TradeTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot do that trade");
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
     }
     public function test_ActionTradeSelect_KO_Money_Rice(): void
     {
@@ -210,7 +210,7 @@ final class TradeTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot do that trade");
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
     }
     
     public function test_ActionTradeSelect_KO_Favor_Money(): void
@@ -224,7 +224,7 @@ final class TradeTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot do that trade");
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
     }
     public function test_ActionTradeSelect_KO_Moon_Favor(): void
     {
@@ -237,7 +237,7 @@ final class TradeTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot do that trade");
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
     }
     
     public function test_ActionTradeSelect_KO_Silk_Silk(): void
@@ -251,7 +251,7 @@ final class TradeTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot do that trade");
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
     }
     public function test_ActionTradeSelect_KO_Money_Money(): void
     {
@@ -264,7 +264,7 @@ final class TradeTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot do that trade");
-        $game->actTradeSelect($typeSrc,$typeDest);
+        $game->actTradeSelect($typeSrc,$typeDest,999999);
     }
     
     // -------------------------------------------------

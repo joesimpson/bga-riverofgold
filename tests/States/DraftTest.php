@@ -145,7 +145,7 @@ final class DraftTest extends TestCase
 
         $this->expectException(feException::class);
         $this->expectExceptionMessage("Class Pieces: getMany, some pieces have not been found ! Table cards [$cardId]");
-        $game->actTakeCard($cardId);
+        $game->actTakeCard($cardId,999999);
     }
     public function test_actTakeCard_KO_card_notselectable(): void
     {
@@ -157,7 +157,7 @@ final class DraftTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Card $cardId is not selectable");
-        $game->actTakeCard($cardId);
+        $game->actTakeCard($cardId,999999);
         
     }
     
@@ -172,7 +172,7 @@ final class DraftTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Card $cardId is not selectable");
-        $game->actTakeCard($cardId);
+        $game->actTakeCard($cardId,999999);
         
     }
 
@@ -185,7 +185,7 @@ final class DraftTest extends TestCase
         TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
         GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
 
-        $game->actTakeCard($cardId);
+        $game->actTakeCard($cardId,999999);
         
         assertSame(ST_DRAFT_NEXT_PLAYER, GamestateMachine::$test_current_state);
     }
@@ -199,7 +199,7 @@ final class DraftTest extends TestCase
         TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
         GamestateMachine::$test_current_state = ST_DRAFT_PLAYER_MULTIACTIVE;
 
-        $game->actTakeCard($cardId);
+        $game->actTakeCard($cardId,999999);
         
         assertSame(ST_DRAFT_PLAYER_MULTIACTIVE, GamestateMachine::$test_current_state);
     }
@@ -214,7 +214,7 @@ final class DraftTest extends TestCase
         TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
         GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
 
-        $game->actTakeCard($cardId);
+        $game->actTakeCard($cardId,999999);
         
         assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[4]['tile_location']);
         assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[5]['tile_location']);

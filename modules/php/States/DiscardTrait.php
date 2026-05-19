@@ -2,6 +2,8 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Cards;
@@ -36,8 +38,13 @@ trait DiscardTrait
   /**
    * @param int $cardId
    */
-  public function actDiscardCard($cardId)
+  #[PossibleAction]
+  public function actDiscardCard(
+    #[IntParam(name: 'c')] int $cardId,
+    int $version, 
+  )
   { 
+    $this->checkVersion($version);
     self::checkAction('actDiscardCard'); 
     self::trace("actDiscardCard($cardId)");
 

@@ -118,7 +118,7 @@ final class DeliverTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
         TestDatas::$tokens[3]['meeple_state'] = 2;
 
-        $game->actDeliverSelect($cardId);
+        $game->actDeliverSelect($cardId,999999);
         
         //check card datas
         $cardDatas = TestDatas::$cards[$cardId];
@@ -147,7 +147,7 @@ final class DeliverTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot Deliver this card");
-        $game->actDeliverSelect($cardId);
+        $game->actDeliverSelect($cardId,999999);
     }
     public function test_ActionDeliver_KO_NotEnoughResources(): void
     {
@@ -160,7 +160,7 @@ final class DeliverTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot Deliver card $cardId");
-        $game->actDeliverSelect($cardId);
+        $game->actDeliverSelect($cardId,999999);
     }
     
     public function test_ActionDeliver_KO_WrongRegion(): void
@@ -174,7 +174,7 @@ final class DeliverTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot Deliver card $cardId");
-        $game->actDeliverSelect($cardId);
+        $game->actDeliverSelect($cardId,999999);
     }
 
     public function test_ActionDeliver_Pass_AnyRegionWithSonOfStorm(): void
@@ -189,7 +189,7 @@ final class DeliverTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":2,"3":2,"4":0,"5":0,"6":0}';
 
         //Test 1 OK with Son of storm 
-        $game->actDeliverSelect($cardId);
+        $game->actDeliverSelect($cardId,999999);
         $cardDatas = TestDatas::$cards[$cardId];
         assertSame(CARD_LOCATION_DELIVERED, $cardDatas['card_location']);
 
@@ -197,7 +197,7 @@ final class DeliverTest extends TestCase
         $game = new GameMock();
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot Deliver card $cardId");
-        $game->actDeliverSelect($cardId);
+        $game->actDeliverSelect($cardId,999999);
     }
     
     public function test_ActionDeliver_Pass_PRIESTESS(): void
@@ -211,7 +211,7 @@ final class DeliverTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 3;
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
         
-        $game->actDeliverSelect($cardId);
+        $game->actDeliverSelect($cardId,999999);
 
         $cardDatas = TestDatas::$cards[$cardId];
         assertSame(CARD_LOCATION_DELIVERED, $cardDatas['card_location']);
@@ -231,7 +231,7 @@ final class DeliverTest extends TestCase
         TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":3,"4":0,"5":0,"6":9}';
         TestDatas::$tokens[1]['meeple_state'] = 12;
 
-        $game->actDeliverSelect($cardId);
+        $game->actDeliverSelect($cardId,999999);
         
         //check card datas
         $cardDatas = TestDatas::$cards[$cardId];
@@ -256,7 +256,7 @@ final class DeliverTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot Deliver card $cardId");
-        $game->actDeliverSelect($cardId);
+        $game->actDeliverSelect($cardId,999999);
     }
     public function test_ActionDeliver_Pass_Trader1(): void
     {
@@ -268,7 +268,7 @@ final class DeliverTest extends TestCase
         TestDatas::$players[1]['die_face'] = 1;
         TestDatas::$players[1]['resources'] = '{"1":3,"2":4,"3":5,"4":0,"5":0,"6":9}';
 
-        $game->actDeliverSelect($cardId);
+        $game->actDeliverSelect($cardId,999999);
         
         //check card datas
         $cardDatas = TestDatas::$cards[$cardId];
@@ -306,7 +306,7 @@ final class DeliverTest extends TestCase
         $pottery = 2;
         $rice = 0;
 
-        $game->actDeliverReplace($cardId,$silk,$rice,$pottery);
+        $game->actDeliverReplace($cardId,$silk,$rice,$pottery,999999);
         
         //check card datas
         $cardDatas = TestDatas::$cards[$cardId];
@@ -343,7 +343,7 @@ final class DeliverTest extends TestCase
         $pottery = 1;
         $rice = 1;
 
-        $game->actDeliverReplace($cardId,$silk,$rice,$pottery);
+        $game->actDeliverReplace($cardId,$silk,$rice,$pottery,999999);
 
         //check card datas
         $cardDatas = TestDatas::$cards[$cardId];
@@ -377,7 +377,7 @@ final class DeliverTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot Deliver card $cardId and replace goods");
-        $game->actDeliverReplace($cardId,$silk,$rice,$pottery);
+        $game->actDeliverReplace($cardId,$silk,$rice,$pottery,999999);
     }
     
     public function test_actDeliverReplace_KO_WithoutAvailableShin2(): void
@@ -399,7 +399,7 @@ final class DeliverTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot Deliver cards and replace goods");
-        $game->actDeliverReplace($cardId,$silk,$rice,$pottery);
+        $game->actDeliverReplace($cardId,$silk,$rice,$pottery,999999);
     }
     
     public function test_actDeliverReplace_KO_WrongAmount(): void
@@ -421,7 +421,7 @@ final class DeliverTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Wrong amount to replace goods : 2 != 9");
-        $game->actDeliverReplace($cardId,$silk,$rice,$pottery);
+        $game->actDeliverReplace($cardId,$silk,$rice,$pottery,999999);
     }
     
     public function test_actDeliverReplace_KO_BigAmount(): void
@@ -443,7 +443,7 @@ final class DeliverTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot spend 1 of resource type 2");
-        $game->actDeliverReplace($cardId,$silk,$rice,$pottery);
+        $game->actDeliverReplace($cardId,$silk,$rice,$pottery,999999);
     }
     // -------------------------------------------------
 }

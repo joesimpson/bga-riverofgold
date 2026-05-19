@@ -2,6 +2,8 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
@@ -52,7 +54,12 @@ trait DraftTrait
    * USer action
    * @param int $cardId
    */
-  function actTakeCard($cardId){
+  #[PossibleAction]
+  function actTakeCard(
+    #[IntParam(name: 'c')] int $cardId,
+    int $version,
+  ){
+    $this->checkVersion($version);
     self::checkAction( 'actTakeCard' ); 
     self::trace("actTakeCard($cardId)");
     

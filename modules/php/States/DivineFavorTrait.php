@@ -2,6 +2,8 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Players;
@@ -24,8 +26,10 @@ trait DivineFavorTrait
   /**
    * @param int $dieFace
    */
-  public function actDFSelect($dieFace)
+  #[PossibleAction]
+  public function actDFSelect(#[IntParam(name: 'd')] int $dieFace, int $version)
   { 
+    $this->checkVersion($version);
     self::checkAction('actDFSelect'); 
     self::trace("actDFSelect($dieFace)");
 

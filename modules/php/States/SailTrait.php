@@ -2,6 +2,8 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
@@ -43,8 +45,15 @@ trait SailTrait
    * @param int $riverSpace
    * @param bool $skipOwner (Default false)
    */
-  public function actSailSelect(int $shipId,int $riverSpace, bool $skipOwner = false)
+  #[PossibleAction]
+  public function actSailSelect(
+    #[IntParam(name: 's')] int $shipId,
+    #[IntParam(name: 'r')] int $riverSpace,
+    int $version,
+    ?bool $skipOwner = false,
+  )
   { 
+    $this->checkVersion($version);
     self::checkAction('actSailSelect'); 
     self::trace("actSailSelect($shipId,$riverSpace,$skipOwner)");
 

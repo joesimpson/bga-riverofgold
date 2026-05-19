@@ -88,7 +88,7 @@ final class ConfirmTurnTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_CONFIRM_TURN;
 
-        $game->actConfirmTurn();
+        $game->actConfirmTurn(999999);
         
         assertSame(ST_END_TURN, GamestateMachine::$test_current_state);
     }
@@ -102,7 +102,7 @@ final class ConfirmTurnTest extends TestCase
         Globals::setChoices(1);
         TestDatas::$logs[1] = ['result_associative_index' => 1,'id' => 1, 'move_id' => 1, 'table' => '', 'primary'=>'', 'type' => 'step', 'affected' => '[{"name": "currentBonus","value": "24"}]', ];
 
-        $game->actRestart();
+        $game->actRestart(999999);
         
         //TODO Which state is expected here ?
         assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
@@ -116,7 +116,7 @@ final class ConfirmTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("No choice to undo. You may need to reload the page.");
-        $game->actRestart();
+        $game->actRestart(999999);
     }
     // -------------------------------------------------
     public function test_ActionUndo_Pass(): void
@@ -128,7 +128,7 @@ final class ConfirmTurnTest extends TestCase
         $stepId = 1;
         TestDatas::$logs[1] = ['result_associative_index' => 1,'id' => 1, 'move_id' => 1, 'table' => '', 'primary'=>'', 'type' => 'step', 'affected' => '[{"name": "currentBonus","value": "24"}]', ];
 
-        $game->actUndoToStep($stepId);
+        $game->actUndoToStep($stepId,999999);
         
         //TODO Which state is expected here ?
         assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
@@ -143,6 +143,6 @@ final class ConfirmTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("This step is not undoable anymore. You may need to reload the page.");
-        $game->actUndoToStep($stepId);
+        $game->actUndoToStep($stepId,999999);
     }
 }

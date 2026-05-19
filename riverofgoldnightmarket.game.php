@@ -32,6 +32,8 @@ spl_autoload_register($swdNamespaceAutoload, true, true);
 
 require_once 'modules/php/Models/Enums.php';
 
+use Bga\GameFramework\Actions\CheckAction;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Preferences;
 use ROG\Exceptions\UserException;
@@ -202,7 +204,12 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
         In this space, you can put any utility methods useful for your game logic
     */
 
-    function actChangePreference($pref, $value)
+    #[PossibleAction]
+    #[CheckAction(false)]
+    /**
+     * @deprecated NOT necessary IN THIS GAME ! (no server side pref)
+     */
+    function actChangePref(?int $pref, ?int $value)
     {
       Preferences::set($this->getCurrentPId(), $pref, $value);
     }

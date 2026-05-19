@@ -2,6 +2,8 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
@@ -25,8 +27,13 @@ trait BonusResourceTrait
   /**
    * @param int $resourceType
    */
-  public function actBonusResource($resourceType)
+  #[PossibleAction]
+  public function actBonusResource(
+    #[IntParam(name: 'r')] int $resourceType,
+    int $version,
+  )
   { 
+    $this->checkVersion($version);
     self::checkAction('actBonusResource'); 
     self::trace("actBonusResource($resourceType)");
 
@@ -96,8 +103,10 @@ trait BonusResourceTrait
   /**
    * Additional Action to use when receiving end of journey bonus
    */
-  public function actBonus3Money()
+  #[PossibleAction]
+  public function actBonus3Money(int $version)
   { 
+    $this->checkVersion($version);
     self::checkAction('actBonus3Money'); 
     self::trace("actBonus3Money()");
 

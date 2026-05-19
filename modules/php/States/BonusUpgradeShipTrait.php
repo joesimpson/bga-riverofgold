@@ -2,6 +2,8 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
@@ -27,8 +29,13 @@ trait BonusUpgradeShipTrait
   /**
    * @param int $shipId
    */
-  public function actBonusUpgrade($shipId)
+  #[PossibleAction]
+  public function actBonusUpgrade(
+    #[IntParam(name: 's')] int $shipId,
+    int $version,
+  )
   { 
+    $this->checkVersion($version);
     self::checkAction('actBonusUpgrade'); 
     self::trace("actBonusUpgrade($shipId)");
 

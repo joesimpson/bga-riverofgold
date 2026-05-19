@@ -52,7 +52,7 @@ final class BonusSetDieTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":2,"6":14}';
         $dieFace = 2;
 
-        $game->actBonusSetDie($dieFace);
+        $game->actBonusSetDie($dieFace,999999);
         
         assertSame('[]', TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
@@ -71,7 +71,7 @@ final class BonusSetDieTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot set the die to $dieFace");
-        $game->actBonusSetDie($dieFace);
+        $game->actBonusSetDie($dieFace,999999);
     }
     
     // -------------------------------------------------

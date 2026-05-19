@@ -83,7 +83,7 @@ final class BonusSecondMarkerTest extends TestCase
         $tileId = 41;
         Globals::setCurrentBonus(BONUS_TYPE_SECOND_MARKER_ON_BUILDING);
 
-        $game->actBonusSecondMarker($tileId);
+        $game->actBonusSecondMarker($tileId,999999);
         
         $newTokenId = 43;
         assertSame(TestDatas::$tokens[$newTokenId], ['result_associative_index' => $newTokenId, 'meeple_id' => $newTokenId, 'meeple_state' => 2, 'meeple_location'=> "tile-$tileId",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1, ] );
@@ -97,7 +97,7 @@ final class BonusSecondMarkerTest extends TestCase
         $tileId = 42;
         Globals::setCurrentBonus(BONUS_TYPE_SECOND_MARKER_ON_OPPONENT);
 
-        $game->actBonusSecondMarker($tileId);
+        $game->actBonusSecondMarker($tileId,999999);
         
         $newTokenId = 43;
         assertSame(TestDatas::$tokens[$newTokenId], ['result_associative_index' => $newTokenId, 'meeple_id' => $newTokenId, 'meeple_state' => 2, 'meeple_location'=> "tile-$tileId",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1, ] );
@@ -112,7 +112,7 @@ final class BonusSecondMarkerTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot second build this tile");
-        $game->actBonusSecondMarker($tileId);
+        $game->actBonusSecondMarker($tileId,999999);
     }
     public function test_ActionBonusSecondMarker_KO_SecondBuildingOwned(): void
     {
@@ -124,7 +124,7 @@ final class BonusSecondMarkerTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot second build this tile");
-        $game->actBonusSecondMarker($tileId);
+        $game->actBonusSecondMarker($tileId,999999);
     }
     public function test_ActionBonusSecondMarker_KO_SecondBuildingOpponent(): void
     {
@@ -136,7 +136,7 @@ final class BonusSecondMarkerTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot second build this tile");
-        $game->actBonusSecondMarker($tileId);
+        $game->actBonusSecondMarker($tileId,999999);
     }
     
     // -------------------------------------------------

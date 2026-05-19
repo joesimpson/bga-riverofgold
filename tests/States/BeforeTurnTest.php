@@ -72,7 +72,7 @@ final class BeforeTurnTest extends TestCase
         $game = new GameMock();
 
         GamestateMachine::$test_current_state = ST_BEFORE_TURN;
-        $game->actSkip();
+        $game->actSkip(999999);
         
         //Test go to next state
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);

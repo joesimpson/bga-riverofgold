@@ -2,6 +2,8 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
@@ -24,8 +26,10 @@ trait BonusSellGoodsTrait
    
   /**
    */
-  public function actStop()
+  #[PossibleAction]
+  public function actStop(int $version)
   { 
+    $this->checkVersion($version);
     self::checkAction('actStop'); 
     self::trace("actStop()");
     $this->addStep();
@@ -35,8 +39,13 @@ trait BonusSellGoodsTrait
   /**
    * @param int $resourceType
    */
-  public function actSell($resourceType)
+  #[PossibleAction]
+  public function actSell(
+    #[IntParam(name: 'src')] int $resourceType,
+    int $version,
+  )
   { 
+    $this->checkVersion($version);
     self::checkAction('actSell'); 
     self::trace("actSell($resourceType)");
 

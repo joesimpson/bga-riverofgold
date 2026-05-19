@@ -63,7 +63,7 @@ final class BonusSellGoodsTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BONUS_SELL_GOODS;
 
-        $game->actStop();
+        $game->actStop(999999);
         
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
     }
@@ -77,7 +77,7 @@ final class BonusSellGoodsTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
         $resourceType = RESOURCE_TYPE_SILK;
 
-        $game->actSell($resourceType);
+        $game->actSell($resourceType,999999);
         
         assertSame(ST_BONUS_SELL_GOODS, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -92,7 +92,7 @@ final class BonusSellGoodsTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":1,"3":2,"4":0,"5":0,"6":0}';
         $resourceType = RESOURCE_TYPE_POTTERY;
 
-        $game->actSell($resourceType);
+        $game->actSell($resourceType,999999);
         
         assertSame(ST_BONUS_SELL_GOODS, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -107,7 +107,7 @@ final class BonusSellGoodsTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":3,"2":1,"3":2,"4":0,"5":0,"6":1}';
         $resourceType = RESOURCE_TYPE_RICE;
 
-        $game->actSell($resourceType);
+        $game->actSell($resourceType,999999);
         
         assertSame(ST_BONUS_SELL_GOODS, GamestateMachine::$test_current_state);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -124,7 +124,7 @@ final class BonusSellGoodsTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot sell this resource ($resourceType)");
-        $game->actSell($resourceType);
+        $game->actSell($resourceType,999999);
     }
     public function test_ActionSell_KO_WrongResource2(): void
     {
@@ -136,7 +136,7 @@ final class BonusSellGoodsTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot sell this resource ($resourceType)");
-        $game->actSell($resourceType);
+        $game->actSell($resourceType,999999);
     }
     
     // -------------------------------------------------

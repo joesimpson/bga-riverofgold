@@ -49,7 +49,7 @@ final class SpendFavorTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":1,"6":0}';
         $dieFace = 2;
 
-        $game->actDFSelect($dieFace);
+        $game->actDFSelect($dieFace,999999);
         
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
     }
@@ -63,7 +63,7 @@ final class SpendFavorTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot change the die to $dieFace");
-        $game->actDFSelect($dieFace);
+        $game->actDFSelect($dieFace,999999);
     }
     
     // -------------------------------------------------

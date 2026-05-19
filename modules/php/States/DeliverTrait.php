@@ -2,6 +2,7 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
@@ -52,8 +53,13 @@ trait DeliverTrait
   /**
    * @param int $cardId
    */
-  public function actDeliverSelect($cardId)
+  #[PossibleAction]
+  public function actDeliverSelect(
+    #[IntParam(name: 'c')] int $cardId,
+    int $version, 
+  )
   { 
+    $this->checkVersion($version);
     self::checkAction('actDeliverSelect'); 
     self::trace("actDeliverSelect($cardId)");
 
@@ -123,8 +129,11 @@ trait DeliverTrait
    * @param int $cardId
    */
   #[PossibleAction]
-  public function actDeliverReplace(int $cardId, int $silk, int $rice, int $pottery)
+  public function actDeliverReplace(int $cardId, int $silk, int $rice, int $pottery, 
+    int $version,
+  )
   { 
+    $this->checkVersion($version);
     self::checkAction('actDeliverReplace'); 
     self::trace("actDeliverReplace($cardId,$silk, $rice, $pottery)");
 

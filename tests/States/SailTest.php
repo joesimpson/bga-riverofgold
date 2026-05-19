@@ -334,7 +334,7 @@ final class SailTest extends TestCase
         $shipId = 21;
         $riverSpace = 6;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -353,7 +353,7 @@ final class SailTest extends TestCase
         $shipId = 22;
         $riverSpace = 1;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
         $expectedBonuses = json_encode([BONUS_TYPE_MONEY_OR_GOOD]);
@@ -376,7 +376,7 @@ final class SailTest extends TestCase
         $shipId = 22;
         $riverSpace = 1;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         $expectedBonuses = json_encode([BONUS_TYPE_MONEY_OR_GOOD]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
@@ -401,7 +401,7 @@ final class SailTest extends TestCase
         $shipId = 22;
         $riverSpace = 1;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         $expectedBonuses = json_encode([BONUS_TYPE_MONEY_OR_GOOD]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
@@ -419,7 +419,7 @@ final class SailTest extends TestCase
         $shipId = 22;
         $riverSpace = 1;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         $expectedBonuses = json_encode([BONUS_TYPE_MONEY_OR_GOOD, BONUS_TYPE_CHOICE]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
@@ -436,7 +436,7 @@ final class SailTest extends TestCase
         $shipId = 22;
         $riverSpace = 1;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         $expectedBonuses = json_encode([BONUS_TYPE_MONEY_OR_GOOD, BONUS_TYPE_SELL_GOODS]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
@@ -453,7 +453,7 @@ final class SailTest extends TestCase
         $shipId = 22;
         $riverSpace = 1;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         $expectedBonuses = json_encode([BONUS_TYPE_MONEY_OR_GOOD, ]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
@@ -473,7 +473,7 @@ final class SailTest extends TestCase
         $shipId = 22;
         $riverSpace = 1;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         $expectedBonuses = json_encode([BONUS_TYPE_MONEY_OR_GOOD, ]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
@@ -499,7 +499,7 @@ final class SailTest extends TestCase
         $shipId = 21;
         $riverSpace = 6;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
@@ -527,7 +527,7 @@ final class SailTest extends TestCase
         $shipId = 21;
         $riverSpace = 6;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
         $resources = json_decode(TestDatas::$players[1]['resources'], true);
@@ -552,7 +552,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[$shipId]['meeple_state'] = 1;
         $riverSpace = 2;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         $expectedBonuses = json_encode([ ]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
@@ -576,7 +576,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
         $riverSpace = 2;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         $expectedBonuses = json_encode([BONUS_TYPE_CHOICE, ]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
@@ -597,7 +597,7 @@ final class SailTest extends TestCase
         $riverSpace = 6;
         TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         $expectedBonuses = json_encode([ ]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
@@ -619,7 +619,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[$shipId]['meeple_state'] = 4;
         TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame(0, TestDatas::$tokens[1]['meeple_state']);
         assertSame(1, TestDatas::$tokens[2]['meeple_state']);
@@ -645,7 +645,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[$shipId]['meeple_state'] = 1;
         TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame(19+1,TestDatas::$players[1]['player_score']);//+NB_POINTS_NOBLE_4
         $expectedBonuses = json_encode([ ]);
@@ -666,7 +666,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[$shipId]['meeple_state'] = 1;
         TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame(19+1,TestDatas::$players[1]['player_score']);//+NB_POINTS_NOBLE_6
         $expectedBonuses = json_encode([ ]);
@@ -691,7 +691,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[$shipId]['meeple_state'] = 7;
         TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
         assertFalse( array_key_exists(43,TestDatas::$tokens));//removed clan marker
@@ -720,7 +720,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[$shipId]['meeple_state'] = 7;
         TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
 
-        $game->actSailSelect($shipId,$riverSpace,$skipORewards);
+        $game->actSailSelect($shipId,$riverSpace,999999,$skipORewards);
         
         assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
         assertFalse( array_key_exists(43,TestDatas::$tokens));//removed clan marker
@@ -766,7 +766,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[$shipId]['meeple_state'] = 7;
         TestDatas::$tokens[$shipId]['type'] = MEEPLE_TYPE_SHIP_ROYAL ;
 
-        $game->actSailSelect($shipId,$riverSpace,$skipORewards);
+        $game->actSailSelect($shipId,$riverSpace,999999,$skipORewards);
         
         assertSame($riverSpace, TestDatas::$tokens[$shipId]['meeple_state']);
         assertFalse( array_key_exists(43,TestDatas::$tokens));//removed clan marker
@@ -813,7 +813,7 @@ final class SailTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot skip owner rewards now");
-        $game->actSailSelect($shipId,$riverSpace,$skipORewards);
+        $game->actSailSelect($shipId,$riverSpace,999999,$skipORewards);
     }
     
     public function test_ActionSail_Pass_Trader6(): void
@@ -828,7 +828,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[$shipId]['meeple_state'] = 7;
         $riverSpace = 13;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
         assertSame(4, $resources[RESOURCE_TYPE_MONEY]);//EMPTY_SPACE_REWARD*4
@@ -849,7 +849,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[$shipId]['meeple_state'] = 1;
         $riverSpace = 2;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame(19+2,TestDatas::$players[1]['player_score']);//+NB_POINTS_IRON_CRANE
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
@@ -872,7 +872,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[25]['result_associative_index'] = 25;
         $riverSpace = 11;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame(19,TestDatas::$players[1]['player_score']);//+0
     }
@@ -894,7 +894,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[25]['meeple_state'] = 11;
         $riverSpace = 10;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame(21,TestDatas::$players[1]['player_score']);//+1*2
     }
@@ -915,7 +915,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[25]['result_associative_index'] = 25;
         $riverSpace = 10;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame(23,TestDatas::$players[1]['player_score']);//+2*2
     }
@@ -934,7 +934,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[24]['meeple_state'] = 10;
         $riverSpace = 10;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame(json_encode(['datas' => [BONUS_TYPE_PAY_SHIPS=>[ 1 => ['ship'=>21,'position'=>10,'bonusQuantity'=>1,]]]]), TestDatas::$players[1]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
@@ -952,7 +952,7 @@ final class SailTest extends TestCase
         TestDatas::$tokens[22]['meeple_state'] = 10;
         $riverSpace = 10;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
         
         assertSame(json_encode([]), TestDatas::$players[1]['bonuses']);
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
@@ -975,7 +975,7 @@ final class SailTest extends TestCase
         TestDatas::$tiles[43]['result_associative_index'] = 43;
         TestDatas::$tiles[43]['tile_state'] = 6;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
 
         //check influences : +2 in region 2
         assertSame(0, TestDatas::$tokens[1]['meeple_state']);
@@ -1003,7 +1003,7 @@ final class SailTest extends TestCase
         TestDatas::$tiles[43]['result_associative_index'] = 43;
         TestDatas::$tiles[43]['tile_state'] = 17;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
 
         //check influences : +2 in region 4
         assertSame(0, TestDatas::$tokens[1]['meeple_state']);
@@ -1031,7 +1031,7 @@ final class SailTest extends TestCase
         TestDatas::$tiles[43]['result_associative_index'] = 43;
         TestDatas::$tiles[43]['tile_state'] = 29;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
 
         //check influences : +2 in region 6
         assertSame(0, TestDatas::$tokens[1]['meeple_state']);
@@ -1058,7 +1058,7 @@ final class SailTest extends TestCase
         TestDatas::$tiles[43]['result_associative_index'] = 43;
         TestDatas::$tiles[43]['tile_state'] = 29;
 
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
 
         //check influences : +2 in region 6
         assertSame(0, TestDatas::$tokens[1]['meeple_state']);
@@ -1080,7 +1080,7 @@ final class SailTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot Sail ship $shipId");
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
     }
     public function test_ActionSail_KO_WrongRiverSpace(): void
     {
@@ -1093,7 +1093,7 @@ final class SailTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot Sail to $riverSpace");
-        $game->actSailSelect($shipId,$riverSpace);
+        $game->actSailSelect($shipId,$riverSpace,999999);
     }
     // -------------------------------------------------
 }

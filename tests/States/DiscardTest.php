@@ -48,7 +48,7 @@ final class DiscardTest extends TestCase
         $cardId = 13;
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
 
-        $game->actDiscardCard($cardId);
+        $game->actDiscardCard($cardId,999999);
         
         //check card datas
         $cardDatas = TestDatas::$cards[$cardId];
@@ -73,7 +73,7 @@ final class DiscardTest extends TestCase
         TestDatas::$cards[101]['type'] = PATRON_TATTOOED_MONK;
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
 
-        $game->actDiscardCard($cardId);
+        $game->actDiscardCard($cardId,999999);
         
         $resources = json_decode(TestDatas::$players[1]['resources'], true);
         assertSame(0, $resources[RESOURCE_TYPE_SILK]);// no more silk gained
@@ -101,7 +101,7 @@ final class DiscardTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot discard this card");
-        $game->actDiscardCard($cardId);
+        $game->actDiscardCard($cardId,999999);
     }
     
     // -------------------------------------------------

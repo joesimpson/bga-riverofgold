@@ -2,6 +2,8 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
@@ -34,8 +36,13 @@ trait BonusSecondMarkerTrait
   /**
    * @param int $tileId
    */
-  public function actBonusSecondMarker($tileId)
+  #[PossibleAction]
+  public function actBonusSecondMarker(
+    #[IntParam(name: 't')] int $tileId,
+    int $version,
+  )
   { 
+    $this->checkVersion($version);
     self::checkAction('actBonusSecondMarker'); 
     self::trace("actBonusSecondMarker($tileId)");
 

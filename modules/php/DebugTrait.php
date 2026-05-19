@@ -3,6 +3,7 @@ namespace ROG;
 
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Core\Preferences;
 use ROG\Core\Stats;
 use ROG\Helpers\Log;
 use ROG\Helpers\QueryBuilder;
@@ -85,6 +86,7 @@ trait DebugTrait
     Tiles::DB()->delete()->run();
     Cards::DB()->delete()->run();
     Meeples::DB()->delete()->run();
+    Preferences::DB()->delete()->run();
     $this->setGameStateValue('logging', 1);
     $this->player_preferences =[];
     $this->setupNewGame($players,$options);

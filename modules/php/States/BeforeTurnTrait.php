@@ -2,6 +2,7 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
@@ -42,8 +43,12 @@ trait BeforeTurnTrait
   /**
    * Skip selection
    */
-  public function actSkip()
+  #[PossibleAction]
+  public function actSkip(
+    int $version,
+  )
   { 
+    $this->checkVersion($version);
     self::checkAction('actSkip'); 
     self::trace("actSkip()");
     

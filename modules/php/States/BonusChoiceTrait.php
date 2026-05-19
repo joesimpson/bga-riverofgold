@@ -2,6 +2,7 @@
 
 namespace ROG\States;
 
+use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
@@ -52,8 +53,8 @@ trait BonusChoiceTrait
     int $version,
   )
   { 
-    self::checkAction('actSkipBonuses'); 
     $this->checkVersion($version);
+    self::checkAction('actSkipBonuses'); 
     self::trace(__CLASS__.".".__FUNCTION__."()");
     Log::addStep();
     $player = Players::getCurrent();
@@ -66,8 +67,14 @@ trait BonusChoiceTrait
   /**
    * @param int $bonusType
    */
-  public function actBonus(int $bonusType, ?int $bonusKey = null)
+  #[PossibleAction]
+  public function actBonus(
+    int $version, 
+    #[IntParam(name: 't')] int $bonusType,
+    ?int $bonusKey = null,
+  )
   { 
+    $this->checkVersion($version);
     self::checkAction('actBonus'); 
     self::trace("actBonus($bonusType,$bonusKey)");
 

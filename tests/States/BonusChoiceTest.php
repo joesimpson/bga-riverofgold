@@ -239,7 +239,7 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [$bonusType];
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -255,7 +255,7 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [$bonusType];
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -271,7 +271,7 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [$bonusType];
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -287,7 +287,7 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [$bonusType];
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -303,7 +303,7 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [$bonusType];
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -319,7 +319,7 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [$bonusType];
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -335,7 +335,7 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [$bonusType];
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -356,7 +356,7 @@ final class BonusChoiceTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
         foreach(TestDatas::$cards as &$card) $card['card_location'] = CARD_LOCATION_DISCARD;
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -373,7 +373,7 @@ final class BonusChoiceTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
         TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -394,7 +394,7 @@ final class BonusChoiceTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
         foreach(TestDatas::$cards as &$card) $card['card_location'] = CARD_LOCATION_DISCARD;
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -409,7 +409,7 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [$bonusType];
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -426,7 +426,7 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [$bonusType];
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -451,7 +451,7 @@ final class BonusChoiceTest extends TestCase
         TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
         $expectedBonuses = [];
 
-        $game->actBonus($bonusType,$bonusKey);
+        $game->actBonus(999999,$bonusType,$bonusKey);
         
         assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -469,7 +469,7 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [$bonusType];
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -494,7 +494,7 @@ final class BonusChoiceTest extends TestCase
         TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
         $expectedBonuses = [];
 
-        $game->actBonus($bonusType,$bonusKey);
+        $game->actBonus(999999,$bonusType,$bonusKey);
         
         assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -512,7 +512,7 @@ final class BonusChoiceTest extends TestCase
         $bonuses = [$bonusType];
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
 
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
         
         assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -553,7 +553,7 @@ final class BonusChoiceTest extends TestCase
             ],
         ];
 
-        $game->actBonus($bonusType,$bonusKey);
+        $game->actBonus(999999,$bonusType,$bonusKey);
         
         assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -592,7 +592,7 @@ final class BonusChoiceTest extends TestCase
             ],
         ];
 
-        $game->actBonus($bonusType,$bonusKey);
+        $game->actBonus(999999,$bonusType,$bonusKey);
         
         assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -619,7 +619,7 @@ final class BonusChoiceTest extends TestCase
         $expectedBonuses = [
         ];
 
-        $game->actBonus($bonusType,$bonusKey);
+        $game->actBonus(999999,$bonusType,$bonusKey);
         
         assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -646,7 +646,7 @@ final class BonusChoiceTest extends TestCase
         $expectedBonuses = [
         ];
 
-        $game->actBonus($bonusType,$bonusKey);
+        $game->actBonus(999999,$bonusType,$bonusKey);
         
         assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -672,7 +672,7 @@ final class BonusChoiceTest extends TestCase
         $expectedBonuses = [
         ];
 
-        $game->actBonus($bonusType,$bonusKey);
+        $game->actBonus(999999,$bonusType,$bonusKey);
         
         assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame($bonusType, Globals::getCurrentBonus());
@@ -692,7 +692,7 @@ final class BonusChoiceTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You don't have this bonus $bonusType");
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
     }
     public function test_ActionBonus_KO_UnexpectedBonus(): void
     {
@@ -705,7 +705,7 @@ final class BonusChoiceTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Not supported bonus type $bonusType");
-        $game->actBonus($bonusType);
+        $game->actBonus(999999,$bonusType);
     }
     // -------------------------------------------------
 }
