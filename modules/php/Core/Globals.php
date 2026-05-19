@@ -82,10 +82,13 @@ class Globals extends \ROG\Helpers\DB_Manager
     //GAME OPTIONS  --------------------------------------------
     //              --------------------------------------------
 
-    self::setOptionClanPatrons($options[OPTION_EXPANSION_CLANS]);
+    $optionClans = OPTION_EXPANSION_CLANS_OFF;
+    Utils::updateDataFromArray($options,OPTION_EXPANSION_CLANS,$optionClans);
+    self::setOptionClanPatrons($optionClans);
     
     $regionTracks = null;
-    $optionTracks = $options[OPTION_TRACKS];
+    $optionTracks = OPTION_TRACKS_OFF;
+    Utils::updateDataFromArray($options,OPTION_TRACKS,$optionTracks);
     if($optionTracks == OPTION_TRACKS_CUSTOM) {
       //PICK 6 RANDOM 
       $tracksToAssign = array_keys(CUSTOM_REGION_TRACKS);
