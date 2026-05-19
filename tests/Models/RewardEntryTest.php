@@ -404,6 +404,48 @@ final class RewardEntryTest extends TestCase
         assertSame([BONUS_TYPE_DRAW], json_decode(TestDatas::$players[1]['bonuses'], true));
     }
     // -------------------------------------------------
+    public function test_rewardPlayer_BonusTradeKoku(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $tile = new BuildingTile( TestDatas::$tiles[21], Tiles::getBuildingTilesTypes()[1]);
+        $reward = new RewardEntry(BONUS_TYPE_TRADE_KOKU,1);
+        $expectedBonuses = [
+            'datas' => [
+                BONUS_TYPE_TRADE_KOKU => [
+                    1 => ['koku'=>3,'bonusQuantity'=>1],
+                ],
+            ],
+        ];
+
+        $reward->rewardPlayer($player, $region,$tile);
+        
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
+    }
+    // -------------------------------------------------
+    public function test_rewardPlayer_BonusTradePoints(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $tile = new BuildingTile( TestDatas::$tiles[21], Tiles::getBuildingTilesTypes()[1]);
+        $reward = new RewardEntry(BONUS_TYPE_TRADE_POINTS,1);
+        $expectedBonuses = [
+            'datas' => [
+                BONUS_TYPE_TRADE_POINTS => [
+                    1 => ['points'=>2,'bonusQuantity'=>1],
+                ],
+            ],
+        ];
+
+        $reward->rewardPlayer($player, $region,$tile);
+        
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
+    }
+    // -------------------------------------------------
     
     public function test_rewardPlayer_NotSupported(): void
     {

@@ -92,9 +92,16 @@ class RewardEntry implements \JsonSerializable
       case BONUS_TYPE_DRAW:
         Globals::addBonus($player,BONUS_TYPE_DRAW);
         return;
+      case BONUS_TYPE_TRADE_KOKU:
+        Globals::addBonusWithDatas($player,BONUS_TYPE_TRADE_KOKU,['koku'=>3,'bonusQuantity'=>1]);
+        return;
+      case BONUS_TYPE_TRADE_POINTS:
+        Globals::addBonusWithDatas($player,BONUS_TYPE_TRADE_POINTS,['points'=>2,'bonusQuantity'=>1]);
+        return;
       default :
         Game::get()->error("Not supported reward ".$this->type);
         Notifications::message("Not supported reward ".$this->type);
+        return;
     }
   }
 }

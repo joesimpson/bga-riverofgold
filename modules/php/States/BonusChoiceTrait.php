@@ -145,6 +145,8 @@ trait BonusChoiceTrait
         break;
       case BONUS_TYPE_MULTITRADE_2:
       case BONUS_TYPE_MULTITRADE_3:
+      case BONUS_TYPE_TRADE_KOKU:
+      case BONUS_TYPE_TRADE_POINTS:
         $nextState = 'bonusMultiTrades';
         break;
       default:

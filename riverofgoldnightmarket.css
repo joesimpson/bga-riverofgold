@@ -6567,6 +6567,38 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   display: none;
 }
 
+.rog_icon_bonus-44 {
+  background-image: url("img/tiles/buildings.png");
+  background-position-x: 50%;
+  background-position-y: 90%;
+  background-size: 1754.3859649123% 4888.8888888889%;
+  background-repeat: repeat !important;
+  width: 68.4px;
+  height: 27px;
+  background-position-x: -633px;
+  background-position-y: -1136.4px;
+  border-radius: 10px;
+}
+.rog_icon_bonus-44 .rog_icon_qty {
+  display: none;
+}
+
+.rog_icon_bonus-45 {
+  background-image: url("img/tiles/buildings.png");
+  background-position-x: 50%;
+  background-position-y: 90%;
+  background-size: 1785.7142857143% 4400%;
+  background-repeat: repeat !important;
+  width: 67.2px;
+  height: 30px;
+  background-position-x: -873.6px;
+  background-position-y: -1136.4px;
+  border-radius: 10px;
+}
+.rog_icon_bonus-45 .rog_icon_qty {
+  display: none;
+}
+
 .rog_icon_container_ship-3 {
   vertical-align: baseline;
 }

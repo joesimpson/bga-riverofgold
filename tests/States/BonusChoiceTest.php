@@ -627,6 +627,59 @@ final class BonusChoiceTest extends TestCase
         //Next state differs for each bonus :
         assertSame(ST_BONUS_MULTI_TRADES, GamestateMachine::$test_current_state);
     }
+    
+    public function test_ActionBonus_Pass_UniTrade2Points(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_TRADE_POINTS;
+        $bonusKey = 1;
+        $bonuses = [
+            'datas' => [
+                $bonusType => [
+                    1 => ['points'=>2,'bonusQuantity'=>1,],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [
+        ];
+
+        $game->actBonus($bonusType,$bonusKey);
+        
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame(['points'=>2,'bonusQuantity'=>1,], Globals::getCurrentBonusDatas());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_MULTI_TRADES, GamestateMachine::$test_current_state);
+    }
+    public function test_ActionBonus_Pass_UniTrade3Koku(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_TRADE_KOKU;
+        $bonusKey = 1;
+        $bonuses = [
+            'datas' => [
+                $bonusType => [
+                    1 => ['koku'=>3,'bonusQuantity'=>1,],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [
+        ];
+
+        $game->actBonus($bonusType,$bonusKey);
+        
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame(['koku'=>3,'bonusQuantity'=>1,], Globals::getCurrentBonusDatas());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_MULTI_TRADES, GamestateMachine::$test_current_state);
+    }
 
     public function test_ActionBonus_KO_WrongBonus(): void
     {

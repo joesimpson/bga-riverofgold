@@ -1289,8 +1289,8 @@ function (dojo, declare, BgaAnimations) {
             let amount = args.nb;
             let bonusIcon = this.formatIcon('bonus-'+currentBonus, amount);
             this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
-                _('${you} must select ${n} trades for ${bonus}').replace('${bonus}', bonusIcon).replace('${n}', amount) :
-                _('${actplayer} must select ${n} trades for ${bonus}').replace('${bonus}', bonusIcon).replace('${n}', amount)
+                _('${you} may select ${n} trades for ${bonus}').replace('${bonus}', bonusIcon).replace('${n}', amount) :
+                _('${actplayer} may select ${n} trades for ${bonus}').replace('${bonus}', bonusIcon).replace('${n}', amount)
             );
 
             let possibles = args.trades;

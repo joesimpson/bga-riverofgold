@@ -94,6 +94,39 @@
     }
 }
 
+.rog_icon_bonus-44{//BONUS_TYPE_TRADE_KOKU
+    //look for an extract of the tile
+    background-image: url("img/tiles/buildings.png");
+    background-position-x: 50%;
+    background-position-y: 90%;
+    background-size: math.percentage(calc(math.div(2000px, 114px ))) math.percentage(math.div(2200px,45px ));
+    background-repeat: repeat !important;
+    width: calc( 0.6 * 114px);
+    height: calc( 0.6 * 45px);
+    background-position-x: calc( 0.6 * -1055px);
+    background-position-y: calc( 0.6 * -1894px);
+    border-radius: 10px;
+    .rog_icon_qty{
+        display: none;
+    }
+}
+.rog_icon_bonus-45{//BONUS_TYPE_TRADE_POINTS
+    //look for an extract of the tile
+    background-image: url("img/tiles/buildings.png");
+    background-position-x: 50%;
+    background-position-y: 90%;
+    background-size: math.percentage(calc(math.div(2000px, 112px ))) math.percentage(math.div(2200px,50px ));
+    background-repeat: repeat !important;
+    width: calc( 0.6 * 112px);
+    height: calc( 0.6 * 50px);
+    background-position-x: calc( 0.6 * -1456px);
+    background-position-y: calc( 0.6 * -1894px);
+    border-radius: 10px;
+    .rog_icon_qty{
+        display: none;
+    }
+}
+
 .rog_icon_container_ship-3{
     vertical-align: baseline;
 }

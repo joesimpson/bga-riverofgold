@@ -72,6 +72,30 @@ class BonusMultiTrades extends GameState
           RESOURCE_TYPE_MONEY => [ 'amount' => 3, ] ,
         ];
         break;
+      case BONUS_TYPE_TRADE_POINTS:
+        $trades = [
+          BONUS_TYPE_POINTS =>  [ 'amount' => $currentBonusDatas['points'], ] ,
+          BONUS_TYPE_CHOICE =>  [ 'amount' => 1,
+            'selection' => [
+              RESOURCE_TYPE_SILK,
+              RESOURCE_TYPE_RICE,
+              RESOURCE_TYPE_POTTERY, 
+            ],
+          ],
+        ];
+        break;
+      case BONUS_TYPE_TRADE_KOKU:
+        $trades = [
+          BONUS_TYPE_CHOICE =>  [ 'amount' => 1,
+            'selection' => [
+              RESOURCE_TYPE_SILK,
+              RESOURCE_TYPE_RICE,
+              RESOURCE_TYPE_POTTERY, 
+            ],
+          ],
+          RESOURCE_TYPE_MONEY => [ 'amount' => $currentBonusDatas['koku'], ] ,
+        ];
+        break;
     }
 
     if($nbTrades < 1){

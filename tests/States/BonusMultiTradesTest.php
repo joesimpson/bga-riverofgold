@@ -172,6 +172,71 @@ final class BonusMultiTradesTest extends TestCase
         
         assertSame($expectedArgs, $args);
     }
+    
+    // -------------------------------------------------
+    public function test_Args_UniTrade2Points(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        Globals::setChoices(0);
+        $currentBonus = BONUS_TYPE_TRADE_POINTS;
+        $currentBonusDatas = ['points'=>2,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
+        $expectedArgs = [
+            'skip' => true,
+            'c' => $currentBonus,
+            'nb' => 1,
+            'trades' => [
+                ['src' => ['type' => BONUS_TYPE_POINTS,'amount' => 2 ], 'dest' => ['type' => RESOURCE_TYPE_SILK     ,'amount' => 1 ]],
+                ['src' => ['type' => BONUS_TYPE_POINTS,'amount' => 2 ], 'dest' => ['type' => RESOURCE_TYPE_RICE     ,'amount' => 1 ]],
+                ['src' => ['type' => BONUS_TYPE_POINTS,'amount' => 2 ], 'dest' => ['type' => RESOURCE_TYPE_POTTERY  ,'amount' => 1 ]],
+                
+                ['src' => ['type' => RESOURCE_TYPE_SILK ,'amount' =>1 ],    'dest' => ['type' => BONUS_TYPE_POINTS    ,'amount' =>2 ]],
+                ['src' => ['type' => RESOURCE_TYPE_RICE ,'amount' =>1 ],    'dest' => ['type' => BONUS_TYPE_POINTS    ,'amount' =>2 ]],
+                ['src' => ['type' => RESOURCE_TYPE_POTTERY ,'amount' =>1 ], 'dest' => ['type' => BONUS_TYPE_POINTS    ,'amount' =>2 ]],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_UniTrade3Koku(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusMultiTrades($game);
+        Globals::setChoices(0);
+        $currentBonus = BONUS_TYPE_TRADE_KOKU;
+        $currentBonusDatas = ['koku'=>3,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":2,"3":1,"4":3,"5":1,"6":5}';
+        $expectedArgs = [
+            'skip' => true,
+            'c' => $currentBonus,
+            'nb' => 1,
+            'trades' => [
+                ['src' => ['type' => RESOURCE_TYPE_SILK ,'amount' =>1 ],    'dest' => ['type' => RESOURCE_TYPE_MONEY  ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_RICE ,'amount' =>1 ],    'dest' => ['type' => RESOURCE_TYPE_MONEY  ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_POTTERY ,'amount' =>1 ], 'dest' => ['type' => RESOURCE_TYPE_MONEY  ,'amount' =>3 ]],
+                ['src' => ['type' => RESOURCE_TYPE_MONEY ,'amount' => 3 ],  'dest' => ['type' => RESOURCE_TYPE_SILK   ,'amount' =>1 ]],
+                ['src' => ['type' => RESOURCE_TYPE_MONEY ,'amount' => 3 ],  'dest' => ['type' => RESOURCE_TYPE_RICE   ,'amount' =>1 ]],
+                ['src' => ['type' => RESOURCE_TYPE_MONEY ,'amount' => 3 ],  'dest' => ['type' => RESOURCE_TYPE_POTTERY,'amount' =>1 ]],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
     // -------------------------------------------------
  
     public function test_EnteringState_Pass(): void
