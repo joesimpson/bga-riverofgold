@@ -281,6 +281,12 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
     	
         if ($state['type'] === "activeplayer") {
             switch ($statename) {
+                case 'bonusChoice':
+                    $player = Players::get($active_player);
+                    //Erase bonuses to avoid infinite loop at the end of the turn
+                    $player->setBonuses([]);
+                    $this->gamestate->nextState( "zombiePass" );
+                    break;
                 default:
                     $this->gamestate->nextState( "zombiePass" );
                 	break;

@@ -8,6 +8,7 @@ use Bga\GameFramework\GamestateMachine;
 use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Exceptions\UserException;
+use ROG\Managers\Players;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -887,7 +888,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'draft'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -898,7 +899,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_DRAFT_PLAYER_MULTIACTIVE;
-        $state = [ 'type' => 'multipleactiveplayer', 'name'=> ''];
+        $state = [ 'type' => 'multipleactiveplayer', 'name'=> 'draftMulti'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -909,7 +910,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BEFORE_TURN;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'beforeTurn'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -920,7 +921,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'playerTurn'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -931,7 +932,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'build'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -942,18 +943,19 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'bonusChoice'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+        assertSame('[]', TestDatas::$players[1]['bonuses']);
     }
     public function test_ZombieTurn_BonusChoiceResource(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BONUS_CHOICE_RESOURCE;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'bonusResource'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -964,7 +966,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BONUS_UPGRADE_SHIP;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'bonusUpgrade'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -975,7 +977,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BONUS_SECOND_MARKER_ON_BUILDING;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'bonusSecondMarker'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -986,7 +988,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BONUS_MONEY_OR_GOOD;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'bonusMoneyGood'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -997,7 +999,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BONUS_SET_DIE;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'bonusSetDie'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -1008,7 +1010,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BONUS_SELL_GOODS;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'bonusSellGoods'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -1019,7 +1021,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'sail'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -1030,7 +1032,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'deliver'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -1041,7 +1043,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_TRADE;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'trade'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -1052,7 +1054,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN_DIVINE_FAVOR;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'spendFavor'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -1064,7 +1066,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_DISCARD_CARD;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'discardCard'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
@@ -1076,7 +1078,7 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_CONFIRM_TURN;
-        $state = [ 'type' => 'activeplayer', 'name'=> ''];
+        $state = [ 'type' => 'activeplayer', 'name'=> 'confirmTurn'];
 
         $game->zombieTurn($state, TestDatas::$test_activePlayerId );
         
