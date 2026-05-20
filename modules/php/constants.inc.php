@@ -277,6 +277,9 @@ const BONUS_TYPE_ANY_OWNER_REWARD   = 39;
 const BONUS_TYPE_ADVANCE_OR_POINTS  = 40;
 const BONUS_TYPE_INF_SELECT_REGION  = 41;
 const BONUS_TYPE_MULTITRADE_2       = 42;
+/**
+ * @deprecated it was a misconception, use BONUS_TYPE_MULTITRADE_2 instead
+ **/
 const BONUS_TYPE_MULTITRADE_3       = 43;
 const BONUS_TYPE_TRADE_KOKU         = 44;
 const BONUS_TYPE_TRADE_POINTS       = 45;
@@ -407,8 +410,8 @@ const CUSTOM_REGION_TRACKS = [
       18 => [['n' => 3, 'type' => BONUS_TYPE_INF_SELECT_REGION], ['n' => 3, 'type' => BONUS_TYPE_POINTS], ],
    ],
    6 => [
-      2 =>  [['n' => 1, 'type' => BONUS_TYPE_MULTITRADE_2], ],
-      5 =>  [['n' => 1, 'type' => BONUS_TYPE_MULTITRADE_3], ],
+      2 =>  [['n' => 1, 'type' => BONUS_TYPE_CHOICE], ],
+      5 =>  [['n' => 1, 'type' => BONUS_TYPE_MULTITRADE_2], ],
       9 =>  [['n' => 2, 'type' => BONUS_TYPE_MULTITRADE_2], ],
       13 => [['n' => 3, 'type' => BONUS_TYPE_MULTITRADE_2], ],
       18 => [['n' => 4, 'type' => BONUS_TYPE_MULTITRADE_2], ],

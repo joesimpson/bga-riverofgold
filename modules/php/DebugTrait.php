@@ -283,7 +283,7 @@ trait DebugTrait
     Globals::addBonusWithDatas($player,BONUS_TYPE_INF_SELECT_REGION,['region'=>2,'bonusQuantity'=>3]);
     Globals::addBonusWithDatas($player,BONUS_TYPE_INF_SELECT_REGION,['region'=>3,'bonusQuantity'=>1]);
     Globals::addBonusWithDatas($player,BONUS_TYPE_MULTITRADE_2,['region'=>3,'bonusQuantity'=>4, 'koku'=>3,'points'=>2,]);
-    Globals::addBonusWithDatas($player,BONUS_TYPE_MULTITRADE_3,['region'=>3,'bonusQuantity'=>1, 'koku'=>3,'points'=>3,]);
+    //Globals::addBonusWithDatas($player,BONUS_TYPE_MULTITRADE_3,['region'=>3,'bonusQuantity'=>1, 'koku'=>3,'points'=>3,]);
     Globals::addBonusWithDatas($player,BONUS_TYPE_TRADE_KOKU,['koku'=>3,'bonusQuantity'=>1]);
     Globals::addBonusWithDatas($player,BONUS_TYPE_TRADE_POINTS,['points'=>2,'bonusQuantity'=>1]);
     

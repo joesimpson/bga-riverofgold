@@ -89,14 +89,16 @@
 }
 .rog_icon_bonus-42{//BONUS_TYPE_MULTITRADE_2
     //Extract from bonus track
-    @include rog_icons_on_influence_tracks(-1314px,-938px,45px,45px,100px,100px);
+    @include rog_icons_on_influence_tracks(-1670px,-940px,45px,45px,100px,100px);
     .rog_icon_qty{
         display: none;
     }
 }
 .rog_icon_bonus-43{//BONUS_TYPE_MULTITRADE_3
     //Extract from bonus track
+    /* -> OBSOLETE
     @include rog_icons_on_influence_tracks(-1670px,-940px,45px,45px,100px,100px);
+    */
     .rog_icon_qty{
         display: none;
     }

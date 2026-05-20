@@ -1214,6 +1214,136 @@ final class PlayersTest extends TestCase
         assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame(true, $goToBonusChoice);
     }
+    public function test_gainInfluence_RegionCustom6_ToSpace2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $regionCustom = 6;
+        $amount = 2;
+        Globals::setRegionCustomTracks([$region => $regionCustom]);
+        $expectedBonuses = [
+            BONUS_TYPE_CHOICE,
+        ];
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(true, $goToBonusChoice);
+    }
+    public function test_gainInfluence_RegionCustom6_ToSpace5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $regionCustom = 6;
+        $amount = 5;
+        Globals::setRegionCustomTracks([$region => $regionCustom]);
+        $expectedBonuses = [
+            BONUS_TYPE_CHOICE,
+            'datas' => [
+                BONUS_TYPE_MULTITRADE_2 => [
+                    1 => ['region'=>$region,'bonusQuantity'=>1,'points'=>2,'koku'=>3,],
+                ],
+            ],
+        ];
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(true, $goToBonusChoice);
+    }
+    public function test_gainInfluence_RegionCustom6_ToSpace9(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $regionCustom = 6;
+        $amount = 9;
+        Globals::setRegionCustomTracks([$region => $regionCustom]);
+        $expectedBonuses = [
+            BONUS_TYPE_CHOICE,
+            'datas' => [
+                BONUS_TYPE_MULTITRADE_2 => [
+                    1 => ['region'=>$region,'bonusQuantity'=>1,'points'=>2,'koku'=>3,],
+                    2 => ['region'=>$region,'bonusQuantity'=>2,'points'=>2,'koku'=>3,],
+                ],
+            ],
+        ];
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(true, $goToBonusChoice);
+    }
+    public function test_gainInfluence_RegionCustom6_ToSpace13(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $regionCustom = 6;
+        $amount = 13;
+        Globals::setRegionCustomTracks([$region => $regionCustom]);
+        $expectedBonuses = [
+            BONUS_TYPE_CHOICE,
+            'datas' => [
+                BONUS_TYPE_MULTITRADE_2 => [
+                    1 => ['region'=>$region,'bonusQuantity'=>1,'points'=>2,'koku'=>3,],
+                    2 => ['region'=>$region,'bonusQuantity'=>2,'points'=>2,'koku'=>3,],
+                    3 => ['region'=>$region,'bonusQuantity'=>3,'points'=>2,'koku'=>3,],
+                ],
+            ],
+        ];
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
+        
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(24, TestDatas::$players[1]['player_score']);//19+5 FLOWER
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(true, $goToBonusChoice);
+    }
     public function test_gainInfluence_RegionCustom6_ToSpace18(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -1224,16 +1354,13 @@ final class PlayersTest extends TestCase
         $amount = 18;
         Globals::setRegionCustomTracks([$region => $regionCustom]);
         $expectedBonuses = [
+            BONUS_TYPE_CHOICE,
             'datas' => [
                 BONUS_TYPE_MULTITRADE_2 => [
                     1 => ['region'=>$region,'bonusQuantity'=>1,'points'=>2,'koku'=>3,],
                     2 => ['region'=>$region,'bonusQuantity'=>2,'points'=>2,'koku'=>3,],
                     3 => ['region'=>$region,'bonusQuantity'=>3,'points'=>2,'koku'=>3,],
                     4 => ['region'=>$region,'bonusQuantity'=>4,'points'=>2,'koku'=>3,],
-                ],
-                
-                BONUS_TYPE_MULTITRADE_3 => [
-                    1 => ['region'=>$region,'bonusQuantity'=>1,'points'=>3,'koku'=>3,],
                 ],
             ],
         ];
