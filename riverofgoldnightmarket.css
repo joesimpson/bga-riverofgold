@@ -154,6 +154,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   justify-content: center;
 }
 
+.rog_die_face-face-1,
 .rog_icon_die_face-1,
 .rog_icon_dieFace[data-face="1"] {
   width: 5em;
@@ -166,6 +167,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-position-y: 0%;
 }
 
+.rog_die_face-face-2,
 .rog_icon_die_face-2,
 .rog_icon_dieFace[data-face="2"] {
   width: 5em;
@@ -178,6 +180,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-position-y: 0%;
 }
 
+.rog_die_face-face-3,
 .rog_icon_die_face-3,
 .rog_icon_dieFace[data-face="3"] {
   width: 5em;
@@ -190,6 +193,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-position-y: 0%;
 }
 
+.rog_die_face-face-4,
 .rog_icon_die_face-4,
 .rog_icon_dieFace[data-face="4"] {
   width: 5em;
@@ -202,6 +206,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-position-y: 0%;
 }
 
+.rog_die_face-face-5,
 .rog_icon_die_face-5,
 .rog_icon_dieFace[data-face="5"] {
   width: 5em;
@@ -214,6 +219,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-position-y: 0%;
 }
 
+.rog_die_face-face-6,
 .rog_icon_die_face-6,
 .rog_icon_dieFace[data-face="6"] {
   width: 5em;
@@ -335,6 +341,14 @@ Icon extract in sprite with differents layers size (so % is not useful).
   font-weight: bold;
 }
 .rog_panel .rog_player_infos .rog_player_resource .rog_resource_dieFace[data-counter="0"] {
+  visibility: hidden;
+}
+.rog_panel .rog_player_infos .rog_bga_die_holder {
+  position: relative;
+  right: 24%;
+}
+.rog_panel .rog_player_infos .rog_bga_die_holder .bga-dice_die-faces[data-visible-face=null],
+.rog_panel .rog_player_infos .rog_bga_die_holder .bga-dice_die-faces[data-visible-face="0"] {
   visibility: hidden;
 }
 .rog_panel .rog_player_infos .rog_clan_card {

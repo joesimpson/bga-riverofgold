@@ -132,6 +132,7 @@
 }
 
 @for $i from 0 through 5 {
+    .rog_die_face-face-#{$i + 1}, 
     .rog_icon_die_face-#{$i + 1}, 
     .rog_icon_dieFace[data-face='#{$i + 1}'] {
         width: 5em;
@@ -299,6 +300,15 @@
                 &[data-counter='0']{
                     visibility: hidden;
                 }
+            }
+        }
+        .rog_bga_die_holder{
+            position: relative;
+            right: 24%;
+            .bga-dice_die-faces[data-visible-face='null'],
+            .bga-dice_die-faces[data-visible-face='0']
+            {
+                visibility: hidden;
             }
         }
         .rog_clan_card{

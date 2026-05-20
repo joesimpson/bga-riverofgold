@@ -22,12 +22,13 @@ var debug = isDebug ? console.info.bind(window.console) : function () {};
 define([
     "dojo","dojo/_base/declare",
     getLibUrl('bga-animations', '1.x'),
+    getLibUrl('bga-dice', '1.x'),
     "ebg/core/gamegui",
     "ebg/counter",
     g_gamethemeurl + 'modules/js/Core/game.js',
     g_gamethemeurl + 'modules/js/Core/modal.js',
 ],
-function (dojo, declare, BgaAnimations) {
+function (dojo, declare, BgaAnimations, BgaDice) {
 
     const REGION_1 =  1;
     const REGION_2 =  2;
@@ -219,6 +220,7 @@ function (dojo, declare, BgaAnimations) {
             this.default_viewport = 'width=800';
 
             this._counters = {};
+            this.dieStocks = new Map();
             
             this._notifications = [
                 ['clearTurn', 200],
@@ -370,6 +372,11 @@ function (dojo, declare, BgaAnimations) {
                 
             this.animationManager = new BgaAnimations.Manager({
                 animationsActive: () => this.bgaAnimationsActive(),
+            });
+            this.diceManager = new BgaDice.Manager({
+                animationManager: this.animationManager,
+                type: 'rog_die_face',
+                'faces': 6,
             });
 
             this.setupPlayers();
@@ -1885,13 +1892,15 @@ function (dojo, declare, BgaAnimations) {
                 });
             });
         },
-        notif_setDie(n) {
+        async notif_setDie(n) {
             debug('notif_setDie', n);
-            this.updatePlayerDieFace(n.args.player_id,n.args.die_value,true);
+            await this.updatePlayerDieFace(n.args.player_id,n.args.die_value,true);
+            this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
         },
-        notif_rollDie(n) {
+        async notif_rollDie(n) {
             debug('notif_rollDie', n);
-            this.updatePlayerDieFace(n.args.player_id,n.args.die_value,true);
+            await this.updatePlayerDieFace(n.args.player_id,n.args.die_value,true);
+            this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
         },
         notif_gainInfluence(n) {
             debug('notif_gainInfluence', n);
@@ -2635,6 +2644,10 @@ function (dojo, declare, BgaAnimations) {
                 this.addCustomTooltip(`rog_reserve_${pId}_market`, this.BUILDING_TYPES[BUILDING_TYPE_MARKET]);
                 this.addCustomTooltip(`rog_reserve_${pId}_shrine`, this.BUILDING_TYPES[BUILDING_TYPE_SHRINE]);
 
+                let dieStock = new BgaDice.ManualPositionStock(this.diceManager, document.getElementById(`rog_bga_die_holder-${pId}`),undefined, (element, dice, lastDie, stock) => { } );
+                dieStock.addDie( { id: pId, color: '', face: player.die, location: '', location_arg: 0 }, );
+                this.dieStocks.set(pId, dieStock);
+
                 nPlayers++;
                 if (isCurrent) currentPlayerNo = player.no;
             });
@@ -2842,6 +2855,7 @@ function (dojo, declare, BgaAnimations) {
                         </div></div>
                     </div>
                     ${this.tplResourceCounter(player, 'dieFace')}
+                    <div id='rog_bga_die_holder-${player.id}' class='rog_bga_die_holder'></div>
                 </div>
                 <div class='rog_player_resource_line_clan_patron'
                      id='rog_player_patron-${player.id}'>
@@ -2939,14 +2953,33 @@ function (dojo, declare, BgaAnimations) {
             }
         },
             
-        updatePlayerDieFace(pId,dieFace, animate = false) {
+        async updatePlayerDieFace(pId,dieFace, animate = false) {
             debug("updatePlayerDieFace",pId,dieFace,animate );
             let counter = this._counters[pId].dieFace;
             counter.toValue(dieFace);
             let icon = counter.span.nextSibling.firstElementChild;
             icon.dataset.face = dieFace;
+    
+            //BgaDice
+            let stock = this.dieStocks.get(pId);
+            let dieToAnimate = null;
+            if(stock){
+                dieToAnimate = stock.getDice()[0]; 
+                dieToAnimate.face = dieFace;
+            }
             
             if(animate && !this.isFastMode()){
+                if(dieToAnimate){
+                    try{//Try using BgaDice
+                        let effect = 'turn';
+                        effect = 'rollIn';
+                        await stock.rollDie(dieToAnimate,{effect:effect,duration: 800});
+                        //Stop if animation success
+                        return;
+                    } catch (e) {
+                        console.error('Exception with BgaDice usage:'+e.message, e.stack);
+                    }
+                }
                 let elem = `<div id='rog_dieFace_animation'>
                     ${dieFace}
                     <div class="rog_icon_container rog_icon_container_dieFace">
@@ -2961,6 +2994,17 @@ function (dojo, declare, BgaAnimations) {
                     phantom: false,
                     duration: 800,
                 });
+            }
+            else {
+                if(dieToAnimate){
+                    try{
+                        let effect = 'none';
+                        await stock.rollDie(dieToAnimate,{effect:effect,duration: 0});
+                        return;
+                    } catch (e) {
+                        console.error('Exception with BgaDice usage:'+e.message, e.stack);
+                    }
+                }
             }
         },
         
