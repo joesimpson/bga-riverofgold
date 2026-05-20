@@ -380,8 +380,8 @@ function (dojo, declare, BgaAnimations) {
 
             this.addCustomTooltip('rog_score_customers', this.getScoreCustomersTooltip());
             this.addCustomTooltip('rog_era_tile_resizable', this.getEraTileTooltip());
-            this.addCustomTooltip('rog_deck_size-1', `<h4>${this.fsr(_('Tiles in Era ${n} stack'), { n: 1 })}</h4>`); 
-            this.addCustomTooltip('rog_deck_size-2', `<h4>${this.fsr(_('Tiles in Era ${n} stack'), { n: 2 })}</h4>`); 
+            this.addCustomTooltip('rog_deck_size-1', `${this.fsr(_('Tiles in Era ${n} stack'), { n: 1 })}`); 
+            this.addCustomTooltip('rog_deck_size-2', `${this.fsr(_('Tiles in Era ${n} stack'), { n: 2 })}`); 
             this.addCustomTooltip('rog_complete_journey', this.getCompleteJourneyTooltip());
             this.addCustomTooltip('rog_building_bonus_favor', this.getBuildingRowBonusTooltip());
             
