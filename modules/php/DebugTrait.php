@@ -61,6 +61,7 @@ trait DebugTrait
   function debug_RESET(
     bool $expansionClans = true,
     bool $expansionClansAlt = true,
+    int $optionSeishin = OPTION_SEISHIN_OFF,
     bool $customTracks = true,
     int $optionCustomers = OPTION_CUSTOMERS_BASE,
     int $optionMarkets = OPTION_MARKETS_BASE,
@@ -75,6 +76,7 @@ trait DebugTrait
           ) : 
           OPTION_EXPANSION_CLANS_OFF
         ) ,
+      OPTION_SEISHIN => $optionSeishin,
       OPTION_TRACKS => $customTracks,
       OPTION_CUSTOMERS => $optionCustomers,
       OPTION_MARKETS => $optionMarkets,
@@ -568,6 +570,9 @@ trait DebugTrait
     Notifications::message("`DEBUG: $nb`");
   }
 
+  function debug_assignAutomaClan(){
+    Players::assignAutomaClan();
+  }
   //----------------------------------------------------------------
   //Clear logs
   function debug_CLS(){

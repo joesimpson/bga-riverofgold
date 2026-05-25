@@ -50,6 +50,49 @@ $game_options = [
      
   ), 
   
+  OPTION_SEISHIN => array(
+    'name' => 'Seishin',    
+    'values' => [
+      OPTION_SEISHIN_OFF => [
+        'name' => 'Disabled', 
+        'description' => '', 
+      ],
+      OPTION_SEISHIN_LEVEL_1 => [
+        'name' => 'Easy', 
+        'tmdisplay' => 'Easy',
+        'description' => 'You compete against Seishin, a rival AI merchant.', 
+      ],
+      OPTION_SEISHIN_LEVEL_2 => [
+        'name' => 'Normal', 
+        'tmdisplay' => 'Normal',
+        'description' => 'You compete against Seishin, a rival AI merchant.', 
+      ],
+      OPTION_SEISHIN_LEVEL_3 => [
+        'name' => 'Hard', 
+        'tmdisplay' => 'Hard',
+        'description' => 'You compete against Seishin, a rival AI merchant.', 
+      ],
+      OPTION_SEISHIN_LEVEL_4 => [
+        'name' => 'Expert', 
+        'tmdisplay' => 'Expert',
+        'description' => 'You compete against Seishin, a rival AI merchant.', 
+      ],
+      OPTION_SEISHIN_LEVEL_5 => [
+        'name' => 'Master', 
+        'tmdisplay' => 'Master',
+        'description' => 'You compete against Seishin, a rival AI merchant.', 
+      ],
+    ],
+    'default' => OPTION_SEISHIN_OFF,
+    "displaycondition" => [
+      [
+        "type"=> "maxplayers",
+        "value"=> 2,
+      ],
+    ],
+     
+  ), 
+
   OPTION_TRACKS => array(
     'name' => 'Region Influence Tracks',    
     'values' => [

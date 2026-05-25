@@ -42,11 +42,16 @@ class Globals extends \ROG\Helpers\DB_Manager
     'customerTypes' => 'obj',
     'regionCustomTracks' => 'obj',
 
+    'automaActive' => 'bool',
+    'automaClan' => 'int',
+    'automaScore' => 'int',
+
     //Undo log module
     'choices' => 'int',
 
     // Game options
     'optionClanPatrons' => 'int', 
+    'optionSeishin' => 'int', 
     'optionTracks' => 'int', 
     'optionCustomers' => 'int', 
     'optionImperialMarkets' => 'int', 
@@ -72,11 +77,15 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::setLastSailedShip(null);
     self::setTurnMainActionDone(null);
 
+    $nbPlayers = count($players);
     foreach($players as $pId => $player){
       self::setFirstPlayer($pId);
       self::setTurnPlayer($pId);
       break;
     }
+    self::setAutomaClan(null);
+    self::setAutomaActive(false);
+    self::setAutomaScore(0);
 
     //              --------------------------------------------
     //GAME OPTIONS  --------------------------------------------
@@ -86,6 +95,13 @@ class Globals extends \ROG\Helpers\DB_Manager
     Utils::updateDataFromArray($options,OPTION_EXPANSION_CLANS,$optionClans);
     self::setOptionClanPatrons($optionClans);
     
+    $optionSeishin = OPTION_SEISHIN_OFF;
+    //displaycondition for 1 or 2p only :
+    if(in_array($nbPlayers,[1,2])){
+      Utils::updateDataFromArray($options,OPTION_SEISHIN,$optionSeishin);
+    }
+    Globals::setOptionSeishin($optionSeishin);
+
     $regionTracks = null;
     $optionTracks = OPTION_TRACKS_OFF;
     Utils::updateDataFromArray($options,OPTION_TRACKS,$optionTracks);

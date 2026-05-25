@@ -124,12 +124,17 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
           'endScoring' => Globals::getEndScoring(),
           'customerTypes' => Globals::getCustomerTypes(),
           'customTracks' => Globals::getRegionCustomTracks(),
+          
+          'automa_level' => Globals::getOptionSeishin(),
           'version'=> Utils::gameVersion(),
           'constants' => [
             'INFLUENCE_TRACK_REWARDS' => INFLUENCE_TRACK_REWARDS,
             'CUSTOM_REGION_TRACKS' => CUSTOM_REGION_TRACKS,
           ]
         ];
+        if(Utils::isGameWithAutoma()){
+            $result['automa_player'] = Players::automaPlayer()->getUiData();
+        }
         return $result;
     }
     

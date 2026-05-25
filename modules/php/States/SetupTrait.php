@@ -51,6 +51,7 @@ trait SetupTrait
 
     $players = Players::getAll();
     $k =0;
+    Players::assignAutomaClan();
     foreach($players as $pid => $player){
       $playerPatron = $player->getPatron();
 

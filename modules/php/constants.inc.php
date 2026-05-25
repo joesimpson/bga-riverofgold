@@ -6,6 +6,8 @@ const BGA_GAMESTATE_GAMEVERSION = 300;
  * Game Constants
  */
  
+const AUTOMA_PLAYER_ID = -123;
+
  const DIE_FACES = [1,2,3,4,5,6];
 
  const REGION_1 =  1;
@@ -174,6 +176,7 @@ const MONK_TYPE_OPPONENT_BUILDING = 2;
  
  const CARD_TYPE_CUSTOMER = 1;
  const CARD_TYPE_CLAN_PATRON = 2;
+ const CARD_TYPE_AUTOMA_ACTION = 3;
 
  const TILE_TYPE_SCORING = 1;
  const TILE_TYPE_BUILDING = 2;
@@ -220,6 +223,7 @@ const CARD_LOCATION_DISCARD = 'discard';
  const CARD_LOCATION_DELIVERED = 'dd';
  const CARD_LOCATION_HAND = 'h';
  const CARD_LOCATION_WAIT_FOR_HAND = 'wait';
+
  //! Warning one clan patron will have more cards (3)
  const NB_CARDS_PER_PLAYER = 2;
  const NB_CARDS_FOR_YORITOMO = 3;
@@ -230,6 +234,9 @@ const CARD_LOCATION_DISCARD = 'discard';
  const CARD_CLAN_LOCATION_DRAFT = 'clans_draft';
  const CARD_CLAN_LOCATION_DISCARD = 'clans_discard';
  const CARD_CLAN_LOCATION_ASSIGNED = 'clans_assigned';
+ 
+const CARD_AUTOMA_LOCATION_DECK     = 'aut_deck';
+const CARD_AUTOMA_LOCATION_PLAYED   = 'aut_played';
 
  const PATRON_MASTER_ENGINEER = 1;
  const PATRON_TRADER          = 2;
@@ -480,6 +487,14 @@ const OPTION_EXPANSION_CLANS = 110;
 const OPTION_EXPANSION_CLANS_OFF = 0;
 const OPTION_EXPANSION_CLANS_DRAFT = 1;
 const OPTION_EXPANSION_CLANS_ALTERNATIVE = 2;
+
+const OPTION_SEISHIN = 111;
+const OPTION_SEISHIN_OFF      = 0;
+const OPTION_SEISHIN_LEVEL_1  = 1;
+const OPTION_SEISHIN_LEVEL_2  = 2;
+const OPTION_SEISHIN_LEVEL_3  = 3;
+const OPTION_SEISHIN_LEVEL_4  = 4;
+const OPTION_SEISHIN_LEVEL_5  = 5;
 
 const OPTION_TRACKS = 115;
 const OPTION_TRACKS_OFF      = 0;

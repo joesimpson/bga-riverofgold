@@ -15,7 +15,7 @@
   }
   
   ,"config": {
-    "process-timeout": 60
+    "process-timeout": 90
   }
 
   ,"scripts": {

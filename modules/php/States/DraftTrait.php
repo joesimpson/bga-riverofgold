@@ -8,8 +8,11 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
+use ROG\Models\ClanPatronCard;
+use ROG\Models\Player;
 
 trait DraftTrait
 {
@@ -87,11 +90,11 @@ trait DraftTrait
   
   /**
    * @param Player $player
-   * @param Card $card
+   * @param ClanPatronCard $card
    */
-  function assignClanPatron($player,$card){
+  function assignClanPatron(Player $player,ClanPatronCard $card){
     $player->setClan($card->getClan());
-    $player_color = array_search($card->getClan(),CLANS_COLORS);
+    $player_color = Utils::getPlayerClanColor($card->getClan());
     $player->setColor($player_color);
     self::reloadPlayersBasicInfos();
     Notifications::newPlayerColor($player);

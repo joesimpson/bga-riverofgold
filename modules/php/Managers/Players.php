@@ -8,6 +8,7 @@ use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Utils;
+use ROG\Models\AutomaPlayer;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Player;
@@ -87,12 +88,32 @@ class Players extends \ROG\Helpers\DB_Manager
           Notifications::newPlayerColor($player);
         }
       }
+
+      Players::assignAutomaClan();
     }
     Game::get()->reloadPlayersBasicInfos();
     
     return $playersObjects;
   }
 
+  public static function assignAutomaClan()
+  {
+    if(Utils::isGameWithAutoma()){
+      $playersObjects = Players::getAll();
+      $assignedClans = $playersObjects->map( function ($player) { return $player->getClan();})->toArray();
+      foreach(CLANS_COLORS as $color => $clan){
+        if(in_array($clan,$assignedClans)){
+          continue;
+        }
+        $automa_clan = $clan;
+        $automa_color = $color;
+        break;
+      }
+      Globals::setAutomaClan($automa_clan);
+      Notifications::automaColor($automa_clan, $automa_color, Utils::getAutomaPId());
+    }
+  }
+  
   /**
    * @param Collection $players Players
    * @param int $turn
@@ -150,9 +171,10 @@ class Players extends \ROG\Helpers\DB_Manager
   /*
    * get : returns the Player object for the given player ID
    */
-  public static function get($pId = null): Player
+  public static function get(int|null $pId = null): Player
   {
     $pId = $pId ?: self::getActiveId();
+    if($pId == AUTOMA_PLAYER_ID) return Players::automaPlayer();
     return self::DB()
       ->where($pId)
       ->getSingle();
@@ -179,7 +201,18 @@ class Players extends \ROG\Helpers\DB_Manager
     $player = $player ?? Players::getCurrent();
     $pId = is_int($player) ? $player : $player->getId();
     $table = Game::get()->getNextPlayerTable();
-    return $table[$pId];
+    $firstPlayerIdInTable = array_key_first($table);
+    if(AUTOMA_PLAYER_ID == $pId) {
+      return $firstPlayerIdInTable;
+    }
+    $nextPid = $table[$pId];
+
+    $automa_id = Utils::getAutomaPId();
+    $automaIsActive = Globals::isAutomaActive();
+    if(isset($automa_id) && !$automaIsActive && $nextPid == $firstPlayerIdInTable ){
+      return $automa_id;
+    }
+    return $nextPid;
   }
   
   /**
@@ -660,6 +693,16 @@ class Players extends \ROG\Helpers\DB_Manager
       if(!$player->isLastTurnPlayed()) $counter++;
     }
     return $counter;
+  }
+
+  public static function automaPlayer() : AutomaPlayer {
+    $clan = Globals::getAutomaClan();
+    return new AutomaPlayer([
+      'player_id'     => AUTOMA_PLAYER_ID, 
+      'player_name'   => Utils::getAutomaName(), 
+      'player_color'  => Utils::getPlayerClanColor($clan),
+      'player_clan'   => $clan,
+      ]);
   }
 }
 

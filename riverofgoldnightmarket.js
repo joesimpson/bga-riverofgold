@@ -227,6 +227,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['refreshUI', 200],
                 ['refreshHand', 50],
                 ['newPlayerColor', 10],
+                ['automaColor', 10],
                 ['giveMoney', 1300],
                 ['spendMoney', 1300],
                 //['draftCards', 10],
@@ -1657,6 +1658,18 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.addCustomTooltip(rog_player_clan_panel,this.getPlayerBoardTooltip(pid,clanId));
 
         },
+        notif_automaColor(n) {
+            debug('notif_automaColor:', n);
+            let notif = n.args;
+            this.gamedatas.automa_player.clan = notif.automa_clan;
+            this.gamedatas.automa_player.color = notif.automa_color;
+            let existingAutomaPanel = this.setupAutomaPanel();
+            let panelContainer = existingAutomaPanel.parentNode.parentNode;
+            let automaName = panelContainer.querySelector("#player_name_"+this.gamedatas.automa_id);
+            automaName.dataset.color = this.gamedatas.automa_player.color;
+            automaName.style.color = `#${this.gamedatas.automa_player.color}`; 
+            this.setupAutomaBoard(); 
+        },
         notif_giveClanCardTo(n) {
             debug('notif_giveClanCardTo: receiving a new clan card', n);
             if (!$(`rog_clan_card-${n.args.card.id}`)) this.addClanCard(n.args.card, this.getVisibleTitleContainer());
@@ -2710,6 +2723,70 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.inherited(arguments);
             dojo.place('player_board_config', 'player_boards', 'first');
         },
+        
+        setupAutomaPanel(){
+            let automa_player = this.gamedatas.automa_player;
+            if(!automa_player) return null;
+            let automa_id = automa_player.id;
+            this.gamedatas.automa_id = automa_id;
+            let automa_panel = this.bga.playerPanels.getElement(automa_id);
+
+            if(!automa_panel){
+                this.bga.playerPanels.addAutomataPlayerPanel(
+                    automa_id, 
+                    automa_player.name, {
+                        'color' : automa_player.color,
+                        'iconClass': 'rog_avatar_automa',
+                        'score': automa_player.score,
+                    },
+                );
+                automa_panel = this.bga.playerPanels.getElement(automa_id);
+            }
+            return automa_panel;
+        },
+        setupAutomaBoard(){
+            let automa_player = this.gamedatas.automa_player;
+            if(!automa_player) return;
+            let automa_id = automa_player.id;
+            let automa_panel = this.bga.playerPanels.getElement(automa_id);
+
+            if(!automa_panel){
+                automa_panel = this.setupAutomaPanel();
+            }
+
+            if(!automa_panel.querySelector('.rog_panel')){
+                this.bga.playerPanels.getElement(automa_id).insertAdjacentHTML('beforeend', `
+                    <div class='rog_panel' id ='rog_panel-${automa_id}'>
+                        <div class='rog_player_infos'>
+                            <div class='rog_player_background_big_symbol' id='rog_player_background_big_symbol-${automa_player.id}' data-clan='${automa_player.clan}'></div>
+                            <div class='rog_player_resource_line rog_player_resource_line_i1'>
+                                <div class='rog_icon_influence'></div>
+                                ${this.tplResourceCounter(automa_player, 'influence-1')}
+                                ${this.tplResourceCounter(automa_player, 'influence-2')}
+                                ${this.tplResourceCounter(automa_player, 'influence-3')}
+                                ${this.tplResourceCounter(automa_player, 'influence-4')}
+                                ${this.tplResourceCounter(automa_player, 'influence-5')}
+                                ${this.tplResourceCounter(automa_player, 'influence-6')}
+                            </div>
+                            <hr class='rog_player_resource_line_separator'>
+                            <div class='rog_player_resource_line rog_player_resource_line_clan'>
+                                <div id='rog_player_clan_panel-${automa_player.id}' class='rog_player_clan_panel'>
+                                    ${automa_player.clan ? this.formatIcon('clan-'+automa_player.clan) :''}
+                                    <div id='rog_player_clan_name-${automa_player.id}' class='rog_player_clan_name'><div class='reduceToFit'>
+                                        ${automa_player.clan ? this.CLANS_NAMES.get(automa_player.clan) :''}
+                                    </div></div>
+                                </div>
+                                ${this.tplResourceCounter(automa_player, 'dieFace')}
+                                <div id='rog_bga_die_holder-${automa_player.id}' class='rog_bga_die_holder'></div>
+                            </div>
+                        </div>
+                    </div>
+                `);
+                let panelContainer = this.bga.playerPanels.getElement(automa_id).parentNode.parentNode.parentNode;
+                panelContainer.dataset.color = this.gamedatas.automa_color;
+            }
+
+        },
         setupInfoPanel() {
             debug("setupInfoPanel");
                     
@@ -2748,6 +2825,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <div id="settings-controls-container"></div>
                 </div>`,
             });
+
+            this.setupAutomaBoard(); 
         },
         
         tplConfigPlayerBoard() {

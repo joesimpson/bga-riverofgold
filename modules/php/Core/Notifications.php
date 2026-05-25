@@ -3,6 +3,7 @@
 namespace ROG\Core;
 
 use ROG\Helpers\Collection;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Tiles;
 use ROG\Models\BuildingTile;
@@ -15,6 +16,18 @@ use ROG\Models\Player;
 class Notifications
 { 
   
+  public static function automaColor(int $clan, string $color, int $automa_id)
+  {
+    self::notifyAll('automaColor',  '', [
+      'automa_name' => Utils::getAutomaName(),
+      'automa_color' => $color,
+      'automa_clan' => $clan,
+      'automa_id' => $automa_id,
+      'i18n' => ['automa_name'],
+      'preserve' => ['automa_color','automa_clan'],
+    ]);
+  }
+
   public static function initCustomersDeck(array $customerTypes)
   {
     $customerNames = [];
@@ -27,6 +40,24 @@ class Notifications
       'preserve'=>['customers_types',],
       'i18n' => ['customers_icons'],
       'separator' => ['customers_icons' => ', '],
+    ]);
+  }
+  
+  public static function initSeishinDeck(Collection $cards)
+  {
+    $cardsNames = $cards->map(function($card) {return $card->getTitle();})->toArray();
+
+    $level = Globals::getOptionSeishin();
+    self::notifyAll('initSeishinDeck',  clienttranslate('Level ${n} : ${automa_name} will play with ${x} action cards. ${cards_list}'), [
+      'automa_name' => Utils::getAutomaName(),
+      'automa_color' => Utils::getAutomaColor(),
+      'i18n' => ['automa_name'],
+      'preserve' => ['automa_color','cards'],
+      'n' => Utils::getAutomaDifficultyName($level),
+      'x' => $cards->count(),
+      'cards' => $cards->ui(),
+      'cards_list' => $cardsNames,
+      'separator' => ['cards_list' => ','],
     ]);
   }
   /**

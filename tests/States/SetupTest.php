@@ -8,6 +8,7 @@ use Bga\GameFramework\GamestateMachine;
 use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Tiles;
 use ROG\Models\CustomerCard;
@@ -47,6 +48,8 @@ final class SetupTest extends TestCase
         $player2Resources = json_decode(TestDatas::$players[4]['resources'], true);
         assertSame(8, $player2Resources [RESOURCE_TYPE_MONEY]);
         assertSame(null, Globals::getRegionCustomTracks());
+        assertSame(OPTION_SEISHIN_OFF, Globals::getOptionSeishin());
+        assertSame(0, Cards::countInLocation(CARD_AUTOMA_LOCATION_DECK));
     }
     public function test_setupNewGame_DraftAlternative(): void
     {
@@ -332,6 +335,182 @@ final class SetupTest extends TestCase
         }
     }
 
+    public function test_setupNewGame_Seishin_Easy(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_SEISHIN => OPTION_SEISHIN_LEVEL_1,
+        ];
+        $expectedCardsNames = [
+            'Sail the Higher Ship',
+            'Sail the Higher Ship',
+            'Sail the Higher Ship',
+            'Sail the Lower Ship',
+            'Sail the Lower Ship',
+            'Deliver to a Customer',
+            'Build a Building',
+            'Build a Building',
+            'Advance in the City of Lies',
+        ];
+        TestDatas::$cards = [];
+        
+        $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
+        assertSame(ST_CLAN_SELECTION, $returnState);
+        $player1Resources = json_decode(TestDatas::$players[3]['resources'], true);
+        assertSame(7, $player1Resources [RESOURCE_TYPE_MONEY]);
+        $player2Resources = json_decode(TestDatas::$players[4]['resources'], true);
+        assertSame(8, $player2Resources [RESOURCE_TYPE_MONEY]);
+        assertSame(OPTION_SEISHIN_LEVEL_1, Globals::getOptionSeishin());
+        $clan = Globals::getAutomaClan();
+        assertTrue( in_array( $clan, CLANS_COLORS), "Clan $clan must be defined in list");
+        assertSame(true, Utils::isGameWithAutoma());
+        //Check automa deck :
+        assertSame(9, Cards::countInLocation(CARD_AUTOMA_LOCATION_DECK));
+        $automaCards = Cards::getInLocation(CARD_AUTOMA_LOCATION_DECK);
+        $cardsNames = $automaCards->map(function($card) {return $card->getTitle();})->toArray();
+        assertSame($expectedCardsNames, $cardsNames);
+    }
+    
+    public function test_setupNewGame_Seishin_Normal(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_SEISHIN => OPTION_SEISHIN_LEVEL_2,
+        ];
+        $expectedCardsNames = [
+            'Sail the Higher Ship',
+            'Sail the Higher Ship',
+            'Sail the Higher Ship',
+            'Sail the Lower Ship',
+            'Sail the Lower Ship',
+            'Deliver to a Customer',
+            'Deliver to a Customer',
+            'Build a Building',
+            'Build a Building',
+            'Advance in the City of Lies',
+        ];
+        TestDatas::$cards = [];
+        
+        $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
+        assertSame(ST_CLAN_SELECTION, $returnState);
+        $player1Resources = json_decode(TestDatas::$players[3]['resources'], true);
+        assertSame(7, $player1Resources [RESOURCE_TYPE_MONEY]);
+        $player2Resources = json_decode(TestDatas::$players[4]['resources'], true);
+        assertSame(8, $player2Resources [RESOURCE_TYPE_MONEY]);
+        assertSame(OPTION_SEISHIN_LEVEL_2, Globals::getOptionSeishin());
+        $clan = Globals::getAutomaClan();
+        assertTrue( in_array( $clan, CLANS_COLORS), "Clan $clan must be defined in list");
+        assertSame(true, Utils::isGameWithAutoma());
+        //Check automa deck :
+        assertSame(10, Cards::countInLocation(CARD_AUTOMA_LOCATION_DECK));
+        $automaCards = Cards::getInLocation(CARD_AUTOMA_LOCATION_DECK);
+        $cardsNames = $automaCards->map(function($card) {return $card->getTitle();})->toArray();
+        assertSame($expectedCardsNames, $cardsNames);
+    }
+    
+    public function test_setupNewGame_Seishin_Master(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_SEISHIN => OPTION_SEISHIN_LEVEL_5,
+        ];
+        $expectedCardsNames = [
+            'Sail the Lower Ship',
+            'Sail the Lower Ship',
+            'Deliver to a Customer',
+            'Deliver to a Customer',
+            'Build a Building',
+            'Build a Building',
+            'Advance in the City of Lies',
+        ];
+        TestDatas::$cards = [];
+        
+        $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
+        assertSame(ST_CLAN_SELECTION, $returnState);
+        $player1Resources = json_decode(TestDatas::$players[3]['resources'], true);
+        assertSame(7, $player1Resources [RESOURCE_TYPE_MONEY]);
+        $player2Resources = json_decode(TestDatas::$players[4]['resources'], true);
+        assertSame(8, $player2Resources [RESOURCE_TYPE_MONEY]);
+        assertSame(OPTION_SEISHIN_LEVEL_5, Globals::getOptionSeishin());
+        $clan = Globals::getAutomaClan();
+        assertTrue( in_array( $clan, CLANS_COLORS), "Clan $clan must be defined in list");
+        assertSame(true, Utils::isGameWithAutoma());
+        //Check automa deck :
+        assertSame(7, Cards::countInLocation(CARD_AUTOMA_LOCATION_DECK));
+        $automaCards = Cards::getInLocation(CARD_AUTOMA_LOCATION_DECK);
+        $cardsNames = $automaCards->map(function($card) {return $card->getTitle();})->toArray();
+        assertSame($expectedCardsNames, $cardsNames);
+    }
+    
+    public function test_setupNewGame_Seishin_Master_WithClanSelection(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_ALTERNATIVE,
+            OPTION_SEISHIN => OPTION_SEISHIN_LEVEL_5,
+        ];
+        $expectedCardsNames = [
+            'Sail the Lower Ship',
+            'Sail the Lower Ship',
+            'Deliver to a Customer',
+            'Deliver to a Customer',
+            'Build a Building',
+            'Build a Building',
+            'Advance in the City of Lies',
+        ];
+        TestDatas::$cards = [];
+        
+        $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
+        assertSame(ST_CLAN_SELECTION, $returnState);
+        $player1Resources = json_decode(TestDatas::$players[3]['resources'], true);
+        assertSame(7, $player1Resources [RESOURCE_TYPE_MONEY]);
+        $player2Resources = json_decode(TestDatas::$players[4]['resources'], true);
+        assertSame(8, $player2Resources [RESOURCE_TYPE_MONEY]);
+        assertSame(OPTION_SEISHIN_LEVEL_5, Globals::getOptionSeishin());
+        $clan = Globals::getAutomaClan();
+        assertSame( 0, $clan, "Clan $clan must be UNdefined");
+        assertSame(true, Utils::isGameWithAutoma());
+        //Check automa deck :
+        assertSame(7, Cards::countInLocation(CARD_AUTOMA_LOCATION_DECK));
+        $automaCards = Cards::getInLocation(CARD_AUTOMA_LOCATION_DECK);
+        $cardsNames = $automaCards->map(function($card) {return $card->getTitle();})->toArray();
+        assertSame($expectedCardsNames, $cardsNames);
+    }
     // ----------------------------------------------------------------------
     public function testEnteringState_PlayerSetup(): void
     {

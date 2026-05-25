@@ -31,18 +31,12 @@ class GameMock extends RiverOfGoldNightMarket {
         TestDatas::resetLogs();
         
         TestDatas::$test_activePlayerId = 1;
+        Globals::setupNewGame([
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+        ],[]);
         Globals::setTurn(1);
-        Globals::setEra(1);
-        Globals::setCurrentBonus(null);
-        Globals::setStateBeforeTrade(null);
-        Globals::setEndPlayer(null);
-        Globals::setEndScoring([]);
         Globals::setTurnPlayer(TestDatas::$test_activePlayerId);
-        Globals::setTurnMainActionDone(null);
-        Globals::setLastBuiltTile(null);
-        Globals::setLastBuiltLocationOrigin(null);
-        Globals::setCustomerTypes([1,2,3,4,5]);
-        Globals::setRegionCustomTracks([]);
         TestDatas::$lastInsertedId = 1;
     }
 

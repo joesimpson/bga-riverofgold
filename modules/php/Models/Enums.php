@@ -17,3 +17,13 @@ enum BEFORE_ACTION: string
   case SWAP_BOATS     = 'SWAP_BOATS';
   case MOVE_BUILDING  = 'MOVE_BUILDING';
 }
+
+enum AutomaActionType: int
+{
+  case SAIL_HIGHER    = 1;
+  case SAIL_LOWER     = 2;
+  case DELIVER        = 3;
+  case BUILD          = 4;
+  case ADVANCE_CITY   = 5;
+
+}

@@ -19,6 +19,47 @@
         ],
         "default": 0
     },
+    "111": {
+        "name": "Seishin",
+        "values": [
+            {
+                "name": "Disabled",
+                "description": ""
+            },
+            {
+                "name": "Easy",
+                "tmdisplay": "Easy",
+                "description": "You compete against Seishin, a rival AI merchant."
+            },
+            {
+                "name": "Normal",
+                "tmdisplay": "Normal",
+                "description": "You compete against Seishin, a rival AI merchant."
+            },
+            {
+                "name": "Hard",
+                "tmdisplay": "Hard",
+                "description": "You compete against Seishin, a rival AI merchant."
+            },
+            {
+                "name": "Expert",
+                "tmdisplay": "Expert",
+                "description": "You compete against Seishin, a rival AI merchant."
+            },
+            {
+                "name": "Master",
+                "tmdisplay": "Master",
+                "description": "You compete against Seishin, a rival AI merchant."
+            }
+        ],
+        "default": 0,
+        "displaycondition": [
+            {
+                "type": "maxplayers",
+                "value": 2
+            }
+        ]
+    },
     "115": {
         "name": "Region Influence Tracks",
         "values": [

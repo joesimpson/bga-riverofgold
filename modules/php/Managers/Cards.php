@@ -6,6 +6,7 @@ use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
+use ROG\Models\AutomaActionCard;
 use ROG\Models\Card;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\CustomerCard;
@@ -42,6 +43,9 @@ class Cards extends \ROG\Helpers\Pieces
       case CARD_TYPE_CLAN_PATRON:
         $data = self::getClanPatronCardsTypes()[$type];
         return new ClanPatronCard($row, $data);
+      case CARD_TYPE_AUTOMA_ACTION:
+        $data = AutomaCards::getAutomaActionCardsTypes()[$type];
+        return new AutomaActionCard($row, $data);
     }
     $data = [];
     return new Card($row, $data);
@@ -51,12 +55,13 @@ class Cards extends \ROG\Helpers\Pieces
    * @param int $currentPlayerId Id of current player loading the game
    * @return array all cards visible by this player
    */
-  public static function getUiData($currentPlayerId)
+  public static function getUiData(int $currentPlayerId): array
   {
     $privateCards = self::getPlayerHandOrders($currentPlayerId);
 
     return self::getInLocation(CARD_LOCATION_DELIVERED)
       ->merge(self::getInLocation(CARD_CLAN_LOCATION_ASSIGNED))
+      ->merge(self::getInLocationOrdered(CARD_AUTOMA_LOCATION_PLAYED))
       ->merge($privateCards)
       ->map(function ($card) {
         return $card->getUiData();
@@ -281,6 +286,8 @@ class Cards extends \ROG\Helpers\Pieces
 
     self::create($cards);
     self::shuffle(CARD_LOCATION_DECK);
+    
+    AutomaCards::setupNewGame($players, $options);
   }
  
   public static function getIdsByTypes(int $subType,array $cardsTypes)

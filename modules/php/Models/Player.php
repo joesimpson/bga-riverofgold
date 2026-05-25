@@ -89,7 +89,7 @@ class Player extends \ROG\Helpers\DB_Model
    * @param int $points
    * @param bool $sendNotif (Default true)
    */
-  public function addPoints($points, $sendNotif = true)
+  public function addPoints(int $points,bool $sendNotif = true)
   {
     if($points == 0) return;
     //$this->setScore( $this->getScore() + $points);
@@ -107,7 +107,7 @@ class Player extends \ROG\Helpers\DB_Model
    * @param bool $sendNotif (Optional) default true
    * @return int real increment applied after checking max
    */
-  public function giveResource($nb, $type, $sendNotif = true)
+  public function giveResource(int $nb,int $type,bool $sendNotif = true) : int
   {
     Game::get()->trace("giveResource($nb, $type, $sendNotif)");
     if($nb == 0) return 0;

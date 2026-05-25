@@ -155,4 +155,51 @@ abstract class Utils
     public static function updateDataFromArray ($array, $key, &$value) {
         if(array_key_exists($key,$array)) $value = $array[$key];
     }
+    
+    /**
+     * @return string player color linked to player clan
+     */
+    public static function getPlayerClanColor(int $clan) : string {
+        return array_search($clan,CLANS_COLORS);
+    }
+
+    /**
+     * @return int fake automa player id OR null if no automa in current game
+     */
+    public static function getAutomaPId() : int |null {
+        if(Utils::isGameWithAutoma()){
+            return AUTOMA_PLAYER_ID;
+        }
+        return null;
+    }
+
+    public static function getAutomaName() : string {
+        return clienttranslate("Seishin");
+    }
+    public static function getAutomaColor() : string {
+        if(Utils::isGameWithAutoma()){
+            return Utils::getPlayerClanColor(Globals::getAutomaClan());
+        }
+        return '';
+    }
+
+    public static function getAutomaDifficultyName(int $level) : string {
+        switch($level){
+            case OPTION_SEISHIN_LEVEL_1: return clienttranslate("Easy");
+            case OPTION_SEISHIN_LEVEL_2: return clienttranslate("Normal");
+            case OPTION_SEISHIN_LEVEL_3: return clienttranslate("Hard");
+            case OPTION_SEISHIN_LEVEL_4: return clienttranslate("Expert");
+            case OPTION_SEISHIN_LEVEL_5: return clienttranslate("Master");
+        }
+        return '';
+    }
+    
+    public static function isGameWithAutoma() : bool {
+        $difficulty = Globals::getOptionSeishin();
+        if(!isset($difficulty)) return false;
+        if(OPTION_SEISHIN_OFF == $difficulty){
+            return false;
+        }
+        return true;
+    }
 }

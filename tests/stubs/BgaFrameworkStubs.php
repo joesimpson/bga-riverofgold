@@ -158,6 +158,8 @@ abstract class Table
                 return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'clans_draft';}));
             case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'clans_assigned')":
                 return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'clans_assigned';}));
+            case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'aut_deck')":
+                return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'aut_deck';}));
         }
         if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND \`card_location` = '(?P<card_location>.*)'\ AND \(`type` IN \((?P<types>.*)\)\)$/", $sql, $matches) == 1) {
             $types = explode(',', str_replace("'","",$matches['types']) );
@@ -444,9 +446,9 @@ abstract class Table
         if (preg_match("/^SELECT (.*) FROM `cards` WHERE \(`card_location` = '(?P<card_location>.*)'\)( ORDER BY card_state (ASC|DESC))?( LIMIT (?P<limit>\d+))?$/", $sql, $matches) == 1) {
             //TODO SORT card_state
             $card_location = $matches['card_location'];
-            $limit = intval($matches['limit']);
+            $limit = array_key_exists('limit',$matches) ? intval($matches['limit']) : null;
             $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location,){return  $card['card_location'] == $card_location;});
-            $filtered = array_slice($filtered, 0, $limit, true);
+            if(isset($limit)) $filtered = array_slice($filtered, 0, $limit, true);
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND \(`card_location` = '(?P<card_location>.*)'\)$/", $sql, $matches) == 1) {
