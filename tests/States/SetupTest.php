@@ -17,6 +17,8 @@ use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
 use function PHPUnit\Framework\assertTrue;
+use function PHPUnit\Framework\assertFalse;
+use function PHPUnit\Framework\assertNotSame;
 
 final class SetupTest extends TestCase
 {
@@ -360,6 +362,7 @@ final class SetupTest extends TestCase
             'Advance in the City of Lies',
         ];
         TestDatas::$cards = [];
+        TestDatas::$tiles = [];
         
         $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
@@ -378,6 +381,71 @@ final class SetupTest extends TestCase
         $automaCards = Cards::getInLocation(CARD_AUTOMA_LOCATION_DECK);
         $cardsNames = $automaCards->map(function($card) {return $card->getTitle();})->toArray();
         assertSame($expectedCardsNames, $cardsNames);
+        //check masteries on 3p side :
+        $masteries = Tiles::getInLocation(TILE_LOCATION_MASTERY_CARD);
+        foreach($masteries as $mastery){
+            $pSide = Tiles::get2PlayerSideMasteryCardType($mastery->getType());
+            assertNotSame( $pSide, $mastery->getType());
+        }
+        //check scoring tiles on 3p side :
+        $scoringTiles = Tiles::getInLocation(TILE_LOCATION_SCORING);
+        foreach($scoringTiles as $scoringTile){
+            $tilePlayers = $scoringTile->getNbPlayers();
+            assertTrue( in_array(3, $tilePlayers), "scoring Tile must be for 3 players : ".json_encode($tilePlayers));
+        }
+    }
+    
+    public function test_setupNewGame_Seishin_Solo(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_SEISHIN => OPTION_SEISHIN_LEVEL_1,
+        ];
+        $expectedCardsNames = [
+            'Sail the Higher Ship',
+            'Sail the Higher Ship',
+            'Sail the Higher Ship',
+            'Sail the Lower Ship',
+            'Sail the Lower Ship',
+            'Deliver to a Customer',
+            'Build a Building',
+            'Build a Building',
+            'Advance in the City of Lies',
+        ];
+        TestDatas::$cards = [];
+        TestDatas::$tiles = [];
+        
+        $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
+        assertSame(ST_CLAN_SELECTION, $returnState);
+        assertSame(OPTION_SEISHIN_LEVEL_1, Globals::getOptionSeishin());
+        $clan = Globals::getAutomaClan();
+        assertTrue( in_array( $clan, CLANS_COLORS), "Clan $clan must be defined in list");
+        assertSame(true, Utils::isGameWithAutoma());
+        //Check automa deck :
+        assertSame(9, Cards::countInLocation(CARD_AUTOMA_LOCATION_DECK));
+        $automaCards = Cards::getInLocation(CARD_AUTOMA_LOCATION_DECK);
+        $cardsNames = $automaCards->map(function($card) {return $card->getTitle();})->toArray();
+        assertSame($expectedCardsNames, $cardsNames);
+        //check masteries on 2p side :
+        $masteries = Tiles::getInLocation(TILE_LOCATION_MASTERY_CARD);
+        foreach($masteries as $mastery){
+            $pSide = Tiles::get2PlayerSideMasteryCardType($mastery->getType());
+            assertSame( $pSide, $mastery->getType());
+        }
+        //check scoring tiles on 2p side :
+        $scoringTiles = Tiles::getInLocation(TILE_LOCATION_SCORING);
+        foreach($scoringTiles as $scoringTile){
+            $tilePlayers = $scoringTile->getNbPlayers();
+            assertTrue( in_array(2, $tilePlayers), "scoring Tile must be for 2 players : ".json_encode($tilePlayers));
+        }
     }
     
     public function test_setupNewGame_Seishin_Normal(): void
@@ -479,7 +547,7 @@ final class SetupTest extends TestCase
             2 => TestDatas::$players[2],
         ] ;
         $options = [
-            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_ALTERNATIVE,
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_DRAFT,
             OPTION_SEISHIN => OPTION_SEISHIN_LEVEL_5,
         ];
         $expectedCardsNames = [
@@ -627,6 +695,37 @@ final class SetupTest extends TestCase
         assertSame(MEEPLE_TYPE_SHIP_ROYAL,TestDatas::$tokens[51]['type']);
         assertSame(1,TestDatas::$tokens[51]['meeple_state']);
         
+    }
+    
+    public function testEnteringState_PlayerSetup_Seishin(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+
+        $game->stPlayerSetup();
+
+        //test influence 0
+        assertSame(0, TestDatas::$tokens[59]['meeple_state']);
+        assertSame(MEEPLE_LOCATION_INFLUENCE.REGION_1, TestDatas::$tokens[59]['meeple_location']);
+        assertSame(0, TestDatas::$tokens[60]['meeple_state']);
+        assertSame(MEEPLE_LOCATION_INFLUENCE.REGION_2, TestDatas::$tokens[60]['meeple_location']);
+        assertSame(0, TestDatas::$tokens[61]['meeple_state']);
+        assertSame(MEEPLE_LOCATION_INFLUENCE.REGION_3, TestDatas::$tokens[61]['meeple_location']);
+        assertSame(0, TestDatas::$tokens[62]['meeple_state']);
+        assertSame(MEEPLE_LOCATION_INFLUENCE.REGION_4, TestDatas::$tokens[62]['meeple_location']);
+        assertSame(0, TestDatas::$tokens[63]['meeple_state']);
+        assertSame(MEEPLE_LOCATION_INFLUENCE.REGION_5, TestDatas::$tokens[63]['meeple_location']);
+        assertSame(0, TestDatas::$tokens[64]['meeple_state']);
+        assertSame(MEEPLE_LOCATION_INFLUENCE.REGION_6, TestDatas::$tokens[64]['meeple_location']);
+        //Test 2 ships
+        assertSame(AUTOMA_PLAYER_ID,TestDatas::$tokens[65]['player_id']);
+        assertSame(MEEPLE_LOCATION_RIVER,TestDatas::$tokens[65]['meeple_location']);
+        assertSame(MEEPLE_TYPE_SHIP,TestDatas::$tokens[65]['type']);
+        assertSame(AUTOMA_PLAYER_ID,TestDatas::$tokens[66]['player_id']);
+        assertSame(MEEPLE_LOCATION_RIVER,TestDatas::$tokens[66]['meeple_location']);
+        assertSame(MEEPLE_TYPE_SHIP,TestDatas::$tokens[66]['type']);
     }
     // ----------------------------------------------------------------------
     

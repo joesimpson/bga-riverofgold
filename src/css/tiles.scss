@@ -190,9 +190,11 @@
         //default : blank with 3 players
         background-position-x: 50%;
         background-position-y: 100%;
-        &[data-nbPlayers='2']{
-            background-position-x: 50%;
-            background-position-y: 0%;
+        //&[data-nbPlayers='2']{
+         @for $i from 13 through 15 {
+            &[data-type="#{$i}"] {
+                background-position-y: 0%;
+            }
         }
         @for $i from 0 through 11 {
             &[data-type="#{$i + 1}"] {

@@ -202,9 +202,10 @@ class Tiles extends \ROG\Helpers\Pieces
     $tiles = [];
 
     $nbPlayers = count($players);
+    $nbPlayersWithAutoma = $nbPlayers + (Utils::isGameWithAutoma() ? 1 : 0);
     $scoringTiles = self::getScoringTilesTypes();
     foreach ($scoringTiles as $type => $tile) {
-      if( in_array($nbPlayers,$tile['nbPlayers'])){
+      if( in_array($nbPlayersWithAutoma,$tile['nbPlayers'])){
         $tiles[] = [
           'location' => TILE_LOCATION_SCORING,
           'type' => $type,
@@ -215,7 +216,7 @@ class Tiles extends \ROG\Helpers\Pieces
     
     $masteryCards = self::getMasteryCardsTypes();
     foreach ($masteryCards as $type => $tile) {
-      if( in_array($nbPlayers,$tile['nbPlayers'])){
+      if( in_array($nbPlayersWithAutoma,$tile['nbPlayers'])){
         $tiles[] = [
           'location' => TILE_LOCATION_MASTERY_DECK,
           'type' => $type,
@@ -307,14 +308,14 @@ class Tiles extends \ROG\Helpers\Pieces
       }
 
       //Keep 18/16 /14/12 era 1 tiles <=> remove 6/8/10/12 tiles
-      $nbBuildingToRemove = [2=>12, 3=>10, 4=>8, 5=>6,];
+      $nbBuildingToRemove = [1=>12, 2=>12, 3=>10, 4=>8, 5=>6,];
       $buildingTiles = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_1,$nbBuildingToRemove[$nbPlayers],false);
       foreach ($buildingTiles as $tileId => $tile) {
         self::DB()->delete($tileId);
       }
 
       //Keep 15/13 /11/9 era 2 tiles <=> remove 1/3/5/7 tiles
-      $nbBuildingToRemove = [2=>7, 3=>5, 4=>3, 5=>1,];
+      $nbBuildingToRemove = [1=>7, 2=>7, 3=>5, 4=>3, 5=>1,];
       $buildingTiles = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2,$nbBuildingToRemove[$nbPlayers], false);
       foreach ($buildingTiles as $tileId => $tile) {
         self::DB()->delete($tileId);

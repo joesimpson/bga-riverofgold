@@ -193,7 +193,7 @@ abstract class Table
             logForTests("getUniqueValueFromDb: count is $count for meeple_location $player_id, $meeple_location, $meeple_state");
             return $count;
         }
-        if (preg_match("/^SELECT COUNT\( distinct meeple_location\) FROM `meeples` WHERE `player_id` = (?P<pid>\d+) AND \(`meeple_location` IN \((?P<meeple_locations>.*)\)\)$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT COUNT\( distinct meeple_location\) FROM `meeples` WHERE `player_id` = (?P<pid>[\d|\-]+) AND \(`meeple_location` IN \((?P<meeple_locations>.*)\)\)$/", $sql, $matches) == 1) {
             $pid = intval($matches['pid']);
             $meeple_locations = explode(',', str_replace("'","",$matches['meeple_locations']) );
             //logForTests("getUniqueValueFromDb: tokens before filter = ".json_encode(TestDatas::$tokens));
@@ -691,8 +691,8 @@ abstract class Table
             return true;
         }
         $mutiplesGroups = "";
-        for($k=1;$k<100;$k++) $mutiplesGroups .= "(,?\('(\w+)','(\w+)','(\w+)','(\w+)','([\w\":,{}]+)'\))?";
-        if (preg_match("/^INSERT INTO `player` (.*) VALUES(,?\('(\w+)','(\w+)','(\w+)','(\w+)','([\w\":,{}]+)'\))?$mutiplesGroups$/", $sql, $matches) == 1) {
+        for($k=1;$k<100;$k++) $mutiplesGroups .= "(,?\('(\w+)','(\w+)','(\w+)',(?:'(\w+)'|NULL),'([\w\":,{}]+)'\))?";
+        if (preg_match("/^INSERT INTO `player` (.*) VALUES(,?\('(\w+)','(\w+)','(\w+)',(?:'(\w+)'|NULL),'([\w\":,{}]+)'\))?$mutiplesGroups$/", $sql, $matches) == 1) {
             $k =2;
             while(array_key_exists($k,$matches)){
                 $player_id = intval($matches[$k+1]);
@@ -709,7 +709,7 @@ abstract class Table
             }
             return true;
         }
-        if (preg_match("/^UPDATE `player` SET `resources` = '(?P<resources>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^UPDATE `player` SET `resources` = '(?P<resources>.*)' WHERE  `player_id` = (?P<pid>[\d|\-]+)$/", $sql, $matches) == 1) {
             $resources = $matches['resources'];
             $resources = str_replace('\\','',$resources);
             $pid = $matches['pid'];
@@ -717,7 +717,7 @@ abstract class Table
             TestDatas::$players[$pid]['resources'] = $resources;
             return true;
         }
-        if (preg_match("/^UPDATE `player` SET `bonuses` = '(?P<bonuses>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^UPDATE `player` SET `bonuses` = '(?P<bonuses>.*)' WHERE  `player_id` = (?P<pid>[\d|\-]+)$/", $sql, $matches) == 1) {
             $bonuses = $matches['bonuses'];
             $bonuses = str_replace('\\"','"',$bonuses);
             $pid = $matches['pid'];
@@ -725,49 +725,49 @@ abstract class Table
             TestDatas::$players[$pid]['bonuses'] = $bonuses;
             return true;
         }
-        if (preg_match("/^UPDATE `player` SET `skip_roll_die` = '(?P<skip_roll_die>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^UPDATE `player` SET `skip_roll_die` = '(?P<skip_roll_die>.*)' WHERE  `player_id` = (?P<pid>[\d|\-]+)$/", $sql, $matches) == 1) {
             $skip_roll_die = $matches['skip_roll_die'];
             $pid = $matches['pid'];
             logForTests("DbQuery --- updated skip_roll_die for player $pid ... '$skip_roll_die'");
             TestDatas::$players[$pid]['skip_roll_die'] = intval($skip_roll_die);
             return true;
         }
-        if (preg_match("/^UPDATE `player` SET `player_clan` = '(?P<player_clan>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^UPDATE `player` SET `player_clan` = '(?P<player_clan>.*)' WHERE  `player_id` = (?P<pid>[\d|\-]+)$/", $sql, $matches) == 1) {
             $player_clan = $matches['player_clan'];
             $pid = $matches['pid'];
             logForTests("DbQuery --- updated player_clan for player $pid ... '$player_clan'");
             TestDatas::$players[$pid]['player_clan'] = intval($player_clan);
             return true;
         }
-        if (preg_match("/^UPDATE `player` SET `player_color` = '(?P<player_color>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^UPDATE `player` SET `player_color` = '(?P<player_color>.*)' WHERE  `player_id` = (?P<pid>[\d|\-]+)$/", $sql, $matches) == 1) {
             $player_color = $matches['player_color'];
             $pid = $matches['pid'];
             logForTests("DbQuery --- updated player_color for player $pid ... '$player_color'");
             TestDatas::$players[$pid]['player_color'] = intval($player_color);
             return true;
         }
-        if (preg_match("/^UPDATE `player` SET `die_face` = '(?P<die_face>.*)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^UPDATE `player` SET `die_face` = '(?P<die_face>.*)' WHERE  `player_id` = (?P<pid>[\d|\-]+)$/", $sql, $matches) == 1) {
             $die_face = $matches['die_face'];
             $pid = $matches['pid'];
             logForTests("DbQuery --- updated die_face for player $pid ... '$die_face'");
             TestDatas::$players[$pid]['die_face'] = intval($die_face);
             return true;
         }
-        if (preg_match("/^UPDATE `player` SET `player_score` = `player_score` \+ (?P<player_score>.*) WHERE (\s*)`player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^UPDATE `player` SET `player_score` = `player_score` \+ (?P<player_score>.*) WHERE (\s*)`player_id` = (?P<pid>[\d|\-]+)$/", $sql, $matches) == 1) {
             $player_score = $matches['player_score'];
             $pid = $matches['pid'];
             logForTests("DbQuery --- INC player_score for player $pid ... '$player_score'");
             TestDatas::$players[$pid]['player_score'] += intval($player_score);
             return true;
         }
-        if (preg_match("/^UPDATE `player` SET `player_score_aux` = '(?P<player_score_aux>\d+)' WHERE (\s*)`player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^UPDATE `player` SET `player_score_aux` = '(?P<player_score_aux>\d+)' WHERE (\s*)`player_id` = (?P<pid>[\d|\-]+)$/", $sql, $matches) == 1) {
             $player_score = $matches['player_score_aux'];
             $pid = $matches['pid'];
             logForTests("DbQuery --- set player_score_aux for player $pid ... '$player_score'");
             TestDatas::$players[$pid]['player_score_aux'] = intval($player_score);
             return true;
         }
-        if (preg_match("/^UPDATE `player` SET `last_turn_played` = '(?P<last_turn_played>\w+)' WHERE  `player_id` = (?P<pid>\d+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^UPDATE `player` SET `last_turn_played` = '(?P<last_turn_played>\w+)' WHERE  `player_id` = (?P<pid>[\d|\-]+)$/", $sql, $matches) == 1) {
             $last_turn_played = $matches['last_turn_played'] == '1';
             $pid = $matches['pid'];
             logForTests("DbQuery --- update last_turn_played for player $pid ... $last_turn_played");
@@ -794,7 +794,7 @@ abstract class Table
             unset(TestDatas::$tokens[$meeple_id]);
             return true;
         }
-        if (preg_match("/^INSERT INTO `meeples` (.*) VALUES\('(?P<meeple_location>.*)','(?P<meeple_state>\d+)','(?P<type>\d+)','(?P<player_id>\d+)'\)$/", $sql, $matches) == 1) {
+        if (preg_match("/^INSERT INTO `meeples` (.*) VALUES\('(?P<meeple_location>.*)','(?P<meeple_state>\d+)','(?P<type>\d+)','(?P<player_id>[\d|\-]+)'\)$/", $sql, $matches) == 1) {
             $type = intval( $matches['type']);
             $meeple_location = $matches['meeple_location'];
             $meeple_state = intval($matches['meeple_state']);
