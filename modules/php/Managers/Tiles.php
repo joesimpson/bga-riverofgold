@@ -51,7 +51,7 @@ class Tiles extends \ROG\Helpers\Pieces
     $nextEra2Card = self::getTopOf(TILE_LOCATION_BUILDING_DECK_ERA_2);
 
     $cards = self::getInLocationOrdered(TILE_LOCATION_SCORING)
-      ->merge(self::getInLocation(TILE_LOCATION_MASTERY_CARD))
+      ->merge(self::getInLocationOrdered(TILE_LOCATION_MASTERY_CARD))
       ->merge(self::getInLocation(TILE_LOCATION_MASTERY_RESERVED))
       ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_ROW))
       ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE));
@@ -145,9 +145,7 @@ class Tiles extends \ROG\Helpers\Pieces
   } 
   public static function getMasteryToClaim(): Collection
   {
-    return self::DB()
-      ->where(self::$prefix.'location', TILE_LOCATION_MASTERY_CARD)
-      ->get();
+    return self::getInLocationOrdered(TILE_LOCATION_MASTERY_CARD);
   } 
   public static function getMasteryReserved(Player $player): Collection
   {
