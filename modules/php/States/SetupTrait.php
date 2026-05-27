@@ -6,6 +6,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Preferences;
 use ROG\Core\Stats;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -104,6 +105,9 @@ trait SetupTrait
         //Not enough -> don't roll in stEndTurn if turn 0
       }
     }
+
+    //Seishin Setup
+    $this->setupAutomaMarkers();
     
     //manage bonuses if any
     $activePlayer = Players::getActive();
@@ -115,5 +119,27 @@ trait SetupTrait
 
     $this->addCheckpoint(ST_NEXT_TURN);
     $this->gamestate->nextState('next');
+  }
+
+  public function setupAutomaMarkers() {
+    self::trace("setupAutomaMarkers()");
+    
+    if(Utils::isGameWithAutoma()){
+      $player = Players::automaPlayer();
+      Notifications::newClanMarkers($player);
+      $influenceMeeples = [];
+      foreach (REGIONS as $region){
+        $influenceMeeples[] = Meeples::addClanMarkerOnInfluence($player, $region,false);
+      }
+      Notifications::influenceClanMarkers($player,$influenceMeeples);
+      
+      foreach(STARTING_BOATS_SPACES as $space){
+        $boatPosition = $space + $player->rollDie();
+        $meeple = Meeples::addBoatOnRiverSpace($player,$boatPosition);
+      }
+      
+      $player->rollDie();
+    }
+
   }
 }

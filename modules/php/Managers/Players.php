@@ -89,9 +89,9 @@ class Players extends \ROG\Helpers\DB_Manager
         }
       }
 
-      Players::assignAutomaClan();
     }
     Game::get()->reloadPlayersBasicInfos();
+    if(!$forceAllBlack) Players::assignAutomaClan();
     
     return $playersObjects;
   }
@@ -111,6 +111,8 @@ class Players extends \ROG\Helpers\DB_Manager
       }
       Globals::setAutomaClan($automa_clan);
       Notifications::automaColor($automa_clan, $automa_color, Utils::getAutomaPId());
+      
+      Notifications::newPlayerColor(Players::automaPlayer());
     }
   }
   
@@ -286,11 +288,13 @@ class Players extends \ROG\Helpers\DB_Manager
    */
   public static function getUiData($pId)
   {
-    return self::getAll()
-      ->map(function ($player) use ($pId) {
-        return $player->getUiData($pId);
-      })
-      ->toAssoc();
+    $players = self::getAll();
+    $playersDatas = $players->uiAssoc();
+    if(Utils::isGameWithAutoma()){ 
+      $automa = Players::automaPlayer();
+      $playersDatas[$automa->getId()] = $automa->getUiData($pId);
+    }
+    return $playersDatas;
   }
 
   /**

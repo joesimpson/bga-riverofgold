@@ -380,6 +380,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 'faces': 6,
             });
 
+            this.setupAutomaBoard(); 
             this.setupPlayers();
             this.setupTiles();
             this.setupInfoPanel();
@@ -2593,7 +2594,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 //this.place('tplPlayerPanel', player, divPanel, 'after');
                 let divSidePanel = this.bga.playerPanels.getElement(player.id).parentNode.parentNode.parentNode;
                 let divPanel = divSidePanel.querySelector(`.player_panel_content`);
-                divPanel.insertAdjacentHTML('beforeend', this.tplPlayerPanel(player));
+                if(divPanel){
+                    divPanel.insertAdjacentHTML('beforeend', this.tplPlayerPanel(player));
+                }
                 this.reduceTextSizeOnCardElements($(`rog_player_clan_panel-${player.id}`));
                 let boardTooltip = this.getPlayerBoardTooltip(player.id,player.clan);
                 if(boardTooltip!='') this.addCustomTooltip(`rog_player_clan_panel-${player.id}`,boardTooltip);
@@ -2703,8 +2706,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             divSidePanel.dataset.color = color;
             divSidePanel.dataset.clan = clan;
             let divName = divSidePanel.querySelector(`#player_name_${pid}`).querySelector(`a:first-child` );
-            divName.style.color = ` #${color}`;
-            divName.dataset.color = color;
+            if(this.gamedatas.players[pid]['is_automa']){
+                divName = divSidePanel.querySelector(`#player_name_${pid}`);
+            }
+            if(divName){
+                divName.style.color = ` #${color}`;
+                divName.dataset.color = color;
+            }
             let divHand =  $(`rog_player_hand-${pid}`);
             if(divHand){
                 //if current player
@@ -2728,6 +2736,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let automa_player = this.gamedatas.automa_player;
             if(!automa_player) return null;
             let automa_id = automa_player.id;
+            //this.gamedatas.players[automa_id] = automa_player;
             this.gamedatas.automa_id = automa_id;
             let automa_panel = this.bga.playerPanels.getElement(automa_id);
 
@@ -2755,33 +2764,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
 
             if(!automa_panel.querySelector('.rog_panel')){
-                this.bga.playerPanels.getElement(automa_id).insertAdjacentHTML('beforeend', `
-                    <div class='rog_panel' id ='rog_panel-${automa_id}'>
-                        <div class='rog_player_infos'>
-                            <div class='rog_player_background_big_symbol' id='rog_player_background_big_symbol-${automa_player.id}' data-clan='${automa_player.clan}'></div>
-                            <div class='rog_player_resource_line rog_player_resource_line_i1'>
-                                <div class='rog_icon_influence'></div>
-                                ${this.tplResourceCounter(automa_player, 'influence-1')}
-                                ${this.tplResourceCounter(automa_player, 'influence-2')}
-                                ${this.tplResourceCounter(automa_player, 'influence-3')}
-                                ${this.tplResourceCounter(automa_player, 'influence-4')}
-                                ${this.tplResourceCounter(automa_player, 'influence-5')}
-                                ${this.tplResourceCounter(automa_player, 'influence-6')}
-                            </div>
-                            <hr class='rog_player_resource_line_separator'>
-                            <div class='rog_player_resource_line rog_player_resource_line_clan'>
-                                <div id='rog_player_clan_panel-${automa_player.id}' class='rog_player_clan_panel'>
-                                    ${automa_player.clan ? this.formatIcon('clan-'+automa_player.clan) :''}
-                                    <div id='rog_player_clan_name-${automa_player.id}' class='rog_player_clan_name'><div class='reduceToFit'>
-                                        ${automa_player.clan ? this.CLANS_NAMES.get(automa_player.clan) :''}
-                                    </div></div>
-                                </div>
-                                ${this.tplResourceCounter(automa_player, 'dieFace')}
-                                <div id='rog_bga_die_holder-${automa_player.id}' class='rog_bga_die_holder'></div>
-                            </div>
-                        </div>
-                    </div>
-                `);
+                this.bga.playerPanels.getElement(automa_id).insertAdjacentHTML('beforeend', this.tplPlayerPanel(automa_player));
                 let panelContainer = this.bga.playerPanels.getElement(automa_id).parentNode.parentNode.parentNode;
                 panelContainer.dataset.color = this.gamedatas.automa_color;
             }
@@ -2825,8 +2808,6 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <div id="settings-controls-container"></div>
                 </div>`,
             });
-
-            this.setupAutomaBoard(); 
         },
         
         tplConfigPlayerBoard() {
@@ -2890,7 +2871,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.ALL_CUSTOMER_TYPES.forEach((value, key, map) =>{
                 customerTypes += this.tplResourceCounter(player, 'customer-'+key);
             });
-            return `<div class='rog_panel'>
+            return `<div class='rog_panel' data-is_automa='${player.is_automa}'>
             <div class="rog_first_player_holder"></div>
             <div class='rog_player_infos'>
                 <div class='rog_player_background_big_symbol' id='rog_player_background_big_symbol-${player.id}' data-clan='${player.clan}'></div>

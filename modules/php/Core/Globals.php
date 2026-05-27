@@ -42,9 +42,11 @@ class Globals extends \ROG\Helpers\DB_Manager
     'customerTypes' => 'obj',
     'regionCustomTracks' => 'obj',
 
+    //Datas for automa player
     'automaActive' => 'bool',
     'automaClan' => 'int',
     'automaScore' => 'int',
+    'automaDie' => 'int',
 
     //Undo log module
     'choices' => 'int',
@@ -86,6 +88,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::setAutomaClan(null);
     self::setAutomaActive(false);
     self::setAutomaScore(0);
+    self::setAutomaDie(null);
 
     //              --------------------------------------------
     //GAME OPTIONS  --------------------------------------------

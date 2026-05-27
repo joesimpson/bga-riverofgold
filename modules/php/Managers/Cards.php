@@ -128,9 +128,10 @@ class Cards extends \ROG\Helpers\Pieces
   {
     return self::getFilteredQuery($pId, CARD_LOCATION_WAIT_FOR_HAND)->get();
   }
-  public static function refreshHands($players)
+  public static function refreshHands(array $players)
   {
     foreach ($players as $pid => $player) {
+      if(isset($player['is_automa']) && $player['is_automa']) continue;
       Notifications::refreshHand($pid,Cards::getPlayerHandOrders($pid));
     }
   }

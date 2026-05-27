@@ -100,18 +100,28 @@ Icon extract in sprite with differents layers size (so % is not useful).
   border-image-repeat: round;
 }
 
-.player_board_inner > .player-name {
+.player_board_inner #player_name_-123,
+.player_board_inner > .player-name > a {
   /** Add a BLACK shadow behind player name in case of bright colors like white/orange*/
 }
-.player_board_inner > .player-name > a[style*="color: #ffa500"], .player_board_inner > .player-name > a[data-color=ffa500],
-.player_board_inner > .player-name > a[style*="color: #f07f16"], .player_board_inner > .player-name > a[data-color=f07f16],
-.player_board_inner > .player-name > a[style*="color: #ffff00"], .player_board_inner > .player-name > a[data-color=ffff00],
-.player_board_inner > .player-name > a[style*="color: #ffffff"], .player_board_inner > .player-name > a[data-color=ffffff],
-.player_board_inner > .player-name > a[style*="color: #bdd002"], .player_board_inner > .player-name > a[data-color=bdd002] {
+.player_board_inner #player_name_-123[style*="color: #ffa500"], .player_board_inner #player_name_-123[data-color=ffa500], .player_board_inner #player_name_-123[style*="color: #f07f16"], .player_board_inner #player_name_-123[data-color=f07f16], .player_board_inner #player_name_-123[style*="color: #ffff00"], .player_board_inner #player_name_-123[data-color=ffff00], .player_board_inner #player_name_-123[style*="color: #ffffff"], .player_board_inner #player_name_-123[data-color=ffffff], .player_board_inner #player_name_-123[style*="color: #bdd002"], .player_board_inner #player_name_-123[data-color=bdd002],
+.player_board_inner > .player-name > a[style*="color: #ffa500"],
+.player_board_inner > .player-name > a[data-color=ffa500],
+.player_board_inner > .player-name > a[style*="color: #f07f16"],
+.player_board_inner > .player-name > a[data-color=f07f16],
+.player_board_inner > .player-name > a[style*="color: #ffff00"],
+.player_board_inner > .player-name > a[data-color=ffff00],
+.player_board_inner > .player-name > a[style*="color: #ffffff"],
+.player_board_inner > .player-name > a[data-color=ffffff],
+.player_board_inner > .player-name > a[style*="color: #bdd002"],
+.player_board_inner > .player-name > a[data-color=bdd002] {
   text-shadow: 1px 0px 1px black, 0px 1px 1px black, -1px 0px 1px black, 0px -1px 1px black;
 }
-.player_board_inner > .player-name > a[style*="color: #008000"], .player_board_inner > .player-name > a[data-color="008000"],
-.player_board_inner > .player-name > a[style*="color: #72c3b1"], .player_board_inner > .player-name > a[data-color="72c3b1"] {
+.player_board_inner #player_name_-123[style*="color: #008000"], .player_board_inner #player_name_-123[data-color="008000"], .player_board_inner #player_name_-123[style*="color: #72c3b1"], .player_board_inner #player_name_-123[data-color="72c3b1"],
+.player_board_inner > .player-name > a[style*="color: #008000"],
+.player_board_inner > .player-name > a[data-color="008000"],
+.player_board_inner > .player-name > a[style*="color: #72c3b1"],
+.player_board_inner > .player-name > a[data-color="72c3b1"] {
   color: #72c3b1 !important;
   text-shadow: 1px 0px 1px black, 0px 1px 1px black, -1px 0px 1px black, 0px -1px 1px black;
 }
@@ -237,6 +247,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   flex-direction: column;
   font-size: 10px;
   position: relative;
+  width: 100%;
 }
 .rog_panel .rog_player_infos hr {
   width: 100%;
@@ -697,6 +708,13 @@ Icon extract in sprite with differents layers size (so % is not useful).
 }
 .rog_player_background_big_symbol[data-clan="8"] {
   background-image: url("img/clans/L5R_Icon_Unicorn.png");
+}
+
+.rog_panel[data-is_automa=true] .rog_player_resource_line_money,
+.rog_panel[data-is_automa=true] .rog_player_resource_line_materials,
+.rog_panel[data-is_automa=true] .rog_player_resource_line_buildings,
+.rog_panel[data-is_automa=true] .rog_player_resource_line_customers {
+  display: none !important;
 }
 
 #rog_dieFace_animation,

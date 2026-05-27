@@ -15,13 +15,15 @@ class AutomaPlayer extends Player
     
     public function getUiData($currentPlayerId = null)
     {
-        $data = [];
+        $data = parent::getUiData();
         $data['score'] = $this->getScore();
         $data['name'] = $this->getName();
         $data['id'] = $this->getId();
         $data['clan'] = $this->getClan();
         $data['color'] = $this->getColor();
+        $data['die'] = $this->getDie();
         
+        $data['is_automa'] = true;
         return $data;
     }
 
@@ -52,5 +54,12 @@ class AutomaPlayer extends Player
     public function canReceiveResource(int $resourceType) : bool
     {
         return false;
+    }
+    
+    public function setDie(int $value){
+        Globals::setAutomaDie($value);
+    }
+    public function getDie() : int {
+        return Globals::getAutomaDie();
     }
 }
