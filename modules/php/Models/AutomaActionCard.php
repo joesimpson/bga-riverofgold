@@ -24,4 +24,20 @@ class AutomaActionCard extends Card
     return $data;
   }
 
+  public function play(AutomaPlayer $player)
+  {
+    $action = $this->getType();
+    switch($action){
+      case AutomaActionType::SAIL_HIGHER->value : 
+        break;
+      case AutomaActionType::SAIL_LOWER->value : 
+        break;
+      case AutomaActionType::DELIVER->value : 
+        break;
+      case AutomaActionType::BUILD->value : 
+        break;
+      case AutomaActionType::ADVANCE_CITY->value : 
+        break;
+    }
+  }
 }

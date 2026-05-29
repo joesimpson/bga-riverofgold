@@ -37,6 +37,7 @@ use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Preferences;
 use ROG\Exceptions\UserException;
+use ROG\Helpers\AutomaEngine;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
@@ -70,6 +71,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
     use ROG\States\TradeTrait;
 
     public static $instance = null;
+    public AutomaEngine $automaEngine;
 	function __construct( )
 	{
         // Your global variables labels:
@@ -83,6 +85,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
         self::initGameStateLabels( array( 
             'logging' => 10,
         ) );        
+        $this->automaEngine = new AutomaEngine($this);
 	}
     public static function get()
     {

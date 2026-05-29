@@ -94,6 +94,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
 
     const CARD_TYPE_CUSTOMER = 1;
     const CARD_TYPE_CLAN_PATRON = 2;
+    const CARD_TYPE_AUTOMA_ACTION = 3;
 
     const TILE_TYPE_SCORING = 1;
     const TILE_TYPE_BUILDING = 2;
@@ -235,6 +236,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['giveClanCardTo', 1000],
                 ['giveCardToPublic', 10],
                 ['giveCardTo', 1000],
+                ['giveActionCardToAutoma', 1000],
                 ['giveMasteriesTo', 2000],
                 ['deliver', 1000],
                 ['reshuffleDeck', 10],
@@ -1721,6 +1723,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if (!$(`rog_card-${n.args.card.id}`)) this.addCard(n.args.card, this.getVisibleTitleContainer());
             this.slide(`rog_card-${n.args.card.id}`, this.getCardContainer(n.args.card));
         },
+        notif_giveActionCardToAutoma(n) {
+            debug('notif_giveActionCardToAutoma', n);
+            //We want the text on top
+        },
         notif_deliver(n) {
             debug('notif_deliver: a player shows a card to all !', n);
             let card = n.args.card;
@@ -3128,6 +3134,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         addCard(card, location = null) {
             debug('addCard',card);
             if(card.subtype == CARD_TYPE_CLAN_PATRON ) return this.addClanCard(card, location);
+            if(card.subtype == CARD_TYPE_AUTOMA_ACTION ) return this.addAutomaActionCard(card, location);
             if ($('rog_card-' + card.id)) return;
     
             let o = this.place('tplCard', card, location == null ? this.getCardContainer(card) : location);
@@ -3480,6 +3487,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             return [`<div class='rog_card_tooltip'>
                         <div class='rog_card_front_back'>${divFront}${divBack}</div>
                 </div>`];
+        },
+        ////////////////////////////////////////////////////////
+        // Automa cards
+        ////////////////////////////////////////////////////////
+        addAutomaActionCard(card, location = null) {
+            debug('addAutomaActionCard',card);
+            
         },
 
         ////////////////////////////////////////////////////////

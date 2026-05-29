@@ -4,6 +4,8 @@ declare(strict_types=1);
 
 namespace Tests\Utils;
 
+use ROG\Models\AutomaActionType;
+
 class TestDatas {
     static int $test_activePlayerId = 1;
     static int $lastInsertedId = 1;
@@ -89,6 +91,16 @@ class TestDatas {
             102 => ['result_associative_index' => 102,'card_id' => 102, 'card_location' => CARD_CLAN_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => 1, 'type' => PATRON_TRADER, 'subtype' => CARD_TYPE_CLAN_PATRON,],
             103 => ['result_associative_index' => 103,'card_id' => 103, 'card_location' => CARD_CLAN_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => 2, 'type' => PATRON_LADY, 'subtype' => CARD_TYPE_CLAN_PATRON,],
             104 => ['result_associative_index' => 104,'card_id' => 104, 'card_location' => CARD_CLAN_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => 2, 'type' => PATRON_GOVERNOR, 'subtype' => CARD_TYPE_CLAN_PATRON,],
+
+            201 => ['result_associative_index' => 201,'card_id' => 201, 'card_location' => CARD_AUTOMA_LOCATION_DECK, 'card_state' => 1, 'player_id' => null, 'type' => AutomaActionType::SAIL_HIGHER->value,   'subtype' => CARD_TYPE_AUTOMA_ACTION,],
+            202 => ['result_associative_index' => 202,'card_id' => 202, 'card_location' => CARD_AUTOMA_LOCATION_DECK, 'card_state' => 2, 'player_id' => null, 'type' => AutomaActionType::SAIL_HIGHER->value,   'subtype' => CARD_TYPE_AUTOMA_ACTION,],
+            203 => ['result_associative_index' => 203,'card_id' => 203, 'card_location' => CARD_AUTOMA_LOCATION_DECK, 'card_state' => 3, 'player_id' => null, 'type' => AutomaActionType::SAIL_HIGHER->value,   'subtype' => CARD_TYPE_AUTOMA_ACTION,],
+            204 => ['result_associative_index' => 204,'card_id' => 204, 'card_location' => CARD_AUTOMA_LOCATION_DECK, 'card_state' => 4, 'player_id' => null, 'type' => AutomaActionType::SAIL_LOWER->value,    'subtype' => CARD_TYPE_AUTOMA_ACTION,],
+            205 => ['result_associative_index' => 205,'card_id' => 205, 'card_location' => CARD_AUTOMA_LOCATION_DECK, 'card_state' => 5, 'player_id' => null, 'type' => AutomaActionType::SAIL_LOWER->value,    'subtype' => CARD_TYPE_AUTOMA_ACTION,],
+            206 => ['result_associative_index' => 206,'card_id' => 206, 'card_location' => CARD_AUTOMA_LOCATION_DECK, 'card_state' => 6, 'player_id' => null, 'type' => AutomaActionType::DELIVER->value,       'subtype' => CARD_TYPE_AUTOMA_ACTION,],
+            207 => ['result_associative_index' => 207,'card_id' => 207, 'card_location' => CARD_AUTOMA_LOCATION_DECK, 'card_state' => 7, 'player_id' => null, 'type' => AutomaActionType::BUILD->value,         'subtype' => CARD_TYPE_AUTOMA_ACTION,],
+            208 => ['result_associative_index' => 208,'card_id' => 208, 'card_location' => CARD_AUTOMA_LOCATION_DECK, 'card_state' => 8, 'player_id' => null, 'type' => AutomaActionType::BUILD->value,         'subtype' => CARD_TYPE_AUTOMA_ACTION,],
+            209 => ['result_associative_index' => 209,'card_id' => 209, 'card_location' => CARD_AUTOMA_LOCATION_DECK, 'card_state' => 9, 'player_id' => null, 'type' => AutomaActionType::ADVANCE_CITY->value,  'subtype' => CARD_TYPE_AUTOMA_ACTION,],
 
         ];
     }

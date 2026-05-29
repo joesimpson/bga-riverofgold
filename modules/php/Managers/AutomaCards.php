@@ -2,16 +2,61 @@
 
 namespace ROG\Managers;
 
+use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Utils;
+use ROG\Models\AutomaActionCard;
 use ROG\Models\AutomaActionType;
+use ROG\Models\AutomaPlayer;
 
 /* Class to manage all the Automa cards */
 
 class AutomaCards extends Cards
 {
+    
+    public static function countAutomaActionSize(string $deckLocation) : int
+    {
+        return self::DB()
+                ->where('subType', CARD_TYPE_AUTOMA_ACTION)
+                ->where(static::$prefix . 'location', $deckLocation)
+                ->count();
+    }
+    public static function countAutomaActionDeckSize(string $deckLocation) : int
+    {
+        return AutomaCards::countAutomaActionSize($deckLocation);
+    }
+    public static function giveActionCardToAutoma(AutomaPlayer $player, ) : AutomaActionCard
+    {
+        Game::get()->trace(__CLASS__.".".__FUNCTION__);
+        $fromDeck = CARD_AUTOMA_LOCATION_DECK;
+        $toDeck = CARD_AUTOMA_LOCATION_PLAYED;
+        $deckSize = AutomaCards::countAutomaActionDeckSize($fromDeck);
+        if($deckSize == 0){
+            //if fromDeck is empty, reshuffle
+            AutomaCards::reshuffleAutomaActionDeck($player,$toDeck, $fromDeck);
+        }
+        $actionCard = AutomaCards::getTopOf($fromDeck);
+        AutomaCards::insertOnTop($actionCard->getId(), $toDeck);
+        $actionCard->setLocation($toDeck);
+        Notifications::giveActionCardToAutoma($player,$actionCard);
+        return $actionCard;
+    }
 
+    /**
+     * @param string $fromDeck specifying the deck to clear
+     * @param string $toDeck specifying the deck to reshuffle
+     * @return int decksize after reshuffle
+     */
+    public static function reshuffleAutomaActionDeck(AutomaPlayer $player, string $fromDeck,string $toDeck) : int
+    {
+        Game::get()->trace(__CLASS__.".".__FUNCTION__);
+        self::moveAllInLocation( $fromDeck, $toDeck, );
+        self::shuffle($toDeck);
+        $decksize = AutomaCards::countAutomaActionSize($toDeck);
+        Notifications::reshuffleAutomaActionDeck($player, $decksize );
+        return $decksize;
+    }
     ///////////////////////////////////////////////////////////////////////////////////////
     
     /** Creation of the cards

@@ -37,6 +37,7 @@ final class SetupTest extends TestCase
             OPTION_TRACKS => OPTION_TRACKS_OFF,
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
+        TestDatas::$cards = [];
         
         //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.
         //$game->setupNewGame($playersDatas, $options);

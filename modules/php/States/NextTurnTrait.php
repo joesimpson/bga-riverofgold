@@ -33,19 +33,22 @@ trait NextTurnTrait
       $activePlayerId = Globals::getTurnPlayer();
       $nextPlayer = Players::getNextPlayerNotEliminated($activePlayerId);
     }
+
+    Globals::setTurnPlayer($nextPlayer->id);
+    Globals::setTurnMainActionDone(null);
+
     if(AUTOMA_PLAYER_ID == $nextPlayer->getId()){
       Globals::setAutomaActive(true);
-      //TODO JSA AUTOMA ENGINE RULES
-      //$this->game->automaEngine->playTurn();
+      $this->automaEngine->playTurn($nextPlayer);
+      $this->addCheckpoint(ST_END_TURN);
+      $this->gamestate->nextState('end_automa');
+      return;
     }
     else {
       Globals::setAutomaActive(false);
+      Players::changeActive($nextPlayer->id);
+      $nextPlayer->giveExtraTime();
     }
-
-    Players::changeActive($nextPlayer->id);
-    $nextPlayer->giveExtraTime();
-    Globals::setTurnPlayer($nextPlayer->id);
-    Globals::setTurnMainActionDone(null);
 
     $this->addCheckpoint(ST_BEFORE_TURN);
     $this->gamestate->nextState('next');

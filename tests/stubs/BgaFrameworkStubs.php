@@ -154,6 +154,8 @@ abstract class Table
                 return count(TestDatas::$players);
             case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'deck')":
                 return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'deck';}));
+            case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'discard')":
+                return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'discard';}));
             case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'clans_draft')":
                 return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'clans_draft';}));
             case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'clans_assigned')":
@@ -176,6 +178,24 @@ abstract class Table
             $count = count(array_filter(TestDatas::$cards,function ($card) use($matches, ) {return $card['card_location'] == $matches['card_location'] && $card['player_id'] ==intval( $matches['player_id']) && $card['type']== intval($matches['type']);}));
             logForTests("getUniqueValueFromDb: count is $count ");
             return $count;
+        }
+        if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `subType` = (?P<subtype>.*) AND `card_location` = '(?P<card_location>.*)'$/", $sql, $matches) == 1) {
+            $subtype = $matches['subtype'];
+            $card_location = $matches['card_location'];
+            $count = count(array_filter(TestDatas::$cards,function ($card) use( $card_location, $subtype ) {return $card['card_location'] == $card_location && $card['subtype'] == $subtype ;}));
+            logForTests("getUniqueValueFromDb: count is $count  ");
+            return $count;
+        }
+        if (preg_match("/^SELECT MAX\(`(?P<field>.*)`\) FROM `cards` WHERE \(`card_location` = '(?P<card_location>.*)'\)$/", $sql, $matches) == 1) {
+            $field = $matches['field'];
+            $card_location = $matches['card_location'];
+            $filtered = array_filter(TestDatas::$cards,function ($card) use( $card_location, ) {return $card['card_location'] == $card_location;});
+            $max = 0;
+            foreach($filtered as $card) {
+                $max = max($max, $card[$field]);
+            }
+            logForTests("getUniqueValueFromDb: MAX($field ) is $max  ");
+            return $max;
         }
         if (preg_match("/^SELECT COUNT\(\*\) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\)$/", $sql, $matches) == 1) {
             $tile_location = $matches['tile_location'];
@@ -854,6 +874,31 @@ abstract class Table
                 logForTests("DbQuery --- updated card_location, card_state for card $card_id : $card_location, $card_state");
                 TestDatas::$cards[$card_id]['card_location'] = $card_location;
                 TestDatas::$cards[$card_id]['card_state'] = intval($card_state);
+            }
+            return true;
+        }
+        if (preg_match("/^UPDATE `cards` SET `card_location` = '(?P<card_location>.*)',`card_state` = '(?P<card_state>.*)' WHERE \(`card_location` = '(?P<from_location>.*)'\)$/", $sql, $matches) == 1) {
+            $card_location = $matches['card_location'];
+            $from_location = $matches['from_location'];
+            $card_state = $matches['card_state'];
+            //logForTests("DbQuery ---   cards to filter ... ".json_encode(TestDatas::$cards));
+            foreach(TestDatas::$cards as $card_id => &$card){
+                if($card['card_location'] != $from_location) continue;
+                logForTests("DbQuery --- updated card_location, card_state for card $card_id : $card_location, $card_state from ".$card['card_location']);
+                TestDatas::$cards[$card_id]['card_location'] = $card_location;
+                TestDatas::$cards[$card_id]['card_state'] = intval($card_state);
+            }
+            return true;
+        }
+        if (preg_match("/^UPDATE `cards` SET `card_state` = `card_state` \+ (?P<inc>.*) WHERE `card_location` = '(?P<from_location>.*)' AND \(`card_state` >= (?P<state_min>.*)\)$/", $sql, $matches) == 1) {
+            $inc = intval($matches['inc']);
+            $state_min = intval($matches['state_min']);
+            $from_location = $matches['from_location'];
+            foreach(TestDatas::$cards as $card_id => &$card){
+                if($card['card_location'] != $from_location) continue;
+                if($card['card_state'] < $state_min) continue;
+                $card['card_state'] += $inc;
+                logForTests("DbQuery --- updated card_state for card $card_id : ".$card['card_state']);
             }
             return true;
         }

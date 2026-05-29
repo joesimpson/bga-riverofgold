@@ -6,6 +6,8 @@ use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Tiles;
+use ROG\Models\AutomaActionCard;
+use ROG\Models\AutomaPlayer;
 use ROG\Models\BuildingTile;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\CustomerCard;
@@ -52,6 +54,7 @@ class Notifications
       'automa_name' => Utils::getAutomaName(),
       'automa_color' => Utils::getAutomaColor(),
       'i18n' => ['automa_name'],
+      //TODO JSA i18n cards names
       'preserve' => ['automa_color','cards'],
       'n' => Utils::getAutomaDifficultyName($level),
       'x' => $cards->count(),
@@ -220,6 +223,31 @@ class Notifications
       'deckSize' => $deckSize,
       'discardSize' => $discardSize,
       'preserve' => ['deckSize','discardSize'],
+    ]);
+  }
+  
+  public static function reshuffleAutomaActionDeck(AutomaPlayer $player, int $deck_size)
+  {
+    $msg = clienttranslate('${player_name} action deck is reshuffled');
+
+    self::notifyAll('reshuffleAutomaActionDeck', $msg, [
+      'deck_size' => $deck_size,
+      'player' => $player,
+    ]);
+  }
+  
+  public static function giveActionCardToAutoma(AutomaPlayer $player, AutomaActionCard $card)
+  {
+    $message = clienttranslate('${player_name} draws the action card ${action_card_name}${card_icon}');
+        
+    $cardName = $card->getTitle();
+    self::notifyAll("giveActionCardToAutoma", $message, [
+      'player' => $player,
+      'card' => $card->getUiData(),
+      'card_icon' => '',
+      'action_card_name' => $cardName,
+      'preserve'=>['card',  ],
+      'i18n'=>['action_card_name',  ],
     ]);
   }
   /**

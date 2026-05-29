@@ -74,23 +74,27 @@ require_once 'modules/php/constants.inc.php';
                 |                               |
                 v                               v
  /<----------- nextTurn     <-------------------------\                                
- |              |                                     ^
- |              v                                     |
- |             beforeTurn                             |
- |              |                                     |
- |              |                                     |
- |              v                                     |
- |        /---> playerTurn --\                        |
- |        |     |            |                        |
- |        |     |            |                        |
- |        |     v            v                        |
- |        \--- trade/favor  build/sail/deliver        |
- |                           |                        |
- |                           v                        |
- |                          bonusChoice <----\        |
- |                           |               ^        |
- |                           v               |        |
- |                          confirm --> endTurn ----->/
+ |   /          |                                     ^
+ |   |          v                                     |
+ |   |         beforeTurn                             |
+ |   |          |                                     |
+ |   |          |                                     |
+ |   |          v                                     |
+ |   |    /---> playerTurn --\                        |
+ |   |    |     |            |                        |
+ |   |    |     |            |                        |
+ |   |    |     v            v                        |
+ |   |    \--- trade/favor  build/sail/deliver        |
+ |   |                       |                        |
+ |   |                       v                        |
+ |   |                      bonusChoice <----\        |
+ |   |                       |               ^        |
+ |   |                       v               |        |
+ |   |                       confirm         |        |
+ |   |                       |               |        |
+ |   |                       v               |        |
+ |   \---------------------> \--------> endTurn ----->/
+ |
  v  
  \-> endGameScoring
         | 
@@ -173,6 +177,7 @@ $machinestates = array(
         "transitions" => [ 
             "next" => ST_BEFORE_TURN,
             "end" => ST_END_SCORING,
+            "end_automa" => ST_END_TURN,
         ],
     ),
 
