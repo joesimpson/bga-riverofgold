@@ -62,4 +62,11 @@ class AutomaPlayer extends Player
     public function getDie() : int {
         return Globals::getAutomaDie();
     }
+    
+    public function setLastTurnPlayed(bool $value){
+        Globals::setAutomaLastTurnPlayed($value);
+    }
+    public function isLastTurnPlayed() : bool {
+        return Globals::isAutomaLastTurnPlayed();
+    }
 }

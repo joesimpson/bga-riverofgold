@@ -7,6 +7,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
 use ROG\Models\AutomaPlayer;
 use ROG\Models\ClanPatronCard;
@@ -168,6 +169,15 @@ class Players extends \ROG\Helpers\DB_Manager
   public static function getAll()
   {
     return self::DB()->get(false);
+  }
+
+  public static function getAllWithAutoma() : Collection
+  {
+    $players = self::DB()->get(false);
+    if(Utils::isGameWithAutoma()){
+      $players->append( Players::automaPlayer());
+    }
+    return $players;
   }
 
   /*
@@ -690,7 +700,7 @@ class Players extends \ROG\Helpers\DB_Manager
    * @return int number of players we expect to play a turn
    */
   public static function countRemainingPlayers(){
-    $players = Players::getAll();
+    $players = Players::getAllWithAutoma();
     $counter = 0;
     foreach($players as $player){
       if($player->getZombie() == 1 || $player->getEliminated() == 1) continue;

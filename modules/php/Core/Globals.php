@@ -47,6 +47,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     'automaClan' => 'int',
     'automaScore' => 'int',
     'automaDie' => 'int',
+    'automaLastTurnPlayed' => 'bool',
 
     //Undo log module
     'choices' => 'int',
@@ -89,6 +90,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::setAutomaActive(false);
     self::setAutomaScore(0);
     self::setAutomaDie(null);
+    self::setAutomaLastTurnPlayed(false);
 
     //              --------------------------------------------
     //GAME OPTIONS  --------------------------------------------
@@ -287,7 +289,7 @@ class Globals extends \ROG\Helpers\DB_Manager
   public static function isLastTurnTriggered()
   {
     $endingPlayer = self::getEndPlayer();
-    return isset($endingPlayer) && $endingPlayer >0;
+    return isset($endingPlayer) && ($endingPlayer >0 || $endingPlayer == AUTOMA_PLAYER_ID);
   }
 
   //////////////////////////////////////////////////////////////////////////////////////
