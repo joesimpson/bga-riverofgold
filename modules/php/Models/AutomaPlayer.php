@@ -37,13 +37,19 @@ class AutomaPlayer extends Player
     public function addPoints(int $points, bool $sendNotif = true)
     {
         if($points == 0) return;
-        Globals::setAutomaScore($points);
+        Globals::incAutomaScore($points);
         if($sendNotif) Notifications::addPoints($this,$points);
     }
         
+    //Automa doesn't manage resources
+    public function setResources(array $value){
+    }
+    public function getResources() : array {
+        return [];
+    }
+
     public function giveResource(int $nb,int $type,bool $sendNotif = true) : int
     {
-        //Automa doesn't manage resources
         return 0;
     }
     
@@ -63,6 +69,12 @@ class AutomaPlayer extends Player
         return Globals::getAutomaDie();
     }
     
+    public function setBonuses(array $value){
+    }
+    public function getBonuses() : array {
+        return [];
+    }
+
     public function setLastTurnPlayed(bool $value){
         Globals::setAutomaLastTurnPlayed($value);
     }

@@ -10,6 +10,7 @@ use ROG\Helpers\Utils;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
 use ROG\Models\Reward;
+use ROG\Models\ScoringTile;
 use ROG\Models\Tile;
 
 /* Class to manage all the tiles */
@@ -132,9 +133,24 @@ class Tiles extends \ROG\Helpers\Pieces
   /**
    * @return Collection of ScoringTile
    */
-  public static function getScoringTiles()
+  public static function getScoringTiles() : Collection
   {
     return self::getAllByType(TILE_TYPE_SCORING,array_keys(self::getScoringTilesTypes()));
+  } 
+  
+  /**
+   * @return array of ScoringTile, ordered by best first place score DESC
+   */
+  public static function getOrderedScoringTiles() : array
+  {
+    $scoringTiles = Tiles::getScoringTiles()->toArray();
+    usort($scoringTiles, function (ScoringTile $a,ScoringTile $b)  {
+      $scoreA = $a->getFirstPlaceScore();
+      $scoreB = $b->getFirstPlaceScore();
+      if ($scoreA == $scoreB) return 0;
+      return ($scoreA < $scoreB) ? 1 : -1;
+    });
+    return $scoringTiles;
   } 
   /**
    * @return Collection of MasteryCard

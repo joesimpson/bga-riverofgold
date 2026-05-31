@@ -13,6 +13,7 @@ use ROG\Models\AutomaPlayer;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Player;
+use ROG\Models\ScoringTile;
 use ROG\Models\Tile;
 
 /*
@@ -425,10 +426,30 @@ class Players extends \ROG\Helpers\DB_Manager
             $player->addPoints($bonusQuantity);
             break;
           case BONUS_TYPE_INF_SELECT_REGION: 
+            if($player instanceof AutomaPlayer){
+              //Seishin gains 1 influence on the influence track with the highest first place points on her scoring tile
+              $scoringTiles = Tiles::getOrderedScoringTiles();
+              foreach($scoringTiles as $scoringTile) {
+                $otherRegion = $scoringTile->getRegion();
+                if($region == $otherRegion) continue;
+                if($player->getInfluence($otherRegion) >= NB_MAX_INLFUENCE){
+                  //If at the end of that influence track, choose the region with next highest scoring tile
+                  continue;
+                }
+                Players::gainInfluence($player, $otherRegion, $bonusQuantity);
+                break;
+              }
+              break;
+            } 
             Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity]);
             $goToBonusChoice = true;
             break;
-          case BONUS_TYPE_MULTITRADE_2: 
+          case BONUS_TYPE_MULTITRADE_2:
+            if($player instanceof AutomaPlayer){
+              //Seishin ignores the numbers of trades and always scores 2 points
+              $player->addPoints(2);
+              break;
+            } 
             Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity,'points'=>2,'koku'=>3,]);
             $goToBonusChoice = true;
             break;

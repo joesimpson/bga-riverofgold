@@ -57,6 +57,12 @@ class ScoringTile extends Tile
     //state will be in [0,1,2,3,4,5] after shuffle :
     return $this->getState() +1;
   }
+  
+  public function getFirstPlaceScore() : int
+  {
+    $scoresToGive = $this->getScores();
+    return $scoresToGive[0];
+  }
   /**
    * @param int $playerPosition to compare to others
    * @param array $opponentPositions

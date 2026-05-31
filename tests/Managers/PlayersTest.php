@@ -275,6 +275,25 @@ final class PlayersTest extends TestCase
         assertSame(true, $goToBonusChoice);
     }
     
+    /**
+     * Test that Automa doesn't receive resources or bonuses
+     */
+    public function test_gainInfluence_Automa_Region1_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $region = 1;
+        $amount = 18;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[30+$region]['meeple_state']);
+        assertSame(6, $player->getScore());//0+3+3
+        assertSame([], $player->getBonuses());
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
     // -------------------------------------------------
     
     public function test_gainInfluence_Region2_ToSpace1(): void
@@ -434,6 +453,26 @@ final class PlayersTest extends TestCase
         assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
         assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame(true, $goToBonusChoice);
+    }
+    
+    /**
+     * Test that Automa doesn't receive resources or bonuses
+     */
+    public function test_gainInfluence_Automa_Region2_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $region = 2;
+        $amount = 18;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[30+$region]['meeple_state']);
+        assertSame(6, $player->getScore());//0+3+3
+        assertSame([], $player->getBonuses());
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
     }
     // -------------------------------------------------
     
@@ -595,6 +634,26 @@ final class PlayersTest extends TestCase
         assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame(true, $goToBonusChoice);
     }
+    
+    /**
+     * Test that Automa doesn't receive resources or bonuses
+     */
+    public function test_gainInfluence_Automa_Region3_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $region = 3;
+        $amount = 18;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[30+$region]['meeple_state']);
+        assertSame(6, $player->getScore());//0+3+3
+        assertSame([], $player->getBonuses());
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
     // -------------------------------------------------
     public function test_gainInfluence_Region4_ToSpace1(): void
     {
@@ -753,6 +812,26 @@ final class PlayersTest extends TestCase
         assertSame(2, $resources[RESOURCE_TYPE_MONEY]);
         assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame(true, $goToBonusChoice);
+    }
+    
+    /**
+     * Test that Automa doesn't receive resources or bonuses
+     */
+    public function test_gainInfluence_Automa_Region4_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $region = 4;
+        $amount = 18;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[30+$region]['meeple_state']);
+        assertSame(6, $player->getScore());//0+3+3
+        assertSame([], $player->getBonuses());
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
     }
     // -------------------------------------------------
     
@@ -914,6 +993,26 @@ final class PlayersTest extends TestCase
         assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame(true, $goToBonusChoice);
     }
+    
+    /**
+     * Test that Automa doesn't receive resources or bonuses
+     */
+    public function test_gainInfluence_Automa_Region5_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $region = 5;
+        $amount = 18;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[30+$region]['meeple_state']);
+        assertSame(6, $player->getScore());//0+3+3
+        assertSame([], $player->getBonuses());
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
     // -------------------------------------------------
     
     public function test_gainInfluence_Region6_ToSpace1(): void
@@ -1074,6 +1173,26 @@ final class PlayersTest extends TestCase
         assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame(true, $goToBonusChoice);
     }
+    
+    /**
+     * Test that Automa doesn't receive resources or bonuses
+     */
+    public function test_gainInfluence_Automa_Region6_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $region = 6;
+        $amount = 18;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[30+$region]['meeple_state']);
+        assertSame(6, $player->getScore());//0+3+3
+        assertSame([], $player->getBonuses());
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
     // -------------------------------------------------
     
     public function test_gainInfluence_RegionCustom1_ToSpace18(): void
@@ -1102,6 +1221,28 @@ final class PlayersTest extends TestCase
         assertSame(false, $goToBonusChoice);
     }
     
+    /**
+     * Test that Automa doesn't receive resources or bonuses
+     */
+    public function test_gainInfluence_Automa_RegionCustom1_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $region = 1;
+        $regionCustom = 1;
+        $amount = 18;
+        Globals::setRegionCustomTracks([$region => $regionCustom]);
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[30+$region]['meeple_state']);
+        assertSame(3, $player->getScore());//+3
+        assertSame([], $player->getBonuses());
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
+
     public function test_gainInfluence_RegionCustom2_ToSpace18(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -1126,6 +1267,28 @@ final class PlayersTest extends TestCase
         assertSame(14, $resources[RESOURCE_TYPE_MONEY]);//+14
         assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame(false, $goToBonusChoice);
+    }
+    
+    /**
+     * Test that Automa doesn't receive resources or bonuses
+     */
+    public function test_gainInfluence_Automa_RegionCustom2_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $region = 1;
+        $regionCustom = 2;
+        $amount = 18;
+        Globals::setRegionCustomTracks([$region => $regionCustom]);
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[30+$region]['meeple_state']);
+        assertSame(6, $player->getScore());//+1+2+3
+        assertSame([], $player->getBonuses());
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
     }
     public function test_gainInfluence_RegionCustom3_ToSpace18(): void
     {
@@ -1152,6 +1315,28 @@ final class PlayersTest extends TestCase
         assertSame([BONUS_TYPE_CHOICE], json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame(true, $goToBonusChoice);
     }
+    
+    /**
+     * Test that Automa doesn't receive resources or bonuses
+     */
+    public function test_gainInfluence_Automa_RegionCustom3_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $region = 1;
+        $regionCustom = 3;
+        $amount = 18;
+        Globals::setRegionCustomTracks([$region => $regionCustom]);
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[30+$region]['meeple_state']);
+        assertSame(3, $player->getScore());//+3
+        assertSame([], $player->getBonuses());
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
     public function test_gainInfluence_RegionCustom4_ToSpace18(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -1176,6 +1361,27 @@ final class PlayersTest extends TestCase
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
         assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame(false, $goToBonusChoice);
+    }
+    /**
+     * Test that Automa doesn't receive resources or bonuses
+     */
+    public function test_gainInfluence_Automa_RegionCustom4_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $region = 1;
+        $regionCustom = 4;
+        $amount = 18;
+        Globals::setRegionCustomTracks([$region => $regionCustom]);
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[30+$region]['meeple_state']);
+        assertSame(12, $player->getScore());//+1+2+4+5
+        assertSame([], $player->getBonuses());
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
     }
     public function test_gainInfluence_RegionCustom5_ToSpace18(): void
     {
@@ -1213,6 +1419,35 @@ final class PlayersTest extends TestCase
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
         assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame(true, $goToBonusChoice);
+    }
+    
+    /**
+     * Test that Automa doesn't receive resources or bonuses
+     */
+    public function test_gainInfluence_Automa_RegionCustom5_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $region = 1;
+        $regionCustom = 5;
+        $amount = 18;
+        Globals::setRegionCustomTracks([$region => $regionCustom]);
+        TestDatas::$tokens[36]['meeple_state'] = 14;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[31]['meeple_state']);
+        assertSame(3, TestDatas::$tokens[32]['meeple_state']);//+3
+        assertSame(0, TestDatas::$tokens[33]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[34]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[35]['meeple_state']);
+        assertSame(18, TestDatas::$tokens[36]['meeple_state']);//14+1+1+1+1
+        assertSame(9, $player->getScore());//+1+2+3 from track 1 +3 from track 6
+        assertSame([], $player->getBonuses());
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+        assertSame(false, $goToBonusChoice);
     }
     public function test_gainInfluence_RegionCustom6_ToSpace2(): void
     {
@@ -1379,6 +1614,33 @@ final class PlayersTest extends TestCase
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
         assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame(true, $goToBonusChoice);
+    }
+    
+    /**
+     * Test that Automa doesn't receive resources or bonuses
+     */
+    public function test_gainInfluence_Automa_RegionCustom6_ToSpace18(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $region = 1;
+        $regionCustom = 6;
+        $amount = 18;
+        Globals::setRegionCustomTracks([$region => $regionCustom]);
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        assertSame($amount, TestDatas::$tokens[31]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[32]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[33]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[34]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[35]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[36]['meeple_state']);
+        assertSame(8, $player->getScore());//+2+2+2+2
+        assertSame([], $player->getBonuses());
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
     }
     // -------------------------------------------------
     
