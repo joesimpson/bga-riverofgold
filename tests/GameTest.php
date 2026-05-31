@@ -422,6 +422,84 @@ final class GameTest extends TestCase
                     ],
                 ],
                 [
+                    'id' => 44,
+                    'location' => 'sh',
+                    'type' => 44,
+                    'bonus' => 0,
+                    'buildingType' => BUILDING_TYPE_MARKET,
+                    'era' => 0,
+                    'pos' => 6,
+                    'subtype' => TILE_TYPE_BUILDING,
+                    'ownerReward' =>  [
+                        'entries' =>  [
+                        ],
+                    ],
+                    'visitorReward' => [
+                        'entries' => [
+                            [
+                                'type' => RESOURCE_TYPE_POTTERY,
+                                'n' => 1,
+                            ],
+                            [
+                                'type' => RESOURCE_TYPE_SUN,
+                                'n' => 1,
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'id' => 45,
+                    'location' => 'sh',
+                    'type' => 45,
+                    'bonus' => 0,
+                    'buildingType' => BUILDING_TYPE_MARKET,
+                    'era' => 0,
+                    'pos' => 17,
+                    'subtype' => TILE_TYPE_BUILDING,
+                    'ownerReward' =>  [
+                        'entries' =>  [
+                        ],
+                    ],
+                    'visitorReward' => [
+                        'entries' => [
+                            [
+                                'type' => RESOURCE_TYPE_RICE,
+                                'n' => 1,
+                            ],
+                            [
+                                'type' => RESOURCE_TYPE_SUN,
+                                'n' => 1,
+                            ],
+                        ],
+                    ],
+                ],
+                [
+                    'id' => 46,
+                    'location' => 'sh',
+                    'type' => 46,
+                    'bonus' => 0,
+                    'buildingType' => BUILDING_TYPE_MARKET,
+                    'era' => 0,
+                    'pos' => 29,
+                    'subtype' => TILE_TYPE_BUILDING,
+                    'ownerReward' =>  [
+                        'entries' =>  [
+                        ],
+                    ],
+                    'visitorReward' => [
+                        'entries' => [
+                            [
+                                'type' => RESOURCE_TYPE_SILK,
+                                'n' => 1,
+                            ],
+                            [
+                                'type' => BONUS_TYPE_DRAW,
+                                'n' => 1,
+                            ],
+                        ],
+                    ],
+                ],
+                [
                     'id' => 21,
                     'location' => 'bd1',
                     'type' => 1,
@@ -583,14 +661,56 @@ final class GameTest extends TestCase
                     'type' => 1,
                     'pos' => 24,
                 ],
-                16 =>  [
+                [
+                    'id' => 31,
+                    'location' => 'i-1',
+                    'pId' => AUTOMA_PLAYER_ID,
+                    'type' => 2,
+                    'pos' => 0,
+                ],
+                [
+                    'id' => 32,
+                    'location' => 'i-2',
+                    'pId' => AUTOMA_PLAYER_ID,
+                    'type' => 2,
+                    'pos' => 0,
+                ],
+                [
+                    'id' => 33,
+                    'location' => 'i-3',
+                    'pId' => AUTOMA_PLAYER_ID,
+                    'type' => 2,
+                    'pos' => 0,
+                ],
+                [
+                    'id' => 34,
+                    'location' => 'i-4',
+                    'pId' => AUTOMA_PLAYER_ID,
+                    'type' => 2,
+                    'pos' => 0,
+                ],
+                [
+                    'id' => 35,
+                    'location' => 'i-5',
+                    'pId' => AUTOMA_PLAYER_ID,
+                    'type' => 2,
+                    'pos' => 0,
+                ],
+                [
+                    'id' => 36,
+                    'location' => 'i-6',
+                    'pId' => AUTOMA_PLAYER_ID,
+                    'type' => 2,
+                    'pos' => 0,
+                ],
+                [
                     'id' => 41,
                     'location' => 'tile-41',
                     'pId' => 1,
                     'type' => 2,
                     'pos' => 1,
                 ],
-                17 =>  [
+                [
                     'id' => 42,
                     'location' => 'tile-42',
                     'pId' => 2,

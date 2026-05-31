@@ -14,6 +14,7 @@ use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
+use ROG\Models\AutomaPlayer;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
 use ROG\Models\ShoreSpace;
@@ -128,7 +129,7 @@ trait BuildTrait
    * @param Player $player
    * @return Collection of ShoreSpace
    */
-  public function listPossibleSpacesToBuild($player)
+  public function listPossibleSpacesToBuild(Player $player) : Collection
   { 
     $playerPatron = $player->getPatron();
     $region = $player->getDie();
@@ -156,12 +157,15 @@ trait BuildTrait
   /**
    * @param Player $player
    * @param ShoreSpace $space
-   * @return true
+   * @return bool 
    */
   public function canBuildOnSpace(Player $player,ShoreSpace $space)
+   : bool
   { 
     $cost = $this->buildingCost($player,$space);
-    if($cost > $player->getMoney() ) return false;
+    if($cost > $player->getMoney() && !($player instanceof AutomaPlayer)) {
+      return false;
+    }
     $meeple = Meeples::getInLocation(MEEPLE_LOCATION_SHORE."{$space->id}")->first();
     if(isset($meeple)){
       if($meeple->getPId() != $player->getId()) return false;
@@ -176,6 +180,7 @@ trait BuildTrait
    * @return int
    */
   public function buildingCost(Player $player,ShoreSpace $space)
+    : int
   { 
     $cost = $space->cost;
     $region = $space->region;

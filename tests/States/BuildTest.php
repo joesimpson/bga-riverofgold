@@ -283,7 +283,7 @@ final class BuildTest extends TestCase
         TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
 
-        $position = 29;
+        $position = 30;
         $tileId = 31;
         $game->actBuildSelect($position,$tileId,999999);
         

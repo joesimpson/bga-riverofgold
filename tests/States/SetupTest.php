@@ -38,6 +38,7 @@ final class SetupTest extends TestCase
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
         TestDatas::$cards = [];
+        TestDatas::$tiles = [];
         
         //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.
         //$game->setupNewGame($playersDatas, $options);
@@ -68,6 +69,7 @@ final class SetupTest extends TestCase
             OPTION_TRACKS => OPTION_TRACKS_OFF,
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
+        TestDatas::$tiles = [];
         
         //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.
         //$game->setupNewGame($playersDatas, $options);
@@ -103,6 +105,7 @@ final class SetupTest extends TestCase
             OPTION_TRACKS => OPTION_TRACKS_OFF,
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
+        TestDatas::$tiles = [];
         
         //Cannot access protected method GameMock::setupNewGame() from SetupTest scope.
         //$game->setupNewGame($playersDatas, $options);
@@ -127,6 +130,7 @@ final class SetupTest extends TestCase
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
         TestDatas::$cards = [];
+        TestDatas::$tiles = [];
         $expectedCustomerTypes = [1,2,3,4,5];
         
         PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
@@ -155,6 +159,7 @@ final class SetupTest extends TestCase
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_INTOCITY,
         ];
         TestDatas::$cards = [];
+        TestDatas::$tiles = [];
         $expectedCustomerTypes = [CUSTOMER_TYPE_ELDER,CUSTOMER_TYPE_MERCHANT,CUSTOMER_TYPE_MONK,CUSTOMER_TYPE_NOBLE,CUSTOMER_TYPE_MAGISTRATE,CUSTOMER_TYPE_SPY];
         
         PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
@@ -185,6 +190,7 @@ final class SetupTest extends TestCase
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_INTOCITY,
         ];
         TestDatas::$cards = [];
+        TestDatas::$tiles = [];
         $expectedCustomerTypes = ALL_CUSTOMER_TYPES;
         
         PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
@@ -215,6 +221,7 @@ final class SetupTest extends TestCase
             OPTION_CUSTOMERS => OPTION_CUSTOMERS_BASE,
         ];
         TestDatas::$cards = [];
+        TestDatas::$tiles = [];
         $expectedTracks = [1,2,3,4,5,6];
         
         PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
@@ -475,6 +482,7 @@ final class SetupTest extends TestCase
             'Advance in the City of Lies',
         ];
         TestDatas::$cards = [];
+        TestDatas::$tiles = [];
         
         $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
@@ -518,6 +526,7 @@ final class SetupTest extends TestCase
             'Advance in the City of Lies',
         ];
         TestDatas::$cards = [];
+        TestDatas::$tiles = [];
         
         $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
@@ -561,6 +570,7 @@ final class SetupTest extends TestCase
             'Advance in the City of Lies',
         ];
         TestDatas::$cards = [];
+        TestDatas::$tiles = [];
         
         $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 

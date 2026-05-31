@@ -825,8 +825,8 @@ final class SailTest extends TestCase
         TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
         TestDatas::$cards[11]['type'] = CARD_TRADER_6;
         $shipId = 21;
-        TestDatas::$tokens[$shipId]['meeple_state'] = 7;
-        $riverSpace = 13;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 6;
+        $riverSpace = 12;
 
         $game->actSailSelect($shipId,$riverSpace,999999);
         

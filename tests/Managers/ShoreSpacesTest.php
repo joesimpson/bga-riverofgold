@@ -54,7 +54,7 @@ final class ShoreSpacesTest extends TestCase
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
-        $expectedSpaces = [ 6,7,8,9,10];
+        $expectedSpaces = [ 1=>7,2=>8,3=>9,4=>10];
 
         $spaces = ShoreSpaces::getEmptySpaces(2);
         
@@ -64,7 +64,7 @@ final class ShoreSpacesTest extends TestCase
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
-        $expectedSpaces = [ 6,7, 3=>9, 4=>10];//keys [0,1,2,3,4] preserved
+        $expectedSpaces = [ 1=>7, 3=>9, 4=>10];//keys [0,1,2,3,4] preserved
         TestDatas::$tiles[42]['tile_state'] = 8;
 
         $spaces = ShoreSpaces::getEmptySpaces(2);
