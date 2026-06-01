@@ -445,6 +445,21 @@ final class RewardEntryTest extends TestCase
         
         assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
     }
+    public function test_rewardPlayer_Automa_BonusTradePoints(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(AUTOMA_PLAYER_ID);
+        $region = 1;
+        $tile = new BuildingTile( TestDatas::$tiles[21], Tiles::getBuildingTilesTypes()[1]);
+        $reward = new RewardEntry(BONUS_TYPE_TRADE_POINTS,1);
+        $expectedBonuses = [
+        ];
+
+        $reward->rewardPlayer($player, $region,$tile);
+        
+        assertSame(2, $player->getScore());
+    }
     // -------------------------------------------------
     
     public function test_rewardPlayer_NotSupported(): void

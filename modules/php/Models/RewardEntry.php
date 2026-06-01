@@ -68,6 +68,7 @@ class RewardEntry implements \JsonSerializable
         $player->giveResourceFromTile($this->number,$this->type,$tile);
         return;
       case BONUS_TYPE_CHOICE:
+        if($player instanceof AutomaPlayer) return;
         Globals::addBonus($player,BONUS_TYPE_CHOICE);
         return;
       case BONUS_TYPE_MONEY_PER_CUSTOMER:
@@ -90,13 +91,18 @@ class RewardEntry implements \JsonSerializable
         $player->giveResourceFromTile($this->number * $nbBuildings,RESOURCE_TYPE_MONEY,$tile);
         return;
       case BONUS_TYPE_DRAW:
+        if($player instanceof AutomaPlayer) return;
         Globals::addBonus($player,BONUS_TYPE_DRAW);
         return;
       case BONUS_TYPE_TRADE_KOKU:
+        if($player instanceof AutomaPlayer) return;
         Globals::addBonusWithDatas($player,BONUS_TYPE_TRADE_KOKU,['koku'=>3,'bonusQuantity'=>1]);
         return;
       case BONUS_TYPE_TRADE_POINTS:
         Globals::addBonusWithDatas($player,BONUS_TYPE_TRADE_POINTS,['points'=>2,'bonusQuantity'=>1]);
+        if($player instanceof AutomaPlayer){
+          $player->addPoints(2);
+        }
         return;
       default :
         Game::get()->error("Not supported reward ".$this->type);

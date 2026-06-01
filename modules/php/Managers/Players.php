@@ -426,6 +426,7 @@ class Players extends \ROG\Helpers\DB_Manager
             $player->addPoints($bonusQuantity);
             break;
           case BONUS_TYPE_INF_SELECT_REGION: 
+            Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity]);
             if($player instanceof AutomaPlayer){
               //Seishin gains 1 influence on the influence track with the highest first place points on her scoring tile
               $scoringTiles = Tiles::getOrderedScoringTiles();
@@ -441,16 +442,15 @@ class Players extends \ROG\Helpers\DB_Manager
               }
               break;
             } 
-            Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity]);
             $goToBonusChoice = true;
             break;
           case BONUS_TYPE_MULTITRADE_2:
+            Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity,'points'=>2,'koku'=>3,]);
             if($player instanceof AutomaPlayer){
               //Seishin ignores the numbers of trades and always scores 2 points
               $player->addPoints(2);
               break;
             } 
-            Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity,'points'=>2,'koku'=>3,]);
             $goToBonusChoice = true;
             break;
           case BONUS_TYPE_MULTITRADE_3: 
@@ -458,6 +458,7 @@ class Players extends \ROG\Helpers\DB_Manager
             $goToBonusChoice = true;
             break;
           case BONUS_TYPE_CHOICE: 
+            if($player instanceof AutomaPlayer) break;
             Globals::addBonus($player,$bonusType);
             $goToBonusChoice = true;
             break;
