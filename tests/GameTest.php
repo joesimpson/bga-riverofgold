@@ -659,7 +659,21 @@ final class GameTest extends TestCase
                     'location' => 'r',
                     'pId' => 2,
                     'type' => 1,
-                    'pos' => 24,
+                    'pos' => 14,
+                ],
+                [
+                    'id' => 25,
+                    'location' => 'r',
+                    'pId' => AUTOMA_PLAYER_ID,
+                    'type' => 1,
+                    'pos' => 11,
+                ],
+                [
+                    'id' => 26,
+                    'location' => 'r',
+                    'pId' => AUTOMA_PLAYER_ID,
+                    'type' => 1,
+                    'pos' => 12,
                 ],
                 [
                     'id' => 31,

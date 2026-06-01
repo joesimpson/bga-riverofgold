@@ -9,6 +9,7 @@ use ROG\Helpers\Utils;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
+use ROG\States\SailTrait;
 
 class AutomaActionCard extends Card
 { 
@@ -35,8 +36,10 @@ class AutomaActionCard extends Card
     $action = $this->getType();
     switch($action){
       case AutomaActionType::SAIL_HIGHER->value : 
+        $this->playSail($player,true);
         break;
       case AutomaActionType::SAIL_LOWER->value : 
+        $this->playSail($player,false);
         break;
       case AutomaActionType::DELIVER->value : 
         break;
@@ -46,6 +49,29 @@ class AutomaActionCard extends Card
       case AutomaActionType::ADVANCE_CITY->value : 
         break;
     }
+  }
+  
+  public function playSail(AutomaPlayer $player, bool $higherShip)
+  {
+    Game::get()->trace(__CLASS__.".".__FUNCTION__);
+    
+    //Seishin moves the ship shown on the card the number of river spaces shown on her die.
+    $playerDieBefore = $player->getDie();
+    $selectedShip = null;
+    $boats = Meeples::getBoats($player->getId());
+    foreach($boats as $boat){
+      if(!isset($selectedShip)) $selectedShip = $boat;
+      //higher ship means lowest position
+      if(!$higherShip && ($boat->getPosition() >= $selectedShip->getPosition()) ){
+        $selectedShip = $boat;
+      }
+      else if($higherShip && ($boat->getPosition() <= $selectedShip->getPosition()) ){
+        $selectedShip = $boat;
+      }
+
+    }
+    $toRiverSpace = ($selectedShip->getPosition() + $playerDieBefore -1) % NB_RIVER_SPACES +1;
+    Game::get()->process_Sail($player,$selectedShip,$toRiverSpace);
   }
   
   public function playBuild(AutomaPlayer $player)

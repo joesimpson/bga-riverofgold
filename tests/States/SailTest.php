@@ -363,6 +363,8 @@ final class SailTest extends TestCase
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
         assertSame(7, $resources[RESOURCE_TYPE_MONEY]);//EMPTY_SPACE_REWARD*3 + 1 as owner reward + 3 as visitor reward
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsSail']);
+        //Test discard last building in row :
+        assertSame(TILE_LOCATION_DISCARD, TestDatas::$tiles[34]['tile_location']);
     }
     
     public function test_ActionSail_Pass_Merchant1_CompleteJourney(): void

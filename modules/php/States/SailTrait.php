@@ -4,6 +4,7 @@ namespace ROG\States;
 
 use Bga\GameFramework\Actions\Types\IntParam;
 use Bga\GameFramework\States\PossibleAction;
+use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
@@ -14,6 +15,7 @@ use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
+use ROG\Models\AutomaPlayer;
 use ROG\Models\Meeple;
 use ROG\Models\BuildingTile;
 use ROG\Models\CustomerCard;
@@ -94,6 +96,29 @@ trait SailTrait
     }
 
     $ship = Meeples::get($shipId);
+
+    $this->process_Sail($player,$ship,$riverSpace, $upriver, $markerId, $skipOwnerMarkerId);
+    
+    Utils::playTradersAbilities($player);
+
+    Players::claimMasteries($player);
+    
+    Stats::inc("nbActionsSail", $player->getId());
+
+    if($this->goToBonusStepIfNeeded($player)) return;
+    $this->gamestate->nextState('next');
+  }
+
+  public function process_Sail(
+    Player $player, 
+    Meeple $ship, 
+    int $riverSpace, 
+    bool $upriver = false, 
+    int|null $markerId  = null, 
+    int|null $skipOwnerMarkerId  = null, 
+  ){
+    $shipId = $ship->getId();
+    self::trace("process_Sail($shipId,$riverSpace)");
     $fromPosition = $ship->getPosition();
     $ship->setPosition($riverSpace);
     Globals::setLastSailedShip($shipId);
@@ -109,7 +134,7 @@ trait SailTrait
     }
 
     $adjacentSpaces = ShoreSpaces::getAdjacentSpaces($riverSpace);
-    self::trace("actSailSelect($shipId,$riverSpace) adjacent spaces :".json_encode($adjacentSpaces));
+    Game::get()->trace("process_Sail($shipId,$riverSpace) adjacent spaces :".json_encode($adjacentSpaces));
 
     $players = Players::getAll();
     $playerPatron = $player->getPatron();
@@ -204,20 +229,12 @@ trait SailTrait
         $player->addPoints(NB_POINTS_NOBLE_6);
       }
     }
-
-    Utils::playTradersAbilities($player);
     
     if(isset($playerPatron)){
       $playerPatron->scoreWhenSail($player,$ownBuilding,$opponentBuilding,$ship);
       $playerPatron->addBonuses($player);
     }
 
-    Players::claimMasteries($player);
-    
-    Stats::inc("nbActionsSail", $player->getId());
-
-    if($this->goToBonusStepIfNeeded($player)) return;
-    $this->gamestate->nextState('next');
   } 
 
   /**
@@ -278,7 +295,12 @@ trait SailTrait
   public function completeJourney(Player &$player,Meeple $ship)
   {
     Notifications::reachRiverEnd($player,$ship);
-    Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);
+    if($player instanceof AutomaPlayer){
+      $player->addPoints(NB_POINTS_FOR_AUTOMA_COMPLETE_JOURNEY);
+    }
+    else {
+      Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);
+    }
 
     Tiles::removeLastInBuildingRow();
 

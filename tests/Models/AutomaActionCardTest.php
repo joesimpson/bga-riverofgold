@@ -23,6 +23,378 @@ final class AutomaActionCardTest extends TestCase
     // -------------------------------------------------
     // -------------------------------------------------
     
+    public function test_play_SailHigher(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_1);
+        $cardRow = TestDatas::$cards[201];
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardRow['type']]);
+        $expectedMovedShip = 25;
+        $expectedRiverSpace = 12;//11+1
+
+        $card->play($player);
+        
+        assertSame($expectedRiverSpace, TestDatas::$tokens[$expectedMovedShip]['meeple_state']);
+        assertSame(MAIN_ACTION::SAIL->value, Globals::getTurnMainActionDone());
+        assertSame(0, $player->getScore());
+        //Test NO gained influence :
+        assertSame(0, TestDatas::$tokens[31]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[32]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[33]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[34]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[35]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[36]['meeple_state']);
+        //TEST players owner rewards :
+        assertSame(19, TestDatas::$players[1]['player_score']);//+0
+        assertSame(2,  TestDatas::$players[2]['player_score']);//+0
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[11]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[12]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[13]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[14]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[15]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[16]['meeple_state']);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses']));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses']));
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_MONEY]);
+        $resourcesP2 = json_decode(TestDatas::$players[2]['resources'], true);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP2[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_MONEY]);
+
+    }
+    
+    public function test_play_SailHigher_AutomaOwner(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_1);
+        $cardRow = TestDatas::$cards[201];
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardRow['type']]);
+        $expectedMovedShip = 25;
+        $expectedRiverSpace = 12;//11+1
+        TestDatas::$tokens[41]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$tiles[41]['type'] = 34;
+        TestDatas::$tiles[41]['tile_state'] = 26;
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tiles[43]['type'] = 42;
+        TestDatas::$tiles[43]['tile_state'] = 22;
+        TestDatas::$tiles[50] = TestDatas::$tiles[41];
+        TestDatas::$tiles[50]['tile_id'] = 50;
+        TestDatas::$tiles[50]['result_associative_index'] = 50;
+        TestDatas::$tiles[50]['type'] = 43;
+        TestDatas::$tiles[50]['tile_state'] = 25;
+
+        $card->play($player);
+        
+        assertSame($expectedRiverSpace, TestDatas::$tokens[$expectedMovedShip]['meeple_state']);
+        assertSame(MAIN_ACTION::SAIL->value, Globals::getTurnMainActionDone());
+        assertSame(2, $player->getScore());//+2
+        //Test gained influence :
+        assertSame(0, TestDatas::$tokens[31]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[32]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[33]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[34]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[35]['meeple_state']);//+2
+        assertSame(4, TestDatas::$tokens[36]['meeple_state']);//+3+1
+        //TEST players owner rewards :
+        assertSame(19, TestDatas::$players[1]['player_score']);//+0
+        assertSame(2,  TestDatas::$players[2]['player_score']);//+0
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[11]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[12]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[13]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[14]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[15]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[16]['meeple_state']);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses']));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses']));
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_MONEY]);
+        $resourcesP2 = json_decode(TestDatas::$players[2]['resources'], true);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP2[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_MONEY]);
+
+    }
+    
+    public function test_play_SailHigher_CompleteJourney(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_5);
+        $cardRow = TestDatas::$cards[201];
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardRow['type']]);
+        $expectedMovedShip = 25;
+        $expectedRiverSpace = 2;//11+5 % 14
+
+        $card->play($player);
+        
+        assertSame($expectedRiverSpace, TestDatas::$tokens[$expectedMovedShip]['meeple_state']);
+        assertSame(MAIN_ACTION::SAIL->value, Globals::getTurnMainActionDone());
+        assertSame(3, $player->getScore());
+        //Test discard last building in row :
+        assertSame(TILE_LOCATION_DISCARD, TestDatas::$tiles[34]['tile_location']);
+        //Test NO gained influence :
+        assertSame(0, TestDatas::$tokens[31]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[32]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[33]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[34]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[35]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[36]['meeple_state']);
+        //TEST players owner rewards :
+        assertSame(19, TestDatas::$players[1]['player_score']);//+0
+        assertSame(3,  TestDatas::$players[2]['player_score']);//+1
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[11]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[12]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[13]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[14]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[15]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[16]['meeple_state']);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses']));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses']));
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(1, $resourcesP1[RESOURCE_TYPE_MONEY]);//+1
+        $resourcesP2 = json_decode(TestDatas::$players[2]['resources'], true);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP2[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_MONEY]);
+        
+    }
+    // -------------------------------------------------
+    
+    public function test_play_SailLower(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_1);
+        $cardRow = TestDatas::$cards[204];
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardRow['type']]);
+        $expectedMovedShip = 26;
+        $expectedRiverSpace = 13;//12+1
+
+        $card->play($player);
+        
+        assertSame($expectedRiverSpace, TestDatas::$tokens[$expectedMovedShip]['meeple_state']);
+        assertSame(MAIN_ACTION::SAIL->value, Globals::getTurnMainActionDone());
+        assertSame(0, $player->getScore());
+        //Test NO gained influence :
+        assertSame(0, TestDatas::$tokens[31]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[32]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[33]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[34]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[35]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[36]['meeple_state']);
+        //TEST players owner rewards :
+        assertSame(19, TestDatas::$players[1]['player_score']);//+0
+        assertSame(2,  TestDatas::$players[2]['player_score']);//+0
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[11]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[12]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[13]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[14]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[15]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[16]['meeple_state']);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses']));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses']));
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_MONEY]);
+        $resourcesP2 = json_decode(TestDatas::$players[2]['resources'], true);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP2[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_MONEY]);
+
+    }
+    
+    public function test_play_SailLower_AutomaOwner(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_1);
+        $cardRow = TestDatas::$cards[204];
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardRow['type']]);
+        $expectedMovedShip = 26;
+        $expectedRiverSpace = 13;//12+1
+        TestDatas::$tokens[41]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$tiles[41]['type'] = 34;
+        TestDatas::$tiles[41]['tile_state'] = 26;
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tiles[43]['type'] = 42;
+        TestDatas::$tiles[43]['tile_state'] = 27;
+        TestDatas::$tiles[50] = TestDatas::$tiles[41];
+        TestDatas::$tiles[50]['tile_id'] = 50;
+        TestDatas::$tiles[50]['result_associative_index'] = 50;
+        TestDatas::$tiles[50]['type'] = 43;
+        TestDatas::$tiles[50]['tile_state'] = 25;
+
+        $card->play($player);
+        
+        assertSame($expectedRiverSpace, TestDatas::$tokens[$expectedMovedShip]['meeple_state']);
+        assertSame(MAIN_ACTION::SAIL->value, Globals::getTurnMainActionDone());
+        assertSame(2, $player->getScore());//+2
+        //Test gained influence :
+        assertSame(0, TestDatas::$tokens[31]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[32]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[33]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[34]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[35]['meeple_state']);
+        assertSame(6, TestDatas::$tokens[36]['meeple_state']);//+3+1+2
+        //TEST players owner rewards :
+        assertSame(19, TestDatas::$players[1]['player_score']);//+0
+        assertSame(2,  TestDatas::$players[2]['player_score']);//+0
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[11]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[12]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[13]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[14]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[15]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[16]['meeple_state']);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses']));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses']));
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_MONEY]);
+        $resourcesP2 = json_decode(TestDatas::$players[2]['resources'], true);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP2[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_MONEY]);
+
+    }
+
+    public function test_play_SailLower_CompleteJourney(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_4);
+        $cardRow = TestDatas::$cards[204];
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardRow['type']]);
+        $expectedMovedShip = 26;
+        $expectedRiverSpace = 2;//12+4 % 14
+
+        $card->play($player);
+        
+        assertSame($expectedRiverSpace, TestDatas::$tokens[$expectedMovedShip]['meeple_state']);
+        assertSame(MAIN_ACTION::SAIL->value, Globals::getTurnMainActionDone());
+        assertSame(3, $player->getScore());
+        //Test NO gained influence :
+        assertSame(0, TestDatas::$tokens[31]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[32]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[33]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[34]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[35]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[36]['meeple_state']);
+        //TEST players owner rewards :
+        assertSame(19, TestDatas::$players[1]['player_score']);//+0
+        assertSame(3,  TestDatas::$players[2]['player_score']);//+1
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[11]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[12]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[13]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[14]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[15]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[16]['meeple_state']);
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses']));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses']));
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(1, $resourcesP1[RESOURCE_TYPE_MONEY]);//+1
+        $resourcesP2 = json_decode(TestDatas::$players[2]['resources'], true);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP2[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP2[RESOURCE_TYPE_MONEY]);
+
+    }
+    // -------------------------------------------------
+    
     public function test_play_Build_Region1(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

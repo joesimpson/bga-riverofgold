@@ -214,7 +214,7 @@ final class PlayerTurnTest extends TestCase
                         'actions' => [
                             BEFORE_ACTION::SWAP_BOATS->value => [
                                 'source' => [21,22,],
-                                'dest' => [21,22,23,24],
+                                'dest' => [21,22,23,24,25,26],
                             ],
                         ],
                     ],
@@ -272,7 +272,7 @@ final class PlayerTurnTest extends TestCase
                         'actions' => [
                             BEFORE_ACTION::SWAP_BOATS->value => [
                                 'source' => [21,22,],
-                                'dest' => [21,22,23,24],
+                                'dest' => [21,22,23,24,25,26],
                             ],
                         ],
                     ],
@@ -380,7 +380,7 @@ final class PlayerTurnTest extends TestCase
         assertSame(5,  TestDatas::$tokens[22]['meeple_state']);
         //Test not moved ships positions: 
         assertSame(3,  TestDatas::$tokens[23]['meeple_state']);
-        assertSame(24,  TestDatas::$tokens[24]['meeple_state']);
+        assertSame(14,  TestDatas::$tokens[24]['meeple_state']);
         //Test stay in state
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
     }
@@ -409,7 +409,7 @@ final class PlayerTurnTest extends TestCase
         assertSame(2,  TestDatas::$tokens[23]['player_id']);
         //Test not moved ships positions: 
         assertSame(14,  TestDatas::$tokens[22]['meeple_state']);
-        assertSame(24,  TestDatas::$tokens[24]['meeple_state']);
+        assertSame(14,  TestDatas::$tokens[24]['meeple_state']);
         //Test stay in state
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
     }

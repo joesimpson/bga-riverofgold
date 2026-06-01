@@ -64,7 +64,9 @@ class TestDatas {
             21 => ['result_associative_index' => 21, 'meeple_id' => 21, 'meeple_state' => 5, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => 1,  ],
             22 => ['result_associative_index' => 22, 'meeple_id' => 22, 'meeple_state' => 14, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => 1,  ],
             23 => ['result_associative_index' => 23, 'meeple_id' => 23, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => 2,  ],
-            24 => ['result_associative_index' => 24, 'meeple_id' => 24, 'meeple_state' => 24, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => 2,  ],
+            24 => ['result_associative_index' => 24, 'meeple_id' => 24, 'meeple_state' => 14, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => 2,  ],
+            25 => ['result_associative_index' => 25, 'meeple_id' => 25, 'meeple_state' => 11, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => AUTOMA_PLAYER_ID,  ],
+            26 => ['result_associative_index' => 26, 'meeple_id' => 26, 'meeple_state' => 12, 'meeple_location'=> MEEPLE_LOCATION_RIVER,'type' => MEEPLE_TYPE_SHIP,  'player_id' => AUTOMA_PLAYER_ID,  ],
             
             31 => ['result_associative_index' => 31, 'meeple_id' => 31, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ],
             32 => ['result_associative_index' => 32, 'meeple_id' => 32, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE.'2','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ],
