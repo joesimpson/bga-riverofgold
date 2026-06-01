@@ -50,11 +50,10 @@ class Notifications
     $cardsNames = $cards->map(function($card) {return $card->getTitle();})->toArray();
 
     $level = Globals::getOptionSeishin();
-    self::notifyAll('initSeishinDeck',  clienttranslate('Level ${n} : ${automa_name} will play with ${x} action cards. ${cards_list}'), [
+    self::notifyAll('initSeishinDeck',  clienttranslate('Level ${n} : ${automa_name} will play with ${x} action cards : ${cards_list}'), [
       'automa_name' => Utils::getAutomaName(),
       'automa_color' => Utils::getAutomaColor(),
-      'i18n' => ['automa_name'],
-      //TODO JSA i18n cards names
+      'i18n' => ['automa_name','cards_list'],
       'preserve' => ['automa_color','cards'],
       'n' => Utils::getAutomaDifficultyName($level),
       'x' => $cards->count(),

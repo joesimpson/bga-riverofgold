@@ -325,4 +325,14 @@ body[data-rog_undo_style='2']{//PREF_UNDO_STYLE_ICON
 #pagesection_howtoplay li, .midSizeDialog li { margin-left: 2em; } 
 #pagesection_howtoplay ol li { list-style: decimal; } /* BEFORE ul in case there are ul under ol */ 
 #pagesection_howtoplay ul li, .midSizeDialog ul li { list-style: disc; }
+
+.notif_initSeishinDeck
+{
+    ul{
+        li{
+            margin-left: 2em; 
+            list-style: disc;
+        }
+    }
+}
 // ------------------------------------------------------------------------------

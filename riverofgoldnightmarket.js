@@ -2126,6 +2126,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             });
 
             this._counters['era'].toValue(this.gamedatas.era);
+            //for Testing purpose :
+            this._counters['automaDeck'].toValue(this.gamedatas.deckSize.automaDeck);
+            this._counters['automaPlayed'].toValue(this.gamedatas.deckSize.automaPlayed);
     
             //keep hand untouched, another notif will take care about it
             this.setupCards(true);
@@ -2513,6 +2516,16 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         icons += this.formatIcon(`customer-${t}`);
                     });
                     args.customers_icons = icons;
+                }
+                if('cards_list' in args && 'cards' in args){
+                    let listDiv = '<ul>';
+                    Object.values(args.cards).forEach((t) => {
+                        listDiv += '<li>';
+                        listDiv += _(t.title);
+                        listDiv += '</li>';
+                    });
+                    listDiv += '</ul>';
+                    args.cards_list = listDiv;
                 }
             }
             } catch (e) {

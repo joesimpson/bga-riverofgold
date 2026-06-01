@@ -739,6 +739,8 @@ final class GameTest extends TestCase
                 'era2' => 6,
                 'customers' => 3,
                 'customerDiscard' => 0,
+                'automaDeck' => 9,
+                'automaPlayed' => 0,
             ],
             'firstPlayer' => 1,
             'endTriggered' => false,
