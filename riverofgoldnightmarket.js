@@ -240,6 +240,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['giveMasteriesTo', 2000],
                 ['deliver', 1000],
                 ['reshuffleDeck', 10],
+                ['reshuffleAutomaActionDeck', 1000],
                 ['discardPublic', 10],
                 ['discard', 1000],
                 ['giveResource', 1000],
@@ -1726,6 +1727,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         notif_giveActionCardToAutoma(n) {
             debug('notif_giveActionCardToAutoma', n);
             //We want the text on top
+            this._counters['automaDeck'].incValue(-1);
+            this._counters['automaPlayed'].incValue(+1);
+        },
+        notif_reshuffleAutomaActionDeck(n) {
+            debug('notif_reshuffleAutomaActionDeck', n);
+            //We want the text on top
+            this._counters['automaDeck'].toValue(n.args.deckSize);
+            this._counters['automaPlayed'].toValue(n.args.discardSize);
         },
         notif_deliver(n) {
             debug('notif_deliver: a player shows a card to all !', n);
@@ -2773,6 +2782,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 this.bga.playerPanels.getElement(automa_id).insertAdjacentHTML('beforeend', this.tplPlayerPanel(automa_player));
                 let panelContainer = this.bga.playerPanels.getElement(automa_id).parentNode.parentNode.parentNode;
                 panelContainer.dataset.color = this.gamedatas.automa_color;
+                
+                if(!this._counters['automaDeck']) this._counters['automaDeck'] = this.createCounter(`rog_player_deck_size-${automa_id}`,this.gamedatas.deckSize.automaDeck);
+                this._counters['automaDeck'].toValue(this.gamedatas.deckSize.automaDeck);
+                if(!this._counters['automaPlayed']) this._counters['automaPlayed'] = this.createCounter(`rog_player_discard_size-${automa_id}`,this.gamedatas.deckSize.automaPlayed);
+                this._counters['automaPlayed'].toValue(this.gamedatas.deckSize.automaPlayed);
             }
 
         },
@@ -2877,6 +2891,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.ALL_CUSTOMER_TYPES.forEach((value, key, map) =>{
                 customerTypes += this.tplResourceCounter(player, 'customer-'+key);
             });
+            let playerDeckSize = null;
+            let playerDiscardSize = null;
+            if(player.is_automa){
+                playerDeckSize = `<span id='rog_player_deck_size-${player.id}'>${this.gamedatas.deckSize.automaDeck}</span>`;
+                playerDiscardSize = `<span id='rog_player_discard_size-${player.id}'>${this.gamedatas.deckSize.automaPlayed}</span>`;
+            }
             return `<div class='rog_panel' data-is_automa='${player.is_automa}'>
             <div class="rog_first_player_holder"></div>
             <div class='rog_player_infos'>
@@ -2890,6 +2910,17 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     ${this.tplResourceCounter(player, 'silk',   NB_MAX_RESOURCE)}
                     ${this.tplResourceCounter(player, 'rice',   NB_MAX_RESOURCE)}
                     ${this.tplResourceCounter(player, 'pottery',NB_MAX_RESOURCE)}
+                </div>
+                <div class='rog_player_resource_line rog_player_resource_line_deck_size'
+                    data-pid='${player.id}'>
+                    <div>
+                        <div class='reduceToFit'>${playerDeckSize ? this.fsr(_('Deck/Discard : ${n1}/${n2} ${icon}'), { 
+                            'n1': playerDeckSize, 
+                            'n2': playerDiscardSize, 
+                            'icon': this.formatIcon('automa_action_card'),
+                        }) : ''}
+                        </div>
+                    </div>
                 </div>
                 <div class='rog_player_resource_line rog_player_resource_line_buildings'>
                     <hr>

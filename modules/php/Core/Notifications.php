@@ -226,13 +226,15 @@ class Notifications
     ]);
   }
   
-  public static function reshuffleAutomaActionDeck(AutomaPlayer $player, int $deck_size)
+  public static function reshuffleAutomaActionDeck(AutomaPlayer $player, int $deck_size, int $discardSize)
   {
     $msg = clienttranslate('${player_name} action deck is reshuffled');
 
     self::notifyAll('reshuffleAutomaActionDeck', $msg, [
-      'deck_size' => $deck_size,
+      'deckSize' => $deck_size,
+      'discardSize' => $discardSize,
       'player' => $player,
+      'preserve' => ['deckSize','discardSize'],
     ]);
   }
   

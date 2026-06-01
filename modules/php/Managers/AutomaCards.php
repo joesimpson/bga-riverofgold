@@ -33,7 +33,7 @@ class AutomaCards extends Cards
         $toDeck = CARD_AUTOMA_LOCATION_PLAYED;
         $deckSize = AutomaCards::countAutomaActionDeckSize($fromDeck);
         if($deckSize == 0){
-            //if fromDeck is empty, reshuffle
+            //if fromDeck is empty, reshuffle before picking card
             AutomaCards::reshuffleAutomaActionDeck($player,$toDeck, $fromDeck);
         }
         $actionCard = AutomaCards::getTopOf($fromDeck);
@@ -54,7 +54,7 @@ class AutomaCards extends Cards
         self::moveAllInLocation( $fromDeck, $toDeck, );
         self::shuffle($toDeck);
         $decksize = AutomaCards::countAutomaActionSize($toDeck);
-        Notifications::reshuffleAutomaActionDeck($player, $decksize );
+        Notifications::reshuffleAutomaActionDeck($player, $decksize,0 );
         return $decksize;
     }
     ///////////////////////////////////////////////////////////////////////////////////////

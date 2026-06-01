@@ -2,6 +2,16 @@
     @include rog_icons_sprite(-1px,-1px,0.07 * 329px,0.07 * 381px,329px,381px);
 }
 
+.rog_icon_automa_action_card{
+    width: 25px;
+    height: 35px;
+    border-radius: 5px;
+    background-size: 200% 300%;
+    background-image: url("img/cards/seishin_deck.jpg");
+    background-position-x: 0%;
+    background-position-y: 0%;
+}
+
 .rog_icon_imperial_flower{
     @include rog_icons_sprite(-1px,-384px,30px,30.5px,300px,305px);
 }
