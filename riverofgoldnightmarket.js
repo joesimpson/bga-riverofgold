@@ -2311,7 +2311,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let table = `<table id="rog_score_customers_table">
                 <tbody>
                     <tr>
-                        <th>${titleLine1}</th>
+                        <th>${titleLine1}${this.formatIcon('customer_delivery')}</th>
                         <td>1</td>
                         <td>2</td>
                         <td>3</td>
@@ -2320,7 +2320,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         <td>6+</td>
                     </tr>
                     <tr>
-                        <th>${titleLine2}</th>
+                        <th>${titleLine2}${this.formatIcon('score')}</th>
                         <td>2</td>
                         <td>5</td>
                         <td>9</td>

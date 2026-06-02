@@ -1071,6 +1071,10 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   text-align: center;
   vertical-align: middle;
 }
+.rog_tooltip #rog_score_customers_table .rog_icon_container {
+  margin-left: 0.5em;
+  margin-right: 0.5em;
+}
 
 #rog_score_track {
   position: absolute;
