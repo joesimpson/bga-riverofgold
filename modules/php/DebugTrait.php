@@ -13,6 +13,7 @@ use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
+use ROG\Models\AutomaPlayer;
 use ROG\Models\CustomerCard;
 use ROG\States\EndTurnTrait;
 
@@ -134,15 +135,17 @@ trait DebugTrait
   //Fake deliveries for UI
   function debug_Liv(){
     $this->addStep();
-    $players = Players::getAll();
+    $players = Players::getAllWithAutoma();
     Cards::moveAllInLocation(CARD_LOCATION_DELIVERED,CARD_LOCATION_DECK);
     Cards::shuffle(CARD_LOCATION_DECK);
-    $k =6;
+    $k =10;
     foreach($players as $pid => $player){
-
-      $cards = Cards::pickForLocation($k, CARD_LOCATION_DECK, CARD_LOCATION_DELIVERED );
+      $dest = CARD_LOCATION_DELIVERED;
+      if($player instanceof AutomaPlayer) $dest = CARD_LOCATION_DELIVERED_HIDDEN;
+      $cards = Cards::pickForLocation($k, CARD_LOCATION_DECK, $dest );
       foreach($cards as $card){
         $card->setPId($pid);
+        Cards::insertOnTop($card->getId(), $dest);
       }
       $k--;
     }
@@ -484,7 +487,7 @@ trait DebugTrait
   }
   function debug_Scoring(){
     $this->addStep();
-    $players = Players::getAll();
+    $players = Players::getAllWithAutoma();
     $player = Players::getCurrent(); 
     //$testElderOnRegion = REGION_5;
     //$elder = Meeples::getMarkerOnElderSpace($player->getId(),$testElderOnRegion);

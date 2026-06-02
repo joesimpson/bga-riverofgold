@@ -150,6 +150,11 @@ class Cards extends \ROG\Helpers\Pieces
     return self::getFilteredQuery($pId, CARD_LOCATION_DELIVERED)->get();
   }
   
+  public static function getPlayerHiddenDeliveredCustomers(int $pId)
+  {
+    return self::getFilteredQuery($pId, CARD_LOCATION_DELIVERED_HIDDEN)->get();
+  }
+  
   /**
    * @param int $pId
    * @param int $orderType
@@ -158,6 +163,24 @@ class Cards extends \ROG\Helpers\Pieces
   public static function hasPlayerDeliveredOrder($pId, $orderType)
   {
     return self::getFilteredQuery($pId, CARD_LOCATION_DELIVERED,$orderType)->count()>0;
+  }
+
+  /** REVEAL and DELIVER Customer cards */
+  public static function deliverHiddenCards(Player $player)
+  {
+    $player_id = $player->getId();
+    Game::get()->trace("deliverHiddenCards($player_id)");
+    $cards = Cards::getPlayerHiddenDeliveredCustomers($player_id);
+    foreach($cards as $customerCard){
+      $customerCard->setLocation(CARD_LOCATION_DELIVERED);
+      Notifications::deliver($player,$customerCard);
+      switch($customerCard->getCustomerType()){
+        case CUSTOMER_TYPE_ELDER:
+          //marker will be used for score computation
+          Meeples::addClanMarkerOnElderSpace($player,$customerCard->getRegion());
+          break;
+      }
+    }
   }
 
   /**

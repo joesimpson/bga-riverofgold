@@ -1743,7 +1743,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let card = n.args.card;
             let div = $(`rog_card-${card.id}`);
             let oldParent = null;
-            if (!div) this.addCard(card, this.getVisibleTitleContainer());
+            let fromLocation = this.getVisibleTitleContainer();
+            let hiddenDiv = document.getElementById(`rog_card_back_${card.pId}-${card.state}`);
+            if(hiddenDiv){
+                //Clean card placeholder for any hidden card, but we keep the state as index
+                fromLocation = hiddenDiv;
+                oldParent = hiddenDiv.parentNode.parentNode;//rog_customer_holder
+            }
+            if (!div) this.addCard(card, fromLocation);
             else oldParent = div.parentNode.parentNode;//rog_customer_holder
             this.slide(`rog_card-${card.id}`, this.getCardContainer(card)).then(() =>{
                 if(oldParent && oldParent.classList.contains("rog_customer_card_resizeable")) this.destroy( $(`${oldParent.id}`));
@@ -2540,6 +2547,18 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     listDiv += '</ul>';
                     args.cards_list = listDiv;
                 }
+                /*
+                if('resources_list' in args && 'resources' in args){
+                    let listDiv = '<ul>';
+                    Object.values(args.resources_list).forEach((t) => {
+                        listDiv += '<li>';
+                        listDiv += t;
+                        listDiv += '</li>';
+                    });
+                    listDiv += '</ul>';
+                    args.resources_list = listDiv;
+                }
+                */
             }
             } catch (e) {
                 console.error(log, args, 'Exception thrown', e.stack);
@@ -3220,7 +3239,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             debug('addCustomerCardBackInPlayerDeliveries',card_pId, index);
             let fakeId = index;
             let cardDatas = {
-                'id': `customer_back_${fakeId}`, 
+                'id': fakeId, 
                 'type':CARD_TYPE_CUSTOMER ,
                 'location': CARD_LOCATION_DELIVERED_HIDDEN, 
                 'pId': card_pId,
@@ -3459,7 +3478,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         
         tplCardBack(card, prefix ='') {
-            return `<div class="rog_card rog_card_back" id="rog_card_back-${card.id}" data-type="${card.type}" data-customertype="0">
+            return `<div class="rog_card rog_card_back" id="rog_card_back_${card.pId}-${card.id}" data-type="${card.type}" data-customertype="0">
                     <div class="rog_card_wrapper">
                     </div>
                 </div>`;

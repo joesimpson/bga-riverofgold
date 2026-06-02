@@ -944,6 +944,44 @@ class Notifications
     self::notifyAll('computeFinalScore', clienttranslate('Computing final scoring...'), [
     ]);
   }
+  
+  /**
+   */
+  public static function endResourcesForCustomers(AutomaPlayer $player, int $level, array $resources )
+  {
+    /* Cannot use recursive args in i18n array...
+    * https://studio.boardgamearena.com/bug?id=346
+    $resourcesNames = array_values(array_map(function($r) {
+        return [
+          'log'=> clienttranslate('${n} ${element}'),
+          'args'=> [ 
+            'n' => $r['n'],
+            'element' => $r['name'],
+            'i18n' => ['element'],
+          ],
+        ];
+      }, $resources));
+
+    self::notifyAll('endResourcesForCustomers', clienttranslate('Level ${n} : ${player_name} will score customer endgame rewards with ${resources_list}'), [
+      'player' => $player,
+      'n' => Utils::getAutomaDifficultyName($level),
+      'resources' => $resources,
+      'resources_list' => $resourcesNames,
+      'separator' => ['resources_list' => ','],
+      'i18n' => ['resources_list'],
+      'preserve' => ['resources'],
+
+    ]);
+    */
+    self::notifyAll('endResourcesForCustomers', clienttranslate('Level ${n} : ${player_name} will score customer endgame rewards with ${n1} trade goods, ${n2} Koku, ${n3} divine favor'), [
+      'player' => $player,
+      'n' => Utils::getAutomaDifficultyName($level),
+      'n1' => $resources[BONUS_TYPE_CHOICE]['n'],
+      'n2' => $resources[RESOURCE_TYPE_MONEY]['n'],
+      'n3' => $resources[RESOURCE_TYPE_SUN]['n'],
+
+    ]);
+  }
 
   /*************************
    **** GENERIC METHODS ****

@@ -9,6 +9,7 @@ use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
+use ROG\Models\AutomaPlayer;
 use ROG\Models\Meeple;
 use ROG\Models\CustomerCard;
 
@@ -27,7 +28,7 @@ trait ScoringTrait
   {
     self::trace("stScoring()");
 
-    $players = Players::getAll();
+    $players = Players::getAllWithAutoma();
     $this->computeFinalScore($players);
 
     $this->gamestate->nextState('next');
@@ -52,11 +53,17 @@ trait ScoringTrait
         SCORING_DELIVERED => 0, 
         SCORING_CUSTOMERS=> 0
       ];
+      
+      //$this->trace("player::class = ".($player::class));
+      if($player instanceof AutomaPlayer){
+        Cards::deliverHiddenCards($player);
+      }
     }
 
     //RULE 1 : REGIONAL INFLUENCE, scored region by region
     foreach(REGIONS as $region){
       foreach($players as $pid => $player){
+        $this->trace("Final scoring for player $pid in region $region ...");
         $playerPosition = $influenceMarkers[$region]->filter( function($meeple) use ($pid) { 
             return $meeple->getPId() == $pid; 
           })->first()->getPosition();
@@ -68,7 +75,6 @@ trait ScoringTrait
 
         $scoringTile = $scoringTiles->filter(function($tile) use ($region) {return $region == $tile->getRegion();})->first();
         if(!isset($scoringTile)) throw new UnexpectedException(404,"Missing scoring tile for region $region");
-        $this->trace("Final scoring for $pid in region $region ...");
         $influenceScore = $scoringTile->computeScore($playerPosition,$opponentPositions);
         $endScoringDatas[$pid][SCORING_INFLUENCE][$region] = $influenceScore;
 
@@ -107,8 +113,21 @@ trait ScoringTrait
       $endScoringDatas[$pid][SCORING_DELIVERED] = $scoreForNbDeliveries;
 
       //RULE 3 : CUSTOMER BONUSES : artisans, merchants, nobles
+      $fixedEndResourcesForCustomers = null;
+      if($player instanceof AutomaPlayer){
+        $level = Globals::getOptionSeishin();
+        $fixedEndResourcesForCustomers = [ 
+          BONUS_TYPE_CHOICE =>    ['n' => 3 * $level , /*'name' => clienttranslate('Choose any trade good')*/ ], 
+          RESOURCE_TYPE_MONEY =>  ['n' => 5 * $level , /*'name' => clienttranslate('Koku')                 */ ], 
+          RESOURCE_TYPE_SUN =>    ['n' => 1 * $level , /*'name' => clienttranslate('Divine favor')         */ ], 
+        ];
+        Notifications::endResourcesForCustomers($player,$level,$fixedEndResourcesForCustomers);
+      }
       //3.1 ARTISANS score remaining trade goods :
       $nbResources = $player->getResource(RESOURCE_TYPE_SILK) + $player->getResource(RESOURCE_TYPE_RICE)+ $player->getResource(RESOURCE_TYPE_POTTERY);
+      if(isset($fixedEndResourcesForCustomers)){
+        $nbResources = $fixedEndResourcesForCustomers[BONUS_TYPE_CHOICE]['n'];
+      }
       $nbArtisans = $player->getNbDeliveredCustomerByType(CUSTOMER_TYPE_ARTISAN);
       $scoreForRemainingGoods = $nbArtisans * floor( $nbResources / NB_RESOURCES_FOR_1POINT_WITH_ARTISAN);
       if($scoreForRemainingGoods>0) {
@@ -118,6 +137,9 @@ trait ScoringTrait
       }
       //3.2 : Merchants score remaining money :
       $money = $player->getMoney();
+      if(isset($fixedEndResourcesForCustomers)){
+        $money = $fixedEndResourcesForCustomers[RESOURCE_TYPE_MONEY]['n'];
+      }
       $nbMerchants = $player->getNbDeliveredCustomerByType(CUSTOMER_TYPE_MERCHANT);
       $scoreForRemainingMoney = $nbMerchants * floor( $money / NB_RESOURCES_FOR_1POINT_WITH_MERCHANT);
       if($scoreForRemainingMoney>0) {
@@ -141,6 +163,9 @@ trait ScoringTrait
       //3.4 : SHin score remaining favor :
       $resourceScored = RESOURCE_TYPE_SUN;
       $favor = $player->getResource($resourceScored);
+      if(isset($fixedEndResourcesForCustomers)){
+        $favor = $fixedEndResourcesForCustomers[$resourceScored]['n'];
+      }
       $nbShins = $player->getNbDeliveredCustomerByType(CUSTOMER_TYPE_SHINDOSHI);
       $scoreForRemainingFavor = $nbShins * floor( $favor / NB_RESOURCES_FOR_1POINT_WITH_SHIN);
       if($scoreForRemainingFavor>0) {

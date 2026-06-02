@@ -174,9 +174,10 @@ class Players extends \ROG\Helpers\DB_Manager
 
   public static function getAllWithAutoma() : Collection
   {
-    $players = self::DB()->get(false);
+    $players = self::getAll();
     if(Utils::isGameWithAutoma()){
-      $players->append( Players::automaPlayer());
+      $automaPlayer = Players::automaPlayer();
+      $players[$automaPlayer->getId()] = $automaPlayer;
     }
     return $players;
   }
@@ -299,12 +300,8 @@ class Players extends \ROG\Helpers\DB_Manager
    */
   public static function getUiData($pId)
   {
-    $players = self::getAll();
+    $players = self::getAllWithAutoma();
     $playersDatas = $players->uiAssoc();
-    if(Utils::isGameWithAutoma()){ 
-      $automa = Players::automaPlayer();
-      $playersDatas[$automa->getId()] = $automa->getUiData($pId);
-    }
     return $playersDatas;
   }
 

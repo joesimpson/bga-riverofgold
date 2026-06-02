@@ -744,7 +744,6 @@ final class ScoringTest extends TestCase
         TestDatas::$tiles[44] = TestDatas::$tiles[41];
         TestDatas::$tiles[44]['type'] = 25;
         TestDatas::$tiles[44]['tile_id'] = 44;
-        TestDatas::$tiles[43]['tile_state'] = 13;
         TestDatas::$tiles[44]['result_associative_index'] = 44;
         TestDatas::$tokens[44] = TestDatas::$tokens[41];
         TestDatas::$tokens[44]['meeple_id'] = 44;
@@ -1050,7 +1049,1497 @@ final class ScoringTest extends TestCase
         assertSame(6, TestDatas::$players[2]['player_score']);
         assertSame(0, TestDatas::$players[2]['player_score_aux']);
     }
+    // -------------------------------------------------
     
+    public function test_computeScoring_AutomaLevel1_Artisans(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 9, //3 deliveries
+                SCORING_CUSTOMERS => 3.0,//3* 1 for 3 goods (3 goods)
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(12, Globals::getAutomaScore());
+    }
+    
+    public function test_computeScoring_AutomaLevel2_Artisans(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 9, //3 deliveries
+                SCORING_CUSTOMERS => 6.0,//3* 1 for 3 goods * 2 (6 goods)
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(15, Globals::getAutomaScore());
+    }
+    
+    public function test_computeScoring_AutomaLevel3_Artisans(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_3);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 9, //3 deliveries
+                SCORING_CUSTOMERS => 9.0,//3* 1 for 3 goods * 3 (9 goods)
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(18, Globals::getAutomaScore());
+    }
+    
+    public function test_computeScoring_AutomaLevel4_Artisans(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_4);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 9, //3 deliveries
+                SCORING_CUSTOMERS => 12.0,//3* 1 for 3 goods * 4 (12 goods)
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(21, Globals::getAutomaScore());
+    }
+    
+    public function test_computeScoring_AutomaLevel5_Artisans(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_5);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 9, //3 deliveries
+                SCORING_CUSTOMERS => 15.0,//3* 1 for 3 goods * 5 (15 goods)
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(24, Globals::getAutomaScore());
+    }
+    
+    public function test_computeScoring_AutomaLevel1_Elders(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_ELDER_6;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['type'] = CARD_ELDER_1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['type'] = CARD_ELDER_4;
+        //------------------------------------------
+        TestDatas::$tokens[31]['meeple_state'] = 18;
+        TestDatas::$tokens[32]['meeple_state'] = 17;
+        TestDatas::$tokens[33]['meeple_state'] = 0;
+        TestDatas::$tokens[34]['meeple_state'] = 1;
+        TestDatas::$tokens[35]['meeple_state'] = 6;
+        TestDatas::$tokens[36]['meeple_state'] = 5;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 8,
+                    REGION_2 => 6,
+                    REGION_3 => 0,
+                    REGION_4 => 5,
+                    REGION_5 => 3,
+                    REGION_6 => 7,
+                ], 
+                SCORING_DELIVERED => 9, //3 deliveries
+                SCORING_CUSTOMERS => 20,//8+5+7
+            ],
+        ];
+
+        $game->stScoring();
+        
+        $endScoringDatas = Globals::getEndScoring();
+        //Test new clan markers
+        assertSame(45, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_ELDER."6",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        assertSame(TestDatas::$tokens[44], ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_ELDER."1",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        assertSame(TestDatas::$tokens[45], ['result_associative_index' => 45, 'meeple_id' => 45, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_ELDER."4",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(58, Globals::getAutomaScore());
+    }
+    
+    public function test_computeScoring_AutomaLevel1_Merchants(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_MERCHANT_1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['type'] = CARD_MERCHANT_5;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 5, //2 deliveries
+                SCORING_CUSTOMERS => 2.0,//2* 1 for 5 Koku * 1 (5 Koku)
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(7, Globals::getAutomaScore());
+    }
+    
+    public function test_computeScoring_AutomaLevel2_Merchants(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_MERCHANT_1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['type'] = CARD_MERCHANT_5;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 5, //2 deliveries
+                SCORING_CUSTOMERS => 4.0,//2* 1 for 5 Koku * 2 (10 Koku)
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(9, Globals::getAutomaScore());
+    }
+    public function test_computeScoring_AutomaLevel3_Merchants(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_3);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_MERCHANT_1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['type'] = CARD_MERCHANT_5;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 5, //2 deliveries
+                SCORING_CUSTOMERS => 6.0,//2* 1 for 5 Koku * 3 (15 Koku)
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(11, Globals::getAutomaScore());
+    }
+    
+    public function test_computeScoring_AutomaLevel4_Merchants(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_4);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_MERCHANT_1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['type'] = CARD_MERCHANT_5;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 5, //2 deliveries
+                SCORING_CUSTOMERS => 8.0,//2* 1 for 5 Koku * 4 (20 Koku)
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(13, Globals::getAutomaScore());
+    }
+    public function test_computeScoring_AutomaLevel5_Merchants(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_5);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_MERCHANT_1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['type'] = CARD_MERCHANT_5;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 5, //2 deliveries
+                SCORING_CUSTOMERS => 10.0,//2* 1 for 5 Koku * 5 (25 Koku)
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(15, Globals::getAutomaScore());
+    }
+
+    
+    public function test_computeScoring_AutomaLevel1_Noble1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_5);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_1;
+        TestDatas::$tiles[41]['type'] = 8;
+        TestDatas::$tokens[41]['player_id'] = AUTOMA_PLAYER_ID;
+        //add a second building tile  + marker
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, //1 deliveries
+                SCORING_CUSTOMERS => 2,//2* 1 market
+            ],
+        ];
+
+        $game->stScoring();
+        
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(4, Globals::getAutomaScore());
+    }
+    public function test_computeScoring_AutomaLevel1_Noble5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_5);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_5;
+        TestDatas::$tiles[41]['type'] = 2;
+        TestDatas::$tokens[41]['player_id'] = AUTOMA_PLAYER_ID;
+        //add a second building tile  + marker
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tiles[43]['type'] = 9;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        //add a 3rd building tile  + marker
+        TestDatas::$tiles[44] = TestDatas::$tiles[41];
+        TestDatas::$tiles[44]['type'] = 25;
+        TestDatas::$tiles[44]['tile_id'] = 44;
+        TestDatas::$tiles[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44] = TestDatas::$tokens[41];
+        TestDatas::$tokens[44]['meeple_id'] = 44;
+        TestDatas::$tokens[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44]['meeple_location'] = MEEPLE_LOCATION_TILE.'44';
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, //1 deliveries
+                SCORING_CUSTOMERS => 3,//3* 1 type of building
+            ],
+        ];
+
+        $game->stScoring();
+        
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(5, Globals::getAutomaScore());
+    }
+    public function test_computeScoring_AutomaLevel1_Noble6(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_5);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_6;
+        TestDatas::$tiles[41]['type'] = 2;
+        TestDatas::$tokens[41]['player_id'] = AUTOMA_PLAYER_ID;
+        //add a second building tile  + marker
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tiles[43]['type'] = 9;
+        TestDatas::$tiles[43]['tile_state'] = 12;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        //add a 3rd building tile  + marker
+        TestDatas::$tiles[44] = TestDatas::$tiles[41];
+        TestDatas::$tiles[44]['type'] = 25;
+        TestDatas::$tiles[44]['tile_id'] = 44;
+        TestDatas::$tiles[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44] = TestDatas::$tokens[41];
+        TestDatas::$tokens[44]['meeple_id'] = 44;
+        TestDatas::$tokens[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44]['meeple_location'] = MEEPLE_LOCATION_TILE.'44';
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, //1 deliveries
+                SCORING_CUSTOMERS => 2,//2* 1 region of building
+            ],
+        ];
+
+        $game->stScoring();
+        
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(4, Globals::getAutomaScore());
+    }
+
+    public function test_computeScoring_AutomaLevel2_Smugglers(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_SMUGGLER_1;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['type'] = CARD_SMUGGLER_2;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['type'] = CARD_SMUGGLER_3;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 9, //3 deliveries
+                SCORING_CUSTOMERS => 5.0,//2+1+2
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(14, Globals::getAutomaScore());
+    }
+
+    public function test_computeScoring_AutomaLevel1_Shins(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_2;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_6;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_3;
+        TestDatas::$cards[1]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[1]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[1]['type'] = CARD_SHINDOSHI_4;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 14, //4 deliveries
+                SCORING_CUSTOMERS => 4.0,//4* 1 Favor
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(18, Globals::getAutomaScore());
+    }
+    
+    public function test_computeScoring_AutomaLevel2_Shins(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_2;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_6;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_3;
+        TestDatas::$cards[1]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[1]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[1]['type'] = CARD_SHINDOSHI_4;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 14, //4 deliveries
+                SCORING_CUSTOMERS => 8.0,//4* 1 Favor * Level 2
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(22, Globals::getAutomaScore());
+    }
+    public function test_computeScoring_AutomaLevel3_Shins(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_3);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_2;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_6;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_3;
+        TestDatas::$cards[1]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[1]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[1]['type'] = CARD_SHINDOSHI_4;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 14, //4 deliveries
+                SCORING_CUSTOMERS => 12.0,//4* 1 Favor * Level 3
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(26, Globals::getAutomaScore());
+    }
+    public function test_computeScoring_AutomaLevel4_Shins(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_4);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_2;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_6;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_3;
+        TestDatas::$cards[1]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[1]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[1]['type'] = CARD_SHINDOSHI_4;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 14, //4 deliveries
+                SCORING_CUSTOMERS => 16.0,//4* 1 Favor * Level 4
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(30, Globals::getAutomaScore());
+    }
+    
+    public function test_computeScoring_AutomaLevel5_Shins(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_5);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_2;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_6;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[13]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[13]['type'] = CARD_SHINDOSHI_3;
+        TestDatas::$cards[1]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[1]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[1]['type'] = CARD_SHINDOSHI_4;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 14, //4 deliveries
+                SCORING_CUSTOMERS => 20.0,//4* 1 Favor * Level 5
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(34, Globals::getAutomaScore());
+    }
+    
+    public function test_computeScoring_AutomaLevel2_Traders(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_MERCHANT_3;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[12]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[12]['type'] = CARD_TRADER_3;
+        TestDatas::$tiles[41]['tile_state'] = 11;//in region 3
+        TestDatas::$tokens[41]['player_id'] = AUTOMA_PLAYER_ID;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 5, //2 deliveries
+                SCORING_CUSTOMERS=> 8.0,//2 + 6 (2*2 for cards in region 3 + 2 for 1 building in region 3 )
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame(ST_PRE_END_OF_GAME, GamestateMachine::$test_current_state);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(13, Globals::getAutomaScore());
+    }
     // -------------------------------------------------
     
     public function test_compute_TieBreaker(): void
