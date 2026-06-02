@@ -120,6 +120,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const TILE_LOCATION_BUILDING_SHORE = 'sh';
 
     const CARD_LOCATION_DELIVERED = 'dd';
+    const CARD_LOCATION_DELIVERED_HIDDEN = 'del_h';
     const CARD_LOCATION_HAND = 'h';
     const CARD_CLAN_LOCATION_ASSIGNED = 'clans_assigned';
 
@@ -239,6 +240,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['giveActionCardToAutoma', 1000],
                 ['giveMasteriesTo', 2000],
                 ['deliver', 1000],
+                ['deliverHidden', 1000],
                 ['reshuffleDeck', 10],
                 ['reshuffleAutomaActionDeck', 1000],
                 ['discardPublic', 10],
@@ -1749,6 +1751,17 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this._counters[card.pId].customers[card.customerType].incValue(+1);
         },
         
+        notif_deliverHidden(n) {
+            debug('notif_deliverHidden: a player shows the back of a card to all', n);
+            let card_pId = n.args.card_pId;
+            this.gamedatas.deckSize.hiddenDeliv[card_pId]++;
+            let player_panel = this.bga.playerPanels.getElement(card_pId);
+            let cardDiv = this.addCustomerCardBackInPlayerDeliveries(card_pId,this.gamedatas.deckSize.hiddenDeliv[card_pId]);
+            this.animationManager.slideIn(cardDiv, player_panel, {duration: 700}).then(() => {
+                this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
+            });
+        },
+
         notif_reshuffleDeck(n) {
             debug('notif_reshuffleDeck', n);
             this._counters['deckSizeCustomers'].toValue(n.args.deckSize);
@@ -2631,7 +2644,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
 
                 if(isCurrent) this.place('tplPlayerHand', player, 'rog_upper_zone','last');
                 this.place('tplPlayerDeliveredCards', player, 'rog_players_deliveries');
-                
+
                 let pId = player.id;
                 this.refreshPlayerColor(pId,player.color,player.clan);
                 this._counters[pId] = {
@@ -2764,6 +2777,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let automa_player = this.gamedatas.automa_player;
             if(!automa_player) return null;
             let automa_id = automa_player.id;
+            this.automa_id = automa_id;
             //this.gamedatas.players[automa_id] = automa_player;
             this.gamedatas.automa_id = automa_id;
             let automa_panel = this.bga.playerPanels.getElement(automa_id);
@@ -2801,7 +2815,6 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 if(!this._counters['automaPlayed']) this._counters['automaPlayed'] = this.createCounter(`rog_player_discard_size-${automa_id}`,this.gamedatas.deckSize.automaPlayed);
                 this._counters['automaPlayed'].toValue(this.gamedatas.deckSize.automaPlayed);
             }
-
         },
         setupInfoPanel() {
             debug("setupInfoPanel");
@@ -3151,6 +3164,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 document.querySelectorAll('.rog_cards_delivered').forEach((div) => {
                     this.empty(div);
                 });
+
+                Object.entries(this.gamedatas.deckSize.hiddenDeliv).forEach( ([playerId, nbHiddenCustomers]) => {
+                    if(nbHiddenCustomers){
+                        for(let k=1; k<= nbHiddenCustomers;k++){
+                            this.addCustomerCardBackInPlayerDeliveries(playerId,k);
+                        }
+                    }
+                });
             }
             let cardIds = this.gamedatas.cards.map((card) => {
                 let divCardId = `rog_card-${card.id}`;
@@ -3188,6 +3209,24 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
     
             return o;
+        },
+        
+        addCustomerCardBack(card) {
+            debug('addCustomerCardBack',card);
+            let o = this.place('tplCardBack', card, this.getCardContainer(card));
+            return o;
+        },
+        addCustomerCardBackInPlayerDeliveries(card_pId, index) {
+            debug('addCustomerCardBackInPlayerDeliveries',card_pId, index);
+            let fakeId = index;
+            let cardDatas = {
+                'id': `customer_back_${fakeId}`, 
+                'type':CARD_TYPE_CUSTOMER ,
+                'location': CARD_LOCATION_DELIVERED_HIDDEN, 
+                'pId': card_pId,
+            };
+            let cardDiv = this.addCustomerCardBack(cardDatas);
+            return cardDiv;
         },
     
         getCardTooltip(card) {
@@ -3418,6 +3457,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     </div>
                 </div>`;
         },
+        
+        tplCardBack(card, prefix ='') {
+            return `<div class="rog_card rog_card_back" id="rog_card_back-${card.id}" data-type="${card.type}" data-customertype="0">
+                    <div class="rog_card_wrapper">
+                    </div>
+                </div>`;
+        },
     
         getCardContainer(card) {
             if (card.location == CARD_LOCATION_HAND) {
@@ -3427,7 +3473,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 }
                 return $(`rog_cards_hand-${card.pId}`);
             }
-            if (card.location == CARD_LOCATION_DELIVERED) {
+            if (card.location == CARD_LOCATION_DELIVERED 
+             || card.location == CARD_LOCATION_DELIVERED_HIDDEN
+            ) {
                 let holder = this.addCustomerCardHolder(card,`rog_cards_delivered`);
                 if( holder){
                     return holder.id;

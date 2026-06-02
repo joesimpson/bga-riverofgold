@@ -123,6 +123,8 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
             'customerDiscard' => Cards::countInLocation(CARD_LOCATION_DISCARD),
             'automaDeck' => Cards::countInLocation(CARD_AUTOMA_LOCATION_DECK),
             'automaPlayed' => Cards::countInLocation(CARD_AUTOMA_LOCATION_PLAYED),
+            'hiddenDeliv' => [
+            ],
           ],
           'firstPlayer' => $firstPlayer,
           'endTriggered' => Globals::isLastTurnTriggered(),
@@ -139,6 +141,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
         ];
         if(Utils::isGameWithAutoma()){
             $result['automa_player'] = Players::automaPlayer()->getUiData();
+            $result['deckSize']['hiddenDeliv'][AUTOMA_PLAYER_ID] = Cards::countPlayerHiddenDeliveredCustomers(AUTOMA_PLAYER_ID);
         }
         return $result;
     }

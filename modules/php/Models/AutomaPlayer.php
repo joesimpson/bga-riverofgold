@@ -22,8 +22,14 @@ class AutomaPlayer extends Player
         $data['clan'] = $this->getClan();
         $data['color'] = $this->getColor();
         $data['die'] = $this->getDie();
-        
+        $data['lastTurnPlayed'] = $this->isLastTurnPlayed();
         $data['is_automa'] = true;
+        
+        unset($data['skipRollDie']);
+        unset($data['zombie']);
+        unset($data['scoreAux']);
+        unset($data['eliminated']);
+
         return $data;
     }
 
@@ -80,5 +86,8 @@ class AutomaPlayer extends Player
     }
     public function isLastTurnPlayed() : bool {
         return Globals::isAutomaLastTurnPlayed();
+    }
+    public function getLastTurnPlayed() : bool {
+        return $this->isLastTurnPlayed();
     }
 }

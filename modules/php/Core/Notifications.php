@@ -155,6 +155,9 @@ class Notifications
       'player' => $player,
     ]);
     //Beware this is a private info !
+    if($player instanceof AutomaPlayer){
+      return;
+    }
     self::notify($player,'giveCardTo', '', [
       'player' => $player,
       'card' => $card->getUiData(),
@@ -189,6 +192,17 @@ class Notifications
           'region' => $card->getRegion(),
         ]
       ],
+      'preserve' => ['card'],
+    ]);
+  }
+  
+  public static function deliverHidden(Player $player, CustomerCard $card)
+  { 
+    self::notifyAll('deliverHidden', clienttranslate('${player_name} delivers a customer card : ${customer_name}'), [
+      'player' => $player,
+      'customer_name' => '???',
+      //'card_location' => $card->getLocation(),
+      'card_pId' => $card->getPId(),
     ]);
   }
   

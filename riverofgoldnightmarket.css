@@ -1891,9 +1891,13 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   height: 200px;
   border: 1px solid black;
   border-radius: 5px;
-  background-size: 200% 500%;
+  background-size: 200% 600%;
   background-image: url("img/cards/customers.jpg");
   position: relative;
+}
+.rog_card[data-customertype="0"] {
+  background-position-x: 0%;
+  background-position-y: 100%;
 }
 .rog_card[data-customertype="1"] {
   background-position-x: 0%;
@@ -1901,19 +1905,19 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_card[data-customertype="2"] {
   background-position-x: 0%;
-  background-position-y: 25%;
+  background-position-y: 20%;
 }
 .rog_card[data-customertype="3"] {
   background-position-x: 0%;
-  background-position-y: 50%;
+  background-position-y: 40%;
 }
 .rog_card[data-customertype="4"] {
   background-position-x: 0%;
-  background-position-y: 75%;
+  background-position-y: 60%;
 }
 .rog_card[data-customertype="5"] {
   background-position-x: 0%;
-  background-position-y: 100%;
+  background-position-y: 80%;
 }
 .rog_card[data-customertype="6"] {
   background-position-x: 100%;
@@ -1921,19 +1925,19 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_card[data-customertype="7"] {
   background-position-x: 100%;
-  background-position-y: 25%;
+  background-position-y: 20%;
 }
 .rog_card[data-customertype="8"] {
   background-position-x: 100%;
-  background-position-y: 50%;
+  background-position-y: 40%;
 }
 .rog_card[data-customertype="9"] {
   background-position-x: 100%;
-  background-position-y: 75%;
+  background-position-y: 60%;
 }
 .rog_card[data-customertype="10"] {
   background-position-x: 100%;
-  background-position-y: 100%;
+  background-position-y: 80%;
 }
 .rog_card.selectable {
   box-shadow: 0px 0px 0px 3px blue;

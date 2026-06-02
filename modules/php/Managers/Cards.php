@@ -80,6 +80,11 @@ class Cards extends \ROG\Helpers\Pieces
     return self::getFilteredQuery($pId, $location)->count();
   }
   
+  public static function countPlayerHiddenDeliveredCustomers(int $playerId) : int
+  {
+    return self::getFilteredQuery($playerId, CARD_LOCATION_DELIVERED_HIDDEN)->count();
+  }
+  
   /**
    * @param int $pId
    * @param int $customerType

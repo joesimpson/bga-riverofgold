@@ -162,6 +162,20 @@ class TestDatas {
         ];
     }
     
+    static array $notifs = [];
+    public static function resetNotifications(){
+        TestDatas::$notifs = [
+            'all' => [
+            ],
+            1 => [
+            ],
+            2 => [
+            ],
+            AUTOMA_PLAYER_ID => [
+            ],
+        ];
+    }
+
     static array $stats = [];
     public static function resetStats(){
         TestDatas::$stats = [

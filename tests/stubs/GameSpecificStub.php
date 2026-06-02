@@ -27,6 +27,7 @@ class GameMock extends RiverOfGoldNightMarket {
         TestDatas::resetCards();
         TestDatas::resetTiles();
         TestDatas::resetTokens();
+        TestDatas::resetNotifications();
         TestDatas::resetStats();
         TestDatas::resetLogs();
         

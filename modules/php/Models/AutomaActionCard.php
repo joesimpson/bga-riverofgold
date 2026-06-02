@@ -6,6 +6,7 @@ use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Utils;
+use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
@@ -42,6 +43,7 @@ class AutomaActionCard extends Card
         $this->playSail($player,false);
         break;
       case AutomaActionType::DELIVER->value : 
+        $this->playDeliver($player);
         break;
       case AutomaActionType::BUILD->value : 
         $this->playBuild($player);
@@ -53,7 +55,7 @@ class AutomaActionCard extends Card
   
   public function playSail(AutomaPlayer $player, bool $higherShip)
   {
-    Game::get()->trace(__CLASS__.".".__FUNCTION__);
+    Game::get()->trace(__CLASS__.".".__FUNCTION__."($higherShip)");
     
     //Seishin moves the ship shown on the card the number of river spaces shown on her die.
     $playerDieBefore = $player->getDie();
@@ -72,6 +74,23 @@ class AutomaActionCard extends Card
     }
     $toRiverSpace = ($selectedShip->getPosition() + $playerDieBefore -1) % NB_RIVER_SPACES +1;
     Game::get()->process_Sail($player,$selectedShip,$toRiverSpace);
+  }
+  
+  public function playDeliver(AutomaPlayer $player)
+  {
+    Game::get()->trace(__CLASS__.".".__FUNCTION__);
+    Globals::setTurnMainActionDone(MAIN_ACTION::DELIVER->value);
+    //Seishin gains 3 influence in the region matching her die. She gains any point or influence rewards she reaches or passes along the influence track; she ignores all other rewards.
+    $region = $player->getDie();
+    Players::gainInfluence($player,$region,NB_INFLUENCE_SEISHIN_DELIVER);
+
+    //Seishin takes the top card of the customer deck and places it facedown beside her board without revealing it. (She will reveal it when the game ends to score its endgame rewards.)
+    $missingInDeck = Cards::drawCardsToHand($player,1);
+    if($missingInDeck == 1) return;
+    $customerCard = Cards::getPlayerHandOrders($player->getId())->first();
+    //Keep cards ordered :
+    Cards::insertOnTop($customerCard->getId(), CARD_LOCATION_DELIVERED_HIDDEN);
+    Notifications::deliverHidden($player,$customerCard);
   }
   
   public function playBuild(AutomaPlayer $player)

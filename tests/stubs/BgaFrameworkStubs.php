@@ -1022,6 +1022,8 @@ abstract class Table
     public function notifyAllPlayers(string $notificationType, string $notificationLog, array $notificationArgs): void
     {
         logForTests("notifyAllPlayers $notificationType : $notificationLog, with args ".json_encode($notificationArgs)."", "NOTIF");
+        $player_id = $notificationArgs['player_id'] ?? '';
+        TestDatas::$notifs['all'][] = "$notificationType-$player_id";
     }
 
     /**
@@ -1029,6 +1031,7 @@ abstract class Table
     public function notifyPlayer(int $playerId, string $notificationType, string $notificationLog, array $notificationArgs): void
     {
         logForTests("notifyPlayer ($playerId) $notificationType : $notificationLog, with args ".json_encode($notificationArgs)."", "NOTIF");
+        TestDatas::$notifs[$playerId][] = $notificationType;
     }
 
     final public function checkAction(string $actionName, bool $bThrowException = true): bool

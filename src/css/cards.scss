@@ -6,20 +6,25 @@
     border-radius: 5px;
 
     //sprite positions
-    background-size: 200% 500%;
+    background-size: 200% 600%;
     background-image: url("img/cards/customers.jpg");
+    &[data-customertype="0"] {
+        //BACK OF CARD
+        background-position-x: 0%;
+        background-position-y: 100%;
+    }
     @for $i from 0 through 4 {
         //BASE GAME CUSTOMERS on left column
         &[data-customertype="#{$i + 1}"] {
             background-position-x: 0%;
-            background-position-y: $i * 100% / 4;
+            background-position-y: $i * 100% / 5;
         }
     }
     @for $i from 5 through 9 {
         //BASE GAME CUSTOMERS on right column
         &[data-customertype="#{$i + 1}"] {
             background-position-x: 100%;
-            background-position-y: calc(($i - 5) * 100% / 4);
+            background-position-y: calc(($i - 5) * 100% / 5);
         }
     }
 

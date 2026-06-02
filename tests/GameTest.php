@@ -7,6 +7,7 @@ namespace Tests;
 use Bga\GameFramework\GamestateMachine;
 use GameMock;
 use PHPUnit\Framework\TestCase;
+use ROG\Core\Globals;
 use ROG\Exceptions\UserException;
 use ROG\Managers\Players;
 use Tests\Utils\TestDatas;
@@ -741,6 +742,8 @@ final class GameTest extends TestCase
                 'customerDiscard' => 0,
                 'automaDeck' => 9,
                 'automaPlayed' => 0,
+                'hiddenDeliv' => [
+                ],
             ],
             'firstPlayer' => 1,
             'endTriggered' => false,
@@ -758,6 +761,64 @@ final class GameTest extends TestCase
         $datas = $game->getAllDatas();
         
         assertSame($expectedDatas, $datas);
+    }
+    public function test_getAllDatas_withAutoma(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        Globals::setAutomaClan(CLAN_DRAGON);
+        Globals::setAutomaDie(REGION_3);
+        Globals::setAutomaScore(55);
+        Globals::setAutomaLastTurnPlayed(false);
+        $expectedAutomaPlayerDatas = [
+                    'id' => AUTOMA_PLAYER_ID,
+                    'no' => null,
+                    'name' => 'Seishin',
+                    'color' =>  '298a47',
+                    'score' => 55,
+                    'die' => 3,
+                    'clan' => 7,
+                    'lastTurnPlayed' => false,
+                    'money' => 0,
+                    'silk' => 0,
+                    'rice' => 0,
+                    'pottery' => 0,
+                    'moon' => 0,
+                    'sun' => 0,
+                    'buildings' => [
+                        1 => 0,
+                        2 => 0,
+                        3 => 0,
+                        4 => 0,
+                    ],
+                    'influence' => [
+                        1 => 0,
+                        2 => 0,
+                        3 => 0,
+                        4 => 0,
+                        5 => 0,
+                        6 => 0,
+                    ],
+                    'customers' => [
+                        1 => 0,
+                        2 => 0,
+                        3 => 0,
+                        4 => 0,
+                        5 => 0,
+                        6 => 0,
+                        7 => 0,
+                        8 => 0,
+                        9 => 0,
+                        10 => 0,
+                    ],
+                    'is_automa' => true,
+                ];
+
+        $datas = $game->getAllDatas();
+        
+        assertSame($expectedAutomaPlayerDatas, $datas['players'][AUTOMA_PLAYER_ID]);
+        assertSame($expectedAutomaPlayerDatas, $datas['automa_player']);
     }
     // -------------------------------------------------
     

@@ -205,6 +205,14 @@ trait DebugTrait
     $this->refresh_state();
   }
   
+  function debug_AutomaTurn(){
+    $this->addStep();
+    $player = Players::getCurrent();
+    $automaP = Players::automaPlayer();
+    $this->automaEngine->playTurn($automaP);
+    $this->refresh_state();
+  }
+  
   function debug_Trade(){
     $this->addStep();
     $player = Players::getCurrent();
@@ -499,7 +507,7 @@ trait DebugTrait
     }
     $this->refresh_state();
   }
-  
+
   function debug_RefillRow(){
     $this->addStep();
     $player = Players::getCurrent();

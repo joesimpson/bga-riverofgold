@@ -393,6 +393,40 @@ final class AutomaActionCardTest extends TestCase
         assertSame(0, $resourcesP2[RESOURCE_TYPE_MONEY]);
 
     }
+    
+    // -------------------------------------------------
+    public function test_play_Deliver_Region1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $pId = $player->getId();
+        $player->setDie(REGION_1);
+        $cardRow = TestDatas::$cards[206];
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardRow['type']]);
+        $expectedNotifs = [
+            "gainInfluence-$pId",
+            "giveCardToPublic-$pId", 
+            "deliverHidden-$pId", 
+        ];
+
+        $card->play($player);
+        
+        assertSame(MAIN_ACTION::DELIVER->value, Globals::getTurnMainActionDone());
+        //check notifs :
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame([], TestDatas::$notifs[AUTOMA_PLAYER_ID]);
+        //Test gained influence :
+        assertSame(3, TestDatas::$tokens[31]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[32]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[33]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[34]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[35]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[36]['meeple_state']);
+        assertSame(CARD_LOCATION_DELIVERED_HIDDEN, TestDatas::$cards[1]['card_location']);
+        assertSame(1, TestDatas::$cards[1]['card_state']);
+        assertSame(AUTOMA_PLAYER_ID, TestDatas::$cards[1]['player_id']);
+    }
     // -------------------------------------------------
     
     public function test_play_Build_Region1(): void
