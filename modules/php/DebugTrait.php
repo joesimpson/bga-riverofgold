@@ -495,6 +495,7 @@ trait DebugTrait
     //  Meeples::addClanMarkerOnElderSpace($player,$testElderOnRegion);
     //}
     $this->computeFinalScore($players);
+    $this->checkCoopVictory($players);
     $this->refresh_state();
   }
 

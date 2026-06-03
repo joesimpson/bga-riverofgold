@@ -982,7 +982,29 @@ class Notifications
 
     ]);
   }
+  
+  public static function eliminateByScore(Player $player,int $scoreToBeat, int $playerScore )
+  {
+    self::notifyAll('eliminateByScore', clienttranslate('${player_name} failed to exceed ${n} ${points} (Final score : ${n2} ${points})'), [
+      'player' => $player,
+      'n' => $scoreToBeat,
+      'n2' => $playerScore,
+      'points' => clienttranslate('Score'),
+      'i18n' => ['points'],
+    ]);
+  }
+  
+  public static function teamLoose()
+  {
+    self::notifyAll('teamLoose', clienttranslate('All players lose the game as a team'), [
+    ]);
+  }
 
+  public static function teamWin()
+  {
+    self::notifyAll('teamWin', clienttranslate('All players win the game as a team'), [
+    ]);
+  }
   /*************************
    **** GENERIC METHODS ****
    *************************/

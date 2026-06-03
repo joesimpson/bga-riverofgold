@@ -776,6 +776,13 @@ abstract class Table
             TestDatas::$players[$pid]['die_face'] = intval($die_face);
             return true;
         }
+        if (preg_match("/^UPDATE `player` SET `player_score` = '+(?P<player_score>.*)'+ WHERE (\s*)`player_id` = (?P<pid>[\d|\-]+)$/", $sql, $matches) == 1) {
+            $player_score = intval($matches['player_score']);
+            $pid = $matches['pid'];
+            logForTests("DbQuery --- set player_score for player $pid ... $player_score");
+            TestDatas::$players[$pid]['player_score'] = ($player_score);
+            return true;
+        }
         if (preg_match("/^UPDATE `player` SET `player_score` = `player_score` \+ (?P<player_score>.*) WHERE (\s*)`player_id` = (?P<pid>[\d|\-]+)$/", $sql, $matches) == 1) {
             $player_score = $matches['player_score'];
             $pid = $matches['pid'];
@@ -1022,8 +1029,9 @@ abstract class Table
     public function notifyAllPlayers(string $notificationType, string $notificationLog, array $notificationArgs): void
     {
         logForTests("notifyAllPlayers $notificationType : $notificationLog, with args ".json_encode($notificationArgs)."", "NOTIF");
-        $player_id = $notificationArgs['player_id'] ?? '';
-        TestDatas::$notifs['all'][] = "$notificationType-$player_id";
+        $suffix = '';
+        if(isset($notificationArgs['player_id'])) $suffix = "-".($notificationArgs['player_id']);
+        TestDatas::$notifs['all'][] = "$notificationType$suffix";
     }
 
     /**

@@ -5,6 +5,7 @@ namespace ROG\States;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -30,6 +31,7 @@ trait ScoringTrait
 
     $players = Players::getAllWithAutoma();
     $this->computeFinalScore($players);
+    $this->checkCoopVictory($players);
 
     $this->gamestate->nextState('next');
   }
@@ -187,6 +189,36 @@ trait ScoringTrait
       
     }
     Globals::setEndScoring($endScoringDatas);
+
+  }
+  
+  public function checkCoopVictory($players)
+  {
+    if(!Utils::isGameWithAutoma()) return;
+
+    self::trace("checkCoopVictory()");
+    //COMPARE SCORES WITH AUTOMA : "You and your ally win or lose as a team. To win, each of you must have a higher score than Seishin. If either of your scores is lower than or equal to Seishin’s, you both lose the game."
+    $automaScore = Globals::getAutomaScore();
+    $eliminated = [];
+    foreach($players as $pId => $player){
+      if( $player instanceof AutomaPlayer) continue;
+      $playerScore = Players::getUpdatedPlayerScore($pId);
+      if($playerScore <= $automaScore ){
+        Notifications::eliminateByScore($player,$automaScore,$playerScore);
+        $eliminated[$pId] = $player;
+      }
+    }
+    if(count($eliminated) == 0){
+      Notifications::teamWin();
+    }
+    else {
+      Notifications::teamLoose();
+      foreach($players as $pId => $player){
+        if( $player instanceof AutomaPlayer) continue;
+        //RESET SCORE TO -1 if LOST for BGA framework
+        $player->setScore(SCORE_FAIL);
+      }
+    }
   }
 
 }

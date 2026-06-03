@@ -2389,15 +2389,27 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.forEachPlayer((player) => {
                 let pId = player.id;
                 let endScoreDatas = datas ? datas[pId] : undefined;
+                let recomputeTotal = 0;
                 this._counters[pId].scoringRecap = [];
                 this._counters[pId].scoringRecap.influence = [];
                 Object.values(REGIONS).forEach((region) =>{
                     this._counters[pId].scoringRecap.influence[region] = this.createCounter(`rog_recap_influence_${region}_${pId}`,endScoreDatas ? endScoreDatas[SCORING_INFLUENCE][region] : 0);
+                    recomputeTotal += this._counters[pId].scoringRecap.influence[region].getValue();
                 });
                 this._counters[pId].scoringRecap.customerDeliv = this.createCounter(`rog_recap_deliv_${pId}`,endScoreDatas ? endScoreDatas[SCORING_DELIVERED] : 0);
+                recomputeTotal += this._counters[pId].scoringRecap.customerDeliv.getValue();
                 this._counters[pId].scoringRecap.customerBonuses = this.createCounter(`rog_recap_customers_${pId}`,endScoreDatas ? endScoreDatas[SCORING_CUSTOMERS] : 0);
+                recomputeTotal += this._counters[pId].scoringRecap.customerBonuses.getValue();
                 this._counters[pId].scoringRecap.ingame = this.createCounter(`rog_recap_ingame_${pId}`,endScoreDatas ? endScoreDatas[SCORING_INGAME]: player.score);
+                recomputeTotal += this._counters[pId].scoringRecap.ingame.getValue();
                 this._counters[pId].scoringRecap.total = this.createCounter(`rog_recap_total_${pId}`,player.score);
+                
+                if(this._counters[pId].scoringRecap.total.getValue() == -1){//SCORE_FAIL
+                    //IF negative score to save a BGA defeat, recomputes the score with all other values from table :
+                    this._counters[pId].scoringRecap.total.setValue(recomputeTotal);
+                    this.gamedatas.players[pId].score = recomputeTotal;
+                    this.moveScoreMarker(this.gamedatas.players[pId]);
+                }
             });
         },
         tplFinalScoringTable(){
@@ -4096,6 +4108,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         addScoreMarker(player){
             debug("addScoreMarker",player);
             let position = player.score % 100;
+            if(player.score < 0){
+                //DEFEAT
+                position = 0;
+            }
             let meeple = this.addMeeple({id:`score_${player.id}`,pId:player.id,type:MEEPLE_TYPE_SCORE_MARKER,pos:position},$(`rog_score_track_space_${position}`));
             meeple.classList.add("rog_score_meeple");
         },
