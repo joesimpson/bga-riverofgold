@@ -58,7 +58,49 @@
                 "type": "maxplayers",
                 "value": 2
             }
-        ]
+        ],
+        "startcondition": {
+            "1": [
+                {
+                    "type": "otheroption",
+                    "id": 201,
+                    "value": 1,
+                    "message": "Coop VS rival AI is available in training only"
+                }
+            ],
+            "2": [
+                {
+                    "type": "otheroption",
+                    "id": 201,
+                    "value": 1,
+                    "message": "Coop VS rival AI is available in training only"
+                }
+            ],
+            "3": [
+                {
+                    "type": "otheroption",
+                    "id": 201,
+                    "value": 1,
+                    "message": "Coop VS rival AI is available in training only"
+                }
+            ],
+            "4": [
+                {
+                    "type": "otheroption",
+                    "id": 201,
+                    "value": 1,
+                    "message": "Coop VS rival AI is available in training only"
+                }
+            ],
+            "5": [
+                {
+                    "type": "otheroption",
+                    "id": 201,
+                    "value": 1,
+                    "message": "Coop VS rival AI is available in training only"
+                }
+            ]
+        }
     },
     "115": {
         "name": "Region Influence Tracks",

@@ -26,6 +26,8 @@ namespace ROG;
 //Else near constants :
 require_once 'constants.inc.php';
 
+$warningAiInTraining = 'Coop VS rival AI is available in training only';
+
 $game_options = [
 
   OPTION_EXPANSION_CLANS => array(
@@ -88,6 +90,23 @@ $game_options = [
       [
         "type"=> "maxplayers",
         "value"=> 2,
+      ],
+    ],
+    'startcondition'=>  [
+      OPTION_SEISHIN_LEVEL_1 => [
+        [ "type" => "otheroption", "id" => OPTION_GAMESTATE_RATING_MODE, "value"=> OPTION_GAMESTATE_RATING_MODE_TRAINING, "message"=> $warningAiInTraining, ],
+      ],
+      OPTION_SEISHIN_LEVEL_2 => [
+        [ "type" => "otheroption", "id" => OPTION_GAMESTATE_RATING_MODE, "value"=> OPTION_GAMESTATE_RATING_MODE_TRAINING, "message"=> $warningAiInTraining, ],
+      ],
+      OPTION_SEISHIN_LEVEL_3 => [
+        [ "type" => "otheroption", "id" => OPTION_GAMESTATE_RATING_MODE, "value"=> OPTION_GAMESTATE_RATING_MODE_TRAINING, "message"=> $warningAiInTraining, ],
+      ],
+      OPTION_SEISHIN_LEVEL_4 => [
+        [ "type" => "otheroption", "id" => OPTION_GAMESTATE_RATING_MODE, "value"=> OPTION_GAMESTATE_RATING_MODE_TRAINING, "message"=> $warningAiInTraining, ],
+      ],
+      OPTION_SEISHIN_LEVEL_5 => [
+        [ "type" => "otheroption", "id" => OPTION_GAMESTATE_RATING_MODE, "value"=> OPTION_GAMESTATE_RATING_MODE_TRAINING, "message"=> $warningAiInTraining, ],
       ],
     ],
      
