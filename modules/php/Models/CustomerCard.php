@@ -60,7 +60,6 @@ class CustomerCard extends Card
         $player->giveResource(2,RESOURCE_TYPE_SUN);
         //ASK player choice to add a marker on a building
         $monkType = $this->getMonkType();
-        //TODO JSA check there is a building to select
         if(MONK_TYPE_OWN_BUILDING == $monkType) Globals::addBonus($player,BONUS_TYPE_SECOND_MARKER_ON_BUILDING);
         else if(MONK_TYPE_OPPONENT_BUILDING == $monkType) Globals::addBonus($player,BONUS_TYPE_SECOND_MARKER_ON_OPPONENT);
         break;

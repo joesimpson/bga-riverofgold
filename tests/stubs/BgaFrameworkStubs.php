@@ -681,6 +681,13 @@ abstract class Table
 
         }
         
+        if (preg_match("/^UPDATE `stats` SET `stats_value` = `stats_value` \+ (?P<stats_value>.*) WHERE `stats_type` = (?P<stats_type>\d+) AND `stats_player_id` IS NULL$/", $sql, $matches) == 1) {
+            $stats_value = $matches['stats_value'];
+            $stats_type = $matches['stats_type'];
+            logForTests("DbQuery --- INC table stat  $stats_type += $stats_value... ");
+            TestDatas::$stats['table'][$stats_type] += $stats_value;
+            return true;
+        }
         if (preg_match("/^UPDATE `stats` SET `stats_value` = `stats_value` \+ (?P<stats_value>.*) WHERE `stats_type` = (?P<stats_type>\d+) AND `stats_player_id` = (?P<stats_player_id>\d+)$/", $sql, $matches) == 1) {
             $stats_value = $matches['stats_value'];
             $stats_type = $matches['stats_type'];

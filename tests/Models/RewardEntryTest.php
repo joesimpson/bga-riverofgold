@@ -459,6 +459,7 @@ final class RewardEntryTest extends TestCase
         $reward->rewardPlayer($player, $region,$tile);
         
         assertSame(2, $player->getScore());
+        assertSame(2, TestDatas::$stats['table'][14]);
     }
     // -------------------------------------------------
     

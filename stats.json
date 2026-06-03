@@ -5,6 +5,12 @@
         "name": "Number of turns",
         "type": "int"
       }
+      ,
+      "automa_score": {
+        "id": 14,
+        "name": "Seishin score",
+        "type": "int"
+      }
   },
   "player": {
     "score": {
@@ -65,10 +71,6 @@
   },
   "value_labels": {
     "11": {
-      "0": "",
-      "1": "Yes"
-    },
-    "14": {
       "0": "",
       "1": "Yes"
     },

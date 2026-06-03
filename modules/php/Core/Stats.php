@@ -2,6 +2,8 @@
 
 namespace ROG\Core;
 
+use Bga\GameFramework\Table;
+use ROG\Helpers\Utils;
 use ROG\Managers\Players;
 use ROG\Models\Player;
 
@@ -31,7 +33,7 @@ class Stats extends \ROG\Helpers\DB_Manager
     self::$setter($pId,$value);
   }
   /** Inc wrapper whith a 1 default increment */
-  public static function inc($name, $player = null, $value = 1)
+  public static function inc(string $name, Player|int|null $player = null, int $value = 1)
   {
     $pId = is_null($player) ? null : (is_int($player) ? $player : $player->getId());
     $incrementerName = "inc".ucfirst($name);
@@ -213,5 +215,17 @@ class Stats extends \ROG\Helpers\DB_Manager
       Stats::set("turnOrder", $orderPId, $key + 1);
     }
     
+    if(! Utils::isGameWithAutoma()) {
+      Stats::unsetAutomatonStats();
+    }
+    //else {
+    //  Stats::set("automa_score",0);
+    //}
+  }
+  
+  /** TO BE USED ON games with no automaton but after call to checkExistence which create useless stat */
+  public static function unsetAutomatonStats(){
+    //"automaScore"
+    Table::DbQuery("DELETE FROM `stats` where stats_type = 14 and stats_player_id is NULL");
   }
 }

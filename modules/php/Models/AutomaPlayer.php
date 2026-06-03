@@ -4,6 +4,7 @@ namespace ROG\Models;
 
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Core\Stats;
 
 /**
  * Fake player for the automata, not saved in Player Table,
@@ -35,6 +36,7 @@ class AutomaPlayer extends Player
 
     public function setScore(int $value){
         Globals::setAutomaScore($value);
+        Stats::set( "automa_score", null, $value );
     }
     public function getScore() : int {
         return Globals::getAutomaScore();
@@ -44,6 +46,7 @@ class AutomaPlayer extends Player
     {
         if($points == 0) return;
         Globals::incAutomaScore($points);
+        Stats::inc( "automa_score", $points );
         if($sendNotif) Notifications::addPoints($this,$points);
     }
         

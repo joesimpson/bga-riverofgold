@@ -222,7 +222,6 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::incTurn(1);
     Stats::inc("turns_number");
     //self::setBonuses([]);
-    //TODO JSA players resetBonus
     self::setCurrentBonus(null);
   }
 

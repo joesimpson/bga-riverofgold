@@ -179,6 +179,10 @@ class TestDatas {
     static array $stats = [];
     public static function resetStats(){
         TestDatas::$stats = [
+            'table' => [
+                10 => 0,
+                14 => 0,
+            ],
             1 => [
                 'nbActionsBuild' => 0,
                 'nbActionsDeliver' => 0,

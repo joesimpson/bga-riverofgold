@@ -109,6 +109,7 @@ final class AutomaActionCardTest extends TestCase
         assertSame($expectedRiverSpace, TestDatas::$tokens[$expectedMovedShip]['meeple_state']);
         assertSame(MAIN_ACTION::SAIL->value, Globals::getTurnMainActionDone());
         assertSame(2, $player->getScore());//+2
+        assertSame(2, TestDatas::$stats['table'][14]);
         //Test gained influence :
         assertSame(0, TestDatas::$tokens[31]['meeple_state']);
         assertSame(0, TestDatas::$tokens[32]['meeple_state']);

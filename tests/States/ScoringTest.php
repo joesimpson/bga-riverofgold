@@ -2847,6 +2847,7 @@ final class ScoringTest extends TestCase
         assertSame(SCORE_FAIL,  TestDatas::$players[2]['player_score']);
         assertSame(0,  TestDatas::$players[2]['player_score_aux']);
         assertSame(13, Globals::getAutomaScore());
+        assertSame(13, TestDatas::$stats['table'][14]);
     }
     
     
@@ -2936,6 +2937,7 @@ final class ScoringTest extends TestCase
         assertSame(5,  TestDatas::$players[2]['player_score']);
         assertSame(1,  TestDatas::$players[2]['player_score_aux']);
         assertSame(4, Globals::getAutomaScore());
+        assertSame(4, TestDatas::$stats['table'][14]);
     }
     public function test_computeScoring_AutomaLevel1_PlayersTie_Defeat(): void
     {

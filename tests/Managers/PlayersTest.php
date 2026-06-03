@@ -290,6 +290,7 @@ final class PlayersTest extends TestCase
         
         assertSame($amount, TestDatas::$tokens[30+$region]['meeple_state']);
         assertSame(6, $player->getScore());//0+3+3
+        assertSame(6, TestDatas::$stats['table'][14]);
         assertSame([], $player->getBonuses());
         assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));

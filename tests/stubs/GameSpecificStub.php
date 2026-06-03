@@ -49,6 +49,12 @@ class GameMock extends RiverOfGoldNightMarket {
                     "name": "Number of turns",
                     "type": "int"
                 }
+                ,
+                "automa_score": {
+                    "id": 14,
+                    "name": "Seishin score",
+                    "type": "int"
+                }
             },
             "player": {
                 "score": {
@@ -112,16 +118,16 @@ class GameMock extends RiverOfGoldNightMarket {
                 "0": "",
                 "1": "Yes"
                 },
-                "14": {
-                "0": "",
-                "1": "Yes"
-                },
                 "12": {
                 "0": "",
                 "1": "Crab Clan",
                 "2": "Mantis Clan",
                 "3": "Crane Clan",
-                "4": "Scorpion Clan"
+                "4": "Scorpion Clan",
+                "5": "Phoenix Clan",
+                "6": "Lion Clan",
+                "7": "Dragon Clan",
+                "8": "Unicorn Clan"
                 },
                 "13": {
                 "0": "",
@@ -132,7 +138,16 @@ class GameMock extends RiverOfGoldNightMarket {
                 "5": "The Iron Crane",
                 "6": "Darling of the Courts",
                 "7": "Governor of the City of lies",
-                "8": "Lady of Whispers"
+                "8": "Lady of Whispers",
+                
+                "11": "Scion of Void",
+                "12": "Scion of Earth",
+                "13": "Reverend Sensei",
+                "14": "Lady of Lions",
+                "15": "Imperial Envoy",
+                "16": "Ise Zumi Tattooed Monk",
+                "17": "Magnate of the Sand Road",
+                "18": "Mistress of the Five Winds"
                 }
             }
             }', true);
