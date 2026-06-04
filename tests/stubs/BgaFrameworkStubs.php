@@ -854,8 +854,8 @@ abstract class Table
             return true;
         }
         $mutiplesGroups = "";
-        for($k=1;$k<100;$k++) $mutiplesGroups .= "(,?\('(\w+)','(\w+)',(?:'(\w+)'|NULL),'(\w+)','(\w+)'\))?";
-        if (preg_match("/^INSERT INTO `cards` (.*) VALUES(,?\('(\w+)','(\w+)',(?:'(\w+)'|NULL),'(\w+)','(\w+)'\))?$mutiplesGroups$/", $sql, $matches) == 1) {
+        for($k=1;$k<100;$k++) $mutiplesGroups .= "(,?\('(\w+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)'\))?";
+        if (preg_match("/^INSERT INTO `cards` (.*) VALUES(,?\('(\w+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)'\))?$mutiplesGroups$/", $sql, $matches) == 1) {
             $k =2;
             while(array_key_exists($k,$matches)){
                 $card_location = $matches[$k+1];
@@ -938,8 +938,8 @@ abstract class Table
         }
         
         $mutiplesGroups = "";
-        for($k=1;$k<100;$k++) $mutiplesGroups .= "(,?\('(\w+)','(\w+)',(?:'(\w+)'|NULL),'(\w+)','(\w+)'\))?";
-        if (preg_match("/^INSERT INTO `tiles` (.*) VALUES(,?\('(\w+)','(\w+)',(?:'(\w+)'|NULL),'(\w+)','(\w+)'\))?$mutiplesGroups$/", $sql, $matches) == 1) {
+        for($k=1;$k<100;$k++) $mutiplesGroups .= "(,?\('(\w+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)'\))?";
+        if (preg_match("/^INSERT INTO `tiles` (.*) VALUES(,?\('(\w+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)'\))?$mutiplesGroups$/", $sql, $matches) == 1) {
             $k =2;
             while(array_key_exists($k,$matches)){
                 $card_location = $matches[$k+1];

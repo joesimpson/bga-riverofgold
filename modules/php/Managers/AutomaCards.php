@@ -79,6 +79,7 @@ class AutomaCards extends Cards
                 'subtype' => CARD_TYPE_AUTOMA_ACTION,
                 'location' => CARD_AUTOMA_LOCATION_DECK,
                 'nbr' => $card['nbr'][$difficulty],
+                'player_id' => AUTOMA_PLAYER_ID,
             ];
         }
 

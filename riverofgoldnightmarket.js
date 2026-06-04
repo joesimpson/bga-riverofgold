@@ -123,6 +123,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const CARD_LOCATION_DELIVERED_HIDDEN = 'del_h';
     const CARD_LOCATION_HAND = 'h';
     const CARD_CLAN_LOCATION_ASSIGNED = 'clans_assigned';
+    
+    const CARD_AUTOMA_LOCATION_PLAYED   = 'aut_played';
 
     const PATRON_MASTER_ENGINEER = 1;
     const PATRON_TRADER          = 2;
@@ -140,6 +142,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const PATRON_TATTOOED_MONK     = 16;
     const PATRON_MAGNATE_SAND_ROAD = 17;
     const PATRON_MISTRESS_OF_WINDS = 18;
+
+    const AutomaActionType_SAIL_HIGHER    = 1;
+    const AutomaActionType_SAIL_LOWER     = 2;
+    const AutomaActionType_DELIVER        = 3;
+    const AutomaActionType_BUILD          = 4;
+    const AutomaActionType_ADVANCE_CITY   = 5;
 
     const RESOURCE_TYPE_SILK = 1;
     const RESOURCE_TYPE_POTTERY = 2;
@@ -242,7 +250,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['deliver', 1000],
                 ['deliverHidden', 1000],
                 ['reshuffleDeck', 10],
-                ['reshuffleAutomaActionDeck', 1000],
+                ['reshuffleAutomaActionDeck', 2000],
                 ['discardPublic', 10],
                 ['discard', 1000],
                 ['giveResource', 1000],
@@ -1728,15 +1736,34 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         notif_giveActionCardToAutoma(n) {
             debug('notif_giveActionCardToAutoma', n);
-            //We want the text on top
             this._counters['automaDeck'].incValue(-1);
             this._counters['automaPlayed'].incValue(+1);
+            let card = n.args.card;
+            card.dieFace = n.args.die_value;
+            let cardDiv = this.addCard(card, this.getCardContainer(card));
+            this.animationManager.slideIn(cardDiv, document.getElementById(`rog_player_deck_size-${this.automa_id}`), {duration: 700})
+                .then(() => {
+                });
         },
         notif_reshuffleAutomaActionDeck(n) {
             debug('notif_reshuffleAutomaActionDeck', n);
-            //We want the text on top
             this._counters['automaDeck'].toValue(n.args.deckSize);
             this._counters['automaPlayed'].toValue(n.args.discardSize);
+            //REMOVE ALL ACTION CARDS
+            let automaCardsContainer = document.getElementById(`rog_player_action_cards-${this.automa_id}`);
+            let cardsToDiscard = [...automaCardsContainer.querySelectorAll('.rog_automa_action_card')];
+            Promise.all(
+                cardsToDiscard.map((cardDiv, i) => {
+                    let oldParent = cardDiv.parentNode.parentNode;//rog_customer_holder
+                    return this.wait(100 * i).then(() => 
+                        this.animationManager.slideOutAndDestroy(cardDiv, this._counters['automaDeck'].span, {duration: 900})
+                        .then(() =>{
+                            if(oldParent.classList.contains("rog_customer_card_resizeable")) this.destroy( $(`${oldParent.id}`));
+                        })
+                    );
+                })
+            ).then(() => {
+            });
         },
         notif_deliver(n) {
             debug('notif_deliver: a player shows a card to all !', n);
@@ -2549,6 +2576,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     });
                     args.customers_icons = icons;
                 }
+                if('action_card_name' in args){
+                    args.action_card_name = '<b><i>'+_(args.action_card_name) + '</i></b>';
+                }
+
                 if('cards_list' in args && 'cards' in args){
                     let listDiv = '<ul>';
                     Object.values(args.cards).forEach((t) => {
@@ -2796,6 +2827,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             divDelivered.dataset.color = color;
             divDelivered.querySelector(`.rog_title`).innerHTML = this.fsr(_('${player_name} delivered'), { player_name:this.coloredPlayerName(this.gamedatas.players[pid].name)});
             $(`rog_player_delivered_resizable-${pid}`).style['border-color'] ='#'+ color;
+            let divActionCards =  $(`rog_player_actions_container-${pid}`);
+            if(divActionCards){
+                divActionCards.dataset.color = color;
+                divActionCards.querySelector(`.rog_title`).innerHTML = this.fsr(_('${player_name} actions'), { 'player_name':this.coloredPlayerName(this.gamedatas.players[pid].name)});
+            }
             this.updateScoreMarkerColor(pid,color,clan);
         },
         updatePlayerOrdering() {
@@ -3192,7 +3228,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 });
             }
             if(!keepOthers){
-                document.querySelectorAll('.rog_cards_delivered').forEach((div) => {
+                document.querySelectorAll('.rog_cards_delivered, .rog_player_action_cards').forEach((div) => {
                     this.empty(div);
                 });
 
@@ -3220,6 +3256,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 }
                 return card.id;
             });
+            document.querySelectorAll('.rog_player_action_cards').forEach((div) => {
+                let nbChildren = div.childNodes.length;
+                [...div.childNodes].map((cardDiv, i) => {
+                    //Hide all expect last because only the last is known now => WRONG when F5 AFTER automa TURN, the die has been rolled :(
+                    //if(i == nbChildren - 1) return;
+                    cardDiv.querySelector('.rog_action_die').classList.add('rog_nodisplay');
+                });
+            });
             
             if(!this._counters['deckSizeCustomers']) this._counters['deckSizeCustomers'] = this.createCounter('rog_customers_deck_size',this.gamedatas.deckSize.customers);
             this._counters['deckSizeCustomers'].toValue(this.gamedatas.deckSize.customers);
@@ -3238,6 +3282,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if (tooltipDesc != null) {
                 this.addCustomTooltip(o.id, tooltipDesc.map((t) => this.formatString(t)).join('<br/>'));
             }
+            this.reduceTextSizeOnCardElements(o);
     
             return o;
         },
@@ -3516,6 +3561,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if (card.location == CARD_CLAN_LOCATION_ASSIGNED) {
                 return $(`rog_player_patron-${card.pId}`);
             }
+            if (card.location == CARD_AUTOMA_LOCATION_PLAYED) {
+                let holder = this.addCustomerCardHolder(card,`rog_player_action_cards`);
+                if( holder){
+                    return holder.id;
+                }
+                return $(`rog_player_action_cards-${card.pId}`);
+            }
     
             console.error('Trying to get container of a card', card);
             return 'rog_select_piece_container';
@@ -3531,12 +3583,20 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         tplPlayerDeliveredCards(player) {
             return `<div class='rog_player_delivered_resizable' id='rog_player_delivered_resizable-${player.id}'>
-                <div id='rog_player_mastery_cards-${player.id}'></div>
+                <div id='rog_player_mastery_cards-${player.id}' class='rog_player_mastery_cards'></div>
+                ${this.tplPlayerActionCards(player)}
                 <div id='rog_player_delivered-${player.id}' class='rog_player_delivered' data-color='${player.color}'>
                     <h3 class='rog_title' >${this.fsr(_('${player_name} delivered'), { player_name:this.coloredPlayerName(player.name)}) }</h3>
                     <div class='rog_cards_delivered' id='rog_cards_delivered-${player.id}'></div>
                 </div>
             </div>`;
+        },
+        tplPlayerActionCards(player) {
+            if(! player.is_automa) return '';
+            return `<div id='rog_player_actions_container-${player.id}' class='rog_player_actions_container'>
+                    <h3 class='rog_title' >${this.fsr(_('${player_name} actions'), { 'player_name':this.coloredPlayerName(player.name)}) }</h3>
+                    <div class='rog_player_action_cards' id='rog_player_action_cards-${player.id}'></div>
+                </div>`;
         },
         /**
          * @param string location : 'rog_cards_hand' /'rog_cards_delivered'
@@ -3617,6 +3677,130 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         addAutomaActionCard(card, location = null) {
             debug('addAutomaActionCard',card);
             
+            let o = this.place('tplAutomaActionCard', card, location == null ? this.getCardContainer(card) : location);
+            let tooltipDesc = this.getAutomaActionCardTooltip(card);
+            this.addCustomTooltip(o.id, tooltipDesc );
+            this.reduceTextSizeOnCardElements(o);
+            return o;
+        },
+        
+        tplAutomaActionCard(card, prefix ='') {
+            let actionName = _(card.title);
+            let descriptionLine = '';
+            let descriptionMap = new Map([
+                [AutomaActionType_SAIL_HIGHER ,     
+                    this.fsr(_('Gain ${influence} + ${points} from buildings visited'),{'influence':'','points':''})
+                ],
+                [AutomaActionType_SAIL_LOWER  ,    
+                    this.fsr(_('Gain ${influence} + ${points} from buildings visited'),{'influence':'','points':''})
+                ],
+                [AutomaActionType_DELIVER     ,  '' ],
+                [AutomaActionType_BUILD       ,  '' ],
+                [AutomaActionType_ADVANCE_CITY,   
+                    this.format_string(_('${player_name} takes another turn'),{'player_name':_('Seishin')})
+                ],
+            ]);
+            descriptionLine = descriptionMap.get(card.type);
+            if(!card.dieFace){
+                if(this._counters[card.pId]) card.dieFace = this._counters[card.pId].dieFace.getValue();
+            }
+            return `<div class="rog_card rog_automa_action_card" id="rog_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-name="${actionName}" title="${actionName}">
+                    <div class="rog_card_wrapper">
+                        <div class='rog_action_die'>${this.formatIcon('die_face-'+card.dieFace)}</div>
+                        <span class='rog_action_name'><div class='reduceToFit'>${actionName}</div></span>
+                        <span class='rog_action_desc'><div class='reduceToFit'>${descriptionLine}</div></span>
+                    </div>
+                </div>`;
+        },
+        
+        getAutomaActionCardTooltip(card) {
+            let typeName = this.fsr(_('Seishin Action Card ${icon}') ,{'icon': this.formatIcon('automa_action_card'), })
+            let actionName = _(card.title);
+            let descriptionMap = new Map([
+                [AutomaActionType_SAIL_HIGHER ,     
+                    '<ul>'
+                    + '<li>'
+                    + this.fsr(_('Seishin moves the ship shown on the action card the number of river spaces shown on her die. If both of her ships are on the same river space, she moves either one.'),{})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('Seishin collects any points and influence visitor rewards; she ignores all other rewards.'),{})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('The owners of any buildings visited collect the owner rewards. If Seishin is the owner, she collects only point or influence owner rewards, if any.'),{})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('If Seishin’s ship completes its journey, she discards the building tile at the end of the building row and gains ${n} points.'),{'n':3})
+                    + '</li>'
+                    + '</ul>'
+                ],
+                [AutomaActionType_SAIL_LOWER  ,     
+                    '<ul>'
+                    + '<li>'
+                    + this.fsr(_('Seishin moves the ship shown on the action card the number of river spaces shown on her die. If both of her ships are on the same river space, she moves either one.'),{})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('Seishin collects any points and influence visitor rewards; she ignores all other rewards.'),{})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('The owners of any buildings visited collect the owner rewards. If Seishin is the owner, she collects only point or influence owner rewards, if any.'),{})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('If Seishin’s ship completes its journey, she discards the building tile at the end of the building row and gains ${n} points.'),{'n':3})
+                    + '</li>'
+                    + '</ul>'
+                ],
+                [AutomaActionType_DELIVER     ,     
+                    '<ul>'
+                    + '<li>'
+                    + this.fsr(_('Seishin gains ${n} influence in the region matching her die. She gains any point or influence rewards she reaches or passes along the influence track; she ignores all other rewards.'),{'n':3})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('Seishin takes the top card of the customer deck and places it facedown beside her board without revealing it. (She will reveal it when the game ends to score its endgame rewards.)'),{})
+                    + '</li>'
+                    + '</ul>'
+                ],
+                [AutomaActionType_BUILD       ,     
+                    '<ul>'
+                    + '<li>'
+                    + this.fsr(_('Seishin chooses the empty shore space with the lowest Koku cost in the region matching her die. If multiple empty shore spaces in that region have the lowest Koku cost, she chooses the one that is farther downriver. If there are no empty shore spaces in the region, increase her die’s value by 1 and then repeat this for the next region until she chooses an empty shore space. (If her die is a 6, change it to a 1.)'),{})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('Seishin ignores the shore space’s Koku cost because she never spends (or gains) Koku.'),{})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('Seishin chooses the building tile from the building row that has the build bonus with the most influence and places it on the chosen empty shore space. If multiple building tiles have the most influence for their build bonuses, she chooses the one that is closest to the building row’s end space (the space with the divine favor reward).'),{})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('Seishin places 1 of her clan markers on the building tile’s build bonus and gains that much influence in the building’s region. She gains any point or influence rewards she reaches or passes along the influence track; she ignores all other rewards.'),{})
+                    + '</li>'
+                    + '</ul>'
+                ],
+                [AutomaActionType_ADVANCE_CITY, 
+                    '<ul>'
+                    + '<li>'
+                    + this.fsr(_('Seishin places 1 clan marker in the City of Lies on the leftmost unoccupied space matching her die. Seishin does not lose any influence or gain any rewards for this placement. If there are no available spaces matching her die, do not place a marker. If the only available spaces matching her die are scoring tiles, Seishin claims the topmost scoring tile matching her die.'),{})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('Seishin discards ${n} card from the City of Lies column that she placed a clan marker in.'),{'n':1})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('Seishin takes another turn after this one. (Before taking this extra turn, she claims a mastery if her deck is empty and then rolls her die.)'),{})
+                    + '</li>'
+                    + '</ul>'
+                    + '<li>'
+                    + this.fsr(_('Seishin can have multiple clan markers in the city; her markers permanently block these spaces.'),{})
+                    + '</li>'
+                    + '</ul>'
+                ],
+            ]);
+            descriptionLine = descriptionMap.get(card.type);
+            //Maybe not needed to display a big image, but display Description
+            let div = this.tplAutomaActionCard(card,'_tmp');
+            return `<div class='rog_card_tooltip'>
+                <h1>${typeName}</h1>
+                <h2>${actionName}</h2>
+                ${descriptionLine}
+            </div>`;
         },
 
         ////////////////////////////////////////////////////////

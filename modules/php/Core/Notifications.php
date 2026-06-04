@@ -253,15 +253,17 @@ class Notifications
   
   public static function giveActionCardToAutoma(AutomaPlayer $player, AutomaActionCard $card)
   {
-    $message = clienttranslate('${player_name} draws the action card ${action_card_name}${card_icon}');
-        
+    $message = clienttranslate('${player_name} draws the action card ${action_card_name}${card_icon} to play with ${die_face}');
+    $die_face = $player->getDie();
     $cardName = $card->getTitle();
     self::notifyAll("giveActionCardToAutoma", $message, [
       'player' => $player,
       'card' => $card->getUiData(),
       'card_icon' => '',
       'action_card_name' => $cardName,
-      'preserve'=>['card',  ],
+      'die_face' => $die_face,
+      'die_value' => $die_face,
+      'preserve'=>['card', 'die_value' ],
       'i18n'=>['action_card_name',  ],
     ]);
   }
