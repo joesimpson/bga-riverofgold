@@ -334,9 +334,10 @@ class Pieces extends DB_Manager
     return self::getInLocationQ($location, $state, $orderBy)->get();
   }
 
-  public static function getInLocationOrdered($location, $state = null)
+  public static function getInLocationOrdered($location, $state = null, bool $ascending = true)
   {
-    return self::getInLocation($location, $state, [static::$prefix . 'state', 'ASC']);
+    $orderDirection = $ascending ? 'ASC' : 'DESC';
+    return self::getInLocation($location, $state, [static::$prefix . 'state', $orderDirection]);
   }
 
   /**

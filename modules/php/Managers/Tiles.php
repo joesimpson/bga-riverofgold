@@ -159,9 +159,12 @@ class Tiles extends \ROG\Helpers\Pieces
   {
     return self::getAllByType(TILE_TYPE_MASTERY_CARD,array_keys(self::getMasteryCardsTypes()));
   } 
-  public static function getMasteryToClaim(): Collection
+  /**
+   * @return Collection ordered from left or right depending on param $fromLeft
+   */
+  public static function getMasteryToClaim(bool $fromLeft = true): Collection
   {
-    return self::getInLocationOrdered(TILE_LOCATION_MASTERY_CARD);
+    return self::getInLocationOrdered(TILE_LOCATION_MASTERY_CARD,null,$fromLeft);
   } 
   public static function getMasteryReserved(Player $player): Collection
   {

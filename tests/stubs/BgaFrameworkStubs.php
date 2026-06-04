@@ -525,7 +525,7 @@ abstract class Table
                 if(!array_key_exists($meeple_id,TestDatas::$tokens)) continue;
                 $filtered[] = TestDatas::$tokens[$meeple_id];
             }
-            logForTests("MOCK select tokens with ids ".json_encode($meeple_ids).": ".json_encode($filtered));
+            logForTests("MOCK select meeples with ids ".json_encode($meeple_ids).": ".json_encode($filtered));
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(?`tile_location` = '(?P<tile_location>.*)'\)?$/", $sql, $matches) == 1) {
@@ -534,9 +534,14 @@ abstract class Table
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\) ORDER BY tile_state (?P<order>\w+)$/", $sql, $matches) == 1) {
-            //TODO SORT tile_state
+            $order = $matches['order'];
             $tile_location = $matches['tile_location'];
             $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location,){return $tile['tile_location'] == $tile_location ;});
+            uasort($filtered, function ($a,$b) use ($order)  {
+                if($order == 'DESC') return $b["tile_state"] <=> $a["tile_state"];
+                return $a["tile_state"] <=> $b["tile_state"];
+            });
+            logForTests("MOCK select tiles (sorted tile_state): ".json_encode($filtered));
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\) AND `tile_state` = (?P<tile_state>\w+)$/", $sql, $matches) == 1) {
@@ -546,11 +551,16 @@ abstract class Table
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\) ORDER BY tile_state (?P<order>\w+) LIMIT (?P<limit>\d+)$/", $sql, $matches) == 1) {
-            //TODO SORT tile_state
+            $order = $matches['order'];
             $tile_location = $matches['tile_location'];
             $limit = intval($matches['limit']);
             $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location,){return $tile['tile_location'] == $tile_location ;});
             $filtered = array_slice($filtered, 0, $limit, true);
+            uasort($filtered, function ($a,$b) use ($order)  {
+                if($order == 'DESC') return $b["tile_state"] <=> $a["tile_state"];
+                return $a["tile_state"] <=> $b["tile_state"];
+            });
+            logForTests("MOCK select tiles (sorted tile_state): ".json_encode($filtered));
             return $filtered;
         }
         
@@ -838,7 +848,7 @@ abstract class Table
             $player_id = intval($matches['player_id']);
             $meeple_ids = array_keys(TestDatas::$tokens);
             $meeple_id = 1 + $meeple_ids[count($meeple_ids)-1];
-            logForTests("DbQuery --- added token $meeple_id : $meeple_location, $type, $meeple_state,$player_id ");
+            logForTests("DbQuery --- added token $meeple_id : $meeple_location, $meeple_state,$type, $player_id ");
             TestDatas::$tokens[$meeple_id] = ['result_associative_index' => $meeple_id, 'meeple_id' => $meeple_id, 'meeple_state' => $meeple_state, 'meeple_location'=> $meeple_location,'type' => $type,  'player_id' => $player_id, ];
             TestDatas::$lastInsertedId = $meeple_id;
             return true;
