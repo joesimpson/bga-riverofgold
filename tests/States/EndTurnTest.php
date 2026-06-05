@@ -344,5 +344,55 @@ final class EndTurnTest extends TestCase
         assertSame(ST_NEXT_TURN, GamestateMachine::$test_current_state);
     }
     
+    public function test_EnteringState_LastTurn_ByAutomaBuild(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setTurnPlayer(AUTOMA_PLAYER_ID);
+        GamestateMachine::$test_current_state = ST_END_TURN;
+        unset(TestDatas::$tiles[21]);
+        unset(TestDatas::$tiles[22]);
+        unset(TestDatas::$tiles[23]);
+        unset(TestDatas::$tiles[24]);
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[26]);
+        unset(TestDatas::$tiles[34]);
+        unset(TestDatas::$tiles[101]);
+        unset(TestDatas::$tiles[102]);
+        unset(TestDatas::$tiles[103]);
+        unset(TestDatas::$tiles[104]);
+        unset(TestDatas::$tiles[105]);
+        Globals::setAutomaDie(-1);
+        Globals::setAutomaScore(29);
+        TestDatas::$stats['table'][14] = 29;
+        TestDatas::$tiles[1]['type'] = 18;//MASTERY_TYPE_LIGHTNING
+        $expectedNotifs = [
+            "endTurn--123",
+            "slideBuildingRow",
+            "refillBuildingRow",
+            "triggerLastTurn--123",
+            "addPoints--123", 
+            "revealTopEraTiles",
+        ];
+
+        $game->stEndTurn();
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Score +NB_POINTS_FOR_GAME_END
+        //Masteries SHOULD NOT BE TRIGGERED this way FOR AUTOMA : (+7 when mastery claimed)
+        assertSame(34, Globals::getAutomaScore());
+        assertSame(34, TestDatas::$stats['table'][14]);
+        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(2, TestDatas::$players[2]['player_score']);
+        //check die NOT rolled :
+        assertSame(-1, Globals::getAutomaDie());
+        assertSame(false, TestDatas::$players[1]['last_turn_played']);
+        assertSame(false, TestDatas::$players[2]['last_turn_played']);
+        assertSame(AUTOMA_PLAYER_ID, Globals::getEndPlayer());
+        assertSame(true, Globals::isLastTurnTriggered());
+        assertSame(true, Globals::isAutomaLastTurnPlayed());
+        assertSame(ST_NEXT_TURN, GamestateMachine::$test_current_state);
+    }
+    
     // -------------------------------------------------
 }
