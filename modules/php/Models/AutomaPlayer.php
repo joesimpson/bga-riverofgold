@@ -61,6 +61,17 @@ class AutomaPlayer extends Player
     {
         return 0;
     }
+
+    public function giveResourceFromTile($nb, $type, $tile)
+    {
+        //NOTHING
+    }
+    
+    public function giveResourceFromShoreSpace($nb, $type, $shoreSpace)
+    {
+        //NOTHING
+    }
+  
     
     public function canReceiveMoney()
     {

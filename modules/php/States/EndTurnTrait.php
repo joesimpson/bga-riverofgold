@@ -82,7 +82,7 @@ trait EndTurnTrait
    */
   public function computeBuildingsOwnerRewards($isEmperorVisit = false)
   { 
-    $players = Players::getAll();
+    $players = Players::getAllWithAutoma();
     $buildingTiles = Tiles::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE);
     
     if($isEmperorVisit){

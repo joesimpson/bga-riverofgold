@@ -136,7 +136,7 @@ trait SailTrait
     $adjacentSpaces = ShoreSpaces::getAdjacentSpaces($riverSpace);
     Game::get()->trace("process_Sail($shipId,$riverSpace) adjacent spaces :".json_encode($adjacentSpaces));
 
-    $players = Players::getAll();
+    $players = Players::getAllWithAutoma();
     $playerPatron = $player->getPatron();
 
     Notifications::checkVisitorRewards();

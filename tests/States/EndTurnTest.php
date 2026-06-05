@@ -172,6 +172,66 @@ final class EndTurnTest extends TestCase
         assertSame(2 + 1, TestDatas::$players[2]['player_score']);
     }
     
+    public function test_runEmperorVisit_WithAutomaOwnBuildings(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_TURN;
+        Globals::setEra(1);
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        TestDatas::$tokens[42]['player_id'] = AUTOMA_PLAYER_ID;
+        //add a second building tile  + 2 clan markers on it
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['type'] = 3;
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tiles[43]['tile_state'] = 7;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        TestDatas::$tokens[44] = TestDatas::$tokens[43];
+        TestDatas::$tokens[44]['meeple_id'] = 44;
+        TestDatas::$tokens[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44]['meeple_state'] = 2;
+        TestDatas::$tokens[44]['player_id'] = AUTOMA_PLAYER_ID;
+        $expectedNotifs = [
+            "emperorVisit",
+            "emperorReward",//tile 41 [BONUS_TYPE_MONEY_PER_PORT=>1],
+            "giveResource-1",
+            "emperorReward",//tile 42 [BONUS_TYPE_POINTS=>1],
+            "addPoints--123",
+            "emperorReward",//tile 43 [RESOURCE_TYPE_MONEY=>1, RESOURCE_TYPE_POTTERY=>1,],
+            "giveResource-1",
+            "giveResource-1",
+            "emperorVisitEnd",
+        ];
+
+        $game->runEmperorVisit();
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(2, Globals::getEra());
+        //Check PLAYER 1 owner rewards :
+        $resourcesPlayer1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesPlayer1[RESOURCE_TYPE_SILK]);
+        assertSame(1, $resourcesPlayer1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesPlayer1[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resourcesPlayer1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesPlayer1[RESOURCE_TYPE_SUN]);
+        assertSame(3, $resourcesPlayer1[RESOURCE_TYPE_MONEY]);//0+1*2+1
+        //Check PLAYER 2 owner rewards :
+        assertSame(2, TestDatas::$players[2]['player_score']); //+0
+        $resourcesPlayer2 = json_decode(TestDatas::$players[2]['resources'], true);
+        assertSame(0, $resourcesPlayer2[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resourcesPlayer2[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesPlayer2[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resourcesPlayer2[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesPlayer2[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resourcesPlayer2[RESOURCE_TYPE_MONEY]);
+        assertSame(1, Globals::getAutomaScore());
+        assertSame(1, TestDatas::$stats['table'][14]);
+    }
+    
     public function test_EnteringState_EmperorVisit_AfterShindoshi3_Pass(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
