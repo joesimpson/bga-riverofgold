@@ -103,14 +103,18 @@ class Players extends \ROG\Helpers\DB_Manager
     if(Utils::isGameWithAutoma()){
       $playersObjects = Players::getAll();
       $assignedClans = $playersObjects->map( function ($player) { return $player->getClan();})->toArray();
+      $unAssignedClans = [];
       foreach(CLANS_COLORS as $color => $clan){
         if(in_array($clan,$assignedClans)){
           continue;
         }
-        $automa_clan = $clan;
-        $automa_color = $color;
-        break;
+        $unAssignedClans[] = [ 'color'=>$color, 'clan'=>$clan];
       }
+      shuffle($unAssignedClans);
+      $clanToPick = array_shift($unAssignedClans);
+      $automa_clan = $clanToPick['clan'];
+      $automa_color = $clanToPick['color'];
+
       Globals::setAutomaClan($automa_clan);
       Notifications::automaColor($automa_clan, $automa_color, Utils::getAutomaPId());
       
