@@ -29,27 +29,27 @@
             {
                 "name": "Easy",
                 "tmdisplay": "Easy",
-                "description": "You compete against Seishin, a rival AI merchant."
+                "description": "Cooperative : You compete against Seishin, a rival AI merchant."
             },
             {
                 "name": "Normal",
                 "tmdisplay": "Normal",
-                "description": "You compete against Seishin, a rival AI merchant."
+                "description": "Cooperative : You compete against Seishin, a rival AI merchant."
             },
             {
                 "name": "Hard",
                 "tmdisplay": "Hard",
-                "description": "You compete against Seishin, a rival AI merchant."
+                "description": "Cooperative : You compete against Seishin, a rival AI merchant."
             },
             {
                 "name": "Expert",
                 "tmdisplay": "Expert",
-                "description": "You compete against Seishin, a rival AI merchant."
+                "description": "Cooperative : You compete against Seishin, a rival AI merchant."
             },
             {
                 "name": "Master",
                 "tmdisplay": "Master",
-                "description": "You compete against Seishin, a rival AI merchant."
+                "description": "Cooperative : You compete against Seishin, a rival AI merchant."
             }
         ],
         "default": 0,
@@ -65,7 +65,7 @@
                     "type": "otheroption",
                     "id": 201,
                     "value": 1,
-                    "message": "Coop VS rival AI is available in training only"
+                    "message": "Coop VS rival AI is available in friendly mode only"
                 }
             ],
             "2": [
@@ -73,7 +73,7 @@
                     "type": "otheroption",
                     "id": 201,
                     "value": 1,
-                    "message": "Coop VS rival AI is available in training only"
+                    "message": "Coop VS rival AI is available in friendly mode only"
                 }
             ],
             "3": [
@@ -81,7 +81,7 @@
                     "type": "otheroption",
                     "id": 201,
                     "value": 1,
-                    "message": "Coop VS rival AI is available in training only"
+                    "message": "Coop VS rival AI is available in friendly mode only"
                 }
             ],
             "4": [
@@ -89,7 +89,7 @@
                     "type": "otheroption",
                     "id": 201,
                     "value": 1,
-                    "message": "Coop VS rival AI is available in training only"
+                    "message": "Coop VS rival AI is available in friendly mode only"
                 }
             ],
             "5": [
@@ -97,7 +97,7 @@
                     "type": "otheroption",
                     "id": 201,
                     "value": 1,
-                    "message": "Coop VS rival AI is available in training only"
+                    "message": "Coop VS rival AI is available in friendly mode only"
                 }
             ]
         }

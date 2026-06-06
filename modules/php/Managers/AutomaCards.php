@@ -73,7 +73,12 @@ class AutomaCards extends Cards
         $cards = [];
         
         $actions = self::getAutomaActionCardsTypes();
+        $unplayedTypes = [];
+        if(!Utils::isGameWithCityOfLies()){
+            $unplayedTypes[] = AutomaActionType::ADVANCE_CITY->value;
+        }
         foreach ($actions as $type => $card) {
+            if(in_array($type, $unplayedTypes)) continue;
             $cards[] = [
                 'type' => $type,
                 'subtype' => CARD_TYPE_AUTOMA_ACTION,

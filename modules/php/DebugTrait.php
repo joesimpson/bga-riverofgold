@@ -63,6 +63,7 @@ trait DebugTrait
     bool $expansionClans = true,
     bool $expansionClansAlt = true,
     int $optionSeishin = OPTION_SEISHIN_OFF,
+    bool $cityOfLies = false,
     bool $customTracks = true,
     int $optionCustomers = OPTION_CUSTOMERS_BASE,
     int $optionMarkets = OPTION_MARKETS_BASE,
@@ -78,6 +79,7 @@ trait DebugTrait
           OPTION_EXPANSION_CLANS_OFF
         ) ,
       OPTION_SEISHIN => $optionSeishin,
+      OPTION_CITY_OF_LIES => $cityOfLies,
       OPTION_TRACKS => $customTracks,
       OPTION_CUSTOMERS => $optionCustomers,
       OPTION_MARKETS => $optionMarkets,

@@ -202,4 +202,13 @@ abstract class Utils
         }
         return true;
     }
+
+    public static function isGameWithCityOfLies() : bool {
+        $city = Globals::getOptionCity();
+        if(!isset($city)) return false;
+        if(OPTION_CITY_OF_LIES_OFF == $city){
+            return false;
+        }
+        return true;
+    }
 }

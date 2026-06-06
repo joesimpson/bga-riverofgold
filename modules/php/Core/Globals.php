@@ -55,6 +55,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     // Game options
     'optionClanPatrons' => 'int', 
     'optionSeishin' => 'int', 
+    'optionCity' => 'int', 
     'optionTracks' => 'int', 
     'optionCustomers' => 'int', 
     'optionImperialMarkets' => 'int', 
@@ -106,6 +107,10 @@ class Globals extends \ROG\Helpers\DB_Manager
       Utils::updateDataFromArray($options,OPTION_SEISHIN,$optionSeishin);
     }
     Globals::setOptionSeishin($optionSeishin);
+
+    $optionCity = OPTION_CITY_OF_LIES_OFF;
+    Utils::updateDataFromArray($options,OPTION_CITY_OF_LIES,$optionCity);
+    Globals::setOptionCity($optionCity);
 
     $regionTracks = null;
     $optionTracks = OPTION_TRACKS_OFF;

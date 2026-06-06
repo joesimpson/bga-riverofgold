@@ -26,7 +26,8 @@ namespace ROG;
 //Else near constants :
 require_once 'constants.inc.php';
 
-$warningAiInTraining = 'Coop VS rival AI is available in training only';
+$warningAiInTraining = 'Coop VS rival AI is available in friendly mode only';
+$seishinDesc = 'Cooperative : You compete against Seishin, a rival AI merchant.';
 
 $game_options = [
 
@@ -62,27 +63,27 @@ $game_options = [
       OPTION_SEISHIN_LEVEL_1 => [
         'name' => 'Easy', 
         'tmdisplay' => 'Easy',
-        'description' => 'You compete against Seishin, a rival AI merchant.', 
+        'description' => $seishinDesc, 
       ],
       OPTION_SEISHIN_LEVEL_2 => [
         'name' => 'Normal', 
         'tmdisplay' => 'Normal',
-        'description' => 'You compete against Seishin, a rival AI merchant.', 
+        'description' => $seishinDesc, 
       ],
       OPTION_SEISHIN_LEVEL_3 => [
         'name' => 'Hard', 
         'tmdisplay' => 'Hard',
-        'description' => 'You compete against Seishin, a rival AI merchant.', 
+        'description' => $seishinDesc, 
       ],
       OPTION_SEISHIN_LEVEL_4 => [
         'name' => 'Expert', 
         'tmdisplay' => 'Expert',
-        'description' => 'You compete against Seishin, a rival AI merchant.', 
+        'description' => $seishinDesc, 
       ],
       OPTION_SEISHIN_LEVEL_5 => [
         'name' => 'Master', 
         'tmdisplay' => 'Master',
-        'description' => 'You compete against Seishin, a rival AI merchant.', 
+        'description' => $seishinDesc, 
       ],
     ],
     'default' => OPTION_SEISHIN_OFF,
@@ -111,6 +112,25 @@ $game_options = [
     ],
      
   ), 
+
+  /* Prepare FOR Future Feature
+  OPTION_CITY_OF_LIES => array(
+    'name' => 'City Of Lies',    
+    'values' => [
+      OPTION_CITY_OF_LIES_OFF => [
+        'name' => 'Disabled', 
+        'description' => '', 
+      ],
+      OPTION_CITY_OF_LIES_ON => [
+        'name' => 'Enabled', 
+        'tmdisplay' => 'City Of Lies',
+        'description' => 'An additional board with a new player action to compete for new City Cards and new rewards', 
+      ],
+    ],
+    'default' => OPTION_CITY_OF_LIES_OFF,
+     
+  ),
+  */
 
   OPTION_TRACKS => array(
     'name' => 'Region Influence Tracks',    
