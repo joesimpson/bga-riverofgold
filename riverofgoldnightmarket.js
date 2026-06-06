@@ -2175,8 +2175,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
 
             this._counters['era'].toValue(this.gamedatas.era);
             //for Testing purpose :
-            this._counters['automaDeck'].toValue(this.gamedatas.deckSize.automaDeck);
-            this._counters['automaPlayed'].toValue(this.gamedatas.deckSize.automaPlayed);
+            if(this.automa_id){
+                this._counters['automaDeck'].toValue(this.gamedatas.deckSize.automaDeck);
+                this._counters['automaPlayed'].toValue(this.gamedatas.deckSize.automaPlayed);
+            }
     
             //keep hand untouched, another notif will take care about it
             this.setupCards(true);
