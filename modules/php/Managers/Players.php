@@ -650,7 +650,16 @@ class Players extends \ROG\Helpers\DB_Manager
       'player_name'   => Utils::getAutomaName(), 
       'player_color'  => Utils::getPlayerClanColor($clan),
       'player_clan'   => $clan,
+      //save perfs and read only when needed
+      //'player_no'     => 1+ Players::getPlayersMaxNo(),
       ]);
+  }
+
+  public static function getPlayersMaxNo() : int
+  {
+    $no_max = self::DB()
+        ->func('MAX', 'player_no');
+    return $no_max ?? 0;
   }
 }
 

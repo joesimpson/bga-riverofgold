@@ -29,7 +29,7 @@ final class GameTest extends TestCase
             'players' => [
                 1 => [
                     'id' => 1,
-                    'no' => null,
+                    'no' => 2,
                     'name' => 'Player_NAME_1',
                     'color' => 'ff0000',
                     'eliminated' => null,
@@ -75,7 +75,7 @@ final class GameTest extends TestCase
                 ],
                 2 => [
                     'id' => 2,
-                    'no' => null,
+                    'no' => 3,
                     'name' => 'Player_NAME_2',
                     'color' => 'ffffff',
                     'eliminated' => null,
@@ -773,7 +773,7 @@ final class GameTest extends TestCase
         Globals::setAutomaLastTurnPlayed(false);
         $expectedAutomaPlayerDatas = [
                     'id' => AUTOMA_PLAYER_ID,
-                    'no' => null,
+                    'no' => 4,
                     'name' => 'Seishin',
                     'color' =>  '298a47',
                     'score' => 55,

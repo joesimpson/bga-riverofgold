@@ -152,6 +152,8 @@ abstract class Table
         switch($sql){
             case "SELECT COUNT(*) FROM `player`":
                 return count(TestDatas::$players);
+            case "SELECT MAX(`player_no`) FROM `player`":
+                return max(array_map(function ($p) {return $p['player_no'];},TestDatas::$players,));
             case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'deck')":
                 return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'deck';}));
             case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'discard')":

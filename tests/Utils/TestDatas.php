@@ -16,6 +16,7 @@ class TestDatas {
             1 => [
                 'result_associative_index' => 1,
                 'player_id' => 1, 
+                'player_no' => 2,
                 'player_color' => 'ff0000' ,
                 'player_name' => 'Player_NAME_1', 
                 'player_score' => 19, 
@@ -30,6 +31,7 @@ class TestDatas {
             2 => [
                 'result_associative_index' => 2,
                 'player_id' => 2, 
+                'player_no' => 3,
                 'player_color' => 'ffffff' ,
                 'player_name' => 'Player_NAME_2', 
                 'player_score' => 2, 

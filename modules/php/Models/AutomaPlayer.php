@@ -5,6 +5,7 @@ namespace ROG\Models;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
+use ROG\Managers\Players;
 
 /**
  * Fake player for the automata, not saved in Player Table,
@@ -20,6 +21,7 @@ class AutomaPlayer extends Player
         $data['score'] = $this->getScore();
         $data['name'] = $this->getName();
         $data['id'] = $this->getId();
+        $data['no'] = 1 + Players::getPlayersMaxNo();
         $data['clan'] = $this->getClan();
         $data['color'] = $this->getColor();
         $data['die'] = $this->getDie();

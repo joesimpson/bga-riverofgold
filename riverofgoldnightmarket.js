@@ -2781,6 +2781,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 let order = ((player.no - currentPlayerNo + nPlayers) % nPlayers) + 1;
                 if (isCurrent) order = 1;
                 $(`rog_player_delivered_resizable-${player.id}`).style.order = order;
+                //Reorder side panels (for right Automa panel order)
+                let divSidePanel = this.bga.playerPanels.getElement(player.id).parentNode.parentNode.parentNode;
+                divSidePanel.style.order = order;
             });
 
             document.getElementById('rog_game_container').dataset.nbplayers = nPlayers;
