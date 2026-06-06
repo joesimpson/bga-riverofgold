@@ -1755,6 +1755,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             Promise.all(
                 cardsToDiscard.map((cardDiv, i) => {
                     let oldParent = cardDiv.parentNode.parentNode;//rog_customer_holder
+                    this.destroyTooltip(cardDiv);
                     return this.wait(100 * i).then(() => 
                         this.animationManager.slideOutAndDestroy(cardDiv, this._counters['automaDeck'].span, {duration: 900})
                         .then(() =>{

@@ -995,9 +995,12 @@
 }
 
 .rog_player_actions_container{
-    box-shadow: 0px 0px 3px black;
+    //remove border to see colored border around
+    //box-shadow: 0px 0px 3px black;
     border-radius: 10px;
     position: relative;
+    align-content: center;
+    align-items: center;
 }
 .rog_player_action_cards{
     display: flex;
@@ -1005,7 +1008,12 @@
     flex-direction: row;
     flex-wrap: wrap;
     position: relative;
+    align-content: center;
+    align-items: center;
 
+    .rog_customer_card_resizeable{
+        margin: 2px 5px;
+    }
     .rog_automa_action_card {
         .rog_action_die{
             position: absolute;
