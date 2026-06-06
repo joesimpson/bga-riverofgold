@@ -211,4 +211,13 @@ abstract class Utils
         }
         return true;
     }
+    
+    public static function isGameWithScenarios() : bool {
+        $scenarios = Globals::getOptionScenarios();
+        if(!isset($scenarios)) return false;
+        if(OPTION_SCENARIOS_OFF == $scenarios){
+            return false;
+        }
+        return true;
+    }
 }
