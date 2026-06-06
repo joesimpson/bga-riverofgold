@@ -2932,7 +2932,7 @@ final class ScoringTest extends TestCase
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         $endScoringDatas = Globals::getEndScoring();
         assertSame($expectedScoring, $endScoringDatas);
-        assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(5, TestDatas::$players[1]['player_score']);//Reduce to lowest score
         assertSame(0,  TestDatas::$players[1]['player_score_aux']);
         assertSame(5,  TestDatas::$players[2]['player_score']);
         assertSame(1,  TestDatas::$players[2]['player_score_aux']);

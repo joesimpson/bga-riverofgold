@@ -1002,9 +1002,12 @@ class Notifications
     ]);
   }
 
-  public static function teamWin()
+  public static function teamWin(int $teamScore)
   {
-    self::notifyAll('teamWin', clienttranslate('All players win the game as a team'), [
+    self::notifyAll('teamWin', clienttranslate('All players win the game as a team with a score of ${n} ${points}'), [
+      'n' => $teamScore,
+      'points' => clienttranslate('Score'),
+      'i18n' => ['points'],
     ]);
   }
   /*************************

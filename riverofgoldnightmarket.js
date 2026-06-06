@@ -2432,12 +2432,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 recomputeTotal += this._counters[pId].scoringRecap.ingame.getValue();
                 this._counters[pId].scoringRecap.total = this.createCounter(`rog_recap_total_${pId}`,player.score);
                 
-                if(this._counters[pId].scoringRecap.total.getValue() == -1){//SCORE_FAIL
+                //if(this._counters[pId].scoringRecap.total.getValue() == -1){//SCORE_FAIL
                     //IF negative score to save a BGA defeat, recomputes the score with all other values from table :
                     this._counters[pId].scoringRecap.total.setValue(recomputeTotal);
                     this.gamedatas.players[pId].score = recomputeTotal;
                     this.moveScoreMarker(this.gamedatas.players[pId]);
-                }
+                //}
             });
         },
         tplFinalScoringTable(){

@@ -200,16 +200,24 @@ trait ScoringTrait
     //COMPARE SCORES WITH AUTOMA : "You and your ally win or lose as a team. To win, each of you must have a higher score than Seishin. If either of your scores is lower than or equal to Seishin’s, you both lose the game."
     $automaScore = Globals::getAutomaScore();
     $eliminated = [];
+    $lowestScore = null;
     foreach($players as $pId => $player){
       if( $player instanceof AutomaPlayer) continue;
       $playerScore = Players::getUpdatedPlayerScore($pId);
+      if(!isset($lowestScore)) $lowestScore = $playerScore;
+      $lowestScore = min($lowestScore, $playerScore);
       if($playerScore <= $automaScore ){
         Notifications::eliminateByScore($player,$automaScore,$playerScore);
         $eliminated[$pId] = $player;
       }
     }
     if(count($eliminated) == 0){
-      Notifications::teamWin();
+      Notifications::teamWin($lowestScore);
+      foreach($players as $pId => $player){
+        if( $player instanceof AutomaPlayer) continue;
+        //Set all team players to the same score to display all as winners
+        $player->setScore($lowestScore);
+      }
     }
     else {
       Notifications::teamLoose();
