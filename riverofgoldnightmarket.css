@@ -4573,6 +4573,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .rog_player_actions_container {
