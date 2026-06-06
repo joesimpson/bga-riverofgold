@@ -106,6 +106,10 @@ class Globals extends \ROG\Helpers\DB_Manager
     //displaycondition for 1 or 2p only :
     if(in_array($nbPlayers,[1,2])){
       Utils::updateDataFromArray($options,OPTION_SEISHIN,$optionSeishin);
+      if($nbPlayers == 1 && $optionSeishin == OPTION_SEISHIN_OFF){
+        //AUTOMA is mandatory with only 1 player -> see startCondition
+        $optionSeishin = OPTION_SEISHIN_LEVEL_2;
+      }
     }
     Globals::setOptionSeishin($optionSeishin);
 

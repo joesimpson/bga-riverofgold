@@ -197,7 +197,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
     {
         $nbPlayers = Players::count();
         $remainingPlayers = Players::countRemainingPlayers();
-        $initialDeckSizes = [ 2 =>21, 3=>25, 4=>29, 5=>33, ];
+        $initialDeckSizes = [ 1=>21, 2 =>21, 3=>25, 4=>29, 5=>33, ];
         $initialDeckSize = $initialDeckSizes[$nbPlayers];
         $deckSize = Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1) 
             + Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2);

@@ -26,7 +26,8 @@ namespace ROG;
 //Else near constants :
 require_once 'constants.inc.php';
 
-$warningAiInTraining = 'Coop VS rival AI is available in friendly mode only';
+$messageForSeishinOff = 'Rival AI is mandatory in Solo games';
+$warningAiInTraining = 'Coop VS rival AI is available in friendly mode only.';
 $seishinDesc = 'Cooperative : You compete against Seishin, a rival AI merchant.';
 
 $game_options = [
@@ -94,6 +95,9 @@ $game_options = [
       ],
     ],
     'startcondition'=>  [
+      OPTION_SEISHIN_OFF => [
+        [ "type" => "minplayers", "value"=> 2, "message"=> $messageForSeishinOff, ],
+      ],
       OPTION_SEISHIN_LEVEL_1 => [
         [ "type" => "otheroption", "id" => OPTION_GAMESTATE_RATING_MODE, "value"=> OPTION_GAMESTATE_RATING_MODE_TRAINING, "message"=> $warningAiInTraining, ],
       ],
