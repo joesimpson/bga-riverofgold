@@ -1731,8 +1731,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         notif_giveCardTo(n) {
             debug('notif_giveCardTo: receiving a new card', n);
-            if (!$(`rog_card-${n.args.card.id}`)) this.addCard(n.args.card, this.getVisibleTitleContainer());
-            this.slide(`rog_card-${n.args.card.id}`, this.getCardContainer(n.args.card));
+            let cardDiv = this.addCard(n.args.card, this.getCardContainer(n.args.card));
+            this.animationManager.slideIn(cardDiv, document.getElementById(`rog_customers_deck_size`), {duration: 700})
+                .then(() => {
+                });
         },
         notif_giveActionCardToAutoma(n) {
             debug('notif_giveActionCardToAutoma', n);
@@ -1811,8 +1813,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             debug('notif_discard: discarding a private card', n);
             let div = $(`rog_card-${n.args.card.id}`);
             if (!div) return;
+            this.destroyTooltip(div);
             let oldParent = div.parentNode.parentNode;//rog_customer_holder
-            this.slide(`rog_card-${n.args.card.id}`, this.getVisibleTitleContainer(), {
+            this.slide(`rog_card-${n.args.card.id}`, document.getElementById('rog_customers_discard_size'), {
                 destroy: true,
                 phantom: false,
                 duration: 800,
