@@ -1974,12 +1974,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         async notif_setDie(n) {
             debug('notif_setDie', n);
-            await this.updatePlayerDieFace(n.args.player_id,n.args.die_value,true);
+            await this.updatePlayerDieFace(n.args.player_id,n.args.die_value,true,false);
             this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
         },
         async notif_rollDie(n) {
             debug('notif_rollDie', n);
-            await this.updatePlayerDieFace(n.args.player_id,n.args.die_value,true);
+            await this.updatePlayerDieFace(n.args.player_id,n.args.die_value,true,true);
             this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
         },
         notif_gainInfluence(n) {
@@ -3152,8 +3152,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
         },
             
-        async updatePlayerDieFace(pId,dieFace, animate = false) {
-            debug("updatePlayerDieFace",pId,dieFace,animate );
+        async updatePlayerDieFace(pId,dieFace, animate = false, roll = false) {
+            debug("updatePlayerDieFace",pId,dieFace,animate,roll );
             let counter = this._counters[pId].dieFace;
             counter.toValue(dieFace);
             let icon = counter.span.nextSibling.firstElementChild;
@@ -3170,11 +3170,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if(animate && !this.isFastMode()){
                 if(dieToAnimate){
                     try{//Try using BgaDice
-                        let effect = 'turn';
-                        effect = 'rollIn';
-                        await stock.rollDie(dieToAnimate,{effect:effect,duration: 800});
-                        //Stop if animation success
-                        return;
+                        let effect = 'none';
+                        if(roll) {
+                            effect = 'rollIn';
+                            await stock.rollDie(dieToAnimate,{effect:effect,duration: 800});
+                            //Stop if animation success
+                            return;
+                        }
+                        await stock.rollDie(dieToAnimate,{effect:effect,duration: 0});
                     } catch (e) {
                         console.error('Exception with BgaDice usage:'+e.message, e.stack);
                     }
