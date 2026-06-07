@@ -2935,7 +2935,7 @@ final class ScoringTest extends TestCase
         assertSame(5, TestDatas::$players[1]['player_score']);//Reduce to lowest score
         assertSame(0,  TestDatas::$players[1]['player_score_aux']);
         assertSame(5,  TestDatas::$players[2]['player_score']);
-        assertSame(1,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);//REDUCED
         assertSame(4, Globals::getAutomaScore());
         assertSame(4, TestDatas::$stats['table'][14]);
     }
@@ -2948,6 +2948,8 @@ final class ScoringTest extends TestCase
         Globals::setAutomaScore(15);
         TestDatas::$players[1]['player_score'] = 15;
         TestDatas::$players[2]['player_score'] = 15;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":5,"5":5,"6":5}';
+        TestDatas::$players[2]['resources'] = '{"1":0,"2":0,"3":0,"4":5,"5":2,"6":17}';
         $expectedNotifs = [
             "computeFinalScore",
             "scoreDeliveries-1", 
@@ -3006,9 +3008,9 @@ final class ScoringTest extends TestCase
         $endScoringDatas = Globals::getEndScoring();
         assertSame($expectedScoring, $endScoringDatas);
         assertSame(SCORE_FAIL, TestDatas::$players[1]['player_score']);
-        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);//REDUCED
         assertSame(SCORE_FAIL,  TestDatas::$players[2]['player_score']);
-        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);//REDUCED
         assertSame(15, Globals::getAutomaScore());
     }
     // -------------------------------------------------

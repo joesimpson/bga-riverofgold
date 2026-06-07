@@ -217,6 +217,7 @@ trait ScoringTrait
         if( $player instanceof AutomaPlayer) continue;
         //Set all team players to the same score to display all as winners
         $player->setScore($lowestScore);
+        $player->setScoreAux(0);
       }
     }
     else {
@@ -225,6 +226,7 @@ trait ScoringTrait
         if( $player instanceof AutomaPlayer) continue;
         //RESET SCORE TO -1 if LOST for BGA framework
         $player->setScore(SCORE_FAIL);
+        $player->setScoreAux(0);
       }
     }
   }

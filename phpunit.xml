@@ -9,8 +9,12 @@
          beStrictAboutOutputDuringTests="false"
          displayDetailsOnPhpunitDeprecations="false"
          displayDetailsOnTestsThatTriggerDeprecations="false"
+         displayDetailsOnTestsThatTriggerWarnings="true"
+         displayDetailsOnAllIssues="true"
+         stopOnWarning="false"
          failOnDeprecation="false"
          failOnPhpunitDeprecation="false"
+         failOnPhpunitWarning="false"
          failOnRisky="true"
          failOnWarning="false">
     <testsuites>
