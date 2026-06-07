@@ -255,16 +255,16 @@ class Players extends \ROG\Helpers\DB_Manager
    */
   public static function getNextPlayerWithBonusToChoose($player_id)
   {
-    $nextPlayerTable = Game::get()->getNextPlayerTable();
+    $nbPlayers = Players::getAllWithAutoma()->count();
     $k=0;
     $current_id = null;
-    while($k<count($nextPlayerTable )){
+    while($k <= $nbPlayers ){
       if(!isset($current_id)){
         //Start by looking at current player
         $nextPlayer_id = $player_id;
       }
       else {
-        $nextPlayer_id = $nextPlayerTable[$current_id];
+        $nextPlayer_id = Players::getNextId($current_id);
       }
       $nextPlayer = Players::get($nextPlayer_id);
       if(isset($nextPlayer) 

@@ -95,6 +95,32 @@ final class EndTurnTest extends TestCase
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
         assertSame(1, TestDatas::$test_activePlayerId);
     }
+    
+    public function test_EnteringState_EmperorVisitWithBonuses_WhenAutomaBuilds(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_TURN;
+        unset(TestDatas::$tiles[21]);
+        unset(TestDatas::$tiles[22]);
+        unset(TestDatas::$tiles[23]);
+        unset(TestDatas::$tiles[24]);
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[34]);
+        Globals::setEra(1);
+        TestDatas::$tiles[41]['type'] = 40;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        Globals::setAutomaActive(true);
+        Globals::setTurnPlayer(AUTOMA_PLAYER_ID);
+
+        $game->stEndTurn();
+        
+        assertSame(2, Globals::getEra());
+        $expectedBonuses = json_encode([BONUS_TYPE_CHOICE]);
+        assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertSame(1, TestDatas::$test_activePlayerId);
+    }
 
     public function test_runEmperorVisit_WithoutReverendSensei(): void
     {
