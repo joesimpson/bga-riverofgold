@@ -71,7 +71,8 @@ class Notifications
     self::notifyAll('giveMoney', clienttranslate('${player_name} receives ${n} ${koku}'), [
       'player' => $player,
       'n' => $money,
-      'koku' => 'Koku',
+      'koku' => clienttranslate('Koku'),
+      'i18n' => ['koku'],
     ]);
   }
   /**
@@ -83,7 +84,8 @@ class Notifications
     self::notifyAll('spendMoney', clienttranslate('${player_name} spends ${n} ${koku}'), [
       'player' => $player,
       'n' => $money,
-      'koku' => 'Koku',
+      'koku' => clienttranslate('Koku'),
+      'i18n' => ['koku'],
     ]);
   }
   
@@ -289,10 +291,11 @@ class Notifications
       'player' => $player,
       'n' => $n,
       'preserve'=>['res_type','tile_id'],
-      'res_icon' => RESOURCES[$resourceType],
+      'res_icon' => Utils::resourceName($resourceType),
       'res_type' => $resourceType,
       'tile_id' => $tile_id,
       'shore_space_pos' => $shore_space_pos,
+      'i18n' => ['res_icon'],
     ]);
   }
   
@@ -597,7 +600,8 @@ class Notifications
     self::notifyAll('addPoints',$msg,[ 
         'player' => $player,
         'n' => $points,
-        'points' => 'points',
+        'points' => clienttranslate('Points'),
+        'i18n' => ['points'],
       ],
     );
   }
@@ -610,10 +614,10 @@ class Notifications
   public static function claimMasteryCard(Player $player,int $points,MasteryCard $masteryCard, $meeple){
     $msg = clienttranslate('${player_name} scores ${n} ${points} for claiming ${mastery_name}');
     self::notifyAll('claimMC',$msg,[ 
-        'i18n' => ['mastery_name'],
+        'i18n' => ['mastery_name', 'points'],
         'player' => $player,
         'n' => $points,
-        'points' => 'points',
+        'points' => clienttranslate('Points'),
         'mastery_name' => $masteryCard->getTitle(),
         //'meeple_id' => $meeple->getId(),
         'tile_id' => $masteryCard->getId(),
@@ -656,7 +660,8 @@ class Notifications
     self::notifyAll('scoreDeliveries',$msg,[ 
         'player' => $player,
         'n' => $points,
-        'points' => 'points',
+        'points' => clienttranslate('Points'),
+        'i18n' => ['points'],
         'n2' => $nbDeliveries,
       ],
     );
@@ -674,7 +679,8 @@ class Notifications
     self::notifyAll('scoreInfluence',$msg,[ 
         'player' => $player,
         'n' => $points,
-        'points' => 'points',
+        'points' => clienttranslate('Points'),
+        'i18n' => ['points'],
         'n2' => $playerInfluence,
         'region' => $region,
         'region_icon' => '',
@@ -694,7 +700,8 @@ class Notifications
     self::notifyAll('scoreElder',$msg,[ 
         'player' => $player,
         'n' => $points,
-        'points' => 'points',
+        'points' => clienttranslate('Points'),
+        'i18n' => ['points'],
         'region' => $region,
         'region_icon' => '',
         'tile_id' => $scoringTile->getId(),
@@ -713,7 +720,8 @@ class Notifications
     self::notifyAll('scoreArtisans',$msg,[ 
         'player' => $player,
         'n' => $points,
-        'points' => 'points',
+        'points' => clienttranslate('Points'),
+        'i18n' => ['points'],
         'n2' => $nbArtisans,
         'n3' => $nbResources,
       ],
@@ -731,7 +739,8 @@ class Notifications
     self::notifyAll('scoreMerchants',$msg,[ 
         'player' => $player,
         'n' => $points,
-        'points' => 'points',
+        'points' => clienttranslate('Points'),
+        'i18n' => ['points'],
         'n2' => $nbMerchants,
         'n3' => $money,
       ],
@@ -743,15 +752,15 @@ class Notifications
     self::notifyAll('scoreMultiCustomers',$msg,[ 
         'player' => $player,
         'n' => $points,
-        'points' => 'points',
+        'points' => clienttranslate('Points'),
         'n2' => $nbCustomers,
         'n3' => $amountResources,
-        'res_icon' => RESOURCES[$typeResource],
+        'res_icon' => Utils::resourceName($typeResource),
         'res_type' => $typeResource,
         'customer_name' => Cards::getCustomerTypeName($customer_type),
         'customer_type' => $customer_type,
         'preserve' => ['res_type','customer_type'],
-        'i18n' => ['customer_name'],
+        'i18n' => ['customer_name', 'points','res_icon'],
       ],
     );
   }
@@ -766,7 +775,8 @@ class Notifications
     self::notifyAll('scoreCustomer',$msg,[ 
         'player' => $player,
         'n' => $points,
-        'points' => 'points',
+        'points' => clienttranslate('Points'),
+        'i18n' => ['points'],
         'card_id' => $card->getId(),
         'customer_name' => [
           'log'=> '${customer_type} ${region}',
@@ -806,10 +816,10 @@ class Notifications
   public static function scorePatron(Player $player,int $points,ClanPatronCard $card){
     $msg = clienttranslate('${player_name} scores ${n} ${points} with ${patron_name}');
     self::notifyAll('scorePatron',$msg,[ 
-        'i18n' => [ 'patron_name' ],
+        'i18n' => [ 'patron_name', 'points' ],
         'player' => $player,
         'n' => $points,
-        'points' => 'points',
+        'points' => clienttranslate('Points'),
         'patron_name' => $card->getName(),
         'card_id' => $card->getId(),
       ],
@@ -821,7 +831,6 @@ class Notifications
     self::notifyAll('activePatron',$msg,[ 
         'i18n' => [ 'patron_name' ],
         'player' => $player,
-        'points' => 'points',
         'patron_name' => $card->getName(),
         'card_id' => $card->getId(),
       ],
@@ -991,7 +1000,7 @@ class Notifications
       'player' => $player,
       'n' => $scoreToBeat,
       'n2' => $playerScore,
-      'points' => clienttranslate('Score'),
+      'points' => clienttranslate('Points'),
       'i18n' => ['points'],
     ]);
   }
@@ -1006,7 +1015,7 @@ class Notifications
   {
     self::notifyAll('teamWin', clienttranslate('All players win the game as a team with a score of ${n} ${points}'), [
       'n' => $teamScore,
-      'points' => clienttranslate('Score'),
+      'points' => clienttranslate('Points'),
       'i18n' => ['points'],
     ]);
   }
@@ -1062,6 +1071,10 @@ class Notifications
         $data['preserve'] = [];
       }
       $data['preserve'][] = 'player_color';
+      if($data['player'] instanceof AutomaPlayer){
+        //it is not enough for now because framework won't translate player_names :(
+        $data['i18n'][] = 'player_name';
+      }
 
       unset($data['player']);
     }
@@ -1070,6 +1083,9 @@ class Notifications
       $data['player_id2'] = $data['player2']->getId();
       //for playername_wrapper
       $data['player_color2'] = $data['player2']->getColor();
+      if($data['player2'] instanceof AutomaPlayer){
+        $data['i18n'][] = 'player_name2';
+      }
       unset($data['player2']);
       $data['preserve'][] = 'player_color2';
     }
@@ -1079,6 +1095,9 @@ class Notifications
       $data['player_id3'] = $data['player3']->getId();
       //for playername_wrapper
       $data['player_color3'] = $data['player3']->getColor();
+      if($data['player3'] instanceof AutomaPlayer){
+        $data['i18n'][] = 'player_name3';
+      }
       unset($data['player3']);
       $data['preserve'][] = 'player_color3';
     }

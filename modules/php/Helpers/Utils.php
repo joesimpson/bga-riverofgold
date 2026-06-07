@@ -82,6 +82,21 @@ abstract class Utils
     //    return $regions;
     //}
 
+
+    public static function resourceName(int $resourceType) : string
+    {
+        $resourceName = '';
+        switch($resourceType){
+            case RESOURCE_TYPE_SILK: $resourceName = clienttranslate('Silk'); break;
+            case RESOURCE_TYPE_POTTERY: $resourceName = clienttranslate('Porcelain'); break;
+            case RESOURCE_TYPE_RICE: $resourceName = clienttranslate('Rice'); break;
+            case RESOURCE_TYPE_MOON: $resourceName = clienttranslate('Divine favor Limit'); break;
+            case RESOURCE_TYPE_SUN: $resourceName = clienttranslate('Divine favor'); break;
+            case RESOURCE_TYPE_MONEY: $resourceName = clienttranslate('Koku'); break;
+        }
+        return $resourceName;
+    }
+
     public static function countCardsCost(Collection $cards, int $resourceToCount) : int
     {
         $nbResources = $cards->map(function($card) use ($resourceToCount) {
