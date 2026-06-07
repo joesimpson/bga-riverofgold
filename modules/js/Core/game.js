@@ -941,10 +941,18 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       debug("coloredPlayerName",name, specifiedColor);
       const player = Object.values(this.gamedatas.players).find((player) => player.name == name);
       if (player == undefined) return `<!--PNS--><span class="playername playername_wrapper_${specifiedColor}">${name}</span><!--PNE-->`;
+      if(player.id == this.gamedatas.automa_id ){
+        name = _(name);
+      }
 
       const color = specifiedColor ? specifiedColor : player.color;
       const color_bg = player.color_back ? 'background-color:#' + player.color_back + ';' : '';
       return `<!--PNS--><span class="playername playername_wrapper_${color}" style="color:#${color};${color_bg}">${name}</span><!--PNE-->`;
+    },
+
+    coloredAutomaName(name, specifiedColor = null) {
+      //return `<span class="automa_name playername playername_wrapper_${specifiedColor}" data-color="${specifiedColor}">${_(name)}</span>`;
+      return this.coloredPlayerName(_(name), specifiedColor);
     },
     
     getPlayerColor(pId) {
@@ -957,7 +965,6 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     format_string_recursive(log, args) {
       try {
         if (log && args) {
-          //          if (args.msgYou && args.player_id == this.player_id) log = args.msgYou;
 
           let playernames_keys = Object.keys(args).filter((key) => key.startsWith( 'player_name'));
           let color_keys = Object.keys(args).filter((key) => key.startsWith('player_color'));
@@ -965,10 +972,14 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           for(let k=0; k<playernames_keys.length; k++){
               let key = playernames_keys[k];
               let colorKey = color_keys[k];
-              args[key] = this.coloredPlayerName(args[key],args[colorKey]);
+              if(player_id_keys[k] && args[player_id_keys[k]] == this.gamedatas.automa_id ){
+                //Translate Name
+                args[key] = this.coloredAutomaName(this.gamedatas.automa_player.name,args[colorKey]);
+              }
+              else {
+                args[key] = this.coloredPlayerName(args[key],args[colorKey]);
+              }
           }
-
-          //          args.You = this.coloredYou();
         }
       } catch (e) {
         console.error(log, args, 'Exception thrown', e.stack);

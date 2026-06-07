@@ -1088,6 +1088,7 @@ class Notifications
       }
       unset($data['player2']);
       $data['preserve'][] = 'player_color2';
+      $data['preserve'][] = 'player_id2';
     }
     
     if (isset($data['player3'])) {
@@ -1100,6 +1101,7 @@ class Notifications
       }
       unset($data['player3']);
       $data['preserve'][] = 'player_color3';
+      $data['preserve'][] = 'player_id3';
     }
   }
   
