@@ -1774,7 +1774,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let div = $(`rog_card-${card.id}`);
             let oldParent = null;
             let fromLocation = this.getVisibleTitleContainer();
-            let hiddenDiv = document.getElementById(`rog_card_back_${card.pId}-${card.state}`);
+            let hiddenDiv = document.getElementById(`rog_card_back-${card.pId}_${CARD_LOCATION_DELIVERED_HIDDEN}_${card.state}`);
             if(hiddenDiv){
                 //Clean card placeholder for any hidden card, but we keep the state as index
                 fromLocation = hiddenDiv;
@@ -3303,11 +3303,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         addCustomerCardBackInPlayerDeliveries(card_pId, index) {
             debug('addCustomerCardBackInPlayerDeliveries',card_pId, index);
-            let fakeId = index;
+            let location = CARD_LOCATION_DELIVERED_HIDDEN;
+            let fakeId = `${card_pId}_${location}_${index}`;
             let cardDatas = {
                 'id': fakeId, 
-                'type':CARD_TYPE_CUSTOMER ,
-                'location': CARD_LOCATION_DELIVERED_HIDDEN, 
+                'subtype':CARD_TYPE_CUSTOMER ,
+                'location': location, 
                 'pId': card_pId,
             };
             let cardDiv = this.addCustomerCardBack(cardDatas);
@@ -3544,7 +3545,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         
         tplCardBack(card, prefix ='') {
-            return `<div class="rog_card rog_card_back" id="rog_card_back_${card.pId}-${card.id}" data-type="${card.type}" data-customertype="0">
+            return `<div class="rog_card rog_card_back" id="rog_card_back-${card.id}" data-type="${card.type}" data-customertype="0">
                     <div class="rog_card_wrapper">
                     </div>
                 </div>`;
