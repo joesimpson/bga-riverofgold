@@ -1015,7 +1015,9 @@
     .rog_customer_card_resizeable{
         margin: 2px 5px;
     }
-    .rog_automa_action_card {
+}
+.rog_automa_action_card {
+    .rog_card_wrapper{
         .rog_action_die{
             position: absolute;
             width: 35%;

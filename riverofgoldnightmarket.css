@@ -4595,7 +4595,8 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_player_action_cards .rog_customer_card_resizeable {
   margin: 2px 5px;
 }
-.rog_player_action_cards .rog_automa_action_card .rog_action_die {
+
+.rog_automa_action_card .rog_card_wrapper .rog_action_die {
   position: absolute;
   width: 35%;
   height: 26%;
