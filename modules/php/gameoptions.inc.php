@@ -26,7 +26,7 @@ namespace ROG;
 //Else near constants :
 require_once 'constants.inc.php';
 
-$messageForSeishinOff = 'Rival AI is mandatory in Solo games';
+$messageForSeishinOff = 'Rival AI is mandatory in Solo games.';
 $warningAiInTraining = 'Coop VS rival AI is available in friendly mode only.';
 $seishinDesc = 'Cooperative : You compete against Seishin, a rival AI merchant.';
 
@@ -116,6 +116,30 @@ $game_options = [
     ],
      
   ), 
+  
+  OPTION_SCENARIOS => array(
+    'name' => 'Scenarios',    
+    'values' => [
+      OPTION_SCENARIOS_OFF => [
+        'name' => 'Disabled', 
+        'description' => '', 
+      ],
+      OPTION_SCENARIOS_ON => [
+        'name' => 'Enabled', 
+        'description' => 'For an additional challenge, you take the scenario card of your Clan. If a player fails to complete their scenario, they lose the game.', 
+        'tmdisplay' => 'Scenarios',
+        'nobeginner' => true,
+      ],
+    ],
+    'default' => OPTION_SCENARIOS_OFF,
+    'startcondition'=>  [
+      OPTION_SCENARIOS_ON => [
+        [ "type" => "otheroptionisnot", "id" => OPTION_EXPANSION_CLANS, "value"=> OPTION_EXPANSION_CLANS_OFF, "message"=> 'Clan patrons are required for Scenario cards.', ],
+        [ "type" => "otheroptionisnot", "id" => OPTION_SEISHIN, "value"=> OPTION_SEISHIN_OFF, "message"=> 'Seishin is required for Scenario cards.', ],
+      ],
+    ],
+     
+  ), 
 
   /* Prepare FOR Future Feature
   OPTION_CITY_OF_LIES => array(
@@ -129,6 +153,7 @@ $game_options = [
         'name' => 'Enabled', 
         'tmdisplay' => 'City Of Lies',
         'description' => 'An additional board with a new player action to compete for new City Cards and new rewards', 
+        'nobeginner' => true,
       ],
     ],
     'default' => OPTION_CITY_OF_LIES_OFF,
@@ -147,6 +172,7 @@ $game_options = [
         'name' => 'Custom', 
         'tmdisplay' => 'Random tracks',
         'description' => '6 new influence track boards randomly placed in regions to change their rewards.', 
+        'nobeginner' => true,
       ],
     ],
     'default' => OPTION_TRACKS_OFF,
