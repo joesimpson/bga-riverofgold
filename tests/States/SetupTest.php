@@ -12,6 +12,7 @@ use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Tiles;
 use ROG\Models\CustomerCard;
+use ROG\Models\ScenarioCard;
 use Tests\Utils\PHPUnitUtil;
 use Tests\Utils\TestDatas;
 
@@ -584,6 +585,71 @@ final class SetupTest extends TestCase
         $automaCards = Cards::getInLocation(CARD_AUTOMA_LOCATION_DECK);
         $cardsNames = $automaCards->map(function($card) {return $card->getTitle();})->toArray();
         assertSame($expectedCardsNames, $cardsNames);
+        //test no scenario cards
+        assertSame(0, Cards::countInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_CRAB    ));
+        assertSame(0, Cards::countInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_MANTIS  ));
+        assertSame(0, Cards::countInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_CRANE   ));
+        assertSame(0, Cards::countInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_SCORPION));
+        assertSame(0, Cards::countInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_PHOENIX ));
+        assertSame(0, Cards::countInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_LION    ));
+        assertSame(0, Cards::countInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_DRAGON  ));
+        assertSame(0, Cards::countInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_UNICORN ));
+    }
+    
+    public function test_setupNewGame_Seishin_Master_WithClanSelection_Scenarios(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_DRAFT,
+            OPTION_SEISHIN => OPTION_SEISHIN_LEVEL_5,
+            OPTION_SCENARIOS => OPTION_SCENARIOS_ON,
+        ];
+        TestDatas::$cards = [];
+        TestDatas::$tiles = [];
+        
+        $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        assertSame(ST_GAME_SETUP, GamestateMachine::$test_current_state);
+        assertSame(ST_CLAN_SELECTION, $returnState);
+        //test scenarios cards in decks to be picked
+        $clan1Scenarios = Cards::getInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_CRAB    );
+        $clan2Scenarios = Cards::getInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_MANTIS  );
+        $clan3Scenarios = Cards::getInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_CRANE   );
+        $clan4Scenarios = Cards::getInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_SCORPION);
+        $clan5Scenarios = Cards::getInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_PHOENIX );
+        $clan6Scenarios = Cards::getInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_LION    );
+        $clan7Scenarios = Cards::getInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_DRAGON  );
+        $clan8Scenarios = Cards::getInLocation(CARD_SCENARIO_LOCATION_DECK.CLAN_UNICORN );
+        assertSame(1, $clan1Scenarios->count());
+        assertTrue($clan1Scenarios->first() instanceof ScenarioCard );
+        assertSame(1, $clan1Scenarios->first()->getType());
+        assertSame(1, $clan2Scenarios->count());
+        assertTrue($clan2Scenarios->first() instanceof ScenarioCard );
+        assertSame(2, $clan2Scenarios->first()->getType());
+        assertSame(1, $clan3Scenarios->count());
+        assertTrue($clan3Scenarios->first() instanceof ScenarioCard );
+        assertSame(3, $clan3Scenarios->first()->getType());
+        assertSame(1, $clan4Scenarios->count());
+        assertTrue($clan4Scenarios->first() instanceof ScenarioCard );
+        assertSame(4, $clan4Scenarios->first()->getType());
+        assertSame(1, $clan5Scenarios->count());
+        assertTrue($clan5Scenarios->first() instanceof ScenarioCard );
+        assertSame(5, $clan5Scenarios->first()->getType());
+        assertSame(1, $clan6Scenarios->count());
+        assertTrue($clan6Scenarios->first() instanceof ScenarioCard );
+        assertSame(6, $clan6Scenarios->first()->getType());
+        assertSame(1, $clan7Scenarios->count());
+        assertTrue($clan7Scenarios->first() instanceof ScenarioCard );
+        assertSame(7, $clan7Scenarios->first()->getType());
+        assertSame(1, $clan8Scenarios->count());
+        assertTrue($clan8Scenarios->first() instanceof ScenarioCard );
+        assertSame(8, $clan8Scenarios->first()->getType());
     }
     
     public function test_setupNewGame_Seishin_Master_WithCityOfLies(): void

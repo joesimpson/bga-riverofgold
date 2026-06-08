@@ -6,11 +6,13 @@ use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
+use ROG\Helpers\Utils;
 use ROG\Models\AutomaActionCard;
 use ROG\Models\Card;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\CustomerCard;
 use ROG\Models\Player;
+use ROG\Models\ScenarioCard;
 
 /* Class to manage all the cards */
 
@@ -46,6 +48,9 @@ class Cards extends \ROG\Helpers\Pieces
       case CARD_TYPE_AUTOMA_ACTION:
         $data = AutomaCards::getAutomaActionCardsTypes()[$type];
         return new AutomaActionCard($row, $data);
+      case CARD_TYPE_SCENARIO:
+        $data = Cards::getScenarioCardsTypes()[$type];
+        return new ScenarioCard($row, $data);
     }
     $data = [];
     return new Card($row, $data);
@@ -266,6 +271,12 @@ class Cards extends \ROG\Helpers\Pieces
       $deck = CARD_CLAN_LOCATION_DECK.$clan_id;
       self::shuffle($deck);
       $cards[] = self::pickOneForLocation($deck, CARD_CLAN_LOCATION_DRAFT);
+
+      if(Utils::isGameWithScenarios()){
+        $deckScenarios = CARD_SCENARIO_LOCATION_DECK.$clan_id;
+        self::shuffle($deckScenarios);
+        self::pickOneForLocation($deckScenarios, CARD_SCENARIO_LOCATION_DRAFT);
+      }
     }
     //Notify in case of waiting screen
     //Notifications::draftCards(new Collection($cards));
@@ -309,6 +320,16 @@ class Cards extends \ROG\Helpers\Pieces
           'location' => CARD_CLAN_LOCATION_DECK. $card['clan'],
           'type' => $type,
           'subtype' => CARD_TYPE_CLAN_PATRON,
+        ];
+      }
+    }
+
+    if(Utils::isGameWithScenarios()){
+      foreach (self::getScenarioCardsTypes() as $type => $card) {
+        $cards[] = [
+          'location' => CARD_SCENARIO_LOCATION_DECK. $card['clan'],
+          'type' => $type,
+          'subtype' => CARD_TYPE_SCENARIO,
         ];
       }
     }
@@ -492,6 +513,31 @@ class Cards extends \ROG\Helpers\Pieces
       PATRON_TATTOOED_MONK      => $f([CLAN_DRAGON,   clienttranslate('Togashi Mitsu'),       clienttranslate('Ise Zumi Tattooed Monk'),    '',  ]), 
       PATRON_MAGNATE_SAND_ROAD  => $f([CLAN_UNICORN,  clienttranslate('Ide Tadaji'),          clienttranslate('Magnate of the Sand Road'),  '',  ]), 
       PATRON_MISTRESS_OF_WINDS  => $f([CLAN_UNICORN,  clienttranslate('Shinjo Altansarnai'),  clienttranslate('Mistress of the Five Winds'),'',  ]), 
+
+    ];
+  }
+  
+  /**
+   * @return array of all the different types of Scenario Cards
+   */
+  public static function getScenarioCardsTypes()
+  {
+    $f = function ($t) {
+      return [
+        'clan' => $t[0],
+        'name' => $t[1],
+      ];
+    };
+    return [
+      // 8 unique (only 1/clan for now )
+      1 => $f([CLAN_CRAB    , '', ]), 
+      2 => $f([CLAN_MANTIS  , '', ]), 
+      3 => $f([CLAN_CRANE   , '', ]), 
+      4 => $f([CLAN_SCORPION, '', ]), 
+      5 => $f([CLAN_PHOENIX , '', ]), 
+      6 => $f([CLAN_LION    , '', ]),
+      7 => $f([CLAN_DRAGON  , '', ]),  
+      8 => $f([CLAN_UNICORN , '', ]),  
 
     ];
   }

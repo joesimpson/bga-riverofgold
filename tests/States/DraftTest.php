@@ -80,11 +80,118 @@ final class DraftTest extends TestCase
                         'subtype' => CARD_TYPE_CLAN_PATRON,
                     ],
             ],
+            'scenarios' => [],
         ];
         
         assertSame($expectedArgs, $args);
     }
+    
+    public function testArgs_Draft_Scenarios(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionScenarios(OPTION_SCENARIOS_ON);
+        TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        TestDatas::$cards[102]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        TestDatas::$cards[103]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        TestDatas::$cards[104]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$cards[302] = ['result_associative_index' => 302,'card_id' => 302, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 2,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$cards[303] = ['result_associative_index' => 303,'card_id' => 303, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 3,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$cards[304] = ['result_associative_index' => 304,'card_id' => 304, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 4,   'subtype' => CARD_TYPE_SCENARIO,];
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
 
+        $args = $game->argDraft();
+
+        $expectedArgs = [
+            'cards' => [ 
+                        [
+                            'id' => 101,
+                            'location' => CARD_CLAN_LOCATION_DRAFT,
+                            'pId' => 1,
+                            'type' => PATRON_MASTER_ENGINEER,
+                            'clan' => CLAN_CRAB,
+                            'abilityName' => 'Master Engineer',
+                            'name' => 'Kaiu Shihobu',
+                            'desc' => '',
+                            'subtype' => CARD_TYPE_CLAN_PATRON,
+                        ],
+                        [
+                            'id' => 102,
+                            'location' => CARD_CLAN_LOCATION_DRAFT,
+                            'pId' => 1,
+                            'type' => PATRON_TRADER,
+                            'clan' => CLAN_CRAB,
+                            'abilityName' => 'Wily Trader',
+                            'name' => 'Yasuki Taka',
+                            'desc' => '',
+                            'subtype' => CARD_TYPE_CLAN_PATRON,
+                        ],
+                    [
+                        'id' => 103,
+                        'location' => CARD_CLAN_LOCATION_DRAFT,
+                        'pId' => 2,
+                        'type' => PATRON_LADY,
+                        'clan' => CLAN_SCORPION,
+                        'abilityName' => 'Lady of Whispers',
+                        'name' => 'Bayushi Kashiko',
+                        'desc' => '',
+                        'subtype' => CARD_TYPE_CLAN_PATRON,
+                    ],
+                    [
+                        'id' => 104,
+                        'location' => CARD_CLAN_LOCATION_DRAFT,
+                        'pId' => 2,
+                        'type' => PATRON_GOVERNOR,
+                        'clan' => CLAN_SCORPION,
+                        'abilityName' => 'Governor of the City of lies',
+                        'name' => 'Shosuro Hyobu',
+                        'desc' => '',
+                        'subtype' => CARD_TYPE_CLAN_PATRON,
+                    ],
+            ],
+            'scenarios' => [
+                301 => [
+                    'id' => 301,
+                    'location' => CARD_SCENARIO_LOCATION_DRAFT,
+                    'pId' => null,
+                    'type' => 1,
+                    'clan' => 1,
+                    'name' => '',
+                    'subtype' => CARD_TYPE_SCENARIO,
+                ],
+                302 => [
+                    'id' => 302,
+                    'location' => CARD_SCENARIO_LOCATION_DRAFT,
+                    'pId' => null,
+                    'type' => 2,
+                    'clan' => 2,
+                    'name' => '',
+                    'subtype' => CARD_TYPE_SCENARIO,
+                ],
+                303 => [
+                    'id' => 303,
+                    'location' => CARD_SCENARIO_LOCATION_DRAFT,
+                    'pId' => null,
+                    'type' => 3,
+                    'clan' => 3,
+                    'name' => '',
+                    'subtype' => CARD_TYPE_SCENARIO,
+                ],
+                304 => [
+                    'id' => 304,
+                    'location' => CARD_SCENARIO_LOCATION_DRAFT,
+                    'pId' => null,
+                    'type' => 4,
+                    'clan' => 4,
+                    'name' => '',
+                    'subtype' => CARD_TYPE_SCENARIO,
+                ],
+            ],
+        ];
+        assertSame($expectedArgs, $args);
+    }
     // ----------------------------------------------------------------------
     public function testEnteringState_Draft_GoToNextPlayer(): void
     {

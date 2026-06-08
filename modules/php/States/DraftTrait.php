@@ -20,8 +20,10 @@ trait DraftTrait
   public function argDraft()
   { 
     $cards = Cards::getInLocation(CARD_CLAN_LOCATION_DRAFT);
+    $scenarios = Cards::getInLocation(CARD_SCENARIO_LOCATION_DRAFT);
     $args = [
       'cards' => $cards->ui(),
+      'scenarios' => $scenarios->uiAssoc(),
     ];
     return $args;
   }

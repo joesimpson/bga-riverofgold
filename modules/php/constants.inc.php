@@ -181,6 +181,7 @@ const MONK_TYPE_OPPONENT_BUILDING = 2;
  const CARD_TYPE_CUSTOMER = 1;
  const CARD_TYPE_CLAN_PATRON = 2;
  const CARD_TYPE_AUTOMA_ACTION = 3;
+ const CARD_TYPE_SCENARIO     = 4;
 
  const TILE_TYPE_SCORING = 1;
  const TILE_TYPE_BUILDING = 2;
@@ -242,6 +243,9 @@ const CARD_LOCATION_DISCARD = 'discard';
  
 const CARD_AUTOMA_LOCATION_DECK     = 'aut_deck';
 const CARD_AUTOMA_LOCATION_PLAYED   = 'aut_played';
+
+const CARD_SCENARIO_LOCATION_DECK = 'scenario_deck' ;
+const CARD_SCENARIO_LOCATION_DRAFT = 'scenario_draft' ;
 
  const PATRON_MASTER_ENGINEER = 1;
  const PATRON_TRADER          = 2;
@@ -453,8 +457,8 @@ const CLAN_MANTIS =  2;
 const CLAN_CRANE =   3;
 const CLAN_SCORPION = 4;
 const CLAN_PHOENIX =  5;
-const CLAN_LION =     6;
-const CLAN_DRAGON =   7;
+const CLAN_LION    =  6;
+const CLAN_DRAGON  =  7;
 const CLAN_UNICORN =  8;
 const CLANS_COLORS = [
    //blue

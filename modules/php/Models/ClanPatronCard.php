@@ -5,6 +5,7 @@ namespace ROG\Models;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -41,20 +42,9 @@ class ClanPatronCard extends Card
   /**
    * @return string
    */
-  public function getClanName()
+  public function getClanName() : string
   {
-    $clanId = $this->getClan();
-    switch($clanId){
-      case CLAN_CRAB:     return clienttranslate('Crab Clan');
-      case CLAN_MANTIS:   return clienttranslate('Mantis Clan');
-      case CLAN_CRANE:    return clienttranslate('Crane Clan');
-      case CLAN_SCORPION: return clienttranslate('Scorpion Clan');
-      case CLAN_PHOENIX:  return clienttranslate('Phoenix Clan');
-      case CLAN_LION:     return clienttranslate('Lion Clan');
-      case CLAN_DRAGON:   return clienttranslate('Dragon Clan');
-      case CLAN_UNICORN:  return clienttranslate('Unicorn Clan');
-    }
-    return '';
+    return Utils::getClanName($this->getClan());
   } 
 
   /**

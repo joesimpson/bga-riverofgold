@@ -154,16 +154,12 @@ abstract class Table
                 return count(TestDatas::$players);
             case "SELECT MAX(`player_no`) FROM `player`":
                 return max(array_map(function ($p) {return $p['player_no'];},TestDatas::$players,));
-            case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'deck')":
-                return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'deck';}));
-            case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'discard')":
-                return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'discard';}));
-            case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'clans_draft')":
-                return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'clans_draft';}));
-            case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'clans_assigned')":
-                return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'clans_assigned';}));
-            case "SELECT COUNT(*) FROM `cards` WHERE (`card_location` = 'aut_deck')":
-                return count(array_filter(TestDatas::$cards,function ($card) {return $card['card_location'] == 'aut_deck';}));
+        }
+        if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE \(`card_location` = '(?P<card_location>.*)'\)$/", $sql, $matches) == 1) {
+            $card_location = $matches['card_location'];
+            $count = count(array_filter(TestDatas::$cards,function ($card) use( $card_location, ) {return $card['card_location'] == $card_location ;}));
+            logForTests("getUniqueValueFromDb: count is $count  ");
+            return $count;
         }
         if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND \`card_location` = '(?P<card_location>.*)'\ AND \(`type` IN \((?P<types>.*)\)\)$/", $sql, $matches) == 1) {
             $types = explode(',', str_replace("'","",$matches['types']) );
