@@ -63,10 +63,13 @@ trait DraftTrait
   function actTakeCard(
     #[IntParam(name: 'c')] int $cardId,
     int $version,
+    #[IntParam(name: 'sc')] int|null $scenarioCardId = null,
   ){
     $this->checkVersion($version);
     self::checkAction( 'actTakeCard' ); 
-    self::trace("actTakeCard($cardId)");
+    self::trace("actTakeCard($cardId,$scenarioCardId)");
+
+    $args = $this->argDraft();
     
     $card = Cards::get($cardId);
     $player = Players::getCurrent();
@@ -81,6 +84,18 @@ trait DraftTrait
     }
 
     $this->assignClanPatron($player,$card);
+    
+    $possibleScenarios = array_keys($args['scenarios']);
+    if(isset($scenarioCardId) ){
+      if(!in_array($scenarioCardId,$possibleScenarios)){
+        throw new UnexpectedException(407,"Scenario $scenarioCardId is not selectable");
+      }
+      $scenarioCard = Cards::get($scenarioCardId);
+      if($scenarioCard->getClan() !== $card->getClan() ){
+        throw new UnexpectedException(408,"Scenario $scenarioCardId must match patron clan");
+      }
+      Cards::assignScenario($player,$scenarioCard);
+    }
 
     if( $isModeMultiActive){
       $this->gamestate->setPlayerNonMultiactive($player->getId(), 'next');

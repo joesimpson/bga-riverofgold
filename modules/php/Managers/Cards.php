@@ -261,6 +261,13 @@ class Cards extends \ROG\Helpers\Pieces
     $card->abilityOnAssign($player);
   }
 
+  public static function assignScenario(Player $player, ScenarioCard $card)
+  {
+    $card->setLocation(CARD_SCENARIO_LOCATION_ASSIGNED);
+    $card->setPId($player->getId());
+    Notifications::giveScenarioCard($player, $card);
+  }
+
   /**
    * Init the face up cards to be drafted with 1 of each clan
    */

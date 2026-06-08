@@ -246,6 +246,7 @@ const CARD_AUTOMA_LOCATION_PLAYED   = 'aut_played';
 
 const CARD_SCENARIO_LOCATION_DECK = 'scenario_deck' ;
 const CARD_SCENARIO_LOCATION_DRAFT = 'scenario_draft' ;
+const CARD_SCENARIO_LOCATION_ASSIGNED = 'scenario_assigned';
 
  const PATRON_MASTER_ENGINEER = 1;
  const PATRON_TRADER          = 2;

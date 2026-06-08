@@ -295,6 +295,8 @@ final class DraftTest extends TestCase
         $game->actTakeCard($cardId,999999);
         
         assertSame(ST_DRAFT_NEXT_PLAYER, GamestateMachine::$test_current_state);
+        assertSame(CARD_CLAN_LOCATION_ASSIGNED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1, TestDatas::$cards[$cardId]['player_id']);
     }
     
     public function test_actTakeCard_Pass_Multi(): void
@@ -332,6 +334,55 @@ final class DraftTest extends TestCase
         assertSame(4, TestDatas::$tiles[4]['type']);
         assertSame(5, TestDatas::$tiles[5]['type']);
         assertSame(6, TestDatas::$tiles[6]['type']);
+    }
+    
+    public function test_actTakeCard_Pass_WithScenario(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $cardId = 101;
+        $scenarioId = 301;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
+        TestDatas::$cards[$scenarioId] = ['result_associative_index' => $scenarioId,'card_id' => $scenarioId, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+
+        $game->actTakeCard($cardId,999999,$scenarioId);
+        
+        assertSame(ST_DRAFT_NEXT_PLAYER, GamestateMachine::$test_current_state);
+        assertSame(CARD_CLAN_LOCATION_ASSIGNED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1, TestDatas::$cards[$cardId]['player_id']);
+        assertSame(CARD_SCENARIO_LOCATION_ASSIGNED, TestDatas::$cards[$scenarioId]['card_location']);
+        assertSame(1, TestDatas::$cards[$scenarioId]['player_id']);
+    }
+    
+    public function test_actTakeCard_KO_WrongScenario(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $cardId = 101;
+        $scenarioId = 399;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Scenario $scenarioId is not selectable");
+        $game->actTakeCard($cardId,999999,$scenarioId);
+    }
+    
+    public function test_actTakeCard_KO_WrongScenarioClan(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $cardId = 101;
+        $scenarioId = 302;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$cards[302] = ['result_associative_index' => 302,'card_id' => 302, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 2,   'subtype' => CARD_TYPE_SCENARIO,];
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Scenario $scenarioId must match patron clan");
+        $game->actTakeCard($cardId,999999,$scenarioId);
     }
 
     // ----------------------------------------------------------------------

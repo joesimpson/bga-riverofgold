@@ -147,6 +147,16 @@ class Notifications
       'clan_name' => $card->getClanName(),
     ]);
   }
+  public static function giveScenarioCard($player, $card)
+  {
+    self::notifyAll('giveScenarioCard', clienttranslate('${player_name} will play with ${clan_name} scenario ${scenario_name}'), [
+      'i18n' => [ 'scenario_name','clan_name' ],
+      'player' => $player,
+      'card' => $card->getUiData(),
+      'scenario_name' => $card->getName(),
+      'clan_name' => $card->getClanName(),
+    ]);
+  }
   /**
    * @param Player $player
    * @param Card $card
