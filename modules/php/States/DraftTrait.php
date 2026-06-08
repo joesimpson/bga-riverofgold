@@ -76,37 +76,41 @@ trait DraftTrait
     $this->checkVersion($version);
     self::checkAction( 'actTakeCard' ); 
     self::trace("actTakeCard($cardId,$scenarioCardId)");
-
-    $args = $this->argDraft();
     
-    $card = Cards::get($cardId);
     $player = Players::getCurrent();
     $isModeMultiActive =  ST_DRAFT_PLAYER_MULTIACTIVE == intval($this->gamestate->getCurrentMainStateId());
 
-    //ANTICHEAT :
-    if($card->getLocation() != CARD_CLAN_LOCATION_DRAFT){
-      throw new UnexpectedException(405,"Card $cardId is not selectable");
+    if( $isModeMultiActive ) {
+      $args = $this->argDraftMulti();
+      $possibleCards = $args['_private'][$player->getId()]['cards'];
     }
-    if( $isModeMultiActive && $card->getPId() != $player->getId()){
+    else {
+      $args = $this->argDraft();
+      $possibleCards = $args['cards'];
+    }
+
+    //ANTICHEAT :
+    if(!in_array($cardId,array_keys($possibleCards))){
       throw new UnexpectedException(406,"Card $cardId is not selectable");
     }
 
+    $cardDatas = $possibleCards[$cardId];
+    $card = Cards::get($cardId);
     $this->assignClanPatron($player,$card);
     
-    $possibleScenarios = array_keys($args['scenarios']);
+    $possibleScenarios = $cardDatas['scenario_ids'];
     if(isset($scenarioCardId) ){
       if(!in_array($scenarioCardId,$possibleScenarios)){
         throw new UnexpectedException(407,"Scenario $scenarioCardId is not selectable");
       }
       $scenarioCard = Cards::get($scenarioCardId);
-      if($scenarioCard->getClan() !== $card->getClan() ){
-        throw new UnexpectedException(408,"Scenario $scenarioCardId must match patron clan");
-      }
+      //if($scenarioCard->getClan() !== $card->getClan() ){
+      //  throw new UnexpectedException(408,"Scenario $scenarioCardId must match patron clan");
+      //}
       Cards::assignScenario($player,$scenarioCard);
     }
     else {
-      $cardDatas = $args['cards'][$cardId];
-      if(count($cardDatas['scenario_ids']) > 0){
+      if(count($possibleScenarios) > 0){
         throw new UnexpectedException(409,"You need to select a Scenario for clan patron $cardId");
       }
     }
@@ -144,15 +148,26 @@ trait DraftTrait
     $players = Players::getAll();
 
     $cards = Cards::getInLocation(CARD_CLAN_LOCATION_DRAFT);
-    
+    $scenarios = Cards::getInLocation(CARD_SCENARIO_LOCATION_DRAFT);
+
     foreach($players as $player_id => $player){
+      $cardsDatas = $cards->filter( function($card) use($player_id) { return $card->getPId() == $player_id;} )
+        ->map(function ($card) use ($scenarios) {
+            $datas = $card->getUiData();
+            $datas['scenario_ids'] = $scenarios->filter(function ($sc) use ($card) {
+              return $card->getClan() == $sc->getClan(); 
+            })->getIds();
+            return $datas;
+        })->toAssoc();
+
       $privateDatas[$player_id] = [
-        'cards' => $cards->filter( function($card) use($player_id) { return $card->getPId() == $player_id;} )->ui(),
+        'cards' => $cardsDatas,
       ];
     }
 
     $args = [
       '_private' => $privateDatas,
+      'scenarios' => $scenarios->uiAssoc(),
     ];
     return $args;
   }

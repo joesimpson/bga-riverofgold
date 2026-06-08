@@ -35,7 +35,7 @@ final class DraftTest extends TestCase
         $args = $game->argDraft();
         $expectedArgs = [
             'cards' => [ 
-                        [
+                    101 => [
                             'id' => 101,
                             'location' => CARD_CLAN_LOCATION_DRAFT,
                             'pId' => 1,
@@ -45,8 +45,9 @@ final class DraftTest extends TestCase
                             'name' => 'Kaiu Shihobu',
                             'desc' => '',
                             'subtype' => CARD_TYPE_CLAN_PATRON,
+                            'scenario_ids' => [],
                         ],
-                        [
+                    102 => [
                             'id' => 102,
                             'location' => CARD_CLAN_LOCATION_DRAFT,
                             'pId' => 1,
@@ -56,8 +57,9 @@ final class DraftTest extends TestCase
                             'name' => 'Yasuki Taka',
                             'desc' => '',
                             'subtype' => CARD_TYPE_CLAN_PATRON,
+                            'scenario_ids' => [],
                         ],
-                    [
+                    103 => [
                         'id' => 103,
                         'location' => CARD_CLAN_LOCATION_DRAFT,
                         'pId' => 2,
@@ -67,8 +69,9 @@ final class DraftTest extends TestCase
                         'name' => 'Bayushi Kashiko',
                         'desc' => '',
                         'subtype' => CARD_TYPE_CLAN_PATRON,
+                        'scenario_ids' => [],
                     ],
-                    [
+                    104 => [
                         'id' => 104,
                         'location' => CARD_CLAN_LOCATION_DRAFT,
                         'pId' => 2,
@@ -78,6 +81,7 @@ final class DraftTest extends TestCase
                         'name' => 'Shosuro Hyobu',
                         'desc' => '',
                         'subtype' => CARD_TYPE_CLAN_PATRON,
+                        'scenario_ids' => [],
                     ],
             ],
             'scenarios' => [],
@@ -106,7 +110,7 @@ final class DraftTest extends TestCase
 
         $expectedArgs = [
             'cards' => [ 
-                        [
+                    101 => [
                             'id' => 101,
                             'location' => CARD_CLAN_LOCATION_DRAFT,
                             'pId' => 1,
@@ -116,8 +120,9 @@ final class DraftTest extends TestCase
                             'name' => 'Kaiu Shihobu',
                             'desc' => '',
                             'subtype' => CARD_TYPE_CLAN_PATRON,
+                            'scenario_ids' => [301, ],
                         ],
-                        [
+                    102 => [
                             'id' => 102,
                             'location' => CARD_CLAN_LOCATION_DRAFT,
                             'pId' => 1,
@@ -127,8 +132,9 @@ final class DraftTest extends TestCase
                             'name' => 'Yasuki Taka',
                             'desc' => '',
                             'subtype' => CARD_TYPE_CLAN_PATRON,
+                            'scenario_ids' => [301, ],
                         ],
-                    [
+                    103 => [
                         'id' => 103,
                         'location' => CARD_CLAN_LOCATION_DRAFT,
                         'pId' => 2,
@@ -138,8 +144,9 @@ final class DraftTest extends TestCase
                         'name' => 'Bayushi Kashiko',
                         'desc' => '',
                         'subtype' => CARD_TYPE_CLAN_PATRON,
+                        'scenario_ids' => [304, ],
                     ],
-                    [
+                    104 => [
                         'id' => 104,
                         'location' => CARD_CLAN_LOCATION_DRAFT,
                         'pId' => 2,
@@ -149,6 +156,7 @@ final class DraftTest extends TestCase
                         'name' => 'Shosuro Hyobu',
                         'desc' => '',
                         'subtype' => CARD_TYPE_CLAN_PATRON,
+                        'scenario_ids' => [304, ],
                     ],
             ],
             'scenarios' => [
@@ -250,8 +258,8 @@ final class DraftTest extends TestCase
         $cardId = 99999;
         GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
 
-        $this->expectException(feException::class);
-        $this->expectExceptionMessage("Class Pieces: getMany, some pieces have not been found ! Table cards [$cardId]");
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Card $cardId is not selectable");
         $game->actTakeCard($cardId,999999);
     }
     public function test_actTakeCard_KO_card_notselectable(): void
@@ -279,6 +287,23 @@ final class DraftTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Card $cardId is not selectable");
+        $game->actTakeCard($cardId,999999);
+        
+    }
+    
+    public function test_actTakeCard_KO_MandatoryScenario(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionScenarios(OPTION_SCENARIOS_ON);
+        $cardId = 101;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER_MULTIACTIVE;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => 1, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$cards[304] = ['result_associative_index' => 304,'card_id' => 304, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => 2, 'type' => 4,   'subtype' => CARD_TYPE_SCENARIO,];
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You need to select a Scenario for clan patron $cardId");
         $game->actTakeCard($cardId,999999);
         
     }
@@ -381,7 +406,7 @@ final class DraftTest extends TestCase
         TestDatas::$cards[302] = ['result_associative_index' => 302,'card_id' => 302, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 2,   'subtype' => CARD_TYPE_SCENARIO,];
 
         $this->expectException(UnexpectedException::class);
-        $this->expectExceptionMessage("Scenario $scenarioId must match patron clan");
+        $this->expectExceptionMessage("Scenario $scenarioId is not selectable");
         $game->actTakeCard($cardId,999999,$scenarioId);
     }
 
@@ -403,7 +428,7 @@ final class DraftTest extends TestCase
             '_private' => [ 
                 1 => [
                     'cards' => [ 
-                        [
+                        101 => [
                             'id' => 101,
                             'location' => CARD_CLAN_LOCATION_DRAFT,
                             'pId' => 1,
@@ -413,8 +438,9 @@ final class DraftTest extends TestCase
                             'name' => 'Kaiu Shihobu',
                             'desc' => '',
                             'subtype' => CARD_TYPE_CLAN_PATRON,
+                            'scenario_ids' => [],
                         ],
-                        [
+                        102 => [
                             'id' => 102,
                             'location' => CARD_CLAN_LOCATION_DRAFT,
                             'pId' => 1,
@@ -424,13 +450,14 @@ final class DraftTest extends TestCase
                             'name' => 'Yasuki Taka',
                             'desc' => '',
                             'subtype' => CARD_TYPE_CLAN_PATRON,
+                            'scenario_ids' => [],
                         ],
 
                     ],
                 ],
                 2 => [
                     'cards' => [ 
-                        [
+                        103 => [
                             'id' => 103,
                             'location' => CARD_CLAN_LOCATION_DRAFT,
                             'pId' => 2,
@@ -440,8 +467,9 @@ final class DraftTest extends TestCase
                             'name' => 'Bayushi Kashiko',
                             'desc' => '',
                             'subtype' => CARD_TYPE_CLAN_PATRON,
+                            'scenario_ids' => [],
                         ],
-                        [
+                        104 => [
                             'id' => 104,
                             'location' => CARD_CLAN_LOCATION_DRAFT,
                             'pId' => 2,
@@ -451,8 +479,111 @@ final class DraftTest extends TestCase
                             'name' => 'Shosuro Hyobu',
                             'desc' => '',
                             'subtype' => CARD_TYPE_CLAN_PATRON,
+                            'scenario_ids' => [],
                         ],
                     ],
+                ],
+            ],
+            'scenarios' => [],
+        ];
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function testArgs_DraftMulti_WithScenarios(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionScenarios(OPTION_SCENARIOS_ON);
+        TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        TestDatas::$cards[102]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        TestDatas::$cards[103]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        TestDatas::$cards[104]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => 1, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$cards[304] = ['result_associative_index' => 304,'card_id' => 304, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => 2, 'type' => 4,   'subtype' => CARD_TYPE_SCENARIO,];
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER_MULTIACTIVE;
+
+        $args = $game->argDraftMulti();
+
+        $expectedArgs = [
+            '_private' => [ 
+                1 => [
+                    'cards' => [ 
+                        101 => [
+                            'id' => 101,
+                            'location' => CARD_CLAN_LOCATION_DRAFT,
+                            'pId' => 1,
+                            'type' => PATRON_MASTER_ENGINEER,
+                            'clan' => CLAN_CRAB,
+                            'abilityName' => 'Master Engineer',
+                            'name' => 'Kaiu Shihobu',
+                            'desc' => '',
+                            'subtype' => CARD_TYPE_CLAN_PATRON,
+                            'scenario_ids' => [301, ],
+                        ],
+                        102 => [
+                            'id' => 102,
+                            'location' => CARD_CLAN_LOCATION_DRAFT,
+                            'pId' => 1,
+                            'type' => PATRON_TRADER,
+                            'clan' => CLAN_CRAB,
+                            'abilityName' => 'Wily Trader',
+                            'name' => 'Yasuki Taka',
+                            'desc' => '',
+                            'subtype' => CARD_TYPE_CLAN_PATRON,
+                            'scenario_ids' => [301, ],
+                        ],
+
+                    ],
+                ],
+                2 => [
+                    'cards' => [ 
+                        103 => [
+                            'id' => 103,
+                            'location' => CARD_CLAN_LOCATION_DRAFT,
+                            'pId' => 2,
+                            'type' => PATRON_LADY,
+                            'clan' => CLAN_SCORPION,
+                            'abilityName' => 'Lady of Whispers',
+                            'name' => 'Bayushi Kashiko',
+                            'desc' => '',
+                            'subtype' => CARD_TYPE_CLAN_PATRON,
+                            'scenario_ids' => [304, ],
+                        ],
+                        104 => [
+                            'id' => 104,
+                            'location' => CARD_CLAN_LOCATION_DRAFT,
+                            'pId' => 2,
+                            'type' => PATRON_GOVERNOR,
+                            'clan' => CLAN_SCORPION,
+                            'abilityName' => 'Governor of the City of lies',
+                            'name' => 'Shosuro Hyobu',
+                            'desc' => '',
+                            'subtype' => CARD_TYPE_CLAN_PATRON,
+                            'scenario_ids' => [304, ],
+                        ],
+                    ],
+                ],
+            ],
+             'scenarios' => [
+                301 => [
+                    'id' => 301,
+                    'location' => CARD_SCENARIO_LOCATION_DRAFT,
+                    'pId' => 1,
+                    'type' => 1,
+                    'clan' => CLAN_CRAB,
+                    'name' => '',
+                    'subtype' => CARD_TYPE_SCENARIO,
+                ],
+                304 => [
+                    'id' => 304,
+                    'location' => CARD_SCENARIO_LOCATION_DRAFT,
+                    'pId' => 2,
+                    'type' => 4,
+                    'clan' => CLAN_SCORPION,
+                    'name' => '',
+                    'subtype' => CARD_TYPE_SCENARIO,
                 ],
             ],
         ];

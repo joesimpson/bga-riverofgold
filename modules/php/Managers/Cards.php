@@ -303,6 +303,14 @@ class Cards extends \ROG\Helpers\Pieces
     }
     //Notify in case of waiting screen
     //Notifications::draftPlayerCards($player,$cards);
+  
+    if(Utils::isGameWithScenarios()){
+      $deckScenarios = self::getInLocation(CARD_SCENARIO_LOCATION_DECK.$player->getClan());
+      foreach ($deckScenarios as $scenario) {
+        $scenario->setLocation(CARD_SCENARIO_LOCATION_DRAFT);
+        $scenario->setPId($player->getId());
+      }
+    }
   }
 
   /** Creation of the cards */

@@ -628,7 +628,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         
         onEnteringStateDraftMulti(args) {
             debug('onEnteringStateDraftMulti', args);
-            this.initCardSelection(args._private.cards);
+            this.initCardSelection(args._private.cards,args.scenarios);
         },
 
         onEnteringStatePlayerTurn(args){
