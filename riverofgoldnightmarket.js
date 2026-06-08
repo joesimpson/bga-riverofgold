@@ -611,6 +611,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         onLeavingState(stateName) {
             this.inherited(arguments);
             this.empty('rog_select_piece_container');
+            this.empty('rog_selected_piece_description');
         },
         onEnteringState(stateName, args) {
             debug('Entering state: ' + stateName, args);
@@ -622,7 +623,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         onEnteringStateDraft(args) {
             debug('onEnteringStateDraft', args);
-            this.initCardSelection(args.cards);
+            this.initCardSelection(args.cards,args.scenarios);
         },
         
         onEnteringStateDraftMulti(args) {
@@ -2293,15 +2294,18 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 elt.removeAttribute('data-type');
             });
             this.empty("rog_select_piece_container");
+            this.empty('rog_selected_piece_description');
+            document.getElementById('rog_selected_piece_description').classList.add('rog_nodisplay');
             
             this.inherited(arguments);
         },
 
-        initCardSelection(cards) {
+        initCardSelection(cards, scenarios = null) {
             let selectedCard = null;
+            let selectedScenario = null;
             let confirmMessage = _('Confirm ${patron_name}');
             this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {patron_name:''}), () => {
-                this.takeAction('actTakeCard', { c: selectedCard });
+                this.takeAction('actTakeCard', { 'c': selectedCard, 'sc':selectedScenario });
             }); 
             //DISABLED by default
             $(`btnConfirm`).classList.add('disabled');
@@ -2320,6 +2324,19 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         let clanIcon = this.formatIcon('clan-'+card.clan);
                         $('btnConfirm').innerHTML = this.fsr(confirmMessage, { 'patron_name': clanIcon + _(card.name) });
                         $(`btnConfirm`).classList.remove('disabled');
+                        
+                        if(scenarios && card.scenario_ids ){
+                            let scenarioDescDiv = document.getElementById('rog_selected_piece_description');
+                            Object.values(card.scenario_ids).forEach((scenarioCardId) => {
+                                let scenarioDatas = scenarios[scenarioCardId];
+                                if(! scenarioDatas) return;
+                                //ONLY one for now
+                                selectedScenario = scenarioCardId;
+                                this.empty(scenarioDescDiv);
+                                scenarioDescDiv.classList.remove('rog_nodisplay');
+                                scenarioDescDiv.insertAdjacentHTML('beforeend', this.tplScenarioCardDescription(scenarioDatas));
+                            });
+                        }
                     });
                 }
             });
@@ -3683,6 +3700,74 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             return [`<div class='rog_card_tooltip'>
                         <div class='rog_card_front_back'>${divFront}${divBack}</div>
                 </div>`];
+        },
+        ////////////////////////////////////////////////////////
+        // Scenario cards
+        ////////////////////////////////////////////////////////
+        tplScenarioCardDescription(card) {
+            let introMap = new Map([
+                [1, this.fsr(_('The evil forces of the Shadowlands are invading from the west. The Crab need to raise new mercantile holdings that are fortified against possible attack and maintain more holdings than their rival.'),{})],
+                [2, this.fsr(_(''),{})],
+                [3, this.fsr(_(''),{})],
+                [4, this.fsr(_(''),{})],
+                [5, this.fsr(_(''),{})],
+                [6, this.fsr(_(''),{})],
+                [7, this.fsr(_(''),{})],
+                [8, this.fsr(_(''),{})],
+            ]);
+            let intro = introMap.get(card.type);
+            
+            let setupMap = new Map([
+                [1, this.fsr(_('Do not place starting buildings on the ${a} or ${b}/${c} shore spaces. (Place Imperial Markets on the ${d}/${e}/${f} spaces as usual.)'),{ 'a': 2,'b': 2,'c': 3, 'd': 2, 'e': 3,'f': 4,  })],
+                [2, this.fsr(_(''),{})],
+                [3, this.fsr(_(''),{})],
+                [4, this.fsr(_(''),{})],
+                [5, this.fsr(_(''),{})],
+                [6, this.fsr(_(''),{})],
+                [7, this.fsr(_(''),{})],
+                [8, this.fsr(_(''),{})],
+            ]);
+            let setup = setupMap.get(card.type);
+
+            let gameplayDescMap = new Map([
+                [1, this.fsr(_(''),{})],
+                [2, this.fsr(_(''),{})],
+                [3, this.fsr(_(''),{})],
+                [4, this.fsr(_(''),{})],
+                [5, this.fsr(_(''),{})],
+                [6, this.fsr(_(''),{})],
+                [7, this.fsr(_(''),{})],
+                [8, this.fsr(_(''),{})],
+            ]);
+            let gameplayDesc = gameplayDescMap.get(card.type);
+            
+            let endDescMap = new Map([
+                [1, this.fsr(_('You must outscore Seishin and build more buildings than Seishin.'),{})],
+                [2, this.fsr(_(''),{})],
+                [3, this.fsr(_(''),{})],
+                [4, this.fsr(_(''),{})],
+                [5, this.fsr(_(''),{})],
+                [6, this.fsr(_(''),{})],
+                [7, this.fsr(_(''),{})],
+                [8, this.fsr(_(''),{})],
+            ]);
+            let endDesc = endDescMap.get(card.type);
+
+            let clan_name = _(this.CLANS_NAMES.get(card.clan));
+            let scenario_name =  this.fsr(_('${clan_icon} ${clan_name} Scenario'),{ 'clan_icon' :this.formatIcon('clan-'+card.clan), 'clan_name' : clan_name });
+            return `<div class="rog_scenario_card_desc" id="rog_scenario_card_desc-${card.id}" data-id="${card.id}" data-type="${card.type}" data-clan="${card.clan}">
+                    <div class="rog_scenario_card_wrapper">
+                        <span class='rog_clan_name'><div class='reduceToFit'>${scenario_name}</div></span>
+                        <span class='rog_scenario_intro_label'><div class='reduceToFit'>${_('Intro')}</div></span>
+                        <span class='rog_scenario_intro'><div class='reduceToFit'>${intro}</div></span>
+                        <span class='rog_scenario_setup_label'><div class='reduceToFit'>${_('Setup Changes')}</div></span>
+                        <span class='rog_scenario_setup'><div class='reduceToFit'>${setup}</div></span>
+                        <span class='rog_scenario_gameplay_label'><div class='reduceToFit'>${_('Gameplay Changes')}</div></span>
+                        <span class='rog_scenario_gameplay'><div class='reduceToFit'>${gameplayDesc}</div></span>
+                        <span class='rog_scenario_end_label'><div class='reduceToFit'>${_('End Game')}</div></span>
+                        <span class='rog_scenario_end'><div class='reduceToFit'>${endDesc}</div></span>
+                    </div>
+                </div>`;
         },
         ////////////////////////////////////////////////////////
         // Automa cards

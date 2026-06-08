@@ -21,8 +21,16 @@ trait DraftTrait
   { 
     $cards = Cards::getInLocation(CARD_CLAN_LOCATION_DRAFT);
     $scenarios = Cards::getInLocation(CARD_SCENARIO_LOCATION_DRAFT);
+    $cardsDatas = $cards->map(function ($card) use ($scenarios) {
+            $datas = $card->getUiData();
+            $datas['scenario_ids'] = $scenarios->filter(function ($sc) use ($card) {
+              return $card->getClan() == $sc->getClan(); 
+            })->getIds();
+            return $datas;
+        })->toAssoc();
+
     $args = [
-      'cards' => $cards->ui(),
+      'cards' => $cardsDatas,
       'scenarios' => $scenarios->uiAssoc(),
     ];
     return $args;
@@ -95,6 +103,12 @@ trait DraftTrait
         throw new UnexpectedException(408,"Scenario $scenarioCardId must match patron clan");
       }
       Cards::assignScenario($player,$scenarioCard);
+    }
+    else {
+      $cardDatas = $args['cards'][$cardId];
+      if(count($cardDatas['scenario_ids']) > 0){
+        throw new UnexpectedException(409,"You need to select a Scenario for clan patron $cardId");
+      }
     }
 
     if( $isModeMultiActive){
