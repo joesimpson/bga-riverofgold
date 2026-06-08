@@ -258,6 +258,14 @@ class Cards extends \ROG\Helpers\Pieces
     $card->setPId($player->getId());
     Notifications::giveClanCardTo($player, $card);
 
+    //Discard from draft all other patrons of same clan because 2 players cannot have same clan
+    $cards = Cards::getInLocation(CARD_CLAN_LOCATION_DRAFT)->filter(function ($c) use ($card) {
+              return $card->getClan() == $c->getClan(); 
+            });
+    foreach($cards as $card){
+      $card->setLocation(CARD_CLAN_LOCATION_DISCARD);
+    }
+
     $card->abilityOnAssign($player);
   }
 
@@ -280,6 +288,9 @@ class Cards extends \ROG\Helpers\Pieces
       $cards[] = self::pickOneForLocation($deck, CARD_CLAN_LOCATION_DRAFT);
 
       if(Utils::isGameWithScenarios()){
+        //LET Player choose between ALL CLAN PATRONS
+        self::moveAllInLocation($deck,CARD_CLAN_LOCATION_DRAFT);
+
         $deckScenarios = CARD_SCENARIO_LOCATION_DECK.$clan_id;
         self::shuffle($deckScenarios);
         self::pickOneForLocation($deckScenarios, CARD_SCENARIO_LOCATION_DRAFT);

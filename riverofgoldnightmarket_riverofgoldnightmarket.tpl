@@ -15,8 +15,8 @@
     
     <div id="rog_end_score_recap"></div>
 
-    <div id="rog_select_piece_container"></div>
     <div id="rog_selected_piece_description" class="rog_nodisplay"></div>
+    <div id="rog_select_piece_container"></div>
     
     <div id="rog_upper_zone">
         <div id='rog_mastery_cards'></div>
