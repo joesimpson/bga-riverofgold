@@ -189,7 +189,9 @@ abstract class Utils
      * @return string player color linked to player clan
      */
     public static function getPlayerClanColor(int $clan) : string {
-        return array_search($clan,CLANS_COLORS);
+        $color = array_search($clan,CLANS_COLORS);
+        if($color) return $color;
+        return '000000';//black unless clan is known
     }
 
     /**
