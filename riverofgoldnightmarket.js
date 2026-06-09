@@ -246,7 +246,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['giveCardToPublic', 10],
                 ['giveCardTo', 1000],
                 ['giveActionCardToAutoma', 1000],
-                ['giveMasteriesTo', 2000],
+                ['giveMasteriesTo', null],
                 ['deliver', 1000],
                 ['deliverHidden', 1000],
                 ['reshuffleDeck', 10],
