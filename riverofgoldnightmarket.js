@@ -95,6 +95,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const CARD_TYPE_CUSTOMER = 1;
     const CARD_TYPE_CLAN_PATRON = 2;
     const CARD_TYPE_AUTOMA_ACTION = 3;
+    const CARD_TYPE_SCENARIO     = 4;
 
     const TILE_TYPE_SCORING = 1;
     const TILE_TYPE_BUILDING = 2;
@@ -123,6 +124,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const CARD_LOCATION_DELIVERED_HIDDEN = 'del_h';
     const CARD_LOCATION_HAND = 'h';
     const CARD_CLAN_LOCATION_ASSIGNED = 'clans_assigned';
+    const CARD_SCENARIO_LOCATION_ASSIGNED = 'scenario_assigned';
     
     const CARD_AUTOMA_LOCATION_PLAYED   = 'aut_played';
 
@@ -231,6 +233,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
 
             this._counters = {};
             this.dieStocks = new Map();
+            this.scenariosPopins = new Map();
             
             this._notifications = [
                 ['clearTurn', 200],
@@ -243,6 +246,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 //['draftCards', 10],
                 //['draftPlayerCards', 10],
                 ['giveClanCardTo', 1000],
+                ['giveScenarioCard', 1000],
                 ['giveCardToPublic', 10],
                 ['giveCardTo', 1000],
                 ['giveActionCardToAutoma', 1000],
@@ -1725,6 +1729,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         //        this.addClanCard(card, $('rog_select_piece_container'));
         //    });
         //},
+        
+        notif_giveScenarioCard(n) {
+            debug('notif_giveScenarioCard', n);
+            let pid = n.args.player_id;
+            this.addScenarioCard(n.args.card);
+        },
+
         notif_giveCardToPublic(n) {
             debug('notif_giveCardToPublic', n);
             //We want the text on top
@@ -2640,6 +2651,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 </div>`;
         },
         
+        formatIconPlayer() {
+            return `<i class="fa6-solid fa6-user rog_icon_player"></i>`;
+        },
+        
         formatString(str) {
             //debug('formatString', str);
             return str;
@@ -3245,7 +3260,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             debug("setupCards",keepHand,keepOthers);
             // This function is refreshUI compatible
             //destroy previous cards
-            document.querySelectorAll('.rog_card[id^="rog_card-"], .rog_clan_card[id^="rog_clan_card-"]').forEach((oCard) => {
+            document.querySelectorAll('.rog_card[id^="rog_card-"], .rog_clan_card[id^="rog_clan_card-"], .rog_btnShowCard').forEach((oCard) => {
                 let inHand = oCard.parentNode.parentNode.parentNode.classList.contains('rog_cards_hand');
                 if(keepHand && inHand) return;
                 if(keepOthers && !inHand) return;
@@ -3303,6 +3318,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         addCard(card, location = null) {
             debug('addCard',card);
             if(card.subtype == CARD_TYPE_CLAN_PATRON ) return this.addClanCard(card, location);
+            if(card.subtype == CARD_TYPE_SCENARIO ) return this.addScenarioCard(card, location);
             if(card.subtype == CARD_TYPE_AUTOMA_ACTION ) return this.addAutomaActionCard(card, location);
             if ($('rog_card-' + card.id)) return;
     
@@ -3591,6 +3607,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if (card.location == CARD_CLAN_LOCATION_ASSIGNED) {
                 return $(`rog_player_patron-${card.pId}`);
             }
+            if (card.location == CARD_SCENARIO_LOCATION_ASSIGNED) {
+                return $(`rog_player_scenario_cards-${card.pId}`);
+            }
             if (card.location == CARD_AUTOMA_LOCATION_PLAYED) {
                 let holder = this.addCustomerCardHolder(card,`rog_player_action_cards`);
                 if( holder){
@@ -3613,6 +3632,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         tplPlayerDeliveredCards(player) {
             return `<div class='rog_player_delivered_resizable' id='rog_player_delivered_resizable-${player.id}'>
+                <div id='rog_player_scenario_cards-${player.id}' class='rog_player_scenario_cards'></div>
                 <div id='rog_player_mastery_cards-${player.id}' class='rog_player_mastery_cards'></div>
                 ${this.tplPlayerActionCards(player)}
                 <div id='rog_player_delivered-${player.id}' class='rog_player_delivered' data-color='${player.color}'>
@@ -3704,7 +3724,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         ////////////////////////////////////////////////////////
         // Scenario cards
         ////////////////////////////////////////////////////////
-        tplScenarioCardDescription(card) {
+        tplScenarioCardDescription(card, withName = true) {
             let introMap = new Map([
                 [1, this.fsr(_('The evil forces of the Shadowlands are invading from the west. The Crab need to raise new mercantile holdings that are fortified against possible attack and maintain more holdings than their rival.'),{})],
                 [2, this.fsr(_(''),{})],
@@ -3718,7 +3738,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let intro = introMap.get(card.type);
             
             let setupMap = new Map([
-                [1, this.fsr(_('Do not place starting buildings on the ${a} or ${b}/${c} shore spaces. (Place Imperial Markets on the ${d}/${e}/${f} spaces as usual.)'),{ 'a': 2,'b': 2,'c': 3, 'd': 2, 'e': 3,'f': 4,  })],
+                [1, this.fsr(_('Do not place starting buildings on the ${icon_player} ${a} or ${icon_player} ${b}/${c} shore spaces. (Place Imperial Markets on the ${icon_player} ${d}/${e}/${f} spaces as usual.)'),{'icon_player': this.formatIconPlayer(), 'a': 2,'b': 2,'c': 3, 'd': 2, 'e': 3,'f': 4,  })],
                 [2, this.fsr(_(''),{})],
                 [3, this.fsr(_(''),{})],
                 [4, this.fsr(_(''),{})],
@@ -3730,7 +3750,25 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let setup = setupMap.get(card.type);
 
             let gameplayDescMap = new Map([
-                [1, this.fsr(_(''),{})],
+                [1,     
+                    '<ul>'
+                    + '<li>'
+                    + this.fsr(_('You can only build on the left side of the river. Seishin can only build on the right side of the river.'),{})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('Do not gain visitor rewards from Seishin’s buildings when you sail.'),{})
+                    + '</li>'
+                    + '<li>'
+                    + this.fsr(_('Do not gain owner rewards when Seishin sails to your buildings.'),{})
+                    + '</li>'
+                    + '</ul>'
+                    + '<b>'
+                    + this.fsr(_('Note: Seishin gains visitor and owner rewards as usual.'),{})
+                    + '</b>'
+                    + '<div class="rog_coop_label">'
+                    + this.fsr(_('Co-op: Your ally can build on either side of the river. Your ally gains visitor rewards when sailing to Seishin’s buildings and owner rewards when Seishin sails to their buildings as usual.'),{})
+                    + '</div>'
+                ],
                 [2, this.fsr(_(''),{})],
                 [3, this.fsr(_(''),{})],
                 [4, this.fsr(_(''),{})],
@@ -3753,11 +3791,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             ]);
             let endDesc = endDescMap.get(card.type);
 
-            let clan_name = _(this.CLANS_NAMES.get(card.clan));
-            let scenario_name =  this.fsr(_('${clan_icon} ${clan_name} Scenario'),{ 'clan_icon' :this.formatIcon('clan-'+card.clan), 'clan_name' : clan_name });
             return `<div class="rog_scenario_card_desc" id="rog_scenario_card_desc-${card.id}" data-id="${card.id}" data-type="${card.type}" data-clan="${card.clan}">
                     <div class="rog_scenario_card_wrapper">
-                        <span class='rog_clan_name'><div class='reduceToFit'>${scenario_name}</div></span>
+                        <span class='rog_clan_name'><div class='reduceToFit'>${withName ? this.tplScenarioCardName(card) : ''}</div></span>
+                        <span class='rog_scenario_difficulty'><div class='reduceToFit'>${this.fsr(_('Difficulty : ${n}') , {'n' : card.difficulty}) }</div></span>
                         <span class='rog_scenario_intro_label'><div class='reduceToFit'>${_('Intro')}</div></span>
                         <span class='rog_scenario_intro'><div class='reduceToFit'>${intro}</div></span>
                         <span class='rog_scenario_setup_label'><div class='reduceToFit'>${_('Setup Changes')}</div></span>
@@ -3768,6 +3805,63 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         <span class='rog_scenario_end'><div class='reduceToFit'>${endDesc}</div></span>
                     </div>
                 </div>`;
+        },
+        
+        tplScenarioCardName(card, displayClanName = true) {
+            let clan_name = _(this.CLANS_NAMES.get(card.clan));
+            if(!displayClanName) clan_name = '';
+            let scenario_name = this.fsr(_('${clan_icon}${clan_name} Scenario'),{ 'clan_icon' :this.formatIcon('clan-'+card.clan), 'clan_name' : clan_name });
+            return scenario_name;
+        },
+
+        tplScenarioCard(card) {
+            return `<div class="rog_card rog_scenario_card" id="rog_scenario_card-${card.id}" data-id="${card.id}" data-type="${card.type}" data-clan="${card.clan}">
+                    ${this.tplScenarioCardDescription(card, false)}
+                </div>`;
+        },
+
+        addScenarioCard(card, location = null) {
+            debug('addScenarioCard',card);
+            let container = this.getCardContainer(card);
+            location = location == null ? container : location
+            //let cardDiv = this.place('tplScenarioCard', card, location);
+            //this.reduceTextSizeOnCardElements(cardDiv);
+            let cardDiv = this.tplScenarioCard(card,'_tmp');
+
+            if(location.id == `rog_player_scenario_cards-${card.pId}`){
+                let buttonId = `rog_btnShowScenario_${card.id}`;
+                let button = document.getElementById(buttonId);
+                if(button) this.destroy(button);
+                
+                this.bga.statusBar.addActionButton(
+                    `
+                    ${this.tplScenarioCardName(card, false)}
+                `, () =>  {
+                    let popindialog = new ebg.popindialog();
+                    popindialog.create( 'rog_popin_scenario_'+card.id );
+                    popindialog.setTitle(this.tplScenarioCardName(card));
+                    popindialog.setMaxWidth( 1000 );
+                    // Create the HTML of my dialog. 
+                    let html = `<div class='rog_popin_scenario_content' id='rog_popin_scenario_content'>
+                        ${cardDiv}
+                    </div>`;  
+                    // Show the dialog
+                    popindialog.setContent( html );
+                    this.scenariosPopins.set(card.id, popindialog);
+                    
+                    let selectedPopin = this.scenariosPopins.get(card.id);
+                    selectedPopin.show();
+
+                    this.reduceTextSizeOnCardElements(document.getElementById('rog_popin_scenario_content'));
+                }, 
+                {   'id':buttonId, 
+                    //'destination' : location,
+                    'destination' : document.getElementById(`rog_player_patron-${card.pId}`),
+                    'classes' : ['rog_btnShowScenario', 'rog_btnShowCard'],
+                },
+                );
+            }
+            return cardDiv;
         },
         ////////////////////////////////////////////////////////
         // Automa cards

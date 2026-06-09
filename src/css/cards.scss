@@ -38,6 +38,24 @@
             }
         }
     }
+    
+    &.rog_scenario_card{
+        width: 300px;
+        height: 150px;
+        $scale: 0.3;
+        width: calc(3078px * $scale);
+        height: calc(1503px * $scale);
+        background-size: 100% auto;
+        background-image: url("img/scenarios/clan_1.jpg");
+        background-repeat: no-repeat;
+        @for $i from 1 through 8 {
+            &[data-type="#{$i}"] {
+                background-image: url("img/scenarios/clan_"+$i+".jpg");
+                background-position-x: 0;
+                background-position-y: 0;
+            }
+        }
+    }
 
     position: relative; 
     &.selectable {
@@ -1028,6 +1046,109 @@
     }
 }
 
+.rog_scenario_card_desc{
+    .rog_clan_name{
+        font-weight: bold;
+        text-align: center;
+    }
+    .rog_scenario_intro_label,
+    .rog_scenario_setup_label,
+    .rog_scenario_gameplay_label,
+    .rog_scenario_end_label
+    {
+        font-weight: bold;
+        text-decoration: underline;
+    }
+
+    .rog_coop_label{
+        background-color: #f0ecd2;
+        box-shadow: 0px 0px 0px 3px #ab792b;
+        border-radius: 10px;
+        margin-top: 10px;
+    }
+}
+
+.rog_popin_scenario_content{
+    .rog_scenario_card_wrapper{
+        color: black;
+        >span{
+            position: absolute;
+            text-align: center;
+        }
+        .rog_scenario_difficulty{
+            bottom: 3%;
+            //left: 55%;
+            width: 100%;
+        }
+        .rog_scenario_intro_label, 
+        .rog_scenario_setup_label,
+        .rog_scenario_gameplay_label,
+        .rog_scenario_end_label
+        {
+            text-align: center;
+        }
+
+        .rog_scenario_intro_label
+        {
+            top: 2%;
+            left: 5%;
+            width: 30%;
+            height: 5%;
+        }
+        .rog_scenario_intro
+        {
+            top: 6%;
+            left: 5%;
+            width: 30%;
+            height: 17%;
+        }
+        .rog_scenario_setup_label
+        {
+            top: 30%;
+            left: 5%;
+            width: 30%;
+            height: 6%;
+        }
+        .rog_scenario_setup
+        {
+            top: 36%;
+            left: 5%;
+            width: 30%;
+            height: 60%;
+        }
+        .rog_scenario_gameplay_label
+        {
+            top: 0%;
+            left: 35%;
+            width: 30%;
+            height: 8%;
+
+        }
+        .rog_scenario_gameplay
+        {
+            top: 8%;
+            left: 35%;
+            width: 30%;
+            height: 92%;
+
+        }
+        .rog_scenario_end_label
+        {
+            top: 0%;
+            left: 67%;
+            width: 30%;
+            height: 8%;
+        }
+        .rog_scenario_end
+        {
+            top: 8%;
+            left: 67%;
+            width: 30%;
+            height: 92%;
+        }
+    }
+}
+
 #rog_selected_piece_description{
     background: hsla(0,0%,100%,.5);
     border: 1px solid #eee;
@@ -1037,19 +1158,4 @@
     max-width: 60em;
     padding: 5px;
     text-align: justify;
-
-    .rog_scenario_card_desc{
-        .rog_clan_name{
-            font-weight: bold;
-            text-align: center;
-        }
-        .rog_scenario_intro_label,
-        .rog_scenario_setup_label,
-        .rog_scenario_gameplay_label,
-        .rog_scenario_end_label
-        {
-            font-weight: bold;
-            text-decoration: underline;
-        }
-    }
 }

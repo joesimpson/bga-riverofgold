@@ -18,6 +18,7 @@ class ScenarioCard extends Card
   protected $staticAttributes = [
     ['clan', 'int'],
     ['name', 'string'],
+    ['difficulty', 'int'],
   ];
 
   public function __construct($row, $datas)

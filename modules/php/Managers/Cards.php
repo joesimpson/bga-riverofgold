@@ -66,6 +66,7 @@ class Cards extends \ROG\Helpers\Pieces
 
     return self::getInLocation(CARD_LOCATION_DELIVERED)
       ->merge(self::getInLocation(CARD_CLAN_LOCATION_ASSIGNED))
+      ->merge(self::getInLocation(CARD_SCENARIO_LOCATION_ASSIGNED))
       ->merge(self::getInLocationOrdered(CARD_AUTOMA_LOCATION_PLAYED))
       ->merge($privateCards)
       ->map(function ($card) {
@@ -551,19 +552,20 @@ class Cards extends \ROG\Helpers\Pieces
     $f = function ($t) {
       return [
         'clan' => $t[0],
-        'name' => $t[1],
+        'difficulty' => $t[1],
+        'name' => $t[2],
       ];
     };
     return [
       // 8 unique (only 1/clan for now )
-      1 => $f([CLAN_CRAB    , '', ]), 
-      2 => $f([CLAN_MANTIS  , '', ]), 
-      3 => $f([CLAN_CRANE   , '', ]), 
-      4 => $f([CLAN_SCORPION, '', ]), 
-      5 => $f([CLAN_PHOENIX , '', ]), 
-      6 => $f([CLAN_LION    , '', ]),
-      7 => $f([CLAN_DRAGON  , '', ]),  
-      8 => $f([CLAN_UNICORN , '', ]),  
+      1 => $f([CLAN_CRAB    , 2, '', ]), 
+      2 => $f([CLAN_MANTIS  , 2, '', ]), 
+      3 => $f([CLAN_CRANE   , 4, '', ]), 
+      4 => $f([CLAN_SCORPION, 3, '', ]), 
+      5 => $f([CLAN_PHOENIX , 4, '', ]), 
+      6 => $f([CLAN_LION    , 4, '', ]),
+      7 => $f([CLAN_DRAGON  , 1, '', ]),  
+      8 => $f([CLAN_UNICORN , 3, '', ]),  
 
     ];
   }
