@@ -4674,6 +4674,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   box-shadow: 0px 0px 0px 3px #ab792b;
   border-radius: 10px;
   margin-top: 10px;
+  padding: 0 5px;
 }
 
 .rog_popin_scenario_content .rog_scenario_card_wrapper {
@@ -4743,14 +4744,17 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 
 #rog_selected_piece_description {
-  background: hsla(0, 0%, 100%, 0.5);
+  background-color: hsla(0, 0%, 100%, 0.5);
   border: 1px solid #eee;
   border-radius: 5px;
-  line-height: 140%;
   margin: 5px auto;
-  max-width: 60em;
+  max-width: 92%;
   padding: 5px;
-  text-align: justify;
+  font-size: small;
+  font-size: 0.7em;
+}
+#rog_selected_piece_description span {
+  font-size: 12px;
 }
 
 .rog_tile_tooltip[data-subtype="1"] .rog_tile,
