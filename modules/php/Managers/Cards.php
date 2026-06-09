@@ -262,8 +262,8 @@ class Cards extends \ROG\Helpers\Pieces
     $cards = Cards::getInLocation(CARD_CLAN_LOCATION_DRAFT)->filter(function ($c) use ($card) {
               return $card->getClan() == $c->getClan(); 
             });
-    foreach($cards as $card){
-      $card->setLocation(CARD_CLAN_LOCATION_DISCARD);
+    foreach($cards as $other){
+      $other->setLocation(CARD_CLAN_LOCATION_DISCARD);
     }
 
     $card->abilityOnAssign($player);
