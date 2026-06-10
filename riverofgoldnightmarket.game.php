@@ -137,7 +137,8 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
           'constants' => [
             'INFLUENCE_TRACK_REWARDS' => INFLUENCE_TRACK_REWARDS,
             'CUSTOM_REGION_TRACKS' => CUSTOM_REGION_TRACKS,
-          ]
+          ],
+          'enums' => Utils::getEnumsUI(),
         ];
         if(Utils::isGameWithAutoma()){
             $result['automa_player'] = Players::automaPlayer()->getUiData();

@@ -2,8 +2,12 @@
 
 namespace ROG\Models;
 
+use ROG\Helpers\EnumUtilsTrait;
+
 enum MAIN_ACTION: string
 {
+  use EnumUtilsTrait;
+  
   case BUILD      = 'build';
   case SAIL       = 'sail';
   case DELIVER    = 'deliver';
@@ -14,12 +18,16 @@ enum MAIN_ACTION: string
  */
 enum BEFORE_ACTION: string
 {
+  use EnumUtilsTrait;
+  
   case SWAP_BOATS     = 'SWAP_BOATS';
   case MOVE_BUILDING  = 'MOVE_BUILDING';
 }
 
 enum AutomaActionType: int
 {
+  use EnumUtilsTrait;
+  
   case SAIL_HIGHER    = 1;
   case SAIL_LOWER     = 2;
   case DELIVER        = 3;
@@ -30,6 +38,8 @@ enum AutomaActionType: int
 
 enum ScenarioType: int
 {
+  use EnumUtilsTrait;
+
   case CRAB_1      = 1;
   case MANTIS_1    = 2;
   case CRANE_1     = 3;
@@ -43,6 +53,8 @@ enum ScenarioType: int
 
 enum SHORE_SIDE: string
 {
+  use EnumUtilsTrait;
+
   case LEFT   = 'LEFT';
   case RIGHT  = 'RIGHT';
 }

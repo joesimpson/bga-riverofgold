@@ -755,7 +755,26 @@ final class GameTest extends TestCase
             'constants' => [
                 'INFLUENCE_TRACK_REWARDS' => INFLUENCE_TRACK_REWARDS,
                 'CUSTOM_REGION_TRACKS' => CUSTOM_REGION_TRACKS,
-            ]
+            ],
+            'enums' => [
+                'AutomaActionType' => [
+                    'SAIL_HIGHER'    => 1,
+                    'SAIL_LOWER'     => 2,
+                    'DELIVER'        => 3,
+                    'BUILD'          => 4,
+                    'ADVANCE_CITY'   => 5,
+                ],
+                'ScenarioType' => [
+                    'CRAB_1'    => 1,
+                    'MANTIS_1'  => 2,
+                    'CRANE_1'   => 3,
+                    'SCORPION_1'=> 4,
+                    'PHOENIX_1' => 5,
+                    'LION_1'    => 6,
+                    'DRAGON_1'  => 7,
+                    'UNICORN_1' => 8,
+                ],
+            ],
         ];
 
         $datas = $game->getAllDatas();

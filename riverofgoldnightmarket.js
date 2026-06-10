@@ -145,12 +145,6 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const PATRON_MAGNATE_SAND_ROAD = 17;
     const PATRON_MISTRESS_OF_WINDS = 18;
 
-    const AutomaActionType_SAIL_HIGHER    = 1;
-    const AutomaActionType_SAIL_LOWER     = 2;
-    const AutomaActionType_DELIVER        = 3;
-    const AutomaActionType_BUILD          = 4;
-    const AutomaActionType_ADVANCE_CITY   = 5;
-
     const RESOURCE_TYPE_SILK = 1;
     const RESOURCE_TYPE_POTTERY = 2;
     const RESOURCE_TYPE_RICE = 3;
@@ -3746,9 +3740,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         // Scenario cards
         ////////////////////////////////////////////////////////
         tplScenarioCardDescription(card, withName = true) {
-            //ScenarioType::CRAB_1 etc...
             let introMap = new Map([
-                [1, this.fsr(_('The evil forces of the Shadowlands are invading from the west. The Crab need to raise new mercantile holdings that are fortified against possible attack and maintain more holdings than their rival.'),{})],
+                [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('The evil forces of the Shadowlands are invading from the west. The Crab need to raise new mercantile holdings that are fortified against possible attack and maintain more holdings than their rival.'),{})],
                 [2, this.fsr(_(''),{})],
                 [3, this.fsr(_(''),{})],
                 [4, this.fsr(_(''),{})],
@@ -3760,7 +3753,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let intro = introMap.get(card.type);
             
             let setupMap = new Map([
-                [1, this.fsr(_('Do not place starting buildings on the ${icon_player} ${a} or ${icon_player} ${b}/${c} shore spaces. (Place Imperial Markets on the ${icon_player} ${d}/${e}/${f} spaces as usual.)'),{'icon_player': this.formatIconPlayer(), 'a': 2,'b': 2,'c': 3, 'd': 2, 'e': 3,'f': 4,  })],
+                [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('Do not place starting buildings on the ${icon_player} ${a} or ${icon_player} ${b}/${c} shore spaces. (Place Imperial Markets on the ${icon_player} ${d}/${e}/${f} spaces as usual.)'),{'icon_player': this.formatIconPlayer(), 'a': 2,'b': 2,'c': 3, 'd': 2, 'e': 3,'f': 4,  })],
                 [2, this.fsr(_(''),{})],
                 [3, this.fsr(_(''),{})],
                 [4, this.fsr(_(''),{})],
@@ -3772,7 +3765,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let setup = setupMap.get(card.type);
 
             let gameplayDescMap = new Map([
-                [1,     
+                [this.gamedatas.enums.ScenarioType.CRAB_1,     
                     '<ul>'
                     + '<li>'
                     + this.fsr(_('You can only build on the left side of the river. Seishin can only build on the right side of the river.'),{})
@@ -3802,7 +3795,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let gameplayDesc = gameplayDescMap.get(card.type);
             
             let endDescMap = new Map([
-                [1, this.fsr(_('You must outscore Seishin and build more buildings than Seishin.'),{})],
+                [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('You must outscore Seishin and build more buildings than Seishin.'),{})],
                 [2, this.fsr(_(''),{})],
                 [3, this.fsr(_(''),{})],
                 [4, this.fsr(_(''),{})],
@@ -3846,15 +3839,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             debug('addScenarioCard',card);
             let container = this.getCardContainer(card);
             location = location == null ? container : location
-            //let cardDiv = this.place('tplScenarioCard', card, location);
-            //this.reduceTextSizeOnCardElements(cardDiv);
             let cardDiv = this.tplScenarioCard(card,'_tmp');
             this.scenariosCards.set(card.type, card);
-            if(card.type == 1 && this.gamedatas.automa_id){//ScenarioType::CRAB_1
-                let automa_panel = this.bga.playerPanels.getElement(this.gamedatas.automa_id)
+            if(card.type == this.gamedatas.enums.ScenarioType.CRAB_1 && this.gamedatas.automa_id){
                 //If Crab scenario is in play we may want to know how many automa buildings are in play
+                let automa_panel = this.bga.playerPanels.getElement(this.gamedatas.automa_id)
                 let line_buildings = automa_panel.querySelector('.rog_player_resource_line_buildings');
-                line_buildings.classList.add('rog_show_automa_buildings_line');
+                line_buildings.classList.add('rog_show');
             }
 
             if(location.id == `rog_player_scenario_cards-${card.pId}`){
@@ -3909,15 +3900,15 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let actionName = _(card.title);
             let descriptionLine = '';
             let descriptionMap = new Map([
-                [AutomaActionType_SAIL_HIGHER ,     
+                [this.gamedatas.enums.AutomaActionType.SAIL_HIGHER ,     
                     this.fsr(_('Gain ${influence} + ${points} from buildings visited'),{'influence':'','points':''})
                 ],
-                [AutomaActionType_SAIL_LOWER  ,    
+                [this.gamedatas.enums.AutomaActionType.SAIL_LOWER  ,    
                     this.fsr(_('Gain ${influence} + ${points} from buildings visited'),{'influence':'','points':''})
                 ],
-                [AutomaActionType_DELIVER     ,  '' ],
-                [AutomaActionType_BUILD       ,  '' ],
-                [AutomaActionType_ADVANCE_CITY,   
+                [this.gamedatas.enums.AutomaActionType.DELIVER     ,  '' ],
+                [this.gamedatas.enums.AutomaActionType.BUILD       ,  '' ],
+                [this.gamedatas.enums.AutomaActionType.ADVANCE_CITY,   
                     this.format_string(_('${player_name} takes another turn'),{'player_name':_('Seishin')})
                 ],
             ]);
@@ -3938,7 +3929,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let typeName = this.fsr(_('Seishin Action Card ${icon}') ,{'icon': this.formatIcon('automa_action_card'), })
             let actionName = _(card.title);
             let descriptionMap = new Map([
-                [AutomaActionType_SAIL_HIGHER ,     
+                [this.gamedatas.enums.AutomaActionType.SAIL_HIGHER ,     
                     '<ul>'
                     + '<li>'
                     + this.fsr(_('Seishin moves the ship shown on the action card the number of river spaces shown on her die. If both of her ships are on the same river space, she moves either one.'),{})
@@ -3954,7 +3945,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     + '</li>'
                     + '</ul>'
                 ],
-                [AutomaActionType_SAIL_LOWER  ,     
+                [this.gamedatas.enums.AutomaActionType.SAIL_LOWER  ,     
                     '<ul>'
                     + '<li>'
                     + this.fsr(_('Seishin moves the ship shown on the action card the number of river spaces shown on her die. If both of her ships are on the same river space, she moves either one.'),{})
@@ -3970,7 +3961,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     + '</li>'
                     + '</ul>'
                 ],
-                [AutomaActionType_DELIVER     ,     
+                [this.gamedatas.enums.AutomaActionType.DELIVER     ,     
                     '<ul>'
                     + '<li>'
                     + this.fsr(_('Seishin gains ${n} influence in the region matching her die. She gains any point or influence rewards she reaches or passes along the influence track; she ignores all other rewards.'),{'n':3})
@@ -3980,7 +3971,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     + '</li>'
                     + '</ul>'
                 ],
-                [AutomaActionType_BUILD       ,     
+                [this.gamedatas.enums.AutomaActionType.BUILD       ,     
                     '<ul>'
                     + '<li>'
                     + this.fsr(_('Seishin chooses the empty shore space with the lowest Koku cost in the region matching her die. If multiple empty shore spaces in that region have the lowest Koku cost, she chooses the one that is farther downriver. If there are no empty shore spaces in the region, increase her die’s value by 1 and then repeat this for the next region until she chooses an empty shore space. (If her die is a 6, change it to a 1.)'),{})
@@ -3996,7 +3987,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     + '</li>'
                     + '</ul>'
                 ],
-                [AutomaActionType_ADVANCE_CITY, 
+                [this.gamedatas.enums.AutomaActionType.ADVANCE_CITY, 
                     '<ul>'
                     + '<li>'
                     + this.fsr(_('Seishin places 1 clan marker in the City of Lies on the leftmost unoccupied space matching her die. Seishin does not lose any influence or gain any rewards for this placement. If there are no available spaces matching her die, do not place a marker. If the only available spaces matching her die are scoring tiles, Seishin claims the topmost scoring tile matching her die.'),{})

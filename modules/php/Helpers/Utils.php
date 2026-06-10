@@ -5,10 +5,12 @@ use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
+use ROG\Models\AutomaActionType;
 use ROG\Models\CustomerCard;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Meeple;
 use ROG\Models\Player;
+use ROG\Models\ScenarioType;
 
 abstract class Utils 
 {
@@ -250,5 +252,12 @@ abstract class Utils
             return false;
         }
         return true;
+    }
+
+    public static function getEnumsUI() : array {
+        return [
+            'AutomaActionType' => AutomaActionType::ui(),
+            'ScenarioType' => ScenarioType::ui(),
+        ];
     }
 }
