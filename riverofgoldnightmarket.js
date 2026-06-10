@@ -284,6 +284,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['addPoints', 1200],
                 ['scorePatron', 1200],
                 ['activePatron', 1200],
+                ['discardTiles', null],
                 ['discardBuildingRow', 500],
                 ['slideBuildingRow', null],
                 ['refillBuildingRow', 800],
@@ -2075,6 +2076,25 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             debug('notif_activePatron', n);
             //let's see notif message displayed on top
         },
+        notif_discardTiles(n) {
+            debug('notif_discardTiles ', n);
+            let tiles = n.args.tiles;
+            let toDiv = this.getVisibleTitleContainer();
+            Promise.all(
+                Object.entries(tiles).map(async ([tile_id, tile]) => {
+                    let tileDivId = `rog_tile-${tile_id}`;
+                    let tileDiv = document.getElementById(tileDivId);
+                    if (!tileDiv) return;
+                    return this.wait(200 * i).then( () => 
+                        this.animationManager.slideOutAndDestroy(tileDiv, toDiv, {duration: 900})
+                            .then(() =>{
+                            })
+                    );
+                })
+            ).then(() => {
+                this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
+            });
+        },
         notif_discardBuildingRow(n) {
             debug('notif_discardBuildingRow: building tile discarded from building row', n);
             let tileDivId = `rog_tile-${n.args.tile.id}`;
@@ -3725,6 +3745,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         // Scenario cards
         ////////////////////////////////////////////////////////
         tplScenarioCardDescription(card, withName = true) {
+            //ScenarioType::CRAB_1 etc...
             let introMap = new Map([
                 [1, this.fsr(_('The evil forces of the Shadowlands are invading from the west. The Crab need to raise new mercantile holdings that are fortified against possible attack and maintain more holdings than their rival.'),{})],
                 [2, this.fsr(_(''),{})],

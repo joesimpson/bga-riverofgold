@@ -25,7 +25,7 @@ class ScoringTile extends Tile
   }
   
 
-  public function getUiData()
+  public function getUiData() : array
   {
     $data = parent::getUiData();
     $data['pos'] = $this->getRegion();

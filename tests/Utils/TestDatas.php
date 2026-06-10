@@ -164,6 +164,15 @@ class TestDatas {
         ];
     }
     
+    public static function resetStartingBuildings(){
+        TestDatas::$tiles[47] = ['result_associative_index' => 47,'tile_id' => 47, 'tile_location' => TILE_LOCATION_BUILDING_SHORE, 'tile_state' => 3,  'type' => 1, 'subtype' => TILE_TYPE_BUILDING, ];
+        TestDatas::$tiles[48] = ['result_associative_index' => 48,'tile_id' => 48, 'tile_location' => TILE_LOCATION_BUILDING_SHORE, 'tile_state' => 7,  'type' => 42, 'subtype' => TILE_TYPE_BUILDING, ];
+        TestDatas::$tiles[49] = ['result_associative_index' => 49,'tile_id' => 49, 'tile_location' => TILE_LOCATION_BUILDING_SHORE, 'tile_state' => 11,  'type' => 43, 'subtype' => TILE_TYPE_BUILDING, ];
+        TestDatas::$tiles[50] = ['result_associative_index' => 50,'tile_id' => 50, 'tile_location' => TILE_LOCATION_BUILDING_SHORE, 'tile_state' => 14,  'type' => 44, 'subtype' => TILE_TYPE_BUILDING, ];
+        TestDatas::$tiles[51] = ['result_associative_index' => 51,'tile_id' => 51, 'tile_location' => TILE_LOCATION_BUILDING_SHORE, 'tile_state' => 22,  'type' => 45, 'subtype' => TILE_TYPE_BUILDING, ];
+        TestDatas::$tiles[52] = ['result_associative_index' => 52,'tile_id' => 52, 'tile_location' => TILE_LOCATION_BUILDING_SHORE, 'tile_state' => 23,  'type' => 46, 'subtype' => TILE_TYPE_BUILDING, ];
+    }
+    
     static array $notifs = [];
     public static function resetNotifications(){
         TestDatas::$notifs = [

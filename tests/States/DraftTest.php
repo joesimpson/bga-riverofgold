@@ -384,6 +384,71 @@ final class DraftTest extends TestCase
         assertSame(1, TestDatas::$cards[$scenarioId]['player_id']);
     }
     
+    public function test_actTakeCard_setupScenarioCrab(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $cardId = 101;
+        $scenarioId = 301;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
+        TestDatas::$cards[$scenarioId] = ['result_associative_index' => $scenarioId,'card_id' => $scenarioId, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::resetStartingBuildings();
+        $expectedNotifs = [
+            "newPlayerColor-1",
+            "giveClanCardTo-1",
+            "giveScenarioCard-1",
+            "discardTiles",
+        ];
+
+        $game->actTakeCard($cardId,999999,$scenarioId);
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //TEST Scenario Setup
+        //KEEP IMPERIAL MARKETS
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[44]['tile_location']);
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[45]['tile_location']);
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[46]['tile_location']);
+        //Discard other Starting tiles
+        assertSame(TILE_LOCATION_DISCARD, TestDatas::$tiles[47]['tile_location']);
+        assertSame(TILE_LOCATION_DISCARD, TestDatas::$tiles[48]['tile_location']);
+        assertSame(TILE_LOCATION_DISCARD, TestDatas::$tiles[49]['tile_location']);
+        assertSame(TILE_LOCATION_DISCARD, TestDatas::$tiles[50]['tile_location']);
+        assertSame(TILE_LOCATION_DISCARD, TestDatas::$tiles[51]['tile_location']);
+        assertSame(TILE_LOCATION_DISCARD, TestDatas::$tiles[52]['tile_location']);
+    }
+    public function test_actTakeCard_setupScenarioNotCrab(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $cardId = 101;
+        $scenarioId = 302;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        TestDatas::$cards[$cardId]['type'] = PATRON_PRIESTESS;
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
+        TestDatas::$cards[$scenarioId] = ['result_associative_index' => $scenarioId,'card_id' => $scenarioId, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 2,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::resetStartingBuildings();
+        $expectedNotifs = [
+            "newPlayerColor-1",
+            "giveClanCardTo-1",
+            "giveScenarioCard-1",
+        ];
+
+        $game->actTakeCard($cardId,999999,$scenarioId);
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //TEST CRAB Scenario  Setup is NOT TRIGGERED
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[44]['tile_location']);
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[45]['tile_location']);
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[46]['tile_location']);
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[47]['tile_location']);
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[48]['tile_location']);
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[49]['tile_location']);
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[50]['tile_location']);
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[51]['tile_location']);
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[52]['tile_location']);
+    }
+    
     public function test_actTakeCard_KO_WrongScenario(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

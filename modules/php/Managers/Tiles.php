@@ -212,6 +212,20 @@ class Tiles extends \ROG\Helpers\Pieces
       $tile->setLocation(TILE_LOCATION_DISCARD);
     }
   } 
+  
+  public static function discardStartingBuildings()
+  {
+    $startings = Tiles::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE);
+    $spacesToRemove = [SHORE_SPACE_STARTING_BUILDING_FOR_2, SHORE_SPACE_STARTING_BUILDING_FOR_3];
+    $tilesToRemove = $startings->filter(function ($tile) use ($spacesToRemove){
+      $shoreSpace = ShoreSpaces::getShoreSpace($tile->getPosition());
+      return in_array($shoreSpace->type,$spacesToRemove);
+    });
+    Notifications::discardTiles($tilesToRemove, clienttranslate('Starting buildings are removed from the game'));
+    foreach ($tilesToRemove as $tileId => $tile) {
+      $tile->setLocation(TILE_LOCATION_DISCARD);
+    }
+  } 
   //////////////////////////////////////////////////////////////////////
   /** Creation of the tiles */
   public static function setupNewGame($players, $options)

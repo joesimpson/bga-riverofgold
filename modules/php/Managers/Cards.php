@@ -13,6 +13,7 @@ use ROG\Models\ClanPatronCard;
 use ROG\Models\CustomerCard;
 use ROG\Models\Player;
 use ROG\Models\ScenarioCard;
+use ROG\Models\ScenarioType;
 
 /* Class to manage all the cards */
 
@@ -275,6 +276,8 @@ class Cards extends \ROG\Helpers\Pieces
     $card->setLocation(CARD_SCENARIO_LOCATION_ASSIGNED);
     $card->setPId($player->getId());
     Notifications::giveScenarioCard($player, $card);
+    //Apply direct changes now or wait until all players colors are known in player setup ?
+    $card->setupChangesBeforePlayerSetup();
   }
 
   /**
@@ -558,14 +561,14 @@ class Cards extends \ROG\Helpers\Pieces
     };
     return [
       // 8 unique (only 1/clan for now )
-      1 => $f([CLAN_CRAB    , 2, '', ]), 
-      2 => $f([CLAN_MANTIS  , 2, '', ]), 
-      3 => $f([CLAN_CRANE   , 4, '', ]), 
-      4 => $f([CLAN_SCORPION, 3, '', ]), 
-      5 => $f([CLAN_PHOENIX , 4, '', ]), 
-      6 => $f([CLAN_LION    , 4, '', ]),
-      7 => $f([CLAN_DRAGON  , 1, '', ]),  
-      8 => $f([CLAN_UNICORN , 3, '', ]),  
+      ScenarioType::CRAB_1    ->value  => $f([CLAN_CRAB    , 2, '', ]), 
+      ScenarioType::MANTIS_1  ->value  => $f([CLAN_MANTIS  , 2, '', ]), 
+      ScenarioType::CRANE_1   ->value  => $f([CLAN_CRANE   , 4, '', ]), 
+      ScenarioType::SCORPION_1->value  => $f([CLAN_SCORPION, 3, '', ]), 
+      ScenarioType::PHOENIX_1 ->value  => $f([CLAN_PHOENIX , 4, '', ]), 
+      ScenarioType::LION_1    ->value  => $f([CLAN_LION    , 4, '', ]),
+      ScenarioType::DRAGON_1  ->value  => $f([CLAN_DRAGON  , 1, '', ]),  
+      ScenarioType::UNICORN_1 ->value  => $f([CLAN_UNICORN , 3, '', ]),  
 
     ];
   }

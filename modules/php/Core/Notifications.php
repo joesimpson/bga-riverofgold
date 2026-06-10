@@ -905,6 +905,16 @@ class Notifications
     );
   }
   
+  public static function discardTiles(Collection $tiles, string|null $message){
+    $msg = '';
+    if(isset($msg)) $msg = $message;
+    self::notifyAll('discardTiles',$msg,[ 
+        'preserve'=>['tiles'],
+        'tiles' => $tiles->uiAssocLight(),
+      ],
+    );
+  }
+  
   /**
    * @param Player $player
    */

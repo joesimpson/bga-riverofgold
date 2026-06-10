@@ -32,7 +32,7 @@ class Tile extends \ROG\Helpers\DB_Model
     }
   }
 
-  public function getUiData()
+  public function getUiData() : array
   {
     $data = parent::getUiData();
     return $data;

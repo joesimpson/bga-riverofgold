@@ -28,7 +28,7 @@ class MasteryCard extends Tile
   }
   
 
-  public function getUiData()
+  public function getUiData() : array
   {
     $data = parent::getUiData();
     $data['title'] = $this->getTitle();

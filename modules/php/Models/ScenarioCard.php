@@ -7,6 +7,7 @@ use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
 use ROG\Managers\Players;
+use ROG\Managers\Tiles;
 
 /**
  * ScenarioCard: all utility functions concerning a Scenario Card
@@ -41,5 +42,14 @@ class ScenarioCard extends Card
   {
     return Utils::getClanName($this->getClan());
   } 
+
+  public function setupChangesBeforePlayerSetup()
+  {
+    switch($this->getType()){//ScenarioType value
+      case ScenarioType::CRAB_1->value:
+        Tiles::discardStartingBuildings();
+        break;
+    }
+  }
 
 }

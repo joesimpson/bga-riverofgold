@@ -3,7 +3,7 @@ namespace ROG\Helpers;
 
 class Collection extends \ArrayObject
 {
-    public function getIds()
+    public function getIds() : array
     {
         return array_keys($this->getArrayCopy());
     }
@@ -33,22 +33,22 @@ class Collection extends \ArrayObject
         return $arr[$key];
     }
 
-    public function toArray()
+    public function toArray() : array
     {
         return array_values($this->getArrayCopy());
     }
 
-    public function toAssoc()
+    public function toAssoc() : array
     {
         return $this->getArrayCopy();
     }
 
-    public function map($func)
+    public function map($func) : Collection
     {
         return new Collection(array_map($func, $this->toAssoc()));
     }
 
-    public function merge($arr)
+    public function merge($arr) : Collection
     {
         return new Collection($this->toAssoc() + $arr->toAssoc());
     }
@@ -58,32 +58,42 @@ class Collection extends \ArrayObject
         return array_reduce($this->toArray(), $func, $init);
     }
 
-    public function filter($func)
+    public function filter($func) : Collection
     {
         return new Collection(array_filter($this->toAssoc(), $func));
     }
 
-    public function limit($n)
+    public function limit($n) : Collection
     {
         return new Collection(array_slice($this->toAssoc(), 0, $n, true));
     }
 
-    public function includes($t)
+    public function includes($t) : bool
     {
         return in_array($t, $this->getArrayCopy());
     }
 
-    public function ui()
+    public function ui() : array
     {
         return $this->map(function ($elem) {
             return $elem->getUiData();
         })->toArray();
     }
 
-    public function uiAssoc()
+    public function uiAssoc() : array
     {
         return $this->map(function ($elem) {
             return $elem->getUiData();
+        })->toAssoc();
+    }
+    
+    /**
+     * @return array alleged datas to [ id => type]
+     */
+    public function uiAssocLight() : array
+    {
+        return $this->map(function ($elem) {
+            return $elem->getLightUiData();
         })->toAssoc();
     }
 }

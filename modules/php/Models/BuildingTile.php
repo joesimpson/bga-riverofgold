@@ -31,7 +31,7 @@ class BuildingTile extends Tile
   }
   
 
-  public function getUiData()
+  public function getUiData() : array
   {
     $data = parent::getUiData();
     $data['pos'] = $this->getPosition();
@@ -42,6 +42,14 @@ class BuildingTile extends Tile
     unset($data['visitorRewardArray']);
     unset($data['state']);
     unset($data['pId']);
+    return $data;
+  }
+  
+  public function getLightUiData() : array
+  {
+    $data = [];
+    $data['type'] = $this->getType();
+    $data['subtype'] = TILE_TYPE_BUILDING;
     return $data;
   }
 
