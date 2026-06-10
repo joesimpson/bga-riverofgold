@@ -118,7 +118,10 @@ class Globals extends \ROG\Helpers\DB_Manager
     Globals::setOptionCity($optionCity);
 
     $optionScenario = OPTION_SCENARIOS_OFF;
-    Utils::updateDataFromArray($options,OPTION_SCENARIOS,$optionScenario);
+    if($optionSeishin != OPTION_SEISHIN_OFF){
+      //Play Scenarios only with Seishin
+      Utils::updateDataFromArray($options,OPTION_SCENARIOS,$optionScenario);
+    }
     Globals::setOptionScenarios($optionScenario);
 
     $regionTracks = null;
