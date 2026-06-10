@@ -203,6 +203,7 @@ trait ScoringTrait
     $lowestScore = null;
     foreach($players as $pId => $player){
       if( $player instanceof AutomaPlayer) continue;
+      //----------------------
       $playerScore = Players::getUpdatedPlayerScore($pId);
       if(!isset($lowestScore)) $lowestScore = $playerScore;
       $lowestScore = min($lowestScore, $playerScore);
@@ -210,7 +211,19 @@ trait ScoringTrait
         Notifications::eliminateByScore($player,$automaScore,$playerScore);
         $eliminated[$pId] = $player;
       }
+      //----------------------
+      $scenario = Cards::getScenario($player);
+      if(isset($scenario)){
+        if($scenario->checkEndConditions()){
+          Notifications::scenarioCompleted($player,$scenario);
+        }
+        else {
+          Notifications::scenarioFailed($player,$scenario);
+          $eliminated[$pId] = $player;
+        }
+      }
     }
+    //--------------------------------------------------
     if(count($eliminated) == 0){
       Notifications::teamWin($lowestScore);
       foreach($players as $pId => $player){
@@ -229,6 +242,7 @@ trait ScoringTrait
         $player->setScoreAux(0);
       }
     }
+    //--------------------------------------------------
   }
 
 }

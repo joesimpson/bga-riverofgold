@@ -14,6 +14,7 @@ use ROG\Models\CustomerCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
 use ROG\Models\Player;
+use ROG\Models\ScenarioCard;
 
 class Notifications
 { 
@@ -1025,6 +1026,20 @@ class Notifications
     ]);
   }
   
+  public static function scenarioCompleted(Player $player, ScenarioCard $card )
+  {
+    self::notifyAll('scenarioCompleted', clienttranslate('${player_name} completed the scenario'), [
+      'player' => $player,
+    ]);
+  }
+
+  public static function scenarioFailed(Player $player, ScenarioCard $card )
+  {
+    self::notifyAll('scenarioFailed', clienttranslate('${player_name} failed to complete the scenario'), [
+      'player' => $player,
+    ]);
+  }
+
   public static function teamLoose()
   {
     self::notifyAll('teamLoose', clienttranslate('All players lose the game as a team'), [

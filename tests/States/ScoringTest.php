@@ -3013,6 +3013,187 @@ final class ScoringTest extends TestCase
         assertSame(0,  TestDatas::$players[2]['player_score_aux']);//REDUCED
         assertSame(15, Globals::getAutomaScore());
     }
+    
+    public function test_computeScoring_Scenario1_Completed(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_1;
+        TestDatas::$players[2]['resources'] = '{"1":0,"2":6,"3":4,"4":5,"5":1,"6":17}';
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_3;
+        TestDatas::$tiles[41]['type'] = 8;
+        TestDatas::$tokens[41]['player_id'] = 1;
+        //add a second building tile  + marker
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        $expectedNotifs = [
+            "computeFinalScore",
+            "deliver--123", 
+            "scoreDeliveries-1", 
+            "scoreDeliveries-2", 
+            "scoreMultiCustomers-2", 
+            "scoreDeliveries--123", 
+            "endResourcesForCustomers--123", 
+            "scenarioCompleted-1",
+            "teamWin",
+        ];
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, 
+                SCORING_CUSTOMERS=> 1.0,//1*1
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, //1 deliveries
+                SCORING_CUSTOMERS => 0,
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(5, TestDatas::$players[1]['player_score']);//Reduce to lowest score
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(5,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);//REDUCED
+        assertSame(2, Globals::getAutomaScore());
+        assertSame(2, TestDatas::$stats['table'][14]);
+    }
+    
+    public function test_computeScoring_Scenario1_Failed(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setAutomaScore(0);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED_HIDDEN;
+        TestDatas::$cards[11]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[11]['type'] = CARD_NOBLE_1;
+        TestDatas::$players[2]['resources'] = '{"1":0,"2":6,"3":4,"4":5,"5":1,"6":17}';
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_3;
+        TestDatas::$tiles[41]['type'] = 8;
+        TestDatas::$tokens[41]['player_id'] = AUTOMA_PLAYER_ID;
+        //add a second building tile  + marker
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        $expectedNotifs = [
+            "computeFinalScore",
+            "deliver--123", 
+            "scoreDeliveries-1", 
+            "scoreDeliveries-2", 
+            "scoreMultiCustomers-2", 
+            "scoreDeliveries--123", 
+            "endResourcesForCustomers--123", 
+            "scoreCustomer--123", 
+            "scenarioFailed-1",
+            "teamLoose",
+        ];
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, 
+                SCORING_CUSTOMERS=> 1.0,//1*1
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, //1 deliveries
+                SCORING_CUSTOMERS => 2,//2* 1 market
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(SCORE_FAIL, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(SCORE_FAIL,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(4, Globals::getAutomaScore());
+        assertSame(4, TestDatas::$stats['table'][14]);
+    }
     // -------------------------------------------------
     
     public function test_compute_TieBreaker(): void

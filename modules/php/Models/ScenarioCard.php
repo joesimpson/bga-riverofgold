@@ -6,6 +6,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 
@@ -50,6 +51,23 @@ class ScenarioCard extends Card
         Tiles::discardStartingBuildings();
         break;
     }
+  }
+  
+  /**
+   * @return bool true if scenario is completed
+   */
+  public function checkEndConditions() : bool
+  {
+    $checked = false;
+
+    switch($this->getType()){
+      case ScenarioType::CRAB_1->value:
+        $nbPlayerBuildings = Meeples::countPlayerBuildings($this->getPId());
+        $nbSeishinBuildings = Meeples::countPlayerBuildings(AUTOMA_PLAYER_ID);
+        $checked = $nbSeishinBuildings < $nbPlayerBuildings;
+        break;
+    }
+    return $checked;
   }
 
 }

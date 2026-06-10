@@ -293,6 +293,15 @@ class Cards extends \ROG\Helpers\Pieces
       ->get()
       ->first();
   }
+  
+  public static function getScenario(Player $player) : ScenarioCard |null
+  {
+    return self::DB()->wherePlayer($player->getId())
+      ->where('subtype', CARD_TYPE_SCENARIO)
+      ->where(self::$prefix.'location', CARD_SCENARIO_LOCATION_ASSIGNED)
+      ->get()
+      ->first();
+  }
 
   /**
    * Init the face up cards to be drafted with 1 of each clan
