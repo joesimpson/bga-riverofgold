@@ -733,7 +733,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
 
 .rog_panel[data-is_automa=true] .rog_player_resource_line_money,
 .rog_panel[data-is_automa=true] .rog_player_resource_line_materials,
-.rog_panel[data-is_automa=true] .rog_player_resource_line_buildings,
+.rog_panel[data-is_automa=true] .rog_player_resource_line_buildings:not(.rog_show_automa_buildings_line),
 .rog_panel[data-is_automa=true] .rog_player_resource_line_customers {
   display: none !important;
 }

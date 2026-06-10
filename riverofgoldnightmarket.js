@@ -234,6 +234,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this._counters = {};
             this.dieStocks = new Map();
             this.scenariosPopins = new Map();
+            this.scenariosCards = new Map();
             
             this._notifications = [
                 ['clearTurn', 200],
@@ -3848,6 +3849,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             //let cardDiv = this.place('tplScenarioCard', card, location);
             //this.reduceTextSizeOnCardElements(cardDiv);
             let cardDiv = this.tplScenarioCard(card,'_tmp');
+            this.scenariosCards.set(card.type, card);
+            if(card.type == 1 && this.gamedatas.automa_id){//ScenarioType::CRAB_1
+                let automa_panel = this.bga.playerPanels.getElement(this.gamedatas.automa_id)
+                //If Crab scenario is in play we may want to know how many automa buildings are in play
+                let line_buildings = automa_panel.querySelector('.rog_player_resource_line_buildings');
+                line_buildings.classList.add('rog_show_automa_buildings_line');
+            }
 
             if(location.id == `rog_player_scenario_cards-${card.pId}`){
                 let buttonId = `rog_btnShowScenario_${card.id}`;

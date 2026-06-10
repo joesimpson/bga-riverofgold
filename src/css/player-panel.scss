@@ -697,7 +697,7 @@
 .rog_panel[data-is_automa='true'] {
     .rog_player_resource_line_money,
     .rog_player_resource_line_materials,
-    .rog_player_resource_line_buildings,
+    .rog_player_resource_line_buildings:not(.rog_show_automa_buildings_line),
     .rog_player_resource_line_customers
     {
         display: none !important;
