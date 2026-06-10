@@ -16,6 +16,7 @@ use ROG\Managers\ShoreSpaces;
 use ROG\Models\MAIN_ACTION;
 use Tests\Utils\TestDatas;
 
+use function PHPUnit\Framework\assertEquals;
 use function PHPUnit\Framework\assertSame;
 use function PHPUnit\Framework\assertFalse;
 
@@ -51,6 +52,143 @@ final class BuildTest extends TestCase
         assertSame(null, Globals::getTurnMainActionDone());
     }
     
+    public function test_Args_Build_WithMasterEngineer(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        $expectedArgs = new Collection([
+                ShoreSpaces::getShoreSpace(1 ),
+                ShoreSpaces::getShoreSpace(2 ),
+                ShoreSpaces::getShoreSpace(3 ),
+                ShoreSpaces::getShoreSpace(7 ),
+                ShoreSpaces::getShoreSpace(8 ),
+                ShoreSpaces::getShoreSpace(9 ),
+                ShoreSpaces::getShoreSpace(10),
+                ShoreSpaces::getShoreSpace(11),
+                ShoreSpaces::getShoreSpace(12),
+                ShoreSpaces::getShoreSpace(13),
+                ShoreSpaces::getShoreSpace(14),
+                ShoreSpaces::getShoreSpace(15),
+                ShoreSpaces::getShoreSpace(16),
+                ShoreSpaces::getShoreSpace(18),
+                ShoreSpaces::getShoreSpace(19),
+                ShoreSpaces::getShoreSpace(20),
+                ShoreSpaces::getShoreSpace(21),
+                ShoreSpaces::getShoreSpace(22),
+                ShoreSpaces::getShoreSpace(23),
+                ShoreSpaces::getShoreSpace(24),
+                ShoreSpaces::getShoreSpace(25),
+                ShoreSpaces::getShoreSpace(26),
+                ShoreSpaces::getShoreSpace(27),
+                ShoreSpaces::getShoreSpace(28),
+                ShoreSpaces::getShoreSpace(30),
+            ]);
+
+        $args = $game->argBuild();
+        
+        assertEquals($expectedArgs, $args['spaces']);
+    }
+    
+    public function test_Args_Build_WithMasterEngineer_Scenario1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedArgs = new Collection([
+                // ONLY LEFT
+                ShoreSpaces::getShoreSpace(2 ),
+                ShoreSpaces::getShoreSpace(8 ),
+                ShoreSpaces::getShoreSpace(10),
+                ShoreSpaces::getShoreSpace(12),
+                ShoreSpaces::getShoreSpace(14),
+                ShoreSpaces::getShoreSpace(16),
+                ShoreSpaces::getShoreSpace(19),
+                ShoreSpaces::getShoreSpace(21),
+                ShoreSpaces::getShoreSpace(22),
+                ShoreSpaces::getShoreSpace(24),
+                ShoreSpaces::getShoreSpace(26),
+                ShoreSpaces::getShoreSpace(28),
+            ]);
+
+        $args = $game->argBuild();
+        
+        assertEquals($expectedArgs, $args['spaces']);
+    }
+    
+    public function test_Args_Build_OpponentWithScenario1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$test_activePlayerId = 2;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedArgs = new Collection([
+                //Empty Left + RIGHT IN REGION 1
+                ShoreSpaces::getShoreSpace(1 ),
+                ShoreSpaces::getShoreSpace(2 ),
+                ShoreSpaces::getShoreSpace(3),
+            ]);
+
+        $args = $game->argBuild();
+        
+        assertEquals($expectedArgs, $args['spaces']);
+    }
+    
+    public function test_listPossibleSpacesToBuild_Scenario1_Automa_REGION1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        Globals::setAutomaDie(1);
+        //IF PLAYER HAS THE SCENARIO, 
+        TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedArgs = new Collection([
+                // ONLY RIGHT IN REGION 1
+                ShoreSpaces::getShoreSpace(1 ),
+                ShoreSpaces::getShoreSpace(3 ),
+            ]);
+
+        $buildSpaces = $game->listPossibleSpacesToBuild($player);
+        
+        assertEquals($expectedArgs, $buildSpaces);
+    }
+    public function test_listPossibleSpacesToBuild_Scenario1_Automa_REGION2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        Globals::setAutomaDie(2);
+        //IF PLAYER HAS THE SCENARIO, 
+        TestDatas::$cards[101]['type'] = PATRON_MASTER_ENGINEER;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedArgs = new Collection([
+                // ONLY RIGHT IN REGION 2
+                ShoreSpaces::getShoreSpace(7 ),
+                ShoreSpaces::getShoreSpace(9 ),
+            ]);
+
+        $buildSpaces = $game->listPossibleSpacesToBuild($player);
+        
+        assertEquals($expectedArgs, $buildSpaces);
+    }
+
     public function test_Args_Build_Shin3(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

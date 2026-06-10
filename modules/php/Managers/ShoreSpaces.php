@@ -3,6 +3,7 @@
 namespace ROG\Managers;
 
 use ROG\Helpers\Collection;
+use ROG\Models\SHORE_SIDE;
 use ROG\Models\ShoreSpace;
 
 /* Class to manage all the ShoreSpace */
@@ -34,46 +35,43 @@ class ShoreSpaces
   public static function getShoreSpaces()
   {
     //function to init spaces
-    $f = function ($t) {
-      return new ShoreSpace($t[0], $t[1], $t[2],$t[3]);
-    };
     return [
       //30 spaces
-      1 => $f([ 1,  REGION_1, 6 , SHORE_SPACE_BASE,  ]),
-      2 => $f([ 2,  REGION_1, 5 , SHORE_SPACE_BASE,  ]),
-      3 => $f([ 3,  REGION_1, 8 , SHORE_SPACE_STARTING_BUILDING_FOR_3,  ]),
-      4 => $f([ 4,  REGION_1, 12, SHORE_SPACE_BASE,  ]),
-      5 => $f([ 5,  REGION_1, 6 , SHORE_SPACE_BASE,  ]),
+      1  => new ShoreSpace( 1, SHORE_SIDE::RIGHT,  REGION_1, 6 , SHORE_SPACE_BASE,  ),
+      2  => new ShoreSpace( 2, SHORE_SIDE::LEFT,   REGION_1, 5 , SHORE_SPACE_BASE,  ),
+      3  => new ShoreSpace( 3, SHORE_SIDE::RIGHT,  REGION_1, 8 , SHORE_SPACE_STARTING_BUILDING_FOR_3,  ),
+      4  => new ShoreSpace( 4, SHORE_SIDE::LEFT,   REGION_1, 12, SHORE_SPACE_BASE,  ),
+      5  => new ShoreSpace( 5, SHORE_SIDE::RIGHT,  REGION_1, 6 , SHORE_SPACE_BASE,  ),
 
-      6  => $f([ 6 ,  REGION_2, 0  , SHORE_SPACE_IMPERIAL_MARKET,  ]),
-      7  => $f([ 7 ,  REGION_2, 8  , SHORE_SPACE_STARTING_BUILDING_FOR_2,  ]),
-      8  => $f([ 8 ,  REGION_2, 6  , SHORE_SPACE_BASE,  ]),      
-      9  => $f([ 9 ,  REGION_2, 12 , SHORE_SPACE_BASE,  ]),      
-      10 => $f([ 10,  REGION_2, 9  , SHORE_SPACE_BASE,  ]),      
+      6  => new ShoreSpace( 6 , SHORE_SIDE::LEFT,  REGION_2, 0  , SHORE_SPACE_IMPERIAL_MARKET,  ),
+      7  => new ShoreSpace( 7 , SHORE_SIDE::RIGHT, REGION_2, 8  , SHORE_SPACE_STARTING_BUILDING_FOR_2,  ),
+      8  => new ShoreSpace( 8 , SHORE_SIDE::LEFT,  REGION_2, 6  , SHORE_SPACE_BASE,  ),      
+      9  => new ShoreSpace( 9 , SHORE_SIDE::RIGHT, REGION_2, 12 , SHORE_SPACE_BASE,  ),      
+      10 => new ShoreSpace( 10, SHORE_SIDE::LEFT,  REGION_2, 9  , SHORE_SPACE_BASE,  ),      
 
-      11 => $f([ 11,  REGION_3, 8  ,  SHORE_SPACE_STARTING_BUILDING_FOR_3,  ]),
-      12 => $f([ 12,  REGION_3, 12  , SHORE_SPACE_BASE,  ]),
-      13 => $f([ 13,  REGION_3, 6  ,  SHORE_SPACE_BASE,  ]),      
-      14 => $f([ 14,  REGION_3, 5 ,   SHORE_SPACE_STARTING_BUILDING_FOR_2,  ]),      
-      15 => $f([ 15,  REGION_3, 11  , SHORE_SPACE_BASE,  ]),   
+      11 => new ShoreSpace( 11, SHORE_SIDE::RIGHT, REGION_3, 8  ,  SHORE_SPACE_STARTING_BUILDING_FOR_3,  ),
+      12 => new ShoreSpace( 12, SHORE_SIDE::LEFT,  REGION_3, 12  , SHORE_SPACE_BASE,  ),
+      13 => new ShoreSpace( 13, SHORE_SIDE::RIGHT, REGION_3, 6  ,  SHORE_SPACE_BASE,  ),      
+      14 => new ShoreSpace( 14, SHORE_SIDE::LEFT,  REGION_3, 5 ,   SHORE_SPACE_STARTING_BUILDING_FOR_2,  ),      
+      15 => new ShoreSpace( 15, SHORE_SIDE::RIGHT, REGION_3, 11  , SHORE_SPACE_BASE,  ),   
 
-      16 => $f([ 16,  REGION_4, 9  ,  SHORE_SPACE_BASE,  ]),
-      17 => $f([ 17,  REGION_4, 0  ,  SHORE_SPACE_IMPERIAL_MARKET,  ]),
-      18 => $f([ 18,  REGION_4, 12  , SHORE_SPACE_BASE,  ]),      
-      19 => $f([ 19,  REGION_4, 6 ,   SHORE_SPACE_BASE,  ]),      
-      20 => $f([ 20,  REGION_4, 6  ,  SHORE_SPACE_BASE,  ]),  
+      16 => new ShoreSpace( 16, SHORE_SIDE::LEFT,  REGION_4, 9  ,  SHORE_SPACE_BASE,  ),
+      17 => new ShoreSpace( 17, SHORE_SIDE::LEFT,  REGION_4, 0  ,  SHORE_SPACE_IMPERIAL_MARKET,  ),
+      18 => new ShoreSpace( 18, SHORE_SIDE::RIGHT, REGION_4, 12  , SHORE_SPACE_BASE,  ),      
+      19 => new ShoreSpace( 19, SHORE_SIDE::LEFT,  REGION_4, 6 ,   SHORE_SPACE_BASE,  ),      
+      20 => new ShoreSpace( 20, SHORE_SIDE::RIGHT, REGION_4, 6  ,  SHORE_SPACE_BASE,  ),  
       
-      21 => $f([ 21,  REGION_5, 12,  SHORE_SPACE_BASE,  ]),
-      22 => $f([ 22,  REGION_5, 8 ,  SHORE_SPACE_STARTING_BUILDING_FOR_3,  ]),
-      23 => $f([ 23,  REGION_5, 9 ,  SHORE_SPACE_STARTING_BUILDING_FOR_2,  ]),      
-      24 => $f([ 24,  REGION_5, 6 ,  SHORE_SPACE_BASE,  ]),      
-      25 => $f([ 25,  REGION_5, 11,  SHORE_SPACE_BASE,  ]),  
+      21 => new ShoreSpace( 21, SHORE_SIDE::LEFT,  REGION_5, 12,  SHORE_SPACE_BASE,  ),
+      22 => new ShoreSpace( 22, SHORE_SIDE::LEFT,  REGION_5, 8 ,  SHORE_SPACE_STARTING_BUILDING_FOR_3,  ),
+      23 => new ShoreSpace( 23, SHORE_SIDE::RIGHT, REGION_5, 9 ,  SHORE_SPACE_STARTING_BUILDING_FOR_2,  ),
+      24 => new ShoreSpace( 24, SHORE_SIDE::LEFT,  REGION_5, 6 ,  SHORE_SPACE_BASE,  ),      
+      25 => new ShoreSpace( 25, SHORE_SIDE::RIGHT, REGION_5, 11,  SHORE_SPACE_BASE,  ),  
       
-      26 => $f([ 26,  REGION_6, 13,  SHORE_SPACE_BASE,  ]),
-      27 => $f([ 27,  REGION_6, 6 ,  SHORE_SPACE_BASE,  ]),
-      28 => $f([ 28,  REGION_6, 6 ,  SHORE_SPACE_BASE,  ]),      
-      29 => $f([ 29,  REGION_6, 0 ,  SHORE_SPACE_IMPERIAL_MARKET,  ]),      
-      30 => $f([ 30,  REGION_6, 5 ,  SHORE_SPACE_BASE,  ]),  
+      26 => new ShoreSpace( 26, SHORE_SIDE::LEFT,  REGION_6, 13,  SHORE_SPACE_BASE,  ),
+      27 => new ShoreSpace( 27, SHORE_SIDE::RIGHT, REGION_6, 6 ,  SHORE_SPACE_BASE,  ),
+      28 => new ShoreSpace( 28, SHORE_SIDE::LEFT,  REGION_6, 6 ,  SHORE_SPACE_BASE,  ),      
+      29 => new ShoreSpace( 29, SHORE_SIDE::RIGHT, REGION_6, 0 ,  SHORE_SPACE_IMPERIAL_MARKET,  ),
+      30 => new ShoreSpace( 30, SHORE_SIDE::RIGHT, REGION_6, 5 ,  SHORE_SPACE_BASE,  ),  
     ];
   }
   
@@ -242,5 +240,18 @@ class ShoreSpaces
     }
     $uniqueRiverSpaces = array_values(array_unique($riverSpaces));
     return $uniqueRiverSpaces;
+  }
+
+  /**
+   * @param array $shoreSpacesIds : list of shore spaces ids on the river
+   * @param SHORE_SIDE $keepSide
+   * @return array : FILTERED list of shore spaces ids on the river, keeping only 1 side
+   */
+  public static function filterBySide(array $shoreSpacesIds, SHORE_SIDE $keepSide) : array 
+  {
+    return array_filter($shoreSpacesIds,function ($spaceId) use ($keepSide) {
+      $space = ShoreSpaces::getShoreSpace($spaceId);
+      return $space->side == $keepSide;
+    });
   }
 }

@@ -279,6 +279,20 @@ class Cards extends \ROG\Helpers\Pieces
     //Apply direct changes now or wait until all players colors are known in player setup ?
     $card->setupChangesBeforePlayerSetup();
   }
+  
+  /**
+   * @param ScenarioType $type
+   * @return ScenarioCard if assigned in this game
+   */
+  public static function getAssignedScenario(ScenarioType $type) : ScenarioCard |null
+  {
+    return self::DB()
+      ->where('type', $type->value)
+      ->where('subtype', CARD_TYPE_SCENARIO)
+      ->where(self::$prefix.'location', CARD_SCENARIO_LOCATION_ASSIGNED)
+      ->get()
+      ->first();
+  }
 
   /**
    * Init the face up cards to be drafted with 1 of each clan

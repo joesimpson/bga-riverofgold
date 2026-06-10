@@ -10,6 +10,7 @@ use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
+use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
@@ -17,6 +18,8 @@ use ROG\Managers\Tiles;
 use ROG\Models\AutomaPlayer;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
+use ROG\Models\ScenarioType;
+use ROG\Models\SHORE_SIDE;
 use ROG\Models\ShoreSpace;
 
 trait BuildTrait
@@ -143,6 +146,20 @@ trait BuildTrait
         $emptySpaces = array_merge($emptySpaces,ShoreSpaces::getEmptySpaces($otherRegion));
       }
     }
+
+    $scenarioToBuildOnLeft = Cards::getAssignedScenario(ScenarioType::CRAB_1);
+    if(isset($scenarioToBuildOnLeft)){
+      if($scenarioToBuildOnLeft->getPId() == $player->getId()){
+        //CAN ONLY BUILD ON LEFT SIDE
+        $emptySpaces = ShoreSpaces::filterBySide($emptySpaces,SHORE_SIDE::LEFT);
+      }
+      else if($player instanceof AutomaPlayer){
+        //CAN ONLY BUILD ON RIGHT SIDE
+        $emptySpaces = ShoreSpaces::filterBySide($emptySpaces,SHORE_SIDE::RIGHT);
+      } 
+      //ELSE OTHER PLAYERS don't have conditions
+    } 
+
     foreach($emptySpaces as $key => $spaceId){
       $space = ShoreSpaces::getShoreSpace($spaceId);
       if($this->canBuildOnSpace($player,$space)){

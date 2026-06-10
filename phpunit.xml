@@ -28,6 +28,9 @@
             <file>riverofgoldnightmarket.game.php</file>
             <directory>modules</directory>
         </include>
+        <exclude>
+            <file>modules/php/DebugTrait.php</file>
+        </exclude>
     </source>
 
     <coverage>

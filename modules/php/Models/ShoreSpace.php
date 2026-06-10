@@ -27,6 +27,9 @@ class ShoreSpace implements \JsonSerializable
   /** Players who built on it */
   public array $playerIds;
 
+  /** LEft or Right Side of the River */
+  public SHORE_SIDE $side;
+
   protected $attributes = [
     'id','type','region','cost','playerIds',
   ];
@@ -37,9 +40,10 @@ class ShoreSpace implements \JsonSerializable
    * @param int $region
    * @param int $cost
    */
-  public function __construct($id,$region,$cost,$type)
+  public function __construct(int $id,  SHORE_SIDE $side, int $region,int $cost,int $type,)
   {
     $this->id = $id;
+    $this->side = $side;
     $this->type = $type;
     $this->region = $region;
     $this->cost = $cost;

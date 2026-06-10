@@ -40,3 +40,9 @@ enum ScenarioType: int
   case UNICORN_1   = 8;
 
 }
+
+enum SHORE_SIDE: string
+{
+  case LEFT   = 'LEFT';
+  case RIGHT  = 'RIGHT';
+}
