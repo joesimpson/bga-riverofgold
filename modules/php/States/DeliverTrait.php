@@ -12,9 +12,11 @@ use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
+use ROG\Managers\ShoreSpaces;
 use ROG\Models\CustomerCard;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
+use ROG\Models\ShoreSpace;
 
 trait DeliverTrait
 {
@@ -112,6 +114,10 @@ trait DeliverTrait
     }
     $card->playDeliveryAbility($player);
     Utils::playTradersAbilities($player);
+    
+    $shoreSpaces = ShoreSpaces::getSpacesByRegion($card->getRegion());
+    $riverSpaces = ShoreSpaces::getUniqueAdjacentRiverSpaces($shoreSpaces);
+    Utils::moveRogueShipFrom($player,$riverSpaces);
 
     Players::claimMasteries($player);
 

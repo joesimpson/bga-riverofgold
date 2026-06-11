@@ -10,8 +10,10 @@ use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Models\MAIN_ACTION;
+use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
 
+use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertSame;
 
 final class DeliverTest extends TestCase
@@ -286,6 +288,64 @@ final class DeliverTest extends TestCase
         assertSame(20, TestDatas::$players[1]['player_score']);//+1
         assertSame(json_encode([BONUS_TYPE_DRAW, BONUS_TYPE_REFILL_HAND]), TestDatas::$players[1]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionDeliver_Pass_ScenarioMantis1_moveRogueShip(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        $cardId = 13;
+        TestDatas::$cards[$cardId]['type'] = CARD_ARTISAN_3;
+        TestDatas::$players[1]['die_face'] = 3;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":5,"3":5,"4":0,"5":0,"6":9}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$tokens[21]['meeple_state'] = 6;
+        TestDatas::$tokens[26]['player_id'] = ROGUE_PLAYER_ID;
+        TestDatas::$tokens[26]['meeple_state'] = 6;//suppose someone moved rogue ship to same place as our ship
+        $expectedNotifs = [
+            "deliver-1",
+            "spendResource-1",
+            "gainInfluence-1",
+            "giveResource-1", // influence track
+            "newClanMarker-1", //artisan
+            "moveRogueShip-1",
+        ];
+
+        $game->actDeliverSelect($cardId,999999);
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //MOVED rogue ship
+        assertSame(5, TestDatas::$tokens[26]['meeple_state']);
+    }
+    
+    public function test_ActionDeliver_Pass_ScenarioMantis1_removeRogueShip(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        $cardId = 13;
+        TestDatas::$cards[$cardId]['type'] = CARD_ARTISAN_1;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":5,"3":5,"4":0,"5":0,"6":9}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$tokens[26]['player_id'] = ROGUE_PLAYER_ID;
+        TestDatas::$tokens[26]['meeple_state'] = 1;
+        $expectedNotifs = [
+            "deliver-1",
+            "spendResource-1",
+            "gainInfluence-1",
+            "giveResource-1", // influence track
+            "newClanMarker-1", //artisan
+            "moveRogueShip-1",
+            "removeShip-1",
+        ];
+
+        $game->actDeliverSelect($cardId,999999);
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //REMOVED rogue ship
+        assertFalse(array_key_exists(26,TestDatas::$tokens));
     }
     
     // -------------------------------------------------

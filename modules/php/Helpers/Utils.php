@@ -3,8 +3,11 @@ namespace ROG\Helpers;
 
 use ROG\Core\Game;
 use ROG\Core\Globals;
+use ROG\Core\Notifications;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
+use ROG\Managers\ShoreSpaces;
+use ROG\Managers\Tiles;
 use ROG\Models\AutomaActionType;
 use ROG\Models\CustomerCard;
 use ROG\Models\MAIN_ACTION;
@@ -276,5 +279,55 @@ abstract class Utils
             'AutomaActionType' => AutomaActionType::ui(),
             'ScenarioType' => ScenarioType::ui(),
         ];
+    }
+
+    /**
+     * Apply rule to move the rogue ship if it is currently in one of the river spaces $riverSpaces
+     */
+    public static function moveRogueShipFrom(Player $player,array $riverSpaces) {
+        $ship = Meeples::getRogueShip();
+        if(!isset($ship)) return;
+        $pId = $player->getId();
+        Game::get()->trace(__CLASS__.".".__FUNCTION__."($pId)".json_encode($riverSpaces));
+        $shipPos = $ship->getPosition();
+        if(!in_array($shipPos, $riverSpaces)){
+            Game::get()->trace("Rogue ship $shipPos is not in list of river spaces to check : ".json_encode($riverSpaces));
+            return;
+        }
+
+        $boats = Meeples::getBoats($pId);
+        $boatsRiverSpaces = $boats->map(function(Meeple $b) {return $b->getPosition();})->toArray();
+        Game::get()->trace("boatsRiverSpaces : ".json_encode($boatsRiverSpaces));
+        $playerShoreSpaces = Tiles::getPlayerBuildingTilesShoreSpace($pId);
+        $riverSpaces = ShoreSpaces::getUniqueAdjacentRiverSpaces($playerShoreSpaces);
+        Game::get()->trace("buildings riverSpaces : ".json_encode($riverSpaces));
+
+        $fromPos = $shipPos;
+        $moveShip = true;
+        while($shipPos > 0 && $moveShip){
+            $moveShip = false;
+
+            //move it upriver until it reaches a river space that does not contain your ships 
+            // and is not adjacent to your buildings.
+            if(in_array($shipPos,$boatsRiverSpaces)){
+                $moveShip = true;
+            }
+
+            else if(in_array($shipPos,$riverSpaces)){
+                $moveShip = true;
+            }
+            
+            if($moveShip) $shipPos--;
+            if($shipPos > 0) $ship->setPosition($shipPos);
+        }
+    
+        if($fromPos != $shipPos){
+            //NOTIFY ALL MOVES in 1
+            Notifications::moveRogueShip($player,$ship);
+        }
+        if($shipPos == 0){
+            //If it moves past the top river space, remove it from the board.
+            Meeples::removeShip($player,$ship, clienttranslate('${player_name} removes the rogue ship from the board'));
+        }
     }
 }

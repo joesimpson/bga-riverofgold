@@ -259,6 +259,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['moveBuilding', 1300],
                 ['sail', 1300],
                 ['swapBoats', 1600],
+                ['moveRogueShip', 1600],
+                ['removeShip', 1000],
                 ['newClanMarkers', 10],
                 ['influenceClanMarkers', null],
                 ['newClanMarker', 800],
@@ -1985,6 +1987,25 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 });
             });
         },
+        notif_moveRogueShip(n) {
+            debug('notif_moveRogueShip:', n);
+            let ship = n.args.ship;
+            let divShip = document.getElementById(`rog_meeple-${ship.id}`);
+            let fromDiv = divShip.parentNode;
+            this.slide(divShip.id, this.getMeepleContainer(ship), {  
+                from: fromDiv.id, 
+                phantom: false,
+            }).then( ()=> { 
+                divShip.dataset.pos = ship.pos;
+                this.updateRiverSpacesCounters();
+            });
+        },
+        notif_removeShip(n) {
+            debug('notif_removeShip:', n);
+            let ship = n.args.meeple;
+            let tokenDiv = document.getElementById(`rog_meeple-${ship.id}`);
+            this.animationManager.slideOutAndDestroy(tokenDiv, this.getVisibleTitleContainer(), {duration: 700});
+        },
         async notif_setDie(n) {
             debug('notif_setDie', n);
             await this.updatePlayerDieFace(n.args.player_id,n.args.die_value,true,false);
@@ -2612,6 +2633,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 if(ship_type in args) {
                     args.ship_type = this.formatIcon("ship-"+args.ship_type);
                 }
+                
+                if('ship_icon' in args && 'ship' in args) {
+                    args.ship_icon = `<div class="rog_log_ship_container">${this.tplMeeple(args.ship, '_log')}</div>`;
+                }
+
                 let bonus_icon = 'bonus_icon';
                 if(bonus_icon in args) {
                     args.bonus_icon = this.formatIcon('bonus-'+args.bonus_icon, args.n);
@@ -3810,7 +3836,18 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     + this.fsr(_('Co-op: Your ally can build on either side of the river. Your ally gains visitor rewards when sailing to Seishin’s buildings and owner rewards when Seishin sails to their buildings as usual.'),{})
                     + '</div>'
                 ],
-                [2, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.MANTIS_1, `
+                    <span>${this.fsr(_('Move the rogue pirate ship upriver when you:'),{})}</span>
+                    <ul>
+                        <li>${this.fsr(_('Sail and land in the same river space as the rogue pirate ship'),{})}</li>
+                        <li>${this.fsr(_('Build in a shore space adjacent to the rogue pirate ship'),{})}</li>
+                        <li>${this.fsr(_('Deliver to a customer whose region matches a shore space adjacent to the rogue pirate ship.'),{})}</li>
+                    </ul>
+                    <span>${this.fsr(_('Whenever you move the rogue pirate ship in one of these above 3 ways, move it upriver until it reaches a river space that does not contain your ships and is not adjacent to your buildings.'),{})}</span>
+                    <span>${this.fsr(_('If it moves past the top river space, remove it from the board.'),{})}</span>
+                    <div class="rog_coop_label">${this.fsr(_('Co-op: Your ally can also move the rogue pirate ship. Whenever they do, they move it upriver until it reaches a river space that does not contain their ships and is not adjacent to their buildings.'),{})}</div>
+                    `
+                ],
                 [3, this.fsr(_(''),{})],
                 [4, this.fsr(_(''),{})],
                 [5, this.fsr(_(''),{})],

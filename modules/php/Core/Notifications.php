@@ -43,6 +43,17 @@ class Notifications
       'preserve' => [ 'clan_id', 'rogue_pirate',],
     ]);
   }
+  
+  public static function moveRogueShip(Player $player, Meeple $ship)
+  {
+    self::notifyAll('moveRogueShip',  clienttranslate('${player_name} moves the rogue pirate ship ${ship_icon} to river space #${n}'), [
+      'player' => $player,
+      'n' => $ship->getPosition(),
+      'ship_icon' => '',
+      'ship' => $ship->getUiData(),
+      'preserve' => [ 'ship'],
+    ]);
+  }
 
   public static function initCustomersDeck(array $customerTypes)
   {
@@ -539,6 +550,14 @@ class Notifications
   {
     $msg = '';//avoid spoiling notifs
     self::notifyAll('removeClanMarker', $msg, [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
+    ]);
+  }
+  
+  public static function removeShip(Player $player, Meeple $meeple,string $msg = '')
+  {
+    self::notifyAll('removeShip', $msg, [
       'player' => $player,
       'meeple' => $meeple->getUiData(),
     ]);

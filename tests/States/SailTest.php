@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Models\MAIN_ACTION;
+use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -1133,6 +1134,75 @@ final class SailTest extends TestCase
         assertSame(1, TestDatas::$stats['table'][14]);
         $resources = json_decode(TestDatas::$players[1]['resources'], true);
         assertSame(3, $resources[RESOURCE_TYPE_MONEY]);//EMPTY_SPACE_REWARD*3
+    }
+    
+    public function test_ActionSail_Pass_ScenarioMantis1_moveRogue(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 13;
+        $riverSpace = 14;
+        TestDatas::$tokens[26]['player_id'] = ROGUE_PLAYER_ID;
+        TestDatas::$tokens[26]['meeple_state'] = $riverSpace;
+        $expectedNotifs = [
+            "sail-1",
+            "checkVRewards",
+            "giveResource-1", //space 26
+            "giveResource-1", //space 28
+            "giveResource-1", //space 29 [RESOURCE_TYPE_SILK=>1,BONUS_TYPE_DRAW =>1]
+            "addBonus-1",
+            "giveResource-1", //space 30
+            "checkORewards",
+            "moveRogueShip-1",
+        ];
+
+        $game->actSailSelect($shipId,$riverSpace,999999);
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //MOVED rogue ship
+        assertSame($riverSpace-1, TestDatas::$tokens[26]['meeple_state']);
+    }
+    
+    public function test_ActionSail_Pass_ScenarioMantis1_removeRogue(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 2;
+        $riverSpace = 3;
+        TestDatas::$tokens[26]['player_id'] = ROGUE_PLAYER_ID;
+        TestDatas::$tokens[26]['meeple_state'] = $riverSpace;
+        TestDatas::$tokens[22]['meeple_state'] = 2;
+        TestDatas::$tiles[41]['tile_state'] = 1;
+        $expectedNotifs = [
+            "sail-1",
+            "checkVRewards",
+            "giveResource-1", //empty space 4
+            "giveResource-1", //space 6 [RESOURCE_TYPE_POTTERY=>1,RESOURCE_TYPE_SUN=>1]
+            "giveResource-1",
+            "giveResource-1", //empty space 7
+            "giveResource-1", //empty space 9
+            "checkORewards",
+            "moveRogueShip-1",
+            "removeShip-1",
+        ];
+
+        $game->actSailSelect($shipId,$riverSpace,999999);
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //REMOVED rogue ship
+        assertFalse(array_key_exists(26,TestDatas::$tokens));
     }
     
     public function test_ActionSail_KO_WrongShip(): void

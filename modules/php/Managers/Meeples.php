@@ -212,6 +212,12 @@ class Meeples extends \ROG\Helpers\Pieces
   {
     return self::getFilteredQuery($pId, MEEPLE_LOCATION_RIVER,null)->get();
   }
+  
+  public static function getRogueShip() : ?Meeple
+  {
+    return self::getFilteredQuery(ROGUE_PLAYER_ID, MEEPLE_LOCATION_RIVER,null)->get()->first();
+  }
+
   /**
    * @param int $pId
    * @param int $region
@@ -408,6 +414,12 @@ class Meeples extends \ROG\Helpers\Pieces
     $meeple = Meeples::get($id);
     if(!isset($meeple)) return;
     Notifications::removeClanMarker($player,$meeple);
+    self::DB()->delete($meeple->getId());
+  }
+  
+  public static function removeShip(Player $player,Meeple $meeple, string $message = '') : void
+  {
+    Notifications::removeShip($player,$meeple, $message);
     self::DB()->delete($meeple->getId());
   }
 }

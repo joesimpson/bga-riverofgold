@@ -102,6 +102,8 @@ trait BuildTrait
     $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
     $tile->setPosition($position);
 
+    $adjacentRiverSpaces = ShoreSpaces::getUniqueAdjacentRiverSpaces([$position]);
+
     Notifications::build($player,$tile,$previousPosition,$previousLocation);
     Stats::inc("nbActionsBuild", $player->getId());
 
@@ -122,6 +124,7 @@ trait BuildTrait
     }
 
     Players::gainInfluence($player,$shoreSpace->region,$tile->getBonus());
+    Utils::moveRogueShipFrom($player,$adjacentRiverSpaces);
     Players::claimMasteries($player);
     
     if($this->goToBonusStepIfNeeded($player)) return;

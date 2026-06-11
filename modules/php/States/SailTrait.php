@@ -101,6 +101,8 @@ trait SailTrait
     $this->process_Sail($player,$ship,$riverSpace, $upriver, $markerId, $skipOwnerMarkerId);
     
     Utils::playTradersAbilities($player);
+    
+    Utils::moveRogueShipFrom($player,[$riverSpace]);
 
     Players::claimMasteries($player);
     

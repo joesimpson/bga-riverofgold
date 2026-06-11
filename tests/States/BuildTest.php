@@ -14,6 +14,7 @@ use ROG\Helpers\Collection;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Models\MAIN_ACTION;
+use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertEquals;
@@ -602,6 +603,69 @@ final class BuildTest extends TestCase
         assertSame(4, $resourcesP1[RESOURCE_TYPE_MOON]);
         assertSame(1, $resourcesP1[RESOURCE_TYPE_SUN ]);
         assertSame(8, $resourcesP1[RESOURCE_TYPE_MONEY]);
+    }
+    
+    public function test_actBuildSelect_Pass_Scenario_Mantis1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 6;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":20}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$tokens[27] = TestDatas::$tokens[26];
+        TestDatas::$tokens[27]['meeple_id'] = 27;
+        TestDatas::$tokens[27]['result_associative_index'] = 27;
+        TestDatas::$tokens[27]['player_id'] = ROGUE_PLAYER_ID;
+        TestDatas::$tokens[27]['meeple_state'] = 14;
+        $position = 30;
+        $tileId = 31;
+        $expectedNotifs = [
+            "spendMoney-1",
+            "build-1",
+            "newClanMarker-1",
+            "gainInfluence-1",
+            "moveRogueShip-1",
+        ];
+        
+        $game->actBuildSelect($position,$tileId,999999);
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //MOVED rogue ship
+        assertSame(13, TestDatas::$tokens[27]['meeple_state']);
+    }
+    
+    public function test_actBuildSelect_Pass_Scenario_Mantis1_removeRogueShip(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 2;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":20}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 2, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$tokens[27] = TestDatas::$tokens[26];
+        TestDatas::$tokens[27]['meeple_id'] = 27;
+        TestDatas::$tokens[27]['result_associative_index'] = 27;
+        TestDatas::$tokens[27]['player_id'] = ROGUE_PLAYER_ID;
+        TestDatas::$tokens[27]['meeple_state'] = 3;
+        TestDatas::$tokens[21]['meeple_state'] = 1;
+        TestDatas::$tokens[22]['meeple_state'] = 2;
+        $position = 9;
+        $tileId = 31;
+        $expectedNotifs = [
+            "spendMoney-1",
+            "build-1",
+            "newClanMarker-1",
+            "gainInfluence-1",
+            "moveRogueShip-1",
+            "removeShip-1",
+        ];
+        
+        $game->actBuildSelect($position,$tileId,999999);
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //REMOVED rogue ship
+        assertFalse(array_key_exists(27,TestDatas::$tokens));
     }
     // -------------------------------------------------
 }
