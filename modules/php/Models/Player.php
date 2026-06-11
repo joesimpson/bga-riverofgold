@@ -317,9 +317,14 @@ class Player extends \ROG\Helpers\DB_Model
   /**
    * @return ?ClanPatronCard 
    */
-  public function getPatron()
+  public function getPatron(): ?ClanPatronCard 
   {
     return Cards::getPatron($this);
+  }
+  
+  public function getScenario() : ?ScenarioCard
+  {
+    return Cards::getScenario($this);
   }
 
   /**

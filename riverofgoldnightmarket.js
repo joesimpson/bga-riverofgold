@@ -3753,7 +3753,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let intro = introMap.get(card.type);
             
             let setupMap = new Map([
-                [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('Do not place starting buildings on the ${icon_player} ${a} or ${icon_player} ${b}/${c} shore spaces. (Place Imperial Markets on the ${icon_player} ${d}/${e}/${f} spaces as usual.)'),{'icon_player': this.formatIconPlayer(), 'a': 2,'b': 2,'c': 3, 'd': 2, 'e': 3,'f': 4,  })],
+                [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('Do not place starting buildings on the ${icon_player} 2 or ${icon_player} 2/3 shore spaces. (Place Imperial Markets on the ${icon_player} 2/3/4 spaces as usual.)'),{'icon_player': this.formatIconPlayer(),   })],
                 [2, this.fsr(_(''),{})],
                 [3, this.fsr(_(''),{})],
                 [4, this.fsr(_(''),{})],
@@ -3795,7 +3795,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let gameplayDesc = gameplayDescMap.get(card.type);
             
             let endDescMap = new Map([
-                [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('You must outscore Seishin and build more buildings than Seishin.'),{})],
+                [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('You must outscore Seishin and own more buildings than Seishin.'),{})],
                 [2, this.fsr(_(''),{})],
                 [3, this.fsr(_(''),{})],
                 [4, this.fsr(_(''),{})],

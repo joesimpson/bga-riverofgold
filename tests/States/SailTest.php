@@ -1102,6 +1102,39 @@ final class SailTest extends TestCase
         assertSame(1, TestDatas::$stats['table'][14]);
     }
     
+    public function test_ActionSail_Pass_VisitAutomaBuildings_ScenarioCrab1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 13;
+        $riverSpace = 14;
+        TestDatas::$tiles[42]['tile_state'] = 29;
+        TestDatas::$tokens[42]['player_id'] = AUTOMA_PLAYER_ID;
+        $expectedNotifs = [
+            "sail-1",
+            "checkVRewards",
+            "giveResource-1", //space 26
+            "giveResource-1", //space 28
+            "giveResource-1", //space 30
+            "checkORewards",
+            "addPoints--123",//space 29 //type 6 [BONUS_TYPE_POINTS=>1],
+        ];
+
+        $game->actSailSelect($shipId,$riverSpace,999999);
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, Globals::getAutomaScore());
+        assertSame(1, TestDatas::$stats['table'][14]);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(3, $resources[RESOURCE_TYPE_MONEY]);//EMPTY_SPACE_REWARD*3
+    }
+    
     public function test_ActionSail_KO_WrongShip(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

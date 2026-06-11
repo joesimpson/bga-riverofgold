@@ -21,6 +21,7 @@ use ROG\Models\BuildingTile;
 use ROG\Models\CustomerCard;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
+use ROG\Models\ScenarioType;
 
 trait SailTrait
 {
@@ -138,6 +139,7 @@ trait SailTrait
 
     $players = Players::getAllWithAutoma();
     $playerPatron = $player->getPatron();
+    $playerScenario = $player->getScenario();
 
     Notifications::checkVisitorRewards();
     $nbEmptySpaces = 0;
@@ -150,10 +152,22 @@ trait SailTrait
       }
       else {
         $region = $tile->getRegion();
+        $clanMarkers = $tile->getMeeples();
+        $buildingsOwners = $clanMarkers->map(function(Meeple $meeple){return $meeple->getPId();})->toArray();
+        Game::get()->trace("process_Sail($shipId,$riverSpace) building owners are :".json_encode($buildingsOwners));
 
         if($shoreSpace->type == SHORE_SPACE_IMPERIAL_MARKET){
           if(isset($playerPatron)){
             $playerPatron->abilityOnVisitImperialMarket($player,$region);
+          }
+        }
+
+        if(isset($playerScenario) ){
+          if(ScenarioType::CRAB_1->value == $playerScenario->getType() 
+            && in_array(AUTOMA_PLAYER_ID,$buildingsOwners)
+          ){
+            //Scenario RULE : When Crab sails, Crab does not receive visitor rewards from buildings owned by Seishin. (Even if it’s a building that Crab and Seishin both own together by both having clan markers on it).
+            continue;
           }
         }
 
@@ -199,6 +213,16 @@ trait SailTrait
               //Skip opponent rewards
               continue;
             }
+            $ownerScenario = $owner->getScenario();
+            if( isset($ownerScenario) ){
+              if(ScenarioType::CRAB_1->value == $ownerScenario->getType() 
+                && $player instanceof AutomaPlayer
+              ){
+                //Scenario RULE : When Seishin sails: Crab with Scenario does not receive owner rewards (even if it’s a building that Crab and Seishin both own together by both having clan markers on it).
+                continue;
+              }
+            }
+
             $reward->rewardPlayer($owner,$region,$tile);
             //SAVE UPDATED PLAYER datas
             $players[$clanMarker->getPId()] = $owner;
