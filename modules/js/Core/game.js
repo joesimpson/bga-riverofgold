@@ -956,7 +956,9 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     },
     
     getPlayerColor(pId) {
-      return this.gamedatas.players[pId].color;
+      let player = this.gamedatas.players[pId];
+      if(!player) return '';
+      return player.color;
     },
 
     /*

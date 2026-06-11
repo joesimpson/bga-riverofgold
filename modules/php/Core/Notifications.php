@@ -30,6 +30,19 @@ class Notifications
       'preserve' => ['automa_color','automa_clan'],
     ]);
   }
+  
+  public static function roguePlayer(Player $roguePlayer)
+  {
+    $clan = $roguePlayer->getClan();
+    self::notifyAll('roguePlayer',  clienttranslate('Rogue pirate uses ${clan_name}${clan_icon} tokens'), [
+      'rogue_pirate' => $roguePlayer,
+      'clan_name' => Utils::getClanName($clan),
+      'clan_icon' => '',
+      'clan_id' => $clan,
+      'i18n' => ['clan_name'],
+      'preserve' => [ 'clan_id', 'rogue_pirate',],
+    ]);
+  }
 
   public static function initCustomersDeck(array $customerTypes)
   {

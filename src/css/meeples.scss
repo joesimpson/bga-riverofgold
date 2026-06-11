@@ -311,7 +311,8 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         }
     }
 }
-.rog_card{
+.rog_customercard{
+    //Clan marker on a card (ex for Shindoshis)
     .rog_meeple{
         position: absolute;
         width: 40px;

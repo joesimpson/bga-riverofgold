@@ -48,6 +48,9 @@ class Globals extends \ROG\Helpers\DB_Manager
     'automaScore' => 'int',
     'automaDie' => 'int',
     'automaLastTurnPlayed' => 'bool',
+    
+    //Datas for rogue player clan
+    'rogueClan' => 'int',
 
     //Undo log module
     'choices' => 'int',
@@ -93,6 +96,8 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::setAutomaScore(0);
     self::setAutomaDie(null);
     self::setAutomaLastTurnPlayed(false);
+    
+    self::setRogueClan(null);
 
     //              --------------------------------------------
     //GAME OPTIONS  --------------------------------------------

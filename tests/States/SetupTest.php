@@ -13,6 +13,7 @@ use ROG\Managers\Cards;
 use ROG\Managers\Tiles;
 use ROG\Models\CustomerCard;
 use ROG\Models\ScenarioCard;
+use ROG\Models\ScenarioType;
 use Tests\Utils\PHPUnitUtil;
 use Tests\Utils\TestDatas;
 
@@ -843,6 +844,60 @@ final class SetupTest extends TestCase
         assertSame(AUTOMA_PLAYER_ID,TestDatas::$tokens[66]['player_id']);
         assertSame(MEEPLE_LOCATION_RIVER,TestDatas::$tokens[66]['meeple_location']);
         assertSame(MEEPLE_TYPE_SHIP,TestDatas::$tokens[66]['type']);
+    }
+    
+    public function testEnteringState_PlayerSetup_Scenario_Mantis1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        foreach(TestDatas::$cards as &$card) if($card['card_location'] == CARD_LOCATION_HAND)$card['card_location'] = CARD_LOCATION_DECK;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedNotifs = [
+            "automaColor",
+            "newPlayerColor--123",
+            "newClanMarkers-1",
+            "influenceClanMarkers-1",
+            "rollDie-1",
+            "newBoat-1",
+            "rollDie-1",
+            "newBoat-1",
+            "giveCardToPublic-1",
+            "giveCardToPublic-1",
+            "rollDie-1",
+            "newClanMarkers-2",
+            "influenceClanMarkers-2",
+            "rollDie-2",
+            "newBoat-2",
+            "rollDie-2",
+            "newBoat-2",
+            "giveCardToPublic-2",
+            "giveCardToPublic-2",
+            "rollDie-2",
+            "newClanMarkers--123",
+            "influenceClanMarkers--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            "roguePlayer",
+            "newBoat-1",//rogue placed by player 1
+
+        ];
+
+        $game->stPlayerSetup();
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test ROYAL new ship on last space
+        assertSame(67, TestDatas::$lastInsertedId);
+        $lastToken = TestDatas::$tokens[67];
+        assertSame(ROGUE_PLAYER_ID, $lastToken['player_id']);
+        assertSame(MEEPLE_LOCATION_RIVER, $lastToken['meeple_location']);
+        assertSame(MEEPLE_TYPE_SHIP_ROYAL,$lastToken['type']);
+        assertSame(14, $lastToken['meeple_state']);
+        assertNotSame(null,Globals::getRogueClan());
     }
     // ----------------------------------------------------------------------
     

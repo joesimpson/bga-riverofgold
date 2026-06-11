@@ -236,6 +236,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['refreshHand', 50],
                 ['newPlayerColor', 10],
                 ['automaColor', 10],
+                ['roguePlayer', 10],
                 ['giveMoney', 1300],
                 ['spendMoney', 1300],
                 //['draftCards', 10],
@@ -1685,6 +1686,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             automaName.style.color = `#${this.gamedatas.automa_player.color}`; 
             this.setupAutomaBoard(); 
         },
+        notif_roguePlayer(n) {
+            debug('notif_roguePlayer:', n);
+            this.gamedatas.rogue_pirate = n.args.rogue_pirate;
+        },
         notif_giveClanCardTo(n) {
             debug('notif_giveClanCardTo: receiving a new clan card', n);
             if (!$(`rog_clan_card-${n.args.card.id}`)) this.addClanCard(n.args.card, this.getVisibleTitleContainer());
@@ -2651,6 +2656,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     args.resources_list = listDiv;
                 }
                 */
+               
+                if('clan_id' in args && 'clan_icon' in args) {
+                    args.clan_icon = this.formatIcon('clan-'+args.clan_id);
+                }
             }
             } catch (e) {
                 console.error(log, args, 'Exception thrown', e.stack);
@@ -3264,6 +3273,15 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 </div>`;
         },
 
+        getPlayerClan(pId) {
+            if(this.gamedatas.rogue_pirate && pId == this.gamedatas.rogue_pirate.id){
+                return this.gamedatas.rogue_pirate.clan;
+            }
+            let player = this.gamedatas.players[pId];
+            if(!player) return '';
+            return player.clan;
+        },
+
         ////////////////////////////////////////////////////////
         //    ____              _
         //   / ___|__ _ _ __ __| |___
@@ -3583,7 +3601,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 }
                 costs += `</div>`;
             });
-            return `<div class="rog_card" id="rog_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-customertype="${card.customerType}" data-customer_name="${customerName}">
+            return `<div class="rog_card rog_customercard" id="rog_card${prefix}-${card.id}" data-id="${card.id}" data-type="${card.type}" data-customertype="${card.customerType}" data-customer_name="${customerName}">
                     <div class="rog_card_wrapper">
                         <div class='rog_customer_die'>${this.formatIcon('die_face-'+card.region)}</div>
                         <span class='rog_customer_name'><div class='reduceToFit'>${_(card.title)}</div></span>
@@ -3742,7 +3760,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         tplScenarioCardDescription(card, withName = true) {
             let introMap = new Map([
                 [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('The evil forces of the Shadowlands are invading from the west. The Crab need to raise new mercantile holdings that are fortified against possible attack and maintain more holdings than their rival.'),{})],
-                [2, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.MANTIS_1, this.fsr(_('A rogue pirate captain challenges the Mantis Clan’s naval superiority and must be driven off.'),{})],
                 [3, this.fsr(_(''),{})],
                 [4, this.fsr(_(''),{})],
                 [5, this.fsr(_(''),{})],
@@ -3754,7 +3772,15 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             
             let setupMap = new Map([
                 [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('Do not place starting buildings on the ${icon_player} 2 or ${icon_player} 2/3 shore spaces. (Place Imperial Markets on the ${icon_player} 2/3/4 spaces as usual.)'),{'icon_player': this.formatIconPlayer(),   })],
-                [2, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.MANTIS_1, this.fsr(_('Place a royal ship of an unused player color on the bottom river space. This is the rogue pirate ship.'),{})
+                    + "<div class='rog_ship_example'>"
+                    + this.tplMeeple({
+                        'id': 'rogue_1', 
+                        'type': MEEPLE_TYPE_SHIP_ROYAL, 
+                        'pId': this.gamedatas.rogue_pirate ? this.gamedatas.rogue_pirate.id : null,
+                    })
+                    + "</div>"
+                ],
                 [3, this.fsr(_(''),{})],
                 [4, this.fsr(_(''),{})],
                 [5, this.fsr(_(''),{})],
@@ -3861,9 +3887,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     popindialog.create( 'rog_popin_scenario_'+card.id );
                     popindialog.setTitle(this.tplScenarioCardName(card));
                     popindialog.setMaxWidth( 1000 );
-                    // Create the HTML of my dialog. 
+                    // Create the HTML of my dialog : recompute card description in case of some dynamic elements (other clan markers/ ships colors used)
+                    let cardDivForTooltip = this.tplScenarioCard(card,'_tmp');
                     let html = `<div class='rog_popin_scenario_content' id='rog_popin_scenario_content'>
-                        ${cardDiv}
+                        ${cardDivForTooltip}
                     </div>`;  
                     // Show the dialog
                     popindialog.setContent( html );
@@ -4429,7 +4456,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         tplMeeple(meeple, prefix ='') {
             const PERSONAL = [MEEPLE_TYPE_SHIP,MEEPLE_TYPE_CLAN_MARKER,MEEPLE_TYPE_SHIP_ROYAL, MEEPLE_TYPE_LION_MARKER,MEEPLE_TYPE_SCORE_MARKER];
             let color = PERSONAL.includes(meeple.type) ? ` data-color="${this.getPlayerColor(meeple.pId)}" data-pId="${meeple.pId}" ` : '';
-            let clan = PERSONAL.includes(meeple.type) ? ` data-clan="${this.gamedatas.players[meeple.pId].clan}" ` : '';
+            let clan = PERSONAL.includes(meeple.type) ? ` data-clan="${this.getPlayerClan(meeple.pId)}" ` : '';
             return `<div class="rog_meeple" id="rog_meeple${prefix}-${meeple.id}"
                  data-id="${meeple.id}" 
                  ${color}

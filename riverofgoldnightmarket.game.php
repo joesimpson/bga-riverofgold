@@ -144,6 +144,11 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
             $result['automa_player'] = Players::automaPlayer()->getUiData();
             $result['deckSize']['hiddenDeliv'][AUTOMA_PLAYER_ID] = Cards::countPlayerHiddenDeliveredCustomers(AUTOMA_PLAYER_ID);
         }
+        $rogue = Players::roguePlayer();
+        if(isset($rogue)){
+            $result['rogue_pirate'] = $rogue->getUiData();
+        }
+
         return $result;
     }
     

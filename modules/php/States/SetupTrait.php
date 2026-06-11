@@ -6,6 +6,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Preferences;
 use ROG\Core\Stats;
+use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
@@ -52,7 +53,7 @@ trait SetupTrait
 
     $players = Players::getAll();
     $k =0;
-    Players::assignAutomaClan();
+    Players::assignAutomaClan($players );
     foreach($players as $pid => $player){
       $playerPatron = $player->getPatron();
 
@@ -108,6 +109,9 @@ trait SetupTrait
 
     //Seishin Setup
     $this->setupAutomaMarkers();
+
+    //SetupScenarios
+    $this->setupScenarios($players);
     
     //manage bonuses if any
     $activePlayer = Players::getActive();
@@ -141,5 +145,16 @@ trait SetupTrait
       $player->rollDie();
     }
 
+  }
+  
+  public function setupScenarios(Collection $players) {
+    self::trace("setupScenarios()");
+    
+    $players->map(function(Player $player) use ($players){
+      $scenario = $player->getScenario();
+      if(isset($scenario)){
+        $scenario->setupChangesAfterPlayerSetup($player,$players);
+      }
+    });
   }
 }

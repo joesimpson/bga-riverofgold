@@ -32,7 +32,7 @@ class ShoreSpaces
   /**
    * @return array of all the different types of ShoreSpace
    */
-  public static function getShoreSpaces()
+  public static function getShoreSpaces() : array
   {
     //function to init spaces
     return [
@@ -142,6 +142,11 @@ class ShoreSpaces
     return $emptySpaces;
   }
 
+  public static function getLastRiverSpace() : int
+  {
+    return NB_RIVER_SPACES;
+  }
+  
   /**
    * Search the 4 adjacent spaces to a given river space
    * @param int $riverSpace the space ON the river

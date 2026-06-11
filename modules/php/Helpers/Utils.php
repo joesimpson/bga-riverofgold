@@ -195,6 +195,23 @@ abstract class Utils
         if($color) return $color;
         return '000000';//black unless clan is known
     }
+    
+    /**
+     * @return array [ 'color'=>$color, 'clan'=>$clan]
+     */
+    public static function pickNextAvailableClan(Collection $players) : array {
+        $assignedClans = $players->map( function (Player $player) { return $player->getClan();})->toArray();
+        $unAssignedClans = [];
+        foreach(CLANS_COLORS as $color => $clan){
+            if(in_array($clan,$assignedClans)){
+            continue;
+            }
+            $unAssignedClans[] = [ 'color'=>$color, 'clan'=>$clan];
+        }
+        shuffle($unAssignedClans);
+        $clanToPick = array_shift($unAssignedClans);
+        return $clanToPick;
+    }
 
     /**
      * @return int fake automa player id OR null if no automa in current game

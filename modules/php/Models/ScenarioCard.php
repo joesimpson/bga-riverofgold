@@ -8,6 +8,7 @@ use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
+use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 
 /**
@@ -49,6 +50,22 @@ class ScenarioCard extends Card
     switch($this->getType()){//ScenarioType value
       case ScenarioType::CRAB_1->value:
         Tiles::discardStartingBuildings();
+        break;
+    }
+  }
+  
+  public function setupChangesAfterPlayerSetup(Player $player, Collection $players)
+  {
+    switch($this->getType()){
+      case ScenarioType::MANTIS_1->value:
+        //Place a royal ship of an unused player color on the bottom river space.
+        $clanToPick = Utils::pickNextAvailableClan($players);
+        Globals::setRogueClan($clanToPick['clan']);
+        $roguePlayer = Players::roguePlayer();
+        Notifications::roguePlayer($roguePlayer);
+        $boatPosition = ShoreSpaces::getLastRiverSpace();
+        $boat = Meeples::addRoyalShipOnRiverSpace($roguePlayer, $boatPosition,false);
+        Notifications::newBoat($player,$boat);
         break;
     }
   }

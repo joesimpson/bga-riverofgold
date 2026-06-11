@@ -7,6 +7,8 @@ const BGA_GAMESTATE_GAMEVERSION = 300;
  */
  
 const AUTOMA_PLAYER_ID = -123;
+const ROGUE_PLAYER_ID  = -456;
+
 const SCORE_FAIL = -1;
 
  const DIE_FACES = [1,2,3,4,5,6];

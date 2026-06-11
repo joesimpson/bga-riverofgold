@@ -15,6 +15,7 @@ use ROG\Models\MasteryCard;
 use ROG\Models\Player;
 use ROG\Models\ScoringTile;
 use ROG\Models\Tile;
+use ROG\Models\VirtualPlayer;
 
 /*
  * Players manager : allows to easily access players ...
@@ -93,25 +94,15 @@ class Players extends \ROG\Helpers\DB_Manager
 
     }
     Game::get()->reloadPlayersBasicInfos();
-    if(!$forceAllBlack) Players::assignAutomaClan();
+    if(!$forceAllBlack) Players::assignAutomaClan($playersObjects);
     
     return $playersObjects;
   }
 
-  public static function assignAutomaClan()
+  public static function assignAutomaClan(Collection $playersObjects)
   {
     if(Utils::isGameWithAutoma()){
-      $playersObjects = Players::getAll();
-      $assignedClans = $playersObjects->map( function ($player) { return $player->getClan();})->toArray();
-      $unAssignedClans = [];
-      foreach(CLANS_COLORS as $color => $clan){
-        if(in_array($clan,$assignedClans)){
-          continue;
-        }
-        $unAssignedClans[] = [ 'color'=>$color, 'clan'=>$clan];
-      }
-      shuffle($unAssignedClans);
-      $clanToPick = array_shift($unAssignedClans);
+      $clanToPick = Utils::pickNextAvailableClan($playersObjects);
       $automa_clan = $clanToPick['clan'];
       $automa_color = $clanToPick['color'];
 
@@ -657,6 +648,17 @@ class Players extends \ROG\Helpers\DB_Manager
       //save perfs and read only when needed
       //'player_no'     => 1+ Players::getPlayersMaxNo(),
       ]);
+  }
+  
+  public static function roguePlayer() : ?VirtualPlayer {
+    $clan = Globals::getRogueClan();
+    if(!isset($clan) || $clan == 0) return null;
+    return new VirtualPlayer([
+      'player_id'     => ROGUE_PLAYER_ID, 
+      'player_name'   => '', 
+      'player_color'  => Utils::getPlayerClanColor($clan),
+      'player_clan'   => $clan,
+    ]);
   }
 
   public static function getPlayersMaxNo() : int
