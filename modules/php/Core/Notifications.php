@@ -339,11 +339,24 @@ class Notifications
   public static function addResourceOnCard(Player $player,Card $card, int $n, int $resourceType,)
   {
     $notif = 'addResourceOnCard';
-    $msg = clienttranslate('${player_name} places ${n} ${res_icon} on the card');
+    $msg = clienttranslate('${player_name} places ${n} ${res_icon} on the card (${card_name})');
     if($n < 0){
-      $msg = clienttranslate('${player_name} spends ${n} ${res_icon} from the card');
+      $msg = clienttranslate('${player_name} removes ${n} ${res_icon} from the card (${card_name})');
       $notif = 'spendResourceOnCard';
       $n = -$n;
+    }
+    $cardName = '';
+    if($card instanceof ScenarioCard){
+      $cardName = [
+        'log'=> '${clan_icon}${clan_name} Scenario',
+        'args'=> [
+          'clan_id' => $card->getClan(),
+          'clan_icon' => '',
+          'clan_name' => $card->getClanName(),
+          'i18n' => ['clan_name'],
+          'preserve' => ['clan_id'],
+        ]
+      ];
     }
     self::notifyAll($notif, $msg, [
       'player' => $player,
@@ -352,7 +365,8 @@ class Notifications
       'preserve'=>['res_type','card_id'],
       'res_icon' => Utils::resourceName($resourceType),
       'res_type' => $resourceType,
-      'i18n' => ['res_icon'],
+      'card_name' => $cardName,
+      'i18n' => ['res_icon',],
     ]);
   }
 

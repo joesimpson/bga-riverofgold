@@ -77,6 +77,14 @@ class Cards extends \ROG\Helpers\Pieces
   } 
  
   /**
+   * Get specific piece by id
+   */
+  public static function get($id, $raiseExceptionIfNotEnough = true) : ?Card
+  {
+    return parent::get($id, $raiseExceptionIfNotEnough);
+  }
+
+  /**
    * @param int $pId
    * @param string $location (optional)
    * @return int number of ALL CARDS owned by that player and in that $location,

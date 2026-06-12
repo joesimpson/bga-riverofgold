@@ -303,7 +303,8 @@ trait DebugTrait
     //Globals::addBonusWithDatas($player,BONUS_TYPE_MULTITRADE_3,['region'=>3,'bonusQuantity'=>1, 'koku'=>3,'points'=>3,]);
     Globals::addBonusWithDatas($player,BONUS_TYPE_TRADE_KOKU,['koku'=>3,'bonusQuantity'=>1]);
     Globals::addBonusWithDatas($player,BONUS_TYPE_TRADE_POINTS,['points'=>2,'bonusQuantity'=>1]);
-    
+    Globals::addBonusWithDatas($player,BONUS_TYPE_MANAGE_DEBT,['card_id'=>301, ],clienttranslate('Manage debt'));
+
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
 

@@ -98,6 +98,8 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::setAutomaLastTurnPlayed(false);
     
     self::setRogueClan(null);
+    
+    self::setChoices(0);
 
     //              --------------------------------------------
     //GAME OPTIONS  --------------------------------------------

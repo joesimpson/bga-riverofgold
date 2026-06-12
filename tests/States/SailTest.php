@@ -1205,6 +1205,75 @@ final class SailTest extends TestCase
         assertFalse(array_key_exists(26,TestDatas::$tokens));
     }
     
+    public function test_ActionSail_Pass_ScenarioCrane1_DontCompleteJourney(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":"30"}'];
+        $shipId = 22;
+        $riverSpace = 7;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 6;
+        unset(TestDatas::$tiles[41]);
+        $expectedNotifs = [
+            "sail-1",
+            "checkVRewards",
+            "giveResource-1", //empty space 
+            "giveResource-1", //empty space 
+            "giveResource-1", //empty space 
+            "giveResource-1", //empty space 
+            "checkORewards",
+        ];
+
+        $game->actSailSelect($shipId,$riverSpace,999999);
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $expectedBonuses = [];
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionSail_Pass_ScenarioCrane1_CompleteJourney(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":"30"}'];
+        $shipId = 22;
+        $riverSpace = 1;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 14;
+        unset(TestDatas::$tiles[41]);
+        $expectedNotifs = [
+            "sail-1",
+            "reachRiverEnd-1",
+            "addBonus-1",
+            "discardBuildingRow",
+            "addBonus-1",
+            "checkVRewards",
+            "giveResource-1", //empty space 1
+            "giveResource-1", //empty space 2
+            "giveResource-1", //empty space 3
+            "giveResource-1", //empty space 4
+            "checkORewards",
+        ];
+
+        $game->actSailSelect($shipId,$riverSpace,999999);
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $expectedBonuses = [
+            BONUS_TYPE_MONEY_OR_GOOD,
+            'datas' => [
+                BONUS_TYPE_MANAGE_DEBT => [
+                    1 => ['card_id'=>301, 'bonusQuantity'=>1,],
+                ],
+            ],
+        ];
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    
     public function test_ActionSail_KO_WrongShip(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

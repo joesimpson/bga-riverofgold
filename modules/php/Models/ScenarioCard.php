@@ -90,6 +90,18 @@ class ScenarioCard extends Card
     }
   }
   
+  public function abilityOnCompleteJourney(Player &$player,)
+  {
+    switch($this->getType()){//ScenarioType value
+      case ScenarioType::CRANE_1->value:
+        $debt = $this->getResource(RESOURCE_TYPE_MONEY);
+        if($debt > 0){
+          Globals::addBonusWithDatas($player,BONUS_TYPE_MANAGE_DEBT,['card_id'=>$this->getId(), 'bonusQuantity'=>1, ],clienttranslate('Manage debt'));
+        }
+        break;
+    }
+  }
+  
   /**
    * @return bool true if scenario is completed
    */

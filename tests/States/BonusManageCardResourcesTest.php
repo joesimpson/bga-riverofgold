@@ -1,0 +1,234 @@
+<?php
+
+declare(strict_types=1);
+
+namespace Tests\States;
+
+use Bga\GameFramework\GamestateMachine;
+use Bga\Games\RiverOfGoldNightMarket\States\BonusManageCardResources;
+use GameMock;
+use PHPUnit\Framework\TestCase;
+use ROG\Core\Globals;
+use ROG\Exceptions\UnexpectedException;
+use ROG\Exceptions\UserException;
+use ROG\Models\ScenarioType;
+use Tests\Utils\TestDatas;
+
+use function PHPUnit\Framework\assertSame;
+use function PHPUnit\Framework\assertFalse;
+
+final class BonusManageCardResourcesTest extends TestCase
+{
+
+    // -------------------------------------------------
+    public function test_Args(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+        $currentBonus = BONUS_TYPE_MANAGE_DEBT;
+        $currentBonusDatas = ['card_id'=>301, 'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":25}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":30}'];
+        $expectedArgs = [
+            'c' => $currentBonus,
+            'card_id' => 301,
+            'types' => [
+                RESOURCE_TYPE_MONEY => [
+                    'min' => 0,
+                    'max' => 25,
+                ],
+            ],
+            'skip' => false,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    // -------------------------------------------------
+ 
+    public function test_EnteringState_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+        $currentBonus = BONUS_TYPE_MANAGE_DEBT;
+        $currentBonusDatas = ['card_id'=>301, 'bonusQuantity'=>1,];
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":25}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":30}'];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        $args = $state->getArgs();
+
+        $newState = $state->onEnteringState(1, $args);
+        
+        assertSame(null, $newState);
+    }
+    // -------------------------------------------------
+ 
+    public function test_actManageCardResources_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+        $currentBonus = BONUS_TYPE_MANAGE_DEBT;
+        $currentBonusDatas = ['card_id'=>301, 'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":25}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":30}'];
+        $qty = 25;
+        $type = RESOURCE_TYPE_MONEY;
+        $args = $state->getArgs();
+
+        $newState = $state->actManageCardResources($qty, $type,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "spendResourceOnCard-1",
+            "spendResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, $newState);
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_MONEY]);
+        $resourcesCard = json_decode(TestDatas::$cards[301]['resources'], true);
+        assertSame(5, $resourcesCard[RESOURCE_TYPE_MONEY]);
+    }
+    
+    public function test_actManageCardResources_KO_NoMoney(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+        $currentBonus = BONUS_TYPE_MANAGE_DEBT;
+        $currentBonusDatas = ['card_id'=>301, 'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":0}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":30}'];
+        $qty = 1;
+        $type = RESOURCE_TYPE_MONEY;
+        $args = $state->getArgs();
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid quantity $qty > 0");
+        $newState = $state->actManageCardResources($qty, $type,999999, 1, $args);
+        
+    }
+    
+    public function test_actManageCardResources_KO_MinMoney(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+        $currentBonus = BONUS_TYPE_MANAGE_DEBT;
+        $currentBonusDatas = ['card_id'=>301, 'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":0}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":30}'];
+        $qty = -10;
+        $type = RESOURCE_TYPE_MONEY;
+        $args = $state->getArgs();
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid quantity $qty < 0");
+        $newState = $state->actManageCardResources($qty, $type,999999, 1, $args);
+    }
+    
+    public function test_actManageCardResources_KO_WrongResource(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+        $currentBonus = BONUS_TYPE_MANAGE_DEBT;
+        $currentBonusDatas = ['card_id'=>301, 'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":0}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":30}'];
+        $qty = 1;
+        $type = RESOURCE_TYPE_SILK;
+        $args = $state->getArgs();
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid resource $type");
+        $newState = $state->actManageCardResources($qty, $type,999999, 1, $args);
+    }
+    // -------------------------------------------------
+ 
+    public function test_ActionRestart_KO_WrongVersion(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+
+        $this->expectException(UserException::class);
+        $this->expectExceptionMessage("!!!checkVersion");
+        $state->actRestart(1, 1,);
+    }
+    
+    public function test_ActionRestart_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+        Globals::setChoices(1);
+        TestDatas::$logs[1] = ['result_associative_index' => 1,'id' => 1, 'move_id' => 1, 'table' => '', 'primary'=>'', 'type' => 'step', 'affected' => '[{"name": "currentBonus","value": "24"}]', ];
+
+        $state->actRestart(999999,);
+        
+        assertSame(1, 1);
+    }
+    // -------------------------------------------------
+ 
+    public function test_ActionUndo_KO_WrongVersion(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+
+        $this->expectException(UserException::class);
+        $this->expectExceptionMessage("!!!checkVersion");
+        $state->actUndoToStep(1, 1,);
+    }
+    public function test_ActionUndo_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+        Globals::setChoices(1);
+        TestDatas::$logs[1] = ['result_associative_index' => 1,'id' => 1, 'move_id' => 1, 'table' => '', 'primary'=>'', 'type' => 'step', 'affected' => '[{"name": "currentBonus","value": "24"}]', ];
+
+        $state->actUndoToStep(1, 999999,);
+        
+        assertSame(1, 1);
+    }
+    
+    // -------------------------------------------------
+ 
+    public function test_Zombie_Pass(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+        $currentBonus = BONUS_TYPE_MANAGE_DEBT;
+        $currentBonusDatas = ['card_id'=>301, 'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":30}'];
+        $args = $state->getArgs();
+
+        $newState = $state->zombie(1, $args);
+        
+        assertSame(ST_BONUS_CHOICE, $newState);
+    }
+    
+    // -------------------------------------------------
+}

@@ -7548,6 +7548,10 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   display: none;
 }
 
+.rog_icon_bonus-46 .rog_icon_qty {
+  display: none;
+}
+
 .rog_icon_container_ship-3 {
   vertical-align: baseline;
 }

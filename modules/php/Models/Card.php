@@ -62,4 +62,16 @@ class Card extends \ROG\Helpers\DB_Model
     if($sendNotif) Notifications::addResourceOnCard($player,$this,$realNb,$type);
     return $realNb;
   }
+  
+  /**
+   * @param int $type
+   * @return int resource number of this type
+   */
+  public function getResource($type)
+  {
+    $resources = $this->getResources();
+    if(!isset($resources) ) return 0;
+    if(!isset($resources[$type]) ) return 0;
+    return $resources[$type];
+  }
 }

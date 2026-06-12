@@ -156,6 +156,9 @@ trait BonusChoiceTrait
       case BONUS_TYPE_TRADE_POINTS:
         $nextState = 'bonusMultiTrades';
         break;
+      case BONUS_TYPE_MANAGE_DEBT:
+        $nextState = 'bonusManageCardResources';
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }

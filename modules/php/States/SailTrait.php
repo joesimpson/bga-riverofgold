@@ -21,6 +21,7 @@ use ROG\Models\BuildingTile;
 use ROG\Models\CustomerCard;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
+use ROG\Models\ScenarioCard;
 use ROG\Models\ScenarioType;
 
 trait SailTrait
@@ -127,12 +128,14 @@ trait SailTrait
     Globals::setLastSailedShip($shipId);
     Globals::setTurnMainActionDone(MAIN_ACTION::SAIL->value);
     Notifications::sail($player,$ship,$riverSpace);
+    $playerScenario = $player->getScenario();
+
     if($riverSpace < $fromPosition){
       if($upriver){
         Meeples::removeClanMarkerById($player,$markerId);
       }
       else {
-        $this->completeJourney($player,$ship);
+        $this->completeJourney($player,$ship,$playerScenario);
       }
     }
 
@@ -141,7 +144,6 @@ trait SailTrait
 
     $players = Players::getAllWithAutoma();
     $playerPatron = $player->getPatron();
-    $playerScenario = $player->getScenario();
 
     Notifications::checkVisitorRewards();
     $nbEmptySpaces = 0;
@@ -318,7 +320,7 @@ trait SailTrait
    * @param Player $player
    * @param Meeple $ship
    */
-  public function completeJourney(Player &$player,Meeple $ship)
+  public function completeJourney(Player &$player,Meeple $ship, ?ScenarioCard $playerScenario)
   {
     Notifications::reachRiverEnd($player,$ship);
     if($player instanceof AutomaPlayer){
@@ -334,6 +336,10 @@ trait SailTrait
       if(Cards::hasPlayerDeliveredOrder($player->getId(),$merchantType)){
         CustomerCard::playOngoingAbility($player,$merchantType);
       }
+    }
+
+    if(isset($playerScenario) ){
+      $playerScenario->abilityOnCompleteJourney($player);
     }
   }
 

@@ -680,6 +680,33 @@ final class BonusChoiceTest extends TestCase
         //Next state differs for each bonus :
         assertSame(ST_BONUS_MULTI_TRADES, GamestateMachine::$test_current_state);
     }
+    
+    public function test_ActionBonus_Pass_ManageDebt(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_MANAGE_DEBT;
+        $bonusKey = 1;
+        $bonuses = [
+            'datas' => [
+                $bonusType => [
+                    $bonusKey => ['card_id'=>301, 'bonusQuantity'=>1,],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [
+        ];
+
+        $game->actBonus(999999,$bonusType,$bonusKey);
+        
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame(['card_id'=>301, 'bonusQuantity'=>1,], Globals::getCurrentBonusDatas());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_MANAGE_CARD_RESOURCES, GamestateMachine::$test_current_state);
+    }
 
     public function test_ActionBonus_KO_WrongBonus(): void
     {

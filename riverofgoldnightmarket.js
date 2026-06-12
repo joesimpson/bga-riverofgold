@@ -176,6 +176,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const BONUS_TYPE_MULTITRADE_3       = 43;
     const BONUS_TYPE_TRADE_KOKU         = 44;
     const BONUS_TYPE_TRADE_POINTS       = 45;
+    const BONUS_TYPE_MANAGE_DEBT        = 46;
 
     const RESOURCES = [
         0,
@@ -258,6 +259,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['giveResource', 1000],
                 ['spendResource', 800],
                 ['addResourceOnCard', 1000],
+                ['spendResourceOnCard', 1000],
                 ['build', 1300],
                 ['moveBuilding', 1300],
                 ['sail', 1300],
@@ -305,6 +307,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 //States extending GameState that don't already define title -> we must display dynamic title
                 'BonusPlaceLion','BonusBuildingReward','BonusPayShips','BonusAdvanceCity',
                 'BonusSelectRegion', 'BonusMultiTrades',
+                'BonusManageCardResources',
             ];
             
             this._hideNotifsWhenMultiActive = true;
@@ -982,6 +985,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         ${this.formatIcon('score')}
                     `;
                 else if(BONUS_TYPE_ADVANCE_OR_POINTS == bonusType) buttonText = _('Advance / Points');
+                else if(BONUS_TYPE_MANAGE_DEBT == bonusType) buttonText = _('Manage debt');
                 this.addImageActionButton(`btnBonus_${k}_${bonusType}`, `${buttonText}<div class='rog_trade'>
                     ${iconBonus}
                 </div>`, () =>  {
@@ -1370,6 +1374,42 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             
             this.addSecondaryActionButton(`btnSkip`, _('Skip') , () =>  { 
                 this.takeAction('actSkipBonuses', {});
+            });
+
+        },
+        
+        onEnteringStateBonusManageCardResources(args){
+            debug('onEnteringStateBonusManageCardResources', args);
+   
+            let bonusType = args['c'];
+            let iconMoney = this.formatIcon(RESOURCES[RESOURCE_TYPE_MONEY]);
+            let type = null;
+            switch(bonusType){
+                case BONUS_TYPE_MANAGE_DEBT:
+                    this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
+                        _('${you} may pay some ${money} before debt generates interest').replace('${money}', iconMoney) :
+                        _('${actplayer} may pay some ${money} before debt generates interest').replace('${money}', iconMoney) 
+                    );
+                    type = RESOURCE_TYPE_MONEY;
+                    break;
+            }
+
+            if(! this.bga.players.isCurrentPlayerActive()) return;
+
+            let selectedAmount = 0;
+            let confirmMessage = _('Select and pay ${n} Koku');
+            this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, { 'n': selectedAmount }), () => {
+                this.takeAction('actManageCardResources', { 'qty': selectedAmount,'type': type, });
+            }); 
+            let minToSelect = args['types'][type].min;
+            let maxToSelect = args['types'][type].max;
+            let possibleAmounts = Array.from(new Array(1 + maxToSelect-minToSelect), (x, i) => i + minToSelect); 
+            Object.values(possibleAmounts).forEach((amount) => {
+                let callbackSelection = (evt) => {
+                    $('btnConfirm').innerHTML = this.fsr(confirmMessage, { 'n': amount });
+                    selectedAmount = amount;
+                };
+                this.addSecondaryActionButton(`btn_amount_${amount}`,amount, callbackSelection); 
             });
 
         },
@@ -1876,6 +1916,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         notif_addResourceOnCard(n) {
             debug('notif_addResourceOnCard: ', n);
             this.gainPayResourceOnCard(n.args.card_id, n.args.res_type, n.args.n);
+        },
+        notif_spendResourceOnCard(n) {
+            debug('notif_spendResourceOnCard: ', n);
+            this.gainPayResourceOnCard(n.args.card_id, n.args.res_type, -n.args.n);
         },
 
         notif_build(n) {
