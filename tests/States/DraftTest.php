@@ -169,6 +169,7 @@ final class DraftTest extends TestCase
                     'name' => '',
                     'difficulty' => 2,
                     'subtype' => CARD_TYPE_SCENARIO,
+                    'resources' => null,
                 ],
                 302 => [
                     'id' => 302,
@@ -179,6 +180,7 @@ final class DraftTest extends TestCase
                     'name' => '',
                     'difficulty' => 2,
                     'subtype' => CARD_TYPE_SCENARIO,
+                    'resources' => null,
                 ],
                 303 => [
                     'id' => 303,
@@ -189,6 +191,7 @@ final class DraftTest extends TestCase
                     'name' => '',
                     'difficulty' => 4,
                     'subtype' => CARD_TYPE_SCENARIO,
+                    'resources' => null,
                 ],
                 304 => [
                     'id' => 304,
@@ -199,6 +202,7 @@ final class DraftTest extends TestCase
                     'name' => '',
                     'difficulty' => 3,
                     'subtype' => CARD_TYPE_SCENARIO,
+                    'resources' => null,
                 ],
             ],
         ];
@@ -645,6 +649,7 @@ final class DraftTest extends TestCase
                     'name' => '',
                     'difficulty' => 2,
                     'subtype' => CARD_TYPE_SCENARIO,
+                    'resources' => null,
                 ],
                 304 => [
                     'id' => 304,
@@ -655,6 +660,7 @@ final class DraftTest extends TestCase
                     'name' => '',
                     'difficulty' => 3,
                     'subtype' => CARD_TYPE_SCENARIO,
+                    'resources' => null,
                 ],
             ],
         ];

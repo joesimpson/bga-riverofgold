@@ -181,6 +181,7 @@ class Notifications
       'card' => $card->getUiData(),
       'scenario_name' => $card->getName(),
       'clan_name' => $card->getClanName(),
+      'preserve' => ['card'],
     ]);
   }
   /**
@@ -335,6 +336,26 @@ class Notifications
     ]);
   }
   
+  public static function addResourceOnCard(Player $player,Card $card, int $n, int $resourceType,)
+  {
+    $notif = 'addResourceOnCard';
+    $msg = clienttranslate('${player_name} places ${n} ${res_icon} on the card');
+    if($n < 0){
+      $msg = clienttranslate('${player_name} spends ${n} ${res_icon} from the card');
+      $notif = 'spendResourceOnCard';
+      $n = -$n;
+    }
+    self::notifyAll($notif, $msg, [
+      'player' => $player,
+      'n' => $n,
+      'card_id' => $card->getId(),
+      'preserve'=>['res_type','card_id'],
+      'res_icon' => Utils::resourceName($resourceType),
+      'res_type' => $resourceType,
+      'i18n' => ['res_icon'],
+    ]);
+  }
+
   /**
    * @param Player $player
    * @param int $type

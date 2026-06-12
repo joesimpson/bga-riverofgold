@@ -860,8 +860,10 @@ abstract class Table
             return true;
         }
         $mutiplesGroups = "";
-        for($k=1;$k<100;$k++) $mutiplesGroups .= "(,?\('(\w+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)'\))?";
-        if (preg_match("/^INSERT INTO `cards` (.*) VALUES(,?\('(\w+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)'\))?$mutiplesGroups$/", $sql, $matches) == 1) {
+        for($k=1;$k<100;$k++) $mutiplesGroups .= "(,?\('(\w+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)',(?:'([\w\":,{}]+)'|NULL)\))?";
+        $regexInsertCards = "/^INSERT INTO `cards` (.*) VALUES(,?\('(\w+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)',(?:'([\w\":,{}]+)'|NULL)\))?$mutiplesGroups$/";
+        if (preg_match($regexInsertCards, $sql, $matches) == 1) {
+            logForTests("REGEX insert cards : $regexInsertCards");
             $k =2;
             while(array_key_exists($k,$matches)){
                 $card_location = $matches[$k+1];
@@ -869,13 +871,14 @@ abstract class Table
                 $player_id = null;
                 $type = intval($matches[$k+4]);
                 $subtype = intval($matches[$k+5]);
+                $resources = null; if(isset($matches[$k+6])) $resources = $matches[$k+6];
                 $cards_ids = array_keys(TestDatas::$cards);
                 $nbCards = count($cards_ids);
                 $id = 1 + ($nbCards>0 ? $cards_ids[count($cards_ids)-1] : 0);
-                logForTests("DbQuery --- added card $id : $card_location, $card_state, $player_id,$type, $subtype ");
-                TestDatas::$cards[$id] = ['result_associative_index' => $id,'card_id' => $id, 'card_location' => $card_location, 'card_state' => $card_state, 'player_id' => $player_id, 'type' => $type, 'subtype' => $subtype,];
+                logForTests("DbQuery --- (k=$k) added card $id : $card_location, $card_state, $player_id,$type, $subtype, $resources ");
+                TestDatas::$cards[$id] = ['result_associative_index' => $id,'card_id' => $id, 'card_location' => $card_location, 'card_state' => $card_state, 'player_id' => $player_id, 'type' => $type, 'subtype' => $subtype, 'resources' => $resources];
                 TestDatas::$lastInsertedId = $id;
-                $k+=6;
+                $k+=7;
             }
             return true;
         }
@@ -940,6 +943,15 @@ abstract class Table
             $card_id = $matches['card_id'];
             logForTests("DbQuery --- updated player_id for card $card_id : $player_id");
             TestDatas::$cards[$card_id]['player_id'] = intval($player_id);
+            return true;
+        }
+        
+        if (preg_match("/^UPDATE `cards` SET `resources` = '(?P<resources>.*)' WHERE  `card_id` = (?P<card_id>[\d]+)$/", $sql, $matches) == 1) {
+            $resources = $matches['resources'];
+            $resources = str_replace('\\','',$resources);
+            $card_id = $matches['card_id'];
+            logForTests("DbQuery --- updated resources for card $card_id ... '$resources'");
+           TestDatas::$cards[$card_id]['resources'] = $resources;
             return true;
         }
         

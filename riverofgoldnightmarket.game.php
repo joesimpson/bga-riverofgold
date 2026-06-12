@@ -373,6 +373,12 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
             $sql = "UPDATE DBPREFIX_global_variables set `value` = '$baseTypes' where JSON_LENGTH(`value`) = 0 AND `name` = 'customerTypes';";
             $this->applyDbUpgradeToAllDB($sql);
         }
+
+        if( $from_version <= 2606081125 )
+        {
+            $sql = "ALTER TABLE DBPREFIX_cards ADD `resources` JSON NULL COMMENT 'Optional resources to be placed/moved on the card'";
+            $this->applyDbUpgradeToAllDB($sql);
+        }
     }    
      
     /////////////////////////////////////////////////////////////

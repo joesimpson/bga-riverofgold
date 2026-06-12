@@ -2,6 +2,8 @@
 
 namespace ROG\Models;
 
+use ROG\Core\Notifications;
+
 /*
  * Card: all utility functions concerning a card
  */
@@ -16,6 +18,9 @@ class Card extends \ROG\Helpers\DB_Model
     'location' => 'card_location',
     'pId' => ['player_id', 'int'],
     'type' => ['type', 'int'],
+
+    //array of numbers of resources (money/trade goods placed on the card)
+    'resources' => ['resources', 'obj'],
   ];
    
   public function __construct($row, $datas)
@@ -29,6 +34,32 @@ class Card extends \ROG\Helpers\DB_Model
   public function getUiData()
   {
     $data = parent::getUiData();
+    //useless for majority of cards
+    unset($data['resources']);
     return $data;
+  }
+
+  
+  /**
+   * Increment resource number of this type
+   * @param Player $player
+   * @param int $nb
+   * @param int $type
+   * @param bool $sendNotif (Optional) default true
+   * @return int real increment applied after checking max
+   */
+  public function addResource(Player $player,int $nb,int $type,bool $sendNotif = true) : int
+  {
+    if($nb == 0) return 0;
+    $resources = $this->getResources();
+    if(!isset($resources) ) $resources = [];
+    if(!isset($resources[$type]) ) $resources[$type] = 0;
+    $before = $resources[$type];
+    $resources[$type] += $nb;
+    //No max check HERE
+    $realNb = $resources[$type] - $before;
+    $this->setResources($resources);
+    if($sendNotif) Notifications::addResourceOnCard($player,$this,$realNb,$type);
+    return $realNb;
   }
 }

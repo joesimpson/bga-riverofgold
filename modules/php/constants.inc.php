@@ -483,6 +483,7 @@ const CLANS_COLORS = [
    '982fff' => CLAN_UNICORN,
 ];
 
+const CRANE_DEBT_SIZE = 30;
 
 /////////////////////////////////////////////////////////
 //          SCORING

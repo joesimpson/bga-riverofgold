@@ -230,6 +230,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.scenariosPopins = new Map();
             this.scenariosCards = new Map();
             this.cardsMeeples = [];
+            this.cardsResources = new Map();
             
             this._notifications = [
                 ['clearTurn', 200],
@@ -256,6 +257,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['discard', 1000],
                 ['giveResource', 1000],
                 ['spendResource', 800],
+                ['addResourceOnCard', 1000],
                 ['build', 1300],
                 ['moveBuilding', 1300],
                 ['sail', 1300],
@@ -1871,6 +1873,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.gainPayMoney(n.args.player_id, n.args.n);
         },
     
+        notif_addResourceOnCard(n) {
+            debug('notif_addResourceOnCard: ', n);
+            this.gainPayResourceOnCard(n.args.card_id, n.args.res_type, n.args.n);
+        },
+
         notif_build(n) {
             debug('notif_build: building a tile to the shore', n);
             if (!$(`rog_tile-${n.args.tile.id}`)) this.addTile(n.args.tile, this.getVisibleTitleContainer());
@@ -3204,6 +3211,18 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
         },
         
+        gainPayResourceOnCard(cardId,resourceType, n, targetSource = null) {
+            this.gamedatas.cards.forEach((card) => {
+                if( card.id == cardId){
+                    if(! card.resources) card.resources = [];
+                    if(! card.resources[resourceType]) card.resources[resourceType] = 0;
+                    card.resources[resourceType] += n; 
+                }
+            });
+
+            return Promise.resolve();
+        },
+        
         gainPoints(pId,n, targetSource = null) {
             this.gamedatas.players[pId].score += n;
             this.moveScoreMarker(this.gamedatas.players[pId]);
@@ -3825,10 +3844,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     + "</div>"
                 ],
                 [this.gamedatas.enums.ScenarioType.CRANE_1, this.fsr(_('You start with 1 ship on the top river starting space and ${n} ${koku}. Place your second ship and a debt pile of ${x} ${koku} on this scenario card.'),{'n': 0, 'x':30, 'koku':''})
-                    //TODO : create counter rog_debt_size
                     + "<span class='rog_debt'>"
                         +this.fsr(_('Debt : ${n} ${koku}'), { 
-                            'n': `<span id='rog_debt_size'>${card.debtSize}</span>`, 
+                            'n': `<span id='rog_debt_size'>${card.resources ? card.resources[RESOURCE_TYPE_MONEY] : 0}</span>`, 
                             'koku': '',
                         })
                     +"</span>"

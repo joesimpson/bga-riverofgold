@@ -23,7 +23,7 @@ class Cards extends \ROG\Helpers\Pieces
   protected static $prefix = 'card_';
   protected static $autoIncrement = true;
   protected static $autoremovePrefix = false;
-  protected static $customFields = ['player_id', 'type', 'subtype'];
+  protected static $customFields = ['player_id', 'type', 'subtype','resources'];
   protected static $autoreshuffle = true;
   protected static $autoreshuffleCustom = [CARD_LOCATION_DECK => CARD_LOCATION_DISCARD];
   protected static $autoreshuffleListener = array( 'obj' => self::class, 'method' => 'reshuffleDeck' );

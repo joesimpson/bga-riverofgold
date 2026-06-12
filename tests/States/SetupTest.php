@@ -909,7 +909,7 @@ final class SetupTest extends TestCase
         Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
         TestDatas::$tokens = [];
         foreach(TestDatas::$cards as &$card) if($card['card_location'] == CARD_LOCATION_HAND)$card['card_location'] = CARD_LOCATION_DECK;
-        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => ''];
         $expectedNotifs = [
             "automaColor",
             "newPlayerColor--123",
@@ -918,6 +918,7 @@ final class SetupTest extends TestCase
             "newBoat-1",
             "spendMoney-1",
             "newBoatOnScenarioCard-1",
+            "addResourceOnCard-1",
             "giveCardToPublic-1",
             "giveCardToPublic-1",
             "rollDie-1",
@@ -955,6 +956,8 @@ final class SetupTest extends TestCase
         //
         $resources = json_decode(TestDatas::$players[1]['resources'], true);
         assertSame(0,$resources[RESOURCE_TYPE_MONEY]);
+        $cardResources = json_decode(TestDatas::$cards[301]['resources'], true);
+        assertSame(CRANE_DEBT_SIZE,$cardResources[RESOURCE_TYPE_MONEY]);
 
     }
     // ----------------------------------------------------------------------

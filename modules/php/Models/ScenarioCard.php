@@ -34,6 +34,7 @@ class ScenarioCard extends Card
     $data = parent::getUiData();
     unset($data['state']);
     $data['subtype'] = CARD_TYPE_SCENARIO;
+    $data['resources'] = $this->getResources();
     return $data;
   }
 
@@ -67,6 +68,7 @@ class ScenarioCard extends Card
         Players::spendMoney($player,$player->getMoney());
         $ship = Meeples::addBoatOnCard($player,$this,null);
         Notifications::newBoatOnScenarioCard($player,$ship, $this);
+        $this->addResource($player, CRANE_DEBT_SIZE, RESOURCE_TYPE_MONEY);
         return true;
     }
     return false;
