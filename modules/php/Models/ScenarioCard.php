@@ -161,6 +161,10 @@ class ScenarioCard extends Card
         $ship = Meeples::getRogueShip();
         $checked = (!isset($ship));
         break;
+      case ScenarioType::CRANE_1->value:
+        $debt = $this->getResource(RESOURCE_TYPE_MONEY);
+        $checked = ($debt <= 0);
+        break;
     }
     return $checked;
   }
