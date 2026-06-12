@@ -1051,6 +1051,9 @@
         font-weight: bold;
         text-align: center;
     }
+    .rog_scenario_difficulty{
+        text-align: center;
+    }
     .rog_scenario_intro_label,
     .rog_scenario_setup_label,
     .rog_scenario_gameplay_label,
@@ -1078,8 +1081,7 @@
         }
         .rog_scenario_difficulty{
             bottom: 3%;
-            //left: 55%;
-            width: 100%;
+            width: 45%;
         }
         .rog_scenario_intro_label, 
         .rog_scenario_setup_label,

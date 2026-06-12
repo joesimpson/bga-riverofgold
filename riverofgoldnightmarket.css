@@ -4662,6 +4662,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   font-weight: bold;
   text-align: center;
 }
+.rog_scenario_card_desc .rog_scenario_difficulty {
+  text-align: center;
+}
 .rog_scenario_card_desc .rog_scenario_intro_label,
 .rog_scenario_card_desc .rog_scenario_setup_label,
 .rog_scenario_card_desc .rog_scenario_gameplay_label,
@@ -4686,7 +4689,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_popin_scenario_content .rog_scenario_card_wrapper .rog_scenario_difficulty {
   bottom: 3%;
-  width: 100%;
+  width: 45%;
 }
 .rog_popin_scenario_content .rog_scenario_card_wrapper .rog_scenario_intro_label,
 .rog_popin_scenario_content .rog_scenario_card_wrapper .rog_scenario_setup_label,
@@ -6008,6 +6011,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_meeple[data-type="3"] {
   background-position-x: 100%;
+}
+.rog_meeple[data-type="3"][data-clan="0"], .rog_meeple[data-type="3"][data-clan=""] {
+  display: none;
 }
 .rog_meeple[data-type="3"][data-clan="1"], .rog_meeple[data-type="3"][data-clan="6"] {
   clip-path: polygon(68.45% 6.23%, 15.59% 12.62%, 14.76% 60.57%, -8.03% 62.9%, 26.37% 91.29%, 47.14% 90.4%, 71.01% 84.02%, 96.58% 73.37%, 106.82% 36.06%, 74.42% 29.67%);

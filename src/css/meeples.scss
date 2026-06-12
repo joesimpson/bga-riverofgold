@@ -88,6 +88,9 @@
     &[data-type='3'] {//MEEPLE_TYPE_SHIP_ROYAL
         background-position-x: 100%;
         
+        &[data-clan="0"], &[data-clan=""]  {//UNKNOWN
+            display: none;
+        }
         &[data-clan="1"],//CLAN_CRAB
         &[data-clan="6"]//CLAN_LION
         //blue
