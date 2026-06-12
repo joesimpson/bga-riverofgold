@@ -203,6 +203,19 @@ class Meeples extends \ROG\Helpers\Pieces
     if($sendNotif) Notifications::newBoat($player,$meeple);
     return $meeple;
   }
+  
+  public static function addBoatOnCard(Player $player,Card $card, ?string $message = null) : Meeple
+  {
+    $meeple = [
+      'type' => MEEPLE_TYPE_SHIP,
+      'location' => MEEPLE_LOCATION_CARD.$card->getId(),
+      'player_id' => $player->getId(),
+      'state' => 1,
+    ];
+    $elt = self::singleCreate($meeple);
+    if(isset($message)) Notifications::newBoat($player,$elt, $message);
+    return $elt;
+  }
 
   /**
    * @param int $pId

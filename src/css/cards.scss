@@ -1062,6 +1062,9 @@
         font-weight: bold;
         text-decoration: underline;
     }
+    .rog_debt{
+        display: none;
+    }
 
     .rog_coop_label{
         background-color: #f0ecd2;
@@ -1117,7 +1120,7 @@
             top: 36%;
             left: 5%;
             width: 28%;
-            height: 60%;
+            height: 56%;
 
             .rog_meeple{
                 &[data-type="3"]//MEEPLE_TYPE_SHIP_ROYAL
@@ -1127,6 +1130,9 @@
                     height: 100px;
                     left: 100px;
                 }
+            }
+            .rog_debt{
+                display: block;
             }
         }
         .rog_scenario_gameplay_label

@@ -17,6 +17,10 @@
         width: 150px;
         height: 120px;
 
+        &[data-clan="0"], &[data-clan=""]  {//UNKNOWN
+            display: none;
+        }
+
         &[data-clan="1"]//CLAN_CRAB
         {//blue
             background-position-y: 0%;
@@ -88,9 +92,6 @@
     &[data-type='3'] {//MEEPLE_TYPE_SHIP_ROYAL
         background-position-x: 100%;
         
-        &[data-clan="0"], &[data-clan=""]  {//UNKNOWN
-            display: none;
-        }
         &[data-clan="1"],//CLAN_CRAB
         &[data-clan="6"]//CLAN_LION
         //blue

@@ -9,6 +9,7 @@ use ROG\Managers\Tiles;
 use ROG\Models\AutomaActionCard;
 use ROG\Models\AutomaPlayer;
 use ROG\Models\BuildingTile;
+use ROG\Models\Card;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\CustomerCard;
 use ROG\Models\MasteryCard;
@@ -582,15 +583,27 @@ class Notifications
    * @param Player $player
    * @param Meeple $meeple
    */
-  public static function newBoat($player,$meeple)
+  public static function newBoat(Player $player,Meeple $meeple, ?string $message = null)
   {
-    self::notifyAll('newBoat', clienttranslate('${player_name} places a ship on the river (at space #${space})'), [
+    $msg = $message ?? clienttranslate('${player_name} places a ship on the river (at space #${space})');
+    self::notifyAll('newBoat', $msg, [
       'player' => $player,
       'meeple' => $meeple->getUiData(),
       'space' => $meeple->getPosition(),
     ]);
   }
-  /**
+  
+  public static function newBoatOnScenarioCard(Player $player,Meeple $meeple, ScenarioCard $card)
+  {
+    $msg = clienttranslate('${player_name} places a ${ship_icon} ship on the scenario card');
+    self::notifyAll('newBoatOnScenarioCard', $msg, [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
+      'ship_icon' => '',
+      'preserve'=>['meeple'],
+    ]);
+  }
+  /**cen
    * @param Player $player
    * @param Meeple $meeple
    */

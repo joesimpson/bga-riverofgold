@@ -54,8 +54,9 @@ trait SetupTrait
     $players = Players::getAll();
     $k =0;
     Players::assignAutomaClan($players );
-    foreach($players as $pid => $player){
+    foreach($players as $pid => &$player){
       $playerPatron = $player->getPatron();
+      $scenario = $player->getScenario();
 
       Notifications::newClanMarkers($player);
       $influenceMeeples = [];
@@ -64,9 +65,11 @@ trait SetupTrait
       }
       Notifications::influenceClanMarkers($player,$influenceMeeples);
 
-      foreach(STARTING_BOATS_SPACES as $space){
-        $boatPosition = $space + $player->rollDie();
-        $meeple = Meeples::addBoatOnRiverSpace($player,$boatPosition);
+      if(!isset($scenario) || !$scenario->setupCustomBoats($player)){
+        foreach(STARTING_BOATS_SPACES as $space){
+          $boatPosition = $space + $player->rollDie();
+          $meeple = Meeples::addBoatOnRiverSpace($player,$boatPosition);
+        }
       }
       
       if(isset($playerPatron) && PATRON_MAGNATE_SAND_ROAD == $playerPatron->getType()){

@@ -229,6 +229,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.dieStocks = new Map();
             this.scenariosPopins = new Map();
             this.scenariosCards = new Map();
+            this.cardsMeeples = [];
             
             this._notifications = [
                 ['clearTurn', 200],
@@ -266,6 +267,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['newClanMarker', 800],
                 ['removeClanMarker', 800],
                 ['newBoat', 800],
+                ['newBoatOnScenarioCard', 800],
                 ['upgradeShip', 800],
                 ['rollDie', 800],
                 ['setDie', 800],
@@ -1943,6 +1945,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.slide(`rog_meeple-${n.args.meeple.id}`, this.getMeepleContainer(n.args.meeple), { });
             this.updateRiverSpacesCounters();
         },
+        notif_newBoatOnScenarioCard(n) {
+            debug('notif_newBoatOnScenarioCard', n);
+            this.addMeeple(n.args.meeple);
+        },
         notif_upgradeShip(n) {
             debug('notif_upgradeShip', n);
             let divMeeple = this.addMeeple(n.args.meeple, this.getVisibleTitleContainer());
@@ -2235,6 +2241,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 this._counters['automaDeck'].toValue(this.gamedatas.deckSize.automaDeck);
                 this._counters['automaPlayed'].toValue(this.gamedatas.deckSize.automaPlayed);
             }
+
+            this.cardsMeeples = [];
     
             //keep hand untouched, another notif will take care about it
             this.setupCards(true);
@@ -2636,6 +2644,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 
                 if('ship_icon' in args && 'ship' in args) {
                     args.ship_icon = `<div class="rog_log_ship_container">${this.tplMeeple(args.ship, '_log')}</div>`;
+                } else if('ship_icon' in args && 'meeple' in args) {
+                    args.ship_icon = `<div class="rog_log_ship_container">${this.tplMeeple(args.meeple, '_log')}</div>`;
                 }
 
                 let bonus_icon = 'bonus_icon';
@@ -3784,10 +3794,17 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         // Scenario cards
         ////////////////////////////////////////////////////////
         tplScenarioCardDescription(card, withName = true) {
+            let cardId = card.id;
+            let meeples = '';
+            this.cardsMeeples.forEach((meeple) => {
+                if(meeple.location == 'card-'+cardId){//MEEPLE_LOCATION_CARD
+                    meeples += this.tplMeeple(meeple);
+                }
+            });
             let introMap = new Map([
                 [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('The evil forces of the Shadowlands are invading from the west. The Crab need to raise new mercantile holdings that are fortified against possible attack and maintain more holdings than their rival.'),{})],
                 [this.gamedatas.enums.ScenarioType.MANTIS_1, this.fsr(_('A rogue pirate captain challenges the Mantis Clan’s naval superiority and must be driven off.'),{})],
-                [3, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.CRANE_1, this.fsr(_('You are in debt and obligated to pay off your ship loan. Regional lords will be impressed if you manage to fully pay it off.'),{})],
                 [4, this.fsr(_(''),{})],
                 [5, this.fsr(_(''),{})],
                 [6, this.fsr(_(''),{})],
@@ -3807,7 +3824,18 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     })
                     + "</div>"
                 ],
-                [3, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.CRANE_1, this.fsr(_('You start with 1 ship on the top river starting space and ${n} ${koku}. Place your second ship and a debt pile of ${x} ${koku} on this scenario card.'),{'n': 0, 'x':30, 'koku':''})
+                    //TODO : create counter rog_debt_size
+                    + "<span class='rog_debt'>"
+                        +this.fsr(_('Debt : ${n} ${koku}'), { 
+                            'n': `<span id='rog_debt_size'>${card.debtSize}</span>`, 
+                            'koku': '',
+                        })
+                    +"</span>"
+                    + "<div class='rog_ship'>"
+                    + meeples
+                    + "</div>"
+                ],
                 [4, this.fsr(_(''),{})],
                 [5, this.fsr(_(''),{})],
                 [6, this.fsr(_(''),{})],
@@ -4540,6 +4568,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 // on card
                 let cardId = locationParts[1];
                 $tileElt = $(`rog_card-${cardId}`);
+                this.cardsMeeples.push(meeple);
                 return $tileElt;
             }
     

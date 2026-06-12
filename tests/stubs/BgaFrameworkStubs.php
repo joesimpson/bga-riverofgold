@@ -852,7 +852,8 @@ abstract class Table
             $meeple_state = intval($matches['meeple_state']);
             $player_id = intval($matches['player_id']);
             $meeple_ids = array_keys(TestDatas::$tokens);
-            $meeple_id = 1 + $meeple_ids[count($meeple_ids)-1];
+            $nbMeeples = count($meeple_ids);
+            $meeple_id = 1 + (($nbMeeples >0 ) ? $meeple_ids[$nbMeeples-1] : 0 );
             logForTests("DbQuery --- added token $meeple_id : $meeple_location, $meeple_state,$type, $player_id ");
             TestDatas::$tokens[$meeple_id] = ['result_associative_index' => $meeple_id, 'meeple_id' => $meeple_id, 'meeple_state' => $meeple_state, 'meeple_location'=> $meeple_location,'type' => $type,  'player_id' => $player_id, ];
             TestDatas::$lastInsertedId = $meeple_id;

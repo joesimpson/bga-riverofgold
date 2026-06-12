@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
+use ROG\Managers\Meeples;
 use ROG\Managers\Tiles;
 use ROG\Models\CustomerCard;
 use ROG\Models\ScenarioCard;
@@ -898,6 +899,63 @@ final class SetupTest extends TestCase
         assertSame(MEEPLE_TYPE_SHIP_ROYAL,$lastToken['type']);
         assertSame(14, $lastToken['meeple_state']);
         assertNotSame(null,Globals::getRogueClan());
+    }
+    
+    public function testEnteringState_PlayerSetup_Scenario_Crane1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$tokens = [];
+        foreach(TestDatas::$cards as &$card) if($card['card_location'] == CARD_LOCATION_HAND)$card['card_location'] = CARD_LOCATION_DECK;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedNotifs = [
+            "automaColor",
+            "newPlayerColor--123",
+            "newClanMarkers-1",
+            "influenceClanMarkers-1",
+            "newBoat-1",
+            "spendMoney-1",
+            "newBoatOnScenarioCard-1",
+            "giveCardToPublic-1",
+            "giveCardToPublic-1",
+            "rollDie-1",
+            "newClanMarkers-2",
+            "influenceClanMarkers-2",
+            "rollDie-2",
+            "newBoat-2",
+            "rollDie-2",
+            "newBoat-2",
+            "giveCardToPublic-2",
+            "giveCardToPublic-2",
+            "rollDie-2",
+            "newClanMarkers--123",
+            "influenceClanMarkers--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+        ];
+
+        $game->stPlayerSetup();
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //ships on river : 
+        assertSame(1,Meeples::getBoats(1)->count());
+        assertSame(2,Meeples::getBoats(2)->count());
+        assertSame(2,Meeples::getBoats(AUTOMA_PLAYER_ID)->count());
+        //Test ship on card
+        $shipToken = TestDatas::$tokens[8];
+        assertSame(1, $shipToken['player_id']);
+        assertSame(MEEPLE_LOCATION_CARD."301", $shipToken['meeple_location']);
+        assertSame(MEEPLE_TYPE_SHIP,$shipToken['type']);
+        assertSame(1,$shipToken['meeple_state']);
+        //
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0,$resources[RESOURCE_TYPE_MONEY]);
+
     }
     // ----------------------------------------------------------------------
     

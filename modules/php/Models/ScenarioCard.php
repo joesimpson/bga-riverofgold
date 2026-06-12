@@ -54,6 +54,24 @@ class ScenarioCard extends Card
     }
   }
   
+  /**
+   * @return bool true if boats are setup by this scenario card
+   */
+  public function setupCustomBoats(Player &$player,) : bool
+  {
+    switch($this->getType()){//ScenarioType value
+      case ScenarioType::CRANE_1->value:
+        //start with 1 ship on the top river starting space
+        Meeples::addBoatOnRiverSpace($player,1);
+        //Place your second ship and a debt pile of 30 on this scenario card. 
+        Players::spendMoney($player,$player->getMoney());
+        $ship = Meeples::addBoatOnCard($player,$this,null);
+        Notifications::newBoatOnScenarioCard($player,$ship, $this);
+        return true;
+    }
+    return false;
+  }
+
   public function setupChangesAfterPlayerSetup(Player $player, Collection $players)
   {
     switch($this->getType()){
