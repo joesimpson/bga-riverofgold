@@ -3859,7 +3859,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             
             let endDescMap = new Map([
                 [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('You must outscore Seishin and own more buildings than Seishin.'),{})],
-                [2, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.MANTIS_1, this.fsr(_('You must outscore Seishin and remove the rogue pirate ship.'),{})],
                 [3, this.fsr(_(''),{})],
                 [4, this.fsr(_(''),{})],
                 [5, this.fsr(_(''),{})],

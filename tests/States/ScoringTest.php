@@ -9,6 +9,7 @@ use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -3193,6 +3194,147 @@ final class ScoringTest extends TestCase
         assertSame(0,  TestDatas::$players[2]['player_score_aux']);
         assertSame(4, Globals::getAutomaScore());
         assertSame(4, TestDatas::$stats['table'][14]);
+    }
+    
+    public function test_computeScoring_ScenarioMantis1_Completed(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedNotifs = [
+            "computeFinalScore",
+            "scoreDeliveries-1", 
+            "scoreDeliveries-2", 
+            "scoreDeliveries--123", 
+            "endResourcesForCustomers--123", 
+            "scenarioCompleted-1",
+            "teamWin",
+        ];
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0,
+                SCORING_CUSTOMERS => 0,
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(2, TestDatas::$players[1]['player_score']);//Reduce to lowest score
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(2,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);//REDUCED
+        assertSame(0, Globals::getAutomaScore());
+    }
+    
+    public function test_computeScoring_ScenarioMantis1_Failed(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$tokens[26]['player_id'] = ROGUE_PLAYER_ID;
+        $expectedNotifs = [
+            "computeFinalScore",
+            "scoreDeliveries-1", 
+            "scoreDeliveries-2", 
+            "scoreDeliveries--123", 
+            "endResourcesForCustomers--123", 
+            "scenarioFailed-1",
+            "teamLoose",
+        ];
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0,
+                SCORING_CUSTOMERS => 0,
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(SCORE_FAIL, TestDatas::$players[1]['player_score']);
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(SCORE_FAIL,  TestDatas::$players[2]['player_score']);
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);
+        assertSame(0, Globals::getAutomaScore());
     }
     // -------------------------------------------------
     

@@ -4742,13 +4742,13 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_popin_scenario_content .rog_scenario_card_wrapper .rog_scenario_end_label {
   top: 0%;
   left: 67%;
-  width: 30%;
+  width: 28%;
   height: 8%;
 }
 .rog_popin_scenario_content .rog_scenario_card_wrapper .rog_scenario_end {
   top: 8%;
   left: 67%;
-  width: 30%;
+  width: 28%;
   height: 92%;
 }
 

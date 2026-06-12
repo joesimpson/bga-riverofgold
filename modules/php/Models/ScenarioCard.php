@@ -83,6 +83,10 @@ class ScenarioCard extends Card
         $nbSeishinBuildings = Meeples::countPlayerBuildings(AUTOMA_PLAYER_ID);
         $checked = $nbSeishinBuildings < $nbPlayerBuildings;
         break;
+      case ScenarioType::MANTIS_1->value:
+        $ship = Meeples::getRogueShip();
+        $checked = (!isset($ship));
+        break;
     }
     return $checked;
   }
