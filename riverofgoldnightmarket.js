@@ -3965,7 +3965,20 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <div class="rog_coop_label">${this.fsr(_('Co-op: Your ally can also move the rogue pirate ship. Whenever they do, they move it upriver until it reaches a river space that does not contain their ships and is not adjacent to their buildings.'),{})}</div>
                     `
                 ],
-                [3, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.CRANE_1, `
+                    <span>${this.fsr(_('When you complete your journey, after gaining all rewards for the turn:'),{})}</span>
+                    <ul>
+                        <li>${this.fsr(_('Payment: You may pay 1 or more ${koku} to remove that much debt from this card.'),{'koku':''})}</li>
+                        <li>${this.fsr(_('Interest: For each ${n} ${koku} of debt remaining on this card, add ${x} ${koku} to your debt.'),{'n':5, 'x': 1, 'koku':''})}</li>
+                    </ul>
+                    <br/>
+                    <span>${this.fsr(_('When you first reduce your debt to:'),{})}</span>
+                    <ul>
+                        <li>${this.fsr(_('${n} or less ${koku} (before accruing interest): Gain your second ship. Place it on the middle river starting space.'),{'n':15,'koku':''})}</li>
+                        <li>${this.fsr(_('${x} ${koku} : Gain ${influence} in each region, then gain all influence track rewards you have reached this game again.'),{'x':0, 'n2':2, 'koku':'', 'influence':this.formatIcon("influence",2)})}</li>
+                    </ul>
+                    `
+                ],
                 [4, this.fsr(_(''),{})],
                 [5, this.fsr(_(''),{})],
                 [6, this.fsr(_(''),{})],
@@ -3977,7 +3990,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let endDescMap = new Map([
                 [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('You must outscore Seishin and own more buildings than Seishin.'),{})],
                 [this.gamedatas.enums.ScenarioType.MANTIS_1, this.fsr(_('You must outscore Seishin and remove the rogue pirate ship.'),{})],
-                [3, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.CRANE_1, this.fsr(_('You must outscore Seishin and reduce your debt to ${n} ${koku}'),{'n':0, 'koku':''})],
                 [4, this.fsr(_(''),{})],
                 [5, this.fsr(_(''),{})],
                 [6, this.fsr(_(''),{})],
