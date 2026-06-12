@@ -189,7 +189,6 @@ trait ScoringTrait
       
     }
     Globals::setEndScoring($endScoringDatas);
-
   }
   
   public function checkCoopVictory($players)
@@ -197,6 +196,8 @@ trait ScoringTrait
     if(!Utils::isGameWithAutoma()) return;
 
     self::trace("checkCoopVictory()");
+    $endScoringDatas = Globals::getEndScoring();
+    
     //COMPARE SCORES WITH AUTOMA : "You and your ally win or lose as a team. To win, each of you must have a higher score than Seishin. If either of your scores is lower than or equal to Seishin’s, you both lose the game."
     $automaScore = Globals::getAutomaScore();
     $eliminated = [];
@@ -216,10 +217,12 @@ trait ScoringTrait
       if(isset($scenario)){
         if($scenario->checkEndConditions()){
           Notifications::scenarioCompleted($player,$scenario);
+          $endScoringDatas[$pId][SCORING_COMPLETE_SCENARIO] = true; 
         }
         else {
           Notifications::scenarioFailed($player,$scenario);
           $eliminated[$pId] = $player;
+          $endScoringDatas[$pId][SCORING_COMPLETE_SCENARIO] = false; 
         }
       }
     }
@@ -243,6 +246,7 @@ trait ScoringTrait
       }
     }
     //--------------------------------------------------
+    Globals::setEndScoring($endScoringDatas);
   }
 
 }

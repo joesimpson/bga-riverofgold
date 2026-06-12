@@ -206,6 +206,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const SCORING_INFLUENCE = 2;
     const SCORING_DELIVERED = 3;
     const SCORING_CUSTOMERS = 4;
+    const SCORING_COMPLETE_SCENARIO = 10;
 
     const PREF_PLAYER_PANEL_DETAILS = 100;
     const PREF_UNDO_STYLE = 101;
@@ -287,6 +288,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['scoreCustomer', 1200],
                 ['addPoints', 1200],
                 ['scorePatron', 1200],
+                ['scenarioCompleted', 1200],
+                ['scenarioFailed', 1200],
                 ['activePatron', 1200],
                 ['discardTiles', null],
                 ['discardBuildingRow', 500],
@@ -2150,6 +2153,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             debug('notif_scorePatron', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_clan_card-${n.args.card_id}`));
         },
+        notif_scenarioCompleted(n) {
+            debug('notif_scenarioCompleted', n);
+            this.updateScoringScenario(n.args.player_id, true);
+        },
+        notif_scenarioFailed(n) {
+            debug('notif_scenarioFailed', n);
+            this.updateScoringScenario(n.args.player_id, false);
+        },
         notif_activePatron(n) {
             debug('notif_activePatron', n);
             //let's see notif message displayed on top
@@ -2565,6 +2576,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 recomputeTotal += this._counters[pId].scoringRecap.ingame.getValue();
                 this._counters[pId].scoringRecap.total = this.createCounter(`rog_recap_total_${pId}`,player.score);
                 
+                if(endScoreDatas){
+                    this.updateScoringScenario(pId, endScoreDatas[SCORING_COMPLETE_SCENARIO]);
+                }
                 //if(this._counters[pId].scoringRecap.total.getValue() == -1){//SCORE_FAIL
                     //IF negative score to save a BGA defeat, recomputes the score with all other values from table :
                     this._counters[pId].scoringRecap.total.setValue(recomputeTotal);
@@ -2579,6 +2593,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let playersIngameScore = '';
             let playersDeliveries = '';
             let playersCustomerBonuses = '';
+            let playersScenarioRecap = '';
             let playersTotal = '';
             let regionsInfluence = '';
             Object.values(REGIONS).forEach((region) =>{
@@ -2597,6 +2612,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 playersIngameScore +=`<td><div id='rog_recap_ingame_${player.id}'></div></td>`;
                 playersDeliveries +=`<td><div id='rog_recap_deliv_${player.id}'></div></td>`;
                 playersCustomerBonuses += `<td><div id='rog_recap_customers_${player.id}'></div></td>`;
+                playersScenarioRecap += `<td><div id='rog_recap_scenario_${player.id}'></div></td>`;
                 playersTotal +=`<td><div id='rog_recap_total_${player.id}'></div></td>`;
             });
             let customersIcons = ``;
@@ -2631,6 +2647,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                             <th>${_('Customers bonuses')}${customersIcons}</th>
                             ${playersCustomerBonuses}
                         </tr>
+                        <tr id="rog_recap_scenario_row" class ="rog_nodisplay" >
+                            <th>${_('Completed Scenario ?')}</th>
+                            ${playersScenarioRecap}
+                        </tr>
                         <tr class ='rog_score_total'>
                             <th>${_('Total')} <div class='rog_icon_score'></th>
                             ${playersTotal}
@@ -2640,7 +2660,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             `;
             return html;
         },
-
+        updateScoringScenario(playerId, scenarioResult){
+            if(scenarioResult === undefined) return;
+            let divRecapScenario = document.getElementById(`rog_recap_scenario_${playerId}`);
+            if(divRecapScenario) {
+                divRecapScenario.innerText = (scenarioResult ? _('Yes') : _('No'));
+                document.getElementById(`rog_recap_scenario_row`).classList.remove('rog_nodisplay');
+            }
+        },
         ////////////////////////////////////////////////////////////
         // _____                          _   _   _
         // |  ___|__  _ __ _ __ ___   __ _| |_| |_(_)_ __   __ _

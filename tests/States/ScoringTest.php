@@ -3063,6 +3063,7 @@ final class ScoringTest extends TestCase
                 ], 
                 SCORING_DELIVERED => 0, 
                 SCORING_CUSTOMERS=> 0,
+                SCORING_COMPLETE_SCENARIO => true,
             ],
             2 => [ // PLAYER 2
                 SCORING_INGAME => 2, 
@@ -3154,6 +3155,7 @@ final class ScoringTest extends TestCase
                 ], 
                 SCORING_DELIVERED => 0, 
                 SCORING_CUSTOMERS=> 0,
+                SCORING_COMPLETE_SCENARIO => false,
             ],
             2 => [ // PLAYER 2
                 SCORING_INGAME => 2, 
@@ -3225,6 +3227,7 @@ final class ScoringTest extends TestCase
                 ], 
                 SCORING_DELIVERED => 0, 
                 SCORING_CUSTOMERS=> 0,
+                SCORING_COMPLETE_SCENARIO => true,
             ],
             2 => [ // PLAYER 2
                 SCORING_INGAME => 2, 
@@ -3296,6 +3299,7 @@ final class ScoringTest extends TestCase
                 ], 
                 SCORING_DELIVERED => 0, 
                 SCORING_CUSTOMERS=> 0,
+                SCORING_COMPLETE_SCENARIO => false,
             ],
             2 => [ // PLAYER 2
                 SCORING_INGAME => 2, 
@@ -3367,6 +3371,7 @@ final class ScoringTest extends TestCase
                 ], 
                 SCORING_DELIVERED => 0, 
                 SCORING_CUSTOMERS=> 0,
+                SCORING_COMPLETE_SCENARIO => true,
             ],
             2 => [ // PLAYER 2
                 SCORING_INGAME => 2, 
@@ -3436,6 +3441,7 @@ final class ScoringTest extends TestCase
                 ], 
                 SCORING_DELIVERED => 0, 
                 SCORING_CUSTOMERS=> 0,
+                SCORING_COMPLETE_SCENARIO => false,
             ],
             2 => [ // PLAYER 2
                 SCORING_INGAME => 2, 

@@ -7961,7 +7961,6 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
 #rog_end_score_recap table .counter_empty div {
   opacity: 0.1;
 }
-
 /*! nouislider - 14.6.0 - 6/27/2020 */
 .noUi-target,
 .noUi-target * {
