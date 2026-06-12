@@ -347,16 +347,7 @@ class Notifications
     }
     $cardName = '';
     if($card instanceof ScenarioCard){
-      $cardName = [
-        'log'=> '${clan_icon}${clan_name} Scenario',
-        'args'=> [
-          'clan_id' => $card->getClan(),
-          'clan_icon' => '',
-          'clan_name' => $card->getClanName(),
-          'i18n' => ['clan_name'],
-          'preserve' => ['clan_id'],
-        ]
-      ];
+      $cardName = $card->formatNameForNotif();
     }
     self::notifyAll($notif, $msg, [
       'player' => $player,
@@ -370,6 +361,18 @@ class Notifications
     ]);
   }
 
+  public static function removeDebt(Player $player,ScenarioCard $card, )
+  {
+    $notif = 'removeDebt';
+    $msg = clienttranslate('${player_name} totally removes the debt from ${card_name} card');
+    $cardName = $card->formatNameForNotif();
+    self::notifyAll($notif, $msg, [
+      'player' => $player,
+      'card_id' => $card->getId(),
+      'preserve'=>['card_id'],
+      'card_name' => $cardName,
+    ]);
+  }
   /**
    * @param Player $player
    * @param int $type

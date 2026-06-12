@@ -102,6 +102,48 @@ class ScenarioCard extends Card
     }
   }
   
+  public function abilityOnManageResources(Player &$player, int $qty, )
+  {
+    switch($this->getType()){//ScenarioType value
+      case ScenarioType::CRANE_1->value:
+        $type = RESOURCE_TYPE_MONEY;
+        $debtBefore = $this->getResource($type);
+        
+        //Remove money from debt card by PAYING from player money
+        $this->addResource($player,-$qty,$type);
+        $player->giveResource(-$qty,$type);
+
+        $debt = $this->getResource($type);
+        if($qty > 0 && $debt <= 15){
+          //DEBT 15 or less : Gain your second ship (if not yet placed). Place it on the middle river starting space.
+          $ship = Meeples::getBoatOnCard($this);
+          if(isset($ship)){
+            $ship->setLocation(MEEPLE_LOCATION_RIVER);
+            $ship->setPosition(STARTING_BOATS_SPACES[1]);
+            Notifications::newBoat($player,$ship);
+          }
+        }
+
+        if($qty > 0 && $debt <= 0){
+          //DEBT 0 FIRST TIME : Gain 2 influence in each region, 
+          Notifications::removeDebt($player,$this);
+          foreach(REGIONS as $region){
+            Players::gainInfluence($player, $region, 2);
+          }
+          // then gain all influence track rewards you have reached this game again.
+          foreach(REGIONS as $region){
+            $meeple = Meeples::getInfluenceMarker($player->getId(),$region);
+            Players::gainInfluenceTrackRewards($player,$region, 0, $meeple->getPosition() );
+          }
+        }
+        
+        //Interest: For each 5 of debt remaining on this card, add 1 to your debt
+        $interests = intval($debt / 5);
+        $this->addResource($player,$interests,RESOURCE_TYPE_MONEY);
+        break;
+    }
+  }
+
   /**
    * @return bool true if scenario is completed
    */
@@ -123,4 +165,18 @@ class ScenarioCard extends Card
     return $checked;
   }
 
+  
+  public function formatNameForNotif() : array
+  {
+    return [
+        'log'=> '${clan_icon}${clan_name} Scenario',
+        'args'=> [
+          'clan_id' => $this->getClan(),
+          'clan_icon' => '',
+          'clan_name' => $this->getClanName(),
+          'i18n' => ['clan_name'],
+          'preserve' => ['clan_id'],
+        ]
+      ];
+  }
 }

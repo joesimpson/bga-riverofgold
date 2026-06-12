@@ -143,6 +143,82 @@ final class BonusManageCardResourcesTest extends TestCase
         assertSame(8, TestDatas::$tokens[22]['meeple_state']);
     }
     
+    public function test_actManageCardResources_Pass_RemoveDebt(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+        $currentBonus = BONUS_TYPE_MANAGE_DEBT;
+        $currentBonusDatas = ['card_id'=>301, 'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":2}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":1}'];
+        //set influence
+        TestDatas::$tokens[1]['meeple_state'] = 0 ;// +2 will give 1 pottery *2
+        TestDatas::$tokens[2]['meeple_state'] = 3 ;// +2 will give 2 koku *2 (+ 1 rice repeated)
+        TestDatas::$tokens[3]['meeple_state'] = 6 ;// +2 will give (2 koku + 1 silk repeated)
+        TestDatas::$tokens[4]['meeple_state'] = 8 ;// +2 will give  1 sun *2 (2 koku + 1 pottery repeated)
+        TestDatas::$tokens[5]['meeple_state'] = 12;// +2 will give 3 points *2 (1 sun + 2 koku + 1 rice repeated)
+        TestDatas::$tokens[6]['meeple_state'] = 15;// +2 will give (3 points + 1 sun + 2 koku + 1 silk repeated)
+        $qty = 1;
+        $type = RESOURCE_TYPE_MONEY;
+        $args = $state->getArgs();
+
+        $newState = $state->actManageCardResources($qty, $type,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "spendResourceOnCard-1",
+            "spendResource-1",
+            "removeDebt-1",
+            "gainInfluence-1",
+            "giveResource-1",
+            "gainInfluence-1",
+            "giveResource-1",
+            "gainInfluence-1",
+            "gainInfluence-1",
+            "giveResource-1",
+            "gainInfluence-1",
+            "addPoints-1",
+            "gainInfluence-1",
+            "giveResource-1",
+            "giveResource-1",
+            "giveResource-1",
+            "giveResource-1",
+            "giveResource-1",
+            "giveResource-1",
+            "giveResource-1",
+            "giveResource-1",
+            "giveResource-1",
+            "giveResource-1",
+            "giveResource-1",
+            "addPoints-1",
+            "giveResource-1",
+            "giveResource-1",
+            "giveResource-1",
+            "addPoints-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, $newState);
+        assertSame(28, TestDatas::$players[1]['player_score']);//19+3*3
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(2, $resourcesP1[RESOURCE_TYPE_SILK]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(2, $resourcesP1[RESOURCE_TYPE_RICE]);
+        assertSame(4, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(4, $resourcesP1[RESOURCE_TYPE_SUN]); 
+        assertSame(13, $resourcesP1[RESOURCE_TYPE_MONEY]);//1 + 12
+        $resourcesCard = json_decode(TestDatas::$cards[301]['resources'], true);
+        assertSame(0, $resourcesCard[RESOURCE_TYPE_MONEY]);
+        //gain influence 
+        assertSame(2+0 , TestDatas::$tokens[1]['meeple_state']);
+        assertSame(2+3 , TestDatas::$tokens[2]['meeple_state']);
+        assertSame(2+6 , TestDatas::$tokens[3]['meeple_state']);
+        assertSame(2+8 , TestDatas::$tokens[4]['meeple_state']);
+        assertSame(2+12, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(2+15, TestDatas::$tokens[6]['meeple_state']);
+    }
+    
     public function test_actManageCardResources_Pass_Pay0_IncreaseDebt(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

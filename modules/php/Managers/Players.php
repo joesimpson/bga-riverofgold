@@ -404,7 +404,14 @@ class Players extends \ROG\Helpers\DB_Manager
       }
     }
     //////////////////////////////////////////////////////////////////
-    
+
+    return Players::gainInfluenceTrackRewards($player,$region, $currentInfluence, $newInfluence );
+  }
+
+  public static function gainInfluenceTrackRewards(Player &$player,int $region,int $currentInfluence, int $newInfluence){
+    $pid = $player->getId();
+    Game::get()->trace("gainInfluenceTrackRewards($pid, $region,$currentInfluence, $newInfluence)");
+
     //Earn bonus on track :
     $goToBonusChoice = false;
     $bonuses = Utils::getInfluenceTrackRewards($region);

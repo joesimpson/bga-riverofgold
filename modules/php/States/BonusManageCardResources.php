@@ -111,25 +111,7 @@ class BonusManageCardResources extends GameState
 
     switch($currentBonus){
       case BONUS_TYPE_MANAGE_DEBT:
-        //Remove money from debt card by PAYING from player money
-        $card->addResource($player,-$qty,$type);
-        $player->giveResource(-$qty,$type);
-
-        $debt = $card->getResource($type);
-        if($debt <= 15){
-          //DEBT 15 or less : Gain your second ship (if not yet placed). Place it on the middle river starting space.
-          $ship = Meeples::getBoatOnCard($card);
-          if(isset($ship)){
-            $ship->setLocation(MEEPLE_LOCATION_RIVER);
-            $ship->setPosition(STARTING_BOATS_SPACES[1]);
-            Notifications::newBoat($player,$ship);
-          }
-        }
-        //TODO JSA DEBT 0  : Gain 2 influence in each region, then gain all influence track rewards you have reached this game again.
-        
-        //Interest: For each 5 of debt remaining on this card, add 1 to your debt
-        $interests = intval($debt / 5);
-        $card->addResource($player,$interests,$type);
+        $card->abilityOnManageResources($player, $qty);
         break;
     }
 

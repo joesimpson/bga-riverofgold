@@ -643,6 +643,11 @@ abstract class Table
                 TestDatas::$tiles[106],
             ];
         }
+        
+        if (preg_match("/^SELECT .* FROM `user_preferences` (.*)$/", $sql, $matches) == 1) {
+            logForTests(" nothing for now ");
+            return [];
+        }
 
         logForTests(" /?\ __ don't know what to return for this request __ /?\ [$sql] ");
         return [];
