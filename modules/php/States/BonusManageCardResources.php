@@ -12,6 +12,7 @@ use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Log;
 use ROG\Managers\Cards;
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Models\Player;
 
@@ -88,11 +89,6 @@ class BonusManageCardResources extends GameState
     
     $player = Players::get($activePlayerId);
     $card = Cards::get($args['card_id']);
-    //$cardResources = $card->getResources();
-    //$cardResourcesTypes = array_keys($cardResources);
-    //if (!isset($cardResources) || !in_array($type,$cardResourcesTypes)) {
-    //  throw new UnexpectedException(201,"Invalid resource $type ");
-    //} 
     $types = $args['types'];
     if (!in_array($type,array_keys($types))) {
       throw new UnexpectedException(201,"Invalid resource $type ");
@@ -118,9 +114,22 @@ class BonusManageCardResources extends GameState
         //Remove money from debt card by PAYING from player money
         $card->addResource($player,-$qty,$type);
         $player->giveResource(-$qty,$type);
-        //TODO JSA DEBT 15 or less : Gain your second ship (if not yet placed). Place it on the middle river starting space.
+
+        $debt = $card->getResource($type);
+        if($debt <= 15){
+          //DEBT 15 or less : Gain your second ship (if not yet placed). Place it on the middle river starting space.
+          $ship = Meeples::getBoatOnCard($card);
+          if(isset($ship)){
+            $ship->setLocation(MEEPLE_LOCATION_RIVER);
+            $ship->setPosition(STARTING_BOATS_SPACES[1]);
+            Notifications::newBoat($player,$ship);
+          }
+        }
         //TODO JSA DEBT 0  : Gain 2 influence in each region, then gain all influence track rewards you have reached this game again.
-        //TODO JSA COMPUTE INTERESTS
+        
+        //Interest: For each 5 of debt remaining on this card, add 1 to your debt
+        $interests = intval($debt / 5);
+        $card->addResource($player,$interests,$type);
         break;
     }
 

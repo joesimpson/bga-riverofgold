@@ -231,6 +231,15 @@ class Meeples extends \ROG\Helpers\Pieces
     return self::getFilteredQuery(ROGUE_PLAYER_ID, MEEPLE_LOCATION_RIVER,null)->get()->first();
   }
 
+  public static function getBoatOnCard(Card $card) : ?Meeple
+  {
+    $cardId = $card->getId();
+    return self::DB()
+      ->whereIn('type', [MEEPLE_TYPE_SHIP, MEEPLE_TYPE_SHIP_ROYAL])
+      ->where(self::$prefix.'location', MEEPLE_LOCATION_CARD.$cardId)
+      ->get()
+      ->first();
+  }
   /**
    * @param int $pId
    * @param int $region

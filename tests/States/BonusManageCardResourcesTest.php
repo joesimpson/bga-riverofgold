@@ -83,6 +83,43 @@ final class BonusManageCardResourcesTest extends TestCase
         Globals::setCurrentBonusDatas($currentBonusDatas);
         TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":25}';
         TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":30}'];
+        TestDatas::$tokens[22]['meeple_location'] = MEEPLE_LOCATION_CARD."301";
+        TestDatas::$tokens[22]['meeple_state'] = 1;
+        $qty = 14;
+        $type = RESOURCE_TYPE_MONEY;
+        $args = $state->getArgs();
+
+        $newState = $state->actManageCardResources($qty, $type,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "spendResourceOnCard-1",
+            "spendResource-1",
+            "addResourceOnCard-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, $newState);
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(11, $resourcesP1[RESOURCE_TYPE_MONEY]);
+        $resourcesCard = json_decode(TestDatas::$cards[301]['resources'], true);
+        assertSame(19, $resourcesCard[RESOURCE_TYPE_MONEY]);//16 + 3 interest
+        //NOT gain ship
+        assertSame(MEEPLE_LOCATION_CARD."301", TestDatas::$tokens[22]['meeple_location']);
+        assertSame(1, TestDatas::$tokens[22]['meeple_state']);
+    }
+    
+    public function test_actManageCardResources_Pass_GainSecondShip(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+        $currentBonus = BONUS_TYPE_MANAGE_DEBT;
+        $currentBonusDatas = ['card_id'=>301, 'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":25}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":30}'];
+        TestDatas::$tokens[22]['meeple_location'] = MEEPLE_LOCATION_CARD."301";
+        TestDatas::$tokens[22]['meeple_state'] = 1;
         $qty = 25;
         $type = RESOURCE_TYPE_MONEY;
         $args = $state->getArgs();
@@ -92,13 +129,51 @@ final class BonusManageCardResourcesTest extends TestCase
         $expectedNotifs = [
             "spendResourceOnCard-1",
             "spendResource-1",
+            "newBoat-1",
+            "addResourceOnCard-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(ST_BONUS_CHOICE, $newState);
         $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
         assertSame(0, $resourcesP1[RESOURCE_TYPE_MONEY]);
         $resourcesCard = json_decode(TestDatas::$cards[301]['resources'], true);
-        assertSame(5, $resourcesCard[RESOURCE_TYPE_MONEY]);
+        assertSame(6, $resourcesCard[RESOURCE_TYPE_MONEY]);//5 + 1 interest
+        //gain ship
+        assertSame(MEEPLE_LOCATION_RIVER, TestDatas::$tokens[22]['meeple_location']);
+        assertSame(8, TestDatas::$tokens[22]['meeple_state']);
+    }
+    
+    public function test_actManageCardResources_Pass_Pay0_IncreaseDebt(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusManageCardResources($game);
+        $currentBonus = BONUS_TYPE_MANAGE_DEBT;
+        $currentBonusDatas = ['card_id'=>301, 'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":25}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::CRANE_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{"6":30}'];
+        TestDatas::$tokens[22]['meeple_location'] = MEEPLE_LOCATION_CARD."301";
+        TestDatas::$tokens[22]['meeple_state'] = 1;
+        $qty = 0;
+        $type = RESOURCE_TYPE_MONEY;
+        $args = $state->getArgs();
+
+        $newState = $state->actManageCardResources($qty, $type,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "addResourceOnCard-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, $newState);
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(25, $resourcesP1[RESOURCE_TYPE_MONEY]);
+        $resourcesCard = json_decode(TestDatas::$cards[301]['resources'], true);
+        assertSame(36, $resourcesCard[RESOURCE_TYPE_MONEY]);//30 + 6 interest
+        //NOT gain ship
+        assertSame(MEEPLE_LOCATION_CARD."301", TestDatas::$tokens[22]['meeple_location']);
+        assertSame(1, TestDatas::$tokens[22]['meeple_state']);
     }
     
     public function test_actManageCardResources_KO_NoMoney(): void

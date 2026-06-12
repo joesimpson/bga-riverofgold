@@ -522,6 +522,14 @@ abstract class Table
             logForTests("MOCK select tokens: ".json_encode($filtered));
             return $filtered;
         }
+        
+        if (preg_match("/^SELECT .* FROM `meeples` WHERE \(`type` IN \((?P<types>.*)\)\) AND `meeple_location` = '(?P<meeple_location>.*)'$/", $sql, $matches) == 1) {
+            $filtered = [];
+            $meeple_location = $matches['meeple_location'];
+            $types = explode(',',str_replace("'","",$matches['types']));
+            $filtered = array_filter(TestDatas::$tokens,function ($token) use ( $types, $meeple_location){return in_array($token['type'], $types) && $token['meeple_location'] == $meeple_location;});
+            return $filtered;
+        }
         if (preg_match("/^SELECT (.*) FROM `meeples` WHERE \(`meeple_id` IN \((?P<meeple_ids>.*)\)\)$/", $sql, $matches) == 1) {
             $filtered = [];
             $meeple_ids = explode(',',str_replace("'","",$matches['meeple_ids']));
@@ -824,6 +832,13 @@ abstract class Table
             $pid = $matches['pid'];
             logForTests("DbQuery --- update last_turn_played for player $pid ... $last_turn_played");
             TestDatas::$players[$pid]['last_turn_played'] = $last_turn_played;
+            return true;
+        }
+        if (preg_match("/^UPDATE `meeples` SET `meeple_location` = '(?P<meeple_location>.*)' WHERE  `meeple_id` = (?P<meeple_id>\d+)$/", $sql, $matches) == 1) {
+            $meeple_location = $matches['meeple_location'];
+            $meeple_id = $matches['meeple_id'];
+            logForTests("DbQuery --- updated meeple_location for token $meeple_id : $meeple_location");
+            TestDatas::$tokens[$meeple_id]['meeple_location'] = ($meeple_location);
             return true;
         }
         if (preg_match("/^UPDATE `meeples` SET `meeple_state` = '(?P<meeple_state>\d+)' WHERE  `meeple_id` = (?P<meeple_id>\d+)$/", $sql, $matches) == 1) {
