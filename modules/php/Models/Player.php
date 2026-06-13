@@ -163,6 +163,11 @@ class Player extends \ROG\Helpers\DB_Model
     Notifications::giveResource($this,$realInc,$type,null, $shoreSpace);
   }
   
+  public function giveResourceFromInfluenceTrackSpace(int $nb, int $type, int $region, int $space)
+  {
+    $realInc = $this->giveResource($nb, $type,false);
+    Notifications::giveResource($this,$realInc,$type,null, null, [ 'region' => $region, 'pos' => $space, ]);
+  }
   /**
    * @param int $type
    * @return int resource number of this type

@@ -462,7 +462,7 @@ class Players extends \ROG\Helpers\DB_Manager
             $goToBonusChoice = true;
             break;
           default: 
-            $player->giveResource($bonusQuantity,$bonusType);
+            $player->giveResourceFromInfluenceTrackSpace($bonusQuantity,$bonusType,$region,$influence);
             break;
         }
       }

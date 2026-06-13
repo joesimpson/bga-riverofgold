@@ -1900,6 +1900,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     targetSource = $(fromDiv);
                 }
             }
+            if(n.args.track_space){
+                let region = n.args.track_space['region'];
+                let pos = n.args.track_space['pos'];
+                let fromDiv = `rog_influence_track_space_${region}_${pos}`;
+                if ($(fromDiv)){
+                    targetSource = $(fromDiv);
+                }
+            }
             this.gainPayResource(n.args.player_id, RESOURCES[n.args.res_type], n.args.n,targetSource);
         },
         notif_spendResource(n) {
