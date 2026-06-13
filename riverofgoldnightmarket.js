@@ -2097,7 +2097,16 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         notif_addPoints(n) {
             debug('notif_addPoints : new score', n);
-            this.gainPoints(n.args.player_id,n.args.n);
+            let targetSource = null;
+            if(n.args.track_space){
+                let region = n.args.track_space['region'];
+                let pos = n.args.track_space['pos'];
+                let fromDiv = `rog_influence_track_space_${region}_${pos}`;
+                if ($(fromDiv)){
+                    targetSource = $(fromDiv);
+                }
+            }
+            this.gainPoints(n.args.player_id,n.args.n,targetSource);
         },
         notif_claimMC(n) {
             debug('notif_claimMC : new score after mastery card', n);

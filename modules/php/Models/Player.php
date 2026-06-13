@@ -100,6 +100,11 @@ class Player extends \ROG\Helpers\DB_Model
     if($sendNotif) Notifications::addPoints($this,$points);
   }
   
+  public function addPointsFromInfluenceTrack(int $points,int $region,int $influence)
+  {
+    $this->addPoints($points,false);
+    Notifications::addPointsFromInfluenceTrack($this,$points,$region,$influence);
+  }
   /**
    * Increment resource number of this type
    * @param int $nb

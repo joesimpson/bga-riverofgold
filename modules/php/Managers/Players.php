@@ -422,7 +422,7 @@ class Players extends \ROG\Helpers\DB_Manager
         $bonusType = $bonus['type'];
         switch($bonusType){
           case BONUS_TYPE_POINTS: 
-            $player->addPoints($bonusQuantity);
+            $player->addPointsFromInfluenceTrack($bonusQuantity,$region,$influence);
             break;
           case BONUS_TYPE_INF_SELECT_REGION: 
             Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity]);
@@ -447,7 +447,7 @@ class Players extends \ROG\Helpers\DB_Manager
             Globals::addBonusWithDatas($player,$bonusType,['region'=>$region,'bonusQuantity'=>$bonusQuantity,'points'=>2,'koku'=>3,]);
             if($player instanceof AutomaPlayer){
               //Seishin ignores the numbers of trades and always scores 2 points
-              $player->addPoints(2);
+              $player->addPointsFromInfluenceTrack(2,$region,$influence);
               break;
             } 
             $goToBonusChoice = true;

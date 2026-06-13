@@ -699,11 +699,25 @@ class Notifications
    * @param int $points
    * @param string $msg (optional)
    */
-  public static function addPoints($player,$points, $msg = null){
+  public static function addPoints(Player $player,int $points, ?string $msg = null){
     if(!isset($msg)) $msg = clienttranslate('${player_name} scores ${n} ${points}');
     self::notifyAll('addPoints',$msg,[ 
         'player' => $player,
         'n' => $points,
+        'points' => clienttranslate('Points'),
+        'i18n' => ['points'],
+      ],
+    );
+  }
+  
+  public static function addPointsFromInfluenceTrack(Player $player,int $points, int $region,int $influence){
+    $msg = clienttranslate('${player_name} scores ${n} ${points}');
+    $from_track_space = [ 'region' => $region, 'pos' => $influence, ];
+    //keep same client name for no impacts
+    self::notifyAll('addPoints',$msg,[ 
+        'player' => $player,
+        'n' => $points,
+        'track_space' => $from_track_space,
         'points' => clienttranslate('Points'),
         'i18n' => ['points'],
       ],

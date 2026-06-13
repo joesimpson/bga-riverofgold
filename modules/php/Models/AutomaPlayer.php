@@ -73,6 +73,10 @@ class AutomaPlayer extends Player
     {
         //NOTHING
     }
+    public function giveResourceFromInfluenceTrackSpace(int $nb, int $type, int $region, int $space)
+    {
+        //NOTHING
+    }
   
     
     public function canReceiveMoney()
