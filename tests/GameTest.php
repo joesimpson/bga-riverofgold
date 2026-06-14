@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UserException;
 use ROG\Managers\Players;
+use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -755,6 +756,8 @@ final class GameTest extends TestCase
             'constants' => [
                 'INFLUENCE_TRACK_REWARDS' => INFLUENCE_TRACK_REWARDS,
                 'CUSTOM_REGION_TRACKS' => CUSTOM_REGION_TRACKS,
+                'ROGUE_PLAYER_ID' => ROGUE_PLAYER_ID,
+                'SCORPION_ENEMY_ID' => SCORPION_ENEMY_ID,
             ],
             'enums' => [
                 'AutomaActionType' => [
@@ -775,6 +778,7 @@ final class GameTest extends TestCase
                     'UNICORN_1' => 8,
                 ],
             ],
+            'virtual_players' => [],
         ];
 
         $datas = $game->getAllDatas();
@@ -838,6 +842,33 @@ final class GameTest extends TestCase
         
         assertSame($expectedAutomaPlayerDatas, $datas['players'][AUTOMA_PLAYER_ID]);
         assertSame($expectedAutomaPlayerDatas, $datas['automa_player']);
+    }
+    
+    public function test_getAllDatas_withScenarios(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$cards[302] = ['result_associative_index' => 302,'card_id' => 302, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 2, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        Globals::setRogueClan(CLAN_UNICORN);
+        Globals::setScorpionEnemy(CLAN_LION);
+        $expectedVirtualPlayers = [
+            ROGUE_PLAYER_ID => [
+                'id' => ROGUE_PLAYER_ID, 
+                'clan' => CLAN_UNICORN, 
+                'color' => '982fff', 
+            ],
+            SCORPION_ENEMY_ID => [
+                'id' => SCORPION_ENEMY_ID, 
+                'clan' => CLAN_LION, 
+                'color' => 'ffff00', 
+            ],
+        ];
+
+        $datas = $game->getAllDatas();
+        
+        assertSame($expectedVirtualPlayers, $datas['virtual_players']);
     }
     // -------------------------------------------------
     

@@ -240,7 +240,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['refreshHand', 50],
                 ['newPlayerColor', 10],
                 ['automaColor', 10],
-                ['roguePlayer', 10],
+                ['virtualPlayer', 10],
                 ['giveMoney', 1300],
                 ['spendMoney', 1300],
                 //['draftCards', 10],
@@ -1735,9 +1735,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             automaName.style.color = `#${this.gamedatas.automa_player.color}`; 
             this.setupAutomaBoard(); 
         },
-        notif_roguePlayer(n) {
-            debug('notif_roguePlayer:', n);
-            this.gamedatas.rogue_pirate = n.args.rogue_pirate;
+        notif_virtualPlayer(n) {
+            debug('notif_virtualPlayer:', n);
+            this.gamedatas.virtual_players[ n.args.virtual_player.id] = ( n.args.virtual_player );
         },
         notif_giveClanCardTo(n) {
             debug('notif_giveClanCardTo: receiving a new clan card', n);
@@ -3417,9 +3417,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
 
         getPlayerClan(pId) {
-            if(this.gamedatas.rogue_pirate && pId == this.gamedatas.rogue_pirate.id){
-                return this.gamedatas.rogue_pirate.clan;
-            }
+            let clan = null;
+            Object.values(this.gamedatas.virtual_players).forEach((vPlayer) => {
+                if(vPlayer && pId == vPlayer.id){
+                    clan = vPlayer.clan;
+                }
+            });
+            if(clan) return clan;
             let player = this.gamedatas.players[pId];
             if(!player) return '';
             return player.clan;
@@ -3912,7 +3916,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('The evil forces of the Shadowlands are invading from the west. The Crab need to raise new mercantile holdings that are fortified against possible attack and maintain more holdings than their rival.'),{})],
                 [this.gamedatas.enums.ScenarioType.MANTIS_1, this.fsr(_('A rogue pirate captain challenges the Mantis Clan’s naval superiority and must be driven off.'),{})],
                 [this.gamedatas.enums.ScenarioType.CRANE_1, this.fsr(_('You are in debt and obligated to pay off your ship loan. Regional lords will be impressed if you manage to fully pay it off.'),{})],
-                [4, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.SCORPION_1, this.fsr(_('Influential politicians from a rival clan have bent the ear of the common people against the Scorpion clan. These targets must be eliminated.'),{})],
                 [5, this.fsr(_(''),{})],
                 [6, this.fsr(_(''),{})],
                 [7, this.fsr(_(''),{})],
@@ -3923,11 +3927,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let setupMap = new Map([
                 [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('Do not place starting buildings on the ${icon_player} 2 or ${icon_player} 2/3 shore spaces. (Place Imperial Markets on the ${icon_player} 2/3/4 spaces as usual.)'),{'icon_player': this.formatIconPlayer(),   })],
                 [this.gamedatas.enums.ScenarioType.MANTIS_1, this.fsr(_('Place a royal ship of an unused player color on the bottom river space. This is the rogue pirate ship.'),{})
-                    + "<div class='rog_ship_example'>"
+                    + "<div class='rog_meeple_example'>"
                     + this.tplMeeple({
                         'id': 'rogue_1', 
                         'type': MEEPLE_TYPE_SHIP_ROYAL, 
-                        'pId': this.gamedatas.rogue_pirate ? this.gamedatas.rogue_pirate.id : null,
+                        'pId': this.gamedatas.constants.ROGUE_PLAYER_ID,
                     })
                     + "</div>"
                 ],
@@ -3942,7 +3946,18 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     + meeples
                     + "</div>"
                 ],
-                [4, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.SCORPION_1, 
+                    this.fsr(_('Roll a die for Region 1 and add ${n} to its value. Advance a clan marker of an unused clan that many spaces on that region’s influence track. Repeat this for all 6 regions. These markers represent targets to eliminate.'),{'n':2})
+                    + "<div class='rog_meeple_example'>"
+                    + this.tplMeeple({
+                        'id': 'target_1', 
+                        'type': MEEPLE_TYPE_CLAN_MARKER, 
+                        'pId':this.gamedatas.constants.SCORPION_ENEMY_ID,
+                    })
+                    + "</div>"
+                    + `<br/>`
+                    + this.fsr(_('Start with the Noble from Region ${x} in play and gain its rewards. It counts as a customer you delivered to.'),{'x':3})
+                ],
                 [5, this.fsr(_(''),{})],
                 [6, this.fsr(_(''),{})],
                 [7, this.fsr(_(''),{})],

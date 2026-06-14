@@ -1122,13 +1122,19 @@
             width: 28%;
             height: 56%;
 
-            .rog_meeple{
-                &[data-type="3"]//MEEPLE_TYPE_SHIP_ROYAL
-                {
-                    position: absolute;
-                    width: 100px;
-                    height: 100px;
-                    left: 100px;
+            .rog_meeple_example{
+                align-self: center;
+                align-items: center;
+                display: flex;
+                justify-content: center;
+                .rog_meeple{
+                    width: 50px;
+                    height: 50px;
+                    &[data-type="3"]//MEEPLE_TYPE_SHIP_ROYAL
+                    {
+                        width: 100px;
+                        height: 80px;
+                    }
                 }
             }
             .rog_debt{

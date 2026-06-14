@@ -6,6 +6,15 @@
     box-shadow: 1px 1px 3px black;
 
     &[data-type='1'], //MEEPLE_TYPE_SHIP
+    &[data-type='2'], //MEEPLE_TYPE_CLAN_MARKER
+    &[data-type='3'] //MEEPLE_TYPE_SHIP_ROYAL
+    {
+        &[data-clan="0"], &[data-clan=""]  {//UNKNOWN
+            display: none;
+        }
+    }
+
+    &[data-type='1'], //MEEPLE_TYPE_SHIP
     &[data-type='3'] //MEEPLE_TYPE_SHIP_ROYAL
     {
         background-image: url("img/boats.png");
@@ -16,10 +25,6 @@
         border-radius: 0;
         width: 150px;
         height: 120px;
-
-        &[data-clan="0"], &[data-clan=""]  {//UNKNOWN
-            display: none;
-        }
 
         &[data-clan="1"]//CLAN_CRAB
         {//blue

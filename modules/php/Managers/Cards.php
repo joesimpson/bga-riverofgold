@@ -197,6 +197,46 @@ class Cards extends \ROG\Helpers\Pieces
       }
     }
   }
+  
+  public static function createCustomerCardAsDelivered(Player $player,int $cardType) : CustomerCard
+  {
+    $meeple = [
+      'type' => $cardType,
+      'subtype' => CARD_TYPE_CUSTOMER,
+      'location' => CARD_LOCATION_DELIVERED,
+      'player_id' => $player->getId(),
+    ];
+    $card = self::singleCreate($meeple);
+    Notifications::deliver($player,$card);
+    return $card;
+  }
+  
+  public static function setupDeliveredCustomer(Player &$player,int $cardType) : CustomerCard
+  {
+
+    $cardIds = Cards::getIdsByTypes(CARD_TYPE_CUSTOMER,[$cardType ]);
+    if(count($cardIds) > 0){
+      //MOVE CREATED CARD
+      $cardId = $cardIds[0];
+      $card = Cards::get($cardId);
+      $previousLocation = $card->getLocation();
+      $previousPlayerId = $card->getPId();
+      $card->setLocation(CARD_LOCATION_DELIVERED);
+      $card->setPId($player->getId());
+      Notifications::deliver($player,$card);
+      //replace card in previous location (player hands) + notify :
+      if($previousLocation == CARD_LOCATION_HAND){
+        $previousPlayer = Players::get($previousPlayerId);
+        Cards::drawCardsToHand($previousPlayer,1);
+      }
+    }
+    else {
+      //CREATE CARD (when type is not used)
+      $card = Cards::createCustomerCardAsDelivered($player,$cardType );
+    }
+    $card->playDeliveryAbility($player);
+    return $card;
+  }
 
   /**
    * @param Player $player
@@ -217,7 +257,7 @@ class Cards extends \ROG\Helpers\Pieces
    * @param int $nbCards
    * @return int $missingNb number of expected cards we cannot draw
    */
-  public static function drawCardsToHand($player,$nbCards)
+  public static function drawCardsToHand(Player $player,int $nbCards)
   {
     Game::get()->trace("drawCardsToHand($nbCards)");
     $cards = self::pickForLocation($nbCards, CARD_LOCATION_DECK, CARD_LOCATION_HAND,0,true);
@@ -401,7 +441,7 @@ class Cards extends \ROG\Helpers\Pieces
     AutomaCards::setupNewGame($players, $options);
   }
  
-  public static function getIdsByTypes(int $subType,array $cardsTypes)
+  public static function getIdsByTypes(int $subType,array $cardsTypes) : array
   {
     return self::DB()->select([self::$prefix.'id'])
       ->where( 'subType', $subType)

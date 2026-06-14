@@ -6,6 +6,7 @@ use ROG\Core\Game;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Core\Preferences;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -288,8 +289,7 @@ class Player extends \ROG\Helpers\DB_Model
    */
   public function rollDie(){
     if(!$this->isSkipRollDie()){
-      $dieFaces = DIE_FACES;
-      $this->setDie($dieFaces[array_rand($dieFaces)]);
+      $this->setDie(Utils::randomDieFace());
       $die_face = $this->getDie();
       Notifications::rollDie($this,$die_face);
     }

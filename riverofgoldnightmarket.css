@@ -4724,11 +4724,19 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: 28%;
   height: 56%;
 }
-.rog_popin_scenario_content .rog_scenario_card_wrapper .rog_scenario_setup .rog_meeple[data-type="3"] {
-  position: absolute;
+.rog_popin_scenario_content .rog_scenario_card_wrapper .rog_scenario_setup .rog_meeple_example {
+  align-self: center;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+.rog_popin_scenario_content .rog_scenario_card_wrapper .rog_scenario_setup .rog_meeple_example .rog_meeple {
+  width: 50px;
+  height: 50px;
+}
+.rog_popin_scenario_content .rog_scenario_card_wrapper .rog_scenario_setup .rog_meeple_example .rog_meeple[data-type="3"] {
   width: 100px;
-  height: 100px;
-  left: 100px;
+  height: 80px;
 }
 .rog_popin_scenario_content .rog_scenario_card_wrapper .rog_scenario_setup .rog_debt {
   display: block;
@@ -5974,6 +5982,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   border-radius: 50%;
   box-shadow: 1px 1px 3px black;
 }
+.rog_meeple[data-type="1"][data-clan="0"], .rog_meeple[data-type="1"][data-clan=""], .rog_meeple[data-type="2"][data-clan="0"], .rog_meeple[data-type="2"][data-clan=""], .rog_meeple[data-type="3"][data-clan="0"], .rog_meeple[data-type="3"][data-clan=""] {
+  display: none;
+}
 .rog_meeple[data-type="1"], .rog_meeple[data-type="3"] {
   background-image: url("img/boats.png");
   background-size: 200% 800%;
@@ -5983,9 +5994,6 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   border-radius: 0;
   width: 150px;
   height: 120px;
-}
-.rog_meeple[data-type="1"][data-clan="0"], .rog_meeple[data-type="1"][data-clan=""], .rog_meeple[data-type="3"][data-clan="0"], .rog_meeple[data-type="3"][data-clan=""] {
-  display: none;
 }
 .rog_meeple[data-type="1"][data-clan="1"], .rog_meeple[data-type="3"][data-clan="1"] {
   background-position-y: 0%;

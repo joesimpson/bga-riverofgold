@@ -16,6 +16,7 @@ use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
 use ROG\Models\Player;
 use ROG\Models\ScenarioCard;
+use ROG\Models\VirtualPlayer;
 
 class Notifications
 { 
@@ -32,17 +33,24 @@ class Notifications
     ]);
   }
   
-  public static function roguePlayer(Player $roguePlayer)
+  public static function virtualPlayer(VirtualPlayer $virtualPlayer)
   {
-    $clan = $roguePlayer->getClan();
-    self::notifyAll('roguePlayer',  clienttranslate('Rogue pirate uses ${clan_name}${clan_icon} tokens'), [
-      'rogue_pirate' => $roguePlayer,
+    $clan = $virtualPlayer->getClan();
+    $msg = clienttranslate('${virtual_player_name} uses ${clan_name}${clan_icon} tokens');
+    self::notifyAll('virtualPlayer', $msg, [
+      'virtual_player' => $virtualPlayer,
       'clan_name' => Utils::getClanName($clan),
       'clan_icon' => '',
       'clan_id' => $clan,
       'i18n' => ['clan_name'],
-      'preserve' => [ 'clan_id', 'rogue_pirate',],
+      'preserve' => [ 'clan_id', ],
     ]);
+  }
+
+  public static function roguePlayer(Player $roguePlayer)
+  {
+    self::virtualPlayer($roguePlayer);
+    $clan = $roguePlayer->getClan();
   }
   
   public static function moveRogueShip(Player $player, Meeple $ship)
@@ -1244,6 +1252,18 @@ class Notifications
       unset($data['player3']);
       $data['preserve'][] = 'player_color3';
       $data['preserve'][] = 'player_id3';
+    }
+    if (isset($data['virtual_player'])) {
+      $data['virtual_player_name'] = $data['virtual_player']->getName();
+      $data['virtual_player_id'] = $data['virtual_player']->getId();
+      //for playername_wrapper
+      $data['virtual_player_color'] = $data['virtual_player']->getColor();
+      if (!isset($data['preserve'])) {
+        $data['preserve'] = [];
+      }
+      $data['preserve'][] = 'virtual_player_color';
+      $data['i18n'][] = 'virtual_player_name';
+
     }
   }
   

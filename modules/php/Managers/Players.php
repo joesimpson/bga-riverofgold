@@ -662,7 +662,18 @@ class Players extends \ROG\Helpers\DB_Manager
     if(!isset($clan) || $clan == 0) return null;
     return new VirtualPlayer([
       'player_id'     => ROGUE_PLAYER_ID, 
-      'player_name'   => '', 
+      'player_name'   => clienttranslate('Rogue pirate'), 
+      'player_color'  => Utils::getPlayerClanColor($clan),
+      'player_clan'   => $clan,
+    ]);
+  }
+  
+  public static function scorpionEnemy() : ?VirtualPlayer {
+    $clan = Globals::getScorpionEnemy();
+    if(!isset($clan) || $clan == 0) return null;
+    return new VirtualPlayer([
+      'player_id'     => SCORPION_ENEMY_ID, 
+      'player_name'   => clienttranslate('Scorpion target'), 
       'player_color'  => Utils::getPlayerClanColor($clan),
       'player_clan'   => $clan,
     ]);

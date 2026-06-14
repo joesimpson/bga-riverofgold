@@ -6,6 +6,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
+use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
@@ -74,7 +75,7 @@ class ScenarioCard extends Card
     return false;
   }
 
-  public function setupChangesAfterPlayerSetup(Player $player, Collection $players)
+  public function setupChangesAfterPlayerSetup(Player &$player, Collection $players)
   {
     switch($this->getType()){
       case ScenarioType::MANTIS_1->value:
@@ -86,6 +87,25 @@ class ScenarioCard extends Card
         $boatPosition = ShoreSpaces::getLastRiverSpace();
         $boat = Meeples::addRoyalShipOnRiverSpace($roguePlayer, $boatPosition,false);
         Notifications::newBoat($player,$boat);
+        break;
+      case ScenarioType::SCORPION_1->value:
+        //Roll a die and add 2 : place a clan marker of an unused clan on each region influence track
+        $clanToPick = Utils::pickNextAvailableClan($players);
+        Globals::setScorpionEnemy($clanToPick['clan']);
+        $virtualPlayer = Players::scorpionEnemy();
+        Notifications::virtualPlayer($virtualPlayer);
+          
+        $influenceMeeples = [];
+        foreach (REGIONS as $region){
+          $randomPosition = Utils::randomDieFace() + 2;
+          $meeple = Meeples::addClanMarkerOnInfluence($virtualPlayer, $region,false);
+          $meeple->setPosition($randomPosition);
+          $influenceMeeples[] = $meeple;
+        }
+        Notifications::influenceClanMarkers($virtualPlayer,$influenceMeeples);
+
+        //Start with the Noble from Region 3 in play and gain its rewards. It counts as a customer you delivered to.
+        Cards::setupDeliveredCustomer($player,CARD_NOBLE_3 );
         break;
     }
   }

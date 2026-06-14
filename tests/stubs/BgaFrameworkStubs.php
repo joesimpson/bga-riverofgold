@@ -888,7 +888,7 @@ abstract class Table
             while(array_key_exists($k,$matches)){
                 $card_location = $matches[$k+1];
                 $card_state = intval($matches[$k+2]);
-                $player_id = null;
+                $player_id = null; if(isset($matches[$k+3])) $player_id = intval($matches[$k+3]);
                 $type = intval($matches[$k+4]);
                 $subtype = intval($matches[$k+5]);
                 $resources = null; if(isset($matches[$k+6])) $resources = $matches[$k+6];

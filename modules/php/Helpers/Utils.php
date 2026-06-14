@@ -87,6 +87,11 @@ abstract class Utils
     //    return $regions;
     //}
 
+    public static function randomDieFace() : int
+    {
+        return DIE_FACES[array_rand(DIE_FACES)];
+    }
+
     public static function getClanName(int $clanId) : string
     {
         switch($clanId){
@@ -204,10 +209,13 @@ abstract class Utils
      */
     public static function pickNextAvailableClan(Collection $players) : array {
         $assignedClans = $players->map( function (Player $player) { return $player->getClan();})->toArray();
+        $assignedClans[] = Globals::getAutomaClan();
+        $assignedClans[] = Globals::getRogueClan();
+        $assignedClans[] = Globals::getScorpionEnemy();
         $unAssignedClans = [];
         foreach(CLANS_COLORS as $color => $clan){
             if(in_array($clan,$assignedClans)){
-            continue;
+                continue;
             }
             $unAssignedClans[] = [ 'color'=>$color, 'clan'=>$clan];
         }

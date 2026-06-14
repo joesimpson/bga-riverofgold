@@ -883,7 +883,7 @@ final class SetupTest extends TestCase
             "rollDie--123",
             "newBoat--123",
             "rollDie--123",
-            "roguePlayer",
+            "virtualPlayer",
             "newBoat-1",//rogue placed by player 1
 
         ];
@@ -959,6 +959,138 @@ final class SetupTest extends TestCase
         $cardResources = json_decode(TestDatas::$cards[301]['resources'], true);
         assertSame(CRANE_DEBT_SIZE,$cardResources[RESOURCE_TYPE_MONEY]);
 
+    }
+    
+    public function testEnteringState_PlayerSetup_Scenario_Scorpion1_WithoutNobles(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setCustomerTypes([ 
+            CUSTOMER_TYPE_MONK, 
+            CUSTOMER_TYPE_MAGISTRATE, 
+            CUSTOMER_TYPE_SMUGGLER, 
+            CUSTOMER_TYPE_SHINDOSHI, 
+            CUSTOMER_TYPE_SPY, 
+            CUSTOMER_TYPE_TRADER, 
+            ]);
+        TestDatas::$cards = [];
+        Cards::setupNewGame(TestDatas::$players,[]);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedNotifs = [
+            "initCustomersDeck",
+            "initSeishinDeck",
+            "automaColor",
+            "newPlayerColor--123",
+            "newClanMarkers-1",
+            "influenceClanMarkers-1",
+            "rollDie-1",
+            "newBoat-1",
+            "rollDie-1",
+            "newBoat-1",
+            "giveCardToPublic-1",
+            "giveCardToPublic-1",
+            "rollDie-1",
+            "newClanMarkers-2",
+            "influenceClanMarkers-2",
+            "rollDie-2",
+            "newBoat-2",
+            "rollDie-2",
+            "newBoat-2",
+            "giveCardToPublic-2",
+            "giveCardToPublic-2",
+            "rollDie-2",
+            "newClanMarkers--123",
+            "influenceClanMarkers--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            //Scenario :
+            "virtualPlayer",
+            "influenceClanMarkers--567", 
+            "deliver-1",
+            "gainInfluence-1",
+            "giveResource-1",
+            "addBonus-1",
+
+        ];
+
+        $game->stPlayerSetup();
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //test Noble 3
+        $nobleID = TestDatas::$lastInsertedId;
+        assertSame(CARD_LOCATION_DELIVERED, TestDatas::$cards[$nobleID]['card_location']);
+        assertSame(1, TestDatas::$cards[$nobleID]['player_id']);
+    }
+    
+    public function testEnteringState_PlayerSetup_Scenario_Scorpion1_WithNobles(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        foreach(TestDatas::$cards as &$card) if($card['card_location'] == CARD_LOCATION_HAND)$card['card_location'] = CARD_LOCATION_DECK;
+        TestDatas::$cards[1]['type'] = CARD_NOBLE_3;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedNotifs = [
+            "automaColor",
+            "newPlayerColor--123",
+            "newClanMarkers-1",
+            "influenceClanMarkers-1",
+            "rollDie-1",
+            "newBoat-1",
+            "rollDie-1",
+            "newBoat-1",
+            "giveCardToPublic-1",
+            "giveCardToPublic-1",
+            "rollDie-1",
+            "newClanMarkers-2",
+            "influenceClanMarkers-2",
+            "rollDie-2",
+            "newBoat-2",
+            "rollDie-2",
+            "newBoat-2",
+            "giveCardToPublic-2",
+            "giveCardToPublic-2",
+            "rollDie-2",
+            "newClanMarkers--123",
+            "influenceClanMarkers--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            //Scenario :
+            "virtualPlayer",
+            "influenceClanMarkers--567", 
+            "deliver-1",
+            "giveCardToPublic-1",//replace in hand
+            "gainInfluence-1",
+            "giveResource-1",
+            "addBonus-1",
+
+        ];
+
+        $game->stPlayerSetup();
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test 6 new tokens
+        assertSame(72, TestDatas::$lastInsertedId);
+        for($k = 0; $k < 6; $k++ ){
+            $lastToken = TestDatas::$tokens[TestDatas::$lastInsertedId - $k];
+            assertSame(SCORPION_ENEMY_ID, $lastToken['player_id']);
+            assertSame(MEEPLE_LOCATION_INFLUENCE.(6 - $k), $lastToken['meeple_location']);
+            assertSame(MEEPLE_TYPE_CLAN_MARKER,$lastToken['type']);
+            assertTrue(in_array($lastToken['meeple_state'],[3,4,5,6,7,8]));
+        }
+        assertNotSame(null,Globals::getScorpionEnemy());
+        //test Noble 3
+        assertSame(CARD_LOCATION_DELIVERED, TestDatas::$cards[1]['card_location']);
+        assertSame(1, TestDatas::$cards[1]['player_id']);
     }
     // ----------------------------------------------------------------------
     

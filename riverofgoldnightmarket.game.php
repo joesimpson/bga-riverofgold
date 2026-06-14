@@ -137,6 +137,8 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
           'constants' => [
             'INFLUENCE_TRACK_REWARDS' => INFLUENCE_TRACK_REWARDS,
             'CUSTOM_REGION_TRACKS' => CUSTOM_REGION_TRACKS,
+            'ROGUE_PLAYER_ID' => ROGUE_PLAYER_ID,
+            'SCORPION_ENEMY_ID' => SCORPION_ENEMY_ID,
           ],
           'enums' => Utils::getEnumsUI(),
         ];
@@ -144,9 +146,14 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
             $result['automa_player'] = Players::automaPlayer()->getUiData();
             $result['deckSize']['hiddenDeliv'][AUTOMA_PLAYER_ID] = Cards::countPlayerHiddenDeliveredCustomers(AUTOMA_PLAYER_ID);
         }
+        $result['virtual_players'] = [];
         $rogue = Players::roguePlayer();
         if(isset($rogue)){
-            $result['rogue_pirate'] = $rogue->getUiData();
+            $result['virtual_players'][ROGUE_PLAYER_ID] = $rogue->getUiData();
+        }
+        $scorpionEnemy = Players::scorpionEnemy();
+        if(isset($scorpionEnemy)){
+            $result['virtual_players'][SCORPION_ENEMY_ID] = $scorpionEnemy->getUiData();
         }
 
         return $result;

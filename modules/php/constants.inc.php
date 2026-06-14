@@ -7,7 +7,10 @@ const BGA_GAMESTATE_GAMEVERSION = 300;
  */
  
 const AUTOMA_PLAYER_ID = -123;
+/** Mantis Enemy */
 const ROGUE_PLAYER_ID  = -456;
+/** Scorpion Enemy */
+const SCORPION_ENEMY_ID = -567;
 
 const SCORE_FAIL = -1;
 
