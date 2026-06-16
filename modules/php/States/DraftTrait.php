@@ -95,18 +95,13 @@ trait DraftTrait
     }
 
     $cardDatas = $possibleCards[$cardId];
-    $card = Cards::get($cardId);
-    $this->assignClanPatron($player,$card);
-    
+    //assign scenario before patron
     $possibleScenarios = $cardDatas['scenario_ids'];
     if(isset($scenarioCardId) ){
       if(!in_array($scenarioCardId,$possibleScenarios)){
         throw new UnexpectedException(407,"Scenario $scenarioCardId is not selectable");
       }
       $scenarioCard = Cards::get($scenarioCardId);
-      //if($scenarioCard->getClan() !== $card->getClan() ){
-      //  throw new UnexpectedException(408,"Scenario $scenarioCardId must match patron clan");
-      //}
       Cards::assignScenario($player,$scenarioCard);
     }
     else {
@@ -114,6 +109,9 @@ trait DraftTrait
         throw new UnexpectedException(409,"You need to select a Scenario for clan patron $cardId");
       }
     }
+
+    $card = Cards::get($cardId);
+    $this->assignClanPatron($player,$card);
 
     if( $isModeMultiActive){
       $this->gamestate->setPlayerNonMultiactive($player->getId(), 'next');

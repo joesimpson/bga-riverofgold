@@ -53,6 +53,21 @@ class ScenarioCard extends Card
       case ScenarioType::CRAB_1->value:
         Tiles::discardStartingBuildings();
         break;
+      case ScenarioType::PHOENIX_1->value:
+        //RULE : Shuffle all masteries (2player side) into 1 faceup deck.
+        Tiles::moveAllInLocation(TILE_LOCATION_MASTERY_CARD,TILE_LOCATION_MASTERY_DECK);
+        $masteries = Tiles::getInLocation(TILE_LOCATION_MASTERY_DECK);
+        foreach($masteries as $tile){
+          //Change tile for 2 player side :
+          $oldType = $tile->getType();
+          $newType = Tiles::get2PlayerSideMasteryCardType($oldType);
+          $tile->setType($newType);
+        }
+        Tiles::shuffle(TILE_LOCATION_MASTERY_DECK);
+        $mastery = Tiles::pickOneForLocation(TILE_LOCATION_MASTERY_DECK,TILE_LOCATION_MASTERY_CARD);
+        $masteryDeckSize = Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK);
+        Notifications::masteryDeck($masteryDeckSize,$mastery,);
+        break;
     }
   }
   

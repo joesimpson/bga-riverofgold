@@ -737,6 +737,7 @@ final class GameTest extends TestCase
             'turn' => 1,
             'era' => 1,
             'deckSize' => [
+                'masteries' => 6,
                 'era1' => 6,
                 'era2' => 6,
                 'customers' => 3,

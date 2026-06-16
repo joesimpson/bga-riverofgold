@@ -1035,6 +1035,19 @@ abstract class Table
             }
             return true;
         }
+        if (preg_match("/^UPDATE `tiles` SET `tile_location` = '(?P<card_location>.*)',`tile_state` = '(?P<card_state>.*)' WHERE \(`tile_location` = '(?P<from_location>.*)'\)$/", $sql, $matches) == 1) {
+            $card_location = $matches['card_location'];
+            $from_location = $matches['from_location'];
+            $card_state = $matches['card_state'];
+            //logForTests("DbQuery ---   cards to filter ... ".json_encode(TestDatas::$cards));
+            foreach(TestDatas::$tiles as $card_id => &$card){
+                if($card['tile_location'] != $from_location) continue;
+                logForTests("DbQuery --- updated tile_location, tile_state for tile $card_id : $card_location, $card_state from ".$card['tile_location']);
+                $card['tile_location'] = $card_location;
+                $card['tile_state'] = intval($card_state);
+            }
+            return true;
+        }
         if (preg_match("/^DELETE FROM `log` WHERE \(`id` > (?P<id>\d+)\)$/", $sql, $matches) == 1) {
             $log_id = intval($matches['id']);
             foreach(TestDatas::$logs as $id => $log){

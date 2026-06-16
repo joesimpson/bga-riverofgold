@@ -54,14 +54,14 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
     },
 
     destroy(elem, delayRemove = false) {
-      debug(`destroy ${elem.id}`,elem);
+      //debug(`destroy ${elem.id}`,elem);
       this.destroyTooltip(elem);
       this.empty(elem);
       if(!delayRemove) elem.remove();
     },
     
     empty(container) {
-      debug("empty",container);
+      //debug("empty",container);
       container = $(container);
       container.childNodes.forEach((node) => {
         //!! destroy node makes gap in LOOP because of removing them

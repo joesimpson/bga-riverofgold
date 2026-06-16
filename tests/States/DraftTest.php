@@ -11,6 +11,8 @@ use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Players;
+use ROG\Managers\Tiles;
+use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -399,10 +401,10 @@ final class DraftTest extends TestCase
         TestDatas::$cards[$scenarioId] = ['result_associative_index' => $scenarioId,'card_id' => $scenarioId, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
         TestDatas::resetStartingBuildings();
         $expectedNotifs = [
-            "newPlayerColor-1",
-            "giveClanCardTo-1",
             "giveScenarioCard-1",
             "discardTiles",
+            "newPlayerColor-1",
+            "giveClanCardTo-1",
         ];
 
         $game->actTakeCard($cardId,999999,$scenarioId);
@@ -433,9 +435,9 @@ final class DraftTest extends TestCase
         TestDatas::$cards[$scenarioId] = ['result_associative_index' => $scenarioId,'card_id' => $scenarioId, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 2,   'subtype' => CARD_TYPE_SCENARIO,];
         TestDatas::resetStartingBuildings();
         $expectedNotifs = [
+            "giveScenarioCard-1",
             "newPlayerColor-1",
             "giveClanCardTo-1",
-            "giveScenarioCard-1",
         ];
 
         $game->actTakeCard($cardId,999999,$scenarioId);
@@ -453,6 +455,66 @@ final class DraftTest extends TestCase
         assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[52]['tile_location']);
     }
     
+    public function test_actTakeCard_setupScenarioPhoenix1_ScionOfEarth(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $cardId = 101;
+        $scenarioId = 301;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        TestDatas::$cards[$cardId]['type'] = PATRON_SCION_OF_EARTH;
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
+        TestDatas::$cards[$scenarioId] = ['result_associative_index' => $scenarioId,'card_id' => $scenarioId, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => ScenarioType::PHOENIX_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedNotifs = [
+            "giveScenarioCard-1",
+            "masteryDeck",
+            "newPlayerColor-1",
+            "giveClanCardTo-1",
+        ];
+
+        $game->actTakeCard($cardId,999999,$scenarioId);
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(8, Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK));
+        assertSame(1, Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD));
+        for($k=1;$k<=9;$k++){
+            $type = TestDatas::$tiles[$k]['type'];
+            assertSame(Tiles::get2PlayerSideMasteryCardType($type ), $type);
+        }
+    }
+    
+    public function test_actTakeCard_setupScenarioPhoenix1_ScionOfVoid(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $cardId = 101;
+        $scenarioId = 301;
+        $player = Players::get(1);
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        TestDatas::$cards[$cardId]['type'] = PATRON_SCION_OF_VOID;
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
+        TestDatas::$cards[$scenarioId] = ['result_associative_index' => $scenarioId,'card_id' => $scenarioId, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => ScenarioType::PHOENIX_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedNotifs = [
+            "giveScenarioCard-1",
+            "masteryDeck",
+            "newPlayerColor-1",
+            "giveClanCardTo-1",
+            "giveMasteriesTo-1",
+        ];
+
+        $game->actTakeCard($cardId,999999,$scenarioId);
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(5, Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK));
+        assertSame(1, Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD));
+        for($k=1;$k<=9;$k++){
+            $type = TestDatas::$tiles[$k]['type'];
+            assertSame(Tiles::get2PlayerSideMasteryCardType($type ), $type);
+        }
+        $masteries = Tiles::getMasteryReserved($player);
+        assertSame(3, $masteries->count());
+    }
+
     public function test_actTakeCard_KO_WrongScenario(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

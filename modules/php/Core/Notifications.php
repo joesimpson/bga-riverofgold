@@ -757,6 +757,15 @@ class Notifications
       ],
     );
   }
+  
+  public static function masteryDeck(int $deckSize, ?MasteryCard $topMasteryCard,){
+    $msg = '';
+    self::notifyAll('masteryDeck',$msg,[ 
+        'deckSize' => $deckSize,
+        'mastery' => $topMasteryCard->getUiData(),
+      ],
+    );
+  }
   /**
    * @param Player $player
    * @param int $points

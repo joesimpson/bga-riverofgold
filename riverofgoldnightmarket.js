@@ -2122,7 +2122,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let fromElement = document.getElementById(`rog_mastery_cards`);
             Promise.all (
                 Object.values(n.args.tiles).map(async (tile, i) => {
-                    if (!$(`rog_tile-${tile.id}`)) this.addTile(tile);
+                    let existingDiv = document.getElementById(`rog_tile_holder-${tile.id}`);
+                    if (existingDiv) this.destroy(existingDiv.parentElement);
+                    this.addTile(tile);
                     let tileDivHolder = document.getElementById(`rog_tile_holder-${tile.id}`).parentElement;
                     return this.wait(150 * i).then(() => 
                         this.animationManager.slideIn(tileDivHolder, fromElement, {duration: 1600})
@@ -3270,6 +3272,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 <div class='rog_player_resource_line_clan_patron'
                      id='rog_player_patron-${player.id}'>
                 </div>
+                <div class='rog_player_resource_line rog_player_resource_line_clan_scenario'
+                     id='rog_player_scenario-${player.id}'>
+                </div>
             </div>
             </div>`;
         },
@@ -3941,7 +3946,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [this.gamedatas.enums.ScenarioType.MANTIS_1, this.fsr(_('A rogue pirate captain challenges the Mantis Clan’s naval superiority and must be driven off.'),{})],
                 [this.gamedatas.enums.ScenarioType.CRANE_1, this.fsr(_('You are in debt and obligated to pay off your ship loan. Regional lords will be impressed if you manage to fully pay it off.'),{})],
                 [this.gamedatas.enums.ScenarioType.SCORPION_1, this.fsr(_('Influential politicians from a rival clan have bent the ear of the common people against the Scorpion clan. These targets must be eliminated.'),{})],
-                [5, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.PHOENIX_1, this.fsr(_('You are an apprentice shindōshi seeking to master all the elements and learn all you can about the world.'),{})],
                 [6, this.fsr(_(''),{})],
                 [7, this.fsr(_(''),{})],
                 [8, this.fsr(_(''),{})],
@@ -3982,7 +3987,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     + `<br/>`
                     + this.fsr(_('Start with the Noble from Region ${x} in play and gain its rewards. It counts as a customer you delivered to.'),{'x':3})
                 ],
-                [5, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.PHOENIX_1, 
+                    `
+                    <span>${this.fsr(_('Shuffle all masteries into 1 faceup deck.'),{})}</span>
+                    <span>${this.fsr(_('If you are ${patron_name}, still place ${n} random masteries in front of you as normal.'),{'patron_name': _('Isawa Kaede'), 'n':3})}</span>
+                    <div class="rog_coop_label">${this.fsr(_('Co-op: Use the ${n}-player side of the mastery cards.'),{'n':2})}</div>
+                    `
+                ],
                 [6, this.fsr(_(''),{})],
                 [7, this.fsr(_(''),{})],
                 [8, this.fsr(_(''),{})],
@@ -4136,7 +4147,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 }, 
                 {   'id':buttonId, 
                     //'destination' : location,
-                    'destination' : document.getElementById(`rog_player_patron-${card.pId}`),
+                    'destination' : document.getElementById(`rog_player_scenario-${card.pId}`),
                     'classes' : ['rog_btnShowScenario', 'rog_btnShowCard'],
                 },
                 );
@@ -4304,6 +4315,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 this.destroy(oCard);
             });
             this.empty('rog_mastery_cards');
+            document.querySelectorAll('.rog_player_mastery_cards').forEach((oCardsContainer) => {
+                this.empty(oCardsContainer);
+            });
 
             // This function is refreshUI compatible
             let cardIds = this.gamedatas.tiles.map((card) => {
