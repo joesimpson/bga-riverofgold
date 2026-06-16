@@ -50,8 +50,8 @@ class MasteryCard extends Tile
       case MASTERY_TYPE_FIRE: return clienttranslate('Mastery of Fire');
       case MASTERY_TYPE_VOID: return clienttranslate('Mastery of Void');
       case MASTERY_TYPE_WATER: return clienttranslate('Mastery of Water');
-      case MASTERY_TYPE_WAVES    : return clienttranslate('Mastery of the Waves');
-      case MASTERY_TYPE_SUN_MOON : return clienttranslate('Mastery of Sun and Moon');
+      case MASTERY_TYPE_WAVES    : return clienttranslate('Mastery of Waves');
+      case MASTERY_TYPE_SUN_MOON : return clienttranslate('Mastery of Sun & Moon');
       case MASTERY_TYPE_LIGHTNING: return clienttranslate('Mastery of Lightning');
       default: return '';
     }
