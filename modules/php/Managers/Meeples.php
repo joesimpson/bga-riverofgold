@@ -376,7 +376,7 @@ class Meeples extends \ROG\Helpers\Pieces
     Game::get()->trace("countUsedSpacedOnInfluenceTrack($pid,$region,$fromInfluence,$plusInfluence)");
     $watchedPositions = range($fromInfluence +1,$fromInfluence + $plusInfluence);
     return self::DB()
-      ->whereNotIn('player_id',[$pid])
+      ->whereNotIn('player_id',[$pid, SCORPION_ENEMY_ID])
       ->where(self::$prefix.'location', MEEPLE_LOCATION_INFLUENCE.$region)
       ->whereIn(self::$prefix.'state', $watchedPositions)
       ->countDistinct(self::$prefix.'state');

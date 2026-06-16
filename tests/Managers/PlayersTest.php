@@ -1733,6 +1733,61 @@ final class PlayersTest extends TestCase
         //assertSame(true, $goToBonusChoice);
     }
     
+    public function test_gainInfluence_LadyOfWhispers_Scenario_JumpTarget(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 2;
+        TestDatas::$cards[101]['type'] = PATRON_LADY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$tokens[$region]['meeple_state'] = 2;
+        TestDatas::$tokens[16]['meeple_state'] = 3;
+        TestDatas::$tokens[16]['player_id'] = SCORPION_ENEMY_ID;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",
+            //we shoould not have a second "gainInfluence" notif for patron ability
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(2 + $amount + 0, TestDatas::$tokens[$region]['meeple_state']);
+    }
+    
+    public function test_gainInfluence_LadyOfWhispers_Scenario_JumpTargetAndPlayers(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 1;
+        TestDatas::$cards[101]['type'] = PATRON_LADY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$tokens[$region]['meeple_state'] = 2;
+        TestDatas::$tokens[16]['meeple_state'] = 3;
+        TestDatas::$tokens[17] = TestDatas::$tokens[16];
+        TestDatas::$tokens[17]['meeple_state'] = 4;
+        TestDatas::$tokens[17]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$tokens[18] = TestDatas::$tokens[16];
+        TestDatas::$tokens[18]['meeple_state'] = 5;
+        TestDatas::$tokens[18]['player_id'] = SCORPION_ENEMY_ID;
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",
+            "gainInfluence-1", // patron ability over player 2
+            "gainInfluence-1", // patron ability over player automa
+            "removeClanMarker-1",
+            "giveResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(2 + $amount + 2, TestDatas::$tokens[$region]['meeple_state']);
+    }
     // -------------------------------------------------
     
     public function test_gainInfluence_GovernorCityOfLies_KO_0(): void

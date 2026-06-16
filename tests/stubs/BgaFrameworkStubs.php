@@ -222,12 +222,12 @@ abstract class Table
             logForTests("getUniqueValueFromDb: count is $count");
             return $count;
         }
-        if (preg_match("/^SELECT COUNT\( distinct meeple_state\) FROM `meeples` WHERE `player_id` NOT IN \('(?P<pid>.*)'\) AND `meeple_location` = '(?P<meeple_location>.*)' AND \(`meeple_state` IN \((?P<meeple_states>.*)\)\)$/", $sql, $matches) == 1) {
-            $pidNot = intval($matches['pid']);
+        if (preg_match("/^SELECT COUNT\( distinct meeple_state\) FROM `meeples` WHERE `player_id` NOT IN \((?P<pid>.*)\) AND `meeple_location` = '(?P<meeple_location>.*)' AND \(`meeple_state` IN \((?P<meeple_states>.*)\)\)$/", $sql, $matches) == 1) {
+            $pidNot = explode(',', str_replace("'","",$matches['pid']) );
             $meeple_states = explode(',', str_replace("'","",$matches['meeple_states']) );
             $meeple_location = ($matches['meeple_location']);
-            $tokens = array_filter(TestDatas::$tokens,function ($t) use($pidNot,$meeple_location, $meeple_states) {return $t['player_id'] != $pidNot && $t['meeple_location'] == $meeple_location && in_array($t['meeple_state'], $meeple_states);});
-            logForTests("getUniqueValueFromDb: tokens after filter = ".json_encode($tokens));
+            $tokens = array_filter(TestDatas::$tokens,function ($t) use($pidNot,$meeple_location, $meeple_states) {return !in_array($t['player_id'], $pidNot) && $t['meeple_location'] == $meeple_location && in_array($t['meeple_state'], $meeple_states);});
+            logForTests("getUniqueValueFromDb: tokens after filter pid ".json_encode($pidNot)." = ".json_encode($tokens));
             $states = array_map(function ($t) {return $t['meeple_state'];}, $tokens,);
             $count = count( array_unique($states));
             logForTests("getUniqueValueFromDb: count is $count");
