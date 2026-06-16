@@ -2739,13 +2739,24 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 }
                 let ship_type = 'ship_type';
                 if(ship_type in args) {
-                    args.ship_type = this.formatIcon("ship-"+args.ship_type);
+                    if('ship' in args) {
+                        args.ship_type = this.formatLogShip(args.ship);
+                    }
+                    else {
+                        args.ship_type = this.formatIcon("ship-"+args.ship_type);
+                    }
                 }
                 
                 if('ship_icon' in args && 'ship' in args) {
-                    args.ship_icon = `<div class="rog_log_ship_container">${this.tplMeeple(args.ship, '_log')}</div>`;
+                    args.ship_icon = this.formatLogShip(args.ship);
                 } else if('ship_icon' in args && 'meeple' in args) {
-                    args.ship_icon = `<div class="rog_log_ship_container">${this.tplMeeple(args.meeple, '_log')}</div>`;
+                    args.ship_icon = this.formatLogShip(args.meeple);
+                }
+                if('ship1_icon' in args && 'ship1' in args) {
+                    args.ship1_icon = this.formatLogShip(args.ship1);
+                }
+                if('ship2_icon' in args && 'ship2' in args) {
+                    args.ship2_icon = this.formatLogShip(args.ship2);
                 }
 
                 if('clan_marker' in args && 'meeple' in args) {
@@ -2817,6 +2828,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         
         formatIconPlayer() {
             return `<i class="fa6-solid fa6-user rog_icon_player"></i>`;
+        },
+        
+        formatLogShip(shipDatas) {
+            return `<div class="rog_log_ship_container">${this.tplMeeple(shipDatas, '_log')}</div>`;
         },
         
         formatString(str) {

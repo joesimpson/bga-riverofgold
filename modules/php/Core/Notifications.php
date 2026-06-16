@@ -481,12 +481,14 @@ class Notifications
   {
     $sourcePosition = $ship2->getPosition();
     $destPosition = $ship1->getPosition();
-    self::notifyAll('swapBoats', clienttranslate('${player_name} swaps a ${player_name2} ship at river space #${n1} with ${player_name3} ship at river space #${n2}'), [
+    self::notifyAll('swapBoats', clienttranslate('${player_name} swaps a ${player_name2} ship ${ship1_icon} at river space #${n1} with ${player_name3} ship ${ship2_icon} at river space #${n2}'), [
       'player' => $player,
       'player2' => $player,
       'player3' => $player2,
       'ship1' => $ship1->getUiData(),
       'ship2' => $ship2->getUiData(),
+      'ship1_icon' => '',
+      'ship2_icon' => '',
       'n1' => $sourcePosition,
       'n2' => $destPosition,
       'preserve' => ['ship1','ship2'],
