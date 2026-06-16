@@ -233,6 +233,9 @@ trait DeliverTrait
       if($resources[$neededType] < $neededAmount && (!$isTradeGood || !$canReplaceGoods)) return false;
     }
     if($card->getCostAsTradeGoods() > $sumGoods) return false;
+    
+    $playerScenario = $player->getScenario();
+    if(isset($playerScenario) && !$playerScenario->canDeliver($player,$card->getRegion())) return false;
 
     return true;
   }

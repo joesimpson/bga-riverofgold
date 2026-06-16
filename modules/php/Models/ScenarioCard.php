@@ -110,6 +110,22 @@ class ScenarioCard extends Card
     }
   }
   
+  /**
+   * @return bool true if this player has no restriction to deliver cards in region $region
+   */
+  public function canDeliver(Player $player, int $region)
+  {
+    $canDeliver = true;
+    switch($this->getType()){
+      case ScenarioType::SCORPION_1->value:
+        //Distrusted: You cannot deliver to customers from regions with a target still present.
+        $target = Meeples::getInfluenceMarker(SCORPION_ENEMY_ID,$region);
+        $canDeliver = !isset($target);
+        break;
+    }
+    return $canDeliver;
+  }
+
   public function abilityOnCompleteJourney(Player &$player,)
   {
     switch($this->getType()){//ScenarioType value

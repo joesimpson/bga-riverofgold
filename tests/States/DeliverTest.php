@@ -108,6 +108,61 @@ final class DeliverTest extends TestCase
         assertSame($expectedArgs, $args);
         assertSame(null, Globals::getTurnMainActionDone());
     }
+    public function test_Args_ScenarioScorpion_CannotDeliverWithTargets(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":6,"2":6,"3":6,"4":5,"5":5,"6":25}';
+        TestDatas::$cards[12]['player_id'] = 1;
+        TestDatas::$cards[14] = TestDatas::$cards[11];
+        TestDatas::$cards[14]['card_id'] = 14;
+        TestDatas::$cards[14]['result_associative_index'] = 14;
+        TestDatas::$cards[14]['type'] = CARD_ARTISAN_4;
+        TestDatas::$cards[15] = TestDatas::$cards[11];
+        TestDatas::$cards[15]['card_id'] = 15;
+        TestDatas::$cards[15]['result_associative_index'] = 15;
+        TestDatas::$cards[15]['type'] = CARD_ARTISAN_5;
+        TestDatas::$cards[16] = TestDatas::$cards[11];
+        TestDatas::$cards[16]['card_id'] = 16;
+        TestDatas::$cards[16]['result_associative_index'] = 16;
+        TestDatas::$cards[16]['type'] = CARD_ARTISAN_6;
+        //Test with Shin 2 to list all regions cards at once
+        TestDatas::$cards[17] = TestDatas::$cards[11];
+        TestDatas::$cards[17]['card_id'] = 17;
+        TestDatas::$cards[17]['result_associative_index'] = 17;
+        TestDatas::$cards[17]['type'] = CARD_SHINDOSHI_2;
+        TestDatas::$cards[17]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."17",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //Add Scorpion targets on influence region 3,4,5,6 :
+        for($k = 3; $k <= 6; $k++ ) TestDatas::$tokens[43+$k] = ['result_associative_index' => 43 + $k, 'meeple_id' => 43 +$k, 'meeple_state' => 5, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE."$k",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => SCORPION_ENEMY_ID,  ];
+        $expectedArgs = [
+            '_private' => [
+                TestDatas::$test_activePlayerId => [
+                    'c' => [11 ], // cards ids
+                    'canReplaceGoods' => [
+                        'marker' => 43,
+                        'cards' => [11,12],
+                        'cardsCosts' => [
+                            11 => [RESOURCE_TYPE_POTTERY => 2], 
+                            12 => [RESOURCE_TYPE_POTTERY => 2], 
+                            //13 => [RESOURCE_TYPE_SILK => 2],
+                            //14 => [RESOURCE_TYPE_SILK => 2],
+                            //15 => [RESOURCE_TYPE_RICE => 2],
+                            //16 => [RESOURCE_TYPE_RICE => 2],
+                        ],
+                    ],
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argDeliver();
+        
+        assertSame($expectedArgs, $args);
+    }
     // -------------------------------------------------
  
     public function test_ActionDeliver_Pass(): void

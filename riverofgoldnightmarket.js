@@ -4016,7 +4016,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     </ul>
                     `
                 ],
-                [4, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.SCORPION_1, this.fsr(_('Distrusted: You cannot deliver to customers from regions with a target still present.'),{})],
                 [5, this.fsr(_(''),{})],
                 [6, this.fsr(_(''),{})],
                 [7, this.fsr(_(''),{})],
