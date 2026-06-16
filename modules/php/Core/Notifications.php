@@ -1245,7 +1245,7 @@ class Notifications
         $data['preserve'] = [];
       }
       $data['preserve'][] = 'player_color';
-      if($data['player'] instanceof AutomaPlayer){
+      if($data['player'] instanceof AutomaPlayer || $data['player'] instanceof VirtualPlayer){
         //it is not enough for now because framework won't translate player_names :(
         $data['i18n'][] = 'player_name';
       }
@@ -1257,7 +1257,7 @@ class Notifications
       $data['player_id2'] = $data['player2']->getId();
       //for playername_wrapper
       $data['player_color2'] = $data['player2']->getColor();
-      if($data['player2'] instanceof AutomaPlayer){
+      if($data['player2'] instanceof AutomaPlayer|| $data['player2'] instanceof VirtualPlayer){
         $data['i18n'][] = 'player_name2';
       }
       unset($data['player2']);
@@ -1270,7 +1270,7 @@ class Notifications
       $data['player_id3'] = $data['player3']->getId();
       //for playername_wrapper
       $data['player_color3'] = $data['player3']->getColor();
-      if($data['player3'] instanceof AutomaPlayer){
+      if($data['player3'] instanceof AutomaPlayer|| $data['player3'] instanceof VirtualPlayer){
         $data['i18n'][] = 'player_name3';
       }
       unset($data['player3']);

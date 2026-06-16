@@ -858,11 +858,13 @@ final class GameTest extends TestCase
                 'id' => ROGUE_PLAYER_ID, 
                 'clan' => CLAN_UNICORN, 
                 'color' => '982fff', 
+                'name' => 'Rogue pirate', 
             ],
             SCORPION_ENEMY_ID => [
                 'id' => SCORPION_ENEMY_ID, 
                 'clan' => CLAN_LION, 
                 'color' => 'ffff00', 
+                'name' => 'Scorpion target', 
             ],
         ];
 

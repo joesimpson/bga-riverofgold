@@ -15,6 +15,7 @@ class VirtualPlayer extends Player
         $data['id'] = $this->getId();
         $data['clan'] = $this->getClan();
         $data['color'] = $this->getColor();
+        $data['name'] = $this->getName();
 
         return $data;
     }

@@ -413,6 +413,38 @@ final class PlayerTurnTest extends TestCase
         //Test stay in state
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
     }
+    
+    public function test_ActionPlayCard_SwapBoats_Pass_RogueShip(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_4;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 11;
+        $markerId = 43;
+        $action = BEFORE_ACTION::SWAP_BOATS->value;
+        $source = 21;
+        $dest = 23;
+        Globals::setRogueClan(CLAN_PHOENIX);
+        TestDatas::$tokens[$dest]['player_id'] = ROGUE_PLAYER_ID;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $game->actPlayCard($answer,999999);
+        
+        //Test moved ships positions: 
+        assertSame(3,  TestDatas::$tokens[21]['meeple_state']);
+        assertSame(5,  TestDatas::$tokens[23]['meeple_state']);
+        //test unchanged player id :
+        assertSame(1,  TestDatas::$tokens[21]['player_id']);
+        assertSame(ROGUE_PLAYER_ID,  TestDatas::$tokens[23]['player_id']);
+        //Test not moved ships positions: 
+        assertSame(14,  TestDatas::$tokens[22]['meeple_state']);
+        assertSame(14,  TestDatas::$tokens[24]['meeple_state']);
+        //Test stay in state
+        assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+    }
     public function test_ActionPlayCard_Shin4_SwapBoats_KO_WrongCard(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

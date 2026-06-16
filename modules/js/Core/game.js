@@ -954,6 +954,14 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
       //return `<span class="automa_name playername playername_wrapper_${specifiedColor}" data-color="${specifiedColor}">${_(name)}</span>`;
       return this.coloredPlayerName(_(name), specifiedColor);
     },
+    coloredVirtualPlayerName(pId,name, specifiedColor = null) {
+      Object.values(this.gamedatas.virtual_players).forEach((vPlayer) => {
+        if(vPlayer && pId == vPlayer.id){
+          name = _(vPlayer.name);
+        }
+      });
+      return this.coloredPlayerName(name, specifiedColor);
+    },
     
     getPlayerColor(pId) {
       let player = this.gamedatas.players[pId];
@@ -974,9 +982,13 @@ define(['dojo', 'dojo/_base/declare', g_gamethemeurl + 'modules/js/vendor/nouisl
           for(let k=0; k<playernames_keys.length; k++){
               let key = playernames_keys[k];
               let colorKey = color_keys[k];
-              if(player_id_keys[k] && args[player_id_keys[k]] == this.gamedatas.automa_id ){
+              let pid = args[player_id_keys[k]];
+              if(player_id_keys[k] && pid == this.gamedatas.automa_id ){
                 //Translate Name
                 args[key] = this.coloredAutomaName(this.gamedatas.automa_player.name,args[colorKey]);
+              }
+              else if(args['i18n'] && args['i18n'].includes( key)){
+                args[key] = this.coloredVirtualPlayerName(pid,args[key],args[colorKey]);
               }
               else {
                 args[key] = this.coloredPlayerName(args[key],args[colorKey]);

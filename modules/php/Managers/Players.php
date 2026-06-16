@@ -184,6 +184,8 @@ class Players extends \ROG\Helpers\DB_Manager
   {
     $pId = $pId ?: self::getActiveId();
     if($pId == AUTOMA_PLAYER_ID) return Players::automaPlayer();
+    if($pId == ROGUE_PLAYER_ID) return Players::roguePlayer();
+    if($pId == SCORPION_ENEMY_ID) return Players::scorpionEnemy();
     return self::DB()
       ->where($pId)
       ->getSingle();
