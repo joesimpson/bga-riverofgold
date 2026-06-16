@@ -4933,6 +4933,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   display: flex;
   flex-flow: row;
   flex-wrap: wrap;
+}
+
+#rog_mastery_cards_container {
   margin-left: 5px;
   margin-bottom: 5px;
 }
@@ -4984,6 +4987,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_tile_tooltip[data-subtype="3"] .rog_tile,
 #rog_mastery_cards .rog_tile,
 .rog_mastery_cards_resizeable .rog_tile {
+  border-radius: 10%;
   background-image: url("img/cards/masterycards.jpg");
   background-size: 300% 400%;
   background-position-x: 50%;
@@ -5224,6 +5228,17 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_masterycard_tooltip .rog_tile .rog_mastery_buildings,
 .rog_masterycard_tooltip .rog_tile .rog_mastery_customers {
   font-size: 13.8888888889px;
+}
+
+#rog_mastery_cards_container .rog_deck_size {
+  position: relative;
+  width: 100%;
+  bottom: 16px;
+  background: rgba(0, 0, 0, 0.7);
+  border-radius: 0 0 50px 50px;
+  color: #fff;
+  text-align: center;
+  cursor: help;
 }
 
 .rog_era_tile_holder {

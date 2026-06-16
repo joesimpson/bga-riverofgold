@@ -113,6 +113,9 @@
     display: flex;
     flex-flow: row;
     flex-wrap: wrap;
+}
+
+#rog_mastery_cards_container{
     margin-left: 5px;
     margin-bottom: 5px;
 }
@@ -184,6 +187,7 @@
 { 
     .rog_tile {
 
+        border-radius: 10%;
         background-image: url("img/cards/masterycards.jpg");
         //sprite positions
         background-size: 300% 400%;
@@ -394,6 +398,20 @@
         .rog_mastery_customers{
             font-size: calc(math.div(500,360) * 10px);
         }
+    }
+}
+
+#rog_mastery_cards_container{
+
+    .rog_deck_size{
+        position: relative;
+        width: 100%;
+        bottom: 16px;
+        background: rgba(0, 0, 0, .7);
+        border-radius: 0 0 50px 50px;
+        color: #fff;
+        text-align: center;
+        cursor: help;
     }
 }
 

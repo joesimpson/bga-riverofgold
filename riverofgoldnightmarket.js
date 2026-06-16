@@ -251,6 +251,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['giveCardToPublic', 10],
                 ['giveCardTo', 1000],
                 ['giveActionCardToAutoma', 1000],
+                ['masteryDeck', null],
                 ['giveMasteriesTo', null],
                 ['deliver', 1000],
                 ['deliverHidden', 1000],
@@ -395,6 +396,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
             this.ensureSpecificGameImageLoading(toPreloadList);
 
+            this._counters['deckSizeMasteries'] = this.createCounter('rog_masteries_size',this.gamedatas.deckSize.masteries);
             this._counters['deckSize1'] = this.createCounter('rog_deck_size-1',this.gamedatas.deckSize.era1);
             this._counters['deckSize2'] = this.createCounter('rog_deck_size-2',this.gamedatas.deckSize.era2);
                 
@@ -415,6 +417,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.setupMeeples();
 
             this.addCustomTooltip('rog_score_customers', this.getScoreCustomersTooltip());
+            this.addCustomTooltip('rog_masteries_size', `${this.fsr(_('Mastery cards in deck'), { })}`); 
             this.addCustomTooltip('rog_era_tile_resizable', this.getEraTileTooltip());
             this.addCustomTooltip('rog_deck_size-1', `${this.fsr(_('Tiles in Era ${n} stack'), { n: 1 })}`); 
             this.addCustomTooltip('rog_deck_size-2', `${this.fsr(_('Tiles in Era ${n} stack'), { n: 2 })}`); 
@@ -2117,6 +2120,16 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             debug('notif_claimMC : new score after mastery card', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_tile-${n.args.tile_id}`));
         },
+        notif_masteryDeck(n) {
+            debug('notif_masteryDeck : refresh top mastery card', n);
+            let tile = n.args.mastery;
+            this.empty('rog_mastery_cards');
+            this.addTile(tile);
+            this.gamedatas.deckSize.masteries = n.args.deckSize;
+            this._counters['deckSizeMasteries'].toValue(this.gamedatas.deckSize.masteries);
+
+            this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 100);
+        },
         notif_giveMasteriesTo(n) {
             debug('notif_giveMasteriesTo', n);
             let fromElement = document.getElementById(`rog_mastery_cards`);
@@ -2126,6 +2139,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     if (existingDiv) this.destroy(existingDiv.parentElement);
                     this.addTile(tile);
                     let tileDivHolder = document.getElementById(`rog_tile_holder-${tile.id}`).parentElement;
+                    this._counters['deckSizeMasteries'].incValue(-1);
                     return this.wait(150 * i).then(() => 
                         this.animationManager.slideIn(tileDivHolder, fromElement, {duration: 1600})
                     );
@@ -4334,6 +4348,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 }
                 return card.id;
             });
+            this._counters['deckSizeMasteries'].toValue(this.gamedatas.deckSize.masteries);
             this._counters['deckSize1'].toValue(this.gamedatas.deckSize.era1);
             this._counters['deckSize2'].toValue(this.gamedatas.deckSize.era2);
             

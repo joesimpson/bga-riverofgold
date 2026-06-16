@@ -117,7 +117,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
           'turn' => Globals::getTurn(),
           'era' => Globals::getEra(),
           'deckSize' => [
-            'masteries' => Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK),
+            'masteries' => Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK) + Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD),
             'era1' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1),
             'era2' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2),
             'customers' => Cards::countInLocation(CARD_LOCATION_DECK),
