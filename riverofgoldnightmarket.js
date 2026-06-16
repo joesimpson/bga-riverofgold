@@ -2748,6 +2748,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     args.ship_icon = `<div class="rog_log_ship_container">${this.tplMeeple(args.meeple, '_log')}</div>`;
                 }
 
+                if('clan_marker' in args && 'meeple' in args) {
+                    args.clan_marker = `<div class="rog_log_clan_marker_container">${this.tplMeeple(args.meeple, '_log')}</div>`;
+                }
+
                 let bonus_icon = 'bonus_icon';
                 if(bonus_icon in args) {
                     args.bonus_icon = this.formatIcon('bonus-'+args.bonus_icon, args.n);
@@ -4016,7 +4020,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     </ul>
                     `
                 ],
-                [this.gamedatas.enums.ScenarioType.SCORPION_1, this.fsr(_('Distrusted: You cannot deliver to customers from regions with a target still present.'),{})],
+                [this.gamedatas.enums.ScenarioType.SCORPION_1, `
+                    <span>${this.fsr(_('Eliminating Targets: When you gain or lose influence, if your clan marker lands directly on top of a target, remove that target from the game. If you gain multiple influence rewards at once (e.g., by sailing to a river space with multiple visitor and/or owner rewards), gain them in any order you wish; remove the target if you land on it after any single reward.'),{})}</span>
+                    <br/>
+                    <br/>
+                    <span>${this.fsr(_('Distrusted: You cannot deliver to customers from regions with a target still present.'),{})}</span>
+                    `
+                ],
                 [5, this.fsr(_(''),{})],
                 [6, this.fsr(_(''),{})],
                 [7, this.fsr(_(''),{})],

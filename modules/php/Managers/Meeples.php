@@ -444,4 +444,10 @@ class Meeples extends \ROG\Helpers\Pieces
     Notifications::removeShip($player,$meeple, $message);
     self::DB()->delete($meeple->getId());
   }
+  
+  public static function removeTarget(Player $player,Meeple $meeple) : void
+  {
+    Notifications::removeTarget($player,$meeple);
+    self::DB()->delete($meeple->getId());
+  }
 }

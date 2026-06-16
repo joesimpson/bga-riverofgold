@@ -615,9 +615,21 @@ class Notifications
     self::notifyAll('removeShip', $msg, [
       'player' => $player,
       'meeple' => $meeple->getUiData(),
+      'preserve' => ['meeple'],
     ]);
   }
   
+  public static function removeTarget(Player $player, Meeple $meeple,)
+  {
+    $msg = clienttranslate('${player_name} removes a ${clan_marker} target');
+    self::notifyAll('removeClanMarker', $msg, [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
+      'clan_marker' => '',
+      'preserve' => ['meeple'],
+    ]);
+  }
+
   public static function newBuildingMarkersWithPatron(Player $player, array $markers, ?ClanPatronCard $playerPatron,)
   {
     $msg = clienttranslate('');

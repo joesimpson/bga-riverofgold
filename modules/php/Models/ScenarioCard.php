@@ -126,6 +126,18 @@ class ScenarioCard extends Card
     return $canDeliver;
   }
 
+  function abilityOnGainInfluence(Player $player,int $region,int $fromInfluence, int $toInfluence){
+    switch($this->getType()){
+      case ScenarioType::SCORPION_1->value:
+        // Eliminating Targets: When you gain or lose influence, if your clan marker lands directly on top of a target, remove that target from the game. 
+        $target = Meeples::getInfluenceMarker(SCORPION_ENEMY_ID,$region);
+        if(isset($target) && $target->getPosition() == $toInfluence){
+          Meeples::removeTarget($player, $target);
+        }
+        break;
+    }
+  }
+
   public function abilityOnCompleteJourney(Player &$player,)
   {
     switch($this->getType()){//ScenarioType value

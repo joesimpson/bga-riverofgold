@@ -11,6 +11,7 @@ use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\MasteryCard;
 use ROG\Models\Player;
+use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertFalse;
@@ -1808,6 +1809,114 @@ final class PlayersTest extends TestCase
         assertSame(5,  TestDatas::$players[2]['player_score']);//2+3
         assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
         assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
+
+    public function test_gainInfluence_ScenarioScorpion1_Region1_keepTargetAfter(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $amount = 2;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //Add Scorpion targets :
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[43+$k] = ['result_associative_index' => 43 + $k, 'meeple_id' => 43 +$k, 'meeple_state' => 2+$k, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE."$k",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => SCORPION_ENEMY_ID,  ];
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",
+            "giveResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        //NOT yet REMOVED Target in this region
+        assertTrue(array_key_exists(43 + $region,TestDatas::$tokens));
+        for($k = 1; $k <= 6; $k++ ) {
+            assertSame($k+2, TestDatas::$tokens[43 + $k]['meeple_state']);
+            assertSame(MEEPLE_LOCATION_INFLUENCE.$k, TestDatas::$tokens[43 + $k]['meeple_location']);
+        }
+    }
+    
+    public function test_gainInfluence_ScenarioScorpion1_Region1_RemoveTarget(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $amount = 3;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //Add Scorpion targets :
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[43+$k] = ['result_associative_index' => 43 + $k, 'meeple_id' => 43 +$k, 'meeple_state' => 2+$k, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE."$k",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => SCORPION_ENEMY_ID,  ];
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",
+            "removeClanMarker-1",
+            "giveResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        //REMOVED Target in this region only
+        assertFalse(array_key_exists(43 + $region,TestDatas::$tokens));
+        for($k = 2; $k <= 6; $k++ ) {
+            assertSame($k+2, TestDatas::$tokens[43 + $k]['meeple_state']);
+            assertSame(MEEPLE_LOCATION_INFLUENCE.$k, TestDatas::$tokens[43 + $k]['meeple_location']);
+        }
+    }
+    
+    public function test_gainInfluence_ScenarioScorpion1_Region1_TargetAlreadyRemoved(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $amount = 3;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //Add Scorpion targets :
+        for($k = 2; $k <= 6; $k++ ) TestDatas::$tokens[43+$k] = ['result_associative_index' => 43 + $k, 'meeple_id' => 43 +$k, 'meeple_state' => 2+$k, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE."$k",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => SCORPION_ENEMY_ID,  ];
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",
+            "giveResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertFalse(array_key_exists(43 + $region,TestDatas::$tokens));
+        for($k = 2; $k <= 6; $k++ ) {
+            assertSame($k+2, TestDatas::$tokens[43 + $k]['meeple_state']);
+            assertSame(MEEPLE_LOCATION_INFLUENCE.$k, TestDatas::$tokens[43 + $k]['meeple_location']);
+        }
+    }
+    
+    public function test_gainInfluence_ScenarioScorpion1_Region1_keepTargetBefore(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $amount = 4;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //Add Scorpion targets :
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[43+$k] = ['result_associative_index' => 43 + $k, 'meeple_id' => 43 +$k, 'meeple_state' => 2+$k, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE."$k",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => SCORPION_ENEMY_ID,  ];
+
+        $goToBonusChoice = Players::gainInfluence($player,$region,$amount);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",
+            "giveResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame($amount, TestDatas::$tokens[$region]['meeple_state']);
+        //NOT yet REMOVED Target in this region
+        assertTrue(array_key_exists(43 + $region,TestDatas::$tokens));
+        for($k = 1; $k <= 6; $k++ ) {
+            assertSame($k+2, TestDatas::$tokens[43 + $k]['meeple_state']);
+            assertSame(MEEPLE_LOCATION_INFLUENCE.$k, TestDatas::$tokens[43 + $k]['meeple_location']);
+        }
     }
     // -------------------------------------------------
     

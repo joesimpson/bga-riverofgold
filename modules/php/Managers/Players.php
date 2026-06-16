@@ -404,6 +404,14 @@ class Players extends \ROG\Helpers\DB_Manager
       }
     }
     //////////////////////////////////////////////////////////////////
+    
+    //////////////////////////////////////////////////////////////////
+    //some effects depends on Scorpion clan scenario
+    $playerScenario = $player->getScenario();
+    if(isset($playerScenario)) {
+      $playerScenario->abilityOnGainInfluence($player,$region, $currentInfluence, $newInfluence);
+    }
+    //////////////////////////////////////////////////////////////////
 
     return Players::gainInfluenceTrackRewards($player,$region, $currentInfluence, $newInfluence );
   }
