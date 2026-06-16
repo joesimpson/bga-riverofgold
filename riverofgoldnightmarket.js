@@ -120,6 +120,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const TILE_LOCATION_BUILDING_ROW ='br';
     const TILE_LOCATION_BUILDING_SHORE = 'sh';
 
+    const CARD_LOCATION_DECK = 'deck';
     const CARD_LOCATION_DELIVERED = 'dd';
     const CARD_LOCATION_DELIVERED_HIDDEN = 'del_h';
     const CARD_LOCATION_HAND = 'h';
@@ -1832,6 +1833,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         notif_deliver(n) {
             debug('notif_deliver: a player shows a card to all !', n);
+            let from = n.args.from;
+            if(from == CARD_LOCATION_DECK){
+                this._counters['deckSizeCustomers'].incValue(-1);
+            }
             let card = n.args.card;
             let div = $(`rog_card-${card.id}`);
             let oldParent = null;

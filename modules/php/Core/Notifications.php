@@ -222,11 +222,8 @@ class Notifications
       'n' => $missingNb,
     ]);
   }
-  /**
-   * @param Player $player
-   * @param Card $card
-   */
-  public static function deliver($player, $card)
+
+  public static function deliver(Player $player, CustomerCard $card, ?string $fromLocation = null )
   { 
     self::notifyAll('deliver', clienttranslate('${player_name} delivers a customer card : ${customer_name}'), [
       'player' => $player,
@@ -239,6 +236,7 @@ class Notifications
           'region' => $card->getRegion(),
         ]
       ],
+      'from' => $fromLocation,
       'preserve' => ['card'],
     ]);
   }

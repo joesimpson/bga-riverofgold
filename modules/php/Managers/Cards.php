@@ -223,7 +223,7 @@ class Cards extends \ROG\Helpers\Pieces
       $previousPlayerId = $card->getPId();
       $card->setLocation(CARD_LOCATION_DELIVERED);
       $card->setPId($player->getId());
-      Notifications::deliver($player,$card);
+      Notifications::deliver($player,$card,$previousLocation);
       //replace card in previous location (player hands) + notify :
       if($previousLocation == CARD_LOCATION_HAND){
         $previousPlayer = Players::get($previousPlayerId);
