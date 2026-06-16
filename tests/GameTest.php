@@ -238,6 +238,7 @@ final class GameTest extends TestCase
                     ],
                     'title' => 'Mastery of Air',
                     'subtype' => 3,
+                    'side2p' => true,
                 ],
                 [
                     'id' => 2,
@@ -250,6 +251,7 @@ final class GameTest extends TestCase
                     ],
                     'title' => 'Mastery of the Courts',
                     'subtype' => 3,
+                    'side2p' => true,
                 ],
                 [
                     'id' => 3,
@@ -262,6 +264,7 @@ final class GameTest extends TestCase
                     ],
                     'title' => 'Mastery of Earth',
                     'subtype' => 3,
+                    'side2p' => true,
                 ],
                 [
                     'id' => 31,
@@ -737,7 +740,7 @@ final class GameTest extends TestCase
             'turn' => 1,
             'era' => 1,
             'deckSize' => [
-                'masteries' => 6,
+                'masteries' => 9,
                 'era1' => 6,
                 'era2' => 6,
                 'customers' => 3,

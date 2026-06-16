@@ -357,9 +357,18 @@ final class DraftTest extends TestCase
         TestDatas::$cards[$cardId]['type'] = PATRON_SCION_OF_VOID;
         TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
         GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
+        TestDatas::$tiles[4]['tile_state'] = 10;
+        TestDatas::$tiles[5]['tile_state'] = 11;
+        TestDatas::$tiles[6]['tile_state'] = 12;
 
         $game->actTakeCard($cardId,999999);
         
+        $expectedNotifs = [
+            "newPlayerColor-1",
+            "giveClanCardTo-1",
+            "giveMasteriesTo-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[4]['tile_location']);
         assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[5]['tile_location']);
         assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[6]['tile_location']);
@@ -400,15 +409,15 @@ final class DraftTest extends TestCase
         GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
         TestDatas::$cards[$scenarioId] = ['result_associative_index' => $scenarioId,'card_id' => $scenarioId, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => 1,   'subtype' => CARD_TYPE_SCENARIO,];
         TestDatas::resetStartingBuildings();
+
+        $game->actTakeCard($cardId,999999,$scenarioId);
+        
         $expectedNotifs = [
             "giveScenarioCard-1",
             "discardTiles",
             "newPlayerColor-1",
             "giveClanCardTo-1",
         ];
-
-        $game->actTakeCard($cardId,999999,$scenarioId);
-        
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         //TEST Scenario Setup
         //KEEP IMPERIAL MARKETS

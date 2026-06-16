@@ -4560,6 +4560,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 });
             }
             return `<div class="rog_tile rog_tile${prefix} rog_masterycard" id="rog_tile${prefix}-${tile.id}" data-id="${tile.id}" data-type="${tile.type}" data-subtype="${tile.subtype}"
+                    data-side2p="${tile.side2p ? true: false}"
                     data-nbPlayers="${nbPlayers}" data-masteryType="${tile.scoringType}">
                     <div class="rog_masterycard_wrapper">
                         <span class='rog_mastery_title'><div class='reduceToFit'>${_(tile.title)}</div></span>

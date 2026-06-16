@@ -147,7 +147,7 @@
                 top: 154px;
             }
 
-            &[data-nbPlayers='2']{
+            &[data-side2p='true']{
                 .rog_meeple {
                     //1 spot
                     &[data-pos='1']{
@@ -158,9 +158,13 @@
                     }
                 }
             }
+            /*
             &[data-nbPlayers='3'],
             &[data-nbPlayers='4'],
             &[data-nbPlayers='5']{
+            */
+            &[data-side2p='false']{
+
                 //3 spots
                 .rog_meeple{
                     &[data-pos='1']{

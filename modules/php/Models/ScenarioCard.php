@@ -64,8 +64,8 @@ class ScenarioCard extends Card
           $tile->setType($newType);
         }
         Tiles::shuffle(TILE_LOCATION_MASTERY_DECK);
-        $mastery = Tiles::pickOneForLocation(TILE_LOCATION_MASTERY_DECK,TILE_LOCATION_MASTERY_CARD);
         $masteryDeckSize = Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK);
+        $mastery = Tiles::pickOneForLocation(TILE_LOCATION_MASTERY_DECK,TILE_LOCATION_MASTERY_CARD);
         Notifications::masteryDeck($masteryDeckSize,$mastery,);
         break;
     }

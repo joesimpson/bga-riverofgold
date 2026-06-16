@@ -759,10 +759,12 @@ class Notifications
   }
   
   public static function masteryDeck(int $deckSize, ?MasteryCard $topMasteryCard,){
-    $msg = '';
+    $msg = clienttranslate('Next mastery card which may be claimed : ${mastery_name}');
     self::notifyAll('masteryDeck',$msg,[ 
         'deckSize' => $deckSize,
         'mastery' => $topMasteryCard->getUiData(),
+        'i18n' => ['mastery_name', ],
+        'mastery_name' => $topMasteryCard->getTitle(),
       ],
     );
   }

@@ -568,11 +568,11 @@ abstract class Table
             $tile_location = $matches['tile_location'];
             $limit = intval($matches['limit']);
             $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location,){return $tile['tile_location'] == $tile_location ;});
-            $filtered = array_slice($filtered, 0, $limit, true);
             uasort($filtered, function ($a,$b) use ($order)  {
                 if($order == 'DESC') return $b["tile_state"] <=> $a["tile_state"];
                 return $a["tile_state"] <=> $b["tile_state"];
             });
+            $filtered = array_slice($filtered, 0, $limit, true);
             logForTests("MOCK select tiles (sorted tile_state): ".json_encode($filtered));
             return $filtered;
         }

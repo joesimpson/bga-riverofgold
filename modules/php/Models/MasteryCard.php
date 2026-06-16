@@ -33,9 +33,15 @@ class MasteryCard extends Tile
     $data = parent::getUiData();
     $data['title'] = $this->getTitle();
     $data['subtype'] = TILE_TYPE_MASTERY_CARD;
+    $data['side2p'] = $this->is2PlayerSide();
     unset($data['state']);
     unset($data['scores']);
     return $data;
+  }
+
+  function is2PlayerSide() : bool {
+    $typeDatas = Tiles::getMasteryCardsTypes()[$this->getType()];
+    return in_array(2,$typeDatas['nbPlayers']);
   }
   
   /**

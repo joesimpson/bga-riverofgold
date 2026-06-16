@@ -13,6 +13,7 @@ use ROG\Models\AutomaPlayer;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Player;
+use ROG\Models\ScenarioType;
 use ROG\Models\ScoringTile;
 use ROG\Models\Tile;
 use ROG\Models\VirtualPlayer;
@@ -570,7 +571,7 @@ class Players extends \ROG\Helpers\DB_Manager
    * @param MasteryCard $tile 
    * @return bool $claim : true if the tile is being claimed
    */
-  public static function claimMastery(Player &$player, MasteryCard $tile) : bool
+  public static function claimMastery(Player &$player, MasteryCard &$tile) : bool
   {
     $pId = $player->getId();
     $tileId = $tile->getId();
@@ -598,6 +599,13 @@ class Players extends \ROG\Helpers\DB_Manager
     $claim = $tile->checkRequirements($player);
 
     if($claim){
+      $scenarioReserveClaims = Cards::getAssignedScenario(ScenarioType::PHOENIX_1);
+      if(isset($scenarioReserveClaims)){
+        $tile->setLocation(TILE_LOCATION_MASTERY_RESERVED);
+        $tile->setPId($player->getId());
+        Notifications::giveMasteriesTo($player,new Collection([$tile]));
+      }
+
       $claimPosition = $nbClaimed + 1;
       if($nbClaimed >= count($tile->scores) ){//if no more spaces available
         $nextPlaceScore = 0;
@@ -608,6 +616,16 @@ class Players extends \ROG\Helpers\DB_Manager
       $player->addPoints($nextPlaceScore,false);
       Notifications::claimMasteryCard($player,$nextPlaceScore,$tile,$meeple);
       Players::claimBonus($player, $claimGains, $playerPatron);
+        
+      if(isset($scenarioReserveClaims)){
+        $masteryDeckSize = Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK);
+        $mastery = Tiles::pickOneForLocation(TILE_LOCATION_MASTERY_DECK,TILE_LOCATION_MASTERY_CARD);
+        if(isset($mastery)){
+          Notifications::masteryDeck( $masteryDeckSize,$mastery);
+          //try to claim next mastery
+          Players::claimMastery($player,$mastery);
+        }
+      }
     }
 
     return $claim;
