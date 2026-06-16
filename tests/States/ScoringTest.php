@@ -3482,6 +3482,110 @@ final class ScoringTest extends TestCase
         assertSame(0,  TestDatas::$players[2]['player_score_aux']);
         assertSame(0, Globals::getAutomaScore());
     }
+    
+    public function test_computeScoring_ScenarioScorpion1_Completed(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,  ];
+        //Test with remaining targets in regions 4,5,6 :
+        for($k = 4; $k <= 6; $k++ ) TestDatas::$tokens[43+$k] = ['result_associative_index' => 43 + $k, 'meeple_id' => 43 +$k, 'meeple_state' => 5, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE."$k",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => SCORPION_ENEMY_ID,  ];
+        TestDatas::$tokens[1]['meeple_state'] = 10;
+        TestDatas::$tokens[2]['meeple_state'] = 10;
+        TestDatas::$tokens[3]['meeple_state'] = 16;
+        TestDatas::$tokens[4]['meeple_state'] = 10;
+        TestDatas::$tokens[5]['meeple_state'] = 10;
+        TestDatas::$tokens[6]['meeple_state'] = 10;
+        TestDatas::$tokens[11]['meeple_state'] = 9;
+        TestDatas::$tokens[12]['meeple_state'] = 11;
+        TestDatas::$tokens[13]['meeple_state'] = 9;
+        TestDatas::$tokens[14]['meeple_state'] = 9;
+        TestDatas::$tokens[15]['meeple_state'] = 9;
+        TestDatas::$tokens[16]['meeple_state'] = 9;
+        TestDatas::$tokens[31]['meeple_state'] = 8;
+        TestDatas::$tokens[32]['meeple_state'] = 8;
+        TestDatas::$tokens[33]['meeple_state'] = 8;
+        TestDatas::$tokens[34]['meeple_state'] = 8;
+        TestDatas::$tokens[35]['meeple_state'] = 8;
+        TestDatas::$tokens[36]['meeple_state'] = 8;
+        $expectedNotifs = [
+            "computeFinalScore",
+            "removeClanMarker-1",
+            "removeClanMarker-1",
+            "removeClanMarker-1",
+            "scoreInfluence-1",
+            "scoreInfluence-2",
+            "scoreInfluence-1",
+            "scoreInfluence-2",
+            "scoreInfluence-1",
+            "scoreInfluence-2",
+            "scoreInfluence--123",
+            "scoreInfluence-2",
+            "scoreInfluence-2",
+            "scoreInfluence--123",
+            "scoreDeliveries-1", 
+            "scoreDeliveries-2", 
+            "scoreDeliveries--123", 
+            "endResourcesForCustomers--123", 
+            "scenarioCompleted-1",
+            "teamWin",
+        ];
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 8,
+                    REGION_2 => 3,
+                    REGION_3 => 4,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+                SCORING_COMPLETE_SCENARIO => true,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 4,
+                    REGION_2 => 6,
+                    REGION_3 => 0,
+                    REGION_4 => 5,
+                    REGION_5 => 3,
+                    REGION_6 => 7,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 2,
+                    REGION_5 => 0,
+                    REGION_6 => 3,
+                ], 
+                SCORING_DELIVERED => 0,
+                SCORING_CUSTOMERS => 0,
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(27,  TestDatas::$players[1]['player_score']);//19 + 15 Reduce to lowest score
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(27,  TestDatas::$players[2]['player_score']);//2 + 25 Reduce to lowest score
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);//REDUCED
+        assertSame(5, Globals::getAutomaScore());
+    }
     // -------------------------------------------------
     
     public function test_compute_TieBreaker(): void

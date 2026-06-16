@@ -450,4 +450,11 @@ class Meeples extends \ROG\Helpers\Pieces
     Notifications::removeTarget($player,$meeple);
     self::DB()->delete($meeple->getId());
   }
+  
+  public static function removeInfluenceClanMarker(Player $player,int $region) : void
+  {
+    $meeple = Meeples::getInfluenceMarker($player->getId(),$region);
+    Notifications::removeInfluenceClanMarker($player,$meeple,$region);
+    self::DB()->delete($meeple->getId());
+  }
 }

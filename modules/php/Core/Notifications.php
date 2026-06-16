@@ -630,6 +630,20 @@ class Notifications
     ]);
   }
 
+  public static function removeInfluenceClanMarker(Player $player, Meeple $meeple, int $region)
+  {
+    $msg = clienttranslate('${player_name} removes a ${clan_marker} marker from region #${region}${region_icon} influence track (position ${n})');
+    self::notifyAll('removeClanMarker', $msg, [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
+      'clan_marker' => '',
+      'region_icon' => '',
+      'region' => $region,
+      'n' => $meeple->getPosition(),
+      'preserve' => ['meeple','region'],
+    ]);
+  }
+
   public static function newBuildingMarkersWithPatron(Player $player, array $markers, ?ClanPatronCard $playerPatron,)
   {
     $msg = clienttranslate('');

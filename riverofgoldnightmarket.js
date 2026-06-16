@@ -4038,7 +4038,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [this.gamedatas.enums.ScenarioType.CRAB_1, this.fsr(_('You must outscore Seishin and own more buildings than Seishin.'),{})],
                 [this.gamedatas.enums.ScenarioType.MANTIS_1, this.fsr(_('You must outscore Seishin and remove the rogue pirate ship.'),{})],
                 [this.gamedatas.enums.ScenarioType.CRANE_1, this.fsr(_('You must outscore Seishin and reduce your debt to ${n} ${koku}'),{'n':0, 'koku':''})],
-                [4, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.SCORPION_1, 
+                    this.fsr(_('Remove your clan marker from each region influence track with a target still present. You do not score points for influence in these regions.'),{})
+                    + "<br/>"
+                    + this.fsr(_('You must outscore Seishin.'),{})
+                ],
                 [5, this.fsr(_(''),{})],
                 [6, this.fsr(_(''),{})],
                 [7, this.fsr(_(''),{})],

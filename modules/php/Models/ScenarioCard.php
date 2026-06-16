@@ -192,6 +192,22 @@ class ScenarioCard extends Card
     }
   }
 
+  
+  public function beforeScoring(Player $player)
+  {
+    switch($this->getType()){
+      case ScenarioType::SCORPION_1->value:
+        //Remove your clan marker from each region influence track with a target still present. You do not score points for influence in these regions
+        foreach(REGIONS as $region){
+          $target = Meeples::getInfluenceMarker(SCORPION_ENEMY_ID,$region);
+          if(isset($target)){
+            Meeples::removeInfluenceClanMarker($player,$region);
+          }
+        }
+        break;
+    }
+  }
+
   /**
    * @return bool true if scenario is completed
    */
@@ -212,6 +228,9 @@ class ScenarioCard extends Card
       case ScenarioType::CRANE_1->value:
         $debt = $this->getResource(RESOURCE_TYPE_MONEY);
         $checked = ($debt <= 0);
+        break;
+      case ScenarioType::SCORPION_1->value:
+        $checked = true;
         break;
     }
     return $checked;

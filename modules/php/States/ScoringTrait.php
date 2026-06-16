@@ -36,10 +36,22 @@ trait ScoringTrait
     $this->gamestate->nextState('next');
   }
   
+  public function checkBeforeScoring($players)
+  {
+    self::trace("checkBeforeScoring()");
+    foreach($players as $pid => $player){
+      $scenario = Cards::getScenario($player);
+      if(isset($scenario)){
+        $scenario->beforeScoring($player);
+      }
+    }
+  }
+
   public function computeFinalScore($players)
   {
     self::trace("computeFinalScore()");
     Notifications::computeFinalScore();
+    $this->checkBeforeScoring($players);
     $endScoringDatas = [];
     //Query influence meeples before looping
     $influenceMarkers = [];
@@ -66,9 +78,10 @@ trait ScoringTrait
     foreach(REGIONS as $region){
       foreach($players as $pid => $player){
         $this->trace("Final scoring for player $pid in region $region ...");
-        $playerPosition = $influenceMarkers[$region]->filter( function($meeple) use ($pid) { 
+        $playerMarker = $influenceMarkers[$region]->filter( function($meeple) use ($pid) { 
             return $meeple->getPId() == $pid; 
-          })->first()->getPosition();
+          })->first();
+        $playerPosition = $playerMarker ? $playerMarker->getPosition() : 0;
         $opponentPositions = $influenceMarkers[$region]->filter( function($meeple) use ($pid) { 
             return $meeple->getPId() != $pid; 
           })->map(function($meeple) { 
