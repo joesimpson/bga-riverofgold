@@ -527,10 +527,22 @@ class Players extends \ROG\Helpers\DB_Manager
     
     $claim = false;
 
-    $masteryCards = Tiles::getMasteryToClaim()
-                    ->merge(Tiles::getMasteryReserved($player));
+    $masteryCards = Tiles::getMasteryToClaim();
+    
+    $playerPatron = $player->getPatron();
+    if(isset($playerPatron) && PATRON_SCION_OF_EARTH == $playerPatron->getType()){
+      $allReservedMasteries = Tiles::getInLocationOrdered(TILE_LOCATION_MASTERY_RESERVED);
+      //Game::get()->trace("claimMasteriesSubset($include, ".json_encode($masteriesTypes)." patron check allReservedMasteries ".json_encode($allReservedMasteries));
+      $masteryCards = $masteryCards->merge($allReservedMasteries);
+    }
+    else {
+      $masteryCards = $masteryCards->merge(Tiles::getMasteryReserved($player));
+    }
+
     foreach ($masteryCards as $tile) {
+      $tileId = $tile->getId();
       if($include && !in_array($tile->scoringType,$masteriesTypes)){
+        //Game::get()->trace("claimMasteriesSubset($include, ".json_encode($masteriesTypes).")...$tileId type does not match ");
         continue;
       }
       if(!$include && in_array($tile->scoringType,$masteriesTypes)){
@@ -600,7 +612,8 @@ class Players extends \ROG\Helpers\DB_Manager
 
     if($claim){
       $scenarioReserveClaims = Cards::getAssignedScenario(ScenarioType::PHOENIX_1);
-      if(isset($scenarioReserveClaims)){
+      $reserveMasteryForPlayer = isset($scenarioReserveClaims) && ($tile->getLocation() != TILE_LOCATION_MASTERY_RESERVED);
+      if($reserveMasteryForPlayer){
         $tile->setLocation(TILE_LOCATION_MASTERY_RESERVED);
         $tile->setPId($player->getId());
         Notifications::giveMasteriesTo($player,new Collection([$tile]));
@@ -617,7 +630,7 @@ class Players extends \ROG\Helpers\DB_Manager
       Notifications::claimMasteryCard($player,$nextPlaceScore,$tile,$meeple);
       Players::claimBonus($player, $claimGains, $playerPatron);
         
-      if(isset($scenarioReserveClaims)){
+      if($reserveMasteryForPlayer){
         $masteryDeckSize = Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK);
         $mastery = Tiles::pickOneForLocation(TILE_LOCATION_MASTERY_DECK,TILE_LOCATION_MASTERY_CARD);
         if(isset($mastery)){

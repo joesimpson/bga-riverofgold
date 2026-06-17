@@ -4067,7 +4067,19 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <span>${this.fsr(_('Distrusted: You cannot deliver to customers from regions with a target still present.'),{})}</span>
                     `
                 ],
-                [5, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.PHOENIX_1,
+                    `<span><b>${this.fsr(_('Claiming Masteries:'),{})}</b></span>
+                    <ul>
+                        <li>${this.fsr(_('Players can claim the top mastery card on the deck.'),{})}</li>
+                        <li>${this.fsr(_('Whenever a player claims a mastery, put the card in front of them. The newly-revealed mastery is now eligible to be claimed.'),{})}</li>
+                        <li>${this.fsr(_('If you are ${patron_name}, you may claim Masteries in front of other players.'),{'patron_name':_('Isawa Tadaka')})}</li>
+                        <li>${this.fsr(_('If the player who claims the top card of the deck happens to fulfill the conditions of the newly-revealed mastery, they may claim it. This can occur for multiple masteries in succession.'),{})}</li>
+                        <li>${this.fsr(_('When Seishin’s deck is empty, Seishin claims the top 2 masteries (instead of claiming 1 mastery based on its die.)'),{})}</li>
+                    </ul>
+                    <span><b>${this.fsr(_('Divine Cycling:'),{})}</b></span>
+                    <span>${this.fsr(_('Once on your turn, you may spend 1 divine favor to move a mastery from the top of the deck to the bottom of the deck.'),{})}</span>
+                    `
+                ],
                 [6, this.fsr(_(''),{})],
                 [7, this.fsr(_(''),{})],
                 [8, this.fsr(_(''),{})],

@@ -2143,6 +2143,88 @@ final class PlayersTest extends TestCase
         assertSame(6, $resources[RESOURCE_TYPE_SUN]);//+3 * 2 max 6
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
     }
+    //Test Scion of Earth can claim a mastery already claimed by another player
+    public function test_claimMasteries_ScenarioPhoenix1_ScionOfEarth(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        TestDatas::$players[1]['player_score'] = 25;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":2,"6":0}';
+        $player = Players::get(1);
+        TestDatas::$tiles[1]['type'] = 2;//MASTERY_TYPE_COURTS
+        TestDatas::$tokens[1]['meeple_state'] = NB_MAX_INLFUENCE;
+        TestDatas::$tiles[2]['tile_location'] = TILE_LOCATION_MASTERY_DECK;
+        TestDatas::$tiles[3]['tile_location'] = TILE_LOCATION_MASTERY_RESERVED;
+        TestDatas::$tiles[3]['player_id'] = 2;
+        TestDatas::$tiles[3]['type'] = 14;//MASTERY_TYPE_SUN_MOON
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'3','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tiles[8]['type'] = 1;
+        TestDatas::$tiles[9]['type'] = 15;//MASTERY_TYPE_LIGHTNING
+        //with patron ability
+        TestDatas::$cards[101]['type'] = PATRON_SCION_OF_EARTH;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::PHOENIX_1->value,   'subtype' => CARD_TYPE_SCENARIO,  ];
+
+        $claim = Players::claimMasteries($player);
+
+        assertTrue($claim);
+        $expectedNotifs = [
+            "giveMasteriesTo-1",
+            "newClanMarker-1",
+            "claimMC-1",
+            "activePatron-1",
+            "giveResource-1",
+            "giveResource-1",
+                "newClanMarker-1",
+                "claimMC-1",
+                "activePatron-1",
+                "giveResource-1",
+                "giveResource-1",
+            "masteryDeck",
+
+            "giveMasteriesTo-1",
+            "newClanMarker-1",
+            "claimMC-1",
+            "activePatron-1",
+            "giveResource-1",
+            "giveResource-1",
+            "masteryDeck",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(35, TestDatas::$players[1]['player_score']);//25+5+0+5
+        $newClanMarker = TestDatas::$tokens[44];
+        assertSame(MEEPLE_LOCATION_TILE.'1', $newClanMarker['meeple_location']);
+        assertSame(1, $newClanMarker['meeple_state']);
+        assertSame(1, $newClanMarker['player_id']);
+        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        $newClanMarker = TestDatas::$tokens[45];
+        assertSame(MEEPLE_LOCATION_TILE.'3', $newClanMarker['meeple_location']);
+        assertSame(2, $newClanMarker['meeple_state']);
+        assertSame(1, $newClanMarker['player_id']);
+        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        $newClanMarker = TestDatas::$tokens[46];
+        assertSame(MEEPLE_LOCATION_TILE.'9', $newClanMarker['meeple_location']);
+        assertSame(1, $newClanMarker['meeple_state']);
+        assertSame(1, $newClanMarker['player_id']);
+        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(6, $resources[RESOURCE_TYPE_MOON]);//+1 * 2
+        assertSame(6, $resources[RESOURCE_TYPE_SUN]);//+3 * 2 max 6
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(1, TestDatas::$tiles[1]['player_id']);
+        assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[1]['tile_location']);
+        assertSame(1, TestDatas::$tiles[9]['player_id']);
+        assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[9]['tile_location']);
+        assertSame(TILE_LOCATION_MASTERY_CARD, TestDatas::$tiles[8]['tile_location']);
+        assertSame(1, Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD));
+        assertSame(5, Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK));//7-2
+        //tile should not change :
+        assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[3]['tile_location']);
+        assertSame(2, TestDatas::$tiles[3]['player_id']);
+    }
     //Test claims on cascade
     public function test_claimMasteries_ScenarioPhoenix1(): void
     {
@@ -2196,6 +2278,7 @@ final class PlayersTest extends TestCase
         assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[1]['tile_location']);
         assertSame(1, TestDatas::$tiles[9]['player_id']);
         assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[9]['tile_location']);
+        assertSame(TILE_LOCATION_MASTERY_CARD, TestDatas::$tiles[8]['tile_location']);
     }
 
     public function test_claimMasteries_Type1_Active_2Players_NewCustomers(): void
