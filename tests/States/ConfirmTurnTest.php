@@ -9,6 +9,8 @@ use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Models\ScenarioType;
+use ROG\Models\TURN_ACTION;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -48,6 +50,38 @@ final class ConfirmTurnTest extends TestCase
         $expectedArgs = [
             'c' => 1,
             'trade' => false,
+            'previousSteps' => [ 1 ],
+            'previousChoices' => $choices,
+        ];
+
+        $args = $game->argsConfirmTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_ScenarioPhoenix1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $choices = 2;
+        Globals::setChoices($choices);
+        TestDatas::$logs[1] = ['result_associative_index' => 1,'id' => 1, 'move_id' => 1, 'table' => '', 'primary'=>'', 'type' => 'step', 'affected' => '[{"name": "currentBonus","value": "24"}]', ];
+        GamestateMachine::$test_current_state = ST_CONFIRM_TURN;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::PHOENIX_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'card_played' => false];
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":0,"3":2,"4":4,"5":3,"6":0}';
+        $expectedArgs = [
+            'c' => 1,
+            'trade' => true,
+            'a' => [ 'actPlayCard' ],
+            'p_cards' => [
+                301 => [   
+                    'marker' => null,
+                    'actions' => [
+                        TURN_ACTION::DIVINE_CYCLING->value => [
+                        ],
+                    ] 
+                ],
+            ],
             'previousSteps' => [ 1 ],
             'previousChoices' => $choices,
         ];

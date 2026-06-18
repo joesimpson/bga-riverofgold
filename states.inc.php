@@ -255,6 +255,7 @@ $machinestates = array(
         'possibleactions' => [
             'actBonus', 
             "actTrade", 
+            "actPlayCard",
             'actSkipBonuses', 
             'actRestart'
         ],
@@ -480,10 +481,12 @@ $machinestates = array(
         'action' => 'stConfirmTurn',
         'possibleactions' => [
             'actTrade',
+            "actPlayCard",
             'actConfirmTurn', 
             'actRestart'
         ],
         'transitions' => [
+            "continue" => ST_CONFIRM_TURN,
             "trade" => ST_PLAYER_TURN_TRADE, 
           'confirm' => ST_END_TURN,
           'zombiePass'=> ST_END_TURN,

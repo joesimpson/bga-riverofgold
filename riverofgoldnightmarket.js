@@ -673,56 +673,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 $('btnDeliver').classList.add('disabled');
             }
             
-            if(possibleActions.includes('actPlayCard')){
-                
-                Object.entries(args.p_cards).forEach( ([cardId, cardDatas]) => {
-                    let markerId = cardDatas['marker'];
-                    let actions = cardDatas['actions'];
-                    let div = $(`rog_card-${cardId}`);
-                    let callbackCardSelection = null;
-                    Object.entries(actions).forEach( ([action, actionDatas]) => {
-                        switch(action){
-                            case 'SWAP_BOATS'://BEFORE_ACTION::SWAP_BOATS
-                                callbackCardSelection = () => {
-                                    this.clientState('playCardSwapBoats','', {
-                                        cardId: cardId,
-                                        markerId: markerId,
-                                        action: action,
-                                        actionDatas: actionDatas,
-                                    });
-                                };
-                                break;
-                            case 'MOVE_BUILDING'://BEFORE_ACTION::MOVE_BUILDING
-                                callbackCardSelection = () => {
-                                    this.clientState('playCardMoveBuilding','', {
-                                        cardId: cardId,
-                                        markerId: markerId,
-                                        action: action,
-                                        actionDatas: actionDatas,
-                                    });
-                                };
-                                break;
-                            case 'DIVINE_CYCLING'://TURN_ACTION::DIVINE_CYCLING
-                                this.addSecondaryActionButton(`btnDivineCycling`, _('Divine Cycling') , () =>  { 
-                                    let confirmMessage = _('Are you sure to draw a new mastery card ?');
-                                    this.confirmationDialog(confirmMessage, () => {
-                                        this.takeAction('actPlayCard', { 
-                                            'answer': JSON.stringify({
-                                                'cardId': parseInt(cardId), 
-                                                'markerId': markerId, 
-                                                'action': action,
-                                                'source': null,
-                                                'dest': null,
-                                            }),
-                                        });
-                                    });
-                                });
-                                break;
-                        }
-                    });
-                    if(callbackCardSelection) this.onClick(`${div.id}`, callbackCardSelection);
-                });
-            }
+            this.updatePlayableCards(possibleActions, args.p_cards);
         },
         
         //CLIENT STATE
@@ -991,6 +942,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if(!args.trade){
                 $('btnTrade').classList.add('disabled');
             }
+            
+            this.updatePlayableCards(args.a, args.p_cards);
 
             let possibleBonuses = args.p;
             let k=0;
@@ -1692,6 +1645,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if(!args.trade){
                 $('btnTrade').classList.add('disabled');
             }
+            
+            this.updatePlayableCards(args.a, args.p_cards);
 
             let confirmText = _('Confirm');
             if(this.player_id == args.c ) confirmText = _('End turn');
@@ -4330,6 +4285,59 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             </div>`;
         },
 
+        updatePlayableCards(possibleActions, playable_cards) {
+            if(! possibleActions) return;
+            if(! possibleActions.includes('actPlayCard')) return;
+            if(! playable_cards) return;
+            
+            Object.entries(playable_cards).forEach( ([cardId, cardDatas]) => {
+                let markerId = cardDatas['marker'];
+                let actions = cardDatas['actions'];
+                let div = $(`rog_card-${cardId}`);
+                let callbackCardSelection = null;
+                Object.entries(actions).forEach( ([action, actionDatas]) => {
+                    switch(action){
+                        case 'SWAP_BOATS'://BEFORE_ACTION::SWAP_BOATS
+                            callbackCardSelection = () => {
+                                this.clientState('playCardSwapBoats','', {
+                                    cardId: cardId,
+                                    markerId: markerId,
+                                    action: action,
+                                    actionDatas: actionDatas,
+                                });
+                            };
+                            break;
+                        case 'MOVE_BUILDING'://BEFORE_ACTION::MOVE_BUILDING
+                            callbackCardSelection = () => {
+                                this.clientState('playCardMoveBuilding','', {
+                                    cardId: cardId,
+                                    markerId: markerId,
+                                    action: action,
+                                    actionDatas: actionDatas,
+                                });
+                            };
+                            break;
+                        case 'DIVINE_CYCLING'://TURN_ACTION::DIVINE_CYCLING
+                            this.addSecondaryActionButton(`btnDivineCycling`, _('Divine Cycling') , () =>  { 
+                                let confirmMessage = this.fsr(_('Are you sure to draw a new mastery card for ${n} ${res_icon} ?'), {'n': 1, 'res_icon':'','res_type':RESOURCE_TYPE_SUN});
+                                this.confirmationDialog(confirmMessage, () => {
+                                    this.takeAction('actPlayCard', { 
+                                        'answer': JSON.stringify({
+                                            'cardId': parseInt(cardId), 
+                                            'markerId': markerId, 
+                                            'action': action,
+                                            'source': null,
+                                            'dest': null,
+                                        }),
+                                    });
+                                });
+                            });
+                            break;
+                    }
+                });
+                if(callbackCardSelection) this.onClick(`${div.id}`, callbackCardSelection);
+            });
+        },
         ////////////////////////////////////////////////////////
         //  _____ _ _
         // |_   _(_) | ___  ___

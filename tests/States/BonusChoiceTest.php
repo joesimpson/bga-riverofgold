@@ -9,6 +9,8 @@ use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Models\ScenarioType;
+use ROG\Models\TURN_ACTION;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -194,6 +196,39 @@ final class BonusChoiceTest extends TestCase
             'trade' => true,
             'canSkip' => true,
             'cannotSetDie' => false,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argBonusChoice();
+        
+        assertSame($expectedArgs, $args);
+    }   
+    
+    public function test_Args_ScenarioPhoenix1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":0,"3":2,"4":4,"5":3,"6":0}';
+        $bonuses = [];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::PHOENIX_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'card_played' => false];
+        $expectedArgs = [
+            'p' => $bonuses,
+            'trade' => true,
+            'canSkip' => true,
+            'cannotSetDie' => false,
+            'a' => [ 'actPlayCard' ],
+            'p_cards' => [
+                301 => [   
+                    'marker' => null,
+                    'actions' => [
+                        TURN_ACTION::DIVINE_CYCLING->value => [
+                        ],
+                    ] 
+                ],
+            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
