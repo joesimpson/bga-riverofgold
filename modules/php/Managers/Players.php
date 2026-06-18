@@ -635,8 +635,10 @@ class Players extends \ROG\Helpers\DB_Manager
         $mastery = Tiles::pickOneForLocation(TILE_LOCATION_MASTERY_DECK,TILE_LOCATION_MASTERY_CARD);
         if(isset($mastery)){
           Notifications::masteryDeck( $masteryDeckSize,$mastery);
-          //try to claim next mastery
-          Players::claimMastery($player,$mastery);
+          if( ! ($player instanceof AutomaPlayer) ){//else see AutomaEngine for 2 claims
+            //try to claim next mastery
+            Players::claimMastery($player,$mastery);
+          }
         }
       }
     }

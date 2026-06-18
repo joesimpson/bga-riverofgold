@@ -4,9 +4,11 @@ namespace ROG\Helpers;
 use RiverOfGoldNightMarket;
 use ROG\Core\Notifications;
 use ROG\Managers\AutomaCards;
+use ROG\Managers\Cards;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\AutomaPlayer;
+use ROG\Models\ScenarioType;
 
 /**
  * Define rules for the automa turns
@@ -38,14 +40,28 @@ class AutomaEngine {
         $this->game->trace(__CLASS__.'.'.__FUNCTION__."()");
 
         $playerDie = $player->getDie();
+        $nbMasteriesToClaimAtOnce = 1;
+        $scenarioReserveClaims = Cards::getAssignedScenario(ScenarioType::PHOENIX_1);
+        if(isset($scenarioReserveClaims)){
+            $nbMasteriesToClaimAtOnce = 2;
+        }
+        $nbClaims = 0;
+
         // RULE :
         //If her die is a 1, 2, or 3, she claims and scores the leftmost available mastery
         //If her die is a 4, 5, or 6, she claims and scores the rightmost available mastery.
         $orderFromLeft = $playerDie < 4;
-        $masteryCards = Tiles::getMasteryToClaim($orderFromLeft);
-        foreach ($masteryCards as $tile) {
-            if(Players::claimMastery($player,$tile)){
-                break;
+        
+        $newClaim = true;
+        while($newClaim && $nbClaims < $nbMasteriesToClaimAtOnce){
+            $newClaim = false;
+            $masteryCards = Tiles::getMasteryToClaim($orderFromLeft);
+            foreach ($masteryCards as $tile) {
+                if(Players::claimMastery($player,$tile)) {
+                    $nbClaims++;
+                    $newClaim = true;
+                    break;
+                }
             }
         }
     }
