@@ -4677,6 +4677,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_scenario_card_desc .rog_coop_label {
   background-color: #f0ecd2;
+  color: black;
   box-shadow: 0px 0px 0px 3px #ab792b;
   border-radius: 10px;
   margin-top: 10px;
@@ -7835,6 +7836,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   font-size: 23px;
   margin: 0px;
   background: #b79570;
+  color: black;
   border-radius: 8px 8px 0px 0px;
   padding: 7px 0px;
   border-bottom: 1px solid #734f2a;
@@ -7857,6 +7859,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   border-bottom: 1px solid black;
   padding: 5px 8px;
   background: #cca172;
+  color: black;
   flex-grow: 1;
   cursor: pointer;
 }
@@ -8477,6 +8480,7 @@ body[data-rog_undo_style="2"] #btnTextRestartTurn {
   z-index: 900;
   border: 1px solid black;
   border-radius: 50%;
+  color: black;
 }
 .help-marker svg {
   width: 20px;
