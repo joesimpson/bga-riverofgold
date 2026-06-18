@@ -43,6 +43,7 @@ CREATE TABLE IF NOT EXISTS `cards` (
   `subtype` int(10) NOT NULL,
   `player_id` int(10) NULL,
   `resources` JSON NULL COMMENT 'Optional resources to be placed/moved on the card',
+  `card_played` tinyint(1) DEFAULT 0 COMMENT 'Is the card already played ?',
   PRIMARY KEY (`card_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 

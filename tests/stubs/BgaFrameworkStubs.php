@@ -198,6 +198,17 @@ abstract class Table
             logForTests("getUniqueValueFromDb: MAX($field ) is $max  ");
             return $max;
         }
+        if (preg_match("/^SELECT MIN\(`(?P<field>.*)`\) FROM `tiles` WHERE \(`tile_location` = '(?P<card_location>.*)'\)$/", $sql, $matches) == 1) {
+            $field = $matches['field'];
+            $card_location = $matches['card_location'];
+            $filtered = array_filter(TestDatas::$tiles,function ($card) use( $card_location, ) {return $card['tile_location'] == $card_location;});
+            $min = 0;
+            foreach($filtered as $card) {
+                $min = min($min, $card[$field]);
+            }
+            logForTests("getUniqueValueFromDb: MIN($field ) is $min ");
+            return $min;
+        }
         if (preg_match("/^SELECT COUNT\(\*\) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\)$/", $sql, $matches) == 1) {
             $tile_location = $matches['tile_location'];
             $count = count(array_filter(TestDatas::$tiles,function ($card) use($tile_location,) {return $card['tile_location'] == $tile_location;}));
@@ -884,8 +895,9 @@ abstract class Table
             return true;
         }
         $mutiplesGroups = "";
-        for($k=1;$k<100;$k++) $mutiplesGroups .= "(,?\('(\w+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)',(?:'([\w\":,{}]+)'|NULL)\))?";
-        $regexInsertCards = "/^INSERT INTO `cards` (.*) VALUES(,?\('(\w+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)',(?:'([\w\":,{}]+)'|NULL)\))?$mutiplesGroups$/";
+        $insertCardGroup = "(,?\('(\w+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)',(?:'([\w\":,{}]+)'|NULL),(?:'(\w+)'|NULL)\))";
+        for($k=1;$k<100;$k++) $mutiplesGroups .= "$insertCardGroup?";
+        $regexInsertCards = "/^INSERT INTO `cards` (.*) VALUES$insertCardGroup?$mutiplesGroups$/";
         if (preg_match($regexInsertCards, $sql, $matches) == 1) {
             logForTests("REGEX insert cards : $regexInsertCards");
             $k =2;
@@ -896,13 +908,14 @@ abstract class Table
                 $type = intval($matches[$k+4]);
                 $subtype = intval($matches[$k+5]);
                 $resources = null; if(isset($matches[$k+6])) $resources = $matches[$k+6];
+                $card_played = false; if(isset($matches[$k+7])) $card_played = intval($matches[$k+7]);
                 $cards_ids = array_keys(TestDatas::$cards);
                 $nbCards = count($cards_ids);
                 $id = 1 + ($nbCards>0 ? $cards_ids[count($cards_ids)-1] : 0);
-                logForTests("DbQuery --- (k=$k) added card $id : $card_location, $card_state, $player_id,$type, $subtype, $resources ");
+                logForTests("DbQuery --- (k=$k) added card $id : $card_location, $card_state, $player_id,$type, $subtype, $resources, $card_played ");
                 TestDatas::$cards[$id] = ['result_associative_index' => $id,'card_id' => $id, 'card_location' => $card_location, 'card_state' => $card_state, 'player_id' => $player_id, 'type' => $type, 'subtype' => $subtype, 'resources' => $resources];
                 TestDatas::$lastInsertedId = $id;
-                $k+=7;
+                $k+=8;
             }
             return true;
         }
@@ -911,6 +924,14 @@ abstract class Table
             $card_id = $matches['card_id'];
             logForTests("DbQuery --- updated card_location for card $card_id : $card_location");
             TestDatas::$cards[$card_id]['card_location'] = $card_location;
+            return true;
+        }
+        
+        if (preg_match("/^UPDATE `cards` SET `card_played` = '(?P<card_played>.*)' WHERE  `card_id` = (?P<card_id>\d+)$/", $sql, $matches) == 1) {
+            $card_played = intval($matches['card_played']);
+            $card_id = $matches['card_id'];
+            logForTests("DbQuery --- updated card_played for card $card_id : $card_played");
+            TestDatas::$cards[$card_id]['card_played'] = $card_played;
             return true;
         }
         if (preg_match("/^UPDATE `cards` SET `card_state` = '(?P<card_state>.*)' WHERE \(`card_id` IN \((?P<card_ids>.*)\)\)$/", $sql, $matches) == 1) {
@@ -1024,6 +1045,19 @@ abstract class Table
             $tile_id = $matches['tile_id'];
             logForTests("DbQuery --- updated state for tile $tile_id : $tile_state");
             TestDatas::$tiles[$tile_id]['tile_state'] = intval($tile_state);
+            return true;
+        }
+        
+        if (preg_match("/^UPDATE `tiles` SET `tile_state` = `tile_state` \+ (?P<inc>.*) WHERE `tile_location` = '(?P<from_location>.*)' AND \(`tile_state` >= (?P<state_min>.*)\)$/", $sql, $matches) == 1) {
+            $inc = intval($matches['inc']);
+            $state_min = intval($matches['state_min']);
+            $from_location = $matches['from_location'];
+            foreach(TestDatas::$tiles as $card_id => &$card){
+                if($card['tile_location'] != $from_location) continue;
+                if($card['tile_state'] < $state_min) continue;
+                $card['tile_state'] += $inc;
+                logForTests("DbQuery --- updated tile_state for tile $card_id : ".$card['tile_state']);
+            }
             return true;
         }
         if (preg_match("/^UPDATE `tiles` SET `tile_location` = '(?P<card_location>.*)',`tile_state` = '(?P<card_state>.*)' WHERE \(`tile_id` IN \((?P<card_ids>.*)\)\)$/", $sql, $matches) == 1) {

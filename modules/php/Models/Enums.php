@@ -24,6 +24,13 @@ enum BEFORE_ACTION: string
   case MOVE_BUILDING  = 'MOVE_BUILDING';
 }
 
+enum TURN_ACTION: string
+{
+  use EnumUtilsTrait;
+  
+  case DIVINE_CYCLING     = 'DIVINE_CYCLING';
+}
+
 enum AutomaActionType: int
 {
   use EnumUtilsTrait;

@@ -702,6 +702,22 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                                     });
                                 };
                                 break;
+                            case 'DIVINE_CYCLING'://TURN_ACTION::DIVINE_CYCLING
+                                this.addSecondaryActionButton(`btnDivineCycling`, _('Divine Cycling') , () =>  { 
+                                    let confirmMessage = _('Are you sure to draw a new mastery card ?');
+                                    this.confirmationDialog(confirmMessage, () => {
+                                        this.takeAction('actPlayCard', { 
+                                            'answer': JSON.stringify({
+                                                'cardId': parseInt(cardId), 
+                                                'markerId': markerId, 
+                                                'action': action,
+                                                'source': null,
+                                                'dest': null,
+                                            }),
+                                        });
+                                    });
+                                });
+                                break;
                         }
                     });
                     if(callbackCardSelection) this.onClick(`${div.id}`, callbackCardSelection);

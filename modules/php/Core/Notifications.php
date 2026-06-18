@@ -181,7 +181,7 @@ class Notifications
       'clan_name' => $card->getClanName(),
     ]);
   }
-  public static function giveScenarioCard($player, $card)
+  public static function giveScenarioCard(Player $player, ScenarioCard $card)
   {
     self::notifyAll('giveScenarioCard', clienttranslate('${player_name} will play with ${clan_name} scenario ${scenario_name}'), [
       'i18n' => [ 'scenario_name','clan_name' ],
@@ -768,6 +768,17 @@ class Notifications
       ],
     );
   }
+  
+  public static function masteryBottom(Player $player, MasteryCard $card,){
+    $msg = clienttranslate('${player_name} moves ${mastery_name} to the bottom of the deck');
+    self::notifyAll('masteryBottom',$msg,[ 
+        'player' => $player,
+        'mastery' => $card->getUiData(),
+        'i18n' => ['mastery_name', ],
+        'mastery_name' => $card->getTitle(),
+      ],
+    );
+  }
   /**
    * @param Player $player
    * @param int $points
@@ -995,6 +1006,17 @@ class Notifications
         'i18n' => [ 'patron_name' ],
         'player' => $player,
         'patron_name' => $card->getName(),
+        'card_id' => $card->getId(),
+      ],
+    );
+  }
+  
+  public static function scenarioAbility(Player $player,ScenarioCard $card){
+    $cardName = $card->formatNameForNotif();
+    $msg = clienttranslate('${player_name} plays ${card_name} ability');
+    self::notifyAll('scenarioAbility',$msg,[ 
+        'player' => $player,
+        'card_name' => $cardName,
         'card_id' => $card->getId(),
       ],
     );

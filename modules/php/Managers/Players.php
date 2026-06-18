@@ -115,20 +115,6 @@ class Players extends \ROG\Helpers\DB_Manager
   }
   
   /**
-   * @param Collection $players Players
-   * @param int $turn
-   */
-  public static function setupNewTurn($players,$turn)
-  {
-    Game::get()->trace("setupNewTurn($turn)");
-
-    $players = $players->filter(function ($player) { 
-      return $player->getZombie() ==0 && $player->getEliminated() == 0;
-    });
-    
-  }
-
-  /**
    * @param int $pId
    * @param int $score score to add to current score
    */
@@ -324,19 +310,6 @@ class Players extends \ROG\Helpers\DB_Manager
   public static function changeActive($pId)
   {
     Game::get()->gamestate->changeActivePlayer($pId);
-  }
-
-  /**
-   * Sets player datas related to turn number $turn
-   * @param array $player_ids
-   * @param int $turn
-   */
-  public static function startTurn($player_ids,$turn)
-  {
-    foreach($player_ids as $player_id){
-      $player = self::get($player_id);
-      $player->startTurn($turn);
-    }
   }
   
   /**

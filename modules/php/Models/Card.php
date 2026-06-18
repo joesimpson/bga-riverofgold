@@ -21,6 +21,8 @@ class Card extends \ROG\Helpers\DB_Model
 
     //array of numbers of resources (money/trade goods placed on the card)
     'resources' => ['resources', 'obj'],
+    
+    'played' => ['card_played', 'bool'],
   ];
    
   public function __construct($row, $datas)
@@ -36,6 +38,7 @@ class Card extends \ROG\Helpers\DB_Model
     $data = parent::getUiData();
     //useless for majority of cards
     unset($data['resources']);
+    unset($data['played']);
     return $data;
   }
 

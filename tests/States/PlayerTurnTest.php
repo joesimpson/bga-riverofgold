@@ -11,7 +11,10 @@ use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\ClientAnswer;
 use ROG\Managers\Players;
+use ROG\Managers\Tiles;
 use ROG\Models\BEFORE_ACTION;
+use ROG\Models\ScenarioType;
+use ROG\Models\TURN_ACTION;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -289,7 +292,91 @@ final class PlayerTurnTest extends TestCase
         
         assertSame($expectedArgs, $args);
     }
+    
+    public function test_Args_PlayableCards_ScenarioPhoenix1_Playable(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":1,"6":20}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::PHOENIX_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'card_played' => false];
+        TestDatas::$tiles[2]['tile_location'] = TILE_LOCATION_MASTERY_DECK;
+        TestDatas::$tiles[3]['tile_location'] = TILE_LOCATION_MASTERY_DECK;
+        $expectedArgs = [
+            'a' => [
+                'actSpendFavor',
+                'actBuild',
+                'actSail',
+                'actPlayCard',
+            ],
+            'die_face' => 1,
+            'p_cards' => [ 
+                301 => [   
+                        'marker' => null,
+                        'actions' => [
+                            TURN_ACTION::DIVINE_CYCLING->value => [
 
+                            ],
+                        ] 
+                    ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_PlayableCards_ScenarioPhoenix1_NotPlayable(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::PHOENIX_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'card_played' => false];
+        $expectedArgs = [
+            'a' => [
+                'actBuild',
+                'actSail',
+            ],
+            'die_face' => 1,
+            'p_cards' => [ 
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_PlayableCards_ScenarioPhoenix1_AlreadyPlayed(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":1,"6":20}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::PHOENIX_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'card_played' => true];
+        $expectedArgs = [
+            'a' => [
+                'actSpendFavor',
+                'actBuild',
+                'actSail',
+            ],
+            'die_face' => 1,
+            'p_cards' => [ 
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
     // -------------------------------------------------
  
     public function test_ActionSpendFavor(): void
@@ -445,6 +532,43 @@ final class PlayerTurnTest extends TestCase
         //Test stay in state
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
     }
+    
+    public function test_ActionPlayCard_ScenarioPhoenix1_DivineCycling(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":1,"6":20}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::PHOENIX_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'card_played' => false];
+        TestDatas::$tiles[2]['tile_location'] = TILE_LOCATION_MASTERY_DECK;
+        TestDatas::$tiles[3]['tile_location'] = TILE_LOCATION_MASTERY_DECK;
+        $cardId = 301;
+        $action = TURN_ACTION::DIVINE_CYCLING->value;
+        $answer = new ClientAnswer($cardId,null,$action, null,null );
+
+        $game->actPlayCard($answer,999999);
+
+        $expectedNotifs = [
+            "scenarioAbility-1",
+            "spendResource-1",
+            "masteryBottom-1",
+            "masteryDeck",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test stay in state
+        assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(20,$resources[RESOURCE_TYPE_MONEY]);
+        assertSame(1, Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD));
+        assertSame(8, Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK));
+        assertSame(TILE_LOCATION_MASTERY_DECK, TestDatas::$tiles[1]['tile_location']);
+        assertSame(TILE_LOCATION_MASTERY_CARD, TestDatas::$tiles[9]['tile_location']);
+    }
     public function test_ActionPlayCard_Shin4_SwapBoats_KO_WrongCard(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -484,6 +608,7 @@ final class PlayerTurnTest extends TestCase
         $this->expectExceptionMessage("You cannot play card $cardId with marker $markerId");
         $game->actPlayCard($answer,999999);
     }
+    
     public function test_ActionPlayCard_KO_WrongAction(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

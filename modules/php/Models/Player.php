@@ -272,11 +272,14 @@ class Player extends \ROG\Helpers\DB_Model
   }
 
   /**
-   * Sets player datas related to turn number $turnIndex
-   * @param int $turnIndex
+   * Sets player datas related to beginning of the turn
    */
-  public function startTurn($turnIndex)
+  public function startTurn()
   { 
+    $playerScenario = $this->getScenario();
+    if(isset($playerScenario)) {
+      $playerScenario->setPlayed(false);
+    }
   }
   
   public function giveExtraTime(){

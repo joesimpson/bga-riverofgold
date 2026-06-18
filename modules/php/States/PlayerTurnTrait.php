@@ -16,7 +16,10 @@ use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 use ROG\Models\BEFORE_ACTION;
+use ROG\Models\CustomerCard;
 use ROG\Models\Player;
+use ROG\Models\ScenarioCard;
+use ROG\Models\TURN_ACTION;
 
 trait PlayerTurnTrait
 {
@@ -150,8 +153,15 @@ trait PlayerTurnTrait
     }
     $actionDatas = $possibleActions[$action];
     
-    $customer = Cards::get($cardId);
-    Notifications::playCustomerAbility($player,$customer);
+    $doCheckPoint = false;
+    $card = Cards::get($cardId);
+    $card->setPlayed(true);
+    if($card instanceof CustomerCard){
+      Notifications::playCustomerAbility($player,$card);
+    }
+    else if($card instanceof ScenarioCard){
+      Notifications::scenarioAbility($player,$card);
+    }
     
     switch($action){
       case BEFORE_ACTION::SWAP_BOATS->value: 
@@ -195,8 +205,23 @@ trait PlayerTurnTrait
         Notifications::moveBuilding($player,$tile,$previousPosition,$previousLocation);
         Players::claimMasteriesSubset($player,[MASTERY_TYPE_WAVES]);
         break;
+      case TURN_ACTION::DIVINE_CYCLING->value:
+        $player->giveResource(-1,RESOURCE_TYPE_SUN);
+        $masteryDeckSize = Tiles::countMasteriesInDeck();
+        $oldMastery = Tiles::getTopOf(TILE_LOCATION_MASTERY_CARD);
+        Tiles::insertAtBottom($oldMastery->getId(),TILE_LOCATION_MASTERY_DECK);
+        Notifications::masteryBottom($player, $oldMastery,);
+        $mastery = Tiles::pickOneForLocation(TILE_LOCATION_MASTERY_DECK,TILE_LOCATION_MASTERY_CARD);
+        Notifications::masteryDeck($masteryDeckSize,$mastery,);
+        //try to claim next mastery (and cascade...)
+        Players::claimMasteries($player);
+        $doCheckPoint = true;
+        break;
     }
 
+    if($doCheckPoint){
+      $this->addCheckpoint($this->gamestate->getCurrentMainStateId());
+    }
     //stay in this state 
     $this->gamestate->nextState('continue');
   }
@@ -264,6 +289,17 @@ trait PlayerTurnTrait
         }
       }
     }
+      
+    $playerScenario = $player->getScenario();
+    if(isset($playerScenario)) {
+      $cardId = $playerScenario->getId();
+      $actions = $playerScenario->listPossibleActions($player);
+      if(count($actions) > 0){
+        $cards[$cardId]['marker'] = null;
+        $cards[$cardId]['actions'] = $actions;
+      }
+    }
+
     return $cards;
   }
 }

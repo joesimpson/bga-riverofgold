@@ -159,6 +159,11 @@ class Tiles extends \ROG\Helpers\Pieces
   {
     return self::getAllByType(TILE_TYPE_MASTERY_CARD,array_keys(self::getMasteryCardsTypes()));
   } 
+  
+  public static function countMasteriesInDeck(): int
+  {
+    return Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK) + Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD) ;
+  } 
   /**
    * @return Collection ordered from left or right depending on param $fromLeft
    */

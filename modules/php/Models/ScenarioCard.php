@@ -36,6 +36,7 @@ class ScenarioCard extends Card
     unset($data['state']);
     $data['subtype'] = CARD_TYPE_SCENARIO;
     $data['resources'] = $this->getResources();
+    $data['played'] = $this->isPlayed();
     return $data;
   }
 
@@ -126,9 +127,28 @@ class ScenarioCard extends Card
   }
   
   /**
+   * @return array $possibleActions : list of actions to play during the turn
+   */
+  public function listPossibleActions(Player $player,) : array
+  {
+    $possibleActions = [];
+    switch($this->getType()){
+      case ScenarioType::PHOENIX_1->value:
+        if( !$this->isPlayed()
+          && ($player->canSpendResource(RESOURCE_TYPE_SUN,1)) 
+          && ( Tiles::countMasteriesInDeck() > 1) 
+        ){
+          $possibleActions[TURN_ACTION::DIVINE_CYCLING->value] = [];
+        }
+        break;
+    }
+    return $possibleActions;
+  }
+
+  /**
    * @return bool true if this player has no restriction to deliver cards in region $region
    */
-  public function canDeliver(Player $player, int $region)
+  public function canDeliver(Player $player, int $region) : bool
   {
     $canDeliver = true;
     switch($this->getType()){

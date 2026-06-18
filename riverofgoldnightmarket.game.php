@@ -117,7 +117,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
           'turn' => Globals::getTurn(),
           'era' => Globals::getEra(),
           'deckSize' => [
-            'masteries' => Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK) + Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD),
+            'masteries' => Tiles::countMasteriesInDeck(),
             'era1' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_1),
             'era2' => Tiles::countInLocation(TILE_LOCATION_BUILDING_DECK_ERA_2),
             'customers' => Cards::countInLocation(CARD_LOCATION_DECK),
@@ -385,6 +385,8 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
         if( $from_version <= 2606081125 )
         {
             $sql = "ALTER TABLE DBPREFIX_cards ADD `resources` JSON NULL COMMENT 'Optional resources to be placed/moved on the card'";
+            $this->applyDbUpgradeToAllDB($sql);
+            $sql = "ALTER TABLE DBPREFIX_cards ADD`card_played` tinyint(1) DEFAULT 0 COMMENT 'Is the card already played ?'";
             $this->applyDbUpgradeToAllDB($sql);
         }
     }    
