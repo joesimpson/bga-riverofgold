@@ -247,6 +247,11 @@ class ScenarioCard extends Card
       case ScenarioType::SCORPION_1->value:
         $checked = true;
         break;
+      case ScenarioType::PHOENIX_1->value:
+        $playerMasteries = Meeples::countPlayerMasteries($this->getPId());
+        $seishinMasteries = Meeples::countPlayerMasteries(AUTOMA_PLAYER_ID);
+        $checked = ($playerMasteries > $seishinMasteries);
+        break;
     }
     return $checked;
   }

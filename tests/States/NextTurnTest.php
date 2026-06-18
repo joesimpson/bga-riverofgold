@@ -8,6 +8,7 @@ use Bga\GameFramework\GamestateMachine;
 use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\ScenarioType;
@@ -199,6 +200,7 @@ final class NextTurnTest extends TestCase
         //tiles not moved : 
         assertSame(3, Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD));
         assertSame(0, Tiles::countInLocation(TILE_LOCATION_MASTERY_RESERVED));
+        assertSame(1, Meeples::countPlayerMasteries(AUTOMA_PLAYER_ID));
     }
     
     public function testEnteringState_beforeAutomaTurn_claimMasteries_Right(): void
@@ -242,6 +244,7 @@ final class NextTurnTest extends TestCase
         //tiles not moved : 
         assertSame(3, Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD));
         assertSame(0, Tiles::countInLocation(TILE_LOCATION_MASTERY_RESERVED));
+        assertSame(1, Meeples::countPlayerMasteries(AUTOMA_PLAYER_ID));
     }
     
     public function testEnteringState_beforeAutomaTurn_claimMasteries_Middle(): void
@@ -286,6 +289,7 @@ final class NextTurnTest extends TestCase
         //tiles not moved : 
         assertSame(3, Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD));
         assertSame(0, Tiles::countInLocation(TILE_LOCATION_MASTERY_RESERVED));
+        assertSame(2, Meeples::countPlayerMasteries(AUTOMA_PLAYER_ID));
     }
     
     public function testEnteringState_beforeAutomaTurn_claimMasteries_AlreadyClaimed(): void
@@ -327,6 +331,7 @@ final class NextTurnTest extends TestCase
         //tiles not moved : 
         assertSame(3, Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD));
         assertSame(0, Tiles::countInLocation(TILE_LOCATION_MASTERY_RESERVED));
+        assertSame(3, Meeples::countPlayerMasteries(AUTOMA_PLAYER_ID));
     }
     
     public function testEnteringState_beforeAutomaTurn_claimMasteries_ScenarioPhoenix(): void
@@ -388,6 +393,7 @@ final class NextTurnTest extends TestCase
         assertSame(2, Tiles::getMasteryReserved($player)->count());
         assertSame(1, Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD));
         assertSame(6, Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK));
+        assertSame(2, Meeples::countPlayerMasteries($player->getId()));
     }
     
     public function testEnteringState_beforeAutomaTurn_claimMasteries_ScenarioPhoenix_DeckEnd(): void
@@ -419,6 +425,14 @@ final class NextTurnTest extends TestCase
         TestDatas::$tiles[7]['player_id'] = AUTOMA_PLAYER_ID;
         TestDatas::$tiles[8]['player_id'] = AUTOMA_PLAYER_ID;
         TestDatas::$tiles[9]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$tokens[42] = ['result_associative_index' => 42, 'meeple_id' => 42, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'2','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'3','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
+        TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'4','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
+        TestDatas::$tokens[45] = ['result_associative_index' => 45, 'meeple_id' => 45, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'5','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
+        TestDatas::$tokens[46] = ['result_associative_index' => 46, 'meeple_id' => 46, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'6','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
+        TestDatas::$tokens[47] = ['result_associative_index' => 47, 'meeple_id' => 47, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'7','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
+        TestDatas::$tokens[48] = ['result_associative_index' => 48, 'meeple_id' => 48, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'8','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
+        TestDatas::$tokens[49] = ['result_associative_index' => 49, 'meeple_id' => 49, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'9','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
         $player = Players::automaPlayer();
         $expectedPositionOnMastery = 1;
         $expectedNotifs = [
@@ -442,8 +456,8 @@ final class NextTurnTest extends TestCase
         assertSame(5, Globals::getAutomaScore());//+5
         assertSame(5, TestDatas::$stats['table'][14]);
         //Test new clan markers
-        assertSame(43, TestDatas::$lastInsertedId);
-        $newClanMarker = TestDatas::$tokens[43];
+        assertSame(50, TestDatas::$lastInsertedId);
+        $newClanMarker = TestDatas::$tokens[TestDatas::$lastInsertedId];
         assertSame(MEEPLE_LOCATION_TILE.'1', $newClanMarker['meeple_location']);
         assertSame($expectedPositionOnMastery, $newClanMarker['meeple_state']);
         assertSame(AUTOMA_PLAYER_ID, $newClanMarker['player_id']);
@@ -452,5 +466,6 @@ final class NextTurnTest extends TestCase
         assertSame(9, Tiles::getMasteryReserved($player)->count());
         assertSame(0, Tiles::countInLocation(TILE_LOCATION_MASTERY_CARD));
         assertSame(0, Tiles::countInLocation(TILE_LOCATION_MASTERY_DECK));
+        assertSame(9, Meeples::countPlayerMasteries($player->getId()));
     }
 }

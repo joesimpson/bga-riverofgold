@@ -2327,6 +2327,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         notif_clearTurn(n) {
             debug('notif_clearTurn: restarting turn/step', n);
             this.cancelLogs(n.args.notifIds);
+            //for debug : (should not happend in real use cases)
+            this.empty('rog_end_score_recap');
         },
         notif_refreshUI(n) {
             debug('notif_refreshUI: refreshing UI', n);
@@ -4095,7 +4097,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     + "<br/>"
                     + this.fsr(_('You must outscore Seishin.'),{})
                 ],
-                [5, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.PHOENIX_1, this.fsr(_('You must outscore Seishin and claim more masteries than Seishin.'),{})],
                 [6, this.fsr(_(''),{})],
                 [7, this.fsr(_(''),{})],
                 [8, this.fsr(_(''),{})],

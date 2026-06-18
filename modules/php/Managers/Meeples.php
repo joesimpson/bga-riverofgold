@@ -90,6 +90,25 @@ class Meeples extends \ROG\Helpers\Pieces
     Notifications::newClanMarker($player,$elt);
     return $elt;
   }
+  
+  /**
+   * @param int $pId : player id
+   * @return int count of unique mastery tiles where this player has a clan marker
+   */
+  public static function countPlayerMasteries(int $pId) : int
+  {
+    Game::get()->trace("countPlayerMasteries($pId)...");
+    $tilesTypes = array_keys(Tiles::getMasteryCardsTypes());
+    $tileIds = Tiles::getIdsByType(TILE_TYPE_MASTERY_CARD,$tilesTypes);
+    $tiles = [];
+    foreach($tileIds as $tileId){
+      $tiles[] = MEEPLE_LOCATION_TILE.$tileId;
+    }
+    return self::DB()->wherePlayer($pId)
+      ->where('type', MEEPLE_TYPE_CLAN_MARKER)
+      ->whereIn(self::$prefix.'location', $tiles)
+      ->countDistinct(self::$prefix.'location');
+  }
   /**
    * @param Player $player
    * @param int $region
@@ -317,6 +336,7 @@ class Meeples extends \ROG\Helpers\Pieces
       $buildingTiles[] = MEEPLE_LOCATION_TILE.$tileId;
     }
     return self::DB()->wherePlayer($pId)
+      ->where('type', MEEPLE_TYPE_CLAN_MARKER)
       ->whereIn(self::$prefix.'location', $buildingTiles)
       //->count();
       ->countDistinct(self::$prefix.'location');
@@ -337,6 +357,7 @@ class Meeples extends \ROG\Helpers\Pieces
       $buildingTiles[] = MEEPLE_LOCATION_TILE.$tileId;
     }
     return self::DB()->wherePlayer($pId)
+      ->where('type', MEEPLE_TYPE_CLAN_MARKER)
       ->whereIn(self::$prefix.'location', $buildingTiles)
       ->countDistinct(self::$prefix.'location');
   }

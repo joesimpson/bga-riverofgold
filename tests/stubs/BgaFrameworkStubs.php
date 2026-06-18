@@ -154,6 +154,9 @@ abstract class Table
                 return count(TestDatas::$players);
             case "SELECT MAX(`player_no`) FROM `player`":
                 return max(array_map(function ($p) {return $p['player_no'];},TestDatas::$players,));
+            case "SELECT global_value FROM global WHERE global_id = 3":
+                //Only used by log module
+                return 1;
         }
         if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE \(`card_location` = '(?P<card_location>.*)'\)$/", $sql, $matches) == 1) {
             $card_location = $matches['card_location'];
@@ -211,11 +214,12 @@ abstract class Table
             logForTests("getUniqueValueFromDb: count is $count for meeple_location $player_id, $meeple_location, $meeple_state");
             return $count;
         }
-        if (preg_match("/^SELECT COUNT\( distinct meeple_location\) FROM `meeples` WHERE `player_id` = (?P<pid>[\d|\-]+) AND \(`meeple_location` IN \((?P<meeple_locations>.*)\)\)$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT COUNT\( distinct meeple_location\) FROM `meeples` WHERE `player_id` = (?P<pid>[\d|\-]+) AND `type` = (?P<type>.*) AND \(`meeple_location` IN \((?P<meeple_locations>.*)\)\)$/", $sql, $matches) == 1) {
             $pid = intval($matches['pid']);
+            $type = intval($matches['type']);
             $meeple_locations = explode(',', str_replace("'","",$matches['meeple_locations']) );
             //logForTests("getUniqueValueFromDb: tokens before filter = ".json_encode(TestDatas::$tokens));
-            $tokens = array_filter(TestDatas::$tokens,function ($t) use($pid,$meeple_locations) {return $t['player_id'] == $pid && in_array($t['meeple_location'], $meeple_locations);});
+            $tokens = array_filter(TestDatas::$tokens,function ($t) use($pid,$type,$meeple_locations) {return $t['player_id'] == $pid && $t['type'] == $type && in_array($t['meeple_location'], $meeple_locations);});
             //logForTests("getUniqueValueFromDb: tokens after filter = ".json_encode($tokens));
             $locations = array_map(function ($t) {return $t['meeple_location'];}, $tokens,);
             $count = count( array_unique($locations));

@@ -7,6 +7,7 @@ namespace Tests\Managers;
 use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\MasteryCard;
@@ -1991,6 +1992,7 @@ final class PlayersTest extends TestCase
 
         assertFalse($claim);
         assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0, Meeples::countPlayerMasteries($player->getId()));
     }
     public function test_claimMasteries_Type1_Active_2Players_First(): void
     {
@@ -2014,6 +2016,8 @@ final class PlayersTest extends TestCase
         assertSame(1, $newClanMarker['meeple_state']);
         assertSame(1, $newClanMarker['player_id']);
         assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        assertSame(0, Meeples::countPlayerMasteries(2));
+        assertSame(1, Meeples::countPlayerMasteries(1));
     }
     public function test_claimMasteries_Type1_Active_2Players_Last(): void
     {
@@ -2035,6 +2039,8 @@ final class PlayersTest extends TestCase
         assertFalse($claim);
         assertSame(19, TestDatas::$players[1]['player_score']);
         assertFalse( array_key_exists(102,TestDatas::$tokens));//no new clan marker
+        assertSame(0, Meeples::countPlayerMasteries(1));
+        assertSame(1, Meeples::countPlayerMasteries(2));
     }
     
     public function test_claimMasteries_Active_2Players_First_ScionOfEarth(): void
@@ -2070,6 +2076,8 @@ final class PlayersTest extends TestCase
         assertSame(2, $resources[RESOURCE_TYPE_MOON]);//+1
         assertSame(2, $resources[RESOURCE_TYPE_SUN]);//+3 max 2
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(0, Meeples::countPlayerMasteries(2));
+        assertSame(1, Meeples::countPlayerMasteries(1));
     }
     public function test_claimMasteries_Active_2Players_Last_ScionOfEarth(): void
     {
@@ -2106,6 +2114,8 @@ final class PlayersTest extends TestCase
         assertSame(3, $resources[RESOURCE_TYPE_MOON]);//+1
         assertSame(3, $resources[RESOURCE_TYPE_SUN]);//+3
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(1, Meeples::countPlayerMasteries(2));
     }
     // Check that claiming a Mastery will give enough favor to claim Mastery of Sun and regain favor
     public function test_claimMasteries_ScionOfEarth_MasteryOfSun(): void
@@ -2142,6 +2152,8 @@ final class PlayersTest extends TestCase
         assertSame(6, $resources[RESOURCE_TYPE_MOON]);//+1 * 2
         assertSame(6, $resources[RESOURCE_TYPE_SUN]);//+3 * 2 max 6
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(2, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     //Test Scion of Earth can claim a mastery already claimed by another player
     public function test_claimMasteries_ScenarioPhoenix1_ScionOfEarth(): void
@@ -2224,6 +2236,8 @@ final class PlayersTest extends TestCase
         //tile should not change :
         assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[3]['tile_location']);
         assertSame(2, TestDatas::$tiles[3]['player_id']);
+        assertSame(3, Meeples::countPlayerMasteries(1));
+        assertSame(1, Meeples::countPlayerMasteries(2));
     }
     //Test claims on cascade
     public function test_claimMasteries_ScenarioPhoenix1(): void
@@ -2279,6 +2293,8 @@ final class PlayersTest extends TestCase
         assertSame(1, TestDatas::$tiles[9]['player_id']);
         assertSame(TILE_LOCATION_MASTERY_RESERVED, TestDatas::$tiles[9]['tile_location']);
         assertSame(TILE_LOCATION_MASTERY_CARD, TestDatas::$tiles[8]['tile_location']);
+        assertSame(0, Meeples::countPlayerMasteries(2));
+        assertSame(2, Meeples::countPlayerMasteries(1));
     }
 
     public function test_claimMasteries_Type1_Active_2Players_NewCustomers(): void
@@ -2304,6 +2320,8 @@ final class PlayersTest extends TestCase
         assertSame(1, $newClanMarker['meeple_state']);
         assertSame(1, $newClanMarker['player_id']);
         assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        assertSame(0, Meeples::countPlayerMasteries(2));
+        assertSame(1, Meeples::countPlayerMasteries(1));
     }
     
     public function test_claimMasteries_Type1_Active_4Players_First(): void
@@ -2329,6 +2347,8 @@ final class PlayersTest extends TestCase
         assertSame(1, $newClanMarker['meeple_state']);
         assertSame(1, $newClanMarker['player_id']);
         assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        assertSame(0, Meeples::countPlayerMasteries(2));
+        assertSame(1, Meeples::countPlayerMasteries(1));
     }
     public function test_claimMasteries_Type1_Active_4Players_Second(): void
     {
@@ -2355,6 +2375,8 @@ final class PlayersTest extends TestCase
         assertSame(2, $newClanMarker['meeple_state']);
         assertSame(1, $newClanMarker['player_id']);
         assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        assertSame(1, Meeples::countPlayerMasteries(2));
+        assertSame(1, Meeples::countPlayerMasteries(1));
     }
     public function test_claimMasteries_Type1_Active_4Players_Third(): void
     {
@@ -2371,7 +2393,7 @@ final class PlayersTest extends TestCase
         TestDatas::$cards[13]['type']  = CARD_MONK_4;
         //2 opponents on the mastery tile :
         TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
-        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 3,  ];
 
         $claim = Players::claimMastery($player,$tile);
 
@@ -2382,6 +2404,9 @@ final class PlayersTest extends TestCase
         assertSame(3, $newClanMarker['meeple_state']);
         assertSame(1, $newClanMarker['player_id']);
         assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        assertSame(1, Meeples::countPlayerMasteries(3));
+        assertSame(1, Meeples::countPlayerMasteries(2));
+        assertSame(1, Meeples::countPlayerMasteries(1));
     }
     public function test_claimMasteries_Type1_Active_4Players_Last(): void
     {
@@ -2398,14 +2423,18 @@ final class PlayersTest extends TestCase
         TestDatas::$cards[13]['type']  = CARD_MONK_4;
         //2 opponents on the mastery tile :
         TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
-        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
-        TestDatas::$tokens[103] = ['result_associative_index' => 103, 'meeple_id' => 103, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 3,  ];
+        TestDatas::$tokens[103] = ['result_associative_index' => 103, 'meeple_id' => 103, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 4,  ];
 
         $claim = Players::claimMastery($player,$tile);
 
         assertFalse($claim);
         assertSame(19, TestDatas::$players[1]['player_score']);//19
         assertFalse( array_key_exists(104,TestDatas::$tokens));//no new clan marker
+        assertSame(1, Meeples::countPlayerMasteries(4));
+        assertSame(1, Meeples::countPlayerMasteries(3));
+        assertSame(1, Meeples::countPlayerMasteries(2));
+        assertSame(0, Meeples::countPlayerMasteries(1));
     }
     
     public function test_claimMasteries_Type4_Inactive(): void
@@ -2422,6 +2451,8 @@ final class PlayersTest extends TestCase
 
         assertFalse($claim);
         assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(0, Meeples::countPlayerMasteries(2));
+        assertSame(0, Meeples::countPlayerMasteries(1));
     }
     public function test_claimMasteries_Type4_Active_2Players_First(): void
     {
@@ -2438,6 +2469,8 @@ final class PlayersTest extends TestCase
 
         assertTrue($claim);
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        assertSame(0, Meeples::countPlayerMasteries(2));
+        assertSame(1, Meeples::countPlayerMasteries(1));
     }
     public function test_claimMasteries_Type4_Active_2Players_Last(): void
     {
@@ -2455,6 +2488,8 @@ final class PlayersTest extends TestCase
 
         assertFalse($claim);
         assertSame(19, TestDatas::$players[1]['player_score']);
+        assertSame(0, Meeples::countPlayerMasteries(1));
+        assertSame(1, Meeples::countPlayerMasteries(2));
     }
     public function test_claimMasteries_Type4_Active_2Players_newCustomers(): void
     {
@@ -2473,6 +2508,8 @@ final class PlayersTest extends TestCase
 
         assertTrue($claim);
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     public function test_claimMasteries_Type4_Active_4Players_First(): void
     {
@@ -2489,6 +2526,8 @@ final class PlayersTest extends TestCase
 
         assertTrue($claim);
         assertSame(26, TestDatas::$players[1]['player_score']);//19+7
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     
     public function test_claimMasteries_Type4_Active_4Players_First_ScionOfEarth(): void
@@ -2521,6 +2560,8 @@ final class PlayersTest extends TestCase
         assertSame(4, $resources[RESOURCE_TYPE_MOON]);//+1
         assertSame(3, $resources[RESOURCE_TYPE_SUN]);//+3
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     public function test_claimMasteries_Type4_Active_4Players_Second(): void
     {
@@ -2539,6 +2580,8 @@ final class PlayersTest extends TestCase
 
         assertTrue($claim);
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(1, Meeples::countPlayerMasteries(2));
     }
     public function test_claimMasteries_Type4_Active_4Players_SecondAgain_ScionOfEarth(): void
     {
@@ -2570,6 +2613,8 @@ final class PlayersTest extends TestCase
         assertSame(3, $resources[RESOURCE_TYPE_MOON]);//+0
         assertSame(0, $resources[RESOURCE_TYPE_SUN]);//+0
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(1, Meeples::countPlayerMasteries(2));
     }
     public function test_claimMasteries_Type4_Active_4Players_Third(): void
     {
@@ -2583,12 +2628,15 @@ final class PlayersTest extends TestCase
         TestDatas::$cards[12] = TestDatas::$cards[11];
         //1 opponent on the mastery tile :
         TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
-        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 3,  ];
 
         $claim = Players::claimMastery($player,$tile);
 
         assertTrue($claim);
         assertSame(22, TestDatas::$players[1]['player_score']);//19+3
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(1, Meeples::countPlayerMasteries(2));
+        assertSame(1, Meeples::countPlayerMasteries(3));
     }
     public function test_claimMasteries_Type4_Active_4Players_Last(): void
     {
@@ -2602,13 +2650,17 @@ final class PlayersTest extends TestCase
         TestDatas::$cards[12] = TestDatas::$cards[11];
         //1 opponent on the mastery tile :
         TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
-        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
-        TestDatas::$tokens[103] = ['result_associative_index' => 103, 'meeple_id' => 103, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 3,  ];
+        TestDatas::$tokens[103] = ['result_associative_index' => 103, 'meeple_id' => 103, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 4,  ];
 
         $claim = Players::claimMastery($player,$tile);
 
         assertFalse($claim);
         assertSame(19, TestDatas::$players[1]['player_score']);//19
+        assertSame(0, Meeples::countPlayerMasteries(1));
+        assertSame(1, Meeples::countPlayerMasteries(2));
+        assertSame(1, Meeples::countPlayerMasteries(3));
+        assertSame(1, Meeples::countPlayerMasteries(4));
     }
     public function test_claimMasteries_Type4_Active_4Players_Last_ScionOfEarth(): void
     {
@@ -2622,8 +2674,8 @@ final class PlayersTest extends TestCase
         TestDatas::$cards[12] = TestDatas::$cards[11];
         //3 opponents on the mastery tile :
         TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
-        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
-        TestDatas::$tokens[103] = ['result_associative_index' => 103, 'meeple_id' => 103, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 3,  ];
+        TestDatas::$tokens[103] = ['result_associative_index' => 103, 'meeple_id' => 103, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 4,  ];
         //with patron ability
         TestDatas::$cards[101]['type'] = PATRON_SCION_OF_EARTH;
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
@@ -2644,6 +2696,10 @@ final class PlayersTest extends TestCase
         assertSame(4, $resources[RESOURCE_TYPE_MOON]);//+1
         assertSame(3, $resources[RESOURCE_TYPE_SUN]);//+3
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(1, Meeples::countPlayerMasteries(2));
+        assertSame(1, Meeples::countPlayerMasteries(3));
+        assertSame(1, Meeples::countPlayerMasteries(4));
     }
     public function test_claimMasteries_Type4_Active_4Players_LastAgain_ScionOfEarth(): void
     {
@@ -2657,8 +2713,8 @@ final class PlayersTest extends TestCase
         TestDatas::$cards[12] = TestDatas::$cards[11];
         //3 opponents on the mastery tile :
         TestDatas::$tokens[101] = ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
-        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
-        TestDatas::$tokens[103] = ['result_associative_index' => 103, 'meeple_id' => 103, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[102] = ['result_associative_index' => 102, 'meeple_id' => 102, 'meeple_state' => 2, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 3,  ];
+        TestDatas::$tokens[103] = ['result_associative_index' => 103, 'meeple_id' => 103, 'meeple_state' => 3, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 4,  ];
         //+ 1 clan marker already placed for this player
         TestDatas::$tokens[104] = ['result_associative_index' => 104, 'meeple_id' => 104, 'meeple_state' => 4, 'meeple_location'=> MEEPLE_LOCATION_TILE.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1,  ];
         //with patron ability
@@ -2677,6 +2733,10 @@ final class PlayersTest extends TestCase
         assertSame(3, $resources[RESOURCE_TYPE_MOON]);//+0
         assertSame(0, $resources[RESOURCE_TYPE_SUN]);//+0
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(1, Meeples::countPlayerMasteries(2));
+        assertSame(1, Meeples::countPlayerMasteries(3));
+        assertSame(1, Meeples::countPlayerMasteries(4));
     }
     
     public function test_claimMasteries_onlyScore(): void
@@ -2697,6 +2757,7 @@ final class PlayersTest extends TestCase
         assertSame(1, $newClanMarker['meeple_state']);
         assertSame(1, $newClanMarker['player_id']);
         assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+        assertSame(1, Meeples::countPlayerMasteries(1));
     }
     public function test_claimMasteries_NotScore_thenScore(): void
     {
@@ -2730,6 +2791,7 @@ final class PlayersTest extends TestCase
         assertSame(6, $resources[RESOURCE_TYPE_MOON]);//+1 * 2
         assertSame(6, $resources[RESOURCE_TYPE_SUN]);//+3 * 2 max 6
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(2, Meeples::countPlayerMasteries(1));
     }
     
     public function test_claimMasteries_Type3_Inactive(): void
@@ -2756,6 +2818,7 @@ final class PlayersTest extends TestCase
 
         assertFalse($claim);
         assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(0, Meeples::countPlayerMasteries(1));
     }
     public function test_claimMasteries_Type3_Active_2Players_First(): void
     {
@@ -2780,6 +2843,8 @@ final class PlayersTest extends TestCase
 
         assertTrue($claim);
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     
     public function test_claimMasteries_Type5_Inactive_2Players(): void
@@ -2801,6 +2866,8 @@ final class PlayersTest extends TestCase
 
         assertFalse($claim);
         assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(0, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     public function test_claimMasteries_Type5_Active_2Players_First(): void
     {
@@ -2821,6 +2888,8 @@ final class PlayersTest extends TestCase
 
         assertTrue($claim);
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     
     // Used for Scion of Void
@@ -2842,6 +2911,8 @@ final class PlayersTest extends TestCase
         
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
         assertSame(2, TestDatas::$players[2]['player_score']);//2+0
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     public function test_claimMasteries_Reserved_ForOpponent(): void
     {
@@ -2861,6 +2932,8 @@ final class PlayersTest extends TestCase
         
         assertSame(19, TestDatas::$players[1]['player_score']);//19+0
         assertSame(2, TestDatas::$players[2]['player_score']);//2+0
+        assertSame(0, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     
     public function test_claimMasteries_Type6_Inactive(): void
@@ -2893,6 +2966,8 @@ final class PlayersTest extends TestCase
 
         assertFalse($claim);
         assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(0, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     public function test_claimMasteries_Type6_Active_2Players_First(): void
     {
@@ -2925,6 +3000,8 @@ final class PlayersTest extends TestCase
 
         assertTrue($claim);
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     
     // -------------------------------------------------
@@ -2957,6 +3034,8 @@ final class PlayersTest extends TestCase
 
         assertFalse($claim);
         assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(0, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     public function test_claimMasteries_typeWaves_Active_2Players_First(): void
     {
@@ -2987,6 +3066,8 @@ final class PlayersTest extends TestCase
 
         assertTrue($claim);
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     
     // -------------------------------------------------
@@ -3004,6 +3085,8 @@ final class PlayersTest extends TestCase
 
         assertFalse($claim);
         assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(0, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     public function test_claimMasteries_typeSunMoon_Active_2Players_First(): void
     {
@@ -3019,6 +3102,8 @@ final class PlayersTest extends TestCase
 
         assertTrue($claim);
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     
     // -------------------------------------------------
@@ -3036,6 +3121,8 @@ final class PlayersTest extends TestCase
 
         assertFalse($claim);
         assertSame(29, TestDatas::$players[1]['player_score']);//29+0
+        assertSame(0, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     public function test_claimMasteries_typeLightning_Active_2Players_First(): void
     {
@@ -3051,6 +3138,8 @@ final class PlayersTest extends TestCase
 
         assertTrue($claim);
         assertSame(35, TestDatas::$players[1]['player_score']);//30+5
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     public function test_claimMasteries_typeLightning_Active_AfterOtherMasteries(): void
     {
@@ -3065,6 +3154,8 @@ final class PlayersTest extends TestCase
         Players::claimMasteries($player);
         
         assertSame(35, TestDatas::$players[1]['player_score']);//25+5+5
+        assertSame(2, Meeples::countPlayerMasteries(1));
+        assertSame(0, Meeples::countPlayerMasteries(2));
     }
     
     // -------------------------------------------------
