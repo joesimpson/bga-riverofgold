@@ -358,10 +358,17 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
     }
 }
 .rog_shore_space{
+    .rog_near_shore_space{
+        .rog_meeple{
+            margin-right: -35px;
+        }
+    }
+    .rog_near_shore_space .rog_meeple,
     >.rog_meeple{
         transition: opacity 0.5s ease;
     }
     &:hover{
+        .rog_near_shore_space .rog_meeple,
         >.rog_meeple{
             opacity: 0.3;
         }

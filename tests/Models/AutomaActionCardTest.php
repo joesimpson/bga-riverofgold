@@ -480,6 +480,81 @@ final class AutomaActionCardTest extends TestCase
 
     }
     
+    public function test_play_SailLower_VisitPlayers_ScenarioLion1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setLionEnemy(CLAN_DRAGON);
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_4);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::LION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $cardRow = TestDatas::$cards[204];
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardRow['type']]);
+        $expectedMovedShip = 26;
+        $expectedRiverSpace = 2;//12+4 % 14
+        $expectedNotifs = [
+            "sail--123",
+            "reachRiverEnd--123",
+            "addPoints--123",//complete journey
+            "discardBuildingRow",
+            "checkVRewards",
+            //empty space 3 gives money but not to Seishin
+            //empty space 7 gives money but not to Seishin
+            "checkORewards",
+            "giveResource-1",//player 1
+            "newClanMarker-".LION_ENEMY_ID,
+            "addPoints-2",//player 2 with tile type 6 [BONUS_TYPE_POINTS=>1],
+            "newClanMarker-".LION_ENEMY_ID,
+        ];
+
+        $card->play($player);
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame($expectedRiverSpace, TestDatas::$tokens[$expectedMovedShip]['meeple_state']);
+        //Test 2 new assassins markers
+        assertSame(44, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."4",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ] );
+        assertSame(TestDatas::$tokens[44], ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."5",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ] );
+    }
+    
+    public function test_play_SailLower_VisitPlayers_ScenarioLion1_Again(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setLionEnemy(CLAN_DRAGON);
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_4);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::LION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $cardRow = TestDatas::$cards[204];
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardRow['type']]);
+        TestDatas::$tokens[43]= ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."4",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ];
+        $expectedMovedShip = 26;
+        $expectedRiverSpace = 2;//12+4 % 14
+        $expectedNotifs = [
+            "sail--123",
+            "reachRiverEnd--123",
+            "addPoints--123",//complete journey
+            "discardBuildingRow",
+            "checkVRewards",
+            //empty space 3 gives money but not to Seishin
+            //empty space 7 gives money but not to Seishin
+            "checkORewards",
+            "giveResource-1",//player 1
+            "newClanMarker-".LION_ENEMY_ID,
+            "addPoints-2",//player 2 with tile type 6 [BONUS_TYPE_POINTS=>1],
+            "newClanMarker-".LION_ENEMY_ID,
+        ];
+
+        $card->play($player);
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame($expectedRiverSpace, TestDatas::$tokens[$expectedMovedShip]['meeple_state']);
+        //Test 2 new assassins markers
+        assertSame(45, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[44], ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."4",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ] );
+        assertSame(TestDatas::$tokens[45], ['result_associative_index' => 45, 'meeple_id' => 45, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."5",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ] );
+    }
+    
     // -------------------------------------------------
     public function test_play_Deliver_Region1(): void
     {

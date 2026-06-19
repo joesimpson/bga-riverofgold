@@ -1552,9 +1552,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   position: absolute;
   top: -20px;
   left: 275px;
-  width: 75px;
   height: 75px;
   z-index: 3;
+  display: flex;
 }
 .rog_shore_space#rog_shore_space-1 {
   left: 1166px;
@@ -6255,9 +6255,14 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   opacity: 0.3;
 }
 
+.rog_shore_space .rog_near_shore_space .rog_meeple {
+  margin-right: -35px;
+}
+.rog_shore_space .rog_near_shore_space .rog_meeple,
 .rog_shore_space > .rog_meeple {
   transition: opacity 0.5s ease;
 }
+.rog_shore_space:hover .rog_near_shore_space .rog_meeple,
 .rog_shore_space:hover > .rog_meeple {
   opacity: 0.3;
 }

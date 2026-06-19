@@ -232,6 +232,12 @@ trait SailTrait
             $players[$clanMarker->getPId()] = $owner;
           }
         }
+
+        if($player instanceof AutomaPlayer && $clanMarkers->count()>0){
+          Cards::getAssignedScenarios()->map(function(ScenarioCard $scenario) use ($player,$adjacentSpace) {
+            $scenario->abilityOnAutomaSailVisit($player,$adjacentSpace);
+          });
+        }
       }
     }
 

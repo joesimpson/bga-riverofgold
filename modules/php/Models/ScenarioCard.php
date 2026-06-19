@@ -176,6 +176,16 @@ class ScenarioCard extends Card
         break;
     }
   }
+  
+  function abilityOnAutomaSailVisit(AutomaPlayer $player, int $shoreSpace){
+    switch($this->getType()){
+      case ScenarioType::LION_1->value:
+        //When Seishin sails, place 1 assassin next to each building it visited owned by a player (including Seishin), even if assassin(s) are already there
+        $lionEnemy = Players::lionEnemy();
+        Meeples::placeAssassinNearShoreSpace($lionEnemy, $shoreSpace);
+        break;
+    }
+  }
 
   function abilityOnGainInfluence(Player $player,int $region,int $fromInfluence, int $toInfluence){
     switch($this->getType()){

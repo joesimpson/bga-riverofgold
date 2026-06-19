@@ -155,9 +155,8 @@ class AutomaActionCard extends Card
     //She gains any point or influence rewards she reaches or passes along the influence track; she ignores all other rewards.
     Players::gainInfluence($player,$shoreSpace->region,$tile->getBonus());
 
-    $scenarioLion = Cards::getAssignedScenario(ScenarioType::LION_1);
-    if(isset($scenarioLion)){
-      $scenarioLion->abilityOnAutomaBuild($player,$tile,$shoreSpace);
-    }
+    Cards::getAssignedScenarios()->map(function(ScenarioCard $scenario) use ($player,$tile,$shoreSpace) {
+      $scenario->abilityOnAutomaBuild($player,$tile,$shoreSpace);
+    });
   }
 }

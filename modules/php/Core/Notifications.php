@@ -608,7 +608,7 @@ class Notifications
     Meeple $meeple,
   )
   {
-    $msg = clienttranslate('${player_name} places a ${clan_marker} assassin');
+    $msg = clienttranslate('${player_name} places an assassin ${clan_marker}');
     self::notifyAll('newClanMarker', $msg, [
       'player' => $player,
       'meeple' => $meeple->getUiData(),
