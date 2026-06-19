@@ -37,6 +37,11 @@ class ScenarioCard extends Card
     $data['subtype'] = CARD_TYPE_SCENARIO;
     $data['resources'] = $this->getResources();
     $data['played'] = $this->isPlayed();
+    $enemies = $this->countEnemies();
+    if(isset($enemies)) {
+      $data['enemies'] = $enemies;
+      $data['enemy'] = $this->getEnemyId();
+    }
     return $data;
   }
 
@@ -47,6 +52,27 @@ class ScenarioCard extends Card
   {
     return Utils::getClanName($this->getClan());
   } 
+  
+  function getEnemyId() : ?int {
+    switch($this->getType()){
+      case ScenarioType::MANTIS_1->value:
+        return ROGUE_PLAYER_ID;
+      case ScenarioType::SCORPION_1->value:
+        return SCORPION_ENEMY_ID;
+      case ScenarioType::LION_1->value:
+        return LION_ENEMY_ID;
+    }
+    return null;
+  }
+
+  function countEnemies() : ?int {
+    switch($this->getType()){
+      case ScenarioType::SCORPION_1->value:
+      case ScenarioType::LION_1->value:
+        return Meeples::countEnemies($this->getEnemyId());
+    }
+    return null;
+  }
 
   public function setupChangesBeforePlayerSetup()
   {
@@ -118,7 +144,7 @@ class ScenarioCard extends Card
           $meeple->setPosition($randomPosition);
           $influenceMeeples[] = $meeple;
         }
-        Notifications::influenceClanMarkers($virtualPlayer,$influenceMeeples);
+        Notifications::influenceClanMarkers($virtualPlayer,$influenceMeeples, $this);
 
         //Start with the Noble from Region 3 in play and gain its rewards. It counts as a customer you delivered to.
         Cards::setupDeliveredCustomer($player,CARD_NOBLE_3 );
@@ -172,7 +198,7 @@ class ScenarioCard extends Card
       case ScenarioType::LION_1->value:
         //When Seishin builds, place 1 assassin next to that building.
         $lionEnemy = Players::lionEnemy();
-        Meeples::placeAssassinNearShoreSpace($lionEnemy, $shoreSpace->id);
+        Meeples::placeAssassinNearShoreSpace($lionEnemy, $shoreSpace->id,$this);
         break;
     }
   }
@@ -182,7 +208,7 @@ class ScenarioCard extends Card
       case ScenarioType::LION_1->value:
         //When Seishin sails, place 1 assassin next to each building it visited owned by a player (including Seishin), even if assassin(s) are already there
         $lionEnemy = Players::lionEnemy();
-        Meeples::placeAssassinNearShoreSpace($lionEnemy, $shoreSpace);
+        Meeples::placeAssassinNearShoreSpace($lionEnemy, $shoreSpace,$this);
         break;
     }
   }
@@ -194,7 +220,7 @@ class ScenarioCard extends Card
         $lionEnemy = Players::lionEnemy();
         $assassins = Meeples::getAssassinsOnShoreSpace($lionEnemy->getId(),$shoreSpace);
         $assassins->map(function(Meeple $assassin) use ($player){
-          Meeples::removeAssassin($player, $assassin);
+          Meeples::removeAssassin($player, $assassin, $this);
         });
         break;
     }
@@ -206,7 +232,7 @@ class ScenarioCard extends Card
         // Eliminating Targets: When you gain or lose influence, if your clan marker lands directly on top of a target, remove that target from the game. 
         $target = Meeples::getInfluenceMarker(SCORPION_ENEMY_ID,$region);
         if(isset($target) && $target->getPosition() == $toInfluence){
-          Meeples::removeTarget($player, $target);
+          Meeples::removeTarget($player, $target,$this);
         }
         break;
     }

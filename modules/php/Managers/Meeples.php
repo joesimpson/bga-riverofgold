@@ -12,6 +12,7 @@ use ROG\Models\ClanPatronCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
 use ROG\Models\Player;
+use ROG\Models\ScenarioCard;
 use ROG\Models\ShoreSpace;
 
 /* Class to manage all the meeples (clan markers/ships) */
@@ -325,6 +326,11 @@ class Meeples extends \ROG\Helpers\Pieces
     return $nbShipsInSpace - $nbPlayerShips;
   }
 
+  public static function countEnemies(int $pId) : int
+  {
+    return self::DB()->wherePlayer($pId)
+      ->count();
+  }
   /**
    * @param int $pId
    * @param int $type of building to search for
@@ -421,7 +427,7 @@ class Meeples extends \ROG\Helpers\Pieces
     return $elt;
   }
   
-  public static function placeAssassinNearShoreSpace(Player $player, int $shore_space) : Meeple
+  public static function placeAssassinNearShoreSpace(Player $player, int $shore_space, ScenarioCard $card,) : Meeple
   {
     $meeple = [
       'type' => MEEPLE_TYPE_CLAN_MARKER,
@@ -430,7 +436,7 @@ class Meeples extends \ROG\Helpers\Pieces
       'state' => 1,
     ];
     $elt = self::singleCreate($meeple);
-    Notifications::newAssassin($player,$elt);
+    Notifications::newAssassin($player,$elt,$card,);
     return $elt;
   }
   
@@ -484,15 +490,15 @@ class Meeples extends \ROG\Helpers\Pieces
     self::DB()->delete($meeple->getId());
   }
   
-  public static function removeTarget(Player $player,Meeple $meeple) : void
+  public static function removeTarget(Player $player,Meeple $meeple, ScenarioCard $card) : void
   {
-    Notifications::removeTarget($player,$meeple);
+    Notifications::removeTarget($player,$meeple,$card);
     self::DB()->delete($meeple->getId());
   }
   
-  public static function removeAssassin(Player $player,Meeple $meeple) : void
+  public static function removeAssassin(Player $player,Meeple $meeple, ScenarioCard $card) : void
   {
-    Notifications::removeAssassin($player,$meeple);
+    Notifications::removeAssassin($player,$meeple,$card);
     self::DB()->delete($meeple->getId());
   }
 

@@ -209,6 +209,8 @@ final class DraftTest extends TestCase
                     'subtype' => CARD_TYPE_SCENARIO,
                     'resources' => null,
                     'played' => false,
+                    'enemies' => 0,
+                    'enemy' => SCORPION_ENEMY_ID,
                 ],
             ],
         ];
@@ -738,6 +740,8 @@ final class DraftTest extends TestCase
                     'subtype' => CARD_TYPE_SCENARIO,
                     'resources' => null,
                     'played' => false,
+                    'enemies' => 0,
+                    'enemy' => SCORPION_ENEMY_ID,
                 ],
             ],
         ];

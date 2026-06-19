@@ -1077,6 +1077,11 @@
 }
 
 .rog_popin_scenario_content{
+    .rog_enemies_count{
+        align-items: center;
+        display: flex;
+        justify-content: center;
+    }
     .rog_scenario_card_wrapper{
         color: black;
         >span{

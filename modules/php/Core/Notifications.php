@@ -554,17 +554,19 @@ class Notifications
       'player' => $player,
     ]);
   }
-  /**
-   * @param Player $player
-   * @param array $meeples
-   */
-  public static function influenceClanMarkers($player,$meeples)
+
+  public static function influenceClanMarkers(
+    Player $player,
+    array $meeples,
+    ScenarioCard|null $card = null,
+  )
   {
     $msg = '';
     $meeplesCollection = new Collection($meeples);
     self::notifyAll('influenceClanMarkers', $msg, [
       'player' => $player,
       'meeples' => $meeplesCollection->ui(),
+      'with_card' => isset($card) ? $card->getId() : null,
     ]);
   }
     /**
@@ -606,6 +608,7 @@ class Notifications
   public static function newAssassin(
     Player $player,
     Meeple $meeple,
+    ScenarioCard $card,
   )
   {
     $msg = clienttranslate('${player_name} places an assassin ${clan_marker}');
@@ -613,7 +616,8 @@ class Notifications
       'player' => $player,
       'meeple' => $meeple->getUiData(),
       'clan_marker' => '',
-      'preserve' => ['meeple'],
+      'with_card' => $card->getId(),
+      'preserve' => ['meeple','with_card'],
     ]);
   }
 
@@ -635,25 +639,27 @@ class Notifications
     ]);
   }
   
-  public static function removeTarget(Player $player, Meeple $meeple,)
+  public static function removeTarget(Player $player, Meeple $meeple, ScenarioCard $card)
   {
     $msg = clienttranslate('${player_name} removes a target ${clan_marker}');
     self::notifyAll('removeClanMarker', $msg, [
       'player' => $player,
       'meeple' => $meeple->getUiData(),
       'clan_marker' => '',
-      'preserve' => ['meeple'],
+      'with_card' => $card->getId(),
+      'preserve' => ['meeple','with_card'],
     ]);
   }
   
-  public static function removeAssassin(Player $player, Meeple $meeple,)
+  public static function removeAssassin(Player $player, Meeple $meeple, ScenarioCard $card)
   {
     $msg = clienttranslate('${player_name} removes an assassin ${clan_marker}');
     self::notifyAll('removeClanMarker', $msg, [
       'player' => $player,
       'meeple' => $meeple->getUiData(),
       'clan_marker' => '',
-      'preserve' => ['meeple'],
+      'with_card' => $card->getId(),
+      'preserve' => ['meeple','with_card'],
     ]);
   }
 

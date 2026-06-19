@@ -4695,6 +4695,11 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   padding: 0 5px;
 }
 
+.rog_popin_scenario_content .rog_enemies_count {
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
 .rog_popin_scenario_content .rog_scenario_card_wrapper {
   color: black;
 }

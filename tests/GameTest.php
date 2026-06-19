@@ -876,6 +876,9 @@ final class GameTest extends TestCase
         $datas = $game->getAllDatas();
         
         assertSame($expectedVirtualPlayers, $datas['virtual_players']);
+        $scenarioDatas = $datas['cards'][1];
+        assertSame(0, $scenarioDatas['enemies']);
+        assertSame(SCORPION_ENEMY_ID, $scenarioDatas['enemy']);
     }
     
     public function test_getAllDatas_withScenarios_2(): void
@@ -897,6 +900,9 @@ final class GameTest extends TestCase
         $datas = $game->getAllDatas();
         
         assertSame($expectedVirtualPlayers, $datas['virtual_players']);
+        $scenarioDatas = $datas['cards'][0];
+        assertSame(0, $scenarioDatas['enemies']);
+        assertSame(LION_ENEMY_ID, $scenarioDatas['enemy']);
     }
     // -------------------------------------------------
     

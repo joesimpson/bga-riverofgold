@@ -248,6 +248,14 @@ abstract class Table
             logForTests("getUniqueValueFromDb: count is $count");
             return $count;
         }
+        if (preg_match("/^SELECT COUNT\(\*\) FROM `meeples` WHERE `player_id` = (?P<player_id>.*)$/", $sql, $matches) == 1) {
+            $player_id = intval($matches['player_id']);
+            $count = count(array_filter(TestDatas::$tokens,function ($token) use($player_id, ) {
+                return ($player_id ==0 || $player_id>0 && $token['player_id'] == $player_id) ;
+            }));
+            logForTests("getUniqueValueFromDb: count is $count for player_id $player_id ");
+            return $count;
+        }
         logForTests("getUniqueValueFromDb: /?\ ");
         return null;
     }

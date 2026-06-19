@@ -1960,6 +1960,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     );
                 })
             ).then(() => {
+                this.updateCardEnemiesCount(n.args.with_card, n.args.meeples.length);
                 this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
             });
         },
@@ -1973,12 +1974,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 if(buildingType){
                     this._counters[n.args.player_id].buildings[buildingType].incValue(n.args.inc);
                 }
+                this.updateCardEnemiesCount(n.args.with_card, 1);
             });
         },
         notif_removeClanMarker(n) {
             debug('notif_removeClanMarker', n);
             let tokenDiv = $(`rog_meeple-${n.args.meeple.id}`);
             this.animationManager.slideOutAndDestroy(tokenDiv, this.getVisibleTitleContainer(), {duration: 700});
+            this.updateCardEnemiesCount(n.args.with_card, -1);
         },
         notif_newBoat(n) {
             debug('notif_newBoat', n);
@@ -4130,8 +4133,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 </div>`;
         },
 
-        addScenarioCard(card, location = null) {
-            debug('addScenarioCard',card);
+        addScenarioCard(datas, location = null) {
+            debug('addScenarioCard',datas);
+            let card = this.addCardInGamedatas(datas);
             let container = this.getCardContainer(card);
             location = location == null ? container : location
             let cardDiv = this.tplScenarioCard(card,'_tmp');
@@ -4157,8 +4161,18 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     popindialog.setTitle(this.tplScenarioCardName(card));
                     popindialog.setMaxWidth( 1000 );
                     // Create the HTML of my dialog : recompute card description in case of some dynamic elements (other clan markers/ ships colors used)
+                    let cardDatas = this.getCardFromGamedatas(card.id);
                     let cardDivForTooltip = this.tplScenarioCard(card,'_tmp');
+                    let enemiesText = (cardDatas.enemies==null) ? '' : `<span class='rog_enemies_count'>${this.fsr(_('Remaining : ${n} ${clan_marker}'),{
+                        'n':cardDatas.enemies,
+                        'clan_marker' : this.tplMeeple({
+                            'id': 'sc_enemy', 
+                            'type': MEEPLE_TYPE_CLAN_MARKER, 
+                            'pId': cardDatas.enemy,
+                        }),
+                    })}</span>`;
                     let html = `<div class='rog_popin_scenario_content' id='rog_popin_scenario_content'>
+                        ${enemiesText}
                         ${cardDivForTooltip}
                     </div>`;  
                     // Show the dialog
@@ -4363,6 +4377,42 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 });
                 if(callbackCardSelection) this.onClick(`${div.id}`, callbackCardSelection);
             });
+        },
+
+        updateCardEnemiesCount(cardId, delta){
+            if(cardId && delta){
+                //only update datas because the "counter"  is reading datas when we open (scenario) card
+                this.gamedatas.cards.forEach((card) => {
+                    if( card.id == cardId && card.enemies != null){
+                        card.enemies+= delta;
+                    }
+                });
+            }
+        },
+        addCardInGamedatas(datas){
+            let found = false;
+            this.gamedatas.cards.forEach((card) => {
+                if( card.id == datas.id){
+                    card = datas;
+                    found = true;
+                }
+            });
+            if(!found){
+                this.gamedatas.cards.push(datas);
+            }
+            return datas;
+        },
+        getCardFromGamedatas(cardId){
+            let found = null;
+            this.gamedatas.cards.forEach((card) => {
+                if( card.id == cardId){
+                    found = card;
+                }
+            });
+            if(!found){
+                return null;
+            }
+            return found;
         },
         ////////////////////////////////////////////////////////
         //  _____ _ _
