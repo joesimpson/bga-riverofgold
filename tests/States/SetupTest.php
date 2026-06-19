@@ -1088,9 +1088,57 @@ final class SetupTest extends TestCase
             assertTrue(in_array($lastToken['meeple_state'],[3,4,5,6,7,8]));
         }
         assertNotSame(null,Globals::getScorpionEnemy());
+        assertTrue(in_array(Globals::getScorpionEnemy(), array_values(CLANS_COLORS)));
         //test Noble 3
         assertSame(CARD_LOCATION_DELIVERED, TestDatas::$cards[1]['card_location']);
         assertSame(1, TestDatas::$cards[1]['player_id']);
+    }
+    
+    public function testEnteringState_PlayerSetup_Scenario_Lion1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        foreach(TestDatas::$cards as &$card) if($card['card_location'] == CARD_LOCATION_HAND)$card['card_location'] = CARD_LOCATION_DECK;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::LION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedNotifs = [
+            "automaColor",
+            "newPlayerColor--123",
+            "newClanMarkers-1",
+            "influenceClanMarkers-1",
+            "rollDie-1",
+            "newBoat-1",
+            "rollDie-1",
+            "newBoat-1",
+            "giveCardToPublic-1",
+            "giveCardToPublic-1",
+            "rollDie-1",
+            "newClanMarkers-2",
+            "influenceClanMarkers-2",
+            "rollDie-2",
+            "newBoat-2",
+            "rollDie-2",
+            "newBoat-2",
+            "giveCardToPublic-2",
+            "giveCardToPublic-2",
+            "rollDie-2",
+            "newClanMarkers--123",
+            "influenceClanMarkers--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            //Scenario :
+            "virtualPlayer",
+        ];
+
+        $game->stPlayerSetup();
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertNotSame(null,Globals::getLionEnemy());
+        assertTrue(in_array(Globals::getLionEnemy(), array_values(CLANS_COLORS)));
     }
     // ----------------------------------------------------------------------
     

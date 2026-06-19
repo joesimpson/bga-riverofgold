@@ -140,6 +140,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
             'CUSTOM_REGION_TRACKS' => CUSTOM_REGION_TRACKS,
             'ROGUE_PLAYER_ID' => ROGUE_PLAYER_ID,
             'SCORPION_ENEMY_ID' => SCORPION_ENEMY_ID,
+            'LION_ENEMY_ID' => LION_ENEMY_ID,
           ],
           'enums' => Utils::getEnumsUI(),
         ];
@@ -155,6 +156,10 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
         $scorpionEnemy = Players::scorpionEnemy();
         if(isset($scorpionEnemy)){
             $result['virtual_players'][SCORPION_ENEMY_ID] = $scorpionEnemy->getUiData();
+        }
+        $lionEnemy = Players::lionEnemy();
+        if(isset($lionEnemy)){
+            $result['virtual_players'][LION_ENEMY_ID] = $lionEnemy->getUiData();
         }
 
         return $result;

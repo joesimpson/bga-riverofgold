@@ -11,6 +11,8 @@ const AUTOMA_PLAYER_ID = -123;
 const ROGUE_PLAYER_ID  = -456;
 /** Scorpion Enemy */
 const SCORPION_ENEMY_ID = -567;
+/** Lion Enemy */
+const LION_ENEMY_ID = -678;
 
 const SCORE_FAIL = -1;
 

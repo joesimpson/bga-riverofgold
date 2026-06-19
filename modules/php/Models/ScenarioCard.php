@@ -123,6 +123,12 @@ class ScenarioCard extends Card
         //Start with the Noble from Region 3 in play and gain its rewards. It counts as a customer you delivered to.
         Cards::setupDeliveredCustomer($player,CARD_NOBLE_3 );
         break;
+      case ScenarioType::LION_1->value:
+        $clanToPick = Utils::pickNextAvailableClan($players);
+        Globals::setLionEnemy($clanToPick['clan']);
+        $virtualPlayer = Players::lionEnemy();
+        Notifications::virtualPlayer($virtualPlayer);
+        break;
     }
   }
   

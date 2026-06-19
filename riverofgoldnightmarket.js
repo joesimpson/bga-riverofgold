@@ -3934,7 +3934,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [this.gamedatas.enums.ScenarioType.CRANE_1, this.fsr(_('You are in debt and obligated to pay off your ship loan. Regional lords will be impressed if you manage to fully pay it off.'),{})],
                 [this.gamedatas.enums.ScenarioType.SCORPION_1, this.fsr(_('Influential politicians from a rival clan have bent the ear of the common people against the Scorpion clan. These targets must be eliminated.'),{})],
                 [this.gamedatas.enums.ScenarioType.PHOENIX_1, this.fsr(_('You are an apprentice shindōshi seeking to master all the elements and learn all you can about the world.'),{})],
-                [6, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.LION_1, this.fsr(_('You are an Imperial Guard defending the Emperor from an assassination plot.'),{})],
                 [7, this.fsr(_(''),{})],
                 [8, this.fsr(_(''),{})],
             ]);
@@ -3981,7 +3981,20 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <div class="rog_coop_label">${this.fsr(_('Co-op: Use the ${n}-player side of the mastery cards.'),{'n':2})}</div>
                     `
                 ],
-                [6, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.LION_1, 
+                    `
+                    <span>${this.fsr(_('Place all clan markers of an unused clan next to the board. These are assassins.'),{})}</span>
+                    <div class='rog_meeple_example'>
+                    ${this.tplMeeple({
+                        'id': 'assassin_1', 
+                        'type': MEEPLE_TYPE_CLAN_MARKER, 
+                        'pId':this.gamedatas.constants.LION_ENEMY_ID,
+                    })}
+                    </div> 
+                    <br/>
+                    <div class="rog_coop_label">${this.fsr(_('Co-op: When your ally sails, they also remove assassins from buildings.'),{})} </div>
+                    `
+                ],
                 [7, this.fsr(_(''),{})],
                 [8, this.fsr(_(''),{})],
             ]);

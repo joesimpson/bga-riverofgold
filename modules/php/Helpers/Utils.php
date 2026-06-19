@@ -17,20 +17,6 @@ use ROG\Models\ScenarioType;
 
 abstract class Utils 
 {
-    public static function filter(&$data, $filter)
-    {
-        $data = array_values(array_filter($data, $filter));
-    }
-
-    public static function die($args = null)
-    {
-        if (is_null($args)) {
-            throw new \BgaVisibleSystemException(
-                implode('<br>', self::$logmsg)
-            );
-        }
-        throw new \BgaVisibleSystemException(json_encode($args));
-    }
 
     /**
      * @param int $num1 
@@ -212,6 +198,7 @@ abstract class Utils
         $assignedClans[] = Globals::getAutomaClan();
         $assignedClans[] = Globals::getRogueClan();
         $assignedClans[] = Globals::getScorpionEnemy();
+        $assignedClans[] = Globals::getLionEnemy();
         $unAssignedClans = [];
         foreach(CLANS_COLORS as $color => $clan){
             if(in_array($clan,$assignedClans)){

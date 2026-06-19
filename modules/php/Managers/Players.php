@@ -694,6 +694,17 @@ class Players extends \ROG\Helpers\DB_Manager
       'player_clan'   => $clan,
     ]);
   }
+  
+  public static function lionEnemy() : ?VirtualPlayer {
+    $clan = Globals::getLionEnemy();
+    if(!isset($clan) || $clan == 0) return null;
+    return new VirtualPlayer([
+      'player_id'     => LION_ENEMY_ID, 
+      'player_name'   => clienttranslate('Lion target'), 
+      'player_color'  => Utils::getPlayerClanColor($clan),
+      'player_clan'   => $clan,
+    ]);
+  }
 
   public static function getPlayersMaxNo() : int
   {

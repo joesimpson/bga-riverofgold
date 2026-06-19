@@ -762,6 +762,7 @@ final class GameTest extends TestCase
                 'CUSTOM_REGION_TRACKS' => CUSTOM_REGION_TRACKS,
                 'ROGUE_PLAYER_ID' => ROGUE_PLAYER_ID,
                 'SCORPION_ENEMY_ID' => SCORPION_ENEMY_ID,
+                'LION_ENEMY_ID' => LION_ENEMY_ID,
             ],
             'enums' => [
                 'AutomaActionType' => [
@@ -869,6 +870,27 @@ final class GameTest extends TestCase
                 'clan' => CLAN_LION, 
                 'color' => 'ffff00', 
                 'name' => 'Scorpion target', 
+            ],
+        ];
+
+        $datas = $game->getAllDatas();
+        
+        assertSame($expectedVirtualPlayers, $datas['virtual_players']);
+    }
+    
+    public function test_getAllDatas_withScenarios_2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::LION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        Globals::setLionEnemy(CLAN_DRAGON);
+        $expectedVirtualPlayers = [
+            LION_ENEMY_ID => [
+                'id' => LION_ENEMY_ID, 
+                'clan' => CLAN_DRAGON, 
+                'color' => '298a47', 
+                'name' => 'Lion target', 
             ],
         ];
 

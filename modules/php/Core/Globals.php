@@ -52,6 +52,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     //Datas for virtual player clans
     'rogueClan' => 'int',
     'scorpionEnemy' => 'int',
+    'lionEnemy' => 'int',
 
     //Undo log module
     'choices' => 'int',
@@ -100,6 +101,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     
     self::setRogueClan(null);
     self::setScorpionEnemy(null);
+    self::setLionEnemy(null);
     
     self::setChoices(0);
 
