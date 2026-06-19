@@ -236,6 +236,14 @@
 
 
 .rog_shore_space{
+    .rog_near_shore_space{
+        position: absolute;
+        top: -20px;
+        left: 275px;
+        width: 75px;
+        height: 75px;
+        z-index: 3;
+    }
     &#rog_shore_space-1{
         left: 1166px;
         top: 251px;
@@ -376,6 +384,9 @@
     &#rog_shore_space-27,
     &#rog_shore_space-29,
     &#rog_shore_space-30{
+        .rog_near_shore_space{
+            left: 0px;
+        }
         /*don't rotate anymore with sprite of tiles back
         transform: rotate(180deg);
         &.selectable:hover {

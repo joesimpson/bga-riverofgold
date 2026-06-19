@@ -4418,7 +4418,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             
         },
         tplShoreSpace(position) {
-            return `<div id='rog_shore_space-${position}' class='rog_shore_space' data-pos='${position}'></div>`;
+            return `<div id='rog_shore_space-${position}' class='rog_shore_space' data-pos='${position}'>
+                    <div id='rog_near_shore_space-${position}' class='rog_near_shore_space'></div>
+                </div>`;
         },
         
         addEmperorTile(shoreSpace) {
@@ -4828,8 +4830,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
             if (locationParts[0] == 'shore_n') {//MEEPLE_LOCATION_NEAR_SHORE
                 let space = locationParts[1];
-                //TODO JSA : another div place
-                return document.getElementById(`rog_shore_space-${space}`);
+                return document.getElementById(`rog_near_shore_space-${space}`);
             }
             if (locationParts[0] == 'card') {//MEEPLE_LOCATION_CARD
                 // on card

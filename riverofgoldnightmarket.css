@@ -1548,6 +1548,14 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   opacity: 0.3;
 }
 
+.rog_shore_space .rog_near_shore_space {
+  position: absolute;
+  top: -20px;
+  left: 275px;
+  width: 75px;
+  height: 75px;
+  z-index: 3;
+}
 .rog_shore_space#rog_shore_space-1 {
   left: 1166px;
   top: 251px;
@@ -1675,6 +1683,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
       transform: rotate(180deg) scale(1.2);
 
   }*/
+}
+.rog_shore_space#rog_shore_space-1 .rog_near_shore_space, .rog_shore_space#rog_shore_space-3 .rog_near_shore_space, .rog_shore_space#rog_shore_space-5 .rog_near_shore_space, .rog_shore_space#rog_shore_space-7 .rog_near_shore_space, .rog_shore_space#rog_shore_space-9 .rog_near_shore_space, .rog_shore_space#rog_shore_space-11 .rog_near_shore_space, .rog_shore_space#rog_shore_space-13 .rog_near_shore_space, .rog_shore_space#rog_shore_space-15 .rog_near_shore_space, .rog_shore_space#rog_shore_space-18 .rog_near_shore_space, .rog_shore_space#rog_shore_space-20 .rog_near_shore_space, .rog_shore_space#rog_shore_space-23 .rog_near_shore_space, .rog_shore_space#rog_shore_space-25 .rog_near_shore_space, .rog_shore_space#rog_shore_space-27 .rog_near_shore_space, .rog_shore_space#rog_shore_space-29 .rog_near_shore_space, .rog_shore_space#rog_shore_space-30 .rog_near_shore_space {
+  left: 0px;
 }
 .rog_shore_space#rog_shore_space-1.selectable,
 .rog_shore_space#rog_shore_space-1 .rog_tile, .rog_shore_space#rog_shore_space-3.selectable,
