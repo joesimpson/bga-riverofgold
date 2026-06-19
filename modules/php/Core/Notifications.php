@@ -637,7 +637,18 @@ class Notifications
   
   public static function removeTarget(Player $player, Meeple $meeple,)
   {
-    $msg = clienttranslate('${player_name} removes a ${clan_marker} target');
+    $msg = clienttranslate('${player_name} removes a target ${clan_marker}');
+    self::notifyAll('removeClanMarker', $msg, [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
+      'clan_marker' => '',
+      'preserve' => ['meeple'],
+    ]);
+  }
+  
+  public static function removeAssassin(Player $player, Meeple $meeple,)
+  {
+    $msg = clienttranslate('${player_name} removes an assassin ${clan_marker}');
     self::notifyAll('removeClanMarker', $msg, [
       'player' => $player,
       'meeple' => $meeple->getUiData(),

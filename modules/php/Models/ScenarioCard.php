@@ -186,6 +186,19 @@ class ScenarioCard extends Card
         break;
     }
   }
+  
+  function abilityOnPlayerSailVisit(Player $player, int $shoreSpace){
+    switch($this->getType()){
+      case ScenarioType::LION_1->value:
+        //When you sail, remove all assassins next to buildings you visited.
+        $lionEnemy = Players::lionEnemy();
+        $assassins = Meeples::getAssassinsOnShoreSpace($lionEnemy->getId(),$shoreSpace);
+        $assassins->map(function(Meeple $assassin) use ($player){
+          Meeples::removeAssassin($player, $assassin);
+        });
+        break;
+    }
+  }
 
   function abilityOnGainInfluence(Player $player,int $region,int $fromInfluence, int $toInfluence){
     switch($this->getType()){

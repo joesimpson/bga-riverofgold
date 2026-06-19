@@ -238,6 +238,11 @@ trait SailTrait
             $scenario->abilityOnAutomaSailVisit($player,$adjacentSpace);
           });
         }
+        else {
+          Cards::getAssignedScenarios()->map(function(ScenarioCard $scenario) use ($player,$adjacentSpace) {
+            $scenario?->abilityOnPlayerSailVisit($player,$adjacentSpace);
+          });
+        }
       }
     }
 

@@ -4070,8 +4070,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     `<span><b>${this.fsr(_('Placing and Removing Assasins:'),{})}</b></span>
                     <ul>
                         <li>${this.fsr(_('When Seishin builds, place 1 assassin next to that building.'),{})}</li>
-                        <li>${this.fsr(_('When Seishin sails, place 1 assassin next to each building it visited owned by a player (including Seishin), even if assassin(s) are already there'),{})}</li>
-                        <li>${this.fsr(_(''),{})}</li>
+                        <li>${this.fsr(_('When Seishin sails, place 1 assassin next to each building it visited owned by a player (including Seishin), even if assassin(s) are already there.'),{})}</li>
+                        <li>${this.fsr(_('When you sail, remove all assassins next to buildings you visited.'),{})}</li>
                     </ul>
                     <span><b>${this.fsr(_(''),{})}</b></span>
                     <ul>

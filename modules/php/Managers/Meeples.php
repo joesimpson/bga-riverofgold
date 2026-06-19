@@ -303,6 +303,11 @@ class Meeples extends \ROG\Helpers\Pieces
     return self::getFilteredQuery($pId, MEEPLE_LOCATION_MERCHANT)->get()->first();
   }
   
+  public static function getAssassinsOnShoreSpace(int $pId, int $shoreSpace) : Collection
+  {
+    return self::getFilteredQuery($pId, MEEPLE_LOCATION_NEAR_SHORE.$shoreSpace,)->get();
+  }
+
   public static function countPlayerShipsInLocation(?int $pId, int $position) : int
   {
     Game::get()->trace("countPlayerShipsInLocation($pId, $position)...");
@@ -485,6 +490,12 @@ class Meeples extends \ROG\Helpers\Pieces
     self::DB()->delete($meeple->getId());
   }
   
+  public static function removeAssassin(Player $player,Meeple $meeple) : void
+  {
+    Notifications::removeAssassin($player,$meeple);
+    self::DB()->delete($meeple->getId());
+  }
+
   public static function removeInfluenceClanMarker(Player $player,int $region) : void
   {
     $meeple = Meeples::getInfluenceMarker($player->getId(),$region);
