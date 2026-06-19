@@ -4066,7 +4066,20 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <span>${this.fsr(_('Once on your turn, you may spend 1 divine favor to move a mastery from the top of the deck to the bottom of the deck.'),{})}</span>
                     `
                 ],
-                [6, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.LION_1,
+                    `<span><b>${this.fsr(_('Placing and Removing Assasins:'),{})}</b></span>
+                    <ul>
+                        <li>${this.fsr(_('When Seishin builds, place 1 assassin next to that building.'),{})}</li>
+                        <li>${this.fsr(_(''),{})}</li>
+                        <li>${this.fsr(_(''),{})}</li>
+                    </ul>
+                    <span><b>${this.fsr(_(''),{})}</b></span>
+                    <ul>
+                        <li>${this.fsr(_(''),{})}</li>
+                        <li>${this.fsr(_(''),{})}</li>
+                    </ul>
+                    `
+                ],
                 [7, this.fsr(_(''),{})],
                 [8, this.fsr(_(''),{})],
             ]);
@@ -4811,6 +4824,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
             if (locationParts[0] == 'shore') {//MEEPLE_LOCATION_SHORE
                 let space = locationParts[1];
+                return document.getElementById(`rog_shore_space-${space}`);
+            }
+            if (locationParts[0] == 'shore_n') {//MEEPLE_LOCATION_NEAR_SHORE
+                let space = locationParts[1];
+                //TODO JSA : another div place
                 return document.getElementById(`rog_shore_space-${space}`);
             }
             if (locationParts[0] == 'card') {//MEEPLE_LOCATION_CARD

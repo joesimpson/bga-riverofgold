@@ -12,6 +12,7 @@ use ROG\Managers\Players;
 use ROG\Models\AutomaActionCard;
 use ROG\Models\AutomaActionType;
 use ROG\Models\MAIN_ACTION;
+use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertFalse;
@@ -529,6 +530,12 @@ final class AutomaActionCardTest extends TestCase
 
         $card->play($player);
         
+        $expectedNotifs = [
+            "build-".AUTOMA_PLAYER_ID,
+            "newClanMarker-".AUTOMA_PLAYER_ID,
+            "gainInfluence-".AUTOMA_PLAYER_ID,
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(REGION_1, $player->getDie());
         assertSame(MAIN_ACTION::BUILD->value, Globals::getTurnMainActionDone());
          //Test built Tile :
@@ -546,6 +553,41 @@ final class AutomaActionCardTest extends TestCase
         assertSame(0, TestDatas::$tokens[36]['meeple_state']);
     }
     
+    public function test_play_Build_Region1_ScenarioLion1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setLionEnemy(CLAN_DRAGON);
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_1);
+        $cardType = AutomaActionType::BUILD->value;
+        $cardRow = TestDatas::$cards[207];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::LION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedShoreSpace = 2;// cost 5
+        $expectedTile = 33;
+
+        $card->play($player);
+
+        $expectedNotifs = [
+            "build-".AUTOMA_PLAYER_ID,
+            "newClanMarker-".AUTOMA_PLAYER_ID,
+            "gainInfluence-".AUTOMA_PLAYER_ID,
+            "newClanMarker-".LION_ENEMY_ID,
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(REGION_1, $player->getDie());
+        assertSame(MAIN_ACTION::BUILD->value, Globals::getTurnMainActionDone());
+         //Test built Tile :
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[$expectedTile]['tile_location']);
+        assertSame($expectedShoreSpace, TestDatas::$tiles[$expectedTile]['tile_state']);
+        //Test 2 new clan markers
+        assertSame(44, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> "tile-$expectedTile",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        assertSame(TestDatas::$tokens[44], ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE.$expectedShoreSpace,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ] );
+    }
+
     public function test_play_Build_Region2_whenRegion1Full(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

@@ -602,6 +602,20 @@ class Notifications
       'i18' => ['lion_marker'],
     ]);
   }
+  
+  public static function newAssassin(
+    Player $player,
+    Meeple $meeple,
+  )
+  {
+    $msg = clienttranslate('${player_name} places a ${clan_marker} assassin');
+    self::notifyAll('newClanMarker', $msg, [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
+      'clan_marker' => '',
+      'preserve' => ['meeple'],
+    ]);
+  }
 
   public static function removeClanMarker(Player $player, Meeple $meeple,)
   {

@@ -403,7 +403,7 @@ class Meeples extends \ROG\Helpers\Pieces
       ->countDistinct(self::$prefix.'state');
   }
 
-  public static function placeLionOnShoreSpace(Player $player, int $shore_space)
+  public static function placeLionOnShoreSpace(Player $player, int $shore_space) : Meeple
   {
     $meeple = [
       'type' => MEEPLE_TYPE_LION_MARKER,
@@ -413,6 +413,19 @@ class Meeples extends \ROG\Helpers\Pieces
     ];
     $elt = self::singleCreate($meeple);
     Notifications::newLionMarker($player,$elt);
+    return $elt;
+  }
+  
+  public static function placeAssassinNearShoreSpace(Player $player, int $shore_space) : Meeple
+  {
+    $meeple = [
+      'type' => MEEPLE_TYPE_CLAN_MARKER,
+      'location' => MEEPLE_LOCATION_NEAR_SHORE.$shore_space,
+      'player_id' => $player->getId(),
+      'state' => 1,
+    ];
+    $elt = self::singleCreate($meeple);
+    Notifications::newAssassin($player,$elt);
     return $elt;
   }
   

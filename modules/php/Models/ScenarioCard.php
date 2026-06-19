@@ -167,6 +167,16 @@ class ScenarioCard extends Card
     return $canDeliver;
   }
 
+  function abilityOnAutomaBuild(AutomaPlayer $player, BuildingTile $tile, ShoreSpace $shoreSpace){
+    switch($this->getType()){
+      case ScenarioType::LION_1->value:
+        //When Seishin builds, place 1 assassin next to that building.
+        $lionEnemy = Players::lionEnemy();
+        Meeples::placeAssassinNearShoreSpace($lionEnemy, $shoreSpace->id);
+        break;
+    }
+  }
+
   function abilityOnGainInfluence(Player $player,int $region,int $fromInfluence, int $toInfluence){
     switch($this->getType()){
       case ScenarioType::SCORPION_1->value:

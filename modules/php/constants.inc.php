@@ -459,6 +459,7 @@ CONST MEEPLE_LOCATION_ARTISAN = 'artisan-';//To be followed by region number
 CONST MEEPLE_LOCATION_ELDER = 'elder-';//To be followed by region number
 CONST MEEPLE_LOCATION_MERCHANT = 'merchant';
 const MEEPLE_LOCATION_SHORE   = 'shore-';//To be followed by space number
+const MEEPLE_LOCATION_NEAR_SHORE = 'shore_n-';//To be followed by space number
 
 
 const CLAN_CRAB =    1;
