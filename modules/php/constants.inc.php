@@ -87,6 +87,8 @@ const SCORE_FAIL = -1;
  const NB_POINTS_FOR_GAME_END = 5;
  const NB_FAVOR_WITH_SHINDOSHI_3 = 1;
 
+ const NB_ASSASSINS_TO_LOSE = 3;
+
  const ARTISAN_COST_REDUCTION = 2;
  
  // -- base types :

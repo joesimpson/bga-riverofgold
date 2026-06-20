@@ -337,6 +337,9 @@ class ScenarioCard extends Card
         $seishinMasteries = Meeples::countPlayerMasteries(AUTOMA_PLAYER_ID);
         $checked = ($playerMasteries > $seishinMasteries);
         break;
+      case ScenarioType::LION_1->value:
+        $checked = ($this->countEnemies() < NB_ASSASSINS_TO_LOSE);
+        break;
     }
     return $checked;
   }

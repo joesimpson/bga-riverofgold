@@ -4076,10 +4076,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         <li>${this.fsr(_('When Seishin sails, place 1 assassin next to each building it visited owned by a player (including Seishin), even if assassin(s) are already there.'),{})}</li>
                         <li>${this.fsr(_('When you sail, remove all assassins next to buildings you visited.'),{})}</li>
                     </ul>
-                    <span><b>${this.fsr(_(''),{})}</b></span>
+                    <span><b>${this.fsr(_('Assasination Attempts:'),{})}</b></span>
                     <ul>
                         <li>${this.fsr(_(''),{})}</li>
-                        <li>${this.fsr(_(''),{})}</li>
+                        <li>${this.fsr(_('If ${n}+ assassins are on the board when the game ends, you lose the game.'),{'n':3})}</li>
                     </ul>
                     `
                 ],
@@ -4098,7 +4098,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     + this.fsr(_('You must outscore Seishin.'),{})
                 ],
                 [this.gamedatas.enums.ScenarioType.PHOENIX_1, this.fsr(_('You must outscore Seishin and claim more masteries than Seishin.'),{})],
-                [6, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.LION_1, this.fsr(_('You must outscore Seishin and prevent the Emperor’s assassination.'),{})],
                 [7, this.fsr(_(''),{})],
                 [8, this.fsr(_(''),{})],
             ]);

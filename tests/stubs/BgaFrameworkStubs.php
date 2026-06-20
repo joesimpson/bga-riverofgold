@@ -216,11 +216,11 @@ abstract class Table
             return $count;
         }
         if (preg_match("/^SELECT COUNT\(\*\) FROM `meeples` WHERE (`player_id` = (?P<player_id>.*) AND )*`meeple_location` = '(?P<meeple_location>.*)' AND `meeple_state` = (?P<meeple_state>\d+)$/", $sql, $matches) == 1) {
-            $player_id = intval($matches['player_id']);
+            $player_id = isset($matches['player_id']) ? intval($matches['player_id']) : null;
             $meeple_location = $matches['meeple_location'];
             $meeple_state = intval($matches['meeple_state']);
             $count = count(array_filter(TestDatas::$tokens,function ($token) use($player_id,$meeple_location, $meeple_state) {
-                return ($player_id ==0 || $player_id>0 && $token['player_id'] == $player_id) && $token['meeple_location'] == $meeple_location && $token['meeple_state'] == $meeple_state ;
+                return ($player_id ==null || $token['player_id'] == $player_id) && $token['meeple_location'] == $meeple_location && $token['meeple_state'] == $meeple_state ;
             }));
             logForTests("getUniqueValueFromDb: count is $count for meeple_location $player_id, $meeple_location, $meeple_state");
             return $count;
@@ -251,7 +251,7 @@ abstract class Table
         if (preg_match("/^SELECT COUNT\(\*\) FROM `meeples` WHERE `player_id` = (?P<player_id>.*)$/", $sql, $matches) == 1) {
             $player_id = intval($matches['player_id']);
             $count = count(array_filter(TestDatas::$tokens,function ($token) use($player_id, ) {
-                return ($player_id ==0 || $player_id>0 && $token['player_id'] == $player_id) ;
+                return ($token['player_id'] == $player_id) ;
             }));
             logForTests("getUniqueValueFromDb: count is $count for player_id $player_id ");
             return $count;
