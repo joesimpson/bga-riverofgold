@@ -238,6 +238,7 @@ const CARD_LOCATION_DISCARD = 'discard';
  const CARD_LOCATION_DELIVERED_HIDDEN = 'del_h';
  const CARD_LOCATION_HAND = 'h';
  const CARD_LOCATION_WAIT_FOR_HAND = 'wait';
+ const CARD_LOCATION_MAP_REGION = 'region-';
 
  //! Warning one clan patron will have more cards (3)
  const NB_CARDS_PER_PLAYER = 2;

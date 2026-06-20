@@ -470,6 +470,88 @@ final class DraftTest extends TestCase
         assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[52]['tile_location']);
     }
     
+    public function test_actTakeCard_setupScenarioDragon1_WithoutNobles(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setCustomerTypes([ 
+            CUSTOMER_TYPE_MONK, 
+            CUSTOMER_TYPE_MAGISTRATE, 
+            CUSTOMER_TYPE_SMUGGLER, 
+            CUSTOMER_TYPE_SHINDOSHI, 
+            CUSTOMER_TYPE_SPY, 
+            CUSTOMER_TYPE_TRADER, 
+            ]);
+        $cardId = 101;
+        $scenarioId = 301;
+        TestDatas::$cards[2]['type'] = CARD_ARTISAN_2;
+        TestDatas::$cards[$cardId]['type'] = PATRON_IMPERIAL_ENVOY;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
+        TestDatas::$cards[$scenarioId] = ['result_associative_index' => $scenarioId,'card_id' => $scenarioId, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => ScenarioType::DRAGON_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+
+        $game->actTakeCard($cardId,999999,$scenarioId);
+        
+        $expectedNotifs = [
+            "giveScenarioCard-1",
+            "placeCustomerOnRegion", 
+            "placeCustomerOnRegion",
+            "placeCustomerOnRegion",
+            "placeCustomerOnRegion",
+            "placeCustomerOnRegion",
+            "placeCustomerOnRegion",
+            "newPlayerColor-1",
+            "giveClanCardTo-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(307, TestDatas::$lastInsertedId);
+        assertSame(['result_associative_index' => 302,'card_id' => 302, 'card_location' => CARD_LOCATION_MAP_REGION."1", 'card_state' => 0, 'player_id' => 0, 'type' => CARD_NOBLE_1,   'subtype' => CARD_TYPE_CUSTOMER, 'resources'=> null,] ,TestDatas::$cards[302],);
+        assertSame(['result_associative_index' => 303,'card_id' => 303, 'card_location' => CARD_LOCATION_MAP_REGION."2", 'card_state' => 0, 'player_id' => 0, 'type' => CARD_NOBLE_2,   'subtype' => CARD_TYPE_CUSTOMER, 'resources'=> null,] ,TestDatas::$cards[303],);
+        assertSame(['result_associative_index' => 304,'card_id' => 304, 'card_location' => CARD_LOCATION_MAP_REGION."3", 'card_state' => 0, 'player_id' => 0, 'type' => CARD_NOBLE_3,   'subtype' => CARD_TYPE_CUSTOMER, 'resources'=> null,] ,TestDatas::$cards[304],);
+        assertSame(['result_associative_index' => 305,'card_id' => 305, 'card_location' => CARD_LOCATION_MAP_REGION."4", 'card_state' => 0, 'player_id' => 0, 'type' => CARD_NOBLE_4,   'subtype' => CARD_TYPE_CUSTOMER, 'resources'=> null,] ,TestDatas::$cards[305],);
+        assertSame(['result_associative_index' => 306,'card_id' => 306, 'card_location' => CARD_LOCATION_MAP_REGION."5", 'card_state' => 0, 'player_id' => 0, 'type' => CARD_NOBLE_5,   'subtype' => CARD_TYPE_CUSTOMER, 'resources'=> null,] ,TestDatas::$cards[306],);
+        assertSame(['result_associative_index' => 307,'card_id' => 307, 'card_location' => CARD_LOCATION_MAP_REGION."6", 'card_state' => 0, 'player_id' => 0, 'type' => CARD_NOBLE_6,   'subtype' => CARD_TYPE_CUSTOMER, 'resources'=> null,] ,TestDatas::$cards[307],);
+    }
+    
+    public function test_actTakeCard_setupScenarioDragon1_WithNobles(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        $cardId = 101;
+        $scenarioId = 301;
+        TestDatas::$cards[2]['type'] = CARD_NOBLE_2;
+        TestDatas::$cards[12]['type'] = CARD_NOBLE_5;
+        TestDatas::$cards[$cardId]['type'] = PATRON_IMPERIAL_ENVOY;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CLAN_LOCATION_DRAFT;
+        GamestateMachine::$test_current_state = ST_DRAFT_PLAYER;
+        TestDatas::$cards[$scenarioId] = ['result_associative_index' => $scenarioId,'card_id' => $scenarioId, 'card_location' => CARD_SCENARIO_LOCATION_DRAFT, 'card_state' => 0, 'player_id' => null, 'type' => ScenarioType::DRAGON_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+
+        $game->actTakeCard($cardId,999999,$scenarioId);
+        
+        $expectedNotifs = [
+            "giveScenarioCard-1",
+            "placeCustomerOnRegion", 
+            "placeCustomerOnRegion",
+            "giveCardToPublic-2",
+            "placeCustomerOnRegion",
+            "placeCustomerOnRegion",
+            "placeCustomerOnRegion",
+            "placeCustomerOnRegion",
+            "newPlayerColor-1",
+            "giveClanCardTo-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame( CARD_LOCATION_MAP_REGION."2", TestDatas::$cards[2]['card_location']);
+        assertSame( CARD_LOCATION_MAP_REGION."5", TestDatas::$cards[12]['card_location']);
+        assertSame(305, TestDatas::$lastInsertedId);
+        assertSame(['result_associative_index' => 302,'card_id' => 302, 'card_location' => CARD_LOCATION_MAP_REGION."1", 'card_state' => 0, 'player_id' => 0, 'type' => CARD_NOBLE_1,   'subtype' => CARD_TYPE_CUSTOMER, 'resources'=> null,] ,TestDatas::$cards[302],);
+        assertSame(['result_associative_index' => 303,'card_id' => 303, 'card_location' => CARD_LOCATION_MAP_REGION."3", 'card_state' => 0, 'player_id' => 0, 'type' => CARD_NOBLE_3,   'subtype' => CARD_TYPE_CUSTOMER, 'resources'=> null,] ,TestDatas::$cards[303],);
+        assertSame(['result_associative_index' => 304,'card_id' => 304, 'card_location' => CARD_LOCATION_MAP_REGION."4", 'card_state' => 0, 'player_id' => 0, 'type' => CARD_NOBLE_4,   'subtype' => CARD_TYPE_CUSTOMER, 'resources'=> null,] ,TestDatas::$cards[304],);
+        assertSame(['result_associative_index' => 305,'card_id' => 305, 'card_location' => CARD_LOCATION_MAP_REGION."6", 'card_state' => 0, 'player_id' => 0, 'type' => CARD_NOBLE_6,   'subtype' => CARD_TYPE_CUSTOMER, 'resources'=> null,] ,TestDatas::$cards[305],);
+    }
+    
     public function test_actTakeCard_setupScenarioPhoenix1_ScionOfEarth(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

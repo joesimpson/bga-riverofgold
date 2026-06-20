@@ -37,6 +37,17 @@ class CustomerCard extends Card
     return $data;
   }
   
+  public function formatNameForNotif() : array{
+    return [
+        'log'=> '${customer_type} ${region}',
+        'args'=> [
+          'i18n' => ['customer_type'],
+          'customer_type' => $this->getTitle(),
+          'region' => $this->getRegion(),
+        ]
+      ];
+  }
+  
   /**
    * Play  the instantaneous effect of this card
    * @param Player $player

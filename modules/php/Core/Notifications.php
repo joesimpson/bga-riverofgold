@@ -228,14 +228,7 @@ class Notifications
     self::notifyAll('deliver', clienttranslate('${player_name} delivers a customer card : ${customer_name}'), [
       'player' => $player,
       'card' => $card->getUiData(),
-      'customer_name' => [
-        'log'=> '${customer_type} ${region}',
-        'args'=> [
-          'i18n' => ['customer_type'],
-          'customer_type' => $card->getTitle(),
-          'region' => $card->getRegion(),
-        ]
-      ],
+      'customer_name' => $card->formatNameForNotif(), 
       'from' => $fromLocation,
       'preserve' => ['card'],
     ]);
@@ -251,11 +244,18 @@ class Notifications
     ]);
   }
   
-  /**
-   * @param Player $player
-   * @param Card $card
-   */
-  public static function discard($player, $card)
+  public static function placeCustomerOnRegion(CustomerCard $card, int $region )
+  { 
+    self::notifyAll('placeCustomerOnRegion', clienttranslate('Customer card ${customer_name} is placed next to region #${region}${region_icon}'), [
+      'card' => $card->getUiData(),
+      'customer_name' => $card->formatNameForNotif(), 
+      'region_icon' => '',
+      'region' => $region,
+      'preserve' => ['card','region'],
+    ]);
+  }
+  
+  public static function discard(Player $player, CustomerCard $card)
   { 
     self::notifyAll('discardPublic', clienttranslate('${player_name} discards a customer card'), [
       'player' => $player,
@@ -264,14 +264,7 @@ class Notifications
     self::notify($player,'discard', clienttranslate('You discard ${customer_name}'), [
       'player' => $player,
       'card' => $card->getUiData(),
-      'customer_name' => [
-        'log'=> '${customer_type} ${region}',
-        'args'=> [
-          'i18n' => ['customer_type'],
-          'customer_type' => $card->getTitle(),
-          'region' => $card->getRegion(),
-        ]
-      ],
+      'customer_name' => $card->formatNameForNotif(), 
     ]);
   }
   
@@ -975,7 +968,7 @@ class Notifications
    * @param CustomerCard $card
    * @param int $points
    */
-  public static function scoreCustomer($player,$card,$points){
+  public static function scoreCustomer(Player $player,CustomerCard $card,int $points){
     $msg = clienttranslate('${player_name} scores ${n} ${points} with ${customer_name}');
     self::notifyAll('scoreCustomer',$msg,[ 
         'player' => $player,
@@ -983,14 +976,7 @@ class Notifications
         'points' => clienttranslate('Points'),
         'i18n' => ['points'],
         'card_id' => $card->getId(),
-        'customer_name' => [
-          'log'=> '${customer_type} ${region}',
-          'args'=> [
-            'i18n' => ['customer_type'],
-            'customer_type' => $card->getTitle(),
-            'region' => $card->getRegion(),
-          ]
-        ],
+        'customer_name' => $card->formatNameForNotif(), 
       ],
     );
   }
@@ -1001,14 +987,7 @@ class Notifications
     self::notifyAll('playCustomerAbility',$msg,[ 
         'player' => $player,
         'card_id' => $card->getId(),
-        'customer_name' => [
-          'log'=> '${customer_type} ${region}',
-          'args'=> [
-            'i18n' => ['customer_type'],
-            'customer_type' => $card->getTitle(),
-            'region' => $card->getRegion(),
-          ]
-        ],
+        'customer_name' => $card->formatNameForNotif(), 
       ],
     );
   }

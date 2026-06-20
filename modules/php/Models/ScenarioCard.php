@@ -95,6 +95,12 @@ class ScenarioCard extends Card
         $mastery = Tiles::pickOneForLocation(TILE_LOCATION_MASTERY_DECK,TILE_LOCATION_MASTERY_CARD);
         Notifications::masteryDeck($masteryDeckSize,$mastery,);
         break;
+      case ScenarioType::DRAGON_1->value:
+        //Place each Noble customer next to their region on the map.
+        $noblesTypes = [CARD_NOBLE_1, CARD_NOBLE_2, CARD_NOBLE_3, CARD_NOBLE_4, CARD_NOBLE_5, CARD_NOBLE_6, ];
+        Cards::setupCustomersInRegions($noblesTypes);
+
+        break;
     }
   }
   

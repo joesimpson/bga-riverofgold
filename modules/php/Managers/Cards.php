@@ -200,13 +200,13 @@ class Cards extends \ROG\Helpers\Pieces
   
   public static function createCustomerCardAsDelivered(Player $player,int $cardType) : CustomerCard
   {
-    $meeple = [
+    $elt = [
       'type' => $cardType,
       'subtype' => CARD_TYPE_CUSTOMER,
       'location' => CARD_LOCATION_DELIVERED,
       'player_id' => $player->getId(),
     ];
-    $card = self::singleCreate($meeple);
+    $card = self::singleCreate($elt);
     Notifications::deliver($player,$card);
     return $card;
   }
@@ -237,7 +237,47 @@ class Cards extends \ROG\Helpers\Pieces
     $card->playDeliveryAbility($player);
     return $card;
   }
+  
+  public static function setupCustomersInRegions(array $cardTypes) : CustomerCard
+  {
+    $foundTypes = [];
+    $cardIds = Cards::getIdsByTypes(CARD_TYPE_CUSTOMER,$cardTypes);
+    if(count($cardIds) > 0){
+      $cards = Cards::getMany($cardIds);
+      foreach($cards as $cardId => $card){
+        $foundTypes[] = $card->getType();
+        $previousLocation = $card->getLocation();
+        $previousPlayerId = $card->getPId();
+        $region = $card->getRegion();
+        $card->setLocation(CARD_LOCATION_MAP_REGION.$region);
+        Notifications::placeCustomerOnRegion($card,$region);
+        //replace card in previous location (player hands) + notify :
+        if($previousLocation == CARD_LOCATION_HAND){
+          $previousPlayer = Players::get($previousPlayerId);
+          Cards::drawCardsToHand($previousPlayer,1);
+        }
+      }
+    }
 
+    foreach($cardTypes as $cardType){
+      if(in_array($cardType, $foundTypes)) continue;
+      $region = Cards::getCustomerRegionFromType($cardType);
+      $card = Cards::createCustomerCardInRegion($cardType, $region );
+    }
+    return $card;
+  }
+
+  public static function createCustomerCardInRegion(int $cardType, int $region) : CustomerCard
+  {
+    $elt = [
+      'type' => $cardType,
+      'subtype' => CARD_TYPE_CUSTOMER,
+      'location' => CARD_LOCATION_MAP_REGION.$region,
+    ];
+    $card = self::singleCreate($elt);
+    Notifications::placeCustomerOnRegion($card,$region);
+    return $card;
+  }
   /**
    * @param Player $player
    * @param int $nbCards

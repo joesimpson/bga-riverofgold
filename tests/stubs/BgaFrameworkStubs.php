@@ -909,7 +909,7 @@ abstract class Table
             return true;
         }
         $mutiplesGroups = "";
-        $insertCardGroup = "(,?\('(\w+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)',(?:'([\w\":,{}]+)'|NULL),(?:'(\w+)'|NULL)\))";
+        $insertCardGroup = "(,?\('([\w-]+)','(\w+)',(?:'(-?\w+)'|NULL),'(\w+)','(\w+)',(?:'([\w\":,{}]+)'|NULL),(?:'(\w+)'|NULL)\))";
         for($k=1;$k<100;$k++) $mutiplesGroups .= "$insertCardGroup?";
         $regexInsertCards = "/^INSERT INTO `cards` (.*) VALUES$insertCardGroup?$mutiplesGroups$/";
         if (preg_match($regexInsertCards, $sql, $matches) == 1) {
