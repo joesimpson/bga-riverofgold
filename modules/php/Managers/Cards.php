@@ -66,6 +66,7 @@ class Cards extends \ROG\Helpers\Pieces
     $privateCards = self::getPlayerHandOrders($currentPlayerId);
 
     return self::getInLocation(CARD_LOCATION_DELIVERED)
+      ->merge(self::getInLocationOrdered(CARD_LOCATION_MAP_REGION."%"))
       ->merge(self::getInLocation(CARD_CLAN_LOCATION_ASSIGNED))
       ->merge(self::getInLocation(CARD_SCENARIO_LOCATION_ASSIGNED))
       ->merge(self::getInLocationOrdered(CARD_AUTOMA_LOCATION_PLAYED))
@@ -277,6 +278,42 @@ class Cards extends \ROG\Helpers\Pieces
     $card = self::singleCreate($elt);
     Notifications::placeCustomerOnRegion($card,$region);
     return $card;
+  }
+  
+  public static function reshuffleCustomersWithout1Type(int $removedCustomerType, int $nbCustomerTypes = 5)
+  {
+    Game::get()->trace("reshuffleCustomersWithout1Type($removedCustomerType,$nbCustomerTypes)");
+    $customerTypes = Globals::getCustomerTypes();
+    $typeAlreadyUsed = in_array($removedCustomerType,$customerTypes);
+    if($typeAlreadyUsed){
+      if(count($customerTypes) == ($nbCustomerTypes +1) ){
+        //case 1 : Type was played with 5 other types => ok
+      }
+      else if(count($customerTypes) == $nbCustomerTypes ){
+        //case 2 : Type was played with 4 other types => add 1 random DIFFeRENT
+        $availableTypes = array_diff( ALL_CUSTOMER_TYPES, $customerTypes);
+        $newType = array_rand(array_flip($availableTypes),1);
+        Cards::createCardsByCustomer($newType);
+        $customerTypes[] = $newType;
+      }
+      
+      $customerKey = array_search($removedCustomerType, $customerTypes);
+      unset($customerTypes[$customerKey]);
+    }
+    else {
+      //case 3 : Type was NOT played with 6 other types => remove 1 random !
+      $oldType = array_rand(array_flip($customerTypes),1);
+      Cards::removeCardsByCustomer($oldType);
+      $customerKey = array_search($oldType, $customerTypes);
+      unset($customerTypes[$customerKey]);
+    }
+    
+    Cards::shuffle(CARD_LOCATION_DECK);
+    $customerTypes = array_values($customerTypes);
+    Globals::setCustomerTypes($customerTypes);
+    Notifications::initCustomersDeck($customerTypes);
+    Cards::reshuffleDeck(null);
+
   }
   /**
    * @param Player $player
@@ -492,7 +529,7 @@ class Cards extends \ROG\Helpers\Pieces
   public static function getIdsByTypes(int $subType,array $cardsTypes) : array
   {
     return self::DB()->select([self::$prefix.'id'])
-      ->where( 'subType', $subType)
+      ->where( 'subtype', $subType)
       ->whereIn( 'type', $cardsTypes)
       ->get()
       ->getIds();
@@ -511,6 +548,33 @@ class Cards extends \ROG\Helpers\Pieces
       }
     }
     return $types;
+  }
+  
+  public static function createCardsByCustomer(int $customerType){
+    $cards = [];
+    foreach (Cards::getCustomerCardsTypes() as $type => $card) {
+      if(!in_array($card['customerType'],[$customerType])) continue;
+      $cards[] = [
+        'location' => CARD_LOCATION_DECK,
+        'type' => $type,
+        'subtype' => CARD_TYPE_CUSTOMER,
+      ];
+    }
+    Cards::create($cards);
+  }
+  
+  public static function removeCardsByCustomer(int $customerType)
+  {
+    $cardTypes = Cards::getCardsTypesByCustomer($customerType);
+
+    $cards = self::DB()
+      ->where('subtype', CARD_TYPE_CUSTOMER)
+      ->whereIn('type', $cardTypes)
+      ->get();
+    foreach($cards as $card){
+      //NO Notif if used before cards are dealt
+      self::DB()->delete($card->getId());
+    }
   }
   /**
    * @param int $region the CUSTOMER region to search

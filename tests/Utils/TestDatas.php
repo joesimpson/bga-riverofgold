@@ -115,6 +115,12 @@ class TestDatas {
 
         ];
     }
+    
+    public static function resetCardsDeck(int $size=30){
+        for($k = 1; $k<=$size;$k++){
+            TestDatas::$cards[$k] = ['result_associative_index' => $k,'card_id' => $k, 'card_location' => CARD_LOCATION_DECK, 'card_state' => $k, 'player_id' => null, 'type' => $k, 'subtype' => CARD_TYPE_CUSTOMER,];
+        }
+    }
     static array $tiles = [
     ];
     public static function resetTiles(){

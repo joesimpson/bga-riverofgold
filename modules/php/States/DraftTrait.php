@@ -13,6 +13,7 @@ use ROG\Managers\Cards;
 use ROG\Managers\Players;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\Player;
+use ROG\Models\ScenarioCard;
 
 trait DraftTrait
 {
@@ -21,9 +22,9 @@ trait DraftTrait
   { 
     $cards = Cards::getInLocation(CARD_CLAN_LOCATION_DRAFT);
     $scenarios = Cards::getInLocation(CARD_SCENARIO_LOCATION_DRAFT);
-    $cardsDatas = $cards->map(function ($card) use ($scenarios) {
+    $cardsDatas = $cards->map(function (ClanPatronCard $card) use ($scenarios) {
             $datas = $card->getUiData();
-            $datas['scenario_ids'] = $scenarios->filter(function ($sc) use ($card) {
+            $datas['scenario_ids'] = $scenarios->filter(function (ScenarioCard $sc) use ($card) {
               return $card->getClan() == $sc->getClan(); 
             })->getIds();
             return $datas;

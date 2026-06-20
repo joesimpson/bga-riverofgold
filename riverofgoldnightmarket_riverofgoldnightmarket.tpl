@@ -52,6 +52,14 @@
                     <div id='rog_influence_tracks'></div>
                     <div id='rog_artisan_spaces'></div>
                     <div id='rog_elder_spaces'></div>
+                    <div id='rog_regions_cards_spaces'>
+                        <div id='rog_region_cards_space_1' class="rog_region_cards_space"></div>
+                        <div id='rog_region_cards_space_2' class="rog_region_cards_space"></div>
+                        <div id='rog_region_cards_space_3' class="rog_region_cards_space"></div>
+                        <div id='rog_region_cards_space_4' class="rog_region_cards_space"></div>
+                        <div id='rog_region_cards_space_5' class="rog_region_cards_space"></div>
+                        <div id='rog_region_cards_space_6' class="rog_region_cards_space"></div>
+                    </div>
                     <div id='rog_complete_journey'>
                         <div id='rog_merchant_space'></div>
                     </div>

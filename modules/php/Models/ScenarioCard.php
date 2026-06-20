@@ -99,7 +99,8 @@ class ScenarioCard extends Card
         //Place each Noble customer next to their region on the map.
         $noblesTypes = [CARD_NOBLE_1, CARD_NOBLE_2, CARD_NOBLE_3, CARD_NOBLE_4, CARD_NOBLE_5, CARD_NOBLE_6, ];
         Cards::setupCustomersInRegions($noblesTypes);
-
+        //The customer deck should contain 5 other customer types :
+        Cards::reshuffleCustomersWithout1Type(CUSTOMER_TYPE_NOBLE);
         break;
     }
   }

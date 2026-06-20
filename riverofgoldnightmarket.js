@@ -124,6 +124,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const CARD_LOCATION_DELIVERED = 'dd';
     const CARD_LOCATION_DELIVERED_HIDDEN = 'del_h';
     const CARD_LOCATION_HAND = 'h';
+    const CARD_LOCATION_MAP_REGION = 'region-';
     const CARD_CLAN_LOCATION_ASSIGNED = 'clans_assigned';
     const CARD_SCENARIO_LOCATION_ASSIGNED = 'scenario_assigned';
     
@@ -248,9 +249,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 //['draftPlayerCards', 10],
                 ['giveClanCardTo', 1000],
                 ['giveScenarioCard', 1000],
+                ['placeCustomerOnRegion', 1000],
                 ['giveCardToPublic', 10],
                 ['giveCardTo', 1000],
                 ['giveActionCardToAutoma', 1000],
+                ['initCustomersDeck', 1000],
                 ['masteryDeck', null],
                 ['giveMasteriesTo', null],
                 ['deliver', 1000],
@@ -1773,6 +1776,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 .then(() => {
                 });
         },
+        
+        notif_placeCustomerOnRegion(n) {
+            debug('notif_placeCustomerOnRegion', n);
+            let cardDiv = this.addCard(n.args.card);
+            this.animationManager.slideIn(cardDiv, document.getElementById(`rog_customers_deck_size`), {duration: 700})
+                .then(() => {
+                });
+        },
         notif_giveActionCardToAutoma(n) {
             debug('notif_giveActionCardToAutoma', n);
             this._counters['automaDeck'].incValue(-1);
@@ -2065,6 +2076,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             debug('notif_rollDie', n);
             await this.updatePlayerDieFace(n.args.player_id,n.args.die_value,true,true);
             this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
+        },
+        
+        notif_initCustomersDeck(n) {
+            debug('notif_initCustomersDeck : ', n);
+            this.gamedatas.customerTypes = n.args.customers_types;
+            this.refreshDeckCustomersIcons();
         },
         notif_gainInfluence(n) {
             debug('notif_gainInfluence', n);
@@ -2953,10 +2970,6 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     let customerName = value;
                     this._counters[pId].customers[customer] = this.createCounter(`rog_counter_${pId}_customer-${customer}`, player.customers[customer]);
                     this.addCustomTooltip(`rog_reserve_${pId}_customer-${customer}`, this.fsr(_('Deliveries to ${customer}'),{customer:customerName}));
-                    if(!this.gamedatas.customerTypes.includes(customer)){
-                        //HIDE this Resource in side panel if not used in current game
-                        this._counters[pId].customers[customer].span.parentElement.classList.add('rog_nodisplay');
-                    }
                 });
 
                 this.addCustomTooltip(`icon_point_${pId}`, _('Score'));
@@ -2979,6 +2992,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 nPlayers++;
                 if (isCurrent) currentPlayerNo = player.no;
             });
+            this.refreshPlayersCustomersIcons();
     
             // Order them
             this.forEachPlayer((player) => {
@@ -3134,7 +3148,46 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 </div>`,
             });
         },
+
+        tplDeckCustomersIcons(){
+            let typesIcons = '';
+            Object.values(this.gamedatas.customerTypes).forEach((customerType) => {
+                typesIcons += `<div id="rog_deck_icon_customer-${customerType}">`;
+                typesIcons += this.formatIcon(`customer-${customerType}`);
+                typesIcons += '</div>';
+            });
+            return typesIcons;
+        },
         
+        refreshDeckCustomersIcons(){
+            debug("refreshDeckCustomersIcons");
+            let div = document.getElementById("rog_customers_deck_icons");
+            this.empty(div);
+            div.insertAdjacentHTML('beforeend',this.tplDeckCustomersIcons());
+            this.ALL_CUSTOMER_TYPES.forEach((value, key, map) =>{
+                if(!$(`rog_deck_icon_customer-${key}`)) return;
+                this.addCustomTooltip(`rog_deck_icon_customer-${key}`, _(value));
+            });
+            this.refreshPlayersCustomersIcons();
+        },
+        
+        refreshPlayersCustomersIcons(){
+            debug("refreshPlayersCustomersIcons");
+            this.forEachPlayer((player) => {
+                let pId = player.id;
+                this.ALL_CUSTOMER_TYPES.forEach((value, key, map) =>{
+                    let customer = key;
+                    if(this.gamedatas.customerTypes.includes(customer)){
+                        this._counters[pId].customers[customer].span.parentElement.classList.remove('rog_nodisplay_if_empty');
+                    }
+                    else {
+                        //HIDE this Resource in side panel if not used in current game
+                        this._counters[pId].customers[customer].span.parentElement.classList.add('rog_nodisplay_if_empty');
+                    }
+                });
+            });
+        },
+
         tplConfigPlayerBoard() {
             let turn = this.gamedatas.turn;
             let era = this.gamedatas.era;
@@ -3142,12 +3195,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if(gameLastTurns) this.bga.gameArea.addLastTurnBanner(_('Last turns !'));
             let customersDeckSize = `<span id='rog_customers_deck_size'>${this.gamedatas.deckSize.customers}</span>`;
             let customersDiscardSize = `<span id='rog_customers_discard_size'>${this.gamedatas.deckSize.customerDiscard}</span>`;
-            let typesIcons = '<div class="rog_customers_deck_icons">';
-            Object.values(this.gamedatas.customerTypes).forEach((customerType) => {
-                    typesIcons += `<div id="rog_deck_icon_customer-${customerType}">`;
-                    typesIcons += this.formatIcon(`customer-${customerType}`);
-                    typesIcons += '</div>';
-                });
+            let typesIcons = '<div class="rog_customers_deck_icons" id="rog_customers_deck_icons">';
+                typesIcons += this.tplDeckCustomersIcons();
                 typesIcons += '</div>';
             return `
             <div class='player-board' id="player_board_config">
@@ -3471,7 +3520,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 });
             }
             if(!keepOthers){
-                document.querySelectorAll('.rog_cards_delivered, .rog_player_action_cards').forEach((div) => {
+                document.querySelectorAll('.rog_cards_delivered, .rog_player_action_cards, .rog_region_cards_space').forEach((div) => {
                     this.empty(div);
                 });
 
@@ -3816,6 +3865,15 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 }
                 return $(`rog_player_action_cards-${card.pId}`);
             }
+            let locationParts = card.location.split('-');
+            if (locationParts[0] == CARD_LOCATION_MAP_REGION.split('-')[0]) {
+                let region = locationParts[1];
+                let holder = this.addCustomerCardHolder(card,`rog_region_cards_space_${region}`);
+                if( holder){
+                    return holder.id;
+                }
+                return $(`rog_region_cards_space_${region}`);
+            }
     
             console.error('Trying to get container of a card', card);
             return 'rog_select_piece_container';
@@ -3854,7 +3912,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             debug("addCustomerCardHolder",card,location);
             let divId = `rog_customer_holder_${location}-${card.id}`;
             if ($(divId)) return $(divId);
-            let elt = this.place('tplCustomerCardHolder', {card,location}, $(`${location}-${card.pId}`));
+            let target = `${location}`;
+            if(card.pId) target = `${location}-${card.pId}`;
+            let elt = this.place('tplCustomerCardHolder', {card,location}, $(target));
             return elt.firstElementChild;
         },
         tplCustomerCardHolder(datas) {

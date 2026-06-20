@@ -37,6 +37,9 @@
 .rog_nodisplay{
     display: none;
 }
+.rog_nodisplay_if_empty.counter_empty{
+    display: none;
+}
 
 // For animations : 
 .phantom {

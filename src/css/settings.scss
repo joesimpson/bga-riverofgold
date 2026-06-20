@@ -291,6 +291,9 @@
         .rog_customers_deck_icons{
             display: flex;
             flex-direction: row;
+            >div{
+                position: relative;
+            }
         }
     }
 }

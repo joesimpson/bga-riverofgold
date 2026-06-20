@@ -235,6 +235,42 @@
 }
 
 
+#rog_regions_cards_spaces{
+    position: absolute;
+    .rog_region_cards_space{
+        position: absolute;
+        .rog_customercard{
+            //use resize holder for resized text 
+            //width: 266px;
+            //height: 360px;
+        }
+        &#rog_region_cards_space_1{
+            top: 448px;
+            left: 2183px;
+        }
+        &#rog_region_cards_space_2{
+            top: 936px;
+            left: 2292px;
+        }
+        &#rog_region_cards_space_3{
+            top: 1426px;
+            left: 2348px;
+        }
+        &#rog_region_cards_space_4{
+            top: 1915px;
+            left: 2349px;
+        }
+        &#rog_region_cards_space_5{
+            top: 2410px;
+            left: 2378px;
+        }
+        &#rog_region_cards_space_6{
+            top: 2900px;
+            left: 2280px;
+        }
+    }
+}
+
 .rog_shore_space{
     .rog_near_shore_space{
         position: absolute;

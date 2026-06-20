@@ -15,6 +15,7 @@
  */
 :root {
   --rog_board_display_scale: 0.1;
+  --rog_board_card_scale: 2;
   --rog_hand_scale: 1;
   --rog_delivered_scale: 1;
   --rog_deckSizeScale: 1;
@@ -1546,6 +1547,37 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   }
   */
   opacity: 0.3;
+}
+
+#rog_regions_cards_spaces {
+  position: absolute;
+}
+#rog_regions_cards_spaces .rog_region_cards_space {
+  position: absolute;
+}
+#rog_regions_cards_spaces .rog_region_cards_space#rog_region_cards_space_1 {
+  top: 448px;
+  left: 2183px;
+}
+#rog_regions_cards_spaces .rog_region_cards_space#rog_region_cards_space_2 {
+  top: 936px;
+  left: 2292px;
+}
+#rog_regions_cards_spaces .rog_region_cards_space#rog_region_cards_space_3 {
+  top: 1426px;
+  left: 2348px;
+}
+#rog_regions_cards_spaces .rog_region_cards_space#rog_region_cards_space_4 {
+  top: 1915px;
+  left: 2349px;
+}
+#rog_regions_cards_spaces .rog_region_cards_space#rog_region_cards_space_5 {
+  top: 2410px;
+  left: 2378px;
+}
+#rog_regions_cards_spaces .rog_region_cards_space#rog_region_cards_space_6 {
+  top: 2900px;
+  left: 2280px;
 }
 
 .rog_shore_space .rog_near_shore_space {
@@ -4632,6 +4664,24 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="60"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="60"] {
   order: 60;
+}
+
+.rog_region_cards_space .rog_customer_card_resizeable {
+  display: flex;
+  width: calc(var(--rog_board_card_scale) * 148px);
+  height: calc(var(--rog_board_card_scale) * 200px);
+}
+.rog_region_cards_space .rog_customer_card_resizeable .rog_customer_holder {
+  display: flex;
+  transform: scale(var(--rog_board_card_scale));
+  transform-origin: top left;
+  height: -moz-fit-content;
+  height: fit-content;
+}
+.rog_region_cards_space .rog_customer_card_resizeable .rog_customer_holder .rog_card {
+  position: relative;
+  width: 148px;
+  height: 200px;
 }
 
 .rog_player_mastery_cards {
@@ -7974,6 +8024,9 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   display: flex;
   flex-direction: row;
 }
+#player_config .player_config_row#cards_counter_wrapper .rog_customers_deck_icons > div {
+  position: relative;
+}
 
 #rog_end_score_recap {
   display: flex;
@@ -8350,6 +8403,10 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
 }
 
 .rog_nodisplay {
+  display: none;
+}
+
+.rog_nodisplay_if_empty.counter_empty {
   display: none;
 }
 

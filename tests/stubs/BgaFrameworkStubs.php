@@ -521,7 +521,7 @@ abstract class Table
             $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location, $subtype){return $card['card_location'] == $card_location && $card['subtype'] == $subtype;});
             return $filtered;
         }
-        if (preg_match("/^SELECT .* FROM `cards` WHERE `subType` = (?P<subtype>.*) AND \(`type` IN \((?P<types>.*)\)\)$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT .* FROM `cards` WHERE `subtype` = (?P<subtype>.*) AND \(`type` IN \((?P<types>.*)\)\)$/", $sql, $matches) == 1) {
             $filtered = [];
             $subtype = $matches['subtype'];
             $types = explode(',',str_replace("'","",$matches['types']));
@@ -1011,6 +1011,13 @@ abstract class Table
             $card_id = $matches['card_id'];
             logForTests("DbQuery --- updated resources for card $card_id ... '$resources'");
            TestDatas::$cards[$card_id]['resources'] = $resources;
+            return true;
+        }
+        
+        if (preg_match("/^DELETE FROM `cards` WHERE  `card_id` = (?P<card_id>\d+)$/", $sql, $matches) == 1) {
+            $card_id = $matches['card_id'];
+            logForTests("DbQuery --- remove card $card_id");
+            unset(TestDatas::$cards[$card_id]);
             return true;
         }
         
