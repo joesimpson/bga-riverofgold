@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Models\MAIN_ACTION;
+use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -332,6 +333,114 @@ final class EndTurnTest extends TestCase
         $resourcesPlayer1 = json_decode(TestDatas::$players[1]['resources'], true);
         assertSame(0, $resourcesPlayer1[RESOURCE_TYPE_MONEY]);
         assertSame(2, TestDatas::$players[2]['player_score']);
+        assertSame(ST_NEXT_TURN, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_runEmperorVisit_ScenarioLion1_Defeat(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_TURN;
+        Globals::setEra(1);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::LION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //assassins
+        TestDatas::$tokens[43]= ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."4",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ];
+        TestDatas::$tokens[44]= ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."4",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ];
+        TestDatas::$tokens[45]= ['result_associative_index' => 45, 'meeple_id' => 45, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."5",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ];
+        
+        $halt = $game->runEmperorVisit();
+        
+        $expectedNotifs = [
+            "emperorVisit",
+            "emperorReward",//tile 41 [BONUS_TYPE_MONEY_PER_PORT=>1],
+            "giveResource-1",
+            "emperorReward",//tile 42 [BONUS_TYPE_POINTS=>1],
+            "addPoints-2",
+            "emperorVisitEnd",
+            "emperorVisitDefeat-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(true, $halt );
+    }
+    public function test_runEmperorVisit_ScenarioLion1_NoDefeat(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_TURN;
+        Globals::setEra(1);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::LION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //assassins
+        TestDatas::$tokens[43]= ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."4",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ];
+        TestDatas::$tokens[44]= ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."4",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ];
+        
+        $halt = $game->runEmperorVisit();
+        
+        $expectedNotifs = [
+            "emperorVisit",
+            "emperorReward",//tile 41 [BONUS_TYPE_MONEY_PER_PORT=>1],
+            "giveResource-1",
+            "emperorReward",//tile 42 [BONUS_TYPE_POINTS=>1],
+            "addPoints-2",
+            "emperorVisitEnd",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(false, $halt );
+    }
+    
+    public function test_EnteringState_EmperorVisit_ScenarioLion1_Defeat(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_TURN;
+        Globals::setEra(1);
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::LION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //assassins
+        TestDatas::$tokens[43]= ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."4",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ];
+        TestDatas::$tokens[44]= ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."4",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ];
+        TestDatas::$tokens[45]= ['result_associative_index' => 45, 'meeple_id' => 45, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."5",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ];
+        unset(TestDatas::$tiles[21]);
+        unset(TestDatas::$tiles[22]);
+        unset(TestDatas::$tiles[23]);
+        unset(TestDatas::$tiles[24]);
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[34]);
+        
+        $game->stEndTurn();
+        
+        assertSame(true, TestDatas::$players[1]['last_turn_played']);
+        assertSame(true, TestDatas::$players[2]['last_turn_played']);
+        assertSame(true, Globals::isAutomaLastTurnPlayed());
+        assertSame(1, Globals::getEndPlayer());
+        assertSame(true, Globals::isLastTurnTriggered());
+        assertSame(ST_NEXT_TURN, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_EnteringState_EmperorVisit_ScenarioLion1_NoDefeat(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_TURN;
+        Globals::setEra(1);
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::LION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //assassins
+        TestDatas::$tokens[43]= ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."4",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ];
+        TestDatas::$tokens[44]= ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE."4",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ];
+        unset(TestDatas::$tiles[21]);
+        unset(TestDatas::$tiles[22]);
+        unset(TestDatas::$tiles[23]);
+        unset(TestDatas::$tiles[24]);
+        unset(TestDatas::$tiles[25]);
+        unset(TestDatas::$tiles[34]);
+
+        $game->stEndTurn();
+        
+        assertSame(false, TestDatas::$players[1]['last_turn_played']);
+        assertSame(false, TestDatas::$players[2]['last_turn_played']);
+        assertSame(false, Globals::isAutomaLastTurnPlayed());
+        assertSame(0, Globals::getEndPlayer());
+        assertSame(false, Globals::isLastTurnTriggered());
         assertSame(ST_NEXT_TURN, GamestateMachine::$test_current_state);
     }
 

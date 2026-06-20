@@ -1157,6 +1157,14 @@ class Notifications
     self::notifyAll('emperorVisitEnd', clienttranslate('Emperor\'s Visit ends'), [
     ]);
   }
+  
+  public static function emperorVisitDefeat(Player $player, ScenarioCard $card)
+  {
+    self::notifyAll('emperorVisitDefeat', clienttranslate('${player_name} loses the game during Emperor\'s Visit with ${card_name}'), [
+      'player' => $player,
+      'card_name' => $card->formatNameForNotif(),
+    ]);
+  }
   /**
    * @param Player $player
    */

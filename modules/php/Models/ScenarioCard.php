@@ -345,6 +345,23 @@ class ScenarioCard extends Card
   }
 
   
+  /**
+   * @return bool true if scenario force the game to ends on emperor visit
+   */
+  public function haltGameOnEmperorVisit() : bool
+  {
+    $halt = false;
+    switch($this->getType()){
+      case ScenarioType::LION_1->value:
+        $halt = ($this->countEnemies() >= NB_ASSASSINS_TO_LOSE);
+        break;
+    }
+    if($halt){
+      Notifications::emperorVisitDefeat(Players::get($this->getPId()),$this,);
+    }
+    return $halt;
+  }
+  
   public function formatNameForNotif() : array
   {
     return [

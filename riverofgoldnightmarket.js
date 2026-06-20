@@ -4078,7 +4078,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     </ul>
                     <span><b>${this.fsr(_('Assasination Attempts:'),{})}</b></span>
                     <ul>
-                        <li>${this.fsr(_(''),{})}</li>
+                        <li>${this.fsr(_('If ${n}+ assassins are on the board during the Emperor’s visit, you lose the game.'),{'n':3})}</li>
                         <li>${this.fsr(_('If ${n}+ assassins are on the board when the game ends, you lose the game.'),{'n':3})}</li>
                     </ul>
                     `

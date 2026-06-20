@@ -5,10 +5,12 @@ namespace ROG\States;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
+use ROG\Managers\Cards;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\AutomaPlayer;
 use ROG\Models\Player;
+use ROG\Models\ScenarioCard;
 
 trait EndTurnTrait
 {
@@ -31,9 +33,10 @@ trait EndTurnTrait
     $refillResult = Tiles::refillBuildingRow();
     $lastEra1TileMoved = $refillResult[1];
     $lastEra2TileMoved = $refillResult[2];
+    $forceEnd = false;
     if($lastEra1TileMoved){
       //run Emperor Visit at end of Era 1 + starts Era 2
-      $this->runEmperorVisit();
+      $forceEnd = $this->runEmperorVisit();
       //Emperor can give other bonuses
       $nextPlayer = Players::getNextPlayerWithBonusToChoose($turnPlayerId);
       if($this->goToBonusStepIfNeeded($nextPlayer,isset($nextPlayer) && $turnPlayerId != $nextPlayer->getId())){
@@ -41,12 +44,15 @@ trait EndTurnTrait
       }
     }
     $turn = Globals::getTurn();
-    if($lastEra2TileMoved){
+    if($lastEra2TileMoved || $forceEnd){
       $this->triggerLastTurn($turnPlayer);
     }
     if(Globals::isLastTurnTriggered()){
       //Save this player played for last time
       $turnPlayer->setLastTurnPlayed(true);
+      if($forceEnd){
+        Players::getAllWithAutoma()->map(function(Player $p){ $p->setLastTurnPlayed(true);});
+      }
     }
     //Checkpoint after Emperor, because turn player could decide to cancel their turn if they realize, there is an Emperor visit ?
     $this->addCheckpoint(ST_END_TURN);
@@ -68,12 +74,25 @@ trait EndTurnTrait
     $this->gamestate->nextState('next');
   }
   
-  public function runEmperorVisit()
+  /**
+   * @return bool do we end the game ?
+   */
+  public function runEmperorVisit() : bool
   { 
     Globals::setEra(2);
     Notifications::emperorVisit(2);
     $this->computeBuildingsOwnerRewards(true);
     Notifications::emperorVisitEnd();
+    
+    $scenarioResults = Cards::getAssignedScenarios()->map(function(ScenarioCard $scenario) {
+      return $scenario->haltGameOnEmperorVisit();
+    })->toArray();
+    if(in_array( true, $scenarioResults)){
+      //Go to scoring
+      return true;
+    }
+
+    return false;
   }
   
   /**
