@@ -67,6 +67,19 @@ final class NextTurnTest extends TestCase
         assertSame(ST_END_SCORING, GamestateMachine::$test_current_state);
     }
     
+    public function testEnteringState_ScenarioPhoenix1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setTurn(1);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 2, 'type' => ScenarioType::PHOENIX_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'card_played' => true,  ];
+        GamestateMachine::$test_current_state = ST_NEXT_TURN;
+
+        $game->stNextTurn();
+        
+        assertSame(0,  TestDatas::$cards[301]['card_played']);
+    }
+
     public function testEnteringState_turnLastWithAutoma(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
