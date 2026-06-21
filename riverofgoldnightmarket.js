@@ -4166,7 +4166,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ],
                 [this.gamedatas.enums.ScenarioType.PHOENIX_1, this.fsr(_('You must outscore Seishin and claim more masteries than Seishin.'),{})],
                 [this.gamedatas.enums.ScenarioType.LION_1, this.fsr(_('You must outscore Seishin and prevent the Emperor’s assassination.'),{})],
-                [7, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.DRAGON_1, this.fsr(_('You must outscore Seishin and deliver to at least as many Nobles as Seishin.'),{})],
                 [8, this.fsr(_(''),{})],
             ]);
             let endDesc = endDescMap.get(card.type);

@@ -347,6 +347,12 @@ class ScenarioCard extends Card
       case ScenarioType::LION_1->value:
         $checked = ($this->countEnemies() < NB_ASSASSINS_TO_LOSE);
         break;
+      case ScenarioType::DRAGON_1->value:
+        //deliver to at least as many Nobles as Seishin.
+        $playerNobles = Cards::countDeliveredCardsByCustomerType($this->getPId(),CUSTOMER_TYPE_NOBLE);
+        $automaNobles = Cards::countDeliveredCardsByCustomerType(AUTOMA_PLAYER_ID,CUSTOMER_TYPE_NOBLE);
+        $checked = ($playerNobles >= $automaNobles);
+        break;
     }
     return $checked;
   }
