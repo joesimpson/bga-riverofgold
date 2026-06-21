@@ -1511,13 +1511,15 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
 
             let playerCardsDivs = [...$(`rog_player_hand-${this.player_id}`).querySelectorAll('.rog_card')];
+            let boardCardsDivs = [...document.getElementById(`rog_river_board`).querySelectorAll('.rog_customercard')];
+            let cardsDivs = playerCardsDivs.concat( boardCardsDivs);
             
-            playerCardsDivs.forEach((div) => {
+            cardsDivs.forEach((div) => {
                 let cardId = parseInt(div.dataset.id);
                 if(!cards.includes(cardId) && !cardsCanReplaceGoods.includes(cardId)) return;
 
                 let callbackCard =  (evt) => {
-                    playerCardsDivs.forEach((elt) => { elt.classList.remove('selected');});
+                    cardsDivs.forEach((elt) => { elt.classList.remove('selected');});
                     div.classList.add('selected');
                     this.selectedCardId = cardId;
                     if(cards.includes(cardId)){
@@ -4143,7 +4145,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     </ul>
                     `
                 ],
-                [7, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.DRAGON_1, `
+                    <span>${this.fsr(_('When you deliver to a customer, if you have more influence than Seishin in the region matching your die, you may choose to deliver to the Noble in that region instead of a customer in your hand. If you do, do not draw or discard customer cards.'),{})}</span>
+                    <br/>
+                    <br/>
+                    <span>${this.fsr(_(''),{})}</span>
+                    `],
                 [8, this.fsr(_(''),{})],
             ]);
             let gameplayDesc = gameplayDescMap.get(card.type);

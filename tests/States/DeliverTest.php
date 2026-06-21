@@ -163,6 +163,220 @@ final class DeliverTest extends TestCase
         
         assertSame($expectedArgs, $args);
     }
+    
+    public function test_Args_ScenarioScorpionAndDragon_CannotDeliverWithTargets(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        TestDatas::$players[1]['die_face'] = 2;
+        TestDatas::$players[1]['resources'] = '{"1":6,"2":6,"3":6,"4":5,"5":5,"6":25}';
+        TestDatas::resetCardsDeck();
+        for($k = 1; $k <= 6; $k++ ){
+            TestDatas::$cards[$k]['card_location'] = CARD_LOCATION_HAND;
+            TestDatas::$cards[$k]['player_id'] = 1;
+        }
+        TestDatas::$cards[24 + 1]['card_location'] = CARD_LOCATION_MAP_REGION."1";
+        TestDatas::$cards[24 + 2]['card_location'] = CARD_LOCATION_MAP_REGION."2";
+        TestDatas::$cards[24 + 3]['card_location'] = CARD_LOCATION_MAP_REGION."3";
+        TestDatas::$cards[24 + 4]['card_location'] = CARD_LOCATION_MAP_REGION."4";
+        TestDatas::$cards[24 + 5]['card_location'] = CARD_LOCATION_MAP_REGION."5";
+        TestDatas::$cards[24 + 6]['card_location'] = CARD_LOCATION_MAP_REGION."6";
+        //Test with Shin 2 to list all regions cards at once
+        TestDatas::$cards[17] = TestDatas::$cards[11];
+        TestDatas::$cards[17]['card_id'] = 17;
+        TestDatas::$cards[17]['result_associative_index'] = 17;
+        TestDatas::$cards[17]['type'] = CARD_SHINDOSHI_2;
+        TestDatas::$cards[17]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."17",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //set influence
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[$k]['meeple_state'] = 15;
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[30 + $k]['meeple_state'] = 14;
+        //Add Scorpion targets on influence region 3,4 :
+        for($k = 3; $k <= 4; $k++ ) TestDatas::$tokens[43+$k] = ['result_associative_index' => 43 + $k, 'meeple_id' => 43 +$k, 'meeple_state' => 5, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE."$k",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => SCORPION_ENEMY_ID,  ];
+        $expectedArgs = [
+            '_private' => [
+                TestDatas::$test_activePlayerId => [
+                    'c' => [2,26 ], // cards ids
+                    'canReplaceGoods' => [
+                        'marker' => 43,
+                        'cards' => [1,2,5,6, 25,26,29,30],
+                        'cardsCosts' => [
+                            1 => [RESOURCE_TYPE_POTTERY => 2], 
+                            2 => [RESOURCE_TYPE_POTTERY => 2], 
+                            //3 => [RESOURCE_TYPE_SILK => 2],
+                            //4 => [RESOURCE_TYPE_SILK => 2],
+                            5 => [RESOURCE_TYPE_RICE => 2],
+                            6 => [RESOURCE_TYPE_RICE => 2],
+                            //nobles :
+                            24 + 1 => [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>2],
+                            24 + 2 => [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_POTTERY=>2],
+                            //24 + 3 => [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>1],
+                            //24 + 4 => [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>2],
+                            24 + 5 => [RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>2],
+                            24 + 6 => [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1],
+                        ],
+                    ],
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argDeliver();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_ScenarioDragon_Noble1_HighInfluence(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":6,"2":6,"3":6,"4":5,"5":5,"6":25}';
+        TestDatas::resetCardsDeck();
+        TestDatas::$cards[1]['card_location'] = CARD_LOCATION_HAND;
+        TestDatas::$cards[1]['player_id'] = 1;
+        TestDatas::$cards[24 + 1]['card_location'] = CARD_LOCATION_MAP_REGION."1";
+        TestDatas::$cards[24 + 2]['card_location'] = CARD_LOCATION_MAP_REGION."2";
+        TestDatas::$cards[24 + 3]['card_location'] = CARD_LOCATION_MAP_REGION."3";
+        TestDatas::$cards[24 + 4]['card_location'] = CARD_LOCATION_MAP_REGION."4";
+        TestDatas::$cards[24 + 5]['card_location'] = CARD_LOCATION_MAP_REGION."5";
+        TestDatas::$cards[24 + 6]['card_location'] = CARD_LOCATION_MAP_REGION."6";
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::DRAGON_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //set influence
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[$k]['meeple_state'] = 15;
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[30 + $k]['meeple_state'] = 14;
+        $expectedArgs = [
+            '_private' => [
+                TestDatas::$test_activePlayerId => [
+                    'c' => [1, 25 ], // cards ids
+                    'canReplaceGoods' => [
+                    ],
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argDeliver();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_ScenarioDragon_Noble1_LowInfluence(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":6,"2":6,"3":6,"4":5,"5":5,"6":25}';
+        TestDatas::resetCardsDeck();
+        TestDatas::$cards[1]['card_location'] = CARD_LOCATION_HAND;
+        TestDatas::$cards[1]['player_id'] = 1;
+        TestDatas::$cards[24 + 1]['card_location'] = CARD_LOCATION_MAP_REGION."1";
+        TestDatas::$cards[24 + 2]['card_location'] = CARD_LOCATION_MAP_REGION."2";
+        TestDatas::$cards[24 + 3]['card_location'] = CARD_LOCATION_MAP_REGION."3";
+        TestDatas::$cards[24 + 4]['card_location'] = CARD_LOCATION_MAP_REGION."4";
+        TestDatas::$cards[24 + 5]['card_location'] = CARD_LOCATION_MAP_REGION."5";
+        TestDatas::$cards[24 + 6]['card_location'] = CARD_LOCATION_MAP_REGION."6";
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::DRAGON_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //set influence
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[$k]['meeple_state'] = 13;
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[30 + $k]['meeple_state'] = 14;
+        $expectedArgs = [
+            '_private' => [
+                TestDatas::$test_activePlayerId => [
+                    'c' => [1 ], // cards ids
+                    'canReplaceGoods' => [
+                    ],
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argDeliver();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_ScenarioDragon_Noble6_HighInfluence(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$players[1]['die_face'] = 6;
+        TestDatas::$players[1]['resources'] = '{"1":6,"2":6,"3":6,"4":5,"5":5,"6":25}';
+        TestDatas::resetCardsDeck();
+        TestDatas::$cards[6]['card_location'] = CARD_LOCATION_HAND;
+        TestDatas::$cards[6]['player_id'] = 1;
+        TestDatas::$cards[24 + 1]['card_location'] = CARD_LOCATION_MAP_REGION."1";
+        TestDatas::$cards[24 + 2]['card_location'] = CARD_LOCATION_MAP_REGION."2";
+        TestDatas::$cards[24 + 3]['card_location'] = CARD_LOCATION_MAP_REGION."3";
+        TestDatas::$cards[24 + 4]['card_location'] = CARD_LOCATION_MAP_REGION."4";
+        TestDatas::$cards[24 + 5]['card_location'] = CARD_LOCATION_MAP_REGION."5";
+        TestDatas::$cards[24 + 6]['card_location'] = CARD_LOCATION_MAP_REGION."6";
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //set influence
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[$k]['meeple_state'] = 15;
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[30 + $k]['meeple_state'] = 14;
+        $expectedArgs = [
+            '_private' => [
+                TestDatas::$test_activePlayerId => [
+                    'c' => [6, 30 ], // cards ids
+                    'canReplaceGoods' => [
+                    ],
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argDeliver();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_ScenarioDragon_Noble6_LowInfluence(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$players[1]['die_face'] = 6;
+        TestDatas::$players[1]['resources'] = '{"1":6,"2":6,"3":6,"4":5,"5":5,"6":25}';
+        TestDatas::resetCardsDeck();
+        TestDatas::$cards[6]['card_location'] = CARD_LOCATION_HAND;
+        TestDatas::$cards[6]['player_id'] = 1;
+        TestDatas::$cards[24 + 1]['card_location'] = CARD_LOCATION_MAP_REGION."1";
+        TestDatas::$cards[24 + 2]['card_location'] = CARD_LOCATION_MAP_REGION."2";
+        TestDatas::$cards[24 + 3]['card_location'] = CARD_LOCATION_MAP_REGION."3";
+        TestDatas::$cards[24 + 4]['card_location'] = CARD_LOCATION_MAP_REGION."4";
+        TestDatas::$cards[24 + 5]['card_location'] = CARD_LOCATION_MAP_REGION."5";
+        TestDatas::$cards[24 + 6]['card_location'] = CARD_LOCATION_MAP_REGION."6";
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //set influence
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[$k]['meeple_state'] = 13;
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[30 + $k]['meeple_state'] = 14;
+        $expectedArgs = [
+            '_private' => [
+                TestDatas::$test_activePlayerId => [
+                    'c' => [6 ], // cards ids
+                    'canReplaceGoods' => [
+                    ],
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argDeliver();
+        
+        assertSame($expectedArgs, $args);
+    }
+    // -------------------------------------------------
+    // -------------------------------------------------
     // -------------------------------------------------
  
     public function test_ActionDeliver_Pass(): void
@@ -180,6 +394,7 @@ final class DeliverTest extends TestCase
         //check card datas
         $cardDatas = TestDatas::$cards[$cardId];
         assertSame(CARD_LOCATION_DELIVERED, $cardDatas['card_location']);
+        assertSame(TestDatas::$test_activePlayerId, $cardDatas['player_id']);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
         assertSame(1, $resources[RESOURCE_TYPE_SILK]);// -2 Silk 
         assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
@@ -203,7 +418,7 @@ final class DeliverTest extends TestCase
         $cardId = 1;
 
         $this->expectException(UnexpectedException::class);
-        $this->expectExceptionMessage("You cannot Deliver this card");
+        $this->expectExceptionMessage("You cannot Deliver card $cardId");
         $game->actDeliverSelect($cardId,999999);
     }
     public function test_ActionDeliver_KO_NotEnoughResources(): void
@@ -403,6 +618,85 @@ final class DeliverTest extends TestCase
         assertFalse(array_key_exists(26,TestDatas::$tokens));
     }
     
+    public function test_ActionDeliver_Pass_ScenarioDragon1_Noble2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$players[1]['die_face'] = 2;
+        TestDatas::$players[1]['resources'] = '{"1":6,"2":6,"3":6,"4":5,"5":5,"6":25}';
+        TestDatas::resetCardsDeck();
+        TestDatas::$cards[24 + 1]['card_location'] = CARD_LOCATION_MAP_REGION."1";
+        TestDatas::$cards[24 + 2]['card_location'] = CARD_LOCATION_MAP_REGION."2";
+        TestDatas::$cards[24 + 3]['card_location'] = CARD_LOCATION_MAP_REGION."3";
+        TestDatas::$cards[24 + 4]['card_location'] = CARD_LOCATION_MAP_REGION."4";
+        TestDatas::$cards[24 + 5]['card_location'] = CARD_LOCATION_MAP_REGION."5";
+        TestDatas::$cards[24 + 6]['card_location'] = CARD_LOCATION_MAP_REGION."6";
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::DRAGON_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //set influence
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[$k]['meeple_state'] = 2;
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[30 + $k]['meeple_state'] = 0;
+        $cardId = 26;
+        $expectedNotifs = [
+            "deliver-1",
+            "spendResource-1",
+            "spendResource-1",
+            "gainInfluence-1",
+            "addBonus-1",
+        ];
+
+        $game->actDeliverSelect($cardId,999999);
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $cardDatas = TestDatas::$cards[$cardId];
+        assertSame(CARD_LOCATION_DELIVERED, $cardDatas['card_location']);
+        assertSame(TestDatas::$test_activePlayerId, $cardDatas['player_id']);
+        assertSame(2 +2, TestDatas::$tokens[2]['meeple_state']);
+        assertSame([BONUS_TYPE_UPGRADE_SHIP],json_decode( TestDatas::$players[1]['bonuses']));
+    }
+    
+    public function test_ActionDeliver_Pass_ScenarioDragon1_Noble4_AlreadyRoyalShip(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$players[1]['die_face'] = 4;
+        TestDatas::$players[1]['resources'] = '{"1":6,"2":6,"3":6,"4":5,"5":5,"6":25}';
+        TestDatas::resetCardsDeck();
+        TestDatas::$cards[24 + 1]['card_location'] = CARD_LOCATION_MAP_REGION."1";
+        TestDatas::$cards[24 + 2]['card_location'] = CARD_LOCATION_MAP_REGION."2";
+        TestDatas::$cards[24 + 3]['card_location'] = CARD_LOCATION_MAP_REGION."3";
+        TestDatas::$cards[24 + 4]['card_location'] = CARD_LOCATION_MAP_REGION."4";
+        TestDatas::$cards[24 + 5]['card_location'] = CARD_LOCATION_MAP_REGION."5";
+        TestDatas::$cards[24 + 6]['card_location'] = CARD_LOCATION_MAP_REGION."6";
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::DRAGON_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //set influence
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[$k]['meeple_state'] = 2;
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[30 + $k]['meeple_state'] = 0;
+        TestDatas::$tokens[21]['type'] = MEEPLE_TYPE_SHIP_ROYAL;
+        $cardId = 28;
+        $expectedNotifs = [
+            "deliver-1",
+            "spendResource-1",
+            "spendResource-1",
+            "gainInfluence-1",
+        ];
+
+        $game->actDeliverSelect($cardId,999999);
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $cardDatas = TestDatas::$cards[$cardId];
+        assertSame(CARD_LOCATION_DELIVERED, $cardDatas['card_location']);
+        assertSame(TestDatas::$test_activePlayerId, $cardDatas['player_id']);
+        assertSame(2 +2, TestDatas::$tokens[4]['meeple_state']);
+        assertSame([],json_decode( TestDatas::$players[1]['bonuses']));
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    
+    // -------------------------------------------------
+    // -------------------------------------------------
     // -------------------------------------------------
     public function test_actDeliverReplace_Pass_WithShin2(): void
     {
@@ -472,6 +766,51 @@ final class DeliverTest extends TestCase
         assertSame(4, $resources[RESOURCE_TYPE_MONEY]);//-5
     }
     
+    public function test_actDeliverReplace_Pass_WithShin2_ScenarioDragon1_Noble3(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$players[1]['die_face'] = 2;
+        TestDatas::$players[1]['resources'] = '{"1":1,"2":6,"3":2,"4":3,"5":0,"6":25}';
+        TestDatas::resetCardsDeck();
+        TestDatas::$cards[24 + 1]['card_location'] = CARD_LOCATION_MAP_REGION."1";
+        TestDatas::$cards[24 + 2]['card_location'] = CARD_LOCATION_MAP_REGION."2";
+        TestDatas::$cards[24 + 3]['card_location'] = CARD_LOCATION_MAP_REGION."3";
+        TestDatas::$cards[24 + 4]['card_location'] = CARD_LOCATION_MAP_REGION."4";
+        TestDatas::$cards[24 + 5]['card_location'] = CARD_LOCATION_MAP_REGION."5";
+        TestDatas::$cards[24 + 6]['card_location'] = CARD_LOCATION_MAP_REGION."6";
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::DRAGON_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        //set influence
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[$k]['meeple_state'] = 2;
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[30 + $k]['meeple_state'] = 0;
+        $cardId = 26;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = CARD_SHINDOSHI_2;
+        TestDatas::$cards[12]['player_id'] = 1;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."12",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $silk = 1;
+        $pottery = 2;
+        $rice = 1;
+
+        $game->actDeliverReplace($cardId,$silk,$rice,$pottery,999999);
+
+        //check card datas
+        $cardDatas = TestDatas::$cards[$cardId];
+        assertSame(CARD_LOCATION_DELIVERED, $cardDatas['card_location']);
+        assertSame(TestDatas::$test_activePlayerId, $cardDatas['player_id']);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);//-1
+        assertSame(4, $resources[RESOURCE_TYPE_POTTERY]);//-2
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);//-1
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(25, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(2 +2, TestDatas::$tokens[2]['meeple_state']);
+        assertSame([BONUS_TYPE_UPGRADE_SHIP],json_decode( TestDatas::$players[1]['bonuses']));
+    }
+
     public function test_actDeliverReplace_KO_WithShin2_Magistrate_NoMoney(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

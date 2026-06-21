@@ -495,6 +495,13 @@ abstract class Table
             if(isset($limit)) $filtered = array_slice($filtered, 0, $limit, true);
             return $filtered;
         }
+        
+        if (preg_match("/^SELECT (.*) FROM `cards` WHERE \(`card_location` LIKE '(?P<card_location>.*)%'\)( ORDER BY card_state (ASC|DESC))?$/", $sql, $matches) == 1) {
+            //TODO SORT card_state
+            $card_location = $matches['card_location'];
+            $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location, ){return str_starts_with( $card['card_location'], $card_location) ;});
+            return $filtered;
+        }
         if (preg_match("/^SELECT (.*) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND \(`card_location` = '(?P<card_location>.*)'\)$/", $sql, $matches) == 1) {
             $card_location = $matches['card_location'];
             $player_id = $matches['player_id'];

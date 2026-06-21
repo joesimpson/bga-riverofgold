@@ -13,6 +13,7 @@ use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
+use ROG\Models\AutomaPlayer;
 use ROG\Models\CustomerCard;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
@@ -68,20 +69,22 @@ trait DeliverTrait
     $player = Players::getCurrent();
     $this->addStep();
 
-    $card = Cards::get($cardId);
-    if(CARD_LOCATION_HAND != $card->getLocation() || $player->getId() != $card->getPId()){
-      throw new UnexpectedException(30,"You cannot Deliver this card");
+    $argsDeliver = $this->argDeliver()['_private'][$player->getId()];
+    $possiblecards = $argsDeliver['c'];
+    if( !in_array($cardId, $possiblecards) ){
+      throw new UnexpectedException(30,"You cannot Deliver card $cardId, see ".json_encode($possiblecards));
     }
-    if(!$this->isPossibleCardToDeliver($player,$card)){
-      throw new UnexpectedException(31,"You cannot Deliver card $cardId");
-    }  
+
+    $card = Cards::get($cardId);
 
     $this->processDeliver($player, $card);
   } 
   
   public function processDeliver(Player &$player, CustomerCard $card, ?array $replaceGoods = null)
   { 
+    $previousLocation = $card->getLocation();
     $card->setLocation(CARD_LOCATION_DELIVERED);
+    $card->setPId($player->getId());
     Notifications::deliver($player,$card);
     Globals::setTurnMainActionDone(MAIN_ACTION::DELIVER->value);
     
@@ -121,8 +124,10 @@ trait DeliverTrait
 
     Players::claimMasteries($player);
 
-    //Delay Draw 2 cards
-    Globals::addBonus($player,BONUS_TYPE_REFILL_HAND,'',false);
+    if($previousLocation == CARD_LOCATION_HAND){//not always with some Scenarios
+      //Delay Draw 2 cards
+      Globals::addBonus($player,BONUS_TYPE_REFILL_HAND,'',false);
+    }
     
     Stats::inc("nbActionsDeliver", $player->getId());
 
@@ -194,6 +199,17 @@ trait DeliverTrait
     $possibleCards = [];
     $cards = Cards::getPlayerHandOrders($player->getId());
     foreach($cards as $card){
+      if(!$this->isPossibleCardToDeliver($player,$card,$ignoreDie,$canReplaceGoods)) continue;
+      $possibleCards[] = $card->getId();
+    }
+
+    //Dragon Scenario Noble cards
+    $cardsInRegions = Cards::getInLocationOrdered(CARD_LOCATION_MAP_REGION."%");
+    foreach($cardsInRegions as $card){
+      $region = $card->getRegion();
+      $automaPlayer = Players::automaPlayer();
+      //if you have more influence than Seishin in the region
+      if( !($player instanceof AutomaPlayer) && ($player->getInfluence($region) <= $automaPlayer->getInfluence($region))) continue;
       if(!$this->isPossibleCardToDeliver($player,$card,$ignoreDie,$canReplaceGoods)) continue;
       $possibleCards[] = $card->getId();
     }
