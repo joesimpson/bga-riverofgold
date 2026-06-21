@@ -189,6 +189,51 @@ final class BuildTest extends TestCase
         
         assertEquals($expectedArgs, $buildSpaces);
     }
+    
+    public function test_listPossibleSpacesToBuild_ScenarioUnicorn1_OwnerBlockedByResources(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        TestDatas::$players[1]['die_face'] = 3;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        $player = Players::get(1);
+        //IF PLAYER HAS THE SCENARIO, 
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::UNICORN_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+         TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."11",'type' => MEEPLE_TYPE_RESOURCE_RICE,  'player_id' => null,  ];
+         TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."13",'type' => MEEPLE_TYPE_RESOURCE_SILK,  'player_id' => null,  ];
+         TestDatas::$tokens[45] = ['result_associative_index' => 45, 'meeple_id' => 45, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."14",'type' => MEEPLE_TYPE_RESOURCE_POTTERY,  'player_id' => null,  ];
+        $expectedArgs = new Collection([
+                ShoreSpaces::getShoreSpace(12 ),
+                ShoreSpaces::getShoreSpace(15 ),
+            ]);
+
+        $buildSpaces = $game->listPossibleSpacesToBuild($player);
+        
+        assertEquals($expectedArgs, $buildSpaces);
+    }
+    public function test_listPossibleSpacesToBuild_ScenarioUnicorn1_CoopNotBlockedByResources(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        TestDatas::$players[1]['die_face'] = 3;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        $player = Players::get(1);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 2, 'type' => ScenarioType::UNICORN_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+         TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."11",'type' => MEEPLE_TYPE_RESOURCE_RICE,  'player_id' => null,  ];
+         TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."13",'type' => MEEPLE_TYPE_RESOURCE_SILK,  'player_id' => null,  ];
+         TestDatas::$tokens[45] = ['result_associative_index' => 45, 'meeple_id' => 45, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."14",'type' => MEEPLE_TYPE_RESOURCE_POTTERY,  'player_id' => null,  ];
+        $expectedArgs = new Collection([
+                ShoreSpaces::getShoreSpace(11 ),
+                ShoreSpaces::getShoreSpace(12 ),
+                ShoreSpaces::getShoreSpace(13 ),
+                ShoreSpaces::getShoreSpace(14 ),
+                ShoreSpaces::getShoreSpace(15 ),
+            ]);
+
+        $buildSpaces = $game->listPossibleSpacesToBuild($player);
+        
+        assertEquals($expectedArgs, $buildSpaces);
+    }
 
     public function test_Args_Build_Shin3(): void
     {

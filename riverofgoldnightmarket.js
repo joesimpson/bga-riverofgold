@@ -4180,7 +4180,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [this.gamedatas.enums.ScenarioType.UNICORN_1, 
                     `
                     <ul>
-                        <li>${this.fsr(_(''),{})}</li>
+                        <li>${this.fsr(_('You may not build on shore spaces that have trade goods on them.'),{})}</li>
                         <li>${this.fsr(_(''),{})}</li>
                         <li>${this.fsr(_('When Seishin builds on a shore space with a trade good, it removes the trade good and gains ${score}.'),{'score':this.formatIcon('score',2),})}</li>
                         <li>${this.fsr(_(''),{})}</li>

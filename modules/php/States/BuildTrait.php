@@ -188,10 +188,13 @@ trait BuildTrait
       return false;
     }
     $meeples = Meeples::getInLocation(MEEPLE_LOCATION_SHORE."{$space->id}");
+    $scenarioResources = Cards::getAssignedScenario(ScenarioType::UNICORN_1);
+    $canBuildOnResources = isset($scenarioResources) ? ($scenarioResources->getPId() != $player->getId()): true;
     foreach($meeples as $meeple){
       if(isset($meeple)){
         $meepleOwner = $meeple->getPId();
         if(isset($meepleOwner) && ($meepleOwner != $player->getId())) return false;
+        if($meeple->isResource() && !$canBuildOnResources) return false;
       }
     }
 

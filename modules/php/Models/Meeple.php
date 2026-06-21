@@ -2,6 +2,7 @@
 
 namespace ROG\Models;
 
+use ROG\Managers\Meeples;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 
@@ -78,6 +79,13 @@ class Meeple extends \ROG\Helpers\DB_Model
       return $matches['card'];
     }
     return null;
+  }
+
+  
+  public function isResource(): bool
+  {
+    $resType = Meeples::getResourceFromType($this->getType());
+    return $resType > 0;
   }
   
 }
