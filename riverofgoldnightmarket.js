@@ -4177,7 +4177,17 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <br/>
                     <span>${this.fsr(_('When Seishin delivers to a customer, if there is a Noble in the region matching its die, it delivers to that Noble instead of a facedown customer from the deck.'),{})}</span>
                     `],
-                [8, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.UNICORN_1, 
+                    `
+                    <ul>
+                        <li>${this.fsr(_(''),{})}</li>
+                        <li>${this.fsr(_(''),{})}</li>
+                        <li>${this.fsr(_(''),{})}</li>
+                        <li>${this.fsr(_(''),{})}</li>
+                    </ul>
+                    <div class="rog_coop_label">${this.fsr(_('Co-op: When your ally builds on a shore space with a trade good, remove the trade good. They lose ${n} of that trade good if able.'),{ 'n':1})} </div>
+                    `
+                ],
             ]);
             let gameplayDesc = gameplayDescMap.get(card.type);
             

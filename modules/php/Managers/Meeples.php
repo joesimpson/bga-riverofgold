@@ -13,6 +13,7 @@ use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
 use ROG\Models\Player;
 use ROG\Models\ScenarioCard;
+use ROG\Models\ScenarioType;
 use ROG\Models\ShoreSpace;
 
 /* Class to manage all the meeples (clan markers/ships) */
@@ -61,16 +62,22 @@ class Meeples extends \ROG\Helpers\Pieces
     return $elt;
   }
   
-  public static function removeClanMarkerOnShoreSpace(int $shoreSpace,Player $player, BuildingTile $tile,ClanPatronCard $playerPatron) : void
+  public static function removePlayerMarkersOnShoreSpace(int $shoreSpace,Player $player, BuildingTile $tile,ClanPatronCard $playerPatron) : void
   {
-    $meeple = Meeples::getInLocation(MEEPLE_LOCATION_SHORE.$shoreSpace)->first();
-    if(!isset($meeple)) return;
-    Notifications::removeClanMarker($player,$meeple);
-    self::DB()->delete($meeple->getId());
-    if(PATRON_LIONS_LADY == $playerPatron->getType()){
-      Globals::addBonusWithDatas($player,BONUS_TYPE_BUILDING_REWARD,['tile'=>$tile->getId(),'position'=>$shoreSpace,'bonusQuantity'=>1,],clienttranslate('Building reward'));
-      Globals::addBonus($player,BONUS_TYPE_PLACE_LION);
+    Game::get()->trace("removePlayerMarkersOnShoreSpace( $shoreSpace)...");
+    $meeples = Meeples::getInLocation(MEEPLE_LOCATION_SHORE.$shoreSpace);
+    foreach($meeples as $meeple){
+      $meepleOwner = $meeple->getPId();
+      if(isset($meepleOwner) && ($meepleOwner == $player->getId())){
+        Notifications::removeClanMarker($player,$meeple);
+        self::DB()->delete($meeple->getId());
+        if(PATRON_LIONS_LADY == $playerPatron->getType()){
+          Globals::addBonusWithDatas($player,BONUS_TYPE_BUILDING_REWARD,['tile'=>$tile->getId(),'position'=>$shoreSpace,'bonusQuantity'=>1,],clienttranslate('Building reward'));
+          Globals::addBonus($player,BONUS_TYPE_PLACE_LION);
+        }
+      }
     }
+    
   }
   
   /**
@@ -450,6 +457,16 @@ class Meeples extends \ROG\Helpers\Pieces
     }
     return $meepleType;
   }
+  public static function getResourceFromType(int $meepleType) : int
+  {
+    $resourceType = 0;
+    switch($meepleType){
+      case MEEPLE_TYPE_RESOURCE_SILK   : $resourceType = RESOURCE_TYPE_SILK   ; break;
+      case MEEPLE_TYPE_RESOURCE_POTTERY: $resourceType = RESOURCE_TYPE_POTTERY; break;
+      case MEEPLE_TYPE_RESOURCE_RICE   : $resourceType = RESOURCE_TYPE_RICE   ; break;
+    }
+    return $resourceType;
+  }
   public static function placeResourceOnShoreSpace(Player $player, int $shore_space, int $resourceType) : Meeple
   {
     $meeple = [
@@ -469,6 +486,32 @@ class Meeples extends \ROG\Helpers\Pieces
       ->whereIn('type', $resTypes)
       ->where(self::$prefix.'location','LIKE', MEEPLE_LOCATION_SHORE."%")
       ->get();
+  }
+  
+  public static function getResourcesOnShoreSpace(ShoreSpace $space) : Collection
+  {
+    $resTypes = [ MEEPLE_TYPE_RESOURCE_SILK,MEEPLE_TYPE_RESOURCE_POTTERY,MEEPLE_TYPE_RESOURCE_RICE];
+    return self::DB()
+      ->whereIn('type', $resTypes)
+      ->where(self::$prefix.'location', MEEPLE_LOCATION_SHORE.$space->id)
+      ->get();
+  }
+  
+  public static function removeResourcesOnShoreSpace(ShoreSpace $shoreSpace,Player &$player ) : void
+  {
+    Game::get()->trace("removeResourcesOnShoreSpace( $shoreSpace->id)...");
+    $meeples = Meeples::getResourcesOnShoreSpace($shoreSpace);
+    if(count($meeples) == 0) return;
+    //$scenarioResources = Cards::getAssignedScenario(ScenarioType::UNICORN_1);
+    //$scenarioOwner = $scenarioResources->getPId();
+    foreach($meeples as $meeple){
+      Notifications::removeResourceMarker($player,$meeple,);
+      $typeResource = Meeples::getResourceFromType($meeple->getType());
+      if($player->canSpendResource($typeResource,1)){
+        $player->giveResource(-1,$typeResource);
+      }
+      Meeples::DB()->delete($meeple->getId());
+    }
   }
 
   public static function getPlayerShipsInRiverSpace(int $position, ) : Collection

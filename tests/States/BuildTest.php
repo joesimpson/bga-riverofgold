@@ -667,5 +667,113 @@ final class BuildTest extends TestCase
         //REMOVED rogue ship
         assertFalse(array_key_exists(27,TestDatas::$tokens));
     }
+    
+    public function test_actBuildSelect_Pass_Scenario_Unicorn1_removeResourceWithCoop_WithoutResource(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 2;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":20}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 2, 'type' => ScenarioType::UNICORN_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $position = 9;
+        $tileId = 31;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."$position",'type' => MEEPLE_TYPE_RESOURCE_RICE,  'player_id' => null,  ];
+        
+        $game->actBuildSelect($position,$tileId,999999);
+
+        $expectedNotifs = [
+            "spendMoney-1",
+            "removeClanMarker-1",//removeResourceMarker
+            //"spendResource-1",
+            "build-1",
+            "newClanMarker-1",
+            "gainInfluence-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertFalse(array_key_exists(43,TestDatas::$tokens));
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(8, $resources[RESOURCE_TYPE_MONEY]);//-12
+    }
+    
+    public function test_actBuildSelect_Pass_Scenario_Unicorn1_removeResourceWithCoop_WithResource(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 2;
+        TestDatas::$players[1]['resources'] = '{"1":4,"2":5,"3":6,"4":3,"5":0,"6":20}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 2, 'type' => ScenarioType::UNICORN_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $position = 9;
+        $tileId = 31;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."$position",'type' => MEEPLE_TYPE_RESOURCE_RICE,  'player_id' => null,  ];
+        
+        $game->actBuildSelect($position,$tileId,999999);
+
+        $expectedNotifs = [
+            "spendMoney-1",
+            "removeClanMarker-1",//removeResourceMarker
+            "spendResource-1",
+            "build-1",
+            "newClanMarker-1",
+            "gainInfluence-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertFalse(array_key_exists(43,TestDatas::$tokens));
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(4, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(5, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(5, $resources[RESOURCE_TYPE_RICE]);//-1
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(8, $resources[RESOURCE_TYPE_MONEY]);//-12
+    }
+    
+    public function test_actBuildSelect_Pass_Scenario_Unicorn1_LadyOfLions(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":1,"4":4,"5":0,"6":20}';
+        TestDatas::$players[1]['bonuses'] = '[]';
+        TestDatas::$cards[101]['type'] = PATRON_LIONS_LADY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 2, 'type' => ScenarioType::UNICORN_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $position = 1;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."$position",'type' => MEEPLE_TYPE_RESOURCE_RICE,  'player_id' => null,  ];
+        TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."$position",'type' => MEEPLE_TYPE_LION_MARKER,  'player_id' => 1,  ];
+        $tileId = 31;
+        $expectedBonuses = [
+            'datas'=>[
+                BONUS_TYPE_BUILDING_REWARD => [ 1=> ['tile'=> $tileId ,'position'=>$position,'bonusQuantity'=>1,]], 
+            ],
+            BONUS_TYPE_PLACE_LION,
+        ];
+
+        $game->actBuildSelect($position,$tileId,999999);
+        
+        $expectedNotifs = [
+            "spendMoney-1",
+            "removeClanMarker-1",//lion
+            "addBonus-1",
+            "addBonus-1",
+            "removeClanMarker-1",//removeResourceMarker
+            "spendResource-1",
+            "build-1",
+            "newClanMarker-1",
+            "gainInfluence-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertFalse(array_key_exists(44,TestDatas::$tokens));//deleted clan marker
+        assertFalse(array_key_exists(43,TestDatas::$tokens));
+    }
     // -------------------------------------------------
 }

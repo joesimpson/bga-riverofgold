@@ -96,8 +96,9 @@ trait BuildTrait
     Players::spendMoney($player,$cost);
 
     if(isset($playerPatron)){
-      Meeples::removeClanMarkerOnShoreSpace($position,$player,$tile,$playerPatron);
+      Meeples::removePlayerMarkersOnShoreSpace($position,$player,$tile,$playerPatron);
     }
+    Meeples::removeResourcesOnShoreSpace($shoreSpace,$player,);
 
     $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
     $tile->setPosition($position);
@@ -186,9 +187,12 @@ trait BuildTrait
     if($cost > $player->getMoney() && !($player instanceof AutomaPlayer)) {
       return false;
     }
-    $meeple = Meeples::getInLocation(MEEPLE_LOCATION_SHORE."{$space->id}")->first();
-    if(isset($meeple)){
-      if($meeple->getPId() != $player->getId()) return false;
+    $meeples = Meeples::getInLocation(MEEPLE_LOCATION_SHORE."{$space->id}");
+    foreach($meeples as $meeple){
+      if(isset($meeple)){
+        $meepleOwner = $meeple->getPId();
+        if(isset($meepleOwner) && ($meepleOwner != $player->getId())) return false;
+      }
     }
 
     return true;

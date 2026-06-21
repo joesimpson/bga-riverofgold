@@ -5,6 +5,7 @@ namespace ROG\Core;
 use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
+use ROG\Managers\Meeples;
 use ROG\Managers\Tiles;
 use ROG\Models\AutomaActionCard;
 use ROG\Models\AutomaPlayer;
@@ -681,6 +682,22 @@ class Notifications
       'region' => $region,
       'n' => $meeple->getPosition(),
       'preserve' => ['meeple','region'],
+    ]);
+  }
+  
+  public static function removeResourceMarker(Player $player, Meeple $meeple,)
+  {
+    $typeResource = Meeples::getResourceFromType($meeple->getType());
+    $msg = clienttranslate('${player_name} removes ${n} ${res_icon}');
+    //reuse front side notif handler which could have been named 'removeMeeple'
+    self::notifyAll('removeClanMarker', $msg, [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
+      'n' => 1,
+      'res_icon' => Utils::resourceName($typeResource),
+      'res_type' => $typeResource,
+      'preserve' => ['meeple','res_type'],
+      'i18n' => ['res_icon'],
     ]);
   }
 
