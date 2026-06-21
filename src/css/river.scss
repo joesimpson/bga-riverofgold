@@ -424,6 +424,14 @@
         .rog_near_shore_space{
             left: 0px;
         }
+        >.rog_meeple{
+            &[data-type='5'] //MEEPLE_TYPE_RESOURCE_SILK
+            ,&[data-type='6'] //MEEPLE_TYPE_RESOURCE_POTTERY
+            ,&[data-type='7'] //MEEPLE_TYPE_RESOURCE_RICE
+            {
+                left: 30px;
+            }
+        }
         /*don't rotate anymore with sprite of tiles back
         transform: rotate(180deg);
         &.selectable:hover {
@@ -448,10 +456,20 @@
 
 .rog_shore_space{
     >.rog_meeple{
-        //Meeples placed directly on the space, not on a tile, (example: Lion ability MEEPLE_TYPE_CLAN_MARKER)
+        //Meeples placed directly on the space, not on a tile, (example: Lion ability MEEPLE_TYPE_LION_MARKER)
         position: absolute;
-        top: 23px;
-        left: 103px;
+            
+        &[data-type='4']{//MEEPLE_TYPE_LION_MARKER
+            top: 23px;
+            left: 103px;
+        }
+        &[data-type='5'] //MEEPLE_TYPE_RESOURCE_SILK
+        ,&[data-type='6'] //MEEPLE_TYPE_RESOURCE_POTTERY
+        ,&[data-type='7'] //MEEPLE_TYPE_RESOURCE_RICE
+        { 
+            top: 45px;
+            left: 215px;
+        }
     }
 }
 

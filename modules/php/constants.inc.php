@@ -453,6 +453,9 @@ const MEEPLE_TYPE_SHIP = 1;
 const MEEPLE_TYPE_SHIP_ROYAL = 3;
 const MEEPLE_TYPE_CLAN_MARKER = 2;
 const MEEPLE_TYPE_LION_MARKER = 4;
+const MEEPLE_TYPE_RESOURCE_SILK     = 5;
+const MEEPLE_TYPE_RESOURCE_POTTERY  = 6;
+const MEEPLE_TYPE_RESOURCE_RICE     = 7;
 
 const MEEPLE_LOCATION_TILE = 'tile-';//To be followed by tile id
 const MEEPLE_LOCATION_CARD = 'card-';//To be followed by card id

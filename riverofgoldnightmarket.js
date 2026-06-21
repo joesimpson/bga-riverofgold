@@ -274,6 +274,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['removeShip', 1000],
                 ['newClanMarkers', 10],
                 ['influenceClanMarkers', null],
+                ['resourcesMarkers', null],
                 ['newClanMarker', 800],
                 ['removeClanMarker', 800],
                 ['newBoat', 800],
@@ -1974,6 +1975,20 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 })
             ).then(() => {
                 this.updateCardEnemiesCount(n.args.with_card, n.args.meeples.length);
+                this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
+            });
+        },
+        
+        notif_resourcesMarkers(n) {
+            debug('notif_resourcesMarkers', n);
+            Promise.all(
+                Object.values(n.args.meeples).map((meeple, i) => {
+                    let divMeeple = this.addMeeple(meeple, this.getVisibleTitleContainer());
+                    return this.wait(50 * i).then(() => 
+                        this.slide(divMeeple.id, this.getMeepleContainer(meeple), { })
+                    );
+                })
+            ).then(() => {
                 this.notifqueue.setSynchronousDuration(this.isFastMode() ? 0 : 10);
             });
         },
@@ -4001,7 +4016,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [this.gamedatas.enums.ScenarioType.PHOENIX_1, this.fsr(_('You are an apprentice shindōshi seeking to master all the elements and learn all you can about the world.'),{})],
                 [this.gamedatas.enums.ScenarioType.LION_1, this.fsr(_('You are an Imperial Guard defending the Emperor from an assassination plot.'),{})],
                 [this.gamedatas.enums.ScenarioType.DRAGON_1, this.fsr(_('The Dragon Clan is known for being aloof, its lands remote and inaccessible. But their Champion has foreseen that it will need allies soon, so you seek to curry favor with the other clans’ nobility.'),{})],
-                [8, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.UNICORN_1, this.fsr(_('A harsh winter has brought suffering to the peasantry of Rokugan. Use the Unicorn Clan’s extensive trade networks to help import much-needed goods throughout the region.'),{})],
             ]);
             let intro = introMap.get(card.type);
             
@@ -4061,7 +4076,18 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     `
                 ],
                 [this.gamedatas.enums.ScenarioType.DRAGON_1, this.fsr(_('Place each Noble customer next to their region on the map. The customer deck should contain ${n} other customer types.'),{'n':5})],
-                [8, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.UNICORN_1, 
+                    `
+                    <span>${this.fsr(_('After placing imperial markets and starting buildings, take ${n} of each trade good (${res_1}, ${res_2}, ${res_3}) and randomly place one on each empty shore space.'),{
+                        'n':7, 
+                        'res_1': _('Rice'),
+                        'res_2': _('Silk'),
+                        'res_3': _('Porcelain'),
+                    })}</span>
+                    <br/>
+                    <div class="rog_coop_label">${this.fsr(_('Co-op: If your ally is using the Crab scenario, take ${n} of each trade good instead and randomly place one on each empty shore space.'),{'n':9})} </div>
+                    `
+                ],
             ]);
             let setup = setupMap.get(card.type);
 

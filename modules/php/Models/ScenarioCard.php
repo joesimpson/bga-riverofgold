@@ -162,6 +162,27 @@ class ScenarioCard extends Card
         $virtualPlayer = Players::lionEnemy();
         Notifications::virtualPlayer($virtualPlayer);
         break;
+      case ScenarioType::UNICORN_1->value:
+        //AFTER CRAB SCENARIO  may be picked
+        $spaces = ShoreSpaces::getAllEmptySpaces();
+        $nbEach = count($spaces) /3;
+        $goods = [
+          RESOURCE_TYPE_SILK =>     $nbEach,
+          RESOURCE_TYPE_POTTERY =>  $nbEach,
+          RESOURCE_TYPE_RICE =>     $nbEach,
+        ];
+        $meeples = [];
+        foreach($spaces as $shoreSpaceId){
+          if(empty($goods)) break;
+          $resourceType = array_rand($goods);
+          $goods[$resourceType]--;
+          if($goods[$resourceType] < 1) {
+            unset($goods[$resourceType]);
+          }
+          $meeples[] = Meeples::placeResourceOnShoreSpace($player,$shoreSpaceId,$resourceType);
+        }
+        Notifications::resourcesMarkers($player,$meeples);
+        break;
     }
   }
   

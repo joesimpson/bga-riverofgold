@@ -13,6 +13,7 @@ use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Tiles;
 use ROG\Models\CustomerCard;
+use ROG\Models\Meeple;
 use ROG\Models\ScenarioCard;
 use ROG\Models\ScenarioType;
 use Tests\Utils\PHPUnitUtil;
@@ -1139,6 +1140,123 @@ final class SetupTest extends TestCase
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertNotSame(null,Globals::getLionEnemy());
         assertTrue(in_array(Globals::getLionEnemy(), array_values(CLANS_COLORS)));
+    }
+    
+    public function testEnteringState_PlayerSetup_Scenario_Unicorn1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::resetCardsDeck();
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::UNICORN_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{}'];
+        unset(TestDatas::$tiles[41]);
+        unset(TestDatas::$tiles[42]);
+        TestDatas::resetStartingBuildings();
+        $expectedNotifs = [
+            "automaColor",
+            "newPlayerColor--123",
+            "newClanMarkers-1",
+            "influenceClanMarkers-1",
+            "rollDie-1",
+            "newBoat-1",
+            "rollDie-1",
+            "newBoat-1",
+            "giveCardToPublic-1",
+            "giveCardToPublic-1",
+            "rollDie-1",
+            "newClanMarkers-2",
+            "influenceClanMarkers-2",
+            "rollDie-2",
+            "newBoat-2",
+            "rollDie-2",
+            "newBoat-2",
+            "giveCardToPublic-2",
+            "giveCardToPublic-2",
+            "rollDie-2",
+            "newClanMarkers--123",
+            "influenceClanMarkers--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            //Scenario :
+            "resourcesMarkers-1",
+        ];
+
+        $game->stPlayerSetup();
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $meeples = Meeples::getResourcesOnShoreSpaces();
+        assertSame(3*7, $meeples->count());
+        $resourcesTypes = [ MEEPLE_TYPE_RESOURCE_SILK,MEEPLE_TYPE_RESOURCE_POTTERY,MEEPLE_TYPE_RESOURCE_RICE];
+        foreach($meeples as $meeple){
+            assertTrue(in_array($meeple->getType(),$resourcesTypes));
+        }
+        $locations = array_unique($meeples->map(function(Meeple $m){
+            assertTrue(str_starts_with($m->getLocation(),MEEPLE_LOCATION_SHORE));
+            return $m->getLocation();
+        })->toArray());
+        assertSame(3*7,count($locations));
+    }
+    
+    public function testEnteringState_PlayerSetup_Scenario_Unicorn1AndCrab1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::resetCardsDeck();
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::UNICORN_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'resources' => '{}'];
+        unset(TestDatas::$tiles[41]);
+        unset(TestDatas::$tiles[42]);
+        $expectedNotifs = [
+            "automaColor",
+            "newPlayerColor--123",
+            "newClanMarkers-1",
+            "influenceClanMarkers-1",
+            "rollDie-1",
+            "newBoat-1",
+            "rollDie-1",
+            "newBoat-1",
+            "giveCardToPublic-1",
+            "giveCardToPublic-1",
+            "rollDie-1",
+            "newClanMarkers-2",
+            "influenceClanMarkers-2",
+            "rollDie-2",
+            "newBoat-2",
+            "rollDie-2",
+            "newBoat-2",
+            "giveCardToPublic-2",
+            "giveCardToPublic-2",
+            "rollDie-2",
+            "newClanMarkers--123",
+            "influenceClanMarkers--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            //Scenario :
+            "resourcesMarkers-1",
+        ];
+
+        $game->stPlayerSetup();
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $meeples = Meeples::getResourcesOnShoreSpaces();
+        assertSame(3*9, $meeples->count());
+        $resourcesTypes = [ MEEPLE_TYPE_RESOURCE_SILK,MEEPLE_TYPE_RESOURCE_POTTERY,MEEPLE_TYPE_RESOURCE_RICE];
+        foreach($meeples as $meeple){
+            assertTrue(in_array($meeple->getType(),$resourcesTypes));
+        }
+        $locations = array_unique($meeples->map(function(Meeple $m){
+            assertTrue(str_starts_with($m->getLocation(),MEEPLE_LOCATION_SHORE));
+            return $m->getLocation();
+        })->toArray());
+        assertSame(3*9,count($locations));
     }
     // ----------------------------------------------------------------------
     

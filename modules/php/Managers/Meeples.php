@@ -440,6 +440,37 @@ class Meeples extends \ROG\Helpers\Pieces
     return $elt;
   }
   
+  public static function getTypeFromResource(int $resourceType) : int
+  {
+    $meepleType = 0;
+    switch($resourceType){
+      case RESOURCE_TYPE_SILK:    $meepleType = MEEPLE_TYPE_RESOURCE_SILK;    break;
+      case RESOURCE_TYPE_POTTERY: $meepleType = MEEPLE_TYPE_RESOURCE_POTTERY; break;
+      case RESOURCE_TYPE_RICE:    $meepleType = MEEPLE_TYPE_RESOURCE_RICE;    break;
+    }
+    return $meepleType;
+  }
+  public static function placeResourceOnShoreSpace(Player $player, int $shore_space, int $resourceType) : Meeple
+  {
+    $meeple = [
+      'type' => Meeples::getTypeFromResource($resourceType),
+      'location' => MEEPLE_LOCATION_SHORE.$shore_space,
+      'state' => 1,
+    ];
+    $elt = self::singleCreate($meeple);
+    //Don't notif now, but send 1 notif for all
+    return $elt;
+  }
+
+  public static function getResourcesOnShoreSpaces() : Collection
+  {
+    $resTypes = [ MEEPLE_TYPE_RESOURCE_SILK,MEEPLE_TYPE_RESOURCE_POTTERY,MEEPLE_TYPE_RESOURCE_RICE];
+    return self::DB()
+      ->whereIn('type', $resTypes)
+      ->where(self::$prefix.'location','LIKE', MEEPLE_LOCATION_SHORE."%")
+      ->get();
+  }
+
   public static function getPlayerShipsInRiverSpace(int $position, ) : Collection
   {
     Game::get()->trace("getPlayerShipsInRiverSpace( $position)...");

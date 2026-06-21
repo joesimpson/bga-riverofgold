@@ -31,7 +31,7 @@ CREATE TABLE IF NOT EXISTS `meeples` (
   `meeple_state` int(10) DEFAULT 0,
   `meeple_location` varchar(32) NOT NULL,
   `player_id` int(10) NULL,
-  `type` VARCHAR(32) NULL,
+  `type` int NULL,
   PRIMARY KEY (`meeple_id`)
 ) ENGINE = InnoDB DEFAULT CHARSET = utf8;
 

@@ -562,6 +562,20 @@ class Notifications
       'with_card' => isset($card) ? $card->getId() : null,
     ]);
   }
+  
+  public static function resourcesMarkers(
+    Player $player,
+    array $meeples,
+  )
+  {
+    $msg = clienttranslate('${player_name} places ${n} trade goods');
+    $meeplesCollection = new Collection($meeples);
+    self::notifyAll('resourcesMarkers', $msg, [
+      'player' => $player,
+      'meeples' => $meeplesCollection->ui(),
+      'n' => $meeplesCollection->count(),
+    ]);
+  }
     /**
    * @param Player $player
    * @param Meeple $meeple

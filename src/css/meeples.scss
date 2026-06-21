@@ -189,6 +189,27 @@
         background-image: url("img/icons/lady_lion_token.png");
 
     }
+
+    $iconRatio : 3;
+    &[data-type='5'] //MEEPLE_TYPE_RESOURCE_SILK
+    ,&[data-type='6'] //MEEPLE_TYPE_RESOURCE_POTTERY
+    ,&[data-type='7'] //MEEPLE_TYPE_RESOURCE_RICE
+    {
+        background: none;
+        box-shadow: none; 
+    }
+    &[data-type='5'] //MEEPLE_TYPE_RESOURCE_SILK
+    { 
+        @include rog_icons_sprite(-605px,-384px,$iconRatio * 30px,$iconRatio * 27px,290px,260px);
+    }
+    &[data-type='6'] //MEEPLE_TYPE_RESOURCE_POTTERY
+    { 
+        @include rog_icons_sprite(-1px,-691px,$iconRatio * 30px,$iconRatio * 30px,260px,260px);
+    }
+    &[data-type='7'] //MEEPLE_TYPE_RESOURCE_RICE
+    { 
+        @include rog_icons_sprite(-263px,-691px,$iconRatio * 30px,$iconRatio * 30px,260px,260px);
+    }
     
     &.rog_score_meeple { //[data-type='9'] {//MEEPLE_TYPE_SCORE_MARKER
         background-image: url("img/score_markers.png");

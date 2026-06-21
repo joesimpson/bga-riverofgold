@@ -559,11 +559,12 @@ abstract class Table
             return $filtered;
         }
         
-        if (preg_match("/^SELECT .* FROM `meeples` WHERE \(`type` IN \((?P<types>.*)\)\) AND `meeple_location` = '(?P<meeple_location>.*)'$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT .* FROM `meeples` WHERE \(`type` IN \((?P<types>.*)\)\) AND \(?`meeple_location` (?P<operator>=|LIKE) '(?P<meeple_location>[\w-]+)%?'\)?$/", $sql, $matches) == 1) {
             $filtered = [];
+            $operator = $matches['operator'];
             $meeple_location = $matches['meeple_location'];
             $types = explode(',',str_replace("'","",$matches['types']));
-            $filtered = array_filter(TestDatas::$tokens,function ($token) use ( $types, $meeple_location){return in_array($token['type'], $types) && $token['meeple_location'] == $meeple_location;});
+            $filtered = array_filter(TestDatas::$tokens,function ($token) use ( $types, $meeple_location, $operator){return in_array($token['type'], $types) && ($operator =="=" && $token['meeple_location'] == $meeple_location || $operator =="LIKE" && str_starts_with($token['meeple_location'], $meeple_location) );});
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `meeples` WHERE \(`meeple_id` IN \((?P<meeple_ids>.*)\)\)$/", $sql, $matches) == 1) {
@@ -902,11 +903,11 @@ abstract class Table
             unset(TestDatas::$tokens[$meeple_id]);
             return true;
         }
-        if (preg_match("/^INSERT INTO `meeples` (.*) VALUES\('(?P<meeple_location>.*)','(?P<meeple_state>\d+)','(?P<type>\d+)','(?P<player_id>[\d|\-]+)'\)$/", $sql, $matches) == 1) {
+        if (preg_match("/^INSERT INTO `meeples` (.*) VALUES\('(?P<meeple_location>.*)','(?P<meeple_state>\d+)','(?P<type>\d+)',(?:'(?P<player_id>[\d|\-]+)'|NULL)\)$/", $sql, $matches) == 1) {
             $type = intval( $matches['type']);
             $meeple_location = $matches['meeple_location'];
             $meeple_state = intval($matches['meeple_state']);
-            $player_id = intval($matches['player_id']);
+            $player_id = null; if(isset($matches['player_id'])) $player_id =  intval($matches['player_id']);
             $meeple_ids = array_keys(TestDatas::$tokens);
             $nbMeeples = count($meeple_ids);
             $meeple_id = 1 + (($nbMeeples >0 ) ? $meeple_ids[$nbMeeples-1] : 0 );

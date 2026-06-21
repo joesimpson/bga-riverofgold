@@ -1719,6 +1719,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_shore_space#rog_shore_space-1 .rog_near_shore_space, .rog_shore_space#rog_shore_space-3 .rog_near_shore_space, .rog_shore_space#rog_shore_space-5 .rog_near_shore_space, .rog_shore_space#rog_shore_space-7 .rog_near_shore_space, .rog_shore_space#rog_shore_space-9 .rog_near_shore_space, .rog_shore_space#rog_shore_space-11 .rog_near_shore_space, .rog_shore_space#rog_shore_space-13 .rog_near_shore_space, .rog_shore_space#rog_shore_space-15 .rog_near_shore_space, .rog_shore_space#rog_shore_space-18 .rog_near_shore_space, .rog_shore_space#rog_shore_space-20 .rog_near_shore_space, .rog_shore_space#rog_shore_space-23 .rog_near_shore_space, .rog_shore_space#rog_shore_space-25 .rog_near_shore_space, .rog_shore_space#rog_shore_space-27 .rog_near_shore_space, .rog_shore_space#rog_shore_space-29 .rog_near_shore_space, .rog_shore_space#rog_shore_space-30 .rog_near_shore_space {
   left: 0px;
 }
+.rog_shore_space#rog_shore_space-1 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-1 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-1 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-3 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-3 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-3 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-5 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-5 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-5 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-7 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-7 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-7 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-9 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-9 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-9 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-11 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-11 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-11 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-13 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-13 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-13 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-15 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-15 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-15 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-18 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-18 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-18 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-20 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-20 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-20 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-23 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-23 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-23 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-25 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-25 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-25 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-27 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-27 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-27 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-29 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-29 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-29 > .rog_meeple[data-type="7"], .rog_shore_space#rog_shore_space-30 > .rog_meeple[data-type="5"], .rog_shore_space#rog_shore_space-30 > .rog_meeple[data-type="6"], .rog_shore_space#rog_shore_space-30 > .rog_meeple[data-type="7"] {
+  left: 30px;
+}
 .rog_shore_space#rog_shore_space-1.selectable,
 .rog_shore_space#rog_shore_space-1 .rog_tile, .rog_shore_space#rog_shore_space-3.selectable,
 .rog_shore_space#rog_shore_space-3 .rog_tile, .rog_shore_space#rog_shore_space-5.selectable,
@@ -1777,8 +1780,14 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 
 .rog_shore_space > .rog_meeple {
   position: absolute;
+}
+.rog_shore_space > .rog_meeple[data-type="4"] {
   top: 23px;
   left: 103px;
+}
+.rog_shore_space > .rog_meeple[data-type="5"], .rog_shore_space > .rog_meeple[data-type="6"], .rog_shore_space > .rog_meeple[data-type="7"] {
+  top: 45px;
+  left: 215px;
 }
 
 .rog_river_space {
@@ -6178,6 +6187,34 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   border-radius: 50%;
   background-size: 100% 100%;
   background-image: url("img/icons/lady_lion_token.png");
+}
+.rog_meeple[data-type="5"], .rog_meeple[data-type="6"], .rog_meeple[data-type="7"] {
+  background: none;
+  box-shadow: none;
+}
+.rog_meeple[data-type="5"] {
+  width: 90px;
+  height: 81px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -187.7586206897px;
+  background-position-y: -119.6307692308px;
+  background-size: 361.3793103448% 385.3846153846%;
+}
+.rog_meeple[data-type="6"] {
+  width: 90px;
+  height: 90px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -0.3461538462px;
+  background-position-y: -239.1923076923px;
+  background-size: 403.0769230769% 385.3846153846%;
+}
+.rog_meeple[data-type="7"] {
+  width: 90px;
+  height: 90px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -91.0384615385px;
+  background-position-y: -239.1923076923px;
+  background-size: 403.0769230769% 385.3846153846%;
 }
 .rog_meeple.rog_score_meeple {
   background-image: url("img/score_markers.png");
