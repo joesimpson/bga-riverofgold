@@ -4149,7 +4149,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <span>${this.fsr(_('When you deliver to a customer, if you have more influence than Seishin in the region matching your die, you may choose to deliver to the Noble in that region instead of a customer in your hand. If you do, do not draw or discard customer cards.'),{})}</span>
                     <br/>
                     <br/>
-                    <span>${this.fsr(_(''),{})}</span>
+                    <span>${this.fsr(_('When Seishin delivers to a customer, if there is a Noble in the region matching its die, it delivers to that Noble instead of a facedown customer from the deck.'),{})}</span>
                     `],
                 [8, this.fsr(_(''),{})],
             ]);

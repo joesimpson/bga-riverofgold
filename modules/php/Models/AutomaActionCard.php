@@ -84,13 +84,22 @@ class AutomaActionCard extends Card
     $region = $player->getDie();
     Players::gainInfluence($player,$region,NB_INFLUENCE_SEISHIN_DELIVER);
 
-    //Seishin takes the top card of the customer deck and places it facedown beside her board without revealing it. (She will reveal it when the game ends to score its endgame rewards.)
-    $missingInDeck = Cards::drawCardsToHand($player,1);
-    if($missingInDeck == 1) return;
-    $customerCard = Cards::getPlayerHandOrders($player->getId())->first();
-    //Keep cards ordered :
-    Cards::insertOnTop($customerCard->getId(), CARD_LOCATION_DELIVERED_HIDDEN);
-    Notifications::deliverHidden($player,$customerCard);
+    $customerCardInRegion = Cards::getInLocation(CARD_LOCATION_MAP_REGION.$region)->first();
+    if(isset($customerCardInRegion)){
+      //When Seishin delivers to a customer, if there is a Noble in the region matching its die, it delivers to that Noble instead of a facedown customer from the deck.
+      $customerCardInRegion->setLocation(CARD_LOCATION_DELIVERED);
+      $customerCardInRegion->setPId($player->getId());
+      Notifications::deliver($player,$customerCardInRegion);
+    }
+    else {
+      //Seishin takes the top card of the customer deck and places it facedown beside her board without revealing it. (She will reveal it when the game ends to score its endgame rewards.)
+      $missingInDeck = Cards::drawCardsToHand($player,1);
+      if($missingInDeck == 1) return;
+      $customerCard = Cards::getPlayerHandOrders($player->getId())->first();
+      //Keep cards ordered :
+      Cards::insertOnTop($customerCard->getId(), CARD_LOCATION_DELIVERED_HIDDEN);
+      Notifications::deliverHidden($player,$customerCard);
+    }
   }
   
   public function playBuild(AutomaPlayer $player)
