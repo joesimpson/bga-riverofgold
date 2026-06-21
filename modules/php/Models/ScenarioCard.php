@@ -228,6 +228,13 @@ class ScenarioCard extends Card
         $lionEnemy = Players::lionEnemy();
         Meeples::placeAssassinNearShoreSpace($lionEnemy, $shoreSpace->id,$this);
         break;
+      case ScenarioType::UNICORN_1->value:
+        //When Seishin builds on a shore space with a trade good, it removes the trade good and gains 2 points
+        $removed = Meeples::removeResourcesOnShoreSpace($shoreSpace,$player,);
+        if($removed){
+          $player->addPoints(2);
+        }
+        break;
     }
   }
   

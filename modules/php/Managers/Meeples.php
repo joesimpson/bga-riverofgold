@@ -497,11 +497,14 @@ class Meeples extends \ROG\Helpers\Pieces
       ->get();
   }
   
-  public static function removeResourcesOnShoreSpace(ShoreSpace $shoreSpace,Player &$player ) : void
+  /**
+   * @return bool true if resources are removed
+   */
+  public static function removeResourcesOnShoreSpace(ShoreSpace $shoreSpace,Player &$player ) : bool
   {
     Game::get()->trace("removeResourcesOnShoreSpace( $shoreSpace->id)...");
     $meeples = Meeples::getResourcesOnShoreSpace($shoreSpace);
-    if(count($meeples) == 0) return;
+    if(count($meeples) == 0) return false;
     //$scenarioResources = Cards::getAssignedScenario(ScenarioType::UNICORN_1);
     //$scenarioOwner = $scenarioResources->getPId();
     foreach($meeples as $meeple){
@@ -512,6 +515,7 @@ class Meeples extends \ROG\Helpers\Pieces
       }
       Meeples::DB()->delete($meeple->getId());
     }
+    return true;
   }
 
   public static function getPlayerShipsInRiverSpace(int $position, ) : Collection

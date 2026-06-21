@@ -730,6 +730,76 @@ final class AutomaActionCardTest extends TestCase
         assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> "tile-$expectedTile",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
         assertSame(TestDatas::$tokens[44], ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_NEAR_SHORE.$expectedShoreSpace,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => LION_ENEMY_ID, ] );
     }
+    
+    public function test_play_Build_Region1_ScenarioUnicorn1_onResource(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_1);
+        $cardType = AutomaActionType::BUILD->value;
+        $cardRow = TestDatas::$cards[207];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::UNICORN_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedShoreSpace = 2;// cost 5
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."$expectedShoreSpace",'type' => MEEPLE_TYPE_RESOURCE_RICE,  'player_id' => null,  ];
+        $expectedTile = 33;
+
+        $card->play($player);
+
+        $expectedNotifs = [
+            "build-".AUTOMA_PLAYER_ID,
+            "newClanMarker-".AUTOMA_PLAYER_ID,
+            "gainInfluence-".AUTOMA_PLAYER_ID,
+            "removeClanMarker-".AUTOMA_PLAYER_ID,//removeResourceMarker
+            "addPoints-".AUTOMA_PLAYER_ID,
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(REGION_1, $player->getDie());
+        assertSame(MAIN_ACTION::BUILD->value, Globals::getTurnMainActionDone());
+         //Test built Tile :
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[$expectedTile]['tile_location']);
+        assertSame($expectedShoreSpace, TestDatas::$tiles[$expectedTile]['tile_state']);
+        //Test 1 new clan markers
+        assertSame(44, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[44], ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> "tile-$expectedTile",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        assertSame(2, Globals::getAutomaScore());
+        assertFalse(array_key_exists(43,TestDatas::$tokens));
+    }
+    
+    public function test_play_Build_Region1_ScenarioUnicorn1_NotOnResource(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_1);
+        $cardType = AutomaActionType::BUILD->value;
+        $cardRow = TestDatas::$cards[207];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::UNICORN_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $expectedShoreSpace = 2;// cost 5
+        $expectedTile = 33;
+
+        $card->play($player);
+
+        $expectedNotifs = [
+            "build-".AUTOMA_PLAYER_ID,
+            "newClanMarker-".AUTOMA_PLAYER_ID,
+            "gainInfluence-".AUTOMA_PLAYER_ID,
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(REGION_1, $player->getDie());
+        assertSame(MAIN_ACTION::BUILD->value, Globals::getTurnMainActionDone());
+         //Test built Tile :
+        assertSame(TILE_LOCATION_BUILDING_SHORE, TestDatas::$tiles[$expectedTile]['tile_location']);
+        assertSame($expectedShoreSpace, TestDatas::$tiles[$expectedTile]['tile_state']);
+        //Test 1 new clan markers
+        assertSame(43, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> "tile-$expectedTile",'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        assertSame(0, Globals::getAutomaScore());
+    }
 
     public function test_play_Build_Region2_whenRegion1Full(): void
     {

@@ -4182,7 +4182,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <ul>
                         <li>${this.fsr(_(''),{})}</li>
                         <li>${this.fsr(_(''),{})}</li>
-                        <li>${this.fsr(_(''),{})}</li>
+                        <li>${this.fsr(_('When Seishin builds on a shore space with a trade good, it removes the trade good and gains ${score}.'),{'score':this.formatIcon('score',2),})}</li>
                         <li>${this.fsr(_(''),{})}</li>
                     </ul>
                     <div class="rog_coop_label">${this.fsr(_('Co-op: When your ally builds on a shore space with a trade good, remove the trade good. They lose ${n} of that trade good if able.'),{ 'n':1})} </div>
