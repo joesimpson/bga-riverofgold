@@ -81,11 +81,20 @@ class Meeple extends \ROG\Helpers\DB_Model
     return null;
   }
 
-  
   public function isResource(): bool
   {
     $resType = Meeples::getResourceFromType($this->getType());
     return $resType > 0;
   }
   
+  public function getResourceRegion(): int
+  {
+    $region = 0;
+    $location = $this->getLocation();
+    if (preg_match("/^" . MEEPLE_LOCATION_SHORE . "(?P<space>\d+)$/", $location, $matches) == 1) {
+      $space = $matches['space'];
+      $region = ShoreSpaces::getShoreSpace($space)->region;
+    }
+    return $region;
+  }
 }

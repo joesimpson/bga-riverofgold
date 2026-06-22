@@ -4248,7 +4248,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [this.gamedatas.enums.ScenarioType.PHOENIX_1, this.fsr(_('You must outscore Seishin and claim more masteries than Seishin.'),{})],
                 [this.gamedatas.enums.ScenarioType.LION_1, this.fsr(_('You must outscore Seishin and prevent the Emperor’s assassination.'),{})],
                 [this.gamedatas.enums.ScenarioType.DRAGON_1, this.fsr(_('You must outscore Seishin and deliver to at least as many Nobles as Seishin.'),{})],
-                [8, this.fsr(_(''),{})],
+                [this.gamedatas.enums.ScenarioType.UNICORN_1, 
+                    this.fsr(_('Remove your clan marker from each influence track of regions with trade good(s) still present. You do not score points for influence in these regions.'),{})
+                    + "<br/>"
+                    + this.fsr(_('You must outscore Seishin.'),{})
+                ],
             ]);
             let endDesc = endDescMap.get(card.type);
 

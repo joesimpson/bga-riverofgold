@@ -379,6 +379,14 @@ class ScenarioCard extends Card
           }
         }
         break;
+      case ScenarioType::UNICORN_1->value:
+        //Remove your clan marker from each influence track of regions with trade good(s) still present. You do not score points for influence in these regions.
+        $meeplesResources = Meeples::getResourcesOnShoreSpaces();
+        $meeplesRegions = array_unique( $meeplesResources->map(function (Meeple $m) {return $m->getResourceRegion();})->toArray() );
+        foreach($meeplesRegions as $region){
+          Meeples::removeInfluenceClanMarker($player,$region);
+        }
+        break;
     }
   }
 
@@ -419,6 +427,9 @@ class ScenarioCard extends Card
         $playerNobles = Cards::countDeliveredCardsByCustomerType($this->getPId(),CUSTOMER_TYPE_NOBLE);
         $automaNobles = Cards::countDeliveredCardsByCustomerType(AUTOMA_PLAYER_ID,CUSTOMER_TYPE_NOBLE);
         $checked = ($playerNobles >= $automaNobles);
+        break;
+      case ScenarioType::UNICORN_1->value:
+        $checked = true;
         break;
     }
     return $checked;

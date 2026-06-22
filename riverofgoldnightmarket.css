@@ -4854,6 +4854,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: 67%;
   width: 28%;
   height: 92%;
+  font-size: 15px;
 }
 
 #rog_selected_piece_description {
