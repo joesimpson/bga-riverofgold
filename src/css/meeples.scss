@@ -197,6 +197,9 @@
     {
         background: none;
         box-shadow: none; 
+        &.selected{
+            box-shadow: 0px 0px 0px 15px blue;
+        }
     }
     &[data-type='5'] //MEEPLE_TYPE_RESOURCE_SILK
     { 
@@ -292,8 +295,12 @@ html:not(.dj_safari) .rog_meeple{
 
 body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
     .rog_meeple.selected{
-        //add a bounce animation : be careful, it is not compatible with other transform !
-        animation: rog_bounce 2s ease infinite;
+        &[data-type='1'], //MEEPLE_TYPE_SHIP
+        &[data-type='3'] //MEEPLE_TYPE_SHIP_ROYAL
+        {
+            //add a bounce animation : be careful, it is not compatible with other transform !
+            animation: rog_bounce 2s ease infinite;
+        }
     }
 }
 

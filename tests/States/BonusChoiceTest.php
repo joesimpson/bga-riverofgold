@@ -742,6 +742,33 @@ final class BonusChoiceTest extends TestCase
         //Next state differs for each bonus :
         assertSame(ST_BONUS_MANAGE_CARD_RESOURCES, GamestateMachine::$test_current_state);
     }
+    
+    public function test_ActionBonus_Pass_RemoveGoods(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_REMOVE_GOODS;
+        $bonusKey = 1;
+        $bonuses = [
+            'datas' => [
+                $bonusType => [
+                    $bonusKey => ['card_id'=>301,'shoreSpacesIds'=>[21,22,23,25], 'meeplesIds'=>[43,44,45], 'bonusQuantity'=>1, 'resources' => [1,2,3] ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [
+        ];
+
+        $game->actBonus(999999,$bonusType,$bonusKey);
+        
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame(['card_id'=>301,'shoreSpacesIds'=>[21,22,23,25], 'meeplesIds'=>[43,44,45], 'bonusQuantity'=>1, 'resources' => [1,2,3] ], Globals::getCurrentBonusDatas());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_MANAGE_CARD_RESOURCES, GamestateMachine::$test_current_state);
+    }
 
     public function test_ActionBonus_KO_WrongBonus(): void
     {

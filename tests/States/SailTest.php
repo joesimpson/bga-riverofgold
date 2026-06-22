@@ -1357,6 +1357,45 @@ final class SailTest extends TestCase
         assertSame(MEEPLE_LOCATION_NEAR_SHORE."12", TestDatas::$tokens[46]['meeple_location']);
     }
     
+    public function test_ActionSail_Pass_ScenarioUnicorn1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_2);
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::UNICORN_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        $shipId = 21;
+        TestDatas::$tokens[$shipId]['meeple_state'] = 1;
+        $riverSpace = 2;
+        unset(TestDatas::$tiles[41]);
+        unset(TestDatas::$tiles[42]);
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."3",'type' => MEEPLE_TYPE_RESOURCE_RICE,  'player_id' => null,  ];
+        TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."4",'type' => MEEPLE_TYPE_RESOURCE_SILK,  'player_id' => null,  ];
+        TestDatas::$tokens[45] = ['result_associative_index' => 45, 'meeple_id' => 45, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."5",'type' => MEEPLE_TYPE_RESOURCE_RICE,  'player_id' => null,  ];
+        $expectedNotifs = [
+            "sail-1",
+            "checkVRewards",
+            "giveResource-1", //empty space 3
+            "giveResource-1", //space 4 
+            "giveResource-1",//space 5
+            "giveResource-1", //empty space 7
+            "checkORewards",
+            "addBonus-1",
+        ];
+
+        $game->actSailSelect($shipId,$riverSpace,999999);
+
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $expectedBonuses = [
+            'datas'=>[
+                BONUS_TYPE_REMOVE_GOODS => [ 1=> ['card_id'=>301, 'shoreSpacesIds'=>[3,4,5,7],'meeplesIds'=>[43,44,45], 'bonusQuantity'=>1, 'resources' =>[3,1,]]], 
+            ],
+        ];
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+
     public function test_ActionSail_KO_WrongShip(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

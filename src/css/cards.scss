@@ -1081,7 +1081,7 @@
         font-weight: bold;
         text-decoration: underline;
     }
-    .rog_debt{
+    .rog_debt, .rog_resources{
         display: none;
     }
 
@@ -1162,13 +1162,24 @@
                     }
                 }
             }
-            .rog_debt{
-                display: block;
-                color: red;
-                font-weight: bold;
-                background: #c6e2fd;
-                border-radius: 5px;
-                box-shadow: 0px 0px 0px 2px #96ccff;
+        }
+        .rog_debt, .rog_resources{
+            display: block;
+            color: red;
+            font-weight: bold;
+            background: #c6e2fd;
+            border-radius: 5px;
+            box-shadow: 0px 0px 0px 2px #96ccff;
+                
+            .rog_icon_container{
+                margin-right: 2em;
+                .rog_icon_qty{
+                    //display number on the left
+                    color: black;
+                    display: inline-block;
+                    margin-left: -2em;
+                    font-size: 1.5em;
+                }
             }
         }
         .rog_scenario_gameplay_label

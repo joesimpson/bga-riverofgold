@@ -508,14 +508,19 @@ class Meeples extends \ROG\Helpers\Pieces
     //$scenarioResources = Cards::getAssignedScenario(ScenarioType::UNICORN_1);
     //$scenarioOwner = $scenarioResources->getPId();
     foreach($meeples as $meeple){
-      Notifications::removeResourceMarker($player,$meeple,);
+      Meeples::removeResourceOnShoreSpace($player,$meeple);
       $typeResource = Meeples::getResourceFromType($meeple->getType());
       if($player->canSpendResource($typeResource,1)){
         $player->giveResource(-1,$typeResource);
       }
-      Meeples::DB()->delete($meeple->getId());
     }
     return true;
+  }
+  
+  public static function removeResourceOnShoreSpace(Player &$player, Meeple $meeple, )
+  {
+    Notifications::removeResourceMarker($player,$meeple,);
+    Meeples::DB()->delete($meeple->getId());
   }
 
   public static function getPlayerShipsInRiverSpace(int $position, ) : Collection

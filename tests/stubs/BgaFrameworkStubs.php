@@ -565,6 +565,7 @@ abstract class Table
             $meeple_location = $matches['meeple_location'];
             $types = explode(',',str_replace("'","",$matches['types']));
             $filtered = array_filter(TestDatas::$tokens,function ($token) use ( $types, $meeple_location, $operator){return in_array($token['type'], $types) && ($operator =="=" && $token['meeple_location'] == $meeple_location || $operator =="LIKE" && str_starts_with($token['meeple_location'], $meeple_location) );});
+            logForTests("MOCK select tokens: ".json_encode($filtered));
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `meeples` WHERE \(`meeple_id` IN \((?P<meeple_ids>.*)\)\)$/", $sql, $matches) == 1) {
@@ -808,7 +809,8 @@ abstract class Table
             $resources = $matches['resources'];
             $resources = str_replace('\\','',$resources);
             $pid = $matches['pid'];
-            logForTests("DbQuery --- updated resources for player $pid ... '$resources'");
+            $before = TestDatas::$players[$pid]['resources'];
+            logForTests("DbQuery --- updated resources for player $pid ... '$before' => '$resources'");
             TestDatas::$players[$pid]['resources'] = $resources;
             return true;
         }
@@ -1017,8 +1019,9 @@ abstract class Table
             $resources = $matches['resources'];
             $resources = str_replace('\\','',$resources);
             $card_id = $matches['card_id'];
-            logForTests("DbQuery --- updated resources for card $card_id ... '$resources'");
-           TestDatas::$cards[$card_id]['resources'] = $resources;
+            $before = TestDatas::$cards[$card_id]['resources'];
+            logForTests("DbQuery --- updated resources for card $card_id ...'$before' => '$resources'");
+            TestDatas::$cards[$card_id]['resources'] = $resources;
             return true;
         }
         

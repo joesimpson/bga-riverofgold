@@ -311,6 +311,7 @@ const BONUS_TYPE_MULTITRADE_3       = 43;
 const BONUS_TYPE_TRADE_KOKU         = 44;
 const BONUS_TYPE_TRADE_POINTS       = 45;
 const BONUS_TYPE_MANAGE_DEBT        = 46;
+const BONUS_TYPE_REMOVE_GOODS       = 47;
 
 const RESOURCES = [
     0,

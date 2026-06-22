@@ -129,6 +129,7 @@ trait SailTrait
     Globals::setTurnMainActionDone(MAIN_ACTION::SAIL->value);
     Notifications::sail($player,$ship,$riverSpace);
     $playerScenario = $player->getScenario();
+    $assignedScenarios = Cards::getAssignedScenarios();
 
     if($riverSpace < $fromPosition){
       if($upriver){
@@ -234,16 +235,20 @@ trait SailTrait
         }
 
         if($player instanceof AutomaPlayer && $clanMarkers->count()>0){
-          Cards::getAssignedScenarios()->map(function(ScenarioCard $scenario) use ($player,$adjacentSpace) {
+          $assignedScenarios->map(function(ScenarioCard $scenario) use ($player,$adjacentSpace) {
             $scenario->abilityOnAutomaSailVisit($player,$adjacentSpace);
           });
         }
         else {
-          Cards::getAssignedScenarios()->map(function(ScenarioCard $scenario) use ($player,$adjacentSpace) {
+          $assignedScenarios->map(function(ScenarioCard $scenario) use ($player,$adjacentSpace) {
             $scenario?->abilityOnPlayerSailVisit($player,$adjacentSpace);
           });
         }
       }
+    }
+
+    if(isset($playerScenario)){
+      $playerScenario->abilityOnPlayerSail($player,$adjacentSpaces);
     }
 
     if(MEEPLE_TYPE_SHIP_ROYAL == $ship->getType()){

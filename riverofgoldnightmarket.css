@@ -4742,7 +4742,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   font-weight: bold;
   text-decoration: underline;
 }
-.rog_scenario_card_desc .rog_debt {
+.rog_scenario_card_desc .rog_debt, .rog_scenario_card_desc .rog_resources {
   display: none;
 }
 .rog_scenario_card_desc .rog_coop_label {
@@ -4814,13 +4814,22 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: 100px;
   height: 80px;
 }
-.rog_popin_scenario_content .rog_scenario_card_wrapper .rog_scenario_setup .rog_debt {
+.rog_popin_scenario_content .rog_scenario_card_wrapper .rog_debt, .rog_popin_scenario_content .rog_scenario_card_wrapper .rog_resources {
   display: block;
   color: red;
   font-weight: bold;
   background: #c6e2fd;
   border-radius: 5px;
   box-shadow: 0px 0px 0px 2px #96ccff;
+}
+.rog_popin_scenario_content .rog_scenario_card_wrapper .rog_debt .rog_icon_container, .rog_popin_scenario_content .rog_scenario_card_wrapper .rog_resources .rog_icon_container {
+  margin-right: 2em;
+}
+.rog_popin_scenario_content .rog_scenario_card_wrapper .rog_debt .rog_icon_container .rog_icon_qty, .rog_popin_scenario_content .rog_scenario_card_wrapper .rog_resources .rog_icon_container .rog_icon_qty {
+  color: black;
+  display: inline-block;
+  margin-left: -2em;
+  font-size: 1.5em;
 }
 .rog_popin_scenario_content .rog_scenario_card_wrapper .rog_scenario_gameplay_label {
   top: 0%;
@@ -6192,6 +6201,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background: none;
   box-shadow: none;
 }
+.rog_meeple[data-type="5"].selected, .rog_meeple[data-type="6"].selected, .rog_meeple[data-type="7"].selected {
+  box-shadow: 0px 0px 0px 15px blue;
+}
 .rog_meeple[data-type="5"] {
   width: 90px;
   height: 81px;
@@ -6271,7 +6283,7 @@ html:not(.dj_safari) .rog_meeple.selected {
   filter: drop-shadow(0 0 15px red);
 }
 
-body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
+body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="3"] {
   animation: rog_bounce 2s ease infinite;
 }
 
@@ -7697,7 +7709,8 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected {
   display: none;
 }
 
-.rog_icon_bonus-46 .rog_icon_qty {
+.rog_icon_bonus-46 .rog_icon_qty,
+.rog_icon_bonus-47 .rog_icon_qty {
   display: none;
 }
 

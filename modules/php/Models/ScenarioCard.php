@@ -2,6 +2,7 @@
 
 namespace ROG\Models;
 
+use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
@@ -260,6 +261,26 @@ class ScenarioCard extends Card
         break;
     }
   }
+  
+  function abilityOnPlayerSail(Player $player, array $shoreSpacesIds){
+    switch($this->getType()){
+      case ScenarioType::UNICORN_1->value:
+        $resourcesMeeples = new Collection();
+        foreach($shoreSpacesIds as $shoreSpace){
+          $resourcesMeeples = $resourcesMeeples->merge(Meeples::getResourcesOnShoreSpace(ShoreSpaces::getShoreSpace($shoreSpace)));
+        }
+        //Game::get()->trace("abilityOnPlayerSail() resourcesMeeples=".json_encode($resourcesMeeples));
+        $resources =  array_unique($resourcesMeeples->map(function(Meeple $m){ return Meeples::getResourceFromType($m->getType());})->toArray());
+        //$maySpendResource = false;
+        //foreach($resources as $resource) $maySpendResource |= $player->canSpendResource($resource,1);
+        $maySpendResource = true;//let player see the bonus and decide if they want to trade or whatever
+        //Game::get()->trace("abilityOnPlayerSail() resources=".json_encode($resources));
+        if(count($resources)>0 && $maySpendResource){
+          Globals::addBonusWithDatas($player,BONUS_TYPE_REMOVE_GOODS,['card_id'=>$this->getId(),'shoreSpacesIds'=>$shoreSpacesIds, 'meeplesIds'=>$resourcesMeeples->getIds(), 'bonusQuantity'=>1, 'resources' => $resources ],clienttranslate('Remove goods'));
+        }
+        break;
+    }
+  }
 
   function abilityOnGainInfluence(Player $player,int $region,int $fromInfluence, int $toInfluence){
     switch($this->getType()){
@@ -285,11 +306,11 @@ class ScenarioCard extends Card
     }
   }
   
-  public function abilityOnManageResources(Player &$player, int $qty, )
+  public function abilityOnManageResources(Player &$player, int $qty, int $type)
   {
+    $currentBonusDatas = Globals::getCurrentBonusDatas();
     switch($this->getType()){//ScenarioType value
       case ScenarioType::CRANE_1->value:
-        $type = RESOURCE_TYPE_MONEY;
         $debtBefore = $this->getResource($type);
         
         //Remove money from debt card by PAYING from player money
@@ -323,6 +344,24 @@ class ScenarioCard extends Card
         //Interest: For each 5 of debt remaining on this card, add 1 to your debt
         $interests = intval($debt / 5);
         $this->addResource($player,$interests,RESOURCE_TYPE_MONEY);
+        break;
+      case ScenarioType::UNICORN_1->value:
+        $meepleType = Meeples::getTypeFromResource($type);
+        $resourcesMeeples = Meeples::getMany($currentBonusDatas['meeplesIds']);
+        $resourceMeeples = $resourcesMeeples->filter(function(Meeple $m) use($meepleType){return $m->getType() == $meepleType;});
+        if($resourceMeeples->count() == 0) return;
+        $player->giveResource(-$qty,$type);
+        foreach($resourceMeeples as $resourceMeeple){
+          Meeples::removeResourceOnShoreSpace($player,$resourceMeeple);
+          //remove meeple from list to manage
+          $key = array_search($resourceMeeple->getId(),$currentBonusDatas['meeplesIds']);
+          unset($currentBonusDatas['meeplesIds'][$key]);
+          $currentBonusDatas['meeplesIds'] = array_values($currentBonusDatas['meeplesIds']);
+          Globals::setCurrentBonusDatas($currentBonusDatas);
+        }
+        $this->addResource($player,$resourceMeeples->count(),$type);
+        $player->addPoints($resourceMeeples->count());
+        Players::claimScoreMasteries($player);
         break;
     }
   }

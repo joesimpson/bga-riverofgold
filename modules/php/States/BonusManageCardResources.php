@@ -15,6 +15,7 @@ use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Models\Player;
+use ROG\Models\ScenarioCard;
 
 class BonusManageCardResources extends GameState
 {
@@ -59,6 +60,18 @@ class BonusManageCardResources extends GameState
         $limit['max'] = min($player->getMoney(), $cardResources[RESOURCE_TYPE_MONEY]);
         $types[RESOURCE_TYPE_MONEY] = $limit;
         break;
+        
+      case BONUS_TYPE_REMOVE_GOODS:
+        $args['meeples'] = $currentBonusDatas['meeplesIds'];
+        $args['spaces'] = $currentBonusDatas['shoreSpacesIds'];
+        $args['resources'] = $currentBonusDatas['resources'];
+        foreach($args['resources'] as $resType){
+          if(!$player->canSpendResource($resType,1)) continue;
+          $limit['min'] = 1;
+          $limit['max'] = 1;
+          $types[$resType] = $limit;
+        }
+        break;
     }
 
     $args['types'] = $types;
@@ -73,6 +86,25 @@ class BonusManageCardResources extends GameState
     
   }
 
+  #[PossibleAction]
+  public function actSkipBonuses(
+      int $version,
+      int $activePlayerId, array $args,
+    )
+  {
+    $this->game->checkVersion($version);
+    $this->game->trace(__CLASS__.".".__FUNCTION__."($activePlayerId)");
+    
+    Log::addStep();
+
+    if(!$args['skip']){
+      throw new UnexpectedException(405,"You should not skip these bonuses !");
+    }
+
+    Globals::setCurrentBonus(null);
+    Globals::setCurrentBonusDatas(null);
+    return ST_BONUS_CHOICE;
+  }
   /**
    * Player action
    */
@@ -88,6 +120,7 @@ class BonusManageCardResources extends GameState
     $this->game->trace(__CLASS__.".".__FUNCTION__."( $qty, $type, $activePlayerId)");
     
     $player = Players::get($activePlayerId);
+    /** @var ScenarioCard */
     $card = Cards::get($args['card_id']);
     $types = $args['types'];
     if (!in_array($type,array_keys($types))) {
@@ -108,11 +141,25 @@ class BonusManageCardResources extends GameState
     
     // game logic  
     $currentBonus = $args['c'];
+    $stayInState = false;
 
     switch($currentBonus){
       case BONUS_TYPE_MANAGE_DEBT:
-        $card->abilityOnManageResources($player, $qty);
+        $card->abilityOnManageResources($player, $qty,$type);
         break;
+      case BONUS_TYPE_REMOVE_GOODS:
+        $card->abilityOnManageResources($player, $qty,$type);
+        $currentBonusDatas = Globals::getCurrentBonusDatas();
+          $key = array_search($type,$currentBonusDatas['resources']);
+          unset($currentBonusDatas['resources'][$key]);
+          $currentBonusDatas['resources'] = array_values($currentBonusDatas['resources']);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        //stay here until other resources are managed or skipped
+        $stayInState = (count($currentBonusDatas['resources']) > 0);
+        break;
+    }
+    if($stayInState){
+      return self::class;
     }
 
     Globals::setCurrentBonus(null);

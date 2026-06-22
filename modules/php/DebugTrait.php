@@ -303,7 +303,9 @@ trait DebugTrait
     //Globals::addBonusWithDatas($player,BONUS_TYPE_MULTITRADE_3,['region'=>3,'bonusQuantity'=>1, 'koku'=>3,'points'=>3,]);
     Globals::addBonusWithDatas($player,BONUS_TYPE_TRADE_KOKU,['koku'=>3,'bonusQuantity'=>1]);
     Globals::addBonusWithDatas($player,BONUS_TYPE_TRADE_POINTS,['points'=>2,'bonusQuantity'=>1]);
-    Globals::addBonusWithDatas($player,BONUS_TYPE_MANAGE_DEBT,['card_id'=>301, ],clienttranslate('Manage debt'));
+    Globals::addBonusWithDatas($player,BONUS_TYPE_MANAGE_DEBT,['card_id'=>$player->getScenario()->getId(), 'bonusQuantity'=>1,],clienttranslate('Manage debt'));
+    $player->getScenario()->addResource($player,1, RESOURCE_TYPE_MONEY);
+    Globals::addBonusWithDatas($player,BONUS_TYPE_REMOVE_GOODS,['card_id'=>$player->getScenario()->getId(),'shoreSpacesIds'=>[3,4,5,7], 'meeplesIds'=>[43,44,45], 'bonusQuantity'=>1, 'resources' =>[3,1,2]],clienttranslate('Remove goods'));
 
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }

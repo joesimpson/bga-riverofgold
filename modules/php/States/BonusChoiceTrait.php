@@ -162,6 +162,7 @@ trait BonusChoiceTrait
         $nextState = 'bonusMultiTrades';
         break;
       case BONUS_TYPE_MANAGE_DEBT:
+      case BONUS_TYPE_REMOVE_GOODS:
         $nextState = 'bonusManageCardResources';
         break;
       default:

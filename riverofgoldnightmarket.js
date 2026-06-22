@@ -179,6 +179,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const BONUS_TYPE_TRADE_KOKU         = 44;
     const BONUS_TYPE_TRADE_POINTS       = 45;
     const BONUS_TYPE_MANAGE_DEBT        = 46;
+    const BONUS_TYPE_REMOVE_GOODS = 47;
 
     const RESOURCES = [
         0,
@@ -966,6 +967,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     `;
                 else if(BONUS_TYPE_ADVANCE_OR_POINTS == bonusType) buttonText = _('Advance / Points');
                 else if(BONUS_TYPE_MANAGE_DEBT == bonusType) buttonText = _('Manage debt');
+                else if(BONUS_TYPE_REMOVE_GOODS == bonusType) buttonText = _('Remove goods');
                 this.addImageActionButton(`btnBonus_${k}_${bonusType}`, `${buttonText}<div class='rog_trade'>
                     ${iconBonus}
                 </div>`, () =>  {
@@ -1363,6 +1365,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
    
             let bonusType = args['c'];
             let iconMoney = this.formatIcon(RESOURCES[RESOURCE_TYPE_MONEY]);
+            let confirmMessage = _('Select and pay ${n} Koku');
             let type = null;
             switch(bonusType){
                 case BONUS_TYPE_MANAGE_DEBT:
@@ -1372,25 +1375,57 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     );
                     type = RESOURCE_TYPE_MONEY;
                     break;
+                case BONUS_TYPE_REMOVE_GOODS:
+                    this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
+                        _('${you} may pay some trade goods to remove from shore spaces (${spaces})').replace('${spaces}',args.spaces) :
+                        _('${actplayer} may pay some trade goods to remove from shore spaces (${spaces})').replace('${spaces}',args.spaces)
+                    );
+                    //Highlight meeples on shore :
+                    Object.values(args.meeples).forEach((meepleId) => {
+                        let meepleDiv = document.getElementById(`rog_meeple-${meepleId}`);
+                        if(meepleDiv){
+                            meepleDiv.classList.add('selected');
+                        }
+                    });
+
+                    //type = RESOURCE_TYPE_SILK;
+                    Object.entries(args.types).forEach(([ resourceType, typeDatas,]) => {
+                        let iconRes = this.formatIcon(RESOURCES[resourceType],null);
+                        this.addImageActionButton(`btnBonus_${resourceType}`, `<div class='rog_trade'>
+                            ${iconRes}
+                        </div>`, () =>  {
+                            this.takeAction('actManageCardResources', { 'qty': 1,'type': resourceType, });
+                        });
+                    });
+                    break;
             }
 
             if(! this.bga.players.isCurrentPlayerActive()) return;
 
-            let selectedAmount = 0;
-            let confirmMessage = _('Select and pay ${n} Koku');
-            this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, { 'n': selectedAmount }), () => {
-                this.takeAction('actManageCardResources', { 'qty': selectedAmount,'type': type, });
-            }); 
-            let minToSelect = args['types'][type].min;
-            let maxToSelect = args['types'][type].max;
-            let possibleAmounts = Array.from(new Array(1 + maxToSelect-minToSelect), (x, i) => i + minToSelect); 
-            Object.values(possibleAmounts).forEach((amount) => {
-                let callbackSelection = (evt) => {
-                    $('btnConfirm').innerHTML = this.fsr(confirmMessage, { 'n': amount });
-                    selectedAmount = amount;
-                };
-                this.addSecondaryActionButton(`btn_amount_${amount}`,amount, callbackSelection); 
+            if(type){
+                let iconRes = this.formatIcon(RESOURCES[type]);
+                let selectedAmount = 0;
+                let minToSelect = args['types'][type].min;
+                let maxToSelect = args['types'][type].max;
+                let possibleAmounts = Array.from(new Array(1 + maxToSelect-minToSelect), (x, i) => i + minToSelect); 
+                Object.values(possibleAmounts).forEach((amount) => {
+                    let callbackSelection = (evt) => {
+                        this.addPrimaryActionButton('btnConfirm', this.fsr('', { 'n': selectedAmount }), () => {
+                            this.takeAction('actManageCardResources', { 'qty': selectedAmount,'type': type, });
+                        }); 
+                        $('btnConfirm').innerHTML = this.fsr(`${amount}${iconRes}`, { 'n': amount });
+                        selectedAmount = amount;
+                    };
+                    this.addSecondaryActionButton(`btn_amount_${amount}`,`${amount}${iconRes}`, callbackSelection); 
+                });
+            }
+                
+            this.addSecondaryActionButton(`btnSkip`, _('Skip') , () =>  { 
+                this.takeAction('actSkipBonuses', {});
             });
+            if(!args.skip){
+                $(`btnSkip`).classList.add('disabled');
+            }
 
         },
 
@@ -4181,7 +4216,17 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     `
                     <ul>
                         <li>${this.fsr(_('You may not build on shore spaces that have trade goods on them.'),{})}</li>
-                        <li>${this.fsr(_(''),{})}</li>
+                        <li>${this.fsr(_('When you sail to a river space, you may spend ${n} or more trade goods to remove all trade goods of the same type(s) from adjacent shore spaces. If you do, gain ${score} for each trade good you remove and place the removed trade goods on this card : ${current}'),{
+                            'n':1,
+                            'score':this.formatIcon('score_1'),
+                            'current': 
+                                "<span class='rog_resources'>"
+                                    + this.formatIcon(RESOURCES[RESOURCE_TYPE_SILK],card.resources && card.resources[RESOURCE_TYPE_SILK] ? card.resources[RESOURCE_TYPE_SILK] : 0)
+                                    + this.formatIcon(RESOURCES[RESOURCE_TYPE_POTTERY],card.resources && card.resources[RESOURCE_TYPE_POTTERY] ? card.resources[RESOURCE_TYPE_POTTERY] : 0)
+                                    + this.formatIcon(RESOURCES[RESOURCE_TYPE_RICE],card.resources && card.resources[RESOURCE_TYPE_RICE] ? card.resources[RESOURCE_TYPE_RICE] : 0)
+                                +"</span>"
+                            })
+                        }</li>
                         <li>${this.fsr(_('When Seishin builds on a shore space with a trade good, it removes the trade good and gains ${score}.'),{'score':this.formatIcon('score',2),})}</li>
                         <li>${this.fsr(_(''),{})}</li>
                     </ul>

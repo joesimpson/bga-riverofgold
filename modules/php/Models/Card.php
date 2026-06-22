@@ -2,6 +2,7 @@
 
 namespace ROG\Models;
 
+use ROG\Core\Game;
 use ROG\Core\Notifications;
 
 /*
@@ -55,6 +56,7 @@ class Card extends \ROG\Helpers\DB_Model
   {
     if($nb == 0) return 0;
     $resources = $this->getResources();
+    Game::get()->trace(__CLASS__.".".__FUNCTION__."($nb,$type) - BEFORE =".json_encode($resources));
     if(!isset($resources) ) $resources = [];
     if(!isset($resources[$type]) ) $resources[$type] = 0;
     $before = $resources[$type];
@@ -63,6 +65,7 @@ class Card extends \ROG\Helpers\DB_Model
     $realNb = $resources[$type] - $before;
     $this->setResources($resources);
     if($sendNotif) Notifications::addResourceOnCard($player,$this,$realNb,$type);
+    Game::get()->trace(__CLASS__.".".__FUNCTION__."($nb,$type) - AFTER =".json_encode($resources));
     return $realNb;
   }
   
