@@ -1526,12 +1526,23 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 }
                 cardsCosts = args._private.canReplaceGoods.cardsCosts;
             }
+            let cardsWithResources = args.cardsWithResources;
 
             this.selectedCardId = null;
             let confirmMessage = _('Deliver to ${customer_name}');
             let confirmReplace = _('Deliver to ${customer_name} with ${icon_goods}');
             this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {customer_name:''}), () => {
-                this.takeAction('actDeliverSelect', { c: this.selectedCardId});
+                if(cardsWithResources && Object.values(cardsWithResources).length>0){
+                    this.clientState('deliverSelectGoods','', {
+                                            'cardId': this.selectedCardId,
+                                            'cardsCosts': cardsCosts[this.selectedCardId],
+                                            'cardsWithResources' : cardsWithResources,
+                                            'modeReplace' : false,
+                                        });
+                }
+                else {
+                    this.takeAction('actDeliverSelect', { 'c': this.selectedCardId});
+                }
             }); 
             //DISABLED by default
             $(`btnConfirm`).classList.add('disabled');
@@ -1539,11 +1550,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let icon_goods = this.formatIcon('bonus-'+BONUS_TYPE_CHOICE);
             if(cardsCanReplaceGoods.length>0){
                 this.addImageActionButton('btnConfirmReplaceGoods', this.fsr(confirmReplace, {'customer_name':'', 'icon_goods':icon_goods}), () => {
-                    this.clientState('playCardDeliverAnyGood','', {
+                    this.clientState('deliverSelectGoods','', {
                                             'cardId': this.selectedCardId,
-                                            'markerId': this.selectedMarkerId,
                                             'cardsCosts': cardsCosts[this.selectedCardId],
-                                            'cardsWithResources' : args.cardsWithResources,
+                                            'cardsWithResources' : cardsWithResources,
+                                            'modeReplace' : true,
                                         });
                 }); 
                 $(`btnConfirmReplaceGoods`).classList.add('disabled');
@@ -1584,10 +1595,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         
         //CLIENT STATE
-        onEnteringStatePlayCardDeliverAnyGood(args) {
-            debug('onEnteringStatePlayCardDeliverAnyGood', args);
+        onEnteringStateDeliverSelectGoods(args) {
+            debug('onEnteringStateDeliverSelectGoods', args);
             let callbackReset = () => {
-                this.clientState('playCardDeliverAnyGood','', args);
+                this.clientState('deliverSelectGoods','', args);
             };
             this.bga.statusBar.setTitle( 
                 _('Select the goods to spend')
@@ -1595,13 +1606,15 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.addCancelStateBtn(_('Return'));
             
             let cardId = parseInt(args.cardId);
-            let markerId = parseInt(args.markerId);
             let cardsWithResources = args.cardsWithResources;
             let cardsCosts = args.cardsCosts;
             let totalCardCostAsGoods = 0;
             if(cardsCosts[RESOURCE_TYPE_SILK]) totalCardCostAsGoods+= cardsCosts[RESOURCE_TYPE_SILK];
+            else cardsCosts[RESOURCE_TYPE_SILK] = 0;
             if(cardsCosts[RESOURCE_TYPE_RICE]) totalCardCostAsGoods+= cardsCosts[RESOURCE_TYPE_RICE];
+            else cardsCosts[RESOURCE_TYPE_RICE] = 0;
             if(cardsCosts[RESOURCE_TYPE_POTTERY]) totalCardCostAsGoods+= cardsCosts[RESOURCE_TYPE_POTTERY];
+            else cardsCosts[RESOURCE_TYPE_POTTERY] = 0;
             this.totalCount = 0;
 
             document.getElementById(`rog_card-${cardId}`).classList.add('selected');
@@ -1614,11 +1627,37 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [RESOURCE_TYPE_RICE, 0],
                 [RESOURCE_TYPE_POTTERY, 0],
             ]);
+            this.quantitiesFromPlayer = new Map([
+                [RESOURCE_TYPE_SILK,0],
+                [RESOURCE_TYPE_RICE, 0],
+                [RESOURCE_TYPE_POTTERY, 0],
+            ]);
             this.quantitiesFromCard = new Map([
                 [RESOURCE_TYPE_SILK,0],
                 [RESOURCE_TYPE_RICE, 0],
                 [RESOURCE_TYPE_POTTERY, 0],
             ]);
+            
+            let maxToSpendMap = new Map([
+                [RESOURCE_TYPE_SILK, this._counters[this.player_id][RESOURCES[RESOURCE_TYPE_SILK]].getValue() ],
+                [RESOURCE_TYPE_RICE, this._counters[this.player_id][RESOURCES[RESOURCE_TYPE_RICE]].getValue() ],
+                [RESOURCE_TYPE_POTTERY, this._counters[this.player_id][RESOURCES[RESOURCE_TYPE_POTTERY]].getValue() ],
+            ]);
+            let maxToSpendWithCardMap = new Map([
+                [RESOURCE_TYPE_SILK, 0 ],
+                [RESOURCE_TYPE_RICE, 0 ],
+                [RESOURCE_TYPE_POTTERY, 0 ],
+            ]);
+            
+            if(cardsWithResources){
+                Object.entries(cardsWithResources).forEach( ([otherCardId, cardDatas]) => {
+                    Object.entries(cardDatas.resources).forEach( ([type, amount]) => {
+                        let typeInt = parseInt(type);
+                        //maxToSpendMap.set(typeInt, maxToSpendMap.get(typeInt) + amount);
+                        maxToSpendWithCardMap.set(typeInt,  amount);
+                    });
+                }
+            )};
 
             let selectedOtherCard = null;
 
@@ -1627,12 +1666,19 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <div class='rog_button_qty' id='qtyReplaceGood_${RESOURCE_TYPE_RICE}'>0</div>${iconRice}
                     <div class='rog_button_qty' id='qtyReplaceGood_${RESOURCE_TYPE_POTTERY}'>0</div>${iconPottery}
                 </div>`, () =>  {
+                    let actionName = 'actDeliverSelect';
                     let actionArgs = {
-                        'cardId':cardId, 
-                        'silk': this.quantities.get(RESOURCE_TYPE_SILK  ),
-                        'rice': this.quantities.get(RESOURCE_TYPE_RICE  ),
-                        'pottery': this.quantities.get(RESOURCE_TYPE_POTTERY),
+                        'c':cardId, 
                     };
+                    if(args.modeReplace){
+                        actionName = 'actDeliverReplace';
+                        actionArgs = {
+                            'cardId':cardId, 
+                            'silk': this.quantities.get(RESOURCE_TYPE_SILK  ),
+                            'rice': this.quantities.get(RESOURCE_TYPE_RICE  ),
+                            'pottery': this.quantities.get(RESOURCE_TYPE_POTTERY),
+                        };
+                    }
                     if(selectedOtherCard){
                         actionArgs.cardRes = JSON.stringify({
                             'cardId': parseInt(selectedOtherCard), 
@@ -1641,7 +1687,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                             'pottery': this.quantitiesFromCard.get(RESOURCE_TYPE_POTTERY),
                         });
                     }
-                    this.takeAction('actDeliverReplace', actionArgs);
+                    this.takeAction(actionName, actionArgs);
                 });
             $(`btnReplaceGood`).classList.add('disabled');
             let callbackIncreaseResource = (res_type, otherCardId, otherCardResources) => {
@@ -1649,15 +1695,27 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     return;
                 } 
                 let count = this.quantities.get(res_type);
-                let maxToSpend = this._counters[this.player_id][RESOURCES[res_type]].getValue();
+                let countFromPlayer = this.quantitiesFromPlayer.get(res_type);
+                let countFromCard = this.quantitiesFromCard.get(res_type);
+                let maxPlayerToSpend = maxToSpendMap.get(res_type);
+                let maxFromCardToSpend = maxToSpendWithCardMap.get(res_type);
+                let maxToSpend = maxPlayerToSpend + maxFromCardToSpend;
                 if(otherCardId ){
-                    maxToSpend = otherCardResources[res_type];
+                    //maxToSpend = otherCardResources[res_type];
+                    if(countFromCard +1 > maxFromCardToSpend) return;
+                }
+                else {
+                    if(countFromPlayer +1 > maxPlayerToSpend) return;
                 }
                 count++;
                 if(count > maxToSpend) return;
+                if(!args.modeReplace && (count > cardsCosts[res_type])) return;
                 if(otherCardId ){
                     selectedOtherCard = otherCardId;
-                    this.quantitiesFromCard.set(res_type,1 + this.quantitiesFromCard.get(res_type));
+                    this.quantitiesFromCard.set(res_type,1 + countFromCard);
+                }
+                else {
+                    this.quantitiesFromPlayer.set(res_type,1 + countFromPlayer);
                 }
                 this.quantities.set(res_type,count);
                 document.getElementById(`qtyReplaceGood_${res_type}`).innerHTML = this.quantities.get(res_type);
@@ -1678,26 +1736,27 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.addSecondaryActionButton(`btnIncPottery`, `<div class='rog_trade'>
                     <div class='rog_button_qty'>+1</div>${iconPottery}
                 </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_POTTERY)); 
-
-            Object.entries(cardsWithResources).forEach( ([otherCardId, cardDatas]) => {
-                let otherCardIcon = '';
-                if(cardDatas.subtype == CARD_TYPE_SCENARIO ){
-                    otherCardIcon = this.formatIcon(`clan-${cardDatas.clan}`);
-                }
-                this.addSecondaryActionButton(`btnIncSilk_${otherCardId}`, `${otherCardIcon}<div class='rog_trade'>
-                        <div class='rog_button_qty'>+1</div>${iconSilk}
-                    </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_SILK, otherCardId,cardDatas.resources)); 
-                this.addSecondaryActionButton(`btnIncRice_${otherCardId}`, `${otherCardIcon}<div class='rog_trade'>
-                        <div class='rog_button_qty'>+1</div>${iconRice}
-                    </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_RICE, otherCardId,cardDatas.resources)); 
-                this.addSecondaryActionButton(`btnIncPottery_${otherCardId}`, `${otherCardIcon}<div class='rog_trade'>
-                        <div class='rog_button_qty'>+1</div>${iconPottery}
-                    </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_POTTERY, otherCardId,cardDatas.resources)); 
-            });
+            if(cardsWithResources){
+                Object.entries(cardsWithResources).forEach( ([otherCardId, cardDatas]) => {
+                    let otherCardIcon = '';
+                    if(cardDatas.subtype == CARD_TYPE_SCENARIO ){
+                        otherCardIcon = this.formatIcon(`clan-${cardDatas.clan}`);
+                    }
+                    this.addSecondaryActionButton(`btnIncSilk_${otherCardId}`, `${otherCardIcon}<div class='rog_trade'>
+                            <div class='rog_button_qty'>+1</div>${iconSilk}
+                        </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_SILK, otherCardId,cardDatas.resources)); 
+                    this.addSecondaryActionButton(`btnIncRice_${otherCardId}`, `${otherCardIcon}<div class='rog_trade'>
+                            <div class='rog_button_qty'>+1</div>${iconRice}
+                        </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_RICE, otherCardId,cardDatas.resources)); 
+                    this.addSecondaryActionButton(`btnIncPottery_${otherCardId}`, `${otherCardIcon}<div class='rog_trade'>
+                            <div class='rog_button_qty'>+1</div>${iconPottery}
+                        </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_POTTERY, otherCardId,cardDatas.resources)); 
+                });
+            }
             
             this.addSecondaryActionButton(`btnReset`, _('Reset'), () => callbackReset()); 
         },
-
+        
         onEnteringStateDiscardCard(args){
             debug('onEnteringStateDiscardCard', args);
 

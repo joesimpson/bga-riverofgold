@@ -33,9 +33,12 @@ trait DeliverTrait
     $cardsWithResources = [];
     
     $scenario = $activePlayer->getScenario();
-    if($scenario && $scenario->getType() == ScenarioType::UNICORN_1->value){
-      $cardsWithResources[$scenario->getId()] = 
-        $scenario->getUiData();
+    if(isset($scenario) && $scenario->getType() == ScenarioType::UNICORN_1->value){
+      if($scenario->getResources() && count($scenario->getResources()) > 0 ){
+
+        $cardsWithResources[$scenario->getId()] = 
+          $scenario->getUiData();
+      }
     }
 
     $cards = $this->listPossibleCardsToDeliver($activePlayer);
@@ -58,8 +61,8 @@ trait DeliverTrait
 
     $args = [
       '_private' => $privateDatas,
-      'cardsWithResources' => $cardsWithResources,
     ];
+    if(count($cardsWithResources)>0) $args['cardsWithResources'] = $cardsWithResources;
     $this->addArgsForUndo($args);
     return $args;
   } 
@@ -71,6 +74,7 @@ trait DeliverTrait
   public function actDeliverSelect(
     #[IntParam(name: 'c')] int $cardId,
     int $version, 
+    #[JsonParam] ClientCardResources|null $cardRes = null,
   )
   { 
     $this->checkVersion($version);
@@ -80,15 +84,19 @@ trait DeliverTrait
     $player = Players::getCurrent();
     $this->addStep();
 
-    $argsDeliver = $this->argDeliver()['_private'][$player->getId()];
+    $args = $this->argDeliver();
+    $argsDeliver = $args['_private'][$player->getId()];
     $possiblecards = $argsDeliver['c'];
     if( !in_array($cardId, $possiblecards) ){
       throw new UnexpectedException(30,"You cannot Deliver card $cardId, see ".json_encode($possiblecards));
     }
 
     $card = Cards::get($cardId);
+    
+    $replaceGoods = null;
+    $this->processSpendResourcesFromCard($player,$card,$args,$replaceGoods,$cardRes,);
 
-    $this->processDeliver($player, $card);
+    $this->processDeliver($player, $card,$replaceGoods);
   } 
   
   public function processDeliver(Player &$player, CustomerCard $card, ?array $replaceGoods = null)
@@ -153,8 +161,8 @@ trait DeliverTrait
   #[PossibleAction]
   public function actDeliverReplace(
     int $cardId, int $silk, int $rice, int $pottery, 
-    #[JsonParam] ClientCardResources|null $cardRes,
     int $version,
+    #[JsonParam] ClientCardResources|null $cardRes = null,
   )
   { 
     $this->checkVersion($version);
@@ -188,27 +196,7 @@ trait DeliverTrait
       RESOURCE_TYPE_POTTERY => $pottery,
     ];
     
-    if(isset($cardRes)){
-      $cardsWithResources = $args['cardsWithResources'];
-      if( !in_array($cardRes->cardId, array_keys($cardsWithResources)) ){
-        throw new UnexpectedException(60,"You cannot spend goods from card ".($cardRes->cardId));
-      }
-      $cardWithResources = Cards::get($cardRes->cardId);
-      $goodsFromCard = [
-        RESOURCE_TYPE_SILK => $cardRes->silk,
-        RESOURCE_TYPE_RICE => $cardRes->rice,
-        RESOURCE_TYPE_POTTERY => $cardRes->pottery,
-      ];
-      
-      foreach($goodsFromCard as $type => $amount){
-        $currentCardAmount = $cardWithResources->getResource($type);
-        if($currentCardAmount < $amount ){
-          throw new UnexpectedException(64,"You cannot spend $amount of resource type $type (max $currentCardAmount) from card".($cardRes->cardId));
-        }
-        $cardWithResources->addResource($player,-$amount,$type);
-        $replaceGoods[$type] -= $amount;
-      }
-    }
+    $this->processSpendResourcesFromCard($player,$card,$args,$replaceGoods,$cardRes,);
 
     foreach($replaceGoods as $type => $amount){
       $q = $player->getResource($type);
@@ -226,6 +214,46 @@ trait DeliverTrait
     $this->processDeliver($player, $card,$replaceGoods);
     
   } 
+  
+  /**
+   * @param array $replaceGoods is updated accordingly 
+   */
+  public function processSpendResourcesFromCard(Player &$player, CustomerCard $card, array $args, array|null &$replaceGoods = null,ClientCardResources|null $cardRes = null,)
+  { 
+
+    if(isset($cardRes)){
+      if(!isset($replaceGoods)){
+        $replaceGoods = [
+          RESOURCE_TYPE_SILK => 0,
+          RESOURCE_TYPE_RICE => 0,
+          RESOURCE_TYPE_POTTERY => 0,
+        ];
+        foreach($card->getCost() as $type => $cost) $replaceGoods[$type] = $cost;
+      }
+      $cardsWithResources = isset($args['cardsWithResources']) ? $args['cardsWithResources'] : [];
+      if( !in_array($cardRes->cardId, array_keys($cardsWithResources)) ){
+        throw new UnexpectedException(60,"You cannot spend goods from card ".($cardRes->cardId));
+      }
+      $cardWithResources = Cards::get($cardRes->cardId);
+      $goodsFromCard = [
+        RESOURCE_TYPE_SILK => $cardRes->silk,
+        RESOURCE_TYPE_RICE => $cardRes->rice,
+        RESOURCE_TYPE_POTTERY => $cardRes->pottery,
+      ];
+      
+      foreach($goodsFromCard as $type => $amount){
+        $currentCardAmount = $cardWithResources->getResource($type);
+        if($currentCardAmount < $amount ){
+          throw new UnexpectedException(64,"You cannot spend $amount of resource type $type (max $currentCardAmount) from card".($cardRes->cardId));
+        }
+        $cardWithResources->addResource($player,-$amount,$type);
+        $replaceGoods[$type] -= $amount;
+        if($replaceGoods[$type] < 0 ){
+          throw new UnexpectedException(64,"Invalid amount of good $type");
+        }
+      }
+    }
+  }
   /**
    * @param Player $player
    * @return array of cardId
@@ -279,14 +307,26 @@ trait DeliverTrait
               + $player->getResource(RESOURCE_TYPE_RICE)
               + $player->getResource(RESOURCE_TYPE_POTTERY);
 
+    $playerScenario = $player->getScenario();
+
     $resources = $player->getResources();
+    
+    //check Unicorn Scenario resources
+    if(isset($playerScenario) && $playerScenario->getType() == ScenarioType::UNICORN_1->value){
+      $sumGoods += $playerScenario->getResource(RESOURCE_TYPE_SILK)
+                + $playerScenario->getResource(RESOURCE_TYPE_RICE)
+                + $playerScenario->getResource(RESOURCE_TYPE_POTTERY);
+      foreach($resources as $type => &$q){
+        $q += $playerScenario->getResource($type);
+      }
+    }
+
     foreach($card->getCost() as $neededType => $neededAmount){
       $isTradeGood = in_array($neededType, [RESOURCE_TYPE_SILK,RESOURCE_TYPE_RICE,RESOURCE_TYPE_POTTERY]);
       if($resources[$neededType] < $neededAmount && (!$isTradeGood || !$canReplaceGoods)) return false;
     }
     if($card->getCostAsTradeGoods() > $sumGoods) return false;
     
-    $playerScenario = $player->getScenario();
     if(isset($playerScenario) && !$playerScenario->canDeliver($player,$card->getRegion())) return false;
 
     return true;
