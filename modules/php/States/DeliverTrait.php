@@ -3,11 +3,13 @@
 namespace ROG\States;
 
 use Bga\GameFramework\Actions\Types\IntParam;
+use Bga\GameFramework\Actions\Types\JsonParam;
 use Bga\GameFramework\States\PossibleAction;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\ClientCardResources;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
@@ -17,6 +19,7 @@ use ROG\Models\AutomaPlayer;
 use ROG\Models\CustomerCard;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
+use ROG\Models\ScenarioType;
 use ROG\Models\ShoreSpace;
 
 trait DeliverTrait
@@ -27,6 +30,13 @@ trait DeliverTrait
     $activePlayer = Players::getActive();
     $player_id = $activePlayer->getId();
     $privateDatas = array ();
+    $cardsWithResources = [];
+    
+    $scenario = $activePlayer->getScenario();
+    if($scenario && $scenario->getType() == ScenarioType::UNICORN_1->value){
+      $cardsWithResources[$scenario->getId()] = 
+        $scenario->getUiData();
+    }
 
     $cards = $this->listPossibleCardsToDeliver($activePlayer);
     //Beware cards in hand are private !
@@ -48,6 +58,7 @@ trait DeliverTrait
 
     $args = [
       '_private' => $privateDatas,
+      'cardsWithResources' => $cardsWithResources,
     ];
     $this->addArgsForUndo($args);
     return $args;
@@ -140,7 +151,9 @@ trait DeliverTrait
    * @param int $cardId
    */
   #[PossibleAction]
-  public function actDeliverReplace(int $cardId, int $silk, int $rice, int $pottery, 
+  public function actDeliverReplace(
+    int $cardId, int $silk, int $rice, int $pottery, 
+    #[JsonParam] ClientCardResources|null $cardRes,
     int $version,
   )
   { 
@@ -151,7 +164,8 @@ trait DeliverTrait
     $player = Players::getCurrent();
     $this->addStep();
 
-    $argsDeliver = $this->argDeliver()['_private'][$player->getId()];
+    $args = $this->argDeliver();
+    $argsDeliver = $args['_private'][$player->getId()];
     if( count($argsDeliver['canReplaceGoods']) == 0 
       || count($argsDeliver['canReplaceGoods']['cards']) == 0
     ){
@@ -173,6 +187,28 @@ trait DeliverTrait
       RESOURCE_TYPE_RICE => $rice,
       RESOURCE_TYPE_POTTERY => $pottery,
     ];
+    
+    if(isset($cardRes)){
+      $cardsWithResources = $args['cardsWithResources'];
+      if( !in_array($cardRes->cardId, array_keys($cardsWithResources)) ){
+        throw new UnexpectedException(60,"You cannot spend goods from card ".($cardRes->cardId));
+      }
+      $cardWithResources = Cards::get($cardRes->cardId);
+      $goodsFromCard = [
+        RESOURCE_TYPE_SILK => $cardRes->silk,
+        RESOURCE_TYPE_RICE => $cardRes->rice,
+        RESOURCE_TYPE_POTTERY => $cardRes->pottery,
+      ];
+      
+      foreach($goodsFromCard as $type => $amount){
+        $currentCardAmount = $cardWithResources->getResource($type);
+        if($currentCardAmount < $amount ){
+          throw new UnexpectedException(64,"You cannot spend $amount of resource type $type (max $currentCardAmount) from card".($cardRes->cardId));
+        }
+        $cardWithResources->addResource($player,-$amount,$type);
+        $replaceGoods[$type] -= $amount;
+      }
+    }
 
     foreach($replaceGoods as $type => $amount){
       $q = $player->getResource($type);

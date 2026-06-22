@@ -705,6 +705,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let confirmMessage = _('Swap ships between river space #${n1} and #${n2}');
             this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {'n1':0,'n2':0}), () => {
                 this.takeAction('actPlayCard', { 
+                    //ClientAnswer
                     'answer': JSON.stringify({
                         'cardId': cardId, 
                         'markerId': markerId, 
@@ -783,6 +784,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.selectedSpaceOrigin = null; 
             this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {}), () => {
                 this.takeAction('actPlayCard', { 
+                    //ClientAnswer
                     'answer': JSON.stringify({
                         'cardId': cardId, 
                         'markerId': markerId, 
@@ -1540,7 +1542,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     this.clientState('playCardDeliverAnyGood','', {
                                             'cardId': this.selectedCardId,
                                             'markerId': this.selectedMarkerId,
-                                            'cardsCosts': cardsCosts,
+                                            'cardsCosts': cardsCosts[this.selectedCardId],
+                                            'cardsWithResources' : args.cardsWithResources,
                                         });
                 }); 
                 $(`btnConfirmReplaceGoods`).classList.add('disabled');
@@ -1583,6 +1586,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         //CLIENT STATE
         onEnteringStatePlayCardDeliverAnyGood(args) {
             debug('onEnteringStatePlayCardDeliverAnyGood', args);
+            let callbackReset = () => {
+                this.clientState('playCardDeliverAnyGood','', args);
+            };
             this.bga.statusBar.setTitle( 
                 _('Select the goods to spend')
             );
@@ -1590,7 +1596,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             
             let cardId = parseInt(args.cardId);
             let markerId = parseInt(args.markerId);
-            let cardsCosts = args.cardsCosts[cardId];
+            let cardsWithResources = args.cardsWithResources;
+            let cardsCosts = args.cardsCosts;
             let totalCardCostAsGoods = 0;
             if(cardsCosts[RESOURCE_TYPE_SILK]) totalCardCostAsGoods+= cardsCosts[RESOURCE_TYPE_SILK];
             if(cardsCosts[RESOURCE_TYPE_RICE]) totalCardCostAsGoods+= cardsCosts[RESOURCE_TYPE_RICE];
@@ -1607,28 +1614,51 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [RESOURCE_TYPE_RICE, 0],
                 [RESOURCE_TYPE_POTTERY, 0],
             ]);
+            this.quantitiesFromCard = new Map([
+                [RESOURCE_TYPE_SILK,0],
+                [RESOURCE_TYPE_RICE, 0],
+                [RESOURCE_TYPE_POTTERY, 0],
+            ]);
+
+            let selectedOtherCard = null;
 
             this.addImageActionButton(`btnReplaceGood`, `<div class='rog_trade'>
                     <div class='rog_button_qty' id='qtyReplaceGood_${RESOURCE_TYPE_SILK}'>0</div>${iconSilk}
                     <div class='rog_button_qty' id='qtyReplaceGood_${RESOURCE_TYPE_RICE}'>0</div>${iconRice}
                     <div class='rog_button_qty' id='qtyReplaceGood_${RESOURCE_TYPE_POTTERY}'>0</div>${iconPottery}
                 </div>`, () =>  {
-                    this.takeAction('actDeliverReplace', {
+                    let actionArgs = {
                         'cardId':cardId, 
                         'silk': this.quantities.get(RESOURCE_TYPE_SILK  ),
                         'rice': this.quantities.get(RESOURCE_TYPE_RICE  ),
                         'pottery': this.quantities.get(RESOURCE_TYPE_POTTERY),
-                    });
+                    };
+                    if(selectedOtherCard){
+                        actionArgs.cardRes = JSON.stringify({
+                            'cardId': parseInt(selectedOtherCard), 
+                            'silk': this.quantitiesFromCard.get(RESOURCE_TYPE_SILK  ),
+                            'rice': this.quantitiesFromCard.get(RESOURCE_TYPE_RICE  ),
+                            'pottery': this.quantitiesFromCard.get(RESOURCE_TYPE_POTTERY),
+                        });
+                    }
+                    this.takeAction('actDeliverReplace', actionArgs);
                 });
             $(`btnReplaceGood`).classList.add('disabled');
-            let callbackIncreaseResource = (res_type) => {
+            let callbackIncreaseResource = (res_type, otherCardId, otherCardResources) => {
                 if(this.totalCount >= totalCardCostAsGoods){
                     return;
                 } 
                 let count = this.quantities.get(res_type);
                 let maxToSpend = this._counters[this.player_id][RESOURCES[res_type]].getValue();
+                if(otherCardId ){
+                    maxToSpend = otherCardResources[res_type];
+                }
                 count++;
                 if(count > maxToSpend) return;
+                if(otherCardId ){
+                    selectedOtherCard = otherCardId;
+                    this.quantitiesFromCard.set(res_type,1 + this.quantitiesFromCard.get(res_type));
+                }
                 this.quantities.set(res_type,count);
                 document.getElementById(`qtyReplaceGood_${res_type}`).innerHTML = this.quantities.get(res_type);
                 this.totalCount = this.quantities.get(RESOURCE_TYPE_SILK)
@@ -1649,6 +1679,23 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <div class='rog_button_qty'>+1</div>${iconPottery}
                 </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_POTTERY)); 
 
+            Object.entries(cardsWithResources).forEach( ([otherCardId, cardDatas]) => {
+                let otherCardIcon = '';
+                if(cardDatas.subtype == CARD_TYPE_SCENARIO ){
+                    otherCardIcon = this.formatIcon(`clan-${cardDatas.clan}`);
+                }
+                this.addSecondaryActionButton(`btnIncSilk_${otherCardId}`, `${otherCardIcon}<div class='rog_trade'>
+                        <div class='rog_button_qty'>+1</div>${iconSilk}
+                    </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_SILK, otherCardId,cardDatas.resources)); 
+                this.addSecondaryActionButton(`btnIncRice_${otherCardId}`, `${otherCardIcon}<div class='rog_trade'>
+                        <div class='rog_button_qty'>+1</div>${iconRice}
+                    </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_RICE, otherCardId,cardDatas.resources)); 
+                this.addSecondaryActionButton(`btnIncPottery_${otherCardId}`, `${otherCardIcon}<div class='rog_trade'>
+                        <div class='rog_button_qty'>+1</div>${iconPottery}
+                    </div>`, () => callbackIncreaseResource(RESOURCE_TYPE_POTTERY, otherCardId,cardDatas.resources)); 
+            });
+            
+            this.addSecondaryActionButton(`btnReset`, _('Reset'), () => callbackReset()); 
         },
 
         onEnteringStateDiscardCard(args){
@@ -4228,7 +4275,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                             })
                         }</li>
                         <li>${this.fsr(_('When Seishin builds on a shore space with a trade good, it removes the trade good and gains ${score}.'),{'score':this.formatIcon('score',2),})}</li>
-                        <li>${this.fsr(_(''),{})}</li>
+                        <li>${this.fsr(_('When you deliver, you may discard trade goods from this scenario card and/or your clan board to pay the trade good portion of the customer’s order request.'),{})}</li>
                     </ul>
                     <div class="rog_coop_label">${this.fsr(_('Co-op: When your ally builds on a shore space with a trade good, remove the trade good. They lose ${n} of that trade good if able.'),{ 'n':1})} </div>
                     `
@@ -4514,6 +4561,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                                 let confirmMessage = this.fsr(_('Are you sure to draw a new mastery card for ${n} ${res_icon} ?'), {'n': 1, 'res_icon':'','res_type':RESOURCE_TYPE_SUN});
                                 this.confirmationDialog(confirmMessage, () => {
                                     this.takeAction('actPlayCard', { 
+                                        //ClientAnswer
                                         'answer': JSON.stringify({
                                             'cardId': parseInt(cardId), 
                                             'markerId': markerId, 
