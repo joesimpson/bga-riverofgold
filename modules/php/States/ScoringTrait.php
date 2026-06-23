@@ -57,7 +57,7 @@ trait ScoringTrait
     $influenceMarkers = [];
     $scoringTiles = Tiles::getInLocationOrdered(TILE_LOCATION_SCORING);
     foreach(REGIONS as $region){
-      $influenceMarkers[$region] = Meeples::getAllInfluenceMarkers($region);
+      $influenceMarkers[$region] = Meeples::getAllPlayersInfluenceMarkers($region,$players->getIds());
     }
     //INIT Datas to save
     foreach($players as $pid => $player){

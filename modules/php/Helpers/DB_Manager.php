@@ -12,7 +12,7 @@ class DB_Manager
         return $row;
     }
 
-    public static function DB($table = null)
+    public static function DB($table = null): QueryBuilder
     {
         if (is_null($table)) {
             if (is_null(static::$table)) {

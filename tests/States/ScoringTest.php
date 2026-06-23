@@ -3491,7 +3491,7 @@ final class ScoringTest extends TestCase
         Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
         TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,  ];
         //Test with remaining targets in regions 4,5,6 :
-        for($k = 4; $k <= 6; $k++ ) TestDatas::$tokens[43+$k] = ['result_associative_index' => 43 + $k, 'meeple_id' => 43 +$k, 'meeple_state' => 5, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE."$k",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => SCORPION_ENEMY_ID,  ];
+        for($k = 4; $k <= 6; $k++ ) TestDatas::$tokens[43+$k] = ['result_associative_index' => 43 + $k, 'meeple_id' => 43 +$k, 'meeple_state' => 8+$k, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE."$k",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => SCORPION_ENEMY_ID,  ];
         TestDatas::$tokens[1]['meeple_state'] = 10;
         TestDatas::$tokens[2]['meeple_state'] = 10;
         TestDatas::$tokens[3]['meeple_state'] = 16;

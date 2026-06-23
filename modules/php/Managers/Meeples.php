@@ -279,11 +279,16 @@ class Meeples extends \ROG\Helpers\Pieces
   
   /**
    * @param int $region
+   * @param array $playersIds : list of player ids to select
    * @return Collection of Meeple
    */
-  public static function getAllInfluenceMarkers($region)
+  public static function getAllPlayersInfluenceMarkers(int $region, array $playersIds)
   {
-    return self::getFilteredQuery(null, MEEPLE_LOCATION_INFLUENCE.$region,null)->get();
+    return self::DB()
+      ->whereIn('player_id', $playersIds)
+      ->whereIn('type', [MEEPLE_TYPE_CLAN_MARKER])
+      ->where(self::$prefix.'location', MEEPLE_LOCATION_INFLUENCE.$region)
+      ->get();
   }
   
   /**

@@ -43,7 +43,7 @@ class Pieces extends DB_Manager
   protected static $customFields = [];
   protected static $gIndex = [];
 
-  public static function DB($table = null)
+  public static function DB($table = null) : QueryBuilder
   {
     static::$primary = static::$prefix . 'id';
     return parent::DB(static::$table);
