@@ -203,6 +203,7 @@ trait PlayerTurnTrait
         $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
         $tile->setPosition($dest);
         Notifications::moveBuilding($player,$tile,$previousPosition,$previousLocation);
+        Meeples::removeResourcesOnShoreSpace(ShoreSpaces::getShoreSpace($dest),$player, false);
         Players::claimMasteriesSubset($player,[MASTERY_TYPE_WAVES]);
         break;
       case TURN_ACTION::DIVINE_CYCLING->value:

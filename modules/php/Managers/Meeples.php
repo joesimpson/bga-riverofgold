@@ -498,9 +498,10 @@ class Meeples extends \ROG\Helpers\Pieces
   }
   
   /**
+   * @param bool $pay : do we need to pay a good for this
    * @return bool true if resources are removed
    */
-  public static function removeResourcesOnShoreSpace(ShoreSpace $shoreSpace,Player &$player ) : bool
+  public static function removeResourcesOnShoreSpace(ShoreSpace $shoreSpace,Player &$player, bool $pay = true ) : bool
   {
     Game::get()->trace("removeResourcesOnShoreSpace( $shoreSpace->id)...");
     $meeples = Meeples::getResourcesOnShoreSpace($shoreSpace);
@@ -509,6 +510,7 @@ class Meeples extends \ROG\Helpers\Pieces
     //$scenarioOwner = $scenarioResources->getPId();
     foreach($meeples as $meeple){
       Meeples::removeResourceOnShoreSpace($player,$meeple);
+      if(!$pay) continue;
       $typeResource = Meeples::getResourceFromType($meeple->getType());
       if($player->canSpendResource($typeResource,1)){
         $player->giveResource(-1,$typeResource);

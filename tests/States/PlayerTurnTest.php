@@ -17,6 +17,7 @@ use ROG\Models\ScenarioType;
 use ROG\Models\TURN_ACTION;
 use Tests\Utils\TestDatas;
 
+use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertSame;
 
 final class PlayerTurnTest extends TestCase
@@ -703,6 +704,12 @@ final class PlayerTurnTest extends TestCase
 
         $game->actPlayCard($answer,999999);
         
+        $expectedNotifs = [
+            "playCustomerAbility-1",//shin5
+            "removeClanMarker-1",//shin5
+            "moveBuilding-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
         //Test moved tile: 
         assertSame($dest, TestDatas::$tiles[41]['tile_state']);
         //Test stay in state
@@ -746,12 +753,54 @@ final class PlayerTurnTest extends TestCase
 
         $game->actPlayCard($answer,999999);
         
+        $expectedNotifs = [
+            "playCustomerAbility-1",//shin5
+            "removeClanMarker-1",//shin5
+            "moveBuilding-1",
+            "newClanMarker-1",//Mastery
+            "claimMC-1",//Mastery
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
         //Test moved tile: 
         assertSame($dest, TestDatas::$tiles[44]['tile_state']);
         // River spaces before moving : 1,2,3,4,5, 11,12,13
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
         //Test stay in state
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionPlayCard_Shin5_MoveBuilding_Pass_ScenarioUnicorn_onResource(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":1,"2":2,"3":1,"4":5,"5":5,"6":25}';
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = CARD_SHINDOSHI_5;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::UNICORN_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_CARD."11",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        $cardId = 11;
+        $markerId = 43;
+        $action = BEFORE_ACTION::MOVE_BUILDING->value;
+        $source = 41;
+        $dest = 20;
+        TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_SHORE."$dest",'type' => MEEPLE_TYPE_RESOURCE_RICE,  'player_id' => null,  ];
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $game->actPlayCard($answer,999999);
+        
+        $expectedNotifs = [
+            "playCustomerAbility-1",//shin5
+            "removeClanMarker-1",//shin5
+            "moveBuilding-1",
+            "removeClanMarker-1",//removeResourceMarker
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertFalse(array_key_exists(44,TestDatas::$tokens));
+        //Test moved tile: 
+        assertSame($dest, TestDatas::$tiles[41]['tile_state']);
+        //unchanged resources :
+        assertSame('{"1":1,"2":2,"3":1,"4":5,"5":5,"6":25}', TestDatas::$players[1]['resources']);
     }
     public function test_ActionPlayCard_Shin5_MoveBuilding_KO_Source(): void
     {

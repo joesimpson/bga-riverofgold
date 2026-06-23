@@ -437,6 +437,7 @@ trait DebugTrait
       $tile->setLocation(TILE_LOCATION_BUILDING_SHORE);
       $position = ShoreSpaces::getAllEmptySpaces()[0];
       $tile->setPosition($position);
+      Meeples::removeResourcesOnShoreSpace(ShoreSpaces::getShoreSpace($position),$player, false);
       //$meeple = Meeples::addClanMarkerOnShoreSpace($tile,$player);
       Meeples::singleCreate([
         'type' => MEEPLE_TYPE_CLAN_MARKER,
