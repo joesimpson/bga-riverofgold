@@ -4412,6 +4412,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 let line_buildings = automa_panel.querySelector('.rog_player_resource_line_buildings');
                 line_buildings.classList.add('rog_show');
             }
+            else if(card.type == this.gamedatas.enums.ScenarioType.PHOENIX_1) {
+                document.getElementById('rog_masteries_size').classList.add('rog_show');
+            }
 
             if(location.id == `rog_player_scenario_cards-${card.pId}`){
                 let buttonId = `rog_btnShowScenario_${card.id}`;

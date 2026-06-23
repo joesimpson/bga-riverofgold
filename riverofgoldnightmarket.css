@@ -5331,6 +5331,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   text-align: center;
   cursor: help;
 }
+#rog_mastery_cards_container .rog_deck_size:not(.rog_show) {
+  display: none !important;
+}
 
 .rog_era_tile_holder {
   width: 523px;

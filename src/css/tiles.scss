@@ -416,6 +416,11 @@
         color: #fff;
         text-align: center;
         cursor: help;
+        
+        &:not(.rog_show)
+        {
+            display: none !important;
+        }
     }
 }
 
