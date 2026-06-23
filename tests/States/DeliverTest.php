@@ -34,6 +34,9 @@ final class DeliverTest extends TestCase
             '_private' => [
                 TestDatas::$test_activePlayerId => [
                     'c' => [ 13, ], // cards ids
+                    'cardsCosts' => [
+                        13 => [ 1 => 2, ],
+                    ],
                     'canReplaceGoods' => [],
                 ],
             ],
@@ -62,6 +65,9 @@ final class DeliverTest extends TestCase
             '_private' => [
                 1 => [
                     'c' => [ 13, ], // cards ids
+                    'cardsCosts' => [
+                        13 => [ 1 => 2, ],
+                    ],
                     'canReplaceGoods' => [
                         'marker' => 43,
                         'cards' => [11,13],
@@ -94,6 +100,8 @@ final class DeliverTest extends TestCase
             '_private' => [
                 1 => [
                     'c' => [ ], // cards ids
+                    'cardsCosts' => [
+                    ],
                     'canReplaceGoods' => [
                         'marker' => 43,
                         'cards' => [11,13],
@@ -143,6 +151,9 @@ final class DeliverTest extends TestCase
             '_private' => [
                 TestDatas::$test_activePlayerId => [
                     'c' => [11 ], // cards ids
+                    'cardsCosts' => [
+                        11 => [ RESOURCE_TYPE_POTTERY => 2, ],
+                    ],
                     'canReplaceGoods' => [
                         'marker' => 43,
                         'cards' => [11,12],
@@ -200,6 +211,10 @@ final class DeliverTest extends TestCase
             '_private' => [
                 TestDatas::$test_activePlayerId => [
                     'c' => [2,26 ], // cards ids
+                    'cardsCosts' => [
+                        2 => [RESOURCE_TYPE_POTTERY => 2], 
+                        26 => [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_POTTERY=>2],
+                    ],
                     'canReplaceGoods' => [
                         'marker' => 43,
                         'cards' => [1,2,5,6, 25,26,29,30],
@@ -254,6 +269,10 @@ final class DeliverTest extends TestCase
             '_private' => [
                 TestDatas::$test_activePlayerId => [
                     'c' => [1, 25 ], // cards ids
+                    'cardsCosts' => [
+                        1 => [RESOURCE_TYPE_POTTERY => 2], 
+                        25 => [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>1,RESOURCE_TYPE_POTTERY=>2],
+                    ],
                     'canReplaceGoods' => [
                     ],
                 ],
@@ -291,6 +310,9 @@ final class DeliverTest extends TestCase
             '_private' => [
                 TestDatas::$test_activePlayerId => [
                     'c' => [1 ], // cards ids
+                    'cardsCosts' => [
+                        1 => [RESOURCE_TYPE_POTTERY => 2], 
+                    ],
                     'canReplaceGoods' => [
                     ],
                 ],
@@ -328,6 +350,10 @@ final class DeliverTest extends TestCase
             '_private' => [
                 TestDatas::$test_activePlayerId => [
                     'c' => [6, 30 ], // cards ids
+                    'cardsCosts' => [
+                        6 => [RESOURCE_TYPE_RICE => 2], 
+                        30 => [RESOURCE_TYPE_SILK=>1,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1],
+                    ],
                     'canReplaceGoods' => [
                     ],
                 ],
@@ -365,6 +391,9 @@ final class DeliverTest extends TestCase
             '_private' => [
                 TestDatas::$test_activePlayerId => [
                     'c' => [6 ], // cards ids
+                    'cardsCosts' => [
+                        6 => [RESOURCE_TYPE_RICE => 2], 
+                    ],
                     'canReplaceGoods' => [
                     ],
                 ],
@@ -394,6 +423,8 @@ final class DeliverTest extends TestCase
             '_private' => [
                 TestDatas::$test_activePlayerId => [
                     'c' => [], // cards ids
+                    'cardsCosts' => [
+                    ],
                     'canReplaceGoods' => [
                     ],
                 ],
@@ -423,6 +454,9 @@ final class DeliverTest extends TestCase
             '_private' => [
                 TestDatas::$test_activePlayerId => [
                     'c' => [$cardId], // cards ids
+                    'cardsCosts' => [
+                        $cardId => [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1,], 
+                    ],
                     'canReplaceGoods' => [
                     ],
                 ],
@@ -466,6 +500,9 @@ final class DeliverTest extends TestCase
             '_private' => [
                 TestDatas::$test_activePlayerId => [
                     'c' => [$cardId], // cards ids
+                    'cardsCosts' => [
+                        $cardId => [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1,], 
+                    ],
                     'canReplaceGoods' => [
                     ],
                 ],
@@ -517,6 +554,8 @@ final class DeliverTest extends TestCase
             '_private' => [
                 TestDatas::$test_activePlayerId => [
                     'c' => [], // cards ids
+                    'cardsCosts' => [
+                    ],
                     'canReplaceGoods' => [
                         'marker' => 43,
                         'cards' => [1,2],
@@ -557,6 +596,9 @@ final class DeliverTest extends TestCase
             '_private' => [
                 TestDatas::$test_activePlayerId => [
                     'c' => [$cardId], // cards ids
+                    'cardsCosts' => [
+                        $cardId => [RESOURCE_TYPE_SILK=>2,RESOURCE_TYPE_RICE=>2,RESOURCE_TYPE_POTTERY=>1,], 
+                    ],
                     'canReplaceGoods' => [
                         'marker' => 43,
                         'cards' => [1,2,$cardId],

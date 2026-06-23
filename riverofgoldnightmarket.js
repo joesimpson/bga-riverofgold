@@ -1519,12 +1519,15 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let cards = args._private.c;
             let cardsCanReplaceGoods = [];
             let cardsCosts = [];
+            if(args._private.cardsCosts){
+                cardsCosts = args._private.cardsCosts;
+            }
             if(args._private.canReplaceGoods){
                 this.selectedMarkerId = args._private.canReplaceGoods.marker;
                 if(args._private.canReplaceGoods.cards){
                     cardsCanReplaceGoods = args._private.canReplaceGoods.cards ;
+                    cardsCosts = args._private.canReplaceGoods.cardsCosts;
                 }
-                cardsCosts = args._private.canReplaceGoods.cardsCosts;
             }
             let cardsWithResources = args.cardsWithResources;
 

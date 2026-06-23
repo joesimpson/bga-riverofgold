@@ -42,9 +42,11 @@ trait DeliverTrait
     }
 
     $cards = $this->listPossibleCardsToDeliver($activePlayer);
+    $cardsCosts = Cards::getMany($cards)->map(function($card){return $card->getCost();})->toAssoc();
     //Beware cards in hand are private !
     $privateDatas[$player_id] = array(
       'c' => $cards,
+      'cardsCosts' => $cardsCosts,
       'canReplaceGoods' => [],
     );
     
