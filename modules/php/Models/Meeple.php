@@ -37,6 +37,8 @@ class Meeple extends \ROG\Helpers\DB_Model
   {
     $data = parent::getUiData();
     $data['pos'] = $this->getPosition();
+    $res_type = $this->getResourceType();
+    if(isset($res_type)) $data['res'] = $res_type;
     unset($data['state']);
     return $data;
   }
@@ -85,6 +87,12 @@ class Meeple extends \ROG\Helpers\DB_Model
   {
     $resType = Meeples::getResourceFromType($this->getType());
     return $resType > 0;
+  }
+  public function getResourceType(): ?int
+  {
+    $resType = Meeples::getResourceFromType($this->getType());
+    if( $resType > 0) return $resType;
+    return null;
   }
   
   public function getResourceRegion(): int

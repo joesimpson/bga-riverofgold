@@ -197,9 +197,12 @@
     {
         background: none;
         box-shadow: none; 
-        &.selected{
+        &.selectable{
             box-shadow: 0px 0px 0px 15px blue;
         }
+        //&.selected{
+        //    box-shadow: 0px 0px 0px 15px blue;
+        //}
     }
     &[data-type='5'] //MEEPLE_TYPE_RESOURCE_SILK
     { 

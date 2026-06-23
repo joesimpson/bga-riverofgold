@@ -6202,7 +6202,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background: none;
   box-shadow: none;
 }
-.rog_meeple[data-type="5"].selected, .rog_meeple[data-type="6"].selected, .rog_meeple[data-type="7"].selected {
+.rog_meeple[data-type="5"].selectable, .rog_meeple[data-type="6"].selectable, .rog_meeple[data-type="7"].selectable {
   box-shadow: 0px 0px 0px 15px blue;
 }
 .rog_meeple[data-type="5"] {

@@ -1382,11 +1382,18 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         _('${you} may pay some trade goods to remove from shore spaces (${spaces})').replace('${spaces}',args.spaces) :
                         _('${actplayer} may pay some trade goods to remove from shore spaces (${spaces})').replace('${spaces}',args.spaces)
                     );
+                    let callbackResourceSelected = (resourceType) => {
+                        this.takeAction('actManageCardResources', { 'qty': 1,'type': resourceType, });
+                    };
                     //Highlight meeples on shore :
                     Object.values(args.meeples).forEach((meepleId) => {
                         let meepleDiv = document.getElementById(`rog_meeple-${meepleId}`);
                         if(meepleDiv){
-                            meepleDiv.classList.add('selected');
+                            //meepleDiv.classList.add('selected');
+                            let meepleRes = meepleDiv.dataset.resourcetype;
+                            if(meepleRes){
+                                this.onClick(meepleDiv.id, () => callbackResourceSelected(meepleRes));
+                            }
                         }
                     });
 
@@ -1395,9 +1402,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         let iconRes = this.formatIcon(RESOURCES[resourceType],null);
                         this.addImageActionButton(`btnBonus_${resourceType}`, `<div class='rog_trade'>
                             ${iconRes}
-                        </div>`, () =>  {
-                            this.takeAction('actManageCardResources', { 'qty': 1,'type': resourceType, });
-                        });
+                        </div>`, () => callbackResourceSelected(resourceType)  );
                     });
                     break;
             }
@@ -5103,6 +5108,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                  ${color}
                  ${clan}
                  data-type="${meeple.type}"
+                 data-resourcetype="${meeple.res}"
                  data-pos="${meeple.pos}">
                 </div>`;
         },
