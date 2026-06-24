@@ -234,7 +234,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.dieStocks = new Map();
             this.scenariosPopins = new Map();
             this.scenariosCards = new Map();
-            this.cardsMeeples = [];
+            this.cardsMeeples = new Map();
             this.cardsResources = new Map();
             
             this._notifications = [
@@ -2501,7 +2501,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 this._counters['automaPlayed'].toValue(this.gamedatas.deckSize.automaPlayed);
             }
 
-            this.cardsMeeples = [];
+            this.cardsMeeples = new Map();
     
             //keep hand untouched, another notif will take care about it
             this.setupCards(true);
@@ -4403,7 +4403,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             debug('addScenarioCard',datas);
             let card = this.addCardInGamedatas(datas);
             let container = this.getCardContainer(card);
-            location = location == null ? container : location
+            location = location == null ? container : location;
             let cardDiv = this.tplScenarioCard(card,'_tmp');
             this.scenariosCards.set(card.type, card);
             if(card.type == this.gamedatas.enums.ScenarioType.CRAB_1 && this.gamedatas.automa_id){
@@ -4417,7 +4417,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
 
             if(location.id == `rog_player_scenario_cards-${card.pId}`){
-                let buttonId = `rog_btnShowScenario_${card.id}`;
+                let buttonId = `rog_btnShowScenario_card-${card.id}`;
                 let button = document.getElementById(buttonId);
                 if(button) this.destroy(button);
                 
@@ -5086,8 +5086,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         addMeeple(meeple, location = null) {
             debug('addMeeple',meeple);
             if ($('rog_meeple-' + meeple.id)) return $('rog_meeple-' + meeple.id);
-    
-            let o = this.place('tplMeeple', meeple, location == null ? this.getMeepleContainer(meeple) : location); 
+            location = location == null ? this.getMeepleContainer(meeple) : location;
+            if(location && location.id.startsWith( `rog_btnShowScenario`)){
+                debug('addMeeple : no need to display meeple in scenario button',meeple);
+                return;
+            }
+            let o = this.place('tplMeeple', meeple, location); 
             let tooltipDesc = this.getMeepleTooltip(meeple);
             if (tooltipDesc != null) {
                 this.addCustomTooltip(o.id, tooltipDesc);
@@ -5117,6 +5121,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
     
         getMeepleContainer(meeple) {
+            this.cardsMeeples.delete(meeple.id);
             let locationParts = meeple.location.split('-');
             if (locationParts[0] == 'tile') {//MEEPLE_LOCATION_TILE
                 // on tile
@@ -5156,9 +5161,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if (locationParts[0] == 'card') {//MEEPLE_LOCATION_CARD
                 // on card
                 let cardId = locationParts[1];
-                $tileElt = $(`rog_card-${cardId}`);
-                this.cardsMeeples.push(meeple);
-                return $tileElt;
+                tileElt = $(`rog_card-${cardId}`);
+                if(!tileElt){
+                    let scenarioDiv = document.getElementById('rog_btnShowScenario_'+meeple.location);
+                    if(scenarioDiv) tileElt = scenarioDiv;
+                }
+                this.cardsMeeples.set(meeple.id,meeple);
+                return tileElt;
             }
     
             console.error('Trying to get container of a meeple', meeple);
