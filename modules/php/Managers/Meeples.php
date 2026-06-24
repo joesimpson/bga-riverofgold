@@ -205,6 +205,19 @@ class Meeples extends \ROG\Helpers\Pieces
     return $elt;
   }
   
+  public static function addClanMarkerOnCity(Player $player,int $column, int $row)
+  {
+    $meeple = [
+      'type' => MEEPLE_TYPE_CLAN_MARKER,
+      'location' => MEEPLE_LOCATION_CITY.$column."-".$row,
+      'player_id' => $player->getId(),
+      'state' => 0,
+    ];
+    $elt = self::singleCreate($meeple);
+    Notifications::newClanMarker($player,$elt);
+    return $elt;
+  }
+  
   /**
    * @param Player $player
    * @return Meeple

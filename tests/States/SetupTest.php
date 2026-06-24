@@ -823,22 +823,59 @@ final class SetupTest extends TestCase
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
         Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::resetCardsDeck();
 
         $game->stPlayerSetup();
-
+        
+        $expectedNotifs = [
+            "automaColor",
+            "newPlayerColor--123",
+            "newClanMarkers-1",
+            "influenceClanMarkers-1",
+            "rollDie-1",
+            "newBoat-1",
+            "rollDie-1",
+            "newBoat-1",
+            "giveCardToPublic-1",
+            "giveCardToPublic-1",
+            "rollDie-1",
+            "newClanMarkers-2",
+            "influenceClanMarkers-2",
+            "rollDie-2",
+            "newBoat-2",
+            "rollDie-2",
+            "newBoat-2",
+            "giveCardToPublic-2",
+            "giveCardToPublic-2",
+            "rollDie-2",
+            "newClanMarkers--123",
+            "influenceClanMarkers--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
         //test influence 0
         assertSame(0, TestDatas::$tokens[59]['meeple_state']);
         assertSame(MEEPLE_LOCATION_INFLUENCE.REGION_1, TestDatas::$tokens[59]['meeple_location']);
+        assertSame(AUTOMA_PLAYER_ID, TestDatas::$tokens[59]['player_id']);
         assertSame(0, TestDatas::$tokens[60]['meeple_state']);
         assertSame(MEEPLE_LOCATION_INFLUENCE.REGION_2, TestDatas::$tokens[60]['meeple_location']);
+        assertSame(AUTOMA_PLAYER_ID, TestDatas::$tokens[60]['player_id']);
         assertSame(0, TestDatas::$tokens[61]['meeple_state']);
         assertSame(MEEPLE_LOCATION_INFLUENCE.REGION_3, TestDatas::$tokens[61]['meeple_location']);
+        assertSame(AUTOMA_PLAYER_ID, TestDatas::$tokens[61]['player_id']);
         assertSame(0, TestDatas::$tokens[62]['meeple_state']);
         assertSame(MEEPLE_LOCATION_INFLUENCE.REGION_4, TestDatas::$tokens[62]['meeple_location']);
+        assertSame(AUTOMA_PLAYER_ID, TestDatas::$tokens[62]['player_id']);
         assertSame(0, TestDatas::$tokens[63]['meeple_state']);
         assertSame(MEEPLE_LOCATION_INFLUENCE.REGION_5, TestDatas::$tokens[63]['meeple_location']);
+        assertSame(AUTOMA_PLAYER_ID, TestDatas::$tokens[63]['player_id']);
         assertSame(0, TestDatas::$tokens[64]['meeple_state']);
         assertSame(MEEPLE_LOCATION_INFLUENCE.REGION_6, TestDatas::$tokens[64]['meeple_location']);
+        assertSame(AUTOMA_PLAYER_ID, TestDatas::$tokens[64]['player_id']);
         //Test 2 ships
         assertSame(AUTOMA_PLAYER_ID,TestDatas::$tokens[65]['player_id']);
         assertSame(MEEPLE_LOCATION_RIVER,TestDatas::$tokens[65]['meeple_location']);
@@ -846,6 +883,110 @@ final class SetupTest extends TestCase
         assertSame(AUTOMA_PLAYER_ID,TestDatas::$tokens[66]['player_id']);
         assertSame(MEEPLE_LOCATION_RIVER,TestDatas::$tokens[66]['meeple_location']);
         assertSame(MEEPLE_TYPE_SHIP,TestDatas::$tokens[66]['type']);
+    }
+    
+    public function testEnteringState_PlayerSetup_Seishin_CityOfLies(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setOptionCity(OPTION_CITY_OF_LIES_ON);
+        TestDatas::resetCardsDeck();
+
+        $game->stPlayerSetup();
+
+        $expectedNotifs = [
+            "automaColor",
+            "newPlayerColor--123",
+            "newClanMarkers-1",
+            "influenceClanMarkers-1",
+            "newClanMarker-1", // CITY MARKER
+            "rollDie-1",
+            "newBoat-1",
+            "rollDie-1",
+            "newBoat-1",
+            "giveCardToPublic-1",
+            "giveCardToPublic-1",
+            "rollDie-1",
+            "newClanMarkers-2",
+            "influenceClanMarkers-2",
+            "newClanMarker-2", // CITY MARKER
+            "rollDie-2",
+            "newBoat-2",
+            "rollDie-2",
+            "newBoat-2",
+            "giveCardToPublic-2",
+            "giveCardToPublic-2",
+            "rollDie-2",
+            "newClanMarkers--123",
+            "influenceClanMarkers--123",
+            "newClanMarker--123", // CITY MARKER
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+            "newBoat--123",
+            "rollDie--123",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(69, TestDatas::$lastInsertedId);
+        //marker on city
+        assertSame(MEEPLE_LOCATION_CITY."0-1", TestDatas::$tokens[49]['meeple_location']);
+        assertSame(0, TestDatas::$tokens[49]['meeple_state']);
+        assertSame(1, TestDatas::$tokens[49]['player_id']);
+        //marker on city
+        assertSame(MEEPLE_LOCATION_CITY."0-2", TestDatas::$tokens[58]['meeple_location']);
+        assertSame(0, TestDatas::$tokens[58]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[58]['player_id']);
+        //marker on city
+        assertSame(MEEPLE_LOCATION_CITY."0-3", TestDatas::$tokens[67]['meeple_location']);
+        assertSame(0, TestDatas::$tokens[67]['meeple_state']);
+        assertSame(AUTOMA_PLAYER_ID, TestDatas::$tokens[67]['player_id']);
+    }
+    
+    public function testEnteringState_PlayerSetup_SeishinOFF_CityOfLies(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_SETUP;
+        Globals::setOptionSeishin(OPTION_SEISHIN_OFF);
+        Globals::setOptionCity(OPTION_CITY_OF_LIES_ON);
+        TestDatas::resetCardsDeck();
+
+        $game->stPlayerSetup();
+
+        $expectedNotifs = [
+            "newClanMarkers-1",
+            "influenceClanMarkers-1",
+            "newClanMarker-1", // CITY MARKER
+            "rollDie-1",
+            "newBoat-1",
+            "rollDie-1",
+            "newBoat-1",
+            "giveCardToPublic-1",
+            "giveCardToPublic-1",
+            "rollDie-1",
+            "newClanMarkers-2",
+            "influenceClanMarkers-2",
+            "newClanMarker-2", // CITY MARKER
+            "rollDie-2",
+            "newBoat-2",
+            "rollDie-2",
+            "newBoat-2",
+            "giveCardToPublic-2",
+            "giveCardToPublic-2",
+            "rollDie-2",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(60, TestDatas::$lastInsertedId);
+        //marker on city
+        assertSame(MEEPLE_LOCATION_CITY."0-1", TestDatas::$tokens[49]['meeple_location']);
+        assertSame(0, TestDatas::$tokens[49]['meeple_state']);
+        assertSame(1, TestDatas::$tokens[49]['player_id']);
+        //marker on city
+        assertSame(MEEPLE_LOCATION_CITY."0-2", TestDatas::$tokens[58]['meeple_location']);
+        assertSame(0, TestDatas::$tokens[58]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[58]['player_id']);
     }
     
     public function testEnteringState_PlayerSetup_Scenario_Mantis1(): void

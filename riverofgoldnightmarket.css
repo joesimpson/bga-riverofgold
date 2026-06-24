@@ -2007,6 +2007,52 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_lanterns .rog_city_lantern#rog_city_lantern_5 {
   left: 682px;
 }
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces {
+  position: absolute;
+  top: 323px;
+  left: 0px;
+  width: 100%;
+  height: 474px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space {
+  position: absolute;
+  display: flex;
+  flex-direction: column;
+  width: 110px;
+  height: 132px;
+  outline: 2px solid red;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="0"] {
+  width: 40px;
+  height: 50px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="0"][data-row="1"] {
+  top: 40px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="0"][data-row="2"] {
+  top: 115px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="0"][data-row="3"] {
+  top: 189px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="0"][data-row="4"] {
+  top: 265px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="0"][data-row="5"] {
+  top: 340px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="5"] {
+  width: 104px;
+  height: 80px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space .rog_meeple {
+  width: 100%;
+  height: 100%;
+  transition: opacity 0.5s ease;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space .rog_meeple:hover {
+  opacity: 0.3;
+}
 
 .rog_card {
   width: 148px;

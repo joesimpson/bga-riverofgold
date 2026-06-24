@@ -5072,6 +5072,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 if($(`rog_river_space-${k}`)) continue;
                 this.place(`tplRiverSpace`,k, $(`rog_river_spaces`));
             }
+            this.addCitySpaces();
             //destroy previous meeples
             document.querySelectorAll('.rog_meeple[id^="rog_meeple-"]').forEach((e) => {
                 this.destroy(e);
@@ -5145,6 +5146,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 let region = locationParts[1];
                 let position = meeple.pos;
                 return $(`rog_influence_track_space_${region}_${position}`);
+            } 
+            if (locationParts[0] == 'city') {//MEEPLE_LOCATION_CITY
+                let column = locationParts[1];
+                let row = locationParts[2];
+                return $(`rog_city_space_${column}_${row}`);
             }
             if (locationParts[0] == 'r') {//MEEPLE_LOCATION_RIVER
                 //(boat) on river
@@ -5277,6 +5283,17 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 let nbmeeples = div.querySelectorAll('.rog_meeple').length;
                 div.dataset.nbmeeples = nbmeeples;
             });
+        },
+        addCitySpaces(){
+            debug("addCitySpaces");
+            for(let column=0; column<=5;column++){
+                for(let row=1; row<=5;row++){
+                    if(!$(`rog_city_space_${column}_${row}`)) this.place(`tplCitySpace`,{'row':row,'column':column}, $(`rog_city_spaces`));
+                }
+            }
+        },
+        tplCitySpace(datas){
+            return `<div id="rog_city_space_${datas.column}_${datas.row}" class="rog_city_space" data-col="${datas.column}" data-row="${datas.row}" ></div>`;
         },
 
 

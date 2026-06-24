@@ -85,6 +85,8 @@
                         <div id="rog_city_lantern_4" class="rog_city_lantern"></div>
                         <div id="rog_city_lantern_5" class="rog_city_lantern"></div>
                     </div>
+                    <div id="rog_city_spaces">
+                    </div>
                 </div>
             </div>
         </div>

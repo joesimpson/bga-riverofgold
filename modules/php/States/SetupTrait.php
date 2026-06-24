@@ -65,6 +65,10 @@ trait SetupTrait
       }
       Notifications::influenceClanMarkers($player,$influenceMeeples);
 
+      if(Utils::isGameWithCityOfLies()){
+        Meeples::addClanMarkerOnCity($player, 0,$k+1);
+      }
+
       if(!isset($scenario) || !$scenario->setupCustomBoats($player)){
         foreach(STARTING_BOATS_SPACES as $space){
           $boatPosition = $space + $player->rollDie();
@@ -140,6 +144,10 @@ trait SetupTrait
       }
       Notifications::influenceClanMarkers($player,$influenceMeeples);
       
+      if(Utils::isGameWithCityOfLies()){
+        Meeples::addClanMarkerOnCity($player, 0,Players::count()+1);
+      }
+
       foreach(STARTING_BOATS_SPACES as $space){
         $boatPosition = $space + $player->rollDie();
         $meeple = Meeples::addBoatOnRiverSpace($player,$boatPosition);
