@@ -559,14 +559,14 @@ abstract class Table
             return $filtered;
         }
         
-        if (preg_match("/^SELECT .* FROM `meeples` WHERE( \(`player_id` IN \((?P<pids>.*)\)\) AND)? \(`type` IN \((?P<types>.*)\)\) AND \(?`meeple_location` (?P<operator>=|LIKE) '(?P<meeple_location>[\w-]+)%?'\)?$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT .* FROM `meeples` WHERE( \(`player_id` IN \((?P<pids>.*)\)\) AND)? \(`type` IN \((?P<types>.*)\)\) AND \(?`meeple_location` (?P<operator>=|LIKE) '(?P<meeple_location>[\w-]+)%?'\)?$/", $sql, $matches,) == 1) {
             $filtered = [];
-            $pids = isset($matches['pids']) ? explode(',',str_replace("'","",$matches['pids'])) : null;
+            $pids = ($matches['pids'] != "") ? (explode(',',str_replace("'","",$matches['pids'])) ): null;
             $operator = $matches['operator'];
             $meeple_location = $matches['meeple_location'];
             $types = explode(',',str_replace("'","",$matches['types']));
-            $filtered = array_filter(TestDatas::$tokens,function ($token) use ($pids, $types, $meeple_location, $operator){return ($pids == null || in_array($token['player_id'], $pids) ) && in_array($token['type'], $types) && ($operator =="=" && $token['meeple_location'] == $meeple_location || $operator =="LIKE" && str_starts_with($token['meeple_location'], $meeple_location) );});
-            logForTests("MOCK select tokens: ".json_encode($filtered));
+            $filtered = array_filter(TestDatas::$tokens,function ($token) use ($pids, $types, $operator, $meeple_location, ){return ($pids == null || in_array($token['player_id'], $pids) ) && in_array($token['type'], $types) && ($operator =="=" && $token['meeple_location'] == $meeple_location || $operator =="LIKE" && str_starts_with($token['meeple_location'], $meeple_location) );});
+            logForTests("MOCK select tokens use (".json_encode($pids).", ".json_encode($types).", $operator, $meeple_location) : ".json_encode($filtered));
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `meeples` WHERE \(`meeple_id` IN \((?P<meeple_ids>.*)\)\)$/", $sql, $matches) == 1) {
