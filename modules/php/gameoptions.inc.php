@@ -141,7 +141,6 @@ $game_options = [
      
   ), 
 
-  /* Prepare FOR Future Feature
   OPTION_CITY_OF_LIES => array(
     'name' => 'City Of Lies',    
     'values' => [
@@ -159,7 +158,6 @@ $game_options = [
     'default' => OPTION_CITY_OF_LIES_OFF,
      
   ),
-  */
 
   OPTION_TRACKS => array(
     'name' => 'Region Influence Tracks',    

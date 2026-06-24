@@ -161,6 +161,8 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
         if(isset($lionEnemy)){
             $result['virtual_players'][LION_ENEMY_ID] = $lionEnemy->getUiData();
         }
+        
+        $result['city_of_lies'] = Utils::isGameWithCityOfLies();
 
         return $result;
     }

@@ -141,6 +141,22 @@
             ]
         }
     },
+    "113": {
+        "name": "City Of Lies",
+        "values": [
+            {
+                "name": "Disabled",
+                "description": ""
+            },
+            {
+                "name": "Enabled",
+                "tmdisplay": "City Of Lies",
+                "description": "An additional board with a new player action to compete for new City Cards and new rewards",
+                "nobeginner": true
+            }
+        ],
+        "default": 0
+    },
     "115": {
         "name": "Region Influence Tracks",
         "values": [
