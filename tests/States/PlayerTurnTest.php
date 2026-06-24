@@ -471,6 +471,7 @@ final class PlayerTurnTest extends TestCase
         assertSame(14,  TestDatas::$tokens[24]['meeple_state']);
         //Test stay in state
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
     }
     public function test_ActionPlayCard_SwapBoats_Pass_OpponentBoat(): void
     {
@@ -714,6 +715,7 @@ final class PlayerTurnTest extends TestCase
         assertSame($dest, TestDatas::$tiles[41]['tile_state']);
         //Test stay in state
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
     }
     
     public function test_ActionPlayCard_Shin5_MoveBuilding_Pass_MasteryOfWaves(): void
@@ -767,6 +769,7 @@ final class PlayerTurnTest extends TestCase
         assertSame(24, TestDatas::$players[1]['player_score']);//19+5
         //Test stay in state
         assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
     }
     
     public function test_ActionPlayCard_Shin5_MoveBuilding_Pass_ScenarioUnicorn_onResource(): void
@@ -801,6 +804,7 @@ final class PlayerTurnTest extends TestCase
         assertSame($dest, TestDatas::$tiles[41]['tile_state']);
         //unchanged resources :
         assertSame('{"1":1,"2":2,"3":1,"4":5,"5":5,"6":25}', TestDatas::$players[1]['resources']);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
     }
     public function test_ActionPlayCard_Shin5_MoveBuilding_KO_Source(): void
     {
