@@ -74,6 +74,20 @@
                 </div>
             </div>
         </div>
+        <div id='rog_resizable_city_of_lies_board'>
+            <div id='rog_city_of_lies_board_container'>
+                <div id='rog_city_of_lies_board'>
+                    <div id="rog_city_of_lies_background"></div>
+                    <div id="rog_city_lanterns">
+                        <div id="rog_city_lantern_1" class="rog_city_lantern"></div>
+                        <div id="rog_city_lantern_2" class="rog_city_lantern"></div>
+                        <div id="rog_city_lantern_3" class="rog_city_lantern"></div>
+                        <div id="rog_city_lantern_4" class="rog_city_lantern"></div>
+                        <div id="rog_city_lantern_5" class="rog_city_lantern"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
         <div id="rog_players_boards">
             <div id="rog_players_deliveries">
             </div>

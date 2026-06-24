@@ -1,0 +1,70 @@
+$cityWidth : 886px;
+$cityHeight: 797px;
+
+#rog_resizable_city_of_lies_board{
+
+    width: calc(var(--rog_city_display_scale) * $cityWidth);
+    height: calc(var(--rog_city_display_scale) * $cityHeight);
+    margin-bottom: 10px;
+
+    .tooltipable:hover{
+        cursor: help;
+        outline: 6px solid #04fb04;
+    }
+    
+    #rog_city_of_lies_board_container{
+        /* prevents vertical invisible overflow on BGA bottom elements*/
+        height: inherit;
+        
+        #rog_city_of_lies_board{
+            transform: scale(var(--rog_city_display_scale));
+            transform-origin: top left;
+            border-radius: 10px;
+            position: relative;
+    
+            display: flex;
+            flex-wrap: wrap;
+
+            width: $cityWidth;
+            height: $cityHeight;
+
+            #rog_city_of_lies_background{
+                position: absolute;
+                width: $cityWidth;
+                height: $cityHeight;
+                background-image: url('img/cityOfLies/board_city.png');
+                background-size: 100% auto;
+                background-repeat: no-repeat;
+            }
+            .help-marker{
+                //Keep around the same size for the help marker in help mode
+                transform: scale(calc(1 / var(--rog_city_display_scale)));
+                transform-origin: top left;
+            }
+            #rog_city_lanterns{
+                position: absolute;
+                top: 257px;
+                left: 29px;
+                width: 745px;
+                height: 87px;
+                .rog_city_lantern{
+                    position: absolute;
+                    width: 60px;
+                    height: 87px;
+                    &#rog_city_lantern_2{
+                        left: 167px;
+                    }
+                    &#rog_city_lantern_3{
+                        left: 343px;
+                    }
+                    &#rog_city_lantern_4{
+                        left: 514px;
+                    }
+                    &#rog_city_lantern_5{
+                        left: 682px;
+                    }
+                }
+            }
+        }
+    }
+}

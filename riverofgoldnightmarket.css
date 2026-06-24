@@ -16,6 +16,7 @@
 :root {
   --rog_board_display_scale: 0.1;
   --rog_board_card_scale: 2;
+  --rog_city_display_scale: 0.8;
   --rog_hand_scale: 1;
   --rog_delivered_scale: 1;
   --rog_deckSizeScale: 1;
@@ -1945,6 +1946,66 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: 395px;
   height: 450px;
   clip-path: polygon(2.92% 55.55%, 25.83% 30.28%, 41.31% 6.08%, 70.76% 41.3%, 99.91% 58.41%, 78.12% 72.97%, 67.87% 83.12%, 40.74% 98.83%, 21.03% 80.15%);
+}
+
+#rog_resizable_city_of_lies_board {
+  width: calc(var(--rog_city_display_scale) * 886px);
+  height: calc(var(--rog_city_display_scale) * 797px);
+  margin-bottom: 10px;
+}
+#rog_resizable_city_of_lies_board .tooltipable:hover {
+  cursor: help;
+  outline: 6px solid #04fb04;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container {
+  /* prevents vertical invisible overflow on BGA bottom elements*/
+  height: inherit;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board {
+  transform: scale(var(--rog_city_display_scale));
+  transform-origin: top left;
+  border-radius: 10px;
+  position: relative;
+  display: flex;
+  flex-wrap: wrap;
+  width: 886px;
+  height: 797px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_of_lies_background {
+  position: absolute;
+  width: 886px;
+  height: 797px;
+  background-image: url("img/cityOfLies/board_city.png");
+  background-size: 100% auto;
+  background-repeat: no-repeat;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .help-marker {
+  transform: scale(calc(1 / var(--rog_city_display_scale)));
+  transform-origin: top left;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_lanterns {
+  position: absolute;
+  top: 257px;
+  left: 29px;
+  width: 745px;
+  height: 87px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_lanterns .rog_city_lantern {
+  position: absolute;
+  width: 60px;
+  height: 87px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_lanterns .rog_city_lantern#rog_city_lantern_2 {
+  left: 167px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_lanterns .rog_city_lantern#rog_city_lantern_3 {
+  left: 343px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_lanterns .rog_city_lantern#rog_city_lantern_4 {
+  left: 514px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_lanterns .rog_city_lantern#rog_city_lantern_5 {
+  left: 682px;
 }
 
 .rog_card {

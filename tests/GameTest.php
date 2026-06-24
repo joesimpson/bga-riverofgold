@@ -784,6 +784,7 @@ final class GameTest extends TestCase
                 ],
             ],
             'virtual_players' => [],
+            'city_of_lies' => false,
         ];
 
         $datas = $game->getAllDatas();
@@ -903,6 +904,17 @@ final class GameTest extends TestCase
         $scenarioDatas = $datas['cards'][0];
         assertSame(0, $scenarioDatas['enemies']);
         assertSame(LION_ENEMY_ID, $scenarioDatas['enemy']);
+    }
+    
+    public function test_getAllDatas_withCityOfLies(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionCity(OPTION_CITY_OF_LIES_ON);
+
+        $datas = $game->getAllDatas();
+        
+        assertSame(true, $datas['city_of_lies']);
     }
     // -------------------------------------------------
     

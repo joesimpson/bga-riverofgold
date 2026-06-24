@@ -399,6 +399,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 toPreloadList.push('regions/track_back.png');
                 toPreloadList.push('regions/6tracks.png',);
             }
+            if(this.gamedatas.city_of_lies){
+                toPreloadList.push('cityOfLies/board_city.png');
+            }
+            else {
+                document.getElementById('rog_resizable_city_of_lies_board').classList.add('rog_nodisplay');
+            }
             this.ensureSpecificGameImageLoading(toPreloadList);
 
             this._counters['deckSizeMasteries'] = this.createCounter('rog_masteries_size',this.gamedatas.deckSize.masteries);
@@ -428,6 +434,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.addCustomTooltip('rog_deck_size-2', `${this.fsr(_('Tiles in Era ${n} stack'), { n: 2 })}`); 
             this.addCustomTooltip('rog_complete_journey', this.getCompleteJourneyTooltip());
             this.addCustomTooltip('rog_building_bonus_favor', this.getBuildingRowBonusTooltip());
+
+            this.addCustomTooltip('rog_city_lantern_1', `${this.fsr(_('Cost to advance from the left of the lantern to the right of the lantern : ${influence} (in any region of your choice)'), { 'influence':this.formatIcon("influence"),'n2':1,})}`); 
+            this.addCustomTooltip('rog_city_lantern_2', `${this.fsr(_('Cost to advance from the left of the lantern to the right of the lantern : ${influence} (in any region of your choice)'), { 'influence':this.formatIcon("influence"),'n2':1,})}`); 
+            this.addCustomTooltip('rog_city_lantern_3', `${this.fsr(_('Cost to advance from the left of the lantern to the right of the lantern : ${influence} (in any region of your choice)'), { 'influence':this.formatIcon("influence"),'n2':2,})}`); 
+            this.addCustomTooltip('rog_city_lantern_4', `${this.fsr(_('Cost to advance from the left of the lantern to the right of the lantern : ${influence} (in any region of your choice)'), { 'influence':this.formatIcon("influence"),'n2':2,})}`); 
+            this.addCustomTooltip('rog_city_lantern_5', `${this.fsr(_('Cost to advance from the left of the lantern to the right of the lantern : ${influence} (in any region of your choice)'), { 'influence':this.formatIcon("influence"),'n2':3,})}`); 
             
             debug( "Ending specific game setup" );
 
