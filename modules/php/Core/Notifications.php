@@ -64,6 +64,15 @@ class Notifications
       'preserve' => [ 'ship'],
     ]);
   }
+  
+  public static function moveCityMarker(Player $player, Meeple $meeple)
+  {
+    self::notifyAll('moveCityMarker',  clienttranslate('${player_name} moves on the City of Lies to column #${n}'), [
+      'player' => $player,
+      'meeple' => $meeple->getUiData(),
+      'n' => $meeple->getCityColumn(),
+    ]);
+  }
 
   public static function initCustomersDeck(array $customerTypes)
   {

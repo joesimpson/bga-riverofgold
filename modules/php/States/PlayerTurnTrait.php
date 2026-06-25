@@ -5,6 +5,7 @@ namespace ROG\States;
 use Bga\GameFramework\Actions\Types\IntArrayParam;
 use Bga\GameFramework\Actions\Types\JsonParam;
 use Bga\GameFramework\States\PossibleAction;
+use Bga\Games\RiverOfGoldNightMarket\States\AdvanceCity;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
@@ -45,6 +46,12 @@ trait PlayerTurnTrait
     || count($argDeliver['canReplaceGoods'])>0 && count($argDeliver['canReplaceGoods']['cards'])>0
     ){
       $actions[] = 'actDeliver';
+    }
+    
+    if(Utils::isGameWithCityOfLies() 
+      && count(AdvanceCity::listPossibleSpacesToAdvance($activePlayer))>0 
+    ){
+      $actions[] = 'actAdvance';
     }
     $playableCards = $this->listPossibleCardsToPlay($activePlayer);
     if(count($playableCards)>0 ){
@@ -118,6 +125,17 @@ trait PlayerTurnTrait
     $this->addStep();
 
     $this->gamestate->nextState('deliver');
+  }
+  
+  #[PossibleAction]
+  public function actAdvance(int $version)
+  { 
+    $this->checkVersion($version);
+    self::checkAction('actAdvance'); 
+    self::trace("actAdvance()");
+    $this->addStep();
+
+    $this->gamestate->nextState('advance');
   }
 
   #[PossibleAction]

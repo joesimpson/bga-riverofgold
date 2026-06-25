@@ -84,7 +84,7 @@ require_once 'modules/php/constants.inc.php';
  |   |    |     |            |                        |
  |   |    |     |            |                        |
  |   |    |     v            v                        |
- |   |    \--- trade/favor  build/sail/deliver        |
+ |   |    \--- trade/favor  build/sail/deliver/advance|
  |   |                       |                        |
  |   |                       v                        |
  |   |                      bonusChoice <----\        |
@@ -211,6 +211,7 @@ $machinestates = array(
             "actBuild", 
             "actSail", 
             "actDeliver", 
+            "actAdvance", 
             "actTrade", 
             "actSpendFavor", 
             "actPlayCard",
@@ -221,6 +222,7 @@ $machinestates = array(
             "build" => ST_PLAYER_TURN_BUILD, 
             "sail" => ST_PLAYER_TURN_SAIL, 
             "deliver" => ST_PLAYER_TURN_DELIVER, 
+            "advance" => ST_PLAYER_TURN_ADVANCE, 
             "trade" => ST_PLAYER_TURN_TRADE, 
             "favor" => ST_PLAYER_TURN_DIVINE_FAVOR, 
             //"next" => ST_CONFIRM_CHOICES, 

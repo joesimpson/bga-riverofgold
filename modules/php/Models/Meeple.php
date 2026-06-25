@@ -105,4 +105,14 @@ class Meeple extends \ROG\Helpers\DB_Model
     }
     return $region;
   }
+  
+  public function getCityColumn(): int
+  {
+    $column = 0;
+    $location = $this->getLocation();
+    if (preg_match("/^" . MEEPLE_LOCATION_CITY . "(?P<col>\d+)-(?P<row>\d+)$/", $location, $matches) == 1) {
+      $column = $matches['col'];
+    }
+    return $column;
+  }
 }

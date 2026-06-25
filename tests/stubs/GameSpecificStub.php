@@ -97,6 +97,11 @@ class GameMock extends RiverOfGoldNightMarket {
                 "name": "Deliver actions",
                 "type": "int"
                 },
+                "nbActionsAdvance": {
+                "id": 23,
+                "name": "Advance actions",
+                "type": "int"
+                },
                 "moneyReceived": {
                 "id": 30,
                 "name": "Money received",

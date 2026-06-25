@@ -151,6 +151,29 @@ final class PlayerTurnTest extends TestCase
         assertSame($expectedArgs, $args);
     }
     
+    public function test_Args_Advance(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        Globals::setOptionCity(OPTION_CITY_OF_LIES_ON);
+
+        $expectedArgs = [
+            'a' => [
+                'actSail',
+                'actAdvance',
+            ],
+            'die_face' => 1,
+            'p_cards' => [],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
     public function test_Args_PlayableCards_Shin5(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -445,6 +468,21 @@ final class PlayerTurnTest extends TestCase
         assertSame(ST_PLAYER_TURN_DELIVER, GamestateMachine::$test_current_state);
     }
     
+    // -------------------------------------------------
+ 
+    public function test_ActionAdvance(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+
+        $game->actAdvance(999999);
+        
+        //Test go to next state
+        assertSame(ST_PLAYER_TURN_ADVANCE, GamestateMachine::$test_current_state);
+    }
+    
+    // -------------------------------------------------
     // -------------------------------------------------
     public function test_ActionPlayCard_Shin4_SwapBoats_Pass_OwnBoats(): void
     {

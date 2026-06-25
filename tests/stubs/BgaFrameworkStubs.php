@@ -745,6 +745,9 @@ abstract class Table
             case "UPDATE `stats` SET `stats_value` = `stats_value` + 1 WHERE `stats_type` = 21 AND `stats_player_id` = 1":
                 TestDatas::$stats[1]['nbActionsSail']++;
                 return true;
+            case "UPDATE `stats` SET `stats_value` = `stats_value` + 1 WHERE `stats_type` = 23 AND `stats_player_id` = 1":
+                TestDatas::$stats[1]['nbActionsAdvance']++;
+                return true;
 
         }
         

@@ -18,6 +18,10 @@ class CitySpaces
     return $all->ui();
   } 
 
+  public static function getCitySpaceById(int $id) : ?CitySpace
+  {
+    return self::getAllCitySpaces()[$id];
+  }
 
   public static function getCitySpace(int $row, int $col) : ?CitySpace
   {

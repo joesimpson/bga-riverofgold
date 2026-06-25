@@ -8,6 +8,7 @@ use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
 use ROG\Models\BuildingTile;
 use ROG\Models\Card;
+use ROG\Models\CitySpace;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\MasteryCard;
 use ROG\Models\Meeple;
@@ -216,6 +217,16 @@ class Meeples extends \ROG\Helpers\Pieces
     $elt = self::singleCreate($meeple);
     Notifications::newClanMarker($player,$elt);
     return $elt;
+  }
+  
+  public static function moveClanMarkerOnCity(Player $player,Meeple &$meeple,CitySpace $space)
+  {
+    $from = $meeple->getLocation();
+    $row = $space->row;
+    $column = $space->column;
+    $meeple->setLocation(MEEPLE_LOCATION_CITY.$column."-".$row);
+    Notifications::moveCityMarker($player,$meeple,$from);
+    return $meeple;
   }
   
   /**
@@ -577,6 +588,17 @@ class Meeples extends \ROG\Helpers\Pieces
     return self::DB()->wherePlayer($pId)
       ->whereIn(self::$prefix.'location', $cardLocations)
       ->get();
+  }
+
+  public static function getCityMarker(int $playerId) : ?Meeple
+  {
+    $resTypes = [  MEEPLE_TYPE_CLAN_MARKER];
+    return self::DB()
+      ->whereIn('player_id', [$playerId])
+      ->whereIn('type', $resTypes)
+      ->where(self::$prefix.'location','LIKE', MEEPLE_LOCATION_CITY."%")
+      ->get()
+      ->first();
   }
   
   public static function removeClanMarkerById(Player $player,int $id) : void

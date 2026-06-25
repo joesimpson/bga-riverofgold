@@ -84,6 +84,12 @@ class TestDatas {
             //101 => ['result_associative_index' => 101, 'meeple_id' => 101, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_ARTISAN.'1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ],
         ];
     }
+    
+    public static function resetCityTokens(){
+        TestDatas::$tokens[37] = ['result_associative_index' => 37, 'meeple_id' => 37, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.'0-1','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 1,  ];
+        TestDatas::$tokens[38] = ['result_associative_index' => 38, 'meeple_id' => 38, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.'0-2','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => 2,  ];
+        TestDatas::$tokens[39] = ['result_associative_index' => 39, 'meeple_id' => 39, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.'0-3','type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
+    }
 
     static array $cards = [
     ];
@@ -204,11 +210,13 @@ class TestDatas {
                 'nbActionsBuild' => 0,
                 'nbActionsDeliver' => 0,
                 'nbActionsSail' => 0,
+                'nbActionsAdvance' => 0,
             ],
             2 => [
                 'nbActionsBuild' => 0,
                 'nbActionsDeliver' => 0,
                 'nbActionsSail' => 0,
+                'nbActionsAdvance' => 0,
             ],
         ];
     }

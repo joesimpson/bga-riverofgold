@@ -673,7 +673,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.addPrimaryActionButton(`btnBuild`, _('Build') , () =>  { this.takeAction('actBuild'); });
             this.addPrimaryActionButton(`btnSail`, _('Sail') , () =>  { this.takeAction('actSail'); });
             this.addPrimaryActionButton(`btnDeliver`, _('Deliver') , () =>  { this.takeAction('actDeliver'); });
-
+            if(this.gamedatas.city_of_lies){
+                this.addPrimaryActionButton(`btnAdvance`, _('Advance') , () =>  { this.takeAction('actAdvance'); });
+            }
+            
             if(!possibleActions.includes('actSpendFavor')){
                 $('btnSpendFavor').classList.add('disabled');
             }
@@ -688,6 +691,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
             if(!possibleActions.includes('actDeliver')){
                 $('btnDeliver').classList.add('disabled');
+            }
+            let btnAdvance = $('btnAdvance');
+            if(btnAdvance && !possibleActions.includes('actAdvance')){
+                btnAdvance.classList.add('disabled');
             }
             
             this.updatePlayableCards(possibleActions, args.p_cards);
