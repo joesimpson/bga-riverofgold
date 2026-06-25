@@ -23,12 +23,10 @@ class CitySpaces
     return self::getAllCitySpaces()[$id];
   }
 
-  /*
   public static function getCitySpace(int $row, int $col) : ?CitySpace
   {
     return (new Collection(self::getAllCitySpaces()))->filter(function(CitySpace $s) use ($row, $col) { return $s->row == $row && $s->column == $col;})->first();
   }
-  */
 
   /**
    * @return array of all the different types of ShoreSpace
@@ -58,14 +56,19 @@ class CitySpaces
    * @return array list of spaces id
    */
   public static function getSpacesByRegion(int $pRegion) : array {
-    $spaceIds = [];
-    $spaces = self::getAllCitySpaces();
-    foreach ($spaces as $id => $space) {
-      if($pRegion == $space->region){
-        $spaceIds[] = $space->id;
-      }
-    }
+    $spaces = array_filter(CitySpaces::getAllCitySpaces(), function (CitySpace $space) use ($pRegion){ return $space->region == $pRegion;} ,);
+    $spaceIds = array_keys($spaces);
     return $spaceIds;
+  }
+  
+  /**
+   * @param int $pRegion the region to search
+   * @return array list of spaces id
+   */
+  public static function getEmptySpaces(int $pRegion) : array{
+    $spaces = CitySpaces::getSpacesByRegion($pRegion);
+    $usedSpaces = Meeples::getUsedPositionsOnCity();
+    return array_values( array_diff($spaces, $usedSpaces) );
   }
   
 }

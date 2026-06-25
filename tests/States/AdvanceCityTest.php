@@ -20,7 +20,7 @@ final class AdvanceCityTest extends TestCase
 {
 
     // -------------------------------------------------
-    public function test_Args(): void
+    public function test_Args_Region1(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
@@ -29,6 +29,58 @@ final class AdvanceCityTest extends TestCase
         TestDatas::$players[1]['die_face'] = 1;
         $expectedArgs = [
             'citySpaces' => [ 37 => [ 1, 3, ], ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_Region2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 2;
+        $expectedArgs = [
+            'citySpaces' => [ 37 => [ 2, 4, ], ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_Region3(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 3;
+        $expectedArgs = [
+            'citySpaces' => [ 37 => [ 5, 7, ], ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_UsedSpaces(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$tokens[38]['meeple_location'] = MEEPLE_LOCATION_CITY."1-1";
+        TestDatas::$players[1]['die_face'] = 1;
+        $expectedArgs = [
+            'citySpaces' => [ 37 => [  3, ], ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -80,6 +132,22 @@ final class AdvanceCityTest extends TestCase
         TestDatas::resetCityTokens();
         $args = $state->getArgs();
         $space = 99;
+        $markerId = 37;
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid space $space");
+        $state->actSelectAdvanceDest($space,$markerId,999999, 1, $args);
+    }
+    
+    public function test_actSelectAdvanceDest_KO_UsedSpace(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$tokens[38]['meeple_location'] = MEEPLE_LOCATION_CITY."1-1";
+        $args = $state->getArgs();
+        $space = 1;
         $markerId = 37;
 
         $this->expectException(UnexpectedException::class);

@@ -592,14 +592,29 @@ class Meeples extends \ROG\Helpers\Pieces
 
   public static function getCityMarker(int $playerId) : ?Meeple
   {
-    $resTypes = [  MEEPLE_TYPE_CLAN_MARKER];
     return self::DB()
       ->whereIn('player_id', [$playerId])
-      ->whereIn('type', $resTypes)
+      ->whereIn('type', [ MEEPLE_TYPE_CLAN_MARKER])
       ->where(self::$prefix.'location','LIKE', MEEPLE_LOCATION_CITY."%")
       ->get()
       ->first();
   }
+  
+  /**
+   * @return array of CitySpace id
+   */
+  public static function getUsedPositionsOnCity() : array
+  {
+    return self::DB()
+      ->whereIn('type', [ MEEPLE_TYPE_CLAN_MARKER])
+      ->where(self::$prefix.'location','LIKE', MEEPLE_LOCATION_CITY."%")
+      ->get()
+      ->map(function (Meeple $meeple) {
+        $space = $meeple->getCitySpace();
+        return isset($space) ? $space->id : 0;
+      })
+      ->toArray();
+  } 
   
   public static function removeClanMarkerById(Player $player,int $id) : void
   {

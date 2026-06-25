@@ -147,11 +147,8 @@ class AdvanceCity extends GameState
     if(!isset($cityMarker)) return [];
 
     $die = $player->getDie();
-    $allSpaces = CitySpaces::getAllCitySpaces();
+    $possibleSpaces = CitySpaces::getEmptySpaces($die);
     //TODO JSA FILTER with rules
-    $possibleSpaces = array_filter($allSpaces, function (CitySpace $space) use ($die){ return $space->region == $die;} ,);
-
-    $possibleSpaces = array_keys($possibleSpaces);
 
     return [ $cityMarker->getId() => $possibleSpaces];
   }

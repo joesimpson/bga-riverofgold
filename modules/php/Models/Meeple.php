@@ -2,6 +2,7 @@
 
 namespace ROG\Models;
 
+use ROG\Managers\CitySpaces;
 use ROG\Managers\Meeples;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
@@ -106,6 +107,15 @@ class Meeple extends \ROG\Helpers\DB_Model
     return $region;
   }
   
+  public function getCityRow(): int
+  {
+    $row = 0;
+    $location = $this->getLocation();
+    if (preg_match("/^" . MEEPLE_LOCATION_CITY . "(?P<col>\d+)-(?P<row>\d+)$/", $location, $matches) == 1) {
+      $row = $matches['row'];
+    }
+    return $row;
+  }
   public function getCityColumn(): int
   {
     $column = 0;
@@ -114,5 +124,12 @@ class Meeple extends \ROG\Helpers\DB_Model
       $column = $matches['col'];
     }
     return $column;
+  }
+  
+  public function getCitySpace(): ?CitySpace
+  {
+    $row = $this->getCityRow();
+    $col = $this->getCityColumn();
+    return CitySpaces::getCitySpace($row,$col);
   }
 }
