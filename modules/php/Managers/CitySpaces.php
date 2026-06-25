@@ -23,10 +23,12 @@ class CitySpaces
     return self::getAllCitySpaces()[$id];
   }
 
+  /*
   public static function getCitySpace(int $row, int $col) : ?CitySpace
   {
-    return new Collection(self::getAllCitySpaces())->filter(function(CitySpace $s) use ($row, $col) { return $s->row == $row && $s->column == $col;})->first();
+    return (new Collection(self::getAllCitySpaces()))->filter(function(CitySpace $s) use ($row, $col) { return $s->row == $row && $s->column == $col;})->first();
   }
+  */
 
   /**
    * @return array of all the different types of ShoreSpace

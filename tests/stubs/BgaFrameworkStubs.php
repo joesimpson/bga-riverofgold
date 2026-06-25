@@ -927,7 +927,7 @@ abstract class Table
         for($k=1;$k<100;$k++) $mutiplesGroups .= "$insertCardGroup?";
         $regexInsertCards = "/^INSERT INTO `cards` (.*) VALUES$insertCardGroup?$mutiplesGroups$/";
         if (preg_match($regexInsertCards, $sql, $matches) == 1) {
-            logForTests("REGEX insert cards : $regexInsertCards");
+            //logForTests("REGEX insert cards : $regexInsertCards");
             $k =2;
             while(array_key_exists($k,$matches)){
                 $card_location = $matches[$k+1];
@@ -1170,7 +1170,8 @@ abstract class Table
      */
     public function notifyAllPlayers(string $notificationType, string $notificationLog, array $notificationArgs): void
     {
-        logForTests("notifyAllPlayers $notificationType : $notificationLog, with args ".json_encode($notificationArgs)."", "NOTIF");
+        //logForTests("notifyAllPlayers $notificationType : $notificationLog, with args ".json_encode($notificationArgs)."", "NOTIF");
+        logForTests("notifyAllPlayers $notificationType : $notificationLog" , "NOTIF");
         $suffix = '';
         if(isset($notificationArgs['player_id'])) $suffix = "-".($notificationArgs['player_id']);
         TestDatas::$notifs['all'][] = "$notificationType$suffix";
