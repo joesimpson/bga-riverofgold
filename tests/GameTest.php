@@ -915,6 +915,123 @@ final class GameTest extends TestCase
         $datas = $game->getAllDatas();
         
         assertSame(true, $datas['city_of_lies']);
+        $city_track = [ 
+                        [
+                            'row' => 1,
+                            'column' => 1,
+                            'region' => 1,
+                            'rewards' => [
+                                'entries' => [
+                                    [ 'type' => BONUS_TYPE_CHOICE, 'n' => 2, ],
+                                ],
+                            ],
+                        ],
+                        [
+                            'row' => 1,
+                            'column' => 2,
+                            'region' => 2,
+                            'rewards' => [
+                                'entries' => [
+                                    [ 'type' => BONUS_TYPE_SECOND_MARKER_ON_BUILDING, 'n' => 1, ],
+                                ],
+                            ],
+                        ],
+                        [
+                            'row' => 1,
+                            'column' => 3,
+                            'region' => 1,
+                            'rewards' => [
+                                'entries' => [
+                                ],
+                            ],
+                        ],
+                        [
+                            'row' => 1,
+                            'column' => 4,
+                            'region' => 2,
+                            'rewards' => [
+                                'entries' => [
+                                ],
+                            ],
+                        ],
+                        [
+                            'row' => 2,
+                            'column' => 1,
+                            'region' => 3,
+                            'rewards' => [
+                                'entries' => [
+                                    [ 'type' => RESOURCE_TYPE_MOON,  'n' => 1, ],
+                                    [ 'type' => RESOURCE_TYPE_SUN,  'n' => 1, ],
+                                ],
+                            ],
+                        ],
+                        [
+                            'row' => 2,
+                            'column' => 2,
+                            'region' => 4,
+                            'rewards' => [
+                                'entries' => [
+                                ],
+                            ],
+                        ],
+                        [
+                            'row' => 2,
+                            'column' => 3,
+                            'region' => 3,
+                            'rewards' => [
+                                'entries' => [
+                                ],
+                            ],
+                        ],
+                        [
+                            'row' => 2,
+                            'column' => 4,
+                            'region' => 4,
+                            'rewards' => [
+                                'entries' => [
+                                ],
+                            ],
+                        ],
+                        [
+                            'row' => 3,
+                            'column' => 1,
+                            'region' => 5,
+                            'rewards' => [
+                                'entries' => [
+                                    [ 'type' => RESOURCE_TYPE_MONEY,  'n' => 7, ],
+                                ],
+                            ],
+                        ],
+                        [
+                            'row' => 3,
+                            'column' => 2,
+                            'region' => 6,
+                            'rewards' => [
+                                'entries' => [
+                                    [ 'type' => BONUS_TYPE_POINTS,  'n' => 5, ],
+                                ],
+                            ],
+                        ],
+                        [
+                            'row' => 3,
+                            'column' => 3,
+                            'region' => 5,
+                            'rewards' => [
+                                'entries' => [
+                                ],
+                            ],
+                        ],
+                        [
+                            'row' => 3,
+                            'column' => 4,
+                            'region' => 6,
+                            'rewards' => [
+                                'entries' => [
+                                ],
+                            ],
+                        ],
+                    ];
+        assertSame($city_track, $datas['city_track']);
     }
     // -------------------------------------------------
     

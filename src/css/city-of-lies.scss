@@ -9,7 +9,8 @@ $cityHeight: 797px;
 
     .tooltipable:hover{
         cursor: help;
-        outline: 6px solid #04fb04;
+        box-shadow: 0 0 0 5px #04fb04;
+        border-radius: 10px;
     }
     
     #rog_city_of_lies_board_container{
@@ -74,13 +75,12 @@ $cityHeight: 797px;
                             
                 .rog_city_space{
                     position: absolute;
-                    display: flex;
-                    flex-direction: column;
                     width: 110px;
                     height: 132px;
 
                     //for debug
-                    outline: 2px solid red;
+                    //outline: 2px solid red;
+
                     &[data-col="0"]{
                         width: 40px;
                         height: 50px;
@@ -100,9 +100,58 @@ $cityHeight: 797px;
                             top: 340px;
                         }
                     }
+                    
+                    &[data-col="1"]{
+                        left: 90px;
+                    }
+                    &[data-col="2"]{
+                        left: 260px;
+                    }
+                    &[data-col="3"]{
+                        left: 430px;
+                    }
+                    &[data-col="4"]{
+                        left: 600px;
+                    }
+                    
+                    &[data-col="1"],
+                    &[data-col="2"],
+                    &[data-col="3"],
+                    &[data-col="4"]
+                    {
+                        width: 110px;
+                        height: 128px;
+                        &[data-row="1"]{
+                            top: 0px;
+                        }
+                        &[data-row="2"]{
+                            top: 146px;
+                        }
+                        &[data-row="3"]{
+                            top: 302px;
+                        }
+                        &[data-row="4"],
+                        &[data-row="5"]
+                        {
+                            display: none;
+                        }
+                    }
                     &[data-col="5"]{
-                        width: 104px;
+                        left: 770px;
+                        width: 117px;
                         height: 80px;
+                        &[data-row="2"]{
+                            top: 91px;
+                        }
+                        &[data-row="3"]{
+                            top: 186px;
+                        }
+                        &[data-row="4"]{
+                            top: 278px;
+                        }
+                        &[data-row="5"]{
+                            top: 370px;
+                        }
                     }
 
                     .rog_meeple{

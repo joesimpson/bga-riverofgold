@@ -1955,7 +1955,8 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 #rog_resizable_city_of_lies_board .tooltipable:hover {
   cursor: help;
-  outline: 6px solid #04fb04;
+  box-shadow: 0 0 0 5px #04fb04;
+  border-radius: 10px;
 }
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container {
   /* prevents vertical invisible overflow on BGA bottom elements*/
@@ -2016,11 +2017,8 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space {
   position: absolute;
-  display: flex;
-  flex-direction: column;
   width: 110px;
   height: 132px;
-  outline: 2px solid red;
 }
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="0"] {
   width: 40px;
@@ -2041,9 +2039,50 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="0"][data-row="5"] {
   top: 340px;
 }
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="1"] {
+  left: 90px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="2"] {
+  left: 260px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="3"] {
+  left: 430px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="4"] {
+  left: 600px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="1"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="2"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="3"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="4"] {
+  width: 110px;
+  height: 128px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="1"][data-row="1"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="2"][data-row="1"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="3"][data-row="1"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="4"][data-row="1"] {
+  top: 0px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="1"][data-row="2"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="2"][data-row="2"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="3"][data-row="2"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="4"][data-row="2"] {
+  top: 146px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="1"][data-row="3"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="2"][data-row="3"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="3"][data-row="3"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="4"][data-row="3"] {
+  top: 302px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="1"][data-row="4"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="1"][data-row="5"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="2"][data-row="4"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="2"][data-row="5"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="3"][data-row="4"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="3"][data-row="5"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="4"][data-row="4"], #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="4"][data-row="5"] {
+  display: none;
+}
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="5"] {
-  width: 104px;
+  left: 770px;
+  width: 117px;
   height: 80px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="5"][data-row="2"] {
+  top: 91px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="5"][data-row="3"] {
+  top: 186px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="5"][data-row="4"] {
+  top: 278px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="5"][data-row="5"] {
+  top: 370px;
 }
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space .rog_meeple {
   width: 100%;

@@ -3036,9 +3036,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 case RESOURCE_TYPE_SUN: return this.fsr(_('${n} ${element}'), {'n':quantity, 'element':_('Divine favor') }); 
                 case RESOURCE_TYPE_MONEY: return this.fsr(_('${n} ${element}'), {n:quantity, element:_('Koku') });
                 case BONUS_TYPE_POINTS: return this.fsr(_('${n} Victory points'), {n:quantity });
-                case BONUS_TYPE_CHOICE: return _('Choose any trade good');
+                case BONUS_TYPE_CHOICE: return quantity == 1 ? _('Choose any trade good') : this.fsr(_('${n} ${element}'), {'n':quantity +'x', 'element':_('Choose any trade good') });
                 case BONUS_TYPE_INFLUENCE: return this.fsr(_('${n} Influence in the region it is built'), {n:quantity });
                 case BONUS_TYPE_DRAW: return _('Draw and discard 1 customer card');
+                case BONUS_TYPE_SECOND_MARKER_ON_BUILDING: return _('Place a second clan marker on a building you own');
 
                 case BONUS_TYPE_MONEY_PER_CUSTOMER: return this.fsr(_('Gain ${n} Koku per customer delivered to'), {n:quantity });
 
@@ -5291,9 +5292,25 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     if(!$(`rog_city_space_${column}_${row}`)) this.place(`tplCitySpace`,{'row':row,'column':column}, $(`rog_city_spaces`));
                 }
             }
+            
+            if(this.gamedatas.city_track) {
+                Object.values(this.gamedatas.city_track).forEach( (citySpace) => {
+                    let tooltipText = this.getCitySpaceTooltip(citySpace);    
+                    this.addCustomTooltip(`rog_city_space_${citySpace.column}_${citySpace.row}`, tooltipText);
+                });
+            }
         },
         tplCitySpace(datas){
             return `<div id="rog_city_space_${datas.column}_${datas.row}" class="rog_city_space" data-col="${datas.column}" data-row="${datas.row}" ></div>`;
+        },
+        getCitySpaceTooltip(citySpace){
+            if(! citySpace) return '';
+            let rewards = Object.values(citySpace.rewards.entries).map((e) => "<li>"+this.formatReward(e.type,e.n)+"</li>").join('');
+            let rewardsText = (rewards.length==0) ? '': this.fsr( _('Rewards : ${list}'),{'list': rewards} );
+            return `<div class='rog_city_space_tooltip' >
+                        <div class='rog_city_region'>${this.fsr(_('Region to match your die : ${n}'), { 'n':citySpace.region,})}</div>
+                        <div class='rog_city_rewards'><ul>${rewardsText}</ul></div>
+                    </div>`;
         },
 
 

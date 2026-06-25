@@ -40,6 +40,7 @@ use ROG\Exceptions\UserException;
 use ROG\Helpers\AutomaEngine;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
+use ROG\Managers\CitySpaces;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
@@ -162,7 +163,11 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
             $result['virtual_players'][LION_ENEMY_ID] = $lionEnemy->getUiData();
         }
         
-        $result['city_of_lies'] = Utils::isGameWithCityOfLies();
+        $gameCityOflies = Utils::isGameWithCityOfLies();
+        $result['city_of_lies'] = $gameCityOflies;
+        if($gameCityOflies){
+            $result['city_track'] = CitySpaces::getUiData();
+        }
 
         return $result;
     }
