@@ -6,6 +6,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
+use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 use ROG\Models\AutomaActionType;
@@ -324,5 +325,31 @@ abstract class Utils
             //If it moves past the top river space, remove it from the board.
             Meeples::removeShip($player,$ship, clienttranslate('${player_name} removes the rogue ship from the board'));
         }
+    }
+
+    /**
+     * Go to bonus transition after current turn action
+     * @param Player $player
+     * @param bool $changeActivePlayer (Default false) 
+     * @param bool $applyNextState (Default true) : manual change of state
+     * @return bool true if state changed
+     */
+    public static function goToBonusStepIfNeeded(?Player $player, bool $changeActivePlayer = false, bool $applyNextState = true) : bool
+    {
+        if(!isset($player)) return false;
+        //refresh datas
+        $updatedPlayer = Players::get($player->getId());
+        $bonuses = $updatedPlayer->getBonuses();
+        if(isset($bonuses) && count($bonuses)>0){
+            $updatedPlayer->giveExtraTime();
+            if($changeActivePlayer){
+                //Change active player when in a game state !
+                Players::changeActive($updatedPlayer->getId());
+                Game::get()->addCheckpoint(ST_BONUS_CHOICE);
+            }
+            if($applyNextState) Game::get()->gamestate->nextState('bonus');
+            return true;
+        }
+        return false;
     }
 }

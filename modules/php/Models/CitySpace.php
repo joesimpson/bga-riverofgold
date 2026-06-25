@@ -5,13 +5,16 @@ namespace ROG\Models;
 class CitySpace implements \JsonSerializable
 {
   
+  public int $id;
+
   public int $row;
   public int $column;
   public int $region;
   public Reward $rewards;
   
-  public function __construct(int $row, int $column, int $region, array $rewardArray)
+  public function __construct(int $id, int $row, int $column, int $region, array $rewardArray)
   {
+    $this->id = $id;
     $this->row = $row;
     $this->column = $column;
     $this->region = $region;
@@ -19,7 +22,7 @@ class CitySpace implements \JsonSerializable
   }
   
   protected $attributes = [
-    'row','column','region',
+    'id', 'row','column','region',
   ];
   /**
    * Return an array of attributes

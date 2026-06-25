@@ -12,6 +12,7 @@ use ROG\Core\Notifications;
 use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Log;
+use ROG\Helpers\Utils;
 use ROG\Managers\CitySpaces;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -41,7 +42,6 @@ class AdvanceCity extends GameState
     $player_id = $player->getId();
     
     $possibleSpaces = AdvanceCity::listPossibleSpacesToAdvance($player);
-    $possibleSpaces = array_keys($possibleSpaces);
 
     $args = [
       'citySpaces' => $possibleSpaces,
@@ -61,6 +61,7 @@ class AdvanceCity extends GameState
   #[PossibleAction]
   public function actSelectAdvanceDest(
       int $space, 
+      int $markerId,
       int $version,
       int $activePlayerId, array $args,
     )
@@ -69,7 +70,12 @@ class AdvanceCity extends GameState
     $this->game->trace(__CLASS__.".".__FUNCTION__."( $space, $activePlayerId)");
     
     $player = Players::get($activePlayerId);
-    $choices = $args['citySpaces'];
+    $citySpaces = $args['citySpaces'];
+    $possibleMarkers = array_keys($citySpaces);
+    if (!in_array($markerId,$possibleMarkers)) {
+      throw new UnexpectedException(503,"Invalid marker $markerId");
+    } 
+    $choices = $citySpaces[$markerId];
     if (!in_array($space,$choices)) {
       throw new UnexpectedException(503,"Invalid space $space");
     } 
@@ -78,11 +84,7 @@ class AdvanceCity extends GameState
     Log::addStep();
 
     //TODO JSA NEW ACTION ADVANCE...
-    $clanMarker = Meeples::getCityMarker($activePlayerId);
-    if(!isset($clanMarker)) {
-      //SHOULD NOT HAPPEN
-      throw new UnexpectedException(504,"No city marker found for player $activePlayerId");
-    }
+    $clanMarker = Meeples::get($markerId);
     $citySpace = CitySpaces::getCitySpaceById($space);
     Meeples::moveClanMarkerOnCity($player,$clanMarker,$citySpace);
     
@@ -90,7 +92,10 @@ class AdvanceCity extends GameState
     Stats::inc("nbActionsAdvance", $player->getId());
     Globals::setTurnMainActionDone(MAIN_ACTION::ADVANCE->value);
 
-    return ST_BONUS_CHOICE;
+    if(Utils::goToBonusStepIfNeeded($player,false,false)){
+      return ST_BONUS_CHOICE;
+    }
+    return ST_CONFIRM_CHOICES;
   }
   
   /*
@@ -133,14 +138,22 @@ class AdvanceCity extends GameState
   }
 
   //--------------------------
+  /**
+   * @return array [ meeple_id => $possibleSpaces, ] list of all possible spaces linked to each player city marker (in case of multiples in the future)
+   */
   public static function listPossibleSpacesToAdvance(Player $player) : array {
+
+    $cityMarker = Meeples::getCityMarker($player->getId());
+    if(!isset($cityMarker)) return [];
 
     $die = $player->getDie();
     $allSpaces = CitySpaces::getAllCitySpaces();
     //TODO JSA FILTER with rules
     $possibleSpaces = array_filter($allSpaces, function (CitySpace $space) use ($die){ return $space->region == $die;} ,);
 
-    return $possibleSpaces;
+    $possibleSpaces = array_keys($possibleSpaces);
+
+    return [ $cityMarker->getId() => $possibleSpaces];
   }
  
 }

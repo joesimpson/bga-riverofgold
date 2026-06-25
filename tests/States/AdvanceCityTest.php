@@ -28,7 +28,7 @@ final class AdvanceCityTest extends TestCase
         TestDatas::resetCityTokens();
         TestDatas::$players[1]['die_face'] = 1;
         $expectedArgs = [
-            'citySpaces' => [1, 3, ],
+            'citySpaces' => [ 37 => [ 1, 3, ], ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -60,8 +60,9 @@ final class AdvanceCityTest extends TestCase
         TestDatas::resetCityTokens();
         $args = $state->getArgs();
         $space = 1;
+        $markerId = 37;
 
-        $newState = $state->actSelectAdvanceDest($space,999999, 1, $args);
+        $newState = $state->actSelectAdvanceDest($space,$markerId,999999, 1, $args);
         
         $expectedNotifs = [
             "moveCityMarker-1",
@@ -69,7 +70,7 @@ final class AdvanceCityTest extends TestCase
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
         assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
-        assertSame(ST_BONUS_CHOICE, $newState);
+        assertSame(ST_CONFIRM_CHOICES, $newState);
     }
     public function test_actSelectAdvanceDest_KO_WrongSpace(): void
     {
@@ -79,10 +80,11 @@ final class AdvanceCityTest extends TestCase
         TestDatas::resetCityTokens();
         $args = $state->getArgs();
         $space = 99;
+        $markerId = 37;
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Invalid space $space");
-        $state->actSelectAdvanceDest($space,999999, 1, $args);
+        $state->actSelectAdvanceDest($space,$markerId,999999, 1, $args);
     }
     public function test_actSelectAdvanceDest_KO_WrongPlayer(): void
     {
@@ -91,10 +93,11 @@ final class AdvanceCityTest extends TestCase
         $state = new AdvanceCity($game);
         $args = $state->getArgs();
         $space = 1;
+        $markerId = 37;
 
         $this->expectException(UnexpectedException::class);
-        $this->expectExceptionMessage("No city marker found for player 1");
-        $state->actSelectAdvanceDest($space,999999, 1, $args);
+        $this->expectExceptionMessage("Invalid marker 37");
+        $state->actSelectAdvanceDest($space,$markerId,999999, 1, $args);
     }
     // -------------------------------------------------
     

@@ -917,6 +917,7 @@ final class GameTest extends TestCase
         assertSame(true, $datas['city_of_lies']);
         $city_track = [ 
                         [
+                            'id' => 1,
                             'row' => 1,
                             'column' => 1,
                             'region' => 1,
@@ -927,6 +928,7 @@ final class GameTest extends TestCase
                             ],
                         ],
                         [
+                            'id' => 2,
                             'row' => 1,
                             'column' => 2,
                             'region' => 2,
@@ -937,6 +939,7 @@ final class GameTest extends TestCase
                             ],
                         ],
                         [
+                            'id' => 3,
                             'row' => 1,
                             'column' => 3,
                             'region' => 1,
@@ -946,6 +949,7 @@ final class GameTest extends TestCase
                             ],
                         ],
                         [
+                            'id' => 4,
                             'row' => 1,
                             'column' => 4,
                             'region' => 2,
@@ -955,6 +959,7 @@ final class GameTest extends TestCase
                             ],
                         ],
                         [
+                            'id' => 5,
                             'row' => 2,
                             'column' => 1,
                             'region' => 3,
@@ -966,6 +971,7 @@ final class GameTest extends TestCase
                             ],
                         ],
                         [
+                            'id' => 6,
                             'row' => 2,
                             'column' => 2,
                             'region' => 4,
@@ -975,6 +981,7 @@ final class GameTest extends TestCase
                             ],
                         ],
                         [
+                            'id' => 7,
                             'row' => 2,
                             'column' => 3,
                             'region' => 3,
@@ -984,6 +991,7 @@ final class GameTest extends TestCase
                             ],
                         ],
                         [
+                            'id' => 8,
                             'row' => 2,
                             'column' => 4,
                             'region' => 4,
@@ -993,6 +1001,7 @@ final class GameTest extends TestCase
                             ],
                         ],
                         [
+                            'id' => 9,
                             'row' => 3,
                             'column' => 1,
                             'region' => 5,
@@ -1003,6 +1012,7 @@ final class GameTest extends TestCase
                             ],
                         ],
                         [
+                            'id' => 10,
                             'row' => 3,
                             'column' => 2,
                             'region' => 6,
@@ -1013,6 +1023,7 @@ final class GameTest extends TestCase
                             ],
                         ],
                         [
+                            'id' => 11,
                             'row' => 3,
                             'column' => 3,
                             'region' => 5,
@@ -1022,6 +1033,7 @@ final class GameTest extends TestCase
                             ],
                         ],
                         [
+                            'id' => 12,
                             'row' => 3,
                             'column' => 4,
                             'region' => 6,

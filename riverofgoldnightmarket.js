@@ -281,6 +281,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['newBoat', 800],
                 ['newBoatOnScenarioCard', 800],
                 ['upgradeShip', 800],
+                ['moveCityMarker', 1600],
                 ['rollDie', 800],
                 ['setDie', 800],
                 ['gainInfluence', 1300],
@@ -315,6 +316,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this._inactiveStates = ['draft','scoring','gameEnd'];
             this._migratedStates = [
                 //States extending GameState that don't already define title -> we must display dynamic title
+                'AdvanceCity',
                 'BonusPlaceLion','BonusBuildingReward','BonusPayShips','BonusAdvanceCity',
                 'BonusSelectRegion', 'BonusMultiTrades',
                 'BonusManageCardResources',
@@ -1812,6 +1814,32 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 });
             });
         },
+        
+        onEnteringStateAdvanceCity(args){
+            debug('onEnteringStateAdvanceCity', args);
+   
+            this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
+                _('Advance : ${you} must select a space in the City of Lies') :
+                _('Advance : ${actplayer} must select a space in the City of Lies')
+            );
+            let possibleSpaces = args.citySpaces;
+            Object.entries(possibleSpaces).forEach( ([markerId, spaces]) => {
+                //only 1 markerId is expected for now
+                Object.values(spaces).forEach((space) => {
+                    let divSpace = document.querySelector(`.rog_city_space[data-id="${space}"]`);
+                    if(!divSpace) return;
+                    let callbackSpaceSelection = () => {
+                            this.takeAction('actSelectAdvanceDest', { 
+                                'space': space,
+                                'markerId' : markerId,
+                            });
+                        };
+                    this.onClick(divSpace.id, callbackSpaceSelection);
+                });
+            });
+            
+
+        },
 
         onEnteringStateConfirmTurn(args) {
             debug('onEnteringStateConfirmTurn', args);
@@ -2251,6 +2279,18 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let ship = n.args.meeple;
             let tokenDiv = document.getElementById(`rog_meeple-${ship.id}`);
             this.animationManager.slideOutAndDestroy(tokenDiv, this.getVisibleTitleContainer(), {duration: 700});
+        },
+        
+        notif_moveCityMarker(n) {
+            debug('notif_moveCityMarker:', n);
+            let meeple = n.args.meeple;
+            let divMeeple = document.getElementById(`rog_meeple-${meeple.id}`);
+            let fromDiv = divMeeple.parentNode;
+            this.slide(divMeeple.id, this.getMeepleContainer(meeple), {  
+                from: fromDiv.id, 
+                phantom: false,
+            }).then( ()=> { 
+            });
         },
         async notif_setDie(n) {
             debug('notif_setDie', n);
@@ -5302,8 +5342,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             
             if(this.gamedatas.city_track) {
                 Object.values(this.gamedatas.city_track).forEach( (citySpace) => {
-                    let tooltipText = this.getCitySpaceTooltip(citySpace);    
-                    this.addCustomTooltip(`rog_city_space_${citySpace.column}_${citySpace.row}`, tooltipText);
+                    let divSpaceId = `rog_city_space_${citySpace.column}_${citySpace.row}`;
+                    let divSpace = document.getElementById(divSpaceId);
+                    if(divSpace){
+                        divSpace.dataset.id = citySpace.id;
+                        let tooltipText = this.getCitySpaceTooltip(citySpace);    
+                        this.addCustomTooltip(divSpaceId, tooltipText);
+                    }
                 });
             }
         },
