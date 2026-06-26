@@ -10,6 +10,8 @@ use ROG\Helpers\Utils;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
 use ROG\Models\Reward;
+use ROG\Models\SCORING_CITY_TYPE;
+use ROG\Models\ScoringCityTile;
 use ROG\Models\ScoringTile;
 use ROG\Models\Tile;
 
@@ -37,6 +39,9 @@ class Tiles extends \ROG\Helpers\Pieces
       case TILE_TYPE_BUILDING:
         $data = self::getBuildingTilesTypes()[$type];
         return new \ROG\Models\BuildingTile($row, $data);
+      case TILE_TYPE_CITY_SCORING:
+        $data = self::getScoringCityTilesTypes()[$type];
+        return new ScoringCityTile($row, $data);
     }
     $data = [];
     return new Tile($row, $data);
@@ -55,7 +60,9 @@ class Tiles extends \ROG\Helpers\Pieces
       ->merge(self::getInLocationOrdered(TILE_LOCATION_MASTERY_CARD))
       ->merge(self::getInLocation(TILE_LOCATION_MASTERY_RESERVED))
       ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_ROW))
-      ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE));
+      ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE))
+      ->merge(self::getInLocationOrdered(TILE_LOCATION_SCORING_BOARD))
+      ;
     if(isset($nextEra1Card) && !Utils::hideTopEraDeck(1)) $cards->append($nextEra1Card);
     if(isset($nextEra2Card) && !Utils::hideTopEraDeck(2)) $cards->append($nextEra2Card);
     return $cards->ui();
@@ -308,6 +315,17 @@ class Tiles extends \ROG\Helpers\Pieces
       if($nbImperialMarkets >= NB_IMPERIAL_MARKETS) break;
     }
 
+    if(Utils::isGameWithCityOfLies()){
+      $scoringCityTiles = self::getScoringCityTilesTypes();
+      foreach ($scoringCityTiles as $type => $tile) {
+        $tiles[] = [
+          'location' => TILE_LOCATION_SCORING_DECK,
+          'type' => $type,
+          'subtype' => TILE_TYPE_CITY_SCORING,
+        ];
+      }
+    }
+
     if(count($tiles)>0){
       self::create($tiles);
       self::shuffle(TILE_LOCATION_SCORING);
@@ -315,6 +333,7 @@ class Tiles extends \ROG\Helpers\Pieces
       self::shuffle(TILE_LOCATION_BUILDING_SHORE);
       self::shuffle(TILE_LOCATION_BUILDING_DECK_ERA_1);
       self::shuffle(TILE_LOCATION_BUILDING_DECK_ERA_2);
+      self::shuffle(TILE_LOCATION_SCORING_DECK);
 
       //Pick 3 mastery cards for the game
       $masteryCards = self::pickForLocation(3,TILE_LOCATION_MASTERY_DECK,TILE_LOCATION_MASTERY_CARD);
@@ -363,6 +382,16 @@ class Tiles extends \ROG\Helpers\Pieces
       foreach ($buildingTiles as $tileId => $tile) {
         $k++;
         $tile->setState($k);
+      }
+      
+      if(Utils::isGameWithCityOfLies()){
+        $nbScoringCityTiles = [1=>3, 2=>3, 3=>4, 4=>5, 5=>5,];
+        $scoringCityTiles = self::pickForLocation($nbScoringCityTiles[$nbPlayers],TILE_LOCATION_SCORING_DECK,TILE_LOCATION_SCORING_BOARD);
+        $k = 0;
+        foreach ($scoringCityTiles as $tileId => $tile) {
+          $k++;
+          $tile->setState($k);
+        }
       }
 
     }
@@ -635,5 +664,35 @@ class Tiles extends \ROG\Helpers\Pieces
       }
     }
     return $types;
+  }
+
+  
+  /**
+   * @return array of all the different types of Scoring City Tiles
+   */
+  public static function getScoringCityTilesTypes() : array
+  {
+    $f = function ($t) {
+      return [
+        'region' => $t[0],
+        'scoreByElement' => $t[1],
+        'scoredElement' => $t[2]->value,
+      ];
+    };
+    return [
+      // 12 unique 
+      1  => $f([ REGION_1,  2,   SCORING_CITY_TYPE::BUILDING        ]), 
+      2  => $f([ REGION_1,  1,   SCORING_CITY_TYPE::TRADE_GOOD      ]), 
+      3  => $f([ REGION_2,  3,   SCORING_CITY_TYPE::PORT            ]), 
+      4  => $f([ REGION_2,  10,  SCORING_CITY_TYPE::NOTHING         ]), 
+      5  => $f([ REGION_3,  3,   SCORING_CITY_TYPE::MARKET          ]), 
+      6  => $f([ REGION_3,  4,   SCORING_CITY_TYPE::IMPERIAL_FLOWER ]), 
+      7  => $f([ REGION_4,  3,   SCORING_CITY_TYPE::SHRINE          ]), 
+      8  => $f([ REGION_4,  3,   SCORING_CITY_TYPE::SUN             ]), 
+      9  => $f([ REGION_5,  3,   SCORING_CITY_TYPE::MONEY           ]), 
+      10 => $f([ REGION_5,  3,   SCORING_CITY_TYPE::DELIVERIES      ]), 
+      11 => $f([ REGION_6,  3,   SCORING_CITY_TYPE::MANOR           ]), 
+      12 => $f([ REGION_6,  4,   SCORING_CITY_TYPE::MASTERIES       ]), 
+    ];
   }
 }

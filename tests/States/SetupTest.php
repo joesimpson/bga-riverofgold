@@ -698,6 +698,99 @@ final class SetupTest extends TestCase
         $automaCards = Cards::getInLocation(CARD_AUTOMA_LOCATION_DECK);
         $cardsNames = $automaCards->map(function($card) {return $card->getTitle();})->toArray();
         assertSame($expectedCardsNames, $cardsNames);
+        //City tiles
+        assertSame(3, Tiles::countInLocation(TILE_LOCATION_SCORING_BOARD));
+    }
+    
+    public function test_setupNewGame_CityOfLies_3p(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        TestDatas::$players[3] = TestDatas::$players[1];
+        TestDatas::$players[3]['player_id'] = 3;
+        TestDatas::$players[3]['result_associative_index'] = 3;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+            3 => TestDatas::$players[3],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_SEISHIN => OPTION_SEISHIN_LEVEL_5,
+            OPTION_CITY_OF_LIES => OPTION_CITY_OF_LIES_ON,
+        ];
+        TestDatas::$cards = [];
+        TestDatas::$tiles = [];
+        
+        $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        //City tiles
+        assertSame(4, Tiles::countInLocation(TILE_LOCATION_SCORING_BOARD));
+    }
+    public function test_setupNewGame_CityOfLies_4p(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        TestDatas::$players[3] = TestDatas::$players[1];
+        TestDatas::$players[3]['player_id'] = 3;
+        TestDatas::$players[3]['result_associative_index'] = 3;
+        TestDatas::$players[4] = TestDatas::$players[1];
+        TestDatas::$players[4]['player_id'] = 4;
+        TestDatas::$players[4]['result_associative_index'] = 4;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+            3 => TestDatas::$players[3],
+            4 => TestDatas::$players[4],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_SEISHIN => OPTION_SEISHIN_LEVEL_5,
+            OPTION_CITY_OF_LIES => OPTION_CITY_OF_LIES_ON,
+        ];
+        TestDatas::$cards = [];
+        TestDatas::$tiles = [];
+        
+        $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        //City tiles
+        assertSame(5, Tiles::countInLocation(TILE_LOCATION_SCORING_BOARD));
+    }
+    public function test_setupNewGame_CityOfLies_5p(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        TestDatas::$players[3] = TestDatas::$players[1];
+        TestDatas::$players[3]['player_id'] = 3;
+        TestDatas::$players[3]['result_associative_index'] = 3;
+        TestDatas::$players[4] = TestDatas::$players[1];
+        TestDatas::$players[4]['player_id'] = 4;
+        TestDatas::$players[4]['result_associative_index'] = 4;
+        TestDatas::$players[5] = TestDatas::$players[1];
+        TestDatas::$players[5]['player_id'] = 5;
+        TestDatas::$players[5]['result_associative_index'] = 5;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+            3 => TestDatas::$players[3],
+            4 => TestDatas::$players[4],
+            5 => TestDatas::$players[5],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_SEISHIN => OPTION_SEISHIN_LEVEL_5,
+            OPTION_CITY_OF_LIES => OPTION_CITY_OF_LIES_ON,
+        ];
+        TestDatas::$cards = [];
+        TestDatas::$tiles = [];
+        
+        $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        //City tiles
+        assertSame(5, Tiles::countInLocation(TILE_LOCATION_SCORING_BOARD));
     }
     // ----------------------------------------------------------------------
     public function testEnteringState_PlayerSetup(): void

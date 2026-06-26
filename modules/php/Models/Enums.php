@@ -66,3 +66,21 @@ enum SHORE_SIDE: string
   case LEFT   = 'LEFT';
   case RIGHT  = 'RIGHT';
 }
+
+enum SCORING_CITY_TYPE: string
+{
+  use EnumUtilsTrait;
+
+  case BUILDING        = 'BUILDING';
+  case TRADE_GOOD      = 'TRADE_GOOD';
+  case PORT            = 'PORT';
+  case NOTHING         = '';
+  case MARKET          = 'MARKET';
+  case IMPERIAL_FLOWER = 'IMPERIAL_FLOWER';
+  case SHRINE          = 'SHRINE';
+  case SUN             = 'SUN';
+  case MONEY           = 'MONEY';
+  case DELIVERIES      = 'DELIVERIES';
+  case MANOR           = 'MANOR';
+  case MASTERIES       = 'MASTERIES';
+}

@@ -5138,6 +5138,61 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: 1815px;
 }
 
+.rog_tile[data-subtype="4"] {
+  width: 350px;
+  height: 122px;
+  background-size: 200% 600%;
+  background-image: url("img/cityOfLies/scoring.png");
+}
+.rog_tile[data-subtype="4"][data-type="1"] {
+  background-position-y: 0%;
+  background-position-x: 0%;
+}
+.rog_tile[data-subtype="4"][data-type="2"] {
+  background-position-y: 20%;
+  background-position-x: 0%;
+}
+.rog_tile[data-subtype="4"][data-type="3"] {
+  background-position-y: 40%;
+  background-position-x: 0%;
+}
+.rog_tile[data-subtype="4"][data-type="4"] {
+  background-position-y: 60%;
+  background-position-x: 0%;
+}
+.rog_tile[data-subtype="4"][data-type="5"] {
+  background-position-y: 80%;
+  background-position-x: 0%;
+}
+.rog_tile[data-subtype="4"][data-type="6"] {
+  background-position-y: 100%;
+  background-position-x: 0%;
+}
+.rog_tile[data-subtype="4"][data-type="7"] {
+  background-position-y: 0%;
+  background-position-x: 100%;
+}
+.rog_tile[data-subtype="4"][data-type="8"] {
+  background-position-y: 20%;
+  background-position-x: 100%;
+}
+.rog_tile[data-subtype="4"][data-type="9"] {
+  background-position-y: 40%;
+  background-position-x: 100%;
+}
+.rog_tile[data-subtype="4"][data-type="10"] {
+  background-position-y: 60%;
+  background-position-x: 100%;
+}
+.rog_tile[data-subtype="4"][data-type="11"] {
+  background-position-y: 80%;
+  background-position-x: 100%;
+}
+.rog_tile[data-subtype="4"][data-type="12"] {
+  background-position-y: 100%;
+  background-position-x: 100%;
+}
+
 .rog_tile_tooltip h1 {
   text-align: center;
 }

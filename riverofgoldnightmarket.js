@@ -112,6 +112,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const MASTERY_TYPE_LIGHTNING = 9;
 
     const TILE_LOCATION_SCORING = 's';
+    const TILE_LOCATION_SCORING_BOARD = 'city_b';
     const TILE_LOCATION_MASTERY_CARD = 'm';
     const TILE_LOCATION_MASTERY_RESERVED = 'm_reserved';
     const TILE_LOCATION_BUILDING_DECK = 'bd';
@@ -423,6 +424,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             });
 
             this.setupAutomaBoard(); 
+            this.addCitySpaces();
             this.setupPlayers();
             this.setupTiles();
             this.setupInfoPanel();
@@ -4833,7 +4835,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if(cardDatas.buildingType){
                 return this.getBuildingTileTooltip(tile);
             }
-            else if(cardDatas.subtype=TILE_TYPE_SCORING){
+            else if(cardDatas.subtype==TILE_TYPE_SCORING){
                 return this.getScoringTileTooltip(tile);
             }
             let div = this.tplTile(cardDatas,'_tmp');
@@ -5066,6 +5068,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if (tile.location == TILE_LOCATION_SCORING) {
                 return $(`rog_scoring_tile-${tile.pos}`);
             }
+            if (tile.location == TILE_LOCATION_SCORING_BOARD) {
+                return $(`rog_city_space_5_${tile.pos}`);
+            }
             if (tile.location == TILE_LOCATION_MASTERY_CARD) {
                 let holder = this.addMasteryCardHolder(tile);
                 if( holder){
@@ -5118,7 +5123,6 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 if($(`rog_river_space-${k}`)) continue;
                 this.place(`tplRiverSpace`,k, $(`rog_river_spaces`));
             }
-            this.addCitySpaces();
             //destroy previous meeples
             document.querySelectorAll('.rog_meeple[id^="rog_meeple-"]').forEach((e) => {
                 this.destroy(e);
