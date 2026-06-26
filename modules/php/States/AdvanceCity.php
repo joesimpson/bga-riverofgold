@@ -143,14 +143,24 @@ class AdvanceCity extends GameState
    */
   public static function listPossibleSpacesToAdvance(Player $player) : array {
 
+    $possibleSpacesByMarker = [];
     $cityMarker = Meeples::getCityMarker($player->getId());
-    if(!isset($cityMarker)) return [];
+    if(isset($cityMarker)){
+      $die = $player->getDie();
+      $possibleSpaces = CitySpaces::getEmptySpaces($die);
+      //TODO JSA FILTER with rules "If you do not have enough influence to pay the full cost, you cannot do this action."
+      $possibleSpaces = array_filter($possibleSpaces, function (int $spaceId) use ($cityMarker){
+          $space = CitySpaces::getCitySpaceById($spaceId);
+          //must go to a column to the right of your current space
+          $canGo = $space->column > $cityMarker->getCityColumn();
+          return $canGo;
+        });
+      if( count($possibleSpaces) > 0){
+        $possibleSpacesByMarker[ $cityMarker->getId()] = $possibleSpaces;
+      }
+    }
 
-    $die = $player->getDie();
-    $possibleSpaces = CitySpaces::getEmptySpaces($die);
-    //TODO JSA FILTER with rules
-
-    return [ $cityMarker->getId() => $possibleSpaces];
+    return $possibleSpacesByMarker;
   }
  
 }

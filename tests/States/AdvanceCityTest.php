@@ -71,6 +71,76 @@ final class AdvanceCityTest extends TestCase
         
         assertSame($expectedArgs, $args);
     }
+    public function test_Args_Region4(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 4;
+        $expectedArgs = [
+            'citySpaces' => [ 37 => [ 6, 8, ], ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_Region5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 5;
+        $expectedArgs = [
+            'citySpaces' => [ 37 => [ 9, 11, ], ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_Region6(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 6;
+        $expectedArgs = [
+            'citySpaces' => [ 37 => [ 10, 12, ], ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_CannotGoBackward(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$tokens[37]['meeple_location'] = MEEPLE_LOCATION_CITY."3-1";
+        TestDatas::$players[1]['die_face'] = 1;
+        $expectedArgs = [
+            'citySpaces' => [  ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
     public function test_Args_UsedSpaces(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
