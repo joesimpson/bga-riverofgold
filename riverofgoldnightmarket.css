@@ -1952,6 +1952,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: calc(var(--rog_city_display_scale) * 886px);
   height: calc(var(--rog_city_display_scale) * 797px);
   margin-bottom: 10px;
+  padding-right: 48px;
 }
 #rog_resizable_city_of_lies_board .tooltipable:hover {
   box-shadow: 0 0 0 5px #04fb04;
@@ -2098,6 +2099,11 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="5"][data-row="5"] {
   top: 370px;
 }
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="5"] .rog_tile {
+  position: absolute;
+  left: 2px;
+  top: 6px;
+}
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space .rog_meeple {
   position: absolute;
   width: 50px;
@@ -2106,6 +2112,10 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space .rog_meeple:hover {
   opacity: 0.3;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_tile[data-subtype="4"] {
+  width: 174.5px;
+  height: 70px;
 }
 
 .rog_city_space_tooltip ul {
@@ -5139,8 +5149,8 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 
 .rog_tile[data-subtype="4"] {
-  width: 350px;
-  height: 122px;
+  width: 349px;
+  height: 140px;
   background-size: 200% 600%;
   background-image: url("img/cityOfLies/scoring.png");
 }

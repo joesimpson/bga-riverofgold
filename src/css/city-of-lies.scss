@@ -6,6 +6,8 @@ $cityHeight: 797px;
     width: calc(var(--rog_city_display_scale) * $cityWidth);
     height: calc(var(--rog_city_display_scale) * $cityHeight);
     margin-bottom: 10px;
+    //right space for scoring city tiles
+    padding-right: 48px;
 
     .tooltipable:hover{
         box-shadow: 0 0 0 5px #04fb04;
@@ -169,6 +171,12 @@ $cityHeight: 797px;
                         &[data-row="5"]{
                             top: 370px;
                         }
+                        
+                        .rog_tile{
+                            position: absolute;
+                            left: 2px;
+                            top: 6px;
+                        }
                     }
 
                     .rog_meeple{
@@ -182,6 +190,13 @@ $cityHeight: 797px;
                         }
                     }
                 }
+            }
+
+            .rog_tile[data-subtype='4'] //TILE_TYPE_CITY_SCORING
+            {
+                $cityTileScale : 0.5;
+                width: calc(  $cityTileScale * 349px);
+                height: calc( $cityTileScale * 140px);
             }
         }
     }

@@ -404,6 +404,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
             if(this.gamedatas.city_of_lies){
                 toPreloadList.push('cityOfLies/board_city.png');
+                toPreloadList.push('cityOfLies/scoring.png');
             }
             else {
                 document.getElementById('rog_resizable_city_of_lies_board').classList.add('rog_nodisplay');

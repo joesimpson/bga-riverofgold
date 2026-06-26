@@ -64,8 +64,8 @@ trait DebugTrait
     bool $expansionClansAlt = true,
     int $optionSeishin = OPTION_SEISHIN_OFF,
     bool $scenarios = false,
-    bool $cityOfLies = false,
-    bool $customTracks = true,
+    bool $cityOfLies = true,
+    bool $customTracks = false,
     int $optionCustomers = OPTION_CUSTOMERS_BASE,
     int $optionMarkets = OPTION_MARKETS_BASE,
   ){
