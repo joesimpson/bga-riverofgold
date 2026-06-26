@@ -142,6 +142,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
             'ROGUE_PLAYER_ID' => ROGUE_PLAYER_ID,
             'SCORPION_ENEMY_ID' => SCORPION_ENEMY_ID,
             'LION_ENEMY_ID' => LION_ENEMY_ID,
+            'CITY_LANTERNS' => CITY_LANTERNS,
           ],
           'enums' => Utils::getEnumsUI(),
         ];

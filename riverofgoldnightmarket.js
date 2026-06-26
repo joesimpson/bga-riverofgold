@@ -437,11 +437,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.addCustomTooltip('rog_complete_journey', this.getCompleteJourneyTooltip());
             this.addCustomTooltip('rog_building_bonus_favor', this.getBuildingRowBonusTooltip());
 
-            this.addCustomTooltip('rog_city_lantern_1', `${this.fsr(_('Cost to advance from the left of the lantern to the right of the lantern : ${influence} (in any region of your choice)'), { 'influence':this.formatIcon("influence"),'n2':1,})}`); 
-            this.addCustomTooltip('rog_city_lantern_2', `${this.fsr(_('Cost to advance from the left of the lantern to the right of the lantern : ${influence} (in any region of your choice)'), { 'influence':this.formatIcon("influence"),'n2':1,})}`); 
-            this.addCustomTooltip('rog_city_lantern_3', `${this.fsr(_('Cost to advance from the left of the lantern to the right of the lantern : ${influence} (in any region of your choice)'), { 'influence':this.formatIcon("influence"),'n2':2,})}`); 
-            this.addCustomTooltip('rog_city_lantern_4', `${this.fsr(_('Cost to advance from the left of the lantern to the right of the lantern : ${influence} (in any region of your choice)'), { 'influence':this.formatIcon("influence"),'n2':2,})}`); 
-            this.addCustomTooltip('rog_city_lantern_5', `${this.fsr(_('Cost to advance from the left of the lantern to the right of the lantern : ${influence} (in any region of your choice)'), { 'influence':this.formatIcon("influence"),'n2':3,})}`); 
+            Object.entries(gamedatas.constants.CITY_LANTERNS).forEach(([col, cost])=>{
+                this.addCustomTooltip(`rog_city_lantern_${col}`, `${this.fsr(_('Cost to advance from the left of the lantern to the right of the lantern : ${influence} (in any region of your choice)'), { 'influence':this.formatIcon("influence"),'n2':cost,})}`); 
+            });
             
             debug( "Ending specific game setup" );
 

@@ -763,6 +763,7 @@ final class GameTest extends TestCase
                 'ROGUE_PLAYER_ID' => ROGUE_PLAYER_ID,
                 'SCORPION_ENEMY_ID' => SCORPION_ENEMY_ID,
                 'LION_ENEMY_ID' => LION_ENEMY_ID,
+                'CITY_LANTERNS' => CITY_LANTERNS,
             ],
             'enums' => [
                 'AutomaActionType' => [

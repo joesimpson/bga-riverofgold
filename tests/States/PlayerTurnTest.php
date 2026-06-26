@@ -158,6 +158,7 @@ final class PlayerTurnTest extends TestCase
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
         Globals::setOptionCity(OPTION_CITY_OF_LIES_ON);
         TestDatas::resetCityTokens();
+        for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
 
         $expectedArgs = [
             'a' => [

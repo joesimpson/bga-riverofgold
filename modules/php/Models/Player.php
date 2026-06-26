@@ -64,10 +64,7 @@ class Player extends \ROG\Helpers\DB_Model
     foreach (BUILDING_TYPES as $bType){
       $data['buildings'][$bType] = Meeples::countPlayerBuildings($this->getId(),$bType);
     }
-    $data['influence'] = [];
-    foreach (REGIONS as $region){
-      $data['influence'][$region] = $this->getInfluence($region);
-    }
+    $data['influence'] = $this->getAllInfluences();
     $data['customers'] = [];
     foreach (ALL_CUSTOMER_TYPES as $customer){
       $data['customers'][$customer] = $this->getNbDeliveredCustomerByType($customer);
@@ -259,6 +256,18 @@ class Player extends \ROG\Helpers\DB_Model
     $meeple = Meeples::getInfluenceMarker($this->getId(),$region);
     if(!isset($meeple)) return ;
     $meeple->setPosition($value);
+  }
+  
+  /**
+   * @return array of [int region => int influence ]
+   */
+  public function getAllInfluences() : array
+  {
+    $influences = [];
+    foreach (REGIONS as $region){
+      $influences[$region] = $this->getInfluence($region);
+    }
+    return $influences;
   }
 
   public function setTieBreakerPoints($points)

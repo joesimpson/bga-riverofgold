@@ -7,6 +7,7 @@ use RiverOfGoldNightMarket;
 use Bga\GameFramework\States\GameState;
 use Bga\GameFramework\States\PossibleAction;
 use Bga\GameFramework\StateType;
+use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Core\Stats;
@@ -147,12 +148,18 @@ class AdvanceCity extends GameState
     $cityMarker = Meeples::getCityMarker($player->getId());
     if(isset($cityMarker)){
       $die = $player->getDie();
+      $influences = $player->getAllInfluences();  
       $possibleSpaces = CitySpaces::getEmptySpaces($die);
-      //TODO JSA FILTER with rules "If you do not have enough influence to pay the full cost, you cannot do this action."
-      $possibleSpaces = array_filter($possibleSpaces, function (int $spaceId) use ($cityMarker){
+      
+      $possibleSpaces = array_filter($possibleSpaces, function (int $spaceId) use ($cityMarker,$influences){
           $space = CitySpaces::getCitySpaceById($spaceId);
           //must go to a column to the right of your current space
           $canGo = $space->column > $cityMarker->getCityColumn();
+          if($canGo){
+            //Rule : "If you do not have enough influence to pay the full cost, you cannot do this action."
+            $canPay = self::canPayLanterns($influences, $cityMarker->getCityColumn() ,$space->column);
+            $canGo = $canGo && $canPay;
+          }
           return $canGo;
         });
       if( count($possibleSpaces) > 0){
@@ -161,6 +168,123 @@ class AdvanceCity extends GameState
     }
 
     return $possibleSpacesByMarker;
+  }
+
+  
+  /**
+   * @return bool true only when player influence array has enough influence (same or different region by groups) to pay each lanterns from $fromColumn to $toColumn
+   */
+  public static function canPayLanterns(array $influences, int $fromColumn, int $toColumn) : bool {
+
+    $sumInfluence = 0; 
+    $usedInfluence = [];
+    foreach($influences as $region => $influence){
+      $sumInfluence += $influence;
+      $usedInfluence[$region] = 0;
+    }
+
+    $lanternCosts = [];
+    $distinctCosts = [];
+    $sumCosts = 0; 
+    foreach(CITY_LANTERNS as $col => $cost){
+      if($col <= $toColumn && $col > $fromColumn){
+        $lanternCosts[] = $cost;
+        if(!array_key_exists($cost,$distinctCosts)) $distinctCosts[$cost] = 0;
+        $distinctCosts[$cost]++;
+        $sumCosts += $cost;
+      }
+    }
+
+    if($sumCosts > $sumInfluence) return false;
+
+    //sort($distinctCosts); // ! will change keys
+
+    //Game::get()->trace("");
+    //Game::get()->trace("canPayLanterns($fromColumn, $toColumn)... with array influences ".json_encode($influences));
+
+    $debts = [];
+    //Try to pay low cost first, because low influence cannot be used for something else
+    foreach($distinctCosts as $cost => $neededOfThatCost){
+      $nbFoundOfThatCost = 0;
+      $sumBiggers = 0; 
+      foreach($influences as $region => &$influence){
+        if($influence == $cost){
+          $debtSum = array_reduce($debts,  function ($ax, $dx) {  return $ax + (int)$dx;  }, 0);
+          if($debtSum>0) {
+              foreach($debts as $i => &$debt){
+                if($influence == 0) break;
+                if($debt <1){
+                  unset($i); 
+                  continue;
+                }
+                //pay debt from previous turns before
+                $payableDebt = min($debt, $influence);
+                $usedInfluence[$region] += $payableDebt;
+                $influence -= $payableDebt;
+                //Game::get()->trace("reduce debt $debt by $payableDebt from region $region : with array influences ".json_encode($influences));
+                $debt -= $payableDebt;
+                if($debt <1){
+                  unset($i); 
+                }
+              }
+          }
+          else {
+            $nbFoundOfThatCost++;
+            $usedInfluence[$region] += $cost;
+            //Game::get()->trace("pay influence $influence from region $region: with array influences ".json_encode($influences));
+            $influence = 0;
+          }
+        }
+        else if($influence > $cost){
+          $sumBiggers += $influence;
+        }
+      }
+      //Game::get()->trace("canPayLanterns($fromColumn, $toColumn)... cost = $cost (neededOfThatCost=$neededOfThatCost): nbFoundOfThatCost=$nbFoundOfThatCost, sumBiggers=$sumBiggers with array influences ".json_encode($influences));
+
+      $missingOfThatCost = ($neededOfThatCost - $nbFoundOfThatCost);
+      for($k =1; $k<=$missingOfThatCost;$k++) $debts[] = $cost;
+      $debtSum = array_reduce($debts,  function ($ax, $dx) {  return $ax + (int)$dx;  }, 0);
+      if($debtSum>0){
+        
+        if($sumBiggers >= $debtSum){
+          //Game::get()->trace("wait new turn to spend debt $debtSum : ".json_encode($debts));
+        } else {
+          //Game::get()->trace("next turn is not enough to spend debt $debtSum with $sumBiggers : ".json_encode($debts));
+          return false;
+        }
+      }
+    }
+    
+    $debtSum = array_reduce($debts,  function ($ax, $dx) {  return $ax + (int)$dx;  }, 0);
+    Game::get()->trace("end remaining debt $debtSum : ".json_encode($debts));
+    if($debtSum>0){
+      foreach($debts as $i => &$debt){
+        //Game::get()->trace("end remaining debt $debt in ".json_encode($debts));
+        //TRY to pay with all remaining influence
+        foreach($influences as $region => &$influence){
+          if($influence == 0) continue;
+          if($debt>0) {
+            $payableDebt = min($debt, $influence);
+            $influence -= $payableDebt;
+            //Game::get()->trace("reduce debt $debt by $payableDebt from region $region : with influence $influence / array influences ".json_encode($influences));
+            $debt -= $payableDebt;
+            if($debt <1){
+              unset($i); 
+              break;
+            }
+          }
+          else break;
+        }
+      }
+    }
+
+    $debtSum = array_reduce($debts,  function ($ax, $dx) {  return $ax + (int)$dx;  }, 0);
+    if($debtSum > 0){
+      //Game::get()->trace("KO : no new turn to spend debt $debtSum");
+      return false;
+    }
+
+    return true;
   }
  
 }
