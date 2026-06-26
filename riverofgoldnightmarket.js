@@ -5346,8 +5346,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     let divSpace = document.getElementById(divSpaceId);
                     if(divSpace){
                         divSpace.dataset.id = citySpace.id;
-                        let tooltipText = this.getCitySpaceTooltip(citySpace);    
-                        this.addCustomTooltip(divSpaceId, tooltipText);
+                        if(!this.tooltips[divSpaceId]){
+                            let tooltipText = this.getCitySpaceTooltip(citySpace);    
+                            this.addCustomTooltip(divSpaceId, tooltipText);
+                        }
                     }
                 });
             }

@@ -2108,6 +2108,13 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   opacity: 0.3;
 }
 
+.rog_city_space_tooltip ul {
+  font-weight: bold;
+}
+.rog_city_space_tooltip ul li {
+  font-weight: normal;
+}
+
 .rog_card {
   width: 148px;
   height: 200px;
