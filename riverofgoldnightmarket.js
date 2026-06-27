@@ -1845,7 +1845,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let possibleSpaces = args.citySpaces;
             Object.entries(possibleSpaces).forEach( ([markerId, spaces]) => {
                 //only 1 markerId is expected for now
-                Object.values(spaces).forEach((space) => {
+                Object.values(spaces).forEach((datas) => {
+                    let space = datas.space;
                     let divSpace = document.querySelector(`.rog_city_space[data-id="${space}"]`);
                     if(!divSpace) return;
                     let callbackSpaceSelection = () => {

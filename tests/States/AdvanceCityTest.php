@@ -31,8 +31,11 @@ final class AdvanceCityTest extends TestCase
         for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         TestDatas::$players[1]['die_face'] = 1;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [ 1, 3,  
-                    101, 102, // city tiles
+            'citySpaces' => [ 37 => [ 
+                    ['space' =>1, 'p' => true, 'cost' => [1], ], 
+                    ['space' =>3, 'p' => true, 'cost' => [1,1,2], ], 
+                    ['space' =>101, 'p' => true, 'cost' => [1,1,2,2,3], ], 
+                    ['space' =>102, 'p' => true, 'cost' => [1,1,2,2,3], ], 
                 ], 
             ],
             'previousSteps' => [],
@@ -52,7 +55,12 @@ final class AdvanceCityTest extends TestCase
         for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         TestDatas::$players[1]['die_face'] = 2;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [ 2, 4, 103, ], ],
+            'citySpaces' => [ 37 => [ 
+                    ['space' =>2, 'p' => true, 'cost' => [1,1], ], 
+                    ['space' =>4, 'p' => true, 'cost' => [1,1,2,2], ], 
+                    ['space' =>103, 'p' => true, 'cost' => [1,1,2,2,3], ], 
+                ], 
+            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -70,7 +78,11 @@ final class AdvanceCityTest extends TestCase
         for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         TestDatas::$players[1]['die_face'] = 3;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [ 5, 7, ], ],
+            'citySpaces' => [ 37 => [ 
+                    ['space' =>5, 'p' => true, 'cost' => [1], ], 
+                    ['space' =>7, 'p' => true, 'cost' => [1,1,2], ], 
+                ], 
+            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -88,7 +100,11 @@ final class AdvanceCityTest extends TestCase
         for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         TestDatas::$players[1]['die_face'] = 4;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [ 6, 8, ], ],
+            'citySpaces' => [ 37 => [ 
+                    ['space' =>6, 'p' => true, 'cost' => [1,1], ], 
+                    ['space' =>8, 'p' => true, 'cost' => [1,1,2,2,], ], 
+                ], 
+            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -106,7 +122,11 @@ final class AdvanceCityTest extends TestCase
         TestDatas::$players[1]['die_face'] = 5;
         for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [ 9, 11, ], ],
+            'citySpaces' => [ 37 => [ 
+                    ['space' =>9, 'p' => true, 'cost' => [1,], ], 
+                    ['space' =>11, 'p' => true, 'cost' => [1,1,2,], ], 
+                ], 
+            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -124,7 +144,11 @@ final class AdvanceCityTest extends TestCase
         TestDatas::$players[1]['die_face'] = 5;
         TestDatas::$tokens[6]['meeple_state'] = 4;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [ 9, 11, ], ],
+            'citySpaces' => [ 37 => [ 
+                    ['space' =>9, 'p' => true, 'cost' => [1,], ], 
+                    ['space' =>11, 'p' => true, 'cost' => [1,1,2,], ], 
+                ], 
+            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -142,7 +166,11 @@ final class AdvanceCityTest extends TestCase
         TestDatas::$players[1]['die_face'] = 6;
         for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [ 10, 12, ], ],
+            'citySpaces' => [ 37 => [ 
+                    ['space' =>10, 'p' => true, 'cost' => [1,1], ], 
+                    ['space' =>12, 'p' => true, 'cost' => [1,1,2,2,], ], 
+                ], 
+            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -161,7 +189,10 @@ final class AdvanceCityTest extends TestCase
         TestDatas::$players[1]['die_face'] = 6;
         for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 1;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [ 10,  ], ],
+            'citySpaces' => [ 37 => [ 
+                    ['space' =>10, 'p' => true, 'cost' => [1,1], ], 
+                ], 
+            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -181,7 +212,11 @@ final class AdvanceCityTest extends TestCase
         TestDatas::$tokens[37]['meeple_location'] = MEEPLE_LOCATION_CITY."3-1";
         TestDatas::$players[1]['die_face'] = 1;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [ 1=> 101,  2=> 102, ] ],
+            'citySpaces' => [ 37 => [ 
+                   1=> ['space' =>101, 'p' => true, 'cost' => [2,3], ], 
+                   2=> ['space' =>102, 'p' => true, 'cost' => [2,3], ], 
+                ], 
+            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -200,7 +235,12 @@ final class AdvanceCityTest extends TestCase
         TestDatas::$tokens[38]['meeple_location'] = MEEPLE_LOCATION_CITY."1-1";
         TestDatas::$players[1]['die_face'] = 1;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [  3, 101, 102, ], ],
+            'citySpaces' => [ 37 => [ 
+                    ['space' =>3,   'p' => true, 'cost' => [1,1,2], ], 
+                    ['space' =>101, 'p' => true, 'cost' => [1,1,2,2,3], ], 
+                    ['space' =>102, 'p' => true, 'cost' => [1,1,2,2,3], ], 
+                ], 
+            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];

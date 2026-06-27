@@ -77,14 +77,17 @@ class AdvanceCity extends GameState
       throw new UnexpectedException(503,"Invalid marker $markerId");
     } 
     $choices = $citySpaces[$markerId];
-    if (!in_array($space,$choices)) {
+    $possibleSpaces = array_map(function (array $datas)  {
+      return $datas['space'];
+    },$choices,);
+
+    if (!in_array($space,$possibleSpaces)) {
       throw new UnexpectedException(503,"Invalid space $space");
     } 
 
     // game logic  
     Log::addStep();
 
-    //TODO JSA NEW ACTION ADVANCE...
     $clanMarker = Meeples::get($markerId);
     $citySpace = CitySpaces::getCitySpaceById($space);
     Meeples::moveClanMarkerOnCity($player,$clanMarker,$citySpace);
@@ -151,17 +154,29 @@ class AdvanceCity extends GameState
       $influences = $player->getAllInfluences();  
       $possibleSpaces = CitySpaces::getEmptySpaces($die);
       
-      $possibleSpaces = array_filter($possibleSpaces, function (int $spaceId) use ($cityMarker,$influences){
-          $space = CitySpaces::getCitySpaceById($spaceId);
-          //must go to a column to the right of your current space
-          $canGo = $space->column > $cityMarker->getCityColumn();
+      $possibleSpaces = array_map(function (int $spaceId) use ($cityMarker,$influences) {
+        $space = CitySpaces::getCitySpaceById($spaceId);
+        //must go to a column to the right of your current space
+        $canGo = $space->column > $cityMarker->getCityColumn();
+        $lanternCosts = [];
+        if($canGo){
+          //Rule : "If you do not have enough influence to pay the full cost, you cannot do this action."
+          $canPay = self::canPayLanterns($influences, $cityMarker->getCityColumn() ,$space->column, $lanternCosts);
+          $canGo = $canGo && $canPay;
           if($canGo){
-            //Rule : "If you do not have enough influence to pay the full cost, you cannot do this action."
-            $canPay = self::canPayLanterns($influences, $cityMarker->getCityColumn() ,$space->column);
-            $canGo = $canGo && $canPay;
+            $lanternCosts;
           }
-          return $canGo;
+        }
+        return ['space' =>$spaceId, 'p' => $canGo, 'cost' =>$lanternCosts, ];
+      },$possibleSpaces,);
+      $possibleSpaces = array_filter($possibleSpaces, function (array $datas) {
+          return $datas['p'];
         });
+        
+      //$possibleSpaces = array_map(function (array $datas)  {
+      //  return [$datas['space'] => $datas ];
+      //},$possibleSpaces,);
+
       if( count($possibleSpaces) > 0){
         $possibleSpacesByMarker[ $cityMarker->getId()] = $possibleSpaces;
       }
@@ -172,9 +187,13 @@ class AdvanceCity extends GameState
 
   
   /**
+   * @param array $influences : list of player current influences
+   * @param int $fromColumn : a column on the left (current player position)
+   * @param int $toColumn : a column on the right (possible player destination) 
+   * @param array &$lanternsCosts : costs computed by this function
    * @return bool true only when player influence array has enough influence (same or different region by groups) to pay each lanterns from $fromColumn to $toColumn
    */
-  public static function canPayLanterns(array $influences, int $fromColumn, int $toColumn) : bool {
+  public static function canPayLanterns(array $influences, int $fromColumn, int $toColumn, array &$lanternCosts = []) : bool {
 
     $sumInfluence = 0; 
     $usedInfluence = [];
@@ -183,7 +202,6 @@ class AdvanceCity extends GameState
       $usedInfluence[$region] = 0;
     }
 
-    $lanternCosts = [];
     $distinctCosts = [];
     $sumCosts = 0; 
     foreach(CITY_LANTERNS as $col => $cost){
