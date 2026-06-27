@@ -1969,7 +1969,13 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 #rog_resizable_city_of_lies_board .selectable .tooltipable:hover {
   box-shadow: 0 0 0 5px rgb(57, 57, 251);
+  border-radius: 10px;
   cursor: pointer;
+}
+#rog_resizable_city_of_lies_board .selected {
+  box-shadow: 0 0 0 5px green;
+  border-radius: 10px;
+  cursor: target;
 }
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container {
   /* prevents vertical invisible overflow on BGA bottom elements*/
@@ -8826,6 +8832,14 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   display: inline-block;
   margin-left: -1.3em;
   font-size: 2em;
+}
+.customimagebutton #btnRecapRegions_List {
+  display: flex;
+  align-content: center;
+  align-items: center;
+  -moz-column-gap: 10px;
+       column-gap: 10px;
+  margin: 0 10px;
 }
 
 body[data-rog_undo_style="1"] #btnIconUndoLastStep,

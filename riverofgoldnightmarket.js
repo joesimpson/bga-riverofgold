@@ -1837,11 +1837,15 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         
         onEnteringStateAdvanceCity(args){
             debug('onEnteringStateAdvanceCity', args);
+
+            let active = this.bga.players.isCurrentPlayerActive();
    
-            this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
+            this.bga.statusBar.setTitle(active ? 
                 _('Advance : ${you} must select a space in the City of Lies') :
                 _('Advance : ${actplayer} must select a space in the City of Lies')
             );
+            if(!active) return;
+
             let possibleSpaces = args.citySpaces;
             Object.entries(possibleSpaces).forEach( ([markerId, spaces]) => {
                 //only 1 markerId is expected for now
@@ -1850,9 +1854,15 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     let divSpace = document.querySelector(`.rog_city_space[data-id="${space}"]`);
                     if(!divSpace) return;
                     let callbackSpaceSelection = () => {
-                            this.takeAction('actSelectAdvanceDest', { 
+                        this.clientState('selectRegionToPayInfluence','', {
                                 'space': space,
-                                'markerId' : markerId,
+                                'selectedDiv' : divSpace,
+                                'costs': datas.cost,
+                                'actionName': 'actSelectAdvanceDest',
+                                'actionDatas': { 
+                                    'space': space,
+                                    'markerId' : markerId,
+                                },
                             });
                         };
                     this.onClick(divSpace.id, callbackSpaceSelection);
@@ -1860,6 +1870,100 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             });
             
 
+        },
+        
+        //CLIENT STATE
+        onEnteringStateSelectRegionToPayInfluence(args){
+            debug('onEnteringStateSelectRegionToPayInfluence', args);
+            let callbackReset = () => {
+                this.clientState('selectRegionToPayInfluence','', args);
+            };
+   
+            let actionDatas = args.actionDatas;
+            let selectedDiv = args.selectedDiv;
+            selectedDiv.classList.add('selected');
+            let costs = Array.from(args.costs);
+            let selectedRegions = [];
+            this.tmpRegionCounters = new Map(); 
+            Object.values(REGIONS).forEach((region) => {
+                this.tmpRegionCounters.set(region , this._counters[this.player_id].influence[region].getValue());
+            });
+
+            let updateSelectedRegions = () => {
+                let listDiv = document.getElementById('btnRecapRegions_List');
+                this.empty(listDiv);
+                Object.values(selectedRegions).forEach((datas) => {
+                    let region = datas.region;
+                    let cost = datas.cost;
+                    let counter = this.tmpRegionCounters.get(region) - cost;
+                    this.tmpRegionCounters.set(region , counter);
+                    let iconRegion = this.formatIcon("influence-"+region, region);
+                    let iconCost = this.formatIcon('influence', -cost);
+                    listDiv.insertAdjacentHTML('beforeend',`${iconRegion}${iconCost}`);
+                });
+            };
+
+            let callBackNextCost = () => {
+                let amount = costs[0];
+                let bonusIcon = this.formatIcon('influence', -amount);
+                this.bga.statusBar.setTitle(
+                    _('${you} must select a region for ${bonus}').replace('${bonus}', bonusIcon)
+                );
+                this.addCancelStateBtn(_('Return'));
+
+                let possibles = REGIONS;
+                Object.values(possibles).forEach((region) => {
+                    let iconRegion = this.formatIcon("influence-"+region, region);
+                    let callbackRegion = (region) =>{
+                        let currentamount = costs[0];
+                        if(currentamount > this.tmpRegionCounters.get(region)) return;
+
+                        selectedRegions.push({'region': region, 'cost': currentamount});
+                        costs.splice(0, 1);
+                        updateSelectedRegions();
+                        callBackNextCost();
+                    };
+                    this.addImageActionButton(`btnSelectRegion_${region}`, 
+                        `<div class='rog_trade'>
+                            ${iconRegion}
+                        </div>`,
+                        () => callbackRegion(region)
+                    );
+                    
+                    //FILTER ON REMAINING INFLUENCE counters
+                    if(amount > this.tmpRegionCounters.get(region)){
+                        document.getElementById(`btnSelectRegion_${region}`).classList.add('disabled');
+                    };
+
+                });
+
+                if(costs.length == 0){
+                    document.getElementById('btnRecapRegions').classList.remove('disabled');
+                    this.bga.statusBar.setTitle('');
+                    //Remove selection buttons
+                    Object.values(REGIONS).forEach((region) => {
+                       let button = document.getElementById(`btnSelectRegion_${region}` );
+                        if(button) this.destroy(button);
+                    });
+                }
+            };
+            
+            this.addImageActionButton(`btnRecapRegions`, 
+                        `<div class='rog_trade'>
+                            ${this.fsr(_('Confirm ${list}'), {'list' : '<div id="btnRecapRegions_List"></div>'})}
+                        </div>`,
+                        () =>  {
+                            //naturally sorted by selection order
+                            let sortedRegions = Object.values(selectedRegions).map((datas) => { return datas.region });
+                            actionDatas.sr = sortedRegions.join(',');
+                            this.takeAction(args.actionName, actionDatas);
+                        }
+                    );
+            document.getElementById('btnRecapRegions').classList.add('disabled');
+            
+            callBackNextCost();
+
+            this.addSecondaryActionButton(`btnReset`, _('Reset'), () => callbackReset()); 
         },
 
         onEnteringStateConfirmTurn(args) {

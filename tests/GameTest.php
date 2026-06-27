@@ -505,6 +505,36 @@ final class GameTest extends TestCase
                     ],
                 ],
                 [
+                    'id' => 51,
+                    'location' => 'city_b',
+                    'type' => 1,
+                    'region' => 1,
+                    'scoreByElement' => 2,
+                    'scoredElement' => 'BUILDING',
+                    'subtype' => 4,
+                    'pos' => 1,
+                ],
+                [
+                    'id' => 52,
+                    'location' => 'city_b',
+                    'type' => 2,
+                    'region' => 1,
+                    'scoreByElement' => 1,
+                    'scoredElement' => 'TRADE_GOOD',
+                    'subtype' => 4,
+                    'pos' => 2,
+                ],
+                [
+                    'id' => 53,
+                    'location' => 'city_b',
+                    'type' => 3,
+                    'region' => 2,
+                    'scoreByElement' => 3,
+                    'scoredElement' => 'PORT',
+                    'subtype' => 4,
+                    'pos' => 3,
+                ],
+                [
                     'id' => 21,
                     'location' => 'bd1',
                     'type' => 1,
@@ -1038,6 +1068,57 @@ final class GameTest extends TestCase
                             'row' => 3,
                             'column' => 4,
                             'region' => 6,
+                            'rewards' => [
+                                'entries' => [
+                                ],
+                            ],
+                        ],
+
+                        [
+                            'id' => 101,
+                            'row' => 1,
+                            'column' => 5,
+                            'region' => 0,
+                            'rewards' => [
+                                'entries' => [
+                                ],
+                            ],
+                        ],
+                        [
+                            'id' => 102,
+                            'row' => 2,
+                            'column' => 5,
+                            'region' => 0,
+                            'rewards' => [
+                                'entries' => [
+                                ],
+                            ],
+                        ],
+                        [
+                            'id' => 103,
+                            'row' => 3,
+                            'column' => 5,
+                            'region' => 0,
+                            'rewards' => [
+                                'entries' => [
+                                ],
+                            ],
+                        ],
+                        [
+                            'id' => 104,
+                            'row' => 4,
+                            'column' => 5,
+                            'region' => 0,
+                            'rewards' => [
+                                'entries' => [
+                                ],
+                            ],
+                        ],
+                        [
+                            'id' => 105,
+                            'row' => 5,
+                            'column' => 5,
+                            'region' => 0,
                             'rewards' => [
                                 'entries' => [
                                 ],
