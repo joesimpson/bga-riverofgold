@@ -112,14 +112,19 @@ class ClanPatronCard extends Card
   /**
    * @param Player $player
    */
-  public function scoreWhenPassedOnInfluenceTrack(Player $player, int $region, int $currentInfluence, int $newInfluence){
+  public function scoreWhenPassedOnInfluenceTrack(Player $player, int $region, int $fromInfluence, int $toInfluence){
+    $goingUp = ($fromInfluence < $toInfluence);
     switch($this->getType()){
       case PATRON_GOVERNOR:
         if($this->getPId()!= $player->getId() ){
           //CHECK this is ANOTHER PLAYER
           $playerGovernor = Players::get($this->getPId());
           $governorInfluence = $playerGovernor->getInfluence($region);
-          if($governorInfluence >= 1 && $governorInfluence >= $currentInfluence && $governorInfluence < $newInfluence){
+          if($governorInfluence >= 1 
+              && (  $goingUp && ( $governorInfluence >= $fromInfluence) && ($governorInfluence < $toInfluence)
+                || !$goingUp && ( $governorInfluence <= $fromInfluence) && ($governorInfluence > $toInfluence)
+              )
+          ){
             $playerGovernor->addPoints(NB_POINTS_GOVERNOR,false);
             Notifications::scorePatron($playerGovernor,NB_POINTS_GOVERNOR,$this);
           }

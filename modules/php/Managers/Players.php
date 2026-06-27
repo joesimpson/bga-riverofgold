@@ -471,7 +471,7 @@ class Players extends \ROG\Helpers\DB_Manager
     //If another player has the Governor, THEY get 3 points when we pass them
     $patronGovernor = Cards::getAssignedPatron(PATRON_GOVERNOR);
     if(isset($patronGovernor)){
-      $patronGovernor->scoreWhenPassedOnInfluenceTrack($player,$region, $newInfluence,$currentInfluence);
+      $patronGovernor->scoreWhenPassedOnInfluenceTrack($player,$region, $currentInfluence,$newInfluence);
     }
     //////////////////////////////////////////////////////////////////
   }
