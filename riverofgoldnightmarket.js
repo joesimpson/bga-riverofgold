@@ -402,6 +402,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 toPreloadList.push('regions/track_back.png');
                 toPreloadList.push('regions/6tracks.png',);
             }
+            $('ebd-body').setAttribute('data-city_of_lies', this.gamedatas.city_of_lies);
             if(this.gamedatas.city_of_lies){
                 toPreloadList.push('cityOfLies/board_city.png');
                 toPreloadList.push('cityOfLies/scoring.png');
@@ -531,6 +532,20 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     },
                   },
                 }, 
+                cityWidth: {
+                    section: "layout",
+                    default: 80,
+                    name: _('City Of Lies'),
+                    type: 'slider',
+                    sliderConfig: {
+                        step: 10,
+                        padding: 0,
+                        range: {
+                        min: [40],
+                        max: [100],
+                        },
+                    },
+                }, 
                 deliveredWidth: {
                     section: "layout",
                   default: 70,
@@ -596,6 +611,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             document.documentElement.style.setProperty('--rog_mastery_scale', val/100);
         },
         onChangeBoardWidthSetting(val) {
+            this.updateLayout();
+        },
+        onChangeCityWidthSetting(val) {
+            document.documentElement.style.setProperty('--rog_city_display_scale', val/100);
             this.updateLayout();
         },
         onChangeHandWidthSetting(val) {

@@ -1952,7 +1952,8 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: calc(var(--rog_city_display_scale) * 886px);
   height: calc(var(--rog_city_display_scale) * 797px);
   margin-bottom: 10px;
-  padding-right: 48px;
+  padding-right: calc(var(--rog_city_display_scale) * 60px);
+  padding-left: calc(var(--rog_city_display_scale) * 5px);
 }
 #rog_resizable_city_of_lies_board .tooltipable:hover {
   box-shadow: 0 0 0 5px #04fb04;
@@ -8313,6 +8314,10 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
 }
 #player_config .player_config_row#cards_counter_wrapper .rog_customers_deck_icons > div {
   position: relative;
+}
+
+#ebd-body:not([data-city_of_lies=true]) .row-data[data-id=cityWidth] {
+  display: none;
 }
 
 #rog_end_score_recap {

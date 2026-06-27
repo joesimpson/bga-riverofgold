@@ -297,3 +297,9 @@
         }
     }
 }
+
+#ebd-body:not([data-city_of_lies="true"]){
+    .row-data[data-id="cityWidth"]{
+        display: none;
+    }
+}
