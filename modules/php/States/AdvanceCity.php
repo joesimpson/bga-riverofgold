@@ -256,7 +256,7 @@ class AdvanceCity extends GameState
     }
     
     $debtSum = array_reduce($debts,  function ($ax, $dx) {  return $ax + (int)$dx;  }, 0);
-    Game::get()->trace("end remaining debt $debtSum : ".json_encode($debts));
+    //Game::get()->trace("end remaining debt $debtSum : ".json_encode($debts));
     if($debtSum>0){
       foreach($debts as $i => &$debt){
         //Game::get()->trace("end remaining debt $debt in ".json_encode($debts));

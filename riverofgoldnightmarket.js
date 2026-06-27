@@ -5370,7 +5370,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         divSpace.dataset.id = citySpace.id;
                         if(!this.tooltips[divSpaceId]){
                             let tooltipText = this.getCitySpaceTooltip(citySpace);    
-                            this.addCustomTooltip(divSpaceId, tooltipText);
+                            if(tooltipText) this.addCustomTooltip(divSpaceId, tooltipText);
                         }
                     }
                 });
@@ -5380,7 +5380,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             return `<div id="rog_city_space_${datas.column}_${datas.row}" class="rog_city_space" data-col="${datas.column}" data-row="${datas.row}" ></div>`;
         },
         getCitySpaceTooltip(citySpace){
-            if(! citySpace) return '';
+            if(! citySpace) return null;
+            if( citySpace.region == 0) return null;
             let rewards = Object.values(citySpace.rewards.entries).map((e) => "<li>"+this.formatReward(e.type,e.n)+"</li>").join('');
             let rewardsText = (rewards.length==0) ? '': this.fsr( _('Rewards : ${list}'),{'list': rewards} );
             return `<div class='rog_city_space_tooltip' >

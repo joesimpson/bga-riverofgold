@@ -2,6 +2,8 @@
 
 namespace ROG\Models;
 
+use ROG\Managers\CitySpaces;
+
 class ScoringCityTile extends Tile
 {
   
@@ -27,7 +29,12 @@ class ScoringCityTile extends Tile
     return $data;
   }
   
-  public function computeScore( )
+  public function getCitySpace() : ?CityTileSpace
+  {
+    return CitySpaces::getCitySpace($this->getState(), CITY_COLUMN_TILES);
+  }
+  
+  public function computeScore( ) : int
   {
     return 0;
   }

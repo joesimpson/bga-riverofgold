@@ -1967,6 +1967,10 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   border-radius: 10px;
   cursor: pointer;
 }
+#rog_resizable_city_of_lies_board .selectable .tooltipable:hover {
+  box-shadow: 0 0 0 5px rgb(57, 57, 251);
+  cursor: pointer;
+}
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container {
   /* prevents vertical invisible overflow on BGA bottom elements*/
   height: inherit;
@@ -2085,7 +2089,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="5"] {
   left: 770px;
-  width: 117px;
+  width: 175px;
   height: 80px;
 }
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="5"][data-row="2"] {

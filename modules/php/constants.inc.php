@@ -465,6 +465,7 @@ const CITY_LANTERNS = [
    5 => 3,
 ];
 
+const CITY_COLUMN_TILES = 5;
 
 /////////////////////////////////////////////////////////
 //          MEEPLES

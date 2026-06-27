@@ -2,8 +2,11 @@
 
 namespace ROG\Managers;
 
+use ROG\Core\Game;
 use ROG\Helpers\Collection;
 use ROG\Models\CitySpace;
+use ROG\Models\CityTileSpace;
+use ROG\Models\ScoringCityTile;
 
 /* Class to manage all the CitySpace */
 
@@ -48,6 +51,12 @@ class CitySpaces
       10  => new CitySpace(10, 3,2, 6, [ BONUS_TYPE_POINTS => 5, ] ),
       11  => new CitySpace(11, 3,3, 5, [  ] ),
       12  => new CitySpace(12, 3,4, 6, [  ] ),
+
+      101 => new CityTileSpace(101, 1, ),
+      102 => new CityTileSpace(102, 2, ),
+      103 => new CityTileSpace(103, 3, ),
+      104 => new CityTileSpace(104, 4, ),
+      105 => new CityTileSpace(105, 5, ),
     ];
   }
   
@@ -58,6 +67,19 @@ class CitySpaces
   public static function getSpacesByRegion(int $pRegion) : array {
     $spaces = array_filter(CitySpaces::getAllCitySpaces(), function (CitySpace $space) use ($pRegion){ return $space->region == $pRegion;} ,);
     $spaceIds = array_keys($spaces);
+
+    //Game::get()->trace("getSpacesByRegion($pRegion)... before tiles spaces : ".json_encode($spaceIds));
+
+    $cityTiles = Tiles::getInLocation(TILE_LOCATION_SCORING_BOARD);
+    $cityTiles->map(function(ScoringCityTile $t) use ($pRegion, &$spaceIds) { 
+      if($t->getRegion() == $pRegion){
+        $spaceIds[] = $t->getCitySpace()->id; 
+      }
+    });
+    //$spaceIds = array_values($spaceIds);
+
+    //Game::get()->trace("getSpacesByRegion($pRegion)... after tiles spaces : ".json_encode($spaceIds));
+
     return $spaceIds;
   }
   

@@ -23,6 +23,10 @@ $cityHeight: 797px;
         box-shadow: 0 0 0 5px blue;
         border-radius: 10px;
         cursor: pointer;
+        .tooltipable:hover{
+            box-shadow: 0 0 0 5px rgb(57, 57, 251);
+            cursor: pointer;
+        }
     }
     
     #rog_city_of_lies_board_container{
@@ -158,7 +162,7 @@ $cityHeight: 797px;
                     }
                     &[data-col="5"]{
                         left: 770px;
-                        width: 117px;
+                        width: 175px;
                         height: 80px;
                         &[data-row="2"]{
                             top: 91px;

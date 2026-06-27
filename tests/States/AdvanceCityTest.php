@@ -31,7 +31,10 @@ final class AdvanceCityTest extends TestCase
         for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         TestDatas::$players[1]['die_face'] = 1;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [ 1, 3, ], ],
+            'citySpaces' => [ 37 => [ 1, 3,  
+                    101, 102, // city tiles
+                ], 
+            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -49,7 +52,7 @@ final class AdvanceCityTest extends TestCase
         for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         TestDatas::$players[1]['die_face'] = 2;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [ 2, 4, ], ],
+            'citySpaces' => [ 37 => [ 2, 4, 103, ], ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -178,7 +181,7 @@ final class AdvanceCityTest extends TestCase
         TestDatas::$tokens[37]['meeple_location'] = MEEPLE_LOCATION_CITY."3-1";
         TestDatas::$players[1]['die_face'] = 1;
         $expectedArgs = [
-            'citySpaces' => [  ],
+            'citySpaces' => [ 37 => [ 1=> 101,  2=> 102, ] ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -197,7 +200,7 @@ final class AdvanceCityTest extends TestCase
         TestDatas::$tokens[38]['meeple_location'] = MEEPLE_LOCATION_CITY."1-1";
         TestDatas::$players[1]['die_face'] = 1;
         $expectedArgs = [
-            'citySpaces' => [ 37 => [  3, ], ],
+            'citySpaces' => [ 37 => [  3, 101, 102, ], ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -239,6 +242,51 @@ final class AdvanceCityTest extends TestCase
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."1-1", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    public function test_actSelectAdvanceDest_Pass_ToTile1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        $args = $state->getArgs();
+        $space = 101;
+        $markerId = 37;
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "moveCityMarker-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."5-1", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    public function test_actSelectAdvanceDest_Pass_ToTile2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        $args = $state->getArgs();
+        $space = 102;
+        $markerId = 37;
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "moveCityMarker-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."5-2", TestDatas::$tokens[$markerId]['meeple_location']);
         assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
         assertSame(ST_CONFIRM_CHOICES, $newState);
     }
