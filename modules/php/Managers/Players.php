@@ -368,16 +368,11 @@ class Players extends \ROG\Helpers\DB_Manager
         Players::gainInfluence($player,$region,$amount2,$playerPatron);
       }
     }
+    //////////////////////////////////////////////////////////////////
     //If another player has the Governor, THEY get 3 points when we pass them
     $patronGovernor = Cards::getAssignedPatron(PATRON_GOVERNOR);
-    if(isset($patronGovernor) && $patronGovernor->getPId()!= $player->getId() ){
-      //CHECK this is ANOTHER PLAYER
-      $playerGovernor = Players::get($patronGovernor->getPId());
-      $governorInfluence = $playerGovernor->getInfluence($region);
-      if($governorInfluence >= 1 && $governorInfluence >= $currentInfluence && $governorInfluence < $newInfluence){
-        $playerGovernor->addPoints(NB_POINTS_GOVERNOR,false);
-        Notifications::scorePatron($playerGovernor,NB_POINTS_GOVERNOR,$patronGovernor);
-      }
+    if(isset($patronGovernor)){
+      $patronGovernor->scoreWhenPassedOnInfluenceTrack($player,$region, $currentInfluence,$newInfluence);
     }
     //////////////////////////////////////////////////////////////////
     
@@ -452,6 +447,33 @@ class Players extends \ROG\Helpers\DB_Manager
       }
     }}
     return $goToBonusChoice;
+  }
+  
+  /**
+   * @param Player $player 
+   * @param int $region 
+   * @param int $amount 
+   */
+  public static function spendInfluence(Player $player,int $region,int $amount, ){
+    $pid = $player->getId();
+    Game::get()->trace("spendInfluence($pid, $region,$amount),");
+    if($amount == 0) return;
+    $meeple = Meeples::getInfluenceMarker($pid,$region);
+    $currentInfluence = $meeple->getPosition(); 
+    if($currentInfluence < $amount){
+      throw new UnexpectedException(5044,"Player $pid cannot pay $amount influence from region $region");
+    }
+    $newInfluence = $currentInfluence - $amount;
+    $meeple->setPosition($newInfluence);
+    Notifications::gainInfluence($player,$region,-$amount,$newInfluence,$meeple);
+
+    //////////////////////////////////////////////////////////////////
+    //If another player has the Governor, THEY get 3 points when we pass them
+    $patronGovernor = Cards::getAssignedPatron(PATRON_GOVERNOR);
+    if(isset($patronGovernor)){
+      $patronGovernor->scoreWhenPassedOnInfluenceTrack($player,$region, $newInfluence,$currentInfluence);
+    }
+    //////////////////////////////////////////////////////////////////
   }
   
   /**

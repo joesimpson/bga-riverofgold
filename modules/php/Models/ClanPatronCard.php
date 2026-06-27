@@ -112,6 +112,25 @@ class ClanPatronCard extends Card
   /**
    * @param Player $player
    */
+  public function scoreWhenPassedOnInfluenceTrack(Player $player, int $region, int $currentInfluence, int $newInfluence){
+    switch($this->getType()){
+      case PATRON_GOVERNOR:
+        if($this->getPId()!= $player->getId() ){
+          //CHECK this is ANOTHER PLAYER
+          $playerGovernor = Players::get($this->getPId());
+          $governorInfluence = $playerGovernor->getInfluence($region);
+          if($governorInfluence >= 1 && $governorInfluence >= $currentInfluence && $governorInfluence < $newInfluence){
+            $playerGovernor->addPoints(NB_POINTS_GOVERNOR,false);
+            Notifications::scorePatron($playerGovernor,NB_POINTS_GOVERNOR,$this);
+          }
+        }
+        break;
+    }
+  }
+
+  /**
+   * @param Player $player
+   */
   public function addBonuses(&$player){
     switch($this->getType()){
       case PATRON_DARLING://Darling needs a step to decide whether or not to roll the die !

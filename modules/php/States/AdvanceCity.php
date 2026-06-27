@@ -3,6 +3,7 @@
 //namespace ROG\States;
 namespace Bga\Games\RiverOfGoldNightMarket\States;
 
+use Bga\GameFramework\Actions\Types\IntArrayParam;
 use RiverOfGoldNightMarket;
 use Bga\GameFramework\States\GameState;
 use Bga\GameFramework\States\PossibleAction;
@@ -63,6 +64,7 @@ class AdvanceCity extends GameState
   public function actSelectAdvanceDest(
       int $space, 
       int $markerId,
+      #[IntArrayParam(name:'sr')] array $regionsToPayLanterns, 
       int $version,
       int $activePlayerId, array $args,
     )
@@ -84,9 +86,25 @@ class AdvanceCity extends GameState
     if (!in_array($space,$possibleSpaces)) {
       throw new UnexpectedException(503,"Invalid space $space");
     } 
+    
+    $spaceDatas = array_values(array_filter($choices,function (array $datas) use ($space) {
+      return $datas['space'] == $space;
+    }))[0];
+
+    $lanternCosts = $spaceDatas['cost'];
+    if($regionsToPayLanterns == null || count($regionsToPayLanterns) !== count($lanternCosts)){
+      throw new UnexpectedException(504,"Invalid number of influence to pay lanterns");
+    }
 
     // game logic  
     Log::addStep();
+
+    $index = 0;
+    foreach($lanternCosts as $cost){
+      $region = $regionsToPayLanterns[$index];
+      Players::spendInfluence($player,$region, $cost);
+      $index++;
+    }
 
     $clanMarker = Meeples::get($markerId);
     $citySpace = CitySpaces::getCitySpaceById($space);

@@ -270,20 +270,28 @@ final class AdvanceCityTest extends TestCase
         $game = new GameMock();
         $state = new AdvanceCity($game);
         TestDatas::resetCityTokens();
-        for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         $args = $state->getArgs();
         $space = 1;
         $markerId = 37;
+        $selectedRegionsToPay = [1, ];
 
-        $newState = $state->actSelectAdvanceDest($space,$markerId,999999, 1, $args);
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
         
         $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
             "moveCityMarker-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
         assertSame(MEEPLE_LOCATION_CITY."1-1", TestDatas::$tokens[$markerId]['meeple_location']);
         assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(2, TestDatas::$tokens[1]['meeple_state']);//-1
+        assertSame(3, TestDatas::$tokens[2]['meeple_state']);//-0
+        assertSame(3, TestDatas::$tokens[3]['meeple_state']);//-0
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(3, TestDatas::$tokens[5]['meeple_state']);//-0
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
         assertSame(ST_CONFIRM_CHOICES, $newState);
     }
     public function test_actSelectAdvanceDest_Pass_ToTile1(): void
@@ -292,20 +300,32 @@ final class AdvanceCityTest extends TestCase
         $game = new GameMock();
         $state = new AdvanceCity($game);
         TestDatas::resetCityTokens();
-        for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         $args = $state->getArgs();
         $space = 101;
         $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,4 ];
 
-        $newState = $state->actSelectAdvanceDest($space,$markerId,999999, 1, $args);
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
         
         $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
             "moveCityMarker-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
         assertSame(MEEPLE_LOCATION_CITY."5-1", TestDatas::$tokens[$markerId]['meeple_location']);
         assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);//-1*2
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(1, TestDatas::$tokens[3]['meeple_state']);//-2
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);//-3
+        assertSame(3, TestDatas::$tokens[5]['meeple_state']);//-0
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
         assertSame(ST_CONFIRM_CHOICES, $newState);
     }
     public function test_actSelectAdvanceDest_Pass_ToTile2(): void
@@ -314,20 +334,32 @@ final class AdvanceCityTest extends TestCase
         $game = new GameMock();
         $state = new AdvanceCity($game);
         TestDatas::resetCityTokens();
-        for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         $args = $state->getArgs();
         $space = 102;
         $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,5];
 
-        $newState = $state->actSelectAdvanceDest($space,$markerId,999999, 1, $args);
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
         
         $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
             "moveCityMarker-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
         assertSame(MEEPLE_LOCATION_CITY."5-2", TestDatas::$tokens[$markerId]['meeple_location']);
         assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);//-1*2
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(1, TestDatas::$tokens[3]['meeple_state']);//-2
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);//-3
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
         assertSame(ST_CONFIRM_CHOICES, $newState);
     }
     public function test_actSelectAdvanceDest_KO_WrongSpace(): void
@@ -340,10 +372,11 @@ final class AdvanceCityTest extends TestCase
         $args = $state->getArgs();
         $space = 99;
         $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,4 ];
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Invalid space $space");
-        $state->actSelectAdvanceDest($space,$markerId,999999, 1, $args);
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
     }
     
     public function test_actSelectAdvanceDest_KO_UsedSpace(): void
@@ -357,10 +390,11 @@ final class AdvanceCityTest extends TestCase
         $args = $state->getArgs();
         $space = 1;
         $markerId = 37;
+        $selectedRegionsToPay = [1, ];
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Invalid space $space");
-        $state->actSelectAdvanceDest($space,$markerId,999999, 1, $args);
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
     }
     public function test_actSelectAdvanceDest_KO_WrongPlayer(): void
     {
@@ -371,10 +405,74 @@ final class AdvanceCityTest extends TestCase
         $args = $state->getArgs();
         $space = 1;
         $markerId = 37;
+        $selectedRegionsToPay = [1, ];
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Invalid marker 37");
-        $state->actSelectAdvanceDest($space,$markerId,999999, 1, $args);
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+    }
+    
+    public function test_actSelectAdvanceDest_KO_NotEnoughCostsToPay(): void
+    {
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        $args = $state->getArgs();
+        $space = 1;
+        $markerId = 37;
+        $selectedRegionsToPay = [ ];
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid number of influence to pay lanterns");
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+    }
+    public function test_actSelectAdvanceDest_KO_TooManyCostsToPay(): void
+    {
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        for($k=1;$k<6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        $args = $state->getArgs();
+        $space = 1;
+        $markerId = 37;
+        $selectedRegionsToPay = [3,3,6 ];
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid number of influence to pay lanterns");
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+    }
+    public function test_actSelectAdvanceDest_KO_WrongRegionToPay1(): void
+    {
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        for($k=1;$k<5;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        TestDatas::$tokens[6]['meeple_state'] = 0;
+        $args = $state->getArgs();
+        $space = 1;
+        $markerId = 37;
+        $selectedRegionsToPay = [ 6];
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Player 1 cannot pay 1 influence from region 6");
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+    }
+    public function test_actSelectAdvanceDest_KO_WrongRegionToPay3(): void
+    {
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        for($k=1;$k<5;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        TestDatas::$tokens[6]['meeple_state'] = 2;
+        $args = $state->getArgs();
+        $space = 101;
+        $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3, 6];
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Player 1 cannot pay 3 influence from region 6");
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
     }
     // -------------------------------------------------
     
