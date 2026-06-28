@@ -9,6 +9,7 @@ use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Managers\Cards;
 use ROG\Models\ScenarioType;
 use ROG\Models\TURN_ACTION;
 use Tests\Utils\TestDatas;
@@ -435,6 +436,28 @@ final class BonusChoiceTest extends TestCase
         assertSame($bonusType, Globals::getCurrentBonus());
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
     }
+    
+    public function test_ActionBonus_Pass_IncreaseHand(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_INC_HAND_LIMIT;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $game->actBonus(999999,$bonusType);
+        
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        //Check draw 1 card in hand :
+        assertSame(1, TestDatas::$cards[1]['player_id']);
+        assertSame(CARD_LOCATION_HAND, TestDatas::$cards[1]['card_location']);
+        assertSame(3, Cards::countPlayerCards(1,CARD_LOCATION_HAND));
+    }
+
     public function test_ActionBonus_Pass_SetDie(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

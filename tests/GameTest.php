@@ -1007,7 +1007,8 @@ final class GameTest extends TestCase
                             'column' => 2,
                             'region' => 4,
                             'rewards' => [
-                                'entries' => [
+                                'entries' => [ 
+                                    [ 'type' => BONUS_TYPE_INC_HAND_LIMIT,  'n' => 1, ],
                                 ],
                             ],
                         ],

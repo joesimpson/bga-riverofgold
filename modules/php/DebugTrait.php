@@ -327,6 +327,8 @@ trait DebugTrait
     $player->getScenario()->addResource($player,1, RESOURCE_TYPE_MONEY);
     Globals::addBonusWithDatas($player,BONUS_TYPE_REMOVE_GOODS,['card_id'=>$player->getScenario()->getId(),'shoreSpacesIds'=>[3,4,5,7], 'meeplesIds'=>[43,44,45], 'bonusQuantity'=>1, 'resources' =>[3,1,2]],clienttranslate('Remove goods'));
 
+    Globals::addBonus($player,BONUS_TYPE_INC_HAND_LIMIT);
+
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
 

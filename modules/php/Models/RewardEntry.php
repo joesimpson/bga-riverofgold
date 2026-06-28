@@ -112,8 +112,11 @@ class RewardEntry implements \JsonSerializable
         }
         return;
       case BONUS_TYPE_INC_HAND_LIMIT:
-        //Only draw a card, there is no limit linked to player
-        Cards::drawCardsToHand($player,1);
+        /*DELAY DRAW to let player cancel before and NOT after !
+          //Only draw a card, there is no limit linked to player
+          Cards::drawCardsToHand($player,1);
+        */
+        Globals::addBonus($player,BONUS_TYPE_INC_HAND_LIMIT);
         return;
       default :
         Game::get()->error("Not supported reward ".$this->type);

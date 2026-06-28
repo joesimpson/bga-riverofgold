@@ -123,6 +123,14 @@ trait BonusChoiceTrait
           $nextState = 'continue';
         }
         break;
+      case BONUS_TYPE_INC_HAND_LIMIT:
+        $nextState = 'continue';
+        $missingInDeck = Cards::drawCardsToHand($player,1);
+        if($missingInDeck==0){
+          //ACTION IS NOT UNDOABLE
+          $this->addCheckpoint(ST_BONUS_CHOICE);
+        }
+        break;
       case BONUS_TYPE_REFILL_HAND://Draw 2 and discard 1
         $nextState = 'bonusDraw';
         Notifications::refillHand($player);

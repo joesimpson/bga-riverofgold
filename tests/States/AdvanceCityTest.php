@@ -403,7 +403,8 @@ final class AdvanceCityTest extends TestCase
             "gainInfluence-1",//spendInfluence
             "gainInfluence-1",//spendInfluence
             "moveCityMarker-1",
-            "giveCardToPublic-1",
+            // DELAYED "giveCardToPublic-1",
+            "addBonus-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
@@ -422,12 +423,16 @@ final class AdvanceCityTest extends TestCase
         assertSame(3, $resources[RESOURCE_TYPE_MOON]);
         assertSame(3, $resources[RESOURCE_TYPE_SUN]);
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        /*
         //Check draw 1 card in hand :
         assertSame(1, TestDatas::$cards[1]['player_id']);
         assertSame(CARD_LOCATION_HAND, TestDatas::$cards[1]['card_location']);
         assertSame(3, Cards::countPlayerCards(1,CARD_LOCATION_HAND));
         assertSame(json_encode([]), TestDatas::$players[1]['bonuses']);
         assertSame(ST_CONFIRM_CHOICES, $newState);
+        */
+        assertSame(json_encode([BONUS_TYPE_INC_HAND_LIMIT]), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, $newState);
     }
     
     public function test_actSelectAdvanceDest_Pass_space9(): void

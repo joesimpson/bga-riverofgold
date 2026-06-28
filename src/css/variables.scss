@@ -44,3 +44,14 @@ Icon extract in sprite with differents layers size (so % is not useful).
         math.percentage(math.div(2008px, $layer_width )) 
         math.percentage(math.div(1329px,$layer_height ));
 }
+
+@mixin rog_icons_on_city_board($iconPosX,$iconPosY,$width,$height,$layer_width,$layer_height){
+    width: $width;
+    height: $height;
+    background-image: url('img/cityOfLies/board_city.png');
+    background-position-x: calc(math.div($width, $layer_width) * $iconPosX);
+    background-position-y: calc(math.div($height, $layer_height ) * $iconPosY);
+    background-size: 
+        math.percentage(math.div(868px, $layer_width )) 
+        math.percentage(math.div(797px,$layer_height ));
+}

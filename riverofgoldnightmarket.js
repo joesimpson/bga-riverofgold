@@ -1016,7 +1016,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     ${iconBonus}
                 </div>`, () =>  {
                     let confirmMessage = null;
-                    if(BONUS_TYPE_DRAW == bonusType){
+                    if(BONUS_TYPE_DRAW == bonusType || BONUS_TYPE_INC_HAND_LIMIT == bonusType){
                         confirmMessage = this.fsr(_('Are you sure to draw ${n} cards now ?'), { n: 1 });
                     }
                     if(BONUS_TYPE_REFILL_HAND == bonusType){
