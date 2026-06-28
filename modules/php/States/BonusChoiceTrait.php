@@ -182,6 +182,9 @@ trait BonusChoiceTrait
           $this->addCheckpoint(ST_BONUS_CHOICE);
         }
         break;
+      case BONUS_TYPE_BUILD_NEAR_SHIPS:
+        $nextState = 'bonusFreeBuild';
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }

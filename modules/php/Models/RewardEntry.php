@@ -143,6 +143,9 @@ class RewardEntry implements \JsonSerializable
           }
         }
         return;
+      case BONUS_TYPE_BUILD_NEAR_SHIPS:
+        Globals::addBonusWithDatas($player,BONUS_TYPE_BUILD_NEAR_SHIPS,[ 'bonusQuantity'=>$this->number]);
+        return;
       default :
         Game::get()->error("Not supported reward ".$this->type);
         Notifications::message("Not supported reward ".$this->type);

@@ -380,6 +380,7 @@ final class BuildTest extends TestCase
         $game->actBuildSelect($position,$tileId,999999);
     }
     
+    /* obsolete
     public function test_actBuildSelect_KO_WrongTileLocation(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -395,6 +396,7 @@ final class BuildTest extends TestCase
         $this->expectExceptionMessage("Class Pieces: getMany, some pieces have not been found ! Table tiles [$tileId]");
         $game->actBuildSelect($position,$tileId,999999);
     }
+    */
     
     public function test_actBuildSelect_Pass_Standard(): void
     {

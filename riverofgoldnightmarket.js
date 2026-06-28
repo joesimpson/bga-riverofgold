@@ -186,6 +186,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const BONUS_TYPE_EMPTY_SHORE_POINTS = 50;
     const BONUS_TYPE_REWARDS_SELECT_REGION = 51;
     const BONUS_TYPE_BUILDING_ROW_REWARDS  = 52;
+    const BONUS_TYPE_BUILD_NEAR_SHIPS     = 53;
 
     const RESOURCES = [
         0,
@@ -322,7 +323,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this._inactiveStates = ['draft','scoring','gameEnd'];
             this._migratedStates = [
                 //States extending GameState that don't already define title -> we must display dynamic title
-                'AdvanceCity',
+                'AdvanceCity', 
+                'BonusFreeBuild',
                 'BonusPlaceLion','BonusBuildingReward','BonusPayShips','BonusAdvanceCity',
                 'BonusSelectRegion', 'BonusMultiTrades',
                 'BonusManageCardResources',
@@ -923,6 +925,19 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         onEnteringStateBuild(args){
             debug('onEnteringStateBuild', args);
+            
+            if(! this.bga.players.isCurrentPlayerActive()) return;
+
+            args.actionName = 'actBuildSelect';
+            this.clientState('clientBuild','', args);
+        },
+            
+        onEnteringStateClientBuild(args, ){
+            debug('onEnteringStateClientBuild', args);
+
+            this.bga.statusBar.setTitle( 
+                _('Build : ${you} must select a building and a shore space')
+            );
 
             this.selectedTileId = null; 
             this.selectedSpace = null; 
@@ -933,7 +948,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 //let selectedBuilding = buildingRowDiv.querySelector(`.rog_tile.selected`);
                 //let selectedTileId = document.querySelector('.rog_button_building_tile.selected').dataset.id;
                 //let selectedSpace = shoreSpacesDiv.querySelector(`.rog_shore_space.selected`).dataset.pos;
-                this.takeAction('actBuildSelect', { p: this.selectedSpace,  t: this.selectedTileId});
+                this.takeAction(args.actionName, { p: this.selectedSpace,  t: this.selectedTileId});
             }); 
             //DISABLED by default
             $(`btnConfirm`).classList.add('disabled');
@@ -1506,6 +1521,21 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 $(`btnSkip`).classList.add('disabled');
             }
 
+        },
+        
+        onEnteringStateBonusFreeBuild(args){
+            debug('onEnteringStateBonusFreeBuild', args);
+
+            let active = this.bga.players.isCurrentPlayerActive();
+            this.bga.statusBar.setTitle(active ? 
+                _('Build : ${you} must select a building and a shore space') :
+                _('Build : ${actplayer} must select a building and a shore space')
+            );
+            
+            if(! active) return;
+
+            args.actionName = 'actFreeBuild';
+            this.clientState('clientBuild','', args);
         },
 
         onEnteringStateSail(args){
@@ -3291,6 +3321,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     return  this.fsr(_('Gain all rewards you have reached on ${n} influence tracks.'),{'n':2});
                 case BONUS_TYPE_BUILDING_ROW_REWARDS: 
                     return  this.fsr(_('Gain the owner rewards of all buildings in the building row.'),{});
+                case BONUS_TYPE_BUILD_NEAR_SHIPS: 
+                    return  this.fsr(_('Build in a shore space adjacent to one of your ships for free.'),{});
             }
             return '';
         },

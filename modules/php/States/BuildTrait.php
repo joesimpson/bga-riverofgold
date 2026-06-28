@@ -66,7 +66,6 @@ trait BuildTrait
     self::trace("actBuildSelect($position,$tileId)");
 
     $player = Players::getCurrent();
-    $pId = $player->id;
     $this->addStep();
 
     $args = $this->argBuild();
@@ -75,12 +74,28 @@ trait BuildTrait
     if(!in_array($position, $possibleSpacesIds)){
       throw new UnexpectedException(10,"You cannot build on $position, see ids: ".json_encode($possibleSpacesIds));
     }
-    $shoreSpace = ShoreSpaces::getShoreSpace($position); 
-    $tile = Tiles::get($tileId);
     $possibleTiles = $args['tiles'];
     if(!in_array($tileId,$possibleTiles)){
       throw new UnexpectedException(12,"You cannot build tile $tileId, see ids: ".json_encode($possibleTiles));
     }
+
+    $this->processBuild($player, $position, $tileId, $args);
+
+    Globals::setTurnMainActionDone(MAIN_ACTION::BUILD->value);
+    Stats::inc("nbActionsBuild", $player->getId());
+    Utils::playTradersAbilities($player);
+    
+    if($this->goToBonusStepIfNeeded($player)) return;
+    $this->gamestate->nextState('next');
+  }
+
+  public function processBuild(Player $player, int $position, int $tileId, array $args, bool $free = false){
+    $pId = $player->id;
+    self::trace("processBuild($pId, $position,$tileId)");
+
+    $shoreSpace = ShoreSpaces::getShoreSpace($position); 
+    $tile = Tiles::get($tileId);
+
     $previousLocation = $tile->getLocation();
     if(in_array($previousLocation, [TILE_LOCATION_BUILDING_DECK_ERA_1,TILE_LOCATION_BUILDING_DECK_ERA_2] )){
       $markerForEraTiles = $args['markerForEraTiles'];
@@ -93,6 +108,7 @@ trait BuildTrait
     $playerPatron = $player->getPatron();
 
     $cost = $this->buildingCost($player,$shoreSpace);
+    if($free) $cost = 0;
     Players::spendMoney($player,$cost);
 
     if(isset($playerPatron)){
@@ -106,7 +122,6 @@ trait BuildTrait
     $adjacentRiverSpaces = ShoreSpaces::getUniqueAdjacentRiverSpaces([$position]);
 
     Notifications::build($player,$tile,$previousPosition,$previousLocation);
-    Stats::inc("nbActionsBuild", $player->getId());
 
     if(BUILDING_ROW_END == $previousPosition){
       Players::gainDivineFavor($player,BUILDING_ROW_END_FAVOR);
@@ -115,9 +130,6 @@ trait BuildTrait
     Meeples::addClanMarkerOnShoreSpace($tile,$player);
     Globals::setLastBuiltTile($tileId);
     Globals::setLastBuiltLocationOrigin($previousLocation);
-    Globals::setTurnMainActionDone(MAIN_ACTION::BUILD->value);
-    
-    Utils::playTradersAbilities($player);
     
     if(isset($playerPatron)){
       $playerPatron->scoreWhenBuild($player,$shoreSpace);
@@ -128,8 +140,6 @@ trait BuildTrait
     Utils::moveRogueShipFrom($player,$adjacentRiverSpaces);
     Players::claimMasteries($player);
     
-    if($this->goToBonusStepIfNeeded($player)) return;
-    $this->gamestate->nextState('next');
   } 
 
   /**
@@ -140,7 +150,6 @@ trait BuildTrait
   { 
     $playerPatron = $player->getPatron();
     $region = $player->getDie();
-    $possibleSpaces = new Collection();
     $emptySpaces = ShoreSpaces::getEmptySpaces($region);
     
     // master engineer can build in every regions !
@@ -150,6 +159,12 @@ trait BuildTrait
         $emptySpaces = array_merge($emptySpaces,ShoreSpaces::getEmptySpaces($otherRegion));
       }
     }
+    return $this->filterSpacesToBuild($player,$emptySpaces);
+  }
+
+  public function filterSpacesToBuild(Player $player, array $emptySpaces, bool $free = false ) : Collection
+  { 
+    $possibleSpaces = new Collection();
 
     $scenarioToBuildOnLeft = Cards::getAssignedScenario(ScenarioType::CRAB_1);
     if(isset($scenarioToBuildOnLeft)){
@@ -166,7 +181,7 @@ trait BuildTrait
 
     foreach($emptySpaces as $key => $spaceId){
       $space = ShoreSpaces::getShoreSpace($spaceId);
-      if($this->canBuildOnSpace($player,$space)){
+      if($this->canBuildOnSpace($player,$space, $free)){
         //update cost for UI
         $space->cost = $this->buildingCost($player,$space);
         $possibleSpaces->append($space);
@@ -180,11 +195,11 @@ trait BuildTrait
    * @param ShoreSpace $space
    * @return bool 
    */
-  public function canBuildOnSpace(Player $player,ShoreSpace $space)
+  public function canBuildOnSpace(Player $player,ShoreSpace $space, bool $free = false)
    : bool
   { 
     $cost = $this->buildingCost($player,$space);
-    if($cost > $player->getMoney() && !($player instanceof AutomaPlayer)) {
+    if($cost > $player->getMoney() && !$free && !($player instanceof AutomaPlayer)) {
       return false;
     }
     $meeples = Meeples::getInLocation(MEEPLE_LOCATION_SHORE."{$space->id}");

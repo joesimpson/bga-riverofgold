@@ -822,6 +822,62 @@ final class BonusChoiceTest extends TestCase
         //Next state differs for each bonus :
         assertSame(ST_BONUS_MANAGE_CARD_RESOURCES, GamestateMachine::$test_current_state);
     }
+    
+    public function test_ActionBonus_Pass_MultiRewardSelectRegion(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_REWARDS_SELECT_REGION;
+        $bonusKey = 1;
+        $bonuses = [
+            'datas' => [
+                $bonusType => [
+                    1 => [ 'bonusQuantity'=>2,],
+                ],
+                
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [
+        ];
+
+        $game->actBonus(999999,$bonusType,$bonusKey);
+        
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame([ 'bonusQuantity'=>2,], Globals::getCurrentBonusDatas());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_SELECT_REGION, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionBonus_Pass_BuildNearShips(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_BUILD_NEAR_SHIPS;
+        $bonusKey = 1;
+        $bonuses = [
+            'datas' => [
+                $bonusType => [
+                    1 => [ 'bonusQuantity'=>1,],
+                ],
+                
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [
+        ];
+
+        $game->actBonus(999999,$bonusType,$bonusKey);
+        
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame([ 'bonusQuantity'=>1,], Globals::getCurrentBonusDatas());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_FREE_BUILD, GamestateMachine::$test_current_state);
+    }
 
     public function test_ActionBonus_KO_WrongBonus(): void
     {
