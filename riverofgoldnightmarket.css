@@ -8837,9 +8837,13 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   display: flex;
   align-content: center;
   align-items: center;
-  -moz-column-gap: 10px;
-       column-gap: 10px;
+  -moz-column-gap: 12px;
+       column-gap: 12px;
   margin: 0 10px;
+}
+.customimagebutton #btnRecapRegions_List > div {
+  display: flex;
+  flex-direction: column;
 }
 
 body[data-rog_undo_style="1"] #btnIconUndoLastStep,

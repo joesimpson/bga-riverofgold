@@ -182,8 +182,13 @@
         display: flex;
         align-content: center;
         align-items: center;
-        column-gap: 10px;
+        column-gap: 12px;
         margin: 0 10px;
+
+        >div{
+            display: flex;
+            flex-direction: column;
+        }
     }
 }
 body[data-rog_undo_style='1']{//PREF_UNDO_STYLE_TEXT

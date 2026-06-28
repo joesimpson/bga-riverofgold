@@ -1895,11 +1895,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 Object.values(selectedRegions).forEach((datas) => {
                     let region = datas.region;
                     let cost = datas.cost;
-                    let counter = this.tmpRegionCounters.get(region) - cost;
-                    this.tmpRegionCounters.set(region , counter);
                     let iconRegion = this.formatIcon("influence-"+region, region);
                     let iconCost = this.formatIcon('influence', -cost);
-                    listDiv.insertAdjacentHTML('beforeend',`${iconRegion}${iconCost}`);
+                    listDiv.insertAdjacentHTML('beforeend',`<div>${iconCost}${iconRegion}</div>`);
                 });
             };
 
@@ -1917,6 +1915,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     let callbackRegion = (region) =>{
                         let currentamount = costs[0];
                         if(currentamount > this.tmpRegionCounters.get(region)) return;
+                        this.tmpRegionCounters.set(region , this.tmpRegionCounters.get(region) - currentamount);
 
                         selectedRegions.push({'region': region, 'cost': currentamount});
                         costs.splice(0, 1);
