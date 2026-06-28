@@ -976,6 +976,7 @@ final class GameTest extends TestCase
                             'region' => 1,
                             'rewards' => [
                                 'entries' => [
+                                    [ 'type' => BONUS_TYPE_BUILDING_ROW_REWARDS, 'n' => 1, ],
                                 ],
                             ],
                         ],

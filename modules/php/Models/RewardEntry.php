@@ -9,6 +9,7 @@ use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
+use ROG\Managers\Tiles;
 
 class RewardEntry implements \JsonSerializable
 {
@@ -133,6 +134,14 @@ class RewardEntry implements \JsonSerializable
         return;
       case BONUS_TYPE_REWARDS_SELECT_REGION:
         Globals::addBonusWithDatas($player,BONUS_TYPE_REWARDS_SELECT_REGION,[ 'bonusQuantity'=>$this->number]);
+        return;
+      case BONUS_TYPE_BUILDING_ROW_REWARDS:
+        $tiles = Tiles::getInLocationOrdered(TILE_LOCATION_BUILDING_ROW);
+        foreach($tiles as $tile){
+          foreach($tile->ownerReward->entries as $reward){
+            $reward->rewardPlayer($player,$region,$tile);
+          }
+        }
         return;
       default :
         Game::get()->error("Not supported reward ".$this->type);

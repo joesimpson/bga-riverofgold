@@ -185,6 +185,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const BONUS_TYPE_DELIVER_TOP_DECK   = 49;
     const BONUS_TYPE_EMPTY_SHORE_POINTS = 50;
     const BONUS_TYPE_REWARDS_SELECT_REGION = 51;
+    const BONUS_TYPE_BUILDING_ROW_REWARDS  = 52;
 
     const RESOURCES = [
         0,
@@ -3288,7 +3289,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     return  this.fsr(_('Gain ${n} points for each empty shore space adjacent to your ships.'),{'n':2});
                 case BONUS_TYPE_REWARDS_SELECT_REGION: 
                     return  this.fsr(_('Gain all rewards you have reached on ${n} influence tracks.'),{'n':2});
-                
+                case BONUS_TYPE_BUILDING_ROW_REWARDS: 
+                    return  this.fsr(_('Gain the owner rewards of all buildings in the building row.'),{});
             }
             return '';
         },
