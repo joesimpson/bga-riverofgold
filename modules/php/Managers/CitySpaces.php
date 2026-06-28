@@ -44,7 +44,7 @@ class CitySpaces
 
       5   => new CitySpace(5 , 2,1, 3, [ RESOURCE_TYPE_MOON=>1, RESOURCE_TYPE_SUN => 1, ] ),
       6   => new CitySpace(6 , 2,2, 4, [ BONUS_TYPE_INC_HAND_LIMIT => 1,  ] ),
-      7   => new CitySpace(7 , 2,3, 3, [  ] ),
+      7   => new CitySpace(7 , 2,3, 3, [ BONUS_TYPE_EMPTY_SHORE_POINTS  => 1, ] ),
       8   => new CitySpace(8 , 2,4, 4, [  ] ),
       
       9   => new CitySpace(9 , 3,1, 5, [ RESOURCE_TYPE_MONEY => 7,  ] ),

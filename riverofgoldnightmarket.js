@@ -183,6 +183,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const BONUS_TYPE_REMOVE_GOODS = 47;
     const BONUS_TYPE_INC_HAND_LIMIT     = 48;
     const BONUS_TYPE_DELIVER_TOP_DECK   = 49;
+    const BONUS_TYPE_EMPTY_SHORE_POINTS = 50;
 
     const RESOURCES = [
         0,
@@ -3259,6 +3260,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     return  this.fsr(_('Draw ${n} customer. Your hand size is permanently increased by ${n}.'),{'n':1});
                 case BONUS_TYPE_DELIVER_TOP_DECK: 
                     return  this.fsr(_('Deliver to the customer on top of the deck. (Do not draw/discard customers after.)'),{});
+                case BONUS_TYPE_EMPTY_SHORE_POINTS: 
+                    return  this.fsr(_('Gain ${n} points for each empty shore space adjacent to your ships.'),{'n':2});
+                
             }
             return '';
         },

@@ -1020,6 +1020,7 @@ final class GameTest extends TestCase
                             'region' => 3,
                             'rewards' => [
                                 'entries' => [
+                                    [ 'type' => BONUS_TYPE_EMPTY_SHORE_POINTS,  'n' => 1, ],
                                 ],
                             ],
                         ],

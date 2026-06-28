@@ -141,6 +141,21 @@ class ShoreSpaces
     }
     return $emptySpaces;
   }
+  
+  public static function getEmptySpacesAdjacentToRiver(array $riverSpaces ) : array{
+
+    $spaces = [];
+    foreach($riverSpaces as $riverSpace) {
+      $shoreSpaces = ShoreSpaces::getAdjacentSpaces($riverSpace);
+      foreach($shoreSpaces as $shoreSpace) {
+        if(!in_array($shoreSpace,$spaces)){
+          $spaces[] = $shoreSpace;
+        }
+      }
+    }
+    $usedSpaces = Tiles::getUsedPositionsOnShore();
+    return array_diff($spaces, $usedSpaces);
+  }
 
   public static function getLastRiverSpace() : int
   {

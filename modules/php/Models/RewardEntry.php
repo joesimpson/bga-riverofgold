@@ -8,6 +8,7 @@ use ROG\Core\Notifications;
 use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
+use ROG\Managers\ShoreSpaces;
 
 class RewardEntry implements \JsonSerializable
 {
@@ -121,6 +122,14 @@ class RewardEntry implements \JsonSerializable
       case BONUS_TYPE_DELIVER_TOP_DECK:
         //DELAY DRAW to let player cancel before and NOT after !
         Globals::addBonus($player,BONUS_TYPE_DELIVER_TOP_DECK);
+        return;
+      case BONUS_TYPE_EMPTY_SHORE_POINTS: 
+        //Gain 2 points for each empty shore space adjacent to your ships
+        $shipSpaces = array_unique(Meeples::getBoats($player->getId())->map(function(Meeple $ship){ 
+          return $ship->getPosition();
+        })->toArray());
+        $emptyShoreSpaces = ShoreSpaces::getEmptySpacesAdjacentToRiver($shipSpaces);
+        $player->addPoints(2 * count($emptyShoreSpaces) );
         return;
       default :
         Game::get()->error("Not supported reward ".$this->type);
