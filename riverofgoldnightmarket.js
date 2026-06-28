@@ -184,6 +184,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const BONUS_TYPE_INC_HAND_LIMIT     = 48;
     const BONUS_TYPE_DELIVER_TOP_DECK   = 49;
     const BONUS_TYPE_EMPTY_SHORE_POINTS = 50;
+    const BONUS_TYPE_REWARDS_SELECT_REGION = 51;
 
     const RESOURCES = [
         0,
@@ -1331,27 +1332,50 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         onEnteringStateBonusSelectRegion(args){
             debug('onEnteringStateBonusSelectRegion', args);
    
+            let nbrExpectedRegion = args.nbr;
             let currentBonus = args.c;
             let currentBonusDatas = args.cbd;
             let amount = currentBonusDatas.bonusQuantity;
             let bonusIcon = this.formatIcon('bonus-'+currentBonus, amount);
             this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
-                _('${you} must select a region for ${bonus}').replace('${bonus}', bonusIcon) :
-                _('${actplayer} must select a region for ${bonus}').replace('${bonus}', bonusIcon)
+                _('${you} must select ${n} regions for ${bonus}').replace('${bonus}', bonusIcon).replace('${n}', nbrExpectedRegion) :
+                _('${actplayer} must select ${n} regions for ${bonus}').replace('${bonus}', bonusIcon).replace('${n}', nbrExpectedRegion) 
             );
 
+            let selectedRegions = [];
             let possibles = (args.p);
             Object.values(possibles).forEach((region) => {
                 let iconRegion = this.formatIcon("influence-"+region, region);
-                this.addImageActionButton(`btnSelectRegion_${region}`, 
+                let buttonId = `btnSelectRegion_${region}`;
+                this.addImageActionButton(buttonId, 
                     `<div class='rog_trade'>
                         ${iconRegion}
                     </div>`,
                     () =>  {
-                        this.takeAction('actSelectRegion', {'choice':region});
+                        let divButton = document.getElementById(buttonId);
+                        if(divButton.classList.contains('rog_selected_button')){
+                            divButton.classList.remove('rog_selected_button');
+                            let index = selectedRegions.findIndex((t) => t == region);
+                            selectedRegions.splice(index, 1);
+                        }
+                        else {
+                            divButton.classList.add('rog_selected_button');
+                            selectedRegions.push(region);
+                        }
+                        if(selectedRegions.length == nbrExpectedRegion){
+                            document.getElementById('btnConfirm').classList.remove('disabled');
+                        }
+                        else {
+                            document.getElementById('btnConfirm').classList.add('disabled');
+                        }
                     }
                 );
             });
+            this.addPrimaryActionButton('btnConfirm', _('Confirm'), () => {
+                    let sortedRegions = Object.values(selectedRegions);
+                    this.takeAction('actSelectRegion', {'choice': sortedRegions.join(',') });
+                });
+            document.getElementById('btnConfirm').classList.add('disabled');
 
         },
         
@@ -3262,6 +3286,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     return  this.fsr(_('Deliver to the customer on top of the deck. (Do not draw/discard customers after.)'),{});
                 case BONUS_TYPE_EMPTY_SHORE_POINTS: 
                     return  this.fsr(_('Gain ${n} points for each empty shore space adjacent to your ships.'),{'n':2});
+                case BONUS_TYPE_REWARDS_SELECT_REGION: 
+                    return  this.fsr(_('Gain all rewards you have reached on ${n} influence tracks.'),{'n':2});
                 
             }
             return '';

@@ -168,6 +168,14 @@
     border-radius: 10px;
 }
 
+.rog_icon_bonus-51{//BONUS_TYPE_REWARDS_SELECT_REGION
+    @include rog_icons_on_city_board(-435px,-697px,90px,40px,90px,40px);
+    border-radius: 10px;
+    .rog_icon_qty{
+        display: none;
+    }
+}
+
 .rog_icon_container_ship-3{
     vertical-align: baseline;
 }

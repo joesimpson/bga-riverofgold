@@ -337,6 +337,7 @@ class ScenarioCard extends Card
           // then gain all influence track rewards you have reached this game again.
           foreach(REGIONS as $region){
             $meeple = Meeples::getInfluenceMarker($player->getId(),$region);
+            Notifications::trackRewards($player,$region);
             Players::gainInfluenceTrackRewards($player,$region, 0, $meeple->getPosition() );
           }
         }

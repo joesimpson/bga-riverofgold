@@ -3,6 +3,7 @@
 //namespace ROG\States;
 namespace Bga\Games\RiverOfGoldNightMarket\States;
 
+use Bga\GameFramework\Actions\Types\IntArrayParam;
 use RiverOfGoldNightMarket;
 use Bga\GameFramework\States\GameState;
 use Bga\GameFramework\States\PossibleAction;
@@ -11,6 +12,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Log;
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Models\Player;
 
@@ -37,9 +39,11 @@ class BonusSelectRegion extends GameState
     $currentBonusDatas = Globals::getCurrentBonusDatas();
 
     $regions = REGIONS;
+    $expectedNbr = 0;
     //FILTER on bonus type :
     switch($currentBonus){
       case BONUS_TYPE_INF_SELECT_REGION:
+        $expectedNbr = 1;
         $from = $currentBonusDatas['region'];
         $regions = [];
         foreach(REGIONS as $region){
@@ -48,12 +52,17 @@ class BonusSelectRegion extends GameState
             $regions[] = $region;
         }
         break;
+      case BONUS_TYPE_REWARDS_SELECT_REGION:
+        $regions = REGIONS;
+        $expectedNbr = $currentBonusDatas['bonusQuantity'];
+        break;
     }
 
     $args = [
       'c' => $currentBonus,
       'cbd' => $currentBonusDatas,
       'p' => $regions,
+      'nbr' => $expectedNbr,
     ];
 
     $this->game->addArgsForUndo($args);
@@ -69,29 +78,43 @@ class BonusSelectRegion extends GameState
    */
   #[PossibleAction]
   public function actSelectRegion(
-      int $choice, 
+      #[IntArrayParam(name:'choice')] array $choice, 
       int $version,
       int $activePlayerId, array $args,
     )
   {
     $this->game->checkVersion($version);
-    $this->game->trace(__CLASS__.".".__FUNCTION__."( $choice, $activePlayerId)");
+    $this->game->trace(__CLASS__.".".__FUNCTION__."( $activePlayerId) ".json_encode($choice));
     
     $player = Players::get($activePlayerId);
     $choices = $args['p'];
-    if (!in_array($choice,$choices)) {
-      throw new UnexpectedException(503,"Invalid choice $choice");
+    $expectedNbr = $args['nbr'];
+    if ($expectedNbr != count($choice)) {
+      throw new UnexpectedException(503,"You need to select $expectedNbr choices");
     } 
+
+    foreach($choice as $selectedRegion){
+      if (!in_array($selectedRegion,$choices)) {
+        throw new UnexpectedException(503,"Invalid choice $selectedRegion");
+      } 
+    }
 
     // game logic  
     Log::addStep();
 
     $currentBonus = $args['c'];
     $currentBonusDatas = $args['cbd'];
-    $region = $choice;
     switch($currentBonus){
       case BONUS_TYPE_INF_SELECT_REGION:
+        $region = $choice[0];
         Players::gainInfluence($player, $region, $currentBonusDatas['bonusQuantity']);
+        Players::claimMasteries($player);
+        break;
+      case BONUS_TYPE_REWARDS_SELECT_REGION:
+        foreach($choice as $region){
+          Notifications::trackRewards($player,$region);
+          Players::gainInfluenceTrackRewards($player,$region, 0, $player->getInfluence($region) );
+        }
         Players::claimMasteries($player);
         break;
     }

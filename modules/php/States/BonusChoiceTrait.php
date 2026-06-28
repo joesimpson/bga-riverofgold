@@ -161,6 +161,7 @@ trait BonusChoiceTrait
         $nextState = 'bonusAdvanceCity';
         break;
       case BONUS_TYPE_INF_SELECT_REGION:
+      case BONUS_TYPE_REWARDS_SELECT_REGION:
         $nextState = 'bonusSelectRegion';
         break;
       case BONUS_TYPE_MULTITRADE_2:

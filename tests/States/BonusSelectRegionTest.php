@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Exceptions\UserException;
+use ROG\Managers\Meeples;
 use Tests\Utils\TestDatas;
 
 use function PHPUnit\Framework\assertSame;
@@ -34,6 +35,29 @@ final class BonusSelectRegionTest extends TestCase
             'c' => $currentBonus,
             'cbd' => $currentBonusDatas,
             'p' => [1,2,4,5,6],
+            'nbr' => 1,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_MultiRewards(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusSelectRegion($game);
+        $currentBonus = BONUS_TYPE_REWARDS_SELECT_REGION;
+        $currentBonusDatas = ['bonusQuantity'=>2,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        $expectedArgs = [
+            'c' => $currentBonus,
+            'cbd' => $currentBonusDatas,
+            'p' => [1,2,3,4,5,6],
+            'nbr' => 2,
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -62,7 +86,7 @@ final class BonusSelectRegionTest extends TestCase
     }
     // -------------------------------------------------
  
-    public function test_ActionSelectRegion_3_Pass(): void
+    public function test_ActionSelectRegion_Pass_3(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
@@ -73,7 +97,7 @@ final class BonusSelectRegionTest extends TestCase
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
-        $choice = 3;
+        $choice = [3];
 
         $newState = $state->actSelectRegion($choice,999999, 1, $args);
         
@@ -86,7 +110,7 @@ final class BonusSelectRegionTest extends TestCase
         assertSame(0, TestDatas::$tokens[5]['meeple_state']);
         assertSame(0, TestDatas::$tokens[6]['meeple_state']);
     }
-    public function test_ActionSelectRegion_6_Pass(): void
+    public function test_ActionSelectRegion_Pass_6(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
@@ -97,7 +121,7 @@ final class BonusSelectRegionTest extends TestCase
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
-        $choice = 6;
+        $choice = [6];
 
         $newState = $state->actSelectRegion($choice,999999, 1, $args);
         
@@ -110,7 +134,7 @@ final class BonusSelectRegionTest extends TestCase
         assertSame(0, TestDatas::$tokens[5]['meeple_state']);
         assertSame(3, TestDatas::$tokens[6]['meeple_state']);
     }
-    public function test_ActionSelectRegion_3_KO_WrongChoice(): void
+    public function test_ActionSelectRegion_KO_WrongChoiceCount(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
@@ -121,11 +145,81 @@ final class BonusSelectRegionTest extends TestCase
         Globals::setCurrentBonus($currentBonus);
         Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
-        $choice = 3;
+        $choice = [3,4];
 
         $this->expectException(UnexpectedException::class);
-        $this->expectExceptionMessage("Invalid choice $choice");
+        $this->expectExceptionMessage("You need to select 1 choices");
         $state->actSelectRegion($choice,999999, 1, $args);
+    }
+    public function test_ActionSelectRegion_KO_WrongChoice(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusSelectRegion($game);
+        $region = 3;
+        $currentBonus = BONUS_TYPE_INF_SELECT_REGION;
+        $currentBonusDatas = ['region'=>$region,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        $args = $state->getArgs();
+        $choice = [3];
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid choice 3");
+        $state->actSelectRegion($choice,999999, 1, $args);
+    }
+    // -------------------------------------------------
+    
+    public function test_ActionSelectMultiRegions_Pass_3_5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusSelectRegion($game);
+        TestDatas::$players[1]['player_score'] = 27;
+        $currentBonus = BONUS_TYPE_REWARDS_SELECT_REGION;
+        $currentBonusDatas = ['bonusQuantity'=>2,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$tokens[1]['meeple_state'] = 6;
+        TestDatas::$tokens[2]['meeple_state'] = 6;
+        TestDatas::$tokens[3]['meeple_state'] = 6;
+        TestDatas::$tokens[4]['meeple_state'] = 6;
+        TestDatas::$tokens[5]['meeple_state'] = 14;
+        TestDatas::$tokens[6]['meeple_state'] = 6;
+        TestDatas::$tiles[2]['type'] = 15;//MASTERY_TYPE_LIGHTNING
+        $args = $state->getArgs();
+        $choice = [3,5];
+
+        $newState = $state->actSelectRegion($choice,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "trackRewards-1",
+            "giveResource-1",
+            "giveResource-1",
+            "trackRewards-1",
+            "giveResource-1",
+            "giveResource-1",
+            "giveResource-1",
+            "addPoints-1",
+            "newClanMarker-1",
+            "claimMC-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, $newState);
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resources[RESOURCE_TYPE_SILK]);//+1
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(1, $resources[RESOURCE_TYPE_RICE]);//+1
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(1, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(4, $resources[RESOURCE_TYPE_MONEY]);//+2*2
+        assertSame(35, TestDatas::$players[1]['player_score']);//+3 +5
+        assertSame(1, Meeples::countPlayerMasteries(1));
+        $newClanMarker = TestDatas::$tokens[43];
+        assertSame(MEEPLE_LOCATION_TILE.'2', $newClanMarker['meeple_location']);
+        assertSame(1, $newClanMarker['meeple_state']);
+        assertSame(1, $newClanMarker['player_id']);
+        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
     }
     // -------------------------------------------------
  

@@ -131,6 +131,9 @@ class RewardEntry implements \JsonSerializable
         $emptyShoreSpaces = ShoreSpaces::getEmptySpacesAdjacentToRiver($shipSpaces);
         $player->addPoints(2 * count($emptyShoreSpaces) );
         return;
+      case BONUS_TYPE_REWARDS_SELECT_REGION:
+        Globals::addBonusWithDatas($player,BONUS_TYPE_REWARDS_SELECT_REGION,[ 'bonusQuantity'=>$this->number]);
+        return;
       default :
         Game::get()->error("Not supported reward ".$this->type);
         Notifications::message("Not supported reward ".$this->type);

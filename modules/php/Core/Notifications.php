@@ -822,6 +822,16 @@ class Notifications
     );
   }
   
+  public static function trackRewards(Player $player, int $region)
+  {
+    self::notifyAll('trackRewards', clienttranslate('${player_name} gain rewards from influence track #${region}${region_icon}'), [
+      'player' => $player,
+      'region_icon' => '',
+      'region' => $region,
+      'preserve' => ['region'],
+    ]);
+  }
+  
   public static function masteryDeck(int $deckSize, ?MasteryCard $topMasteryCard,){
     $msg = clienttranslate('Next mastery card to claim : ${mastery_name}');
     self::notifyAll('masteryDeck',$msg,[ 
