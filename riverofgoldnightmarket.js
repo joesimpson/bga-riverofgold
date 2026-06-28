@@ -181,6 +181,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const BONUS_TYPE_TRADE_POINTS       = 45;
     const BONUS_TYPE_MANAGE_DEBT        = 46;
     const BONUS_TYPE_REMOVE_GOODS = 47;
+    const BONUS_TYPE_INC_HAND_LIMIT     = 48;
 
     const RESOURCES = [
         0,
@@ -3250,6 +3251,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                                + "<li>" + this.formatReward(BONUS_TYPE_CHOICE,1) + "</li>"
                             +"</ul>",
                     });
+                case BONUS_TYPE_INC_HAND_LIMIT: 
+                    return  this.fsr(_('Draw ${n} customer. Your hand size is permanently increased by ${n}.'),{'n':1});
             }
             return '';
         },

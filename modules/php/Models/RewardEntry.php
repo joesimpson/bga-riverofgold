@@ -5,6 +5,7 @@ namespace ROG\Models;
 use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Managers\Cards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 
@@ -109,6 +110,10 @@ class RewardEntry implements \JsonSerializable
         if($player instanceof AutomaPlayer){
           $player->addPoints(2);
         }
+        return;
+      case BONUS_TYPE_INC_HAND_LIMIT:
+        //Only draw a card, there is no limit linked to player
+        Cards::drawCardsToHand($player,1);
         return;
       default :
         Game::get()->error("Not supported reward ".$this->type);

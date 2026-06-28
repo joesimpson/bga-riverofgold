@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Exceptions\UserException;
+use ROG\Managers\Cards;
 use ROG\Managers\Players;
 use ROG\Models\MAIN_ACTION;
 use Tests\Utils\TestDatas;
@@ -379,6 +380,52 @@ final class AdvanceCityTest extends TestCase
         assertSame(4, $resources[RESOURCE_TYPE_MOON]);//+1
         assertSame(4, $resources[RESOURCE_TYPE_SUN]);//+1
         assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(json_encode([]), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    public function test_actSelectAdvanceDest_Pass_space6(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::$players[1]['die_face'] = 4;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":3,"6":0}';
+        TestDatas::resetCityTokens();
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        $args = $state->getArgs();
+        $space = 6;
+        $markerId = 37;
+        $selectedRegionsToPay = [2,3 ];
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "moveCityMarker-1",
+            "giveCardToPublic-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."2-2", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(3, TestDatas::$tokens[1]['meeple_state']);//-0
+        assertSame(2, TestDatas::$tokens[2]['meeple_state']);//-1
+        assertSame(2, TestDatas::$tokens[3]['meeple_state']);//-1
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(3, TestDatas::$tokens[5]['meeple_state']);//-0
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(3, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        //Check draw 1 card in hand :
+        assertSame(1, TestDatas::$cards[1]['player_id']);
+        assertSame(CARD_LOCATION_HAND, TestDatas::$cards[1]['card_location']);
+        assertSame(3, Cards::countPlayerCards(1,CARD_LOCATION_HAND));
         assertSame(json_encode([]), TestDatas::$players[1]['bonuses']);
         assertSame(ST_CONFIRM_CHOICES, $newState);
     }
