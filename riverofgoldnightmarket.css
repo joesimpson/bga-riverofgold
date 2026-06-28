@@ -1968,8 +1968,6 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   cursor: pointer;
 }
 #rog_resizable_city_of_lies_board .selectable .tooltipable:hover {
-  box-shadow: 0 0 0 5px rgb(57, 57, 251);
-  border-radius: 10px;
   cursor: pointer;
 }
 #rog_resizable_city_of_lies_board .selected {
