@@ -51,7 +51,7 @@ class RewardEntry implements \JsonSerializable
    * @param int $region
    * @param BuildingTile $tile
    */
-  public function rewardPlayer(&$player, $region,$tile){
+  public function rewardPlayer(Player &$player, int $region,?BuildingTile $tile){
 
     switch($this->type){
       case BONUS_TYPE_POINTS:
@@ -63,13 +63,19 @@ class RewardEntry implements \JsonSerializable
       case RESOURCE_TYPE_SILK:
       case RESOURCE_TYPE_POTTERY:
       case RESOURCE_TYPE_RICE:
+      case RESOURCE_TYPE_MOON:
       case RESOURCE_TYPE_SUN:
       case RESOURCE_TYPE_MONEY:
         $player->giveResourceFromTile($this->number,$this->type,$tile);
         return;
       case BONUS_TYPE_CHOICE:
         if($player instanceof AutomaPlayer) return;
-        Globals::addBonus($player,BONUS_TYPE_CHOICE);
+        for($k=1;$k<=$this->number;$k++){
+          Globals::addBonus($player,BONUS_TYPE_CHOICE);
+        }
+        return;
+      case BONUS_TYPE_SECOND_MARKER_ON_BUILDING:
+        Globals::addBonus($player,BONUS_TYPE_SECOND_MARKER_ON_BUILDING);
         return;
       case BONUS_TYPE_MONEY_PER_CUSTOMER:
         $player->giveResourceFromTile($this->number * $player->getNbDeliveredCustomers(),RESOURCE_TYPE_MONEY,$tile);

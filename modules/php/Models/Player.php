@@ -148,7 +148,7 @@ class Player extends \ROG\Helpers\DB_Model
    * @param int $type
    * @param BuildingTile $tile
    */
-  public function giveResourceFromTile($nb, $type, $tile)
+  public function giveResourceFromTile(int $nb, int $type, ?BuildingTile $tile)
   {
     $realInc = $this->giveResource($nb, $type,false);
     Notifications::giveResource($this,$realInc,$type,$tile);

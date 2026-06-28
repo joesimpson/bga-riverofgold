@@ -19,8 +19,10 @@ use ROG\Managers\CitySpaces;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Models\CitySpace;
+use ROG\Models\CityTileSpace;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
+use ROG\Models\RewardEntry;
 
 class AdvanceCity extends GameState
 {
@@ -109,6 +111,16 @@ class AdvanceCity extends GameState
     $clanMarker = Meeples::get($markerId);
     $citySpace = CitySpaces::getCitySpaceById($space);
     Meeples::moveClanMarkerOnCity($player,$clanMarker,$citySpace);
+
+    //Next, that player gains rewards from the space or tile they advanced to
+    $rewards = $citySpace->rewards;
+    array_map(function(RewardEntry $reward) use ($player,$citySpace){
+          $reward->rewardPlayer($player,$citySpace->region,null); 
+      }, $rewards->entries);
+  
+    if($citySpace instanceof CityTileSpace){
+      
+    } 
     
     Players::claimMasteries($player);
     Stats::inc("nbActionsAdvance", $player->getId());
