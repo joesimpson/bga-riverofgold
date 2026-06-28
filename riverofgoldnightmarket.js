@@ -4386,7 +4386,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     })
                     + "</div>"
                     + `<br/>`
-                    + this.fsr(_('Start with the Noble from Region ${x} in play and gain its rewards. It counts as a customer you delivered to.'),{'x':3})
+                    + this.fsr(_('Start with the ${customer_type} from Region ${x} in play and gain its rewards. It counts as a customer you delivered to.'),{'customer_type':_('Noble'),'x':3})
                 ],
                 [this.gamedatas.enums.ScenarioType.PHOENIX_1, 
                     `

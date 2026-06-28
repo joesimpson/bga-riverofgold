@@ -2031,6 +2031,115 @@ final class PlayersTest extends TestCase
     }
     // -------------------------------------------------
     
+    public function test_spendInfluence_LadyOfWhispers_DontJump1Player(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 3;
+        TestDatas::$tokens[$region]['meeple_state'] = 14;
+        TestDatas::$cards[101]['type'] = PATRON_LADY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$tokens[16]['meeple_state'] = 13;
+
+        Players::spendInfluence($player,$region,$amount);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame( 14 - $amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(2,  TestDatas::$players[2]['player_score']);//2+0
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
+
+    public function test_spendInfluence_LadyOfWhispers_DontJump2Players(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 3;
+        TestDatas::$tokens[$region]['meeple_state'] = 14;
+        TestDatas::$cards[101]['type'] = PATRON_LADY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$tokens[16]['meeple_state'] = 13;
+        TestDatas::$tokens[17] = TestDatas::$tokens[16];
+        TestDatas::$tokens[17]['meeple_state'] = 12;
+
+        Players::spendInfluence($player,$region,$amount);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame( 14 - $amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(2,  TestDatas::$players[2]['player_score']);//2+0
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
+    
+    public function test_spendInfluence_LadyOfWhispers_DontJump3Players(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 6;
+        $amount = 3;
+        TestDatas::$tokens[$region]['meeple_state'] = 14;
+        TestDatas::$cards[101]['type'] = PATRON_LADY;
+        TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
+        TestDatas::$tokens[16]['meeple_state'] = 13;
+        TestDatas::$tokens[17] = TestDatas::$tokens[16];
+        TestDatas::$tokens[17]['meeple_state'] = 12;
+        TestDatas::$tokens[18] = TestDatas::$tokens[16];
+        TestDatas::$tokens[18]['meeple_state'] = 10;
+
+        Players::spendInfluence($player,$region,$amount);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame( 14 - $amount, TestDatas::$tokens[$region]['meeple_state']);
+        assertSame(19, TestDatas::$players[1]['player_score']);//19+0
+        assertSame(2,  TestDatas::$players[2]['player_score']);//2+0
+        assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
+        assertSame([], json_decode(TestDatas::$players[2]['bonuses'], true));
+    }
+
+    public function test_spendInfluence_ScenarioScorpion1_Region1_RemoveTarget(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::get(1);
+        $region = 1;
+        $amount = 3;
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::SCORPION_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$tokens[$region]['meeple_state'] = 6;
+        //Add Scorpion targets :
+        for($k = 1; $k <= 6; $k++ ) TestDatas::$tokens[43+$k] = ['result_associative_index' => 43 + $k, 'meeple_id' => 43 +$k, 'meeple_state' => 2+$k, 'meeple_location'=> MEEPLE_LOCATION_INFLUENCE."$k",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => SCORPION_ENEMY_ID,  ];
+
+        Players::spendInfluence($player,$region,$amount);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",
+            "removeClanMarker-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame( 6 - $amount, TestDatas::$tokens[$region]['meeple_state']);
+        //REMOVED Target in this region only
+        assertFalse(array_key_exists(43 + $region,TestDatas::$tokens));
+        for($k = 2; $k <= 6; $k++ ) {
+            assertSame($k+2, TestDatas::$tokens[43 + $k]['meeple_state']);
+            assertSame(MEEPLE_LOCATION_INFLUENCE.$k, TestDatas::$tokens[43 + $k]['meeple_location']);
+        }
+    }
+
     public function test_spendInfluence_GovernorCityOfLies_KO_0(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -2049,6 +2158,7 @@ final class PlayersTest extends TestCase
             "gainInfluence-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame( 3 - $amount, TestDatas::$tokens[$region]['meeple_state']);
         assertSame(19, TestDatas::$players[1]['player_score']);//19+0
         assertSame(2,  TestDatas::$players[2]['player_score']);//2+0
         assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
@@ -2073,6 +2183,7 @@ final class PlayersTest extends TestCase
             "scorePatron-2",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame( 3 - $amount, TestDatas::$tokens[$region]['meeple_state']);
         assertSame(19, TestDatas::$players[1]['player_score']);//19+0
         assertSame(5,  TestDatas::$players[2]['player_score']);//2+3
         assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
@@ -2098,6 +2209,7 @@ final class PlayersTest extends TestCase
             "scorePatron-2",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame( 2 - $amount, TestDatas::$tokens[$region]['meeple_state']);
         assertSame(19, TestDatas::$players[1]['player_score']);//19+0
         assertSame(5,  TestDatas::$players[2]['player_score']);//2+3
         assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));
@@ -2124,6 +2236,7 @@ final class PlayersTest extends TestCase
             "gainInfluence-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame( 4 - $amount, TestDatas::$tokens[$region]['meeple_state']);
         assertSame(19, TestDatas::$players[1]['player_score']);//19+0
         assertSame(2,  TestDatas::$players[2]['player_score']);//2+0
         assertSame([], json_decode(TestDatas::$players[1]['bonuses'], true));

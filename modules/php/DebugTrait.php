@@ -80,9 +80,9 @@ trait DebugTrait
           OPTION_EXPANSION_CLANS_OFF
         ) ,
       OPTION_SEISHIN => $optionSeishin,
-      OPTION_SCENARIOS => $scenarios,
-      OPTION_CITY_OF_LIES => $cityOfLies,
-      OPTION_TRACKS => $customTracks,
+      OPTION_SCENARIOS => ( $scenarios ?  OPTION_SCENARIOS_ON :  OPTION_SCENARIOS_OFF ),
+      OPTION_CITY_OF_LIES => ( $cityOfLies ?  OPTION_CITY_OF_LIES_ON :  OPTION_CITY_OF_LIES_OFF ),
+      OPTION_TRACKS => ( $customTracks ?  OPTION_TRACKS_CUSTOM :  OPTION_TRACKS_OFF ),
       OPTION_CUSTOMERS => $optionCustomers,
       OPTION_MARKETS => $optionMarkets,
     ];
@@ -234,6 +234,7 @@ trait DebugTrait
     $this->debug_UI();
     $this->gamestate->jumpToState(ST_PLAYER_TURN_TRADE);
   }
+  /*
   //Simulate a meeple in each influence space to test UI
   function debug_InfluenceMeeples(){
     $this->addStep();
@@ -254,6 +255,25 @@ trait DebugTrait
         $meeple = Meeples::addClanMarkerOnMerchantSpace($player);
       }
     }
+    $this->debug_UI();
+    $this->refresh_state();
+  }*/
+  function debug_setInfluenceMeeples(
+    int $region1 = 5,
+    int $region2 = 6,
+    int $region3 = 7,
+    int $region4 = 8,
+    int $region5 = 9,
+    int $region6 = 10,
+  ){
+    $this->addStep();
+    $current = Players::getCurrent();
+    $current->setInfluence(REGION_1,$region1);
+    $current->setInfluence(REGION_2,$region2);
+    $current->setInfluence(REGION_3,$region3);
+    $current->setInfluence(REGION_4,$region4);
+    $current->setInfluence(REGION_5,$region5);
+    $current->setInfluence(REGION_6,$region6);
     $this->debug_UI();
     $this->refresh_state();
   }

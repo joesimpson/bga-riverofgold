@@ -474,6 +474,13 @@ class Players extends \ROG\Helpers\DB_Manager
       $patronGovernor->scoreWhenPassedOnInfluenceTrack($player,$region, $currentInfluence,$newInfluence);
     }
     //////////////////////////////////////////////////////////////////
+    
+    //////////////////////////////////////////////////////////////////
+    $playerScenario = $player->getScenario();
+    if(isset($playerScenario)) {
+      $playerScenario->abilityOnGainInfluence($player,$region, $currentInfluence, $newInfluence);
+    }
+    //////////////////////////////////////////////////////////////////
   }
   
   /**
