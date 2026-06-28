@@ -797,6 +797,16 @@ final class DeliverTest extends TestCase
 
         $game->actDeliverSelect($cardId,999999);
         
+        $expectedNotifs = [
+            "deliver-1",
+            "spendResource-1",
+            "spendResource-1",
+            "spendResource-1",
+            "gainInfluence-1",
+            "addPoints-1", 
+            "addBonus-1", 
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
         //check card datas
         $cardDatas = TestDatas::$cards[$cardId];
         assertSame(CARD_LOCATION_DELIVERED, $cardDatas['card_location']);
@@ -811,7 +821,7 @@ final class DeliverTest extends TestCase
         assertSame(1, TestDatas::$tokens[1]['meeple_state']);
         //ONGOING Ability must be activated right now :
         assertSame(20, TestDatas::$players[1]['player_score']);//+1
-        assertSame(json_encode([BONUS_TYPE_DRAW, BONUS_TYPE_REFILL_HAND]), TestDatas::$players[1]['bonuses']);
+        assertSame(json_encode([BONUS_TYPE_REFILL_HAND, BONUS_TYPE_DRAW]), TestDatas::$players[1]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
     }
     
@@ -828,6 +838,9 @@ final class DeliverTest extends TestCase
         TestDatas::$tokens[21]['meeple_state'] = 6;
         TestDatas::$tokens[26]['player_id'] = ROGUE_PLAYER_ID;
         TestDatas::$tokens[26]['meeple_state'] = 6;//suppose someone moved rogue ship to same place as our ship
+       
+        $game->actDeliverSelect($cardId,999999);
+        
         $expectedNotifs = [
             "deliver-1",
             "spendResource-1",
@@ -836,9 +849,6 @@ final class DeliverTest extends TestCase
             "newClanMarker-1", //artisan
             "moveRogueShip-1",
         ];
-
-        $game->actDeliverSelect($cardId,999999);
-        
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         //MOVED rogue ship
         assertSame(5, TestDatas::$tokens[26]['meeple_state']);

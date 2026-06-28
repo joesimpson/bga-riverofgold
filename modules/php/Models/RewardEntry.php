@@ -118,6 +118,10 @@ class RewardEntry implements \JsonSerializable
         */
         Globals::addBonus($player,BONUS_TYPE_INC_HAND_LIMIT);
         return;
+      case BONUS_TYPE_DELIVER_TOP_DECK:
+        //DELAY DRAW to let player cancel before and NOT after !
+        Globals::addBonus($player,BONUS_TYPE_DELIVER_TOP_DECK);
+        return;
       default :
         Game::get()->error("Not supported reward ".$this->type);
         Notifications::message("Not supported reward ".$this->type);

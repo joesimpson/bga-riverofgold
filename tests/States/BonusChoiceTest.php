@@ -457,6 +457,36 @@ final class BonusChoiceTest extends TestCase
         assertSame(CARD_LOCATION_HAND, TestDatas::$cards[1]['card_location']);
         assertSame(3, Cards::countPlayerCards(1,CARD_LOCATION_HAND));
     }
+    
+    public function test_ActionBonus_Pass_deliverTopDeck(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_DELIVER_TOP_DECK;
+        $bonuses = [$bonusType];
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
+
+        $game->actBonus(999999,$bonusType);
+        
+        $expectedNotifs = [
+            "deliver-1",
+            "newClanMarker-1", //ELDER
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(json_encode([]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        //Check deliver 1 card
+        assertSame(1, TestDatas::$cards[1]['player_id']);
+        assertSame(CARD_LOCATION_DELIVERED, TestDatas::$cards[1]['card_location']);
+        assertSame(1, Cards::countPlayerCards(1,CARD_LOCATION_DELIVERED));
+        assertSame(2, Cards::countPlayerCards(1,CARD_LOCATION_HAND));
+        //check customer ability : 
+        $expectedToken = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_ELDER."1",'type' => MEEPLE_TYPE_CLAN_MARKER, 'player_id' => 1,  ];
+        assertSame($expectedToken, TestDatas::$tokens[43]);
+    }
 
     public function test_ActionBonus_Pass_SetDie(): void
     {

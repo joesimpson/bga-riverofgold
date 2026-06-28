@@ -173,6 +173,14 @@ trait BonusChoiceTrait
       case BONUS_TYPE_REMOVE_GOODS:
         $nextState = 'bonusManageCardResources';
         break;
+      case BONUS_TYPE_DELIVER_TOP_DECK:
+        $nextState = 'continue';
+        $cards = Cards::drawCardsToDeliver($player,1);
+        if(count($cards) > 0){
+          //ACTION IS NOT UNDOABLE
+          $this->addCheckpoint(ST_BONUS_CHOICE);
+        }
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }

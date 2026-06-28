@@ -182,6 +182,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const BONUS_TYPE_MANAGE_DEBT        = 46;
     const BONUS_TYPE_REMOVE_GOODS = 47;
     const BONUS_TYPE_INC_HAND_LIMIT     = 48;
+    const BONUS_TYPE_DELIVER_TOP_DECK   = 49;
 
     const RESOURCES = [
         0,
@@ -1016,7 +1017,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     ${iconBonus}
                 </div>`, () =>  {
                     let confirmMessage = null;
-                    if(BONUS_TYPE_DRAW == bonusType || BONUS_TYPE_INC_HAND_LIMIT == bonusType){
+                    if(BONUS_TYPE_DRAW == bonusType 
+                        || BONUS_TYPE_INC_HAND_LIMIT == bonusType 
+                        || BONUS_TYPE_DELIVER_TOP_DECK == bonusType 
+                    ){
                         confirmMessage = this.fsr(_('Are you sure to draw ${n} cards now ?'), { n: 1 });
                     }
                     if(BONUS_TYPE_REFILL_HAND == bonusType){
@@ -3253,6 +3257,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     });
                 case BONUS_TYPE_INC_HAND_LIMIT: 
                     return  this.fsr(_('Draw ${n} customer. Your hand size is permanently increased by ${n}.'),{'n':1});
+                case BONUS_TYPE_DELIVER_TOP_DECK: 
+                    return  this.fsr(_('Deliver to the customer on top of the deck. (Do not draw/discard customers after.)'),{});
             }
             return '';
         },

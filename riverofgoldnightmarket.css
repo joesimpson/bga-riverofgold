@@ -7972,6 +7972,16 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   border-radius: 10px;
 }
 
+.rog_icon_bonus-49 {
+  width: 86px;
+  height: 48px;
+  background-image: url("img/cityOfLies/board_city.png");
+  background-position-x: -600px;
+  background-position-y: -385px;
+  background-size: 1009.3023255814% 1660.4166666667%;
+  border-radius: 10px;
+}
+
 .rog_icon_container_ship-3 {
   vertical-align: baseline;
 }

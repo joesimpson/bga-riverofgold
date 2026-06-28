@@ -162,6 +162,12 @@
     border-radius: 10px;
 }
 
+.rog_icon_bonus-49{//BONUS_TYPE_DELIVER_TOP_DECK
+    //look for an extract of the City board
+    @include rog_icons_on_city_board(-600px,-385px,86px,48px,86px,48px);
+    border-radius: 10px;
+}
+
 .rog_icon_container_ship-3{
     vertical-align: baseline;
 }

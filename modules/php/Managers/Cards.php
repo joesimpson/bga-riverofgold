@@ -349,6 +349,22 @@ class Cards extends \ROG\Helpers\Pieces
     return $missingNb;
   }
   
+  public static function drawCardsToDeliver(Player $player,int $nbCards) : Collection 
+  {
+    Game::get()->trace("drawCardsToDeliver($nbCards)");
+    $cards = self::pickForLocation($nbCards, CARD_LOCATION_DECK, CARD_LOCATION_DELIVERED,0,true);
+    foreach($cards as $card){
+      //$card->setPId($player->getId());
+      //Notifications::deliver($player,$card);
+      Game::get()->processDeliver($player,$card, null, true);
+    }
+    //Empty deck will be rare but not impossible
+    $missingNb = $nbCards - $cards->count();
+    Game::get()->trace("drawCardsToDeliver($nbCards) -> $missingNb are missing");
+    if($missingNb>0) Notifications::missingCards($player,$missingNb);
+    return $cards;
+  }
+  
   /**
    * @param Player $player
    * @return ClanPatronCard

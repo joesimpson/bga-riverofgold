@@ -316,6 +316,7 @@ const BONUS_TYPE_TRADE_POINTS       = 45;
 const BONUS_TYPE_MANAGE_DEBT        = 46;
 const BONUS_TYPE_REMOVE_GOODS       = 47;
 const BONUS_TYPE_INC_HAND_LIMIT     = 48;
+const BONUS_TYPE_DELIVER_TOP_DECK   = 49;
 
 const RESOURCES = [
     0,

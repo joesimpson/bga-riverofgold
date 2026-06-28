@@ -986,6 +986,7 @@ final class GameTest extends TestCase
                             'region' => 2,
                             'rewards' => [
                                 'entries' => [
+                                    [ 'type' => BONUS_TYPE_DELIVER_TOP_DECK,  'n' => 1, ],
                                 ],
                             ],
                         ],

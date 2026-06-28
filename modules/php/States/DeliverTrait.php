@@ -98,16 +98,28 @@ trait DeliverTrait
     $replaceGoods = null;
     $this->processSpendResourcesFromCard($player,$card,$args,$replaceGoods,$cardRes,);
 
-    $this->processDeliver($player, $card,$replaceGoods);
+    $this->processDeliverAction($player, $card,$replaceGoods);
   } 
   
-  public function processDeliver(Player &$player, CustomerCard $card, ?array $replaceGoods = null)
+  public function processDeliverAction(Player &$player, CustomerCard $card, ?array $replaceGoods = null,)
+  { 
+
+    Globals::setTurnMainActionDone(MAIN_ACTION::DELIVER->value);
+    $this->processDeliver($player, $card,$replaceGoods,false);
+    Utils::playTradersAbilities($player);
+    
+    Stats::inc("nbActionsDeliver", $player->getId());
+    
+    if($this->goToBonusStepIfNeeded($player)) return;
+    $this->gamestate->nextState('next');
+  }
+
+  public function processDeliver(Player &$player, CustomerCard $card, ?array $replaceGoods = null, bool $free = false)
   { 
     $previousLocation = $card->getLocation();
     $card->setLocation(CARD_LOCATION_DELIVERED);
     $card->setPId($player->getId());
     Notifications::deliver($player,$card);
-    Globals::setTurnMainActionDone(MAIN_ACTION::DELIVER->value);
     
     $playerPatron = $player->getPatron();
     if(isset($playerPatron)){
@@ -115,29 +127,30 @@ trait DeliverTrait
       $playerPatron->addBonuses($player);
     }
 
-    if(isset($replaceGoods)){
-      //LOOP TRADE GOODS in this array
-      foreach($replaceGoods as $neededType => $replacedAmount){
-        $player->giveResource(-$replacedAmount,$neededType);
+    if(!$free){
+      if(isset($replaceGoods)){
+        //LOOP TRADE GOODS in this array
+        foreach($replaceGoods as $neededType => $replacedAmount){
+          $player->giveResource(-$replacedAmount,$neededType);
+        }
+        //LOOP OTHER GOODS 
+        foreach($card->getCost() as $neededType => $neededAmount){
+          if(!array_key_exists($neededType,$replaceGoods)){
+            //should not be needed with isPossibleCardToDeliver() controls
+            //if($player->getResource($neededType) < $neededAmount){
+            //  throw new UnexpectedException(64,"You cannot spend $neededAmount of resource type $neededType");
+            //}
+            $player->giveResource(-$neededAmount,$neededType);
+          }
+        }
       }
-      //LOOP OTHER GOODS 
-      foreach($card->getCost() as $neededType => $neededAmount){
-        if(!array_key_exists($neededType,$replaceGoods)){
-          //should not be needed with isPossibleCardToDeliver() controls
-          //if($player->getResource($neededType) < $neededAmount){
-          //  throw new UnexpectedException(64,"You cannot spend $neededAmount of resource type $neededType");
-          //}
+      else {//PAY CARD COSTS
+        foreach($card->getCost() as $neededType => $neededAmount){
           $player->giveResource(-$neededAmount,$neededType);
         }
       }
     }
-    else {//PAY CARD COSTS
-      foreach($card->getCost() as $neededType => $neededAmount){
-        $player->giveResource(-$neededAmount,$neededType);
-      }
-    }
     $card->playDeliveryAbility($player);
-    Utils::playTradersAbilities($player);
     
     $shoreSpaces = ShoreSpaces::getSpacesByRegion($card->getRegion());
     $riverSpaces = ShoreSpaces::getUniqueAdjacentRiverSpaces($shoreSpaces);
@@ -149,11 +162,6 @@ trait DeliverTrait
       //Delay Draw 2 cards
       Globals::addBonus($player,BONUS_TYPE_REFILL_HAND,'',false);
     }
-    
-    Stats::inc("nbActionsDeliver", $player->getId());
-
-    if($this->goToBonusStepIfNeeded($player)) return;
-    $this->gamestate->nextState('next');
 
   }
 
@@ -213,8 +221,7 @@ trait DeliverTrait
     Notifications::playCustomerAbility($player,$cardMarker);
     Meeples::removeClanMarkerById($player,$markerId);
 
-    $this->processDeliver($player, $card,$replaceGoods);
-    
+    $this->processDeliverAction($player, $card,$replaceGoods);
   } 
   
   /**

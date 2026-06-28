@@ -40,7 +40,7 @@ class CitySpaces
       1   => new CitySpace(1 , 1,1, 1, [ BONUS_TYPE_CHOICE => 2, ] ),
       2   => new CitySpace(2 , 1,2, 2, [ BONUS_TYPE_SECOND_MARKER_ON_BUILDING => 1,  ] ),
       3   => new CitySpace(3 , 1,3, 1, [  ] ), //BONUS_TYPE_BUILDING_ROW_REWARDS
-      4   => new CitySpace(4 , 1,4, 2, [  ] ), //BONUS_TYPE_DELIVER_TOP
+      4   => new CitySpace(4 , 1,4, 2, [ BONUS_TYPE_DELIVER_TOP_DECK => 1, ] ), 
 
       5   => new CitySpace(5 , 2,1, 3, [ RESOURCE_TYPE_MOON=>1, RESOURCE_TYPE_SUN => 1, ] ),
       6   => new CitySpace(6 , 2,2, 4, [ BONUS_TYPE_INC_HAND_LIMIT => 1,  ] ),
