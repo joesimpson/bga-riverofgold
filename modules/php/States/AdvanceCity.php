@@ -125,6 +125,7 @@ class AdvanceCity extends GameState
     Players::claimMasteries($player);
     Stats::inc("nbActionsAdvance", $player->getId());
     Globals::setTurnMainActionDone(MAIN_ACTION::ADVANCE->value);
+    Utils::playTradersAbilities($player);
 
     if(Utils::goToBonusStepIfNeeded($player,false,false)){
       return ST_BONUS_CHOICE;
