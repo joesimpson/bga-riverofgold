@@ -597,7 +597,7 @@ abstract class Table
             logForTests("MOCK select tiles (sorted tile_state): ".json_encode($filtered));
             return $filtered;
         }
-        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(`tile_location` = '(?P<tile_location>.*)'\) AND `tile_state` = (?P<tile_state>\w+)$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE \(?`tile_location` = '(?P<tile_location>.*)'\)? AND `tile_state` = (?P<tile_state>\w+)$/", $sql, $matches) == 1) {
             $tile_location = $matches['tile_location'];
             $tile_state = intval($matches['tile_state']);
             $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($tile_location, $tile_state){return $tile['tile_location'] == $tile_location && $tile['tile_state'] == $tile_state;});

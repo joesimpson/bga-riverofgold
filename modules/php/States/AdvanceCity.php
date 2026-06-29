@@ -119,7 +119,8 @@ class AdvanceCity extends GameState
       }, $rewards->entries);
   
     if($citySpace instanceof CityTileSpace){
-      
+      $scoringTile = $citySpace->getTile();
+      $scoringTile?->computeScore($player);
     } 
     
     Players::claimMasteries($player);

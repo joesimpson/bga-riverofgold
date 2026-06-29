@@ -238,6 +238,15 @@ class Tiles extends \ROG\Helpers\Pieces
       $tile->setLocation(TILE_LOCATION_DISCARD);
     }
   } 
+  
+  public static function getCityBoardTile(int $row, int $col) : ?ScoringCityTile
+  {
+    return self::DB()
+        ->where(static::$prefix . 'location', TILE_LOCATION_SCORING_BOARD)
+        ->where(static::$prefix . 'state', $row)
+        ->get()
+        ->first();
+  } 
   //////////////////////////////////////////////////////////////////////
   /** Creation of the tiles */
   public static function setupNewGame($players, $options)

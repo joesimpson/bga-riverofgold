@@ -1024,6 +1024,7 @@ final class AdvanceCityTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         $state = new AdvanceCity($game);
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
         TestDatas::resetCityTokens();
         for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         $args = $state->getArgs();
@@ -1040,6 +1041,7 @@ final class AdvanceCityTest extends TestCase
             "gainInfluence-1",//spendInfluence
             "gainInfluence-1",//spendInfluence
             "moveCityMarker-1",
+            "addPoints-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
@@ -1051,6 +1053,7 @@ final class AdvanceCityTest extends TestCase
         assertSame(0, TestDatas::$tokens[4]['meeple_state']);//-3
         assertSame(3, TestDatas::$tokens[5]['meeple_state']);//-0
         assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
+        assertSame(21, TestDatas::$players[1]['player_score']);//+2
         assertSame(ST_CONFIRM_CHOICES, $newState);
     }
     public function test_actSelectAdvanceDest_Pass_ToTile2(): void
@@ -1059,6 +1062,8 @@ final class AdvanceCityTest extends TestCase
         $game = new GameMock();
         $state = new AdvanceCity($game);
         TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":4,"3":2,"4":3,"5":3,"6":0}';
         for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
         $args = $state->getArgs();
         $space = 102;
@@ -1074,6 +1079,7 @@ final class AdvanceCityTest extends TestCase
             "gainInfluence-1",//spendInfluence
             "gainInfluence-1",//spendInfluence
             "moveCityMarker-1",
+            "addPoints-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
@@ -1085,6 +1091,462 @@ final class AdvanceCityTest extends TestCase
         assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
         assertSame(0, TestDatas::$tokens[5]['meeple_state']);//-3
         assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
+        assertSame(28, TestDatas::$players[1]['player_score']);//+9
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    
+    public function test_actSelectAdvanceDest_Pass_ToTile3(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 2;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        $args = $state->getArgs();
+        $space = 103;
+        $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,5];
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "moveCityMarker-1",
+            "addPoints-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."5-3", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);//-1*2
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(1, TestDatas::$tokens[3]['meeple_state']);//-2
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);//-3
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
+        assertSame(22, TestDatas::$players[1]['player_score']);//+3*1
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    public function test_actSelectAdvanceDest_Pass_ToTile4(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 2;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        TestDatas::$tiles[53]['type'] = 4;
+        $args = $state->getArgs();
+        $space = 103;
+        $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,5];
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "moveCityMarker-1",
+            "addPoints-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."5-3", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);//-1*2
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(1, TestDatas::$tokens[3]['meeple_state']);//-2
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);//-3
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
+        assertSame(29, TestDatas::$players[1]['player_score']);//+10
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    public function test_actSelectAdvanceDest_Pass_ToTile5(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 3;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        TestDatas::$tiles[53]['type'] = 5;
+        //market
+        TestDatas::$tiles[41]['type'] = 8;
+        //add a second building tile  + marker
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        //add a 3rd building tile  + marker
+        TestDatas::$tiles[44] = TestDatas::$tiles[41];
+        TestDatas::$tiles[44]['tile_id'] = 44;
+        TestDatas::$tiles[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44] = TestDatas::$tokens[41];
+        TestDatas::$tokens[44]['meeple_id'] = 44;
+        TestDatas::$tokens[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44]['meeple_location'] = MEEPLE_LOCATION_TILE.'44';
+        $args = $state->getArgs();
+        $space = 103;
+        $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,5];
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "moveCityMarker-1",
+            "addPoints-1",
+            //MASTERY_TYPE_EARTH
+            "newClanMarker-1",
+            "claimMC-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."5-3", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);//-1*2
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(1, TestDatas::$tokens[3]['meeple_state']);//-2
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);//-3
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
+        assertSame(33, TestDatas::$players[1]['player_score']);//+3*3 + 5
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    public function test_actSelectAdvanceDest_Pass_ToTile6(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 3;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = NB_INLUENCE_FLOWER;
+        TestDatas::$tiles[53]['type'] = 6;//Tile
+        TestDatas::$tiles[2]['type'] = 1;//Remove mastery of courts from test
+        $args = $state->getArgs();
+        $space = 103;
+        $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,5];
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "moveCityMarker-1",
+            "addPoints-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."5-3", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(9, TestDatas::$tokens[1]['meeple_state']);//-1*2
+        assertSame(9, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(9, TestDatas::$tokens[3]['meeple_state']);//-2
+        assertSame(11, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(8, TestDatas::$tokens[5]['meeple_state']);//-3
+        assertSame(11, TestDatas::$tokens[6]['meeple_state']);//-0
+        assertSame(27, TestDatas::$players[1]['player_score']);//+2*4
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    
+    public function test_actSelectAdvanceDest_Pass_ToTile7(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 4;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        TestDatas::$tiles[53]['type'] = 7;//Tile
+        //shrine
+        TestDatas::$tiles[41]['type'] = 20;
+        //add a second building tile  + marker
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        $args = $state->getArgs();
+        $space = 103;
+        $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,5];
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "moveCityMarker-1",
+            "addPoints-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."5-3", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);//-1*2
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(1, TestDatas::$tokens[3]['meeple_state']);//-2
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);//-3
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
+        assertSame(25, TestDatas::$players[1]['player_score']);//+2*3
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    
+    public function test_actSelectAdvanceDest_Pass_ToTile8(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 4;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":6,"5":5,"6":0}';
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        TestDatas::$tiles[53]['type'] = 8;//Tile
+        $args = $state->getArgs();
+        $space = 103;
+        $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,5];
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "moveCityMarker-1",
+            "addPoints-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."5-3", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);//-1*2
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(1, TestDatas::$tokens[3]['meeple_state']);//-2
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);//-3
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
+        assertSame(34, TestDatas::$players[1]['player_score']);//+3*5
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    public function test_actSelectAdvanceDest_Pass_ToTile9(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 5;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":6,"5":5,"6":24}';
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        TestDatas::$tiles[53]['type'] = 9;//Tile
+        $args = $state->getArgs();
+        $space = 103;
+        $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,5];
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "moveCityMarker-1",
+            "addPoints-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."5-3", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);//-1*2
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(1, TestDatas::$tokens[3]['meeple_state']);//-2
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);//-3
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
+        assertSame(31, TestDatas::$players[1]['player_score']);//+3*4
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    public function test_actSelectAdvanceDest_Pass_ToTile10(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 5;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":0}';
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$tiles[53]['type'] = 10;//Tile
+        $args = $state->getArgs();
+        $space = 103;
+        $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,5];
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "moveCityMarker-1",
+            "addPoints-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."5-3", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);//-1*2
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(1, TestDatas::$tokens[3]['meeple_state']);//-2
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);//-3
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
+        assertSame(25, TestDatas::$players[1]['player_score']);//+3*2
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    
+    public function test_actSelectAdvanceDest_Pass_ToTile11(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 6;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        TestDatas::$tiles[53]['type'] = 11;//Tile
+        //manor
+        TestDatas::$tiles[41]['type'] = 14;
+        //add a second building tile  + 2 markers
+        TestDatas::$tiles[43] = TestDatas::$tiles[41];
+        TestDatas::$tiles[43]['tile_id'] = 43;
+        TestDatas::$tiles[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'43';
+        TestDatas::$tokens[44] = TestDatas::$tokens[43];
+        TestDatas::$tokens[44]['meeple_id'] = 44;
+        TestDatas::$tokens[44]['result_associative_index'] = 44;
+        $args = $state->getArgs();
+        $space = 103;
+        $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,5];
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "moveCityMarker-1",
+            "addPoints-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."5-3", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);//-1*2
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(1, TestDatas::$tokens[3]['meeple_state']);//-2
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);//-3
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
+        assertSame(25, TestDatas::$players[1]['player_score']);//+2*3
+        assertSame(ST_CONFIRM_CHOICES, $newState);
+    }
+    
+    public function test_actSelectAdvanceDest_Pass_ToTile12(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::resetCityTokens();
+        TestDatas::$players[1]['die_face'] = 6;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        TestDatas::$tiles[53]['type'] = 12;//Tile
+        //add masteries markers
+        TestDatas::$tokens[43] = TestDatas::$tokens[41];
+        TestDatas::$tokens[43]['meeple_id'] = 43;
+        TestDatas::$tokens[43]['result_associative_index'] = 43;
+        TestDatas::$tokens[43]['meeple_location'] = MEEPLE_LOCATION_TILE.'1';
+        TestDatas::$tokens[44] = TestDatas::$tokens[43];
+        TestDatas::$tokens[44]['meeple_id'] = 44;
+        TestDatas::$tokens[44]['result_associative_index'] = 44;
+        TestDatas::$tokens[44]['meeple_location'] = MEEPLE_LOCATION_TILE.'2';
+        TestDatas::$tokens[45] = TestDatas::$tokens[43];
+        TestDatas::$tokens[45]['meeple_id'] = 45;
+        TestDatas::$tokens[45]['result_associative_index'] = 45;
+        TestDatas::$tokens[45]['meeple_location'] = MEEPLE_LOCATION_TILE.'3';
+        $args = $state->getArgs();
+        $space = 103;
+        $markerId = 37;
+        $selectedRegionsToPay = [1,1,2,3,5];
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "moveCityMarker-1",
+            "addPoints-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."5-3", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);//-1*2
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(1, TestDatas::$tokens[3]['meeple_state']);//-2
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);//-3
+        assertSame(3, TestDatas::$tokens[6]['meeple_state']);//-0
+        assertSame(31, TestDatas::$players[1]['player_score']);//+3*4
         assertSame(ST_CONFIRM_CHOICES, $newState);
     }
     public function test_actSelectAdvanceDest_KO_WrongSpace(): void

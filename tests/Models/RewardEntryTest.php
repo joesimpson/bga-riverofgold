@@ -333,7 +333,7 @@ final class RewardEntryTest extends TestCase
         $region = 1;
         $tile = new BuildingTile( TestDatas::$tiles[21], Tiles::getBuildingTilesTypes()[1]);
         $reward = new RewardEntry(BONUS_TYPE_MONEY_PER_MARKET,1);
-        //manor 1
+        //market
         TestDatas::$tiles[41]['type'] = 8;
         //add a second building tile  + marker
         TestDatas::$tiles[43] = TestDatas::$tiles[41];
