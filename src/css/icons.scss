@@ -183,6 +183,14 @@
     }
 }
 
+.rog_icon_bonus-54{//BONUS_TYPE_FREE_SAIL
+    @include rog_icons_on_city_board(-605px,-689px,80px,55px,80px,55px);
+    border-radius: 10px;
+    .rog_icon_qty{
+        display: none;
+    }
+}
+
 .rog_icon_container_ship-3{
     vertical-align: baseline;
 }

@@ -8006,6 +8006,19 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   display: none;
 }
 
+.rog_icon_bonus-54 {
+  width: 80px;
+  height: 55px;
+  background-image: url("img/cityOfLies/board_city.png");
+  background-position-x: -605px;
+  background-position-y: -689px;
+  background-size: 1085% 1449.0909090909%;
+  border-radius: 10px;
+}
+.rog_icon_bonus-54 .rog_icon_qty {
+  display: none;
+}
+
 .rog_icon_container_ship-3 {
   vertical-align: baseline;
 }

@@ -878,6 +878,34 @@ final class BonusChoiceTest extends TestCase
         //Next state differs for each bonus :
         assertSame(ST_BONUS_FREE_BUILD, GamestateMachine::$test_current_state);
     }
+    
+    public function test_ActionBonus_Pass_FreeSail(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_FREE_SAIL;
+        $bonusKey = 1;
+        $bonuses = [
+            'datas' => [
+                $bonusType => [
+                    1 => [ 'bonusQuantity'=>1,],
+                ],
+                
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [
+        ];
+
+        $game->actBonus(999999,$bonusType,$bonusKey);
+        
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame([ 'bonusQuantity'=>1,], Globals::getCurrentBonusDatas());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_FREE_SAIL, GamestateMachine::$test_current_state);
+    }
 
     public function test_ActionBonus_KO_WrongBonus(): void
     {

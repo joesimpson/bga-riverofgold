@@ -101,9 +101,8 @@ trait SailTrait
 
     $this->process_Sail($player,$ship,$riverSpace, $upriver, $markerId, $skipOwnerMarkerId);
     
+    Globals::setTurnMainActionDone(MAIN_ACTION::SAIL->value);
     Utils::playTradersAbilities($player);
-    
-    Utils::moveRogueShipFrom($player,[$riverSpace]);
 
     Players::claimMasteries($player);
     
@@ -126,14 +125,15 @@ trait SailTrait
     $fromPosition = $ship->getPosition();
     $ship->setPosition($riverSpace);
     Globals::setLastSailedShip($shipId);
-    Globals::setTurnMainActionDone(MAIN_ACTION::SAIL->value);
     Notifications::sail($player,$ship,$riverSpace);
     $playerScenario = $player->getScenario();
     $assignedScenarios = Cards::getAssignedScenarios();
 
     if($riverSpace < $fromPosition){
       if($upriver){
-        Meeples::removeClanMarkerById($player,$markerId);
+        if(isset($markerId)) {
+          Meeples::removeClanMarkerById($player,$markerId);
+        }
       }
       else {
         $this->completeJourney($player,$ship,$playerScenario);
@@ -279,6 +279,7 @@ trait SailTrait
       $playerPatron->addBonuses($player);
     }
 
+    Utils::moveRogueShipFrom($player,[$riverSpace]);
   } 
 
   /**

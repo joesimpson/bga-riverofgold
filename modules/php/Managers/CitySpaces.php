@@ -50,7 +50,7 @@ class CitySpaces
       9   => new CitySpace(9 , 3,1, 5, [ RESOURCE_TYPE_MONEY => 7,  ] ),
       10  => new CitySpace(10, 3,2, 6, [ BONUS_TYPE_POINTS => 5, ] ),
       11  => new CitySpace(11, 3,3, 5, [ BONUS_TYPE_REWARDS_SELECT_REGION => 2, ] ),
-      12  => new CitySpace(12, 3,4, 6, [  ] ),
+      12  => new CitySpace(12, 3,4, 6, [ BONUS_TYPE_FREE_SAIL => 1 ] ),
 
       101 => new CityTileSpace(101, 1, ),
       102 => new CityTileSpace(102, 2, ),

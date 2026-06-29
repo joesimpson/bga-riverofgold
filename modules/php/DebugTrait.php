@@ -328,6 +328,10 @@ trait DebugTrait
     Globals::addBonusWithDatas($player,BONUS_TYPE_REMOVE_GOODS,['card_id'=>$player->getScenario()->getId(),'shoreSpacesIds'=>[3,4,5,7], 'meeplesIds'=>[43,44,45], 'bonusQuantity'=>1, 'resources' =>[3,1,2]],clienttranslate('Remove goods'));
 
     Globals::addBonus($player,BONUS_TYPE_INC_HAND_LIMIT);
+    Globals::addBonus($player,BONUS_TYPE_DELIVER_TOP_DECK);
+    Globals::addBonusWithDatas($player,BONUS_TYPE_REWARDS_SELECT_REGION,[ 'bonusQuantity'=>$this->number]);
+    Globals::addBonusWithDatas($player,BONUS_TYPE_BUILD_NEAR_SHIPS,[ 'bonusQuantity'=>$this->number]);
+    Globals::addBonusWithDatas($player,BONUS_TYPE_FREE_SAIL,[ 'bonusQuantity'=>$this->number]);
 
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }

@@ -10,6 +10,7 @@ use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 use ROG\Models\AutomaActionType;
+use ROG\Models\AutomaPlayer;
 use ROG\Models\CustomerCard;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Meeple;
@@ -281,6 +282,7 @@ abstract class Utils
      * Apply rule to move the rogue ship if it is currently in one of the river spaces $riverSpaces
      */
     public static function moveRogueShipFrom(Player $player,array $riverSpaces) {
+        if($player instanceof AutomaPlayer) return;
         $ship = Meeples::getRogueShip();
         if(!isset($ship)) return;
         $pId = $player->getId();

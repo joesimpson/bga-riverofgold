@@ -918,6 +918,59 @@ final class AdvanceCityTest extends TestCase
         assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame(ST_BONUS_CHOICE, $newState);
     }
+    
+    public function test_actSelectAdvanceDest_Pass_space12(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new AdvanceCity($game);
+        TestDatas::$players[1]['die_face'] = 6;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":3,"6":0}';
+        TestDatas::resetCityTokens();
+        for($k=1;$k<=6;$k++ ) TestDatas::$tokens[$k]['meeple_state'] = 3;
+        $args = $state->getArgs();
+        $space = 12;
+        $markerId = 37;
+        $selectedRegionsToPay = [6, 6,1,2];
+
+        $newState = $state->actSelectAdvanceDest($space,$markerId,$selectedRegionsToPay,999999, 1, $args);
+        
+        $expectedNotifs = [
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "gainInfluence-1",//spendInfluence
+            "moveCityMarker-1",
+            "addBonus-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsAdvance']);
+        assertSame(MEEPLE_LOCATION_CITY."4-3", TestDatas::$tokens[$markerId]['meeple_location']);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        assertSame(1, TestDatas::$tokens[1]['meeple_state']);//-2
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);//-2
+        assertSame(3, TestDatas::$tokens[3]['meeple_state']);//-0
+        assertSame(3, TestDatas::$tokens[4]['meeple_state']);//-0
+        assertSame(3, TestDatas::$tokens[5]['meeple_state']);//-0
+        assertSame(1, TestDatas::$tokens[6]['meeple_state']);//-2
+        $resources = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resources[RESOURCE_TYPE_SILK]);
+        assertSame(0, $resources[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resources[RESOURCE_TYPE_RICE]);
+        assertSame(3, $resources[RESOURCE_TYPE_MOON]);
+        assertSame(3, $resources[RESOURCE_TYPE_SUN]);
+        assertSame(0, $resources[RESOURCE_TYPE_MONEY]);
+        assertSame(19, TestDatas::$players[1]['player_score']);//19
+        $expectedBonuses = [
+            'datas' => [
+                BONUS_TYPE_FREE_SAIL => [
+                    1 => ['bonusQuantity'=>1],
+                ],
+            ],
+        ];
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, $newState);
+    }
     public function test_actSelectAdvanceDest_Pass_ToTile1(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

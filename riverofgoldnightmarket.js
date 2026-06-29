@@ -187,7 +187,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const BONUS_TYPE_REWARDS_SELECT_REGION = 51;
     const BONUS_TYPE_BUILDING_ROW_REWARDS  = 52;
     const BONUS_TYPE_BUILD_NEAR_SHIPS     = 53;
-
+    const BONUS_TYPE_FREE_SAIL             = 54;
+    
     const RESOURCES = [
         0,
         'silk',//RESOURCE_TYPE_SILK
@@ -324,7 +325,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this._migratedStates = [
                 //States extending GameState that don't already define title -> we must display dynamic title
                 'AdvanceCity', 
-                'BonusFreeBuild',
+                'BonusFreeBuild', 'BonusFreeSail',
                 'BonusPlaceLion','BonusBuildingReward','BonusPayShips','BonusAdvanceCity',
                 'BonusSelectRegion', 'BonusMultiTrades',
                 'BonusManageCardResources',
@@ -1537,9 +1538,37 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             args.actionName = 'actFreeBuild';
             this.clientState('clientBuild','', args);
         },
+        
+        onEnteringStateBonusFreeSail(args){
+            debug('onEnteringStateBonusFreeSail', args);
+
+            let active = this.bga.players.isCurrentPlayerActive();
+            this.bga.statusBar.setTitle(active ? 
+                _('Sail : ${you} must select a ship and a river space') :
+                _('Sail : ${actplayer} must select a ship and a river space')
+            );
+            
+            if(! active) return;
+
+            args.actionName = 'actFreeSail';
+            this.clientState('clientSail','', args);
+        },
 
         onEnteringStateSail(args){
             debug('onEnteringStateSail', args);
+
+            if(! this.bga.players.isCurrentPlayerActive()) return;
+
+            args.actionName = 'actSailSelect';
+            this.clientState('clientSail','', args);
+        },
+            
+        onEnteringStateClientSail(args, ){
+            debug('onEnteringStateClientSail', args);
+
+            this.bga.statusBar.setTitle( 
+                _('Sail : ${you} must select a ship and a river space')
+            );
 
             this.selectedShipId = null; 
             this.selectedSpace = null; 
@@ -1547,11 +1576,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let confirmMessage = _('Sail to river space #${n}');
             let confirmMessageSkipO = _('Sail to #${n} and skip owner rewards');
             this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {n:0}), () => {
-                this.takeAction('actSailSelect', { s: this.selectedShipId,r: this.selectedSpace});
+                this.takeAction(args.actionName, { s: this.selectedShipId,r: this.selectedSpace});
             }); 
             if(args.canSkipOwner){
                 this.addPrimaryActionButton('btnConfirmSkipOwners', this.fsr(confirmMessageSkipO, {n:0}), () => {
-                    this.takeAction('actSailSelect', { s: this.selectedShipId,r: this.selectedSpace,'skipOwner':true});
+                    this.takeAction(args.actionName, { s: this.selectedShipId,r: this.selectedSpace,'skipOwner':true});
                 }); 
             }
             //DISABLED by default
@@ -3323,6 +3352,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     return  this.fsr(_('Gain the owner rewards of all buildings in the building row.'),{});
                 case BONUS_TYPE_BUILD_NEAR_SHIPS: 
                     return  this.fsr(_('Build in a shore space adjacent to one of your ships for free.'),{});
+                case BONUS_TYPE_FREE_SAIL: 
+                    return  this.fsr(_('Sail one of your ships upriver or downriver to any river space. (Do not complete your journey.)'),{});
+            
             }
             return '';
         },

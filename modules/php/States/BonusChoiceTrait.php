@@ -185,6 +185,9 @@ trait BonusChoiceTrait
       case BONUS_TYPE_BUILD_NEAR_SHIPS:
         $nextState = 'bonusFreeBuild';
         break;
+      case BONUS_TYPE_FREE_SAIL:
+        $nextState = 'bonusFreeSail';
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }

@@ -74,6 +74,7 @@ class AutomaActionCard extends Card
     }
     $toRiverSpace = ($selectedShip->getPosition() + $playerDieBefore -1) % NB_RIVER_SPACES +1;
     Game::get()->process_Sail($player,$selectedShip,$toRiverSpace);
+    Globals::setTurnMainActionDone(MAIN_ACTION::SAIL->value);
   }
   
   public function playDeliver(AutomaPlayer $player)

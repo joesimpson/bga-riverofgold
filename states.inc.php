@@ -278,6 +278,7 @@ $machinestates = array(
             'bonusMultiTrades' => ST_BONUS_MULTI_TRADES,
             'bonusManageCardResources' => ST_BONUS_MANAGE_CARD_RESOURCES,
             'bonusFreeBuild' => ST_BONUS_FREE_BUILD,
+            'bonusFreeSail' => ST_BONUS_FREE_SAIL,
             "trade" => ST_PLAYER_TURN_TRADE, 
             'next' => ST_CONFIRM_CHOICES,
             'zombiePass'=> ST_CONFIRM_CHOICES,
