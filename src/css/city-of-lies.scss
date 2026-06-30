@@ -210,6 +210,43 @@ $cityHeight: 797px;
                 width: calc(  $cityTileScale * 349px);
                 height: calc( $cityTileScale * 140px);
             }
+
+            #rog_city_cards_spaces{
+                position: absolute;
+                top: 55px;
+            }
+            
+            .rog_city_card_space{
+                position: absolute;
+                width: 130px;
+                height: 198px;
+            
+                &[data-col="1"]{
+                    left: 79px;
+                }
+                &[data-col="2"]{
+                    left: 251px;
+                }
+                &[data-col="3"]{
+                    left: 422px;
+                }
+                &[data-col="4"]{
+                    left: 593px;
+                }
+            
+                .rog_city_card{
+                    position: absolute;
+                    width: 100%;
+                    height: 100%;
+                    
+                    @for $i from 0 through 20 {
+                        &:nth-child(#{$i}){
+                            left: calc(1px * $i);
+                            top: calc(2px * $i);
+                        }
+                    }
+                }
+            }
         }
     }
 }

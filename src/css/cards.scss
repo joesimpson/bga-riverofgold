@@ -56,6 +56,25 @@
             }
         }
     }
+    
+    &.rog_city_card{
+        background-size: 500% 400%;
+        background-image: url("img/cityOfLies/city_cards.webp");
+        @for $i from 0 through 19 {
+            &[data-type="#{$i+1}"] {
+                background-position-x: ($i % 5) * 100% / 4;
+                background-position-y: (($i - ($i % 5)) / 5) * 100% / 3;
+            }
+        }
+        &.rog_city_card_back{
+            background-position-x: 0%;
+            background-position-y: 0%;
+            &[data-inner='true']{
+                background-position-x: 100%;
+                background-position-y: calc(100% /3);
+            }
+        }
+    }
 
     position: relative; 
     &.selectable {

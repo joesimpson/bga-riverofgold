@@ -96,6 +96,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const CARD_TYPE_CLAN_PATRON = 2;
     const CARD_TYPE_AUTOMA_ACTION = 3;
     const CARD_TYPE_SCENARIO     = 4;
+    const CARD_TYPE_CITY         = 5;
 
     const TILE_TYPE_SCORING = 1;
     const TILE_TYPE_BUILDING = 2;
@@ -130,6 +131,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const CARD_SCENARIO_LOCATION_ASSIGNED = 'scenario_assigned';
     
     const CARD_AUTOMA_LOCATION_PLAYED   = 'aut_played';
+    
+    const CARD_CITY_LOCATION_OUTER_1 = 'city_out_1';
+    const CARD_CITY_LOCATION_OUTER_2 = 'city_out_2';
+    const CARD_CITY_LOCATION_INNER_1 = 'city_in_1';
+    const CARD_CITY_LOCATION_INNER_2 = 'city_in_2';
 
     const PATRON_MASTER_ENGINEER = 1;
     const PATRON_TRADER          = 2;
@@ -3975,7 +3981,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 });
             }
             if(!keepOthers){
-                document.querySelectorAll('.rog_cards_delivered, .rog_player_action_cards, .rog_region_cards_space').forEach((div) => {
+                document.querySelectorAll('.rog_cards_delivered, .rog_player_action_cards, .rog_region_cards_space, .rog_city_card_space').forEach((div) => {
                     this.empty(div);
                 });
 
@@ -3986,6 +3992,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         }
                     }
                 });
+
+                if(this.gamedatas.deckSize.city){
+                    Object.entries(this.gamedatas.deckSize.city).forEach( ([cityLocation, locSize]) => {
+                        for(let k=1; k<= locSize;k++){
+                            this.addCityCardBackInSpace( cityLocation,k,false);
+                        }
+                    });
+                }
             }
             let cardIds = this.gamedatas.cards.map((card) => {
                 let divCardId = `rog_card-${card.id}`;
@@ -4328,6 +4342,19 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     return holder.id;
                 }
                 return $(`rog_region_cards_space_${region}`);
+            }
+            
+            if (card.location == CARD_CITY_LOCATION_OUTER_1) {
+                return $(`rog_city_card_space_1`);
+            }
+            if (card.location == CARD_CITY_LOCATION_OUTER_2) {
+                return $(`rog_city_card_space_2`);
+            }
+            if (card.location == CARD_CITY_LOCATION_INNER_1) {
+                return $(`rog_city_card_space_3`);
+            }
+            if (card.location == CARD_CITY_LOCATION_INNER_2) {
+                return $(`rog_city_card_space_4`);
             }
     
             console.error('Trying to get container of a card', card);
@@ -4883,6 +4910,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             </div>`;
         },
 
+        ////////////////////////////////////////////////////////
+        ////////////////////////////////////////////////////////
         updatePlayableCards(possibleActions, playable_cards) {
             if(! possibleActions) return;
             if(! possibleActions.includes('actPlayCard')) return;
@@ -4973,6 +5002,34 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
             return found;
         },
+
+        ////////////////////////////////////////////////////////
+        // City cards
+        ////////////////////////////////////////////////////////
+        addCityCardBack(card) {
+            debug('addCityCardBack',card);
+            let o = this.place('tplCityCardBack', card, this.getCardContainer(card));
+            return o;
+        },
+        addCityCardBackInSpace(location, index, card_pId){
+            debug("addCityCardBackInSpace",location, index, card_pId);
+            let fakeId = `${card_pId}_${location}_${index}`;
+            let isInner = (location == CARD_CITY_LOCATION_INNER_1 || location == CARD_CITY_LOCATION_INNER_2);
+            let cardDatas = {
+                'id': fakeId, 
+                'subtype':CARD_TYPE_CITY ,
+                'location': location, 
+                'pId': card_pId,
+                'inner': isInner,
+            };
+            let cardDiv = this.addCityCardBack(cardDatas);
+            
+        },
+        tplCityCardBack(card, prefix ='') {
+            return `<div class="rog_card rog_city_card rog_city_card_back" id="rog_city_card_back-${card.id}" data-inner="${card.inner}">
+                </div>`;
+        },
+
         ////////////////////////////////////////////////////////
         //  _____ _ _
         // |_   _(_) | ___  ___
@@ -5570,6 +5627,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     if(!$(`rog_city_space_${column}_${row}`)) this.place(`tplCitySpace`,{'row':row,'column':column}, $(`rog_city_spaces`));
                 }
             }
+            for(let column=1; column<=4;column++){
+                if(!$(`rog_city_card_space_${column}`)) this.place(`tplCityCardSpace`,{'column':column}, $(`rog_city_cards_spaces`));
+            }
             
             if(this.gamedatas.city_track) {
                 Object.values(this.gamedatas.city_track).forEach( (citySpace) => {
@@ -5597,6 +5657,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         <div class='rog_city_region'>${this.fsr(_('Region to match your die : ${n}'), { 'n':citySpace.region,})}</div>
                         <div class='rog_city_rewards'><ul>${rewardsText}</ul></div>
                     </div>`;
+        },
+        tplCityCardSpace(datas){
+            return `<div id="rog_city_card_space_${datas.column}" class="rog_city_card_space" data-col="${datas.column}" ></div>`;
         },
 
 

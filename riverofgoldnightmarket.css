@@ -2126,6 +2126,116 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: 174.5px;
   height: 70px;
 }
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_cards_spaces {
+  position: absolute;
+  top: 55px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space {
+  position: absolute;
+  width: 130px;
+  height: 198px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space[data-col="1"] {
+  left: 79px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space[data-col="2"] {
+  left: 251px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space[data-col="3"] {
+  left: 422px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space[data-col="4"] {
+  left: 593px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card {
+  position: absolute;
+  width: 100%;
+  height: 100%;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(0) {
+  left: 0px;
+  top: 0px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(1) {
+  left: 1px;
+  top: 2px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(2) {
+  left: 2px;
+  top: 4px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(3) {
+  left: 3px;
+  top: 6px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(4) {
+  left: 4px;
+  top: 8px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(5) {
+  left: 5px;
+  top: 10px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(6) {
+  left: 6px;
+  top: 12px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(7) {
+  left: 7px;
+  top: 14px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(8) {
+  left: 8px;
+  top: 16px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(9) {
+  left: 9px;
+  top: 18px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(10) {
+  left: 10px;
+  top: 20px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(11) {
+  left: 11px;
+  top: 22px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(12) {
+  left: 12px;
+  top: 24px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(13) {
+  left: 13px;
+  top: 26px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(14) {
+  left: 14px;
+  top: 28px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(15) {
+  left: 15px;
+  top: 30px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(16) {
+  left: 16px;
+  top: 32px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(17) {
+  left: 17px;
+  top: 34px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(18) {
+  left: 18px;
+  top: 36px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(19) {
+  left: 19px;
+  top: 38px;
+}
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card:nth-child(20) {
+  left: 20px;
+  top: 40px;
+}
 
 .rog_city_space_tooltip ul {
   font-weight: bold;
@@ -2259,6 +2369,98 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-image: url("img/scenarios/clan_8.jpg");
   background-position-x: 0;
   background-position-y: 0;
+}
+.rog_card.rog_city_card {
+  background-size: 500% 400%;
+  background-image: url("img/cityOfLies/city_cards.webp");
+}
+.rog_card.rog_city_card[data-type="1"] {
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+.rog_card.rog_city_card[data-type="2"] {
+  background-position-x: 25%;
+  background-position-y: 0%;
+}
+.rog_card.rog_city_card[data-type="3"] {
+  background-position-x: 50%;
+  background-position-y: 0%;
+}
+.rog_card.rog_city_card[data-type="4"] {
+  background-position-x: 75%;
+  background-position-y: 0%;
+}
+.rog_card.rog_city_card[data-type="5"] {
+  background-position-x: 100%;
+  background-position-y: 0%;
+}
+.rog_card.rog_city_card[data-type="6"] {
+  background-position-x: 0%;
+  background-position-y: 33.3333333333%;
+}
+.rog_card.rog_city_card[data-type="7"] {
+  background-position-x: 25%;
+  background-position-y: 33.3333333333%;
+}
+.rog_card.rog_city_card[data-type="8"] {
+  background-position-x: 50%;
+  background-position-y: 33.3333333333%;
+}
+.rog_card.rog_city_card[data-type="9"] {
+  background-position-x: 75%;
+  background-position-y: 33.3333333333%;
+}
+.rog_card.rog_city_card[data-type="10"] {
+  background-position-x: 100%;
+  background-position-y: 33.3333333333%;
+}
+.rog_card.rog_city_card[data-type="11"] {
+  background-position-x: 0%;
+  background-position-y: 66.6666666667%;
+}
+.rog_card.rog_city_card[data-type="12"] {
+  background-position-x: 25%;
+  background-position-y: 66.6666666667%;
+}
+.rog_card.rog_city_card[data-type="13"] {
+  background-position-x: 50%;
+  background-position-y: 66.6666666667%;
+}
+.rog_card.rog_city_card[data-type="14"] {
+  background-position-x: 75%;
+  background-position-y: 66.6666666667%;
+}
+.rog_card.rog_city_card[data-type="15"] {
+  background-position-x: 100%;
+  background-position-y: 66.6666666667%;
+}
+.rog_card.rog_city_card[data-type="16"] {
+  background-position-x: 0%;
+  background-position-y: 100%;
+}
+.rog_card.rog_city_card[data-type="17"] {
+  background-position-x: 25%;
+  background-position-y: 100%;
+}
+.rog_card.rog_city_card[data-type="18"] {
+  background-position-x: 50%;
+  background-position-y: 100%;
+}
+.rog_card.rog_city_card[data-type="19"] {
+  background-position-x: 75%;
+  background-position-y: 100%;
+}
+.rog_card.rog_city_card[data-type="20"] {
+  background-position-x: 100%;
+  background-position-y: 100%;
+}
+.rog_card.rog_city_card.rog_city_card_back {
+  background-position-x: 0%;
+  background-position-y: 0%;
+}
+.rog_card.rog_city_card.rog_city_card_back[data-inner=true] {
+  background-position-x: 100%;
+  background-position-y: 33.3333333333%;
 }
 .rog_card.selectable {
   box-shadow: 0px 0px 0px 3px blue;
