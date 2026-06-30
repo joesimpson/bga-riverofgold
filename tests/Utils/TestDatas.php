@@ -5,6 +5,7 @@ declare(strict_types=1);
 namespace Tests\Utils;
 
 use ROG\Models\AutomaActionType;
+use ROG\Models\CITY_CARD_TYPE;
 
 class TestDatas {
     static int $test_activePlayerId = 1;
@@ -119,6 +120,20 @@ class TestDatas {
             208 => ['result_associative_index' => 208,'card_id' => 208, 'card_location' => CARD_AUTOMA_LOCATION_DECK, 'card_state' => 8, 'player_id' => null, 'type' => AutomaActionType::BUILD->value,         'subtype' => CARD_TYPE_AUTOMA_ACTION,],
             209 => ['result_associative_index' => 209,'card_id' => 209, 'card_location' => CARD_AUTOMA_LOCATION_DECK, 'card_state' => 9, 'player_id' => null, 'type' => AutomaActionType::ADVANCE_CITY->value,  'subtype' => CARD_TYPE_AUTOMA_ACTION,],
 
+            221 => ['result_associative_index' => 221,'card_id' => 221, 'card_location' => CARD_CITY_LOCATION_OUTER_1, 'card_state' => 1, 'player_id' => null, 'type' => CITY_CARD_TYPE::BRIBERY->value,   'subtype' => CARD_TYPE_CITY,],
+            222 => ['result_associative_index' => 222,'card_id' => 222, 'card_location' => CARD_CITY_LOCATION_OUTER_1, 'card_state' => 2, 'player_id' => null, 'type' => CITY_CARD_TYPE::BLACK_MARKET->value,   'subtype' => CARD_TYPE_CITY,],
+            223 => ['result_associative_index' => 223,'card_id' => 223, 'card_location' => CARD_CITY_LOCATION_OUTER_1, 'card_state' => 3, 'player_id' => null, 'type' => CITY_CARD_TYPE::SHARED_CLI->value,   'subtype' => CARD_TYPE_CITY,],
+            224 => ['result_associative_index' => 224,'card_id' => 224, 'card_location' => CARD_CITY_LOCATION_OUTER_2, 'card_state' => 1, 'player_id' => null, 'type' => CITY_CARD_TYPE::SHARED_ENG->value,   'subtype' => CARD_TYPE_CITY,],
+            225 => ['result_associative_index' => 225,'card_id' => 225, 'card_location' => CARD_CITY_LOCATION_OUTER_2, 'card_state' => 2, 'player_id' => null, 'type' => CITY_CARD_TYPE::BLACK_MARKET->value,   'subtype' => CARD_TYPE_CITY,],
+            226 => ['result_associative_index' => 226,'card_id' => 226, 'card_location' => CARD_CITY_LOCATION_OUTER_2, 'card_state' => 3, 'player_id' => null, 'type' => CITY_CARD_TYPE::SHARED_ENV->value,   'subtype' => CARD_TYPE_CITY,],
+            
+            231 => ['result_associative_index' => 231,'card_id' => 231, 'card_location' => CARD_CITY_LOCATION_INNER_1, 'card_state' => 1, 'player_id' => null, 'type' => CITY_CARD_TYPE::SUMMONS->value,   'subtype' => CARD_TYPE_CITY,],
+            232 => ['result_associative_index' => 232,'card_id' => 232, 'card_location' => CARD_CITY_LOCATION_INNER_1, 'card_state' => 2, 'player_id' => null, 'type' => CITY_CARD_TYPE::KIMONO_DRESS->value,   'subtype' => CARD_TYPE_CITY,],
+            233 => ['result_associative_index' => 233,'card_id' => 233, 'card_location' => CARD_CITY_LOCATION_INNER_1, 'card_state' => 3, 'player_id' => null, 'type' => CITY_CARD_TYPE::CALL_TO_PORT->value,   'subtype' => CARD_TYPE_CITY,],
+            234 => ['result_associative_index' => 234,'card_id' => 234, 'card_location' => CARD_CITY_LOCATION_INNER_2, 'card_state' => 1, 'player_id' => null, 'type' => CITY_CARD_TYPE::SHRINE_PIL->value,   'subtype' => CARD_TYPE_CITY,],
+            235 => ['result_associative_index' => 235,'card_id' => 235, 'card_location' => CARD_CITY_LOCATION_INNER_2, 'card_state' => 2, 'player_id' => null, 'type' => CITY_CARD_TYPE::TEAHOUSE->value,   'subtype' => CARD_TYPE_CITY,],
+            236 => ['result_associative_index' => 236,'card_id' => 236, 'card_location' => CARD_CITY_LOCATION_INNER_2, 'card_state' => 3, 'player_id' => null, 'type' => CITY_CARD_TYPE::SAKE_BREW->value,   'subtype' => CARD_TYPE_CITY,],
+            
         ];
     }
     

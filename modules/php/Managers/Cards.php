@@ -9,6 +9,7 @@ use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
 use ROG\Models\AutomaActionCard;
 use ROG\Models\Card;
+use ROG\Models\CityCard;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\CustomerCard;
 use ROG\Models\Player;
@@ -52,6 +53,9 @@ class Cards extends \ROG\Helpers\Pieces
       case CARD_TYPE_SCENARIO:
         $data = Cards::getScenarioCardsTypes()[$type];
         return new ScenarioCard($row, $data);
+      case CARD_TYPE_CITY:
+        $data = CityCards::getCityCardsTypes()[$type];
+        return new CityCard($row, $data);
     }
     $data = [];
     return new Card($row, $data);
@@ -540,6 +544,7 @@ class Cards extends \ROG\Helpers\Pieces
     self::shuffle(CARD_LOCATION_DECK);
     
     AutomaCards::setupNewGame($players, $options);
+    CityCards::setupNewGame($players, $options);
   }
  
   public static function getIdsByTypes(int $subType,array $cardsTypes) : array

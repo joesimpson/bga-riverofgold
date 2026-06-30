@@ -40,6 +40,7 @@ use ROG\Exceptions\UserException;
 use ROG\Helpers\AutomaEngine;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
+use ROG\Managers\CityCards;
 use ROG\Managers\CitySpaces;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -168,6 +169,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
         $result['city_of_lies'] = $gameCityOflies;
         if($gameCityOflies){
             $result['city_track'] = CitySpaces::getUiData();
+            $result['deckSize']['city'] = CityCards::deckSizes();
         }
 
         return $result;

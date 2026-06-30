@@ -191,6 +191,7 @@ const MONK_TYPE_OPPONENT_BUILDING = 2;
  const CARD_TYPE_CLAN_PATRON = 2;
  const CARD_TYPE_AUTOMA_ACTION = 3;
  const CARD_TYPE_SCENARIO     = 4;
+ const CARD_TYPE_CITY         = 5;
 
  const TILE_TYPE_SCORING = 1;
  const TILE_TYPE_BUILDING = 2;
@@ -473,6 +474,13 @@ const CITY_LANTERNS = [
 ];
 
 const CITY_COLUMN_TILES = 5;
+
+const CARD_CITY_LOCATION_DECK_INNER = 'deck_city_in';
+const CARD_CITY_LOCATION_DECK_OUTER = 'deck_city_out';
+const CARD_CITY_LOCATION_OUTER_1 = 'city_out_1';
+const CARD_CITY_LOCATION_OUTER_2 = 'city_out_2';
+const CARD_CITY_LOCATION_INNER_1 = 'city_in_1';
+const CARD_CITY_LOCATION_INNER_2 = 'city_in_2';
 
 /////////////////////////////////////////////////////////
 //          MEEPLES

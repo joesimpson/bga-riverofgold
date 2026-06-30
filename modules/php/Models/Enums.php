@@ -84,3 +84,36 @@ enum SCORING_CITY_TYPE: string
   case MANOR           = 'MANOR';
   case MASTERIES       = 'MASTERIES';
 }
+
+enum CITY_CARD_TYPE: int
+{
+  use EnumUtilsTrait;
+
+  case BRIBERY        = 1;
+  case OFFLOAD        = 2;
+  case BLACK_MARKET   = 3;
+  case SHARED_CLI     = 4;
+  case SHARED_ENG     = 5;
+  case SHARED_ENV     = 6;
+  case CARTEL         = 7;
+  
+  case SUMMONS        = 8;
+  case FULL_STOR      = 9;
+  case KIMONO_DRESS   = 10;
+  case NIGHT_MARKET   = 11;
+  case CALL_TO_PORT   = 12;
+  case SHRINE_PIL     = 13;
+  case OPPORTUNIST    = 14;
+  case TEAHOUSE       = 15;
+  case SAKE_BREW      = 16;
+  case TRAVEL_TRO     = 17;
+}
+
+enum CITY_CARD_EFFECT: string
+{
+  use EnumUtilsTrait;
+
+  case REVEAL    = 'REVEAL';
+  case PREDICT   = 'PREDICT';
+  case END       = 'END';
+}

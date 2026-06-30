@@ -1133,6 +1133,13 @@ final class GameTest extends TestCase
                         ],
                     ];
         assertSame($city_track, $datas['city_track']);
+        $expectedDeckSizeCity =  [
+            CARD_CITY_LOCATION_OUTER_1 => 3,
+            CARD_CITY_LOCATION_OUTER_2 => 3,
+            CARD_CITY_LOCATION_INNER_1 => 3,
+            CARD_CITY_LOCATION_INNER_2 => 3,
+        ];
+        assertSame($expectedDeckSizeCity, $datas['deckSize']['city']);
     }
     // -------------------------------------------------
     

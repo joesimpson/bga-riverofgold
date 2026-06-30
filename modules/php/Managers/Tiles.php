@@ -395,7 +395,7 @@ class Tiles extends \ROG\Helpers\Pieces
       
       if(Utils::isGameWithCityOfLies()){
         $nbScoringCityTiles = [1=>3, 2=>3, 3=>4, 4=>5, 5=>5,];
-        $scoringCityTiles = self::pickForLocation($nbScoringCityTiles[$nbPlayers],TILE_LOCATION_SCORING_DECK,TILE_LOCATION_SCORING_BOARD);
+        $scoringCityTiles = self::pickForLocation($nbScoringCityTiles[$nbPlayersWithAutoma],TILE_LOCATION_SCORING_DECK,TILE_LOCATION_SCORING_BOARD);
         $k = 0;
         foreach ($scoringCityTiles as $tileId => $tile) {
           $k++;
