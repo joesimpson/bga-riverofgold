@@ -194,6 +194,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const BONUS_TYPE_BUILDING_ROW_REWARDS  = 52;
     const BONUS_TYPE_BUILD_NEAR_SHIPS     = 53;
     const BONUS_TYPE_FREE_SAIL             = 54;
+    const BONUS_TYPE_CITY_CARD_DRAW        = 55;
     
     const RESOURCES = [
         0,
@@ -335,6 +336,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 'BonusPlaceLion','BonusBuildingReward','BonusPayShips','BonusAdvanceCity',
                 'BonusSelectRegion', 'BonusMultiTrades',
                 'BonusManageCardResources',
+                'BonusCityDraw',
             ];
             
             this._hideNotifsWhenMultiActive = true;
@@ -1053,7 +1055,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     else if(BONUS_TYPE_REFILL_HAND == bonusType){
                         confirmMessage = this.fsr(_('Are you sure to draw ${n} cards now ?'), { n: 2 });
                     } else if(BONUS_TYPE_CITY_CARD_DRAW == bonusType){
-                        confirmMessage = this.fsr(_('Are you sure to draw ${n} city cards now ?'), { 'n': amount });
+                        confirmMessage = this.fsr(_('Are you sure to draw ${n} city card(s) now ?'), { 'n': amount });
                     }
                     if(confirmMessage){
                         this.confirmationDialog(confirmMessage, () => {
@@ -1562,6 +1564,38 @@ function (dojo, declare, BgaAnimations, BgaDice) {
 
             args.actionName = 'actFreeSail';
             this.clientState('clientSail','', args);
+        },
+        onEnteringStateBonusCityDraw(args) {
+            debug('onEnteringStateBonusCityDraw', args);
+            
+            let active = this.bga.players.isCurrentPlayerActive();
+            this.bga.statusBar.setTitle(active ? 
+                _('${you} must select a city card') :
+                _('${actplayer} must select a city card')
+            );
+            
+            if(! active) return;
+
+            let selectedCard = null;
+            let confirmMessage = _('Confirm');
+            this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {'name':''}), () => {
+                this.takeAction('actTakeCityCard', { 'c': selectedCard, });
+            }); 
+            //DISABLED by default
+            $(`btnConfirm`).classList.add('disabled');
+
+            let cards = args._private.cards;
+            Object.values(cards).forEach((card) => {
+                let div = this.addCityCard(card, $('rog_select_piece_container'));
+                this.onClick(div.id, () => {
+                    if (selectedCard){
+                        $(`rog_city_card-${selectedCard}`).classList.remove('selected');
+                    }
+                    selectedCard = card.id;
+                    div.classList.add('selected');
+                    $(`btnConfirm`).classList.remove('disabled');
+                });
+            });
         },
 
         onEnteringStateSail(args){
@@ -4041,6 +4075,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if(card.subtype == CARD_TYPE_CLAN_PATRON ) return this.addClanCard(card, location);
             if(card.subtype == CARD_TYPE_SCENARIO ) return this.addScenarioCard(card, location);
             if(card.subtype == CARD_TYPE_AUTOMA_ACTION ) return this.addAutomaActionCard(card, location);
+            if(card.subtype == CARD_TYPE_CITY ) return this.addCityCard(card, location);
             if ($('rog_card-' + card.id)) return;
     
             let o = this.place('tplCard', card, location == null ? this.getCardContainer(card) : location);
@@ -5010,6 +5045,15 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         ////////////////////////////////////////////////////////
         // City cards
         ////////////////////////////////////////////////////////
+        addCityCard(card, location = null) {
+            debug('addCityCard',card);
+            
+            let o = this.place('tplCityCard', card, location == null ? this.getCardContainer(card) : location);
+            let tooltipDesc = this.getCityCardTooltip(card);
+            this.addCustomTooltip(o.id, tooltipDesc );
+            this.reduceTextSizeOnCardElements(o);
+            return o;
+        },
         addCityCardBack(card) {
             debug('addCityCardBack',card);
             let o = this.place('tplCityCardBack', card, this.getCardContainer(card));
@@ -5032,6 +5076,26 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         tplCityCardBack(card, prefix ='') {
             return `<div class="rog_card rog_city_card rog_city_card_back" id="rog_city_card_back-${card.id}" data-inner="${card.inner}">
                 </div>`;
+        },
+        tplCityCard(card, prefix ='') {
+            return `<div class="rog_card rog_city_card" id="rog_city_card-${card.id}" data-inner="${card.inner}" data-type="${card.type}">
+                </div>`;
+        },
+        
+        getCityCardTooltip(card) {
+            let typeName = this.fsr(_('City of Lies card') ,{ })
+            let actionName = _(card.title);
+            let descriptionMap = new Map([
+                [ 1 ,  ``
+                    //TODO JSA TOOLTIPS
+                ],
+            ]);
+            descriptionLine = '';
+            return `<div class='rog_card_tooltip'>
+                <h1>${typeName}</h1>
+                <h2>${actionName}</h2>
+                ${descriptionLine}
+            </div>`;
         },
 
         ////////////////////////////////////////////////////////

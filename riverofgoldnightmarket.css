@@ -2402,57 +2402,49 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-position-x: 25%;
   background-position-y: 33.3333333333%;
 }
-.rog_card.rog_city_card[data-type="8"] {
-  background-position-x: 50%;
-  background-position-y: 33.3333333333%;
-}
 .rog_card.rog_city_card[data-type="9"] {
-  background-position-x: 75%;
-  background-position-y: 33.3333333333%;
+  background-position-x: 25%;
+  background-position-y: 66.6666666667%;
 }
 .rog_card.rog_city_card[data-type="10"] {
-  background-position-x: 100%;
-  background-position-y: 33.3333333333%;
+  background-position-x: 50%;
+  background-position-y: 66.6666666667%;
 }
 .rog_card.rog_city_card[data-type="11"] {
-  background-position-x: 0%;
+  background-position-x: 75%;
   background-position-y: 66.6666666667%;
 }
 .rog_card.rog_city_card[data-type="12"] {
-  background-position-x: 25%;
+  background-position-x: 100%;
   background-position-y: 66.6666666667%;
 }
 .rog_card.rog_city_card[data-type="13"] {
-  background-position-x: 50%;
-  background-position-y: 66.6666666667%;
-}
-.rog_card.rog_city_card[data-type="14"] {
-  background-position-x: 75%;
-  background-position-y: 66.6666666667%;
-}
-.rog_card.rog_city_card[data-type="15"] {
-  background-position-x: 100%;
-  background-position-y: 66.6666666667%;
-}
-.rog_card.rog_city_card[data-type="16"] {
   background-position-x: 0%;
   background-position-y: 100%;
 }
-.rog_card.rog_city_card[data-type="17"] {
+.rog_card.rog_city_card[data-type="14"] {
   background-position-x: 25%;
   background-position-y: 100%;
 }
-.rog_card.rog_city_card[data-type="18"] {
+.rog_card.rog_city_card[data-type="15"] {
   background-position-x: 50%;
   background-position-y: 100%;
 }
-.rog_card.rog_city_card[data-type="19"] {
+.rog_card.rog_city_card[data-type="16"] {
   background-position-x: 75%;
   background-position-y: 100%;
 }
-.rog_card.rog_city_card[data-type="20"] {
+.rog_card.rog_city_card[data-type="17"] {
   background-position-x: 100%;
   background-position-y: 100%;
+}
+.rog_card.rog_city_card[data-type="18"] {
+  background-position-x: 0%;
+  background-position-y: 133.3333333333%;
+}
+.rog_card.rog_city_card[data-type="19"] {
+  background-position-x: 25%;
+  background-position-y: 133.3333333333%;
 }
 .rog_card.rog_city_card.rog_city_card_back {
   background-position-x: 0%;
@@ -8218,6 +8210,10 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   border-radius: 10px;
 }
 .rog_icon_bonus-54 .rog_icon_qty {
+  display: none;
+}
+
+.rog_icon_bonus-55 .rog_icon_qty {
   display: none;
 }
 
