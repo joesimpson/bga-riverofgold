@@ -907,6 +907,36 @@ final class BonusChoiceTest extends TestCase
         assertSame(ST_BONUS_FREE_SAIL, GamestateMachine::$test_current_state);
     }
 
+    public function test_ActionBonus_Pass_CityDraw(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonusType = BONUS_TYPE_CITY_CARD_DRAW;
+        $bonusKey = 1;
+        $bonuses = [
+            BONUS_TYPE_CHOICE, BONUS_TYPE_CHOICE,
+            'datas' => [
+                $bonusType => [
+                    1 => [ 'bonusQuantity'=>1,],
+                ],
+                
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedBonuses = [
+            BONUS_TYPE_CHOICE, BONUS_TYPE_CHOICE,
+        ];
+
+        $game->actBonus(999999,$bonusType,$bonusKey);
+        
+        assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
+        assertSame($bonusType, Globals::getCurrentBonus());
+        assertSame([ 'bonusQuantity'=>1,], Globals::getCurrentBonusDatas());
+        //Next state differs for each bonus :
+        assertSame(ST_BONUS_CITY_DRAW, GamestateMachine::$test_current_state);
+    }
+
     public function test_ActionBonus_KO_WrongBonus(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

@@ -188,6 +188,9 @@ trait BonusChoiceTrait
       case BONUS_TYPE_FREE_SAIL:
         $nextState = 'bonusFreeSail';
         break;
+      case BONUS_TYPE_CITY_CARD_DRAW:
+        $nextState = 'bonusCityDraw';
+        break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }

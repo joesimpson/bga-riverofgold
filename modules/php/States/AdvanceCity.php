@@ -15,6 +15,7 @@ use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Log;
 use ROG\Helpers\Utils;
+use ROG\Managers\CityCards;
 use ROG\Managers\CitySpaces;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
@@ -122,6 +123,12 @@ class AdvanceCity extends GameState
       $scoringTile = $citySpace->getTile();
       $scoringTile?->computeScore($player);
     } 
+
+    $cityCardLocation = CityCards::deckLocationName($citySpace->column);
+    $nbCityCards = CityCards::countSize($cityCardLocation);
+    if($nbCityCards > 0){
+      Globals::addBonusWithDatas($player,BONUS_TYPE_CITY_CARD_DRAW, ['bonusQuantity' => 1, 'location' => $cityCardLocation],clienttranslate('City cards'));
+    }
     
     Players::claimMasteries($player);
     Stats::inc("nbActionsAdvance", $player->getId());

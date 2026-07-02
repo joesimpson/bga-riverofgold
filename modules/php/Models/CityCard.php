@@ -2,12 +2,6 @@
 
 namespace ROG\Models;
 
-use ROG\Core\Globals;
-use ROG\Core\Notifications;
-use ROG\Helpers\Collection;
-use ROG\Helpers\Utils;
-use ROG\Managers\Players;
-
 class CityCard extends Card
 { 
   
@@ -27,5 +21,14 @@ class CityCard extends Card
     $data = parent::getUiData();
     $data['subtype'] = CARD_TYPE_CITY;
     return $data;
+  }
+
+  public function onAssignment(Player $player)
+  {
+    switch($this->getEffect()){
+      case CITY_CARD_EFFECT::PREDICT->value : 
+        //When you take this card, place a clan marker from another clan on it.
+        break;
+    }
   }
 }

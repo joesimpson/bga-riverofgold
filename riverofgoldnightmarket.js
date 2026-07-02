@@ -1038,6 +1038,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 else if(BONUS_TYPE_ADVANCE_OR_POINTS == bonusType) buttonText = _('Advance / Points');
                 else if(BONUS_TYPE_MANAGE_DEBT == bonusType) buttonText = _('Manage debt');
                 else if(BONUS_TYPE_REMOVE_GOODS == bonusType) buttonText = _('Remove goods');
+                else if(BONUS_TYPE_CITY_CARD_DRAW == bonusType) buttonText = _('City cards');
+
                 this.addImageActionButton(`btnBonus_${k}_${bonusType}`, `${buttonText}<div class='rog_trade'>
                     ${iconBonus}
                 </div>`, () =>  {
@@ -1048,8 +1050,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     ){
                         confirmMessage = this.fsr(_('Are you sure to draw ${n} cards now ?'), { n: 1 });
                     }
-                    if(BONUS_TYPE_REFILL_HAND == bonusType){
+                    else if(BONUS_TYPE_REFILL_HAND == bonusType){
                         confirmMessage = this.fsr(_('Are you sure to draw ${n} cards now ?'), { n: 2 });
+                    } else if(BONUS_TYPE_CITY_CARD_DRAW == bonusType){
+                        confirmMessage = this.fsr(_('Are you sure to draw ${n} city cards now ?'), { 'n': amount });
                     }
                     if(confirmMessage){
                         this.confirmationDialog(confirmMessage, () => {

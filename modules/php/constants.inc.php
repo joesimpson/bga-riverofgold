@@ -323,6 +323,7 @@ const BONUS_TYPE_REWARDS_SELECT_REGION = 51;
 const BONUS_TYPE_BUILDING_ROW_REWARDS  = 52;
 const BONUS_TYPE_BUILD_NEAR_SHIPS      = 53;
 const BONUS_TYPE_FREE_SAIL             = 54;
+const BONUS_TYPE_CITY_CARD_DRAW        = 55;
 
 const RESOURCES = [
     0,
@@ -481,6 +482,7 @@ const CARD_CITY_LOCATION_OUTER_1 = 'city_out_1';
 const CARD_CITY_LOCATION_OUTER_2 = 'city_out_2';
 const CARD_CITY_LOCATION_INNER_1 = 'city_in_1';
 const CARD_CITY_LOCATION_INNER_2 = 'city_in_2';
+const CARD_CITY_LOCATION_HAND = 'city_h';
 
 /////////////////////////////////////////////////////////
 //          MEEPLES
@@ -664,6 +666,8 @@ const ST_BONUS_FREE_SAIL = 39;
 
 const ST_PLAYER_TURN_TRADE = 40;
 const ST_PLAYER_TURN_DIVINE_FAVOR = 41;
+
+const ST_BONUS_CITY_DRAW = 42;
 
 const ST_DISCARD_CARD = 60;
 

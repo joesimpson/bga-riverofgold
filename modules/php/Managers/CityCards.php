@@ -8,11 +8,31 @@ use ROG\Core\Notifications;
 use ROG\Helpers\Utils;
 use ROG\Models\CITY_CARD_EFFECT;
 use ROG\Models\CITY_CARD_TYPE;
+use ROG\Models\CityCard;
 
 /* Class to manage all the City of Lies cards */
 
 class CityCards extends Cards
 {
+    public static function deckLocationName(int $cityColumn) : string
+    {
+        $name = '';
+        switch($cityColumn){
+            case 1: $name = CARD_CITY_LOCATION_OUTER_1; break;
+            case 2: $name = CARD_CITY_LOCATION_OUTER_2; break;
+            case 3: $name = CARD_CITY_LOCATION_INNER_1; break;
+            case 4: $name = CARD_CITY_LOCATION_INNER_2; break;
+        }
+        return $name;
+    }
+
+    public static function countSize(string $deckLocation) : int
+    {
+        return self::DB()
+                ->where('subType', CARD_TYPE_CITY)
+                ->where(static::$prefix . 'location', $deckLocation)
+                ->count();
+    }
     
     public static function deckSizes() : array
     {
@@ -22,6 +42,11 @@ class CityCards extends Cards
             CARD_CITY_LOCATION_INNER_1 => self::countInLocation(CARD_CITY_LOCATION_INNER_1),
             CARD_CITY_LOCATION_INNER_2 => self::countInLocation(CARD_CITY_LOCATION_INNER_2),
         ];
+    }
+
+    public static function getCityCard(int $id) : ?CityCard
+    {
+        return self::get($id);
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////

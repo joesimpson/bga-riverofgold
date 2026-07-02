@@ -2,6 +2,7 @@
 
 namespace ROG\Core;
 
+use Bga\GameFramework\NotificationMessage;
 use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
@@ -11,6 +12,7 @@ use ROG\Models\AutomaActionCard;
 use ROG\Models\AutomaPlayer;
 use ROG\Models\BuildingTile;
 use ROG\Models\Card;
+use ROG\Models\CityCard;
 use ROG\Models\ClanPatronCard;
 use ROG\Models\CustomerCard;
 use ROG\Models\MasteryCard;
@@ -71,6 +73,22 @@ class Notifications
       'player' => $player,
       'meeple' => $meeple->getUiData(),
       'n' => $meeple->getCityColumn(),
+    ]);
+  }
+  
+  public static function giveCityCardTo(Player $player, CityCard $card, string $fromLocation)
+  {
+    self::notifyAll('giveCityCardTo', clienttranslate('${player_name} receives a new city card'), [
+      'player' => $player,
+      'card' => $card->getUiData(),
+      '_private' => [
+        $player->getId() => new NotificationMessage(clienttranslate('You take city card "${_private.card_name}"'), [
+          'card' => $card,
+          'card_name' => $card->getTitle(),
+          'i18n' => ['card_name']
+        ]),
+      ],
+      'from' => $fromLocation,
     ]);
   }
 

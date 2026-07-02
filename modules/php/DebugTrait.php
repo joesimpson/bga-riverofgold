@@ -332,6 +332,7 @@ trait DebugTrait
     Globals::addBonusWithDatas($player,BONUS_TYPE_REWARDS_SELECT_REGION,[ 'bonusQuantity'=>$this->number]);
     Globals::addBonusWithDatas($player,BONUS_TYPE_BUILD_NEAR_SHIPS,[ 'bonusQuantity'=>$this->number]);
     Globals::addBonusWithDatas($player,BONUS_TYPE_FREE_SAIL,[ 'bonusQuantity'=>$this->number]);
+    Globals::addBonusWithDatas($player,BONUS_TYPE_CITY_CARD_DRAW, ['bonusQuantity' => 1, 'location' => CARD_CITY_LOCATION_OUTER_1],clienttranslate('City cards'));
 
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
