@@ -190,6 +190,8 @@ trait BonusChoiceTrait
         break;
       case BONUS_TYPE_CITY_CARD_DRAW:
         $nextState = 'bonusCityDraw';
+        //checkpoint because we reveal cards
+        $this->addCheckpoint(ST_BONUS_CITY_DRAW);
         break;
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");

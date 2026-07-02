@@ -233,6 +233,10 @@ $cityHeight: 797px;
                 &[data-col="4"]{
                     left: 593px;
                 }
+
+                &.selected{
+                    box-shadow: 0 0 0 5px #0afb0a;
+                }
             
                 .rog_city_card{
                     position: absolute;

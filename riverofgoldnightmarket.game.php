@@ -89,7 +89,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
         ) );        
         $this->automaEngine = new AutomaEngine($this);
 	}
-    public static function get()
+    public static function get() : RiverOfGoldNightMarket
     {
       return self::$instance;
     }

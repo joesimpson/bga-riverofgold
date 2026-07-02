@@ -2147,6 +2147,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space[data-col="4"] {
   left: 593px;
 }
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space.selected {
+  box-shadow: 0 0 0 5px #0afb0a;
+}
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board .rog_city_card_space .rog_city_card {
   position: absolute;
   width: 100%;
@@ -2371,36 +2374,46 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-position-y: 0;
 }
 .rog_card.rog_city_card {
+  width: 132px;
+  height: 200px;
   background-size: 500% 400%;
   background-image: url("img/cityOfLies/city_cards.webp");
 }
-.rog_card.rog_city_card[data-type="1"] {
+.rog_card.rog_city_card[data-type="0"] {
   background-position-x: 0%;
+  background-position-y: 0%;
+}
+.rog_card.rog_city_card[data-type="1"] {
+  background-position-x: 25%;
   background-position-y: 0%;
 }
 .rog_card.rog_city_card[data-type="2"] {
-  background-position-x: 25%;
-  background-position-y: 0%;
-}
-.rog_card.rog_city_card[data-type="3"] {
   background-position-x: 50%;
   background-position-y: 0%;
 }
-.rog_card.rog_city_card[data-type="4"] {
+.rog_card.rog_city_card[data-type="3"] {
   background-position-x: 75%;
   background-position-y: 0%;
 }
-.rog_card.rog_city_card[data-type="5"] {
+.rog_card.rog_city_card[data-type="4"] {
   background-position-x: 100%;
   background-position-y: 0%;
 }
-.rog_card.rog_city_card[data-type="6"] {
+.rog_card.rog_city_card[data-type="5"] {
   background-position-x: 0%;
   background-position-y: 33.3333333333%;
 }
-.rog_card.rog_city_card[data-type="7"] {
+.rog_card.rog_city_card[data-type="6"] {
   background-position-x: 25%;
   background-position-y: 33.3333333333%;
+}
+.rog_card.rog_city_card[data-type="7"] {
+  background-position-x: 50%;
+  background-position-y: 33.3333333333%;
+}
+.rog_card.rog_city_card[data-type="8"] {
+  background-position-x: 0%;
+  background-position-y: 66.6666666667%;
 }
 .rog_card.rog_city_card[data-type="9"] {
   background-position-x: 25%;

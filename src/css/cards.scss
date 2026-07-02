@@ -58,15 +58,17 @@
     }
     
     &.rog_city_card{
+        width: 132px;
+        height: 200px;
         background-size: 500% 400%;
         background-image: url("img/cityOfLies/city_cards.webp");
-        @for $i from 0 through 6 {
-            &[data-type="#{$i+1}"] {
+        @for $i from 0 through 7 {
+            &[data-type="#{$i}"] {
                 background-position-x: ($i % 5) * 100% / 4;
                 background-position-y: (($i - ($i % 5)) / 5) * 100% / 3;
             }
         }
-        @for $i from 11 through 21 {
+        @for $i from 10 through 21 {
             &[data-type="#{$i - 2}"] {
                 background-position-x: ($i % 5) * 100% / 4;
                 background-position-y: (($i - ($i % 5)) / 5) * 100% / 3;

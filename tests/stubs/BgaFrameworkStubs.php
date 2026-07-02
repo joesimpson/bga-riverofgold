@@ -1225,19 +1225,26 @@ class Bga {
         public function __construct(
             $game,
         ) {
+            //logForTests(__CLASS__.".".__FUNCTION__ , "TRACE");
             $this->tableOptions = new TableOptions();
         }
     }
 class Notify {
-    public function player(int $playerId, string $notifName, string $message = '', array $args = []): void {
-        logForTests("Notify_player $playerId $notifName : $message, with args ".json_encode($args)."", "NOTIF");
+    public function player(int $playerId, string $notificationType, string $notificationLog = '', array $notificationArgs = []): void {
+        logForTests("notify->Player ($playerId) $notificationType : $notificationLog, with args ".json_encode($notificationArgs)."", "NOTIF");
+        TestDatas::$notifs[$playerId][] = $notificationType;
     }
-    public function all(string $notifName, string $message = '', array $args = []): void {
-        logForTests("Notify_ALL $notifName : $message, with args ".json_encode($args)."", "NOTIF");
+    public function all(string $notificationType, string $notificationLog = '', array $notificationArgs = []): void {
+        //logForTests("notifyAllPlayers $notificationType : $notificationLog, with args ".json_encode($notificationArgs)."", "NOTIF");
+        logForTests("notify->All $notificationType : $notificationLog" , "NOTIF");
+        $suffix = '';
+        if(isset($notificationArgs['player_id'])) $suffix = "-".($notificationArgs['player_id']);
+        TestDatas::$notifs['all'][] = "$notificationType$suffix";
     }
     public function __construct(
         $game,
     ) {
+        //logForTests(__CLASS__.".".__FUNCTION__ , "TRACE");
     }
 }
 class NotificationMessage {

@@ -78,18 +78,18 @@ class Notifications
   
   public static function giveCityCardTo(Player $player, CityCard $card, string $fromLocation)
   {
-    self::notifyAll('giveCityCardTo', clienttranslate('${player_name} receives a new city card'), [
+    self::notifyAllWithPrivateDatas('giveCityCardTo', clienttranslate('${player_name} gets a new city card'), [
       'player' => $player,
-      'card' => $card->getUiData(),
-      '_private' => [
-        $player->getId() => new NotificationMessage(clienttranslate('You take city card "${_private.card_name}"'), [
+      'from' => $fromLocation,
+    ],
+        $player,
+        clienttranslate('You get the city card ${card_name}'),
+        [
           'card' => $card,
           'card_name' => $card->getTitle(),
           'i18n' => ['card_name']
-        ]),
-      ],
-      'from' => $fromLocation,
-    ]);
+        ],
+    );
   }
 
   public static function initCustomersDeck(array $customerTypes)
@@ -1321,6 +1321,17 @@ class Notifications
   {
     self::updateArgs($data);
     Game::get()->notifyAllPlayers($name, $msg, $data);
+  }
+  protected static function notifyAllWithPrivateDatas(
+    string $name, string $msg,array $data, 
+    Player $player, string $privateMsg,  array $privateArgs,
+  )
+  {
+    self::updateArgs($data);
+    $data['_private'][$player->getId()] = new NotificationMessage($privateMsg,$privateArgs);
+    $data['_merge_private'] = true;
+
+    Game::get()->bga->notify->all($name, $msg, $data);
   }
 
   protected static function notify($player, $name, $msg, $data)

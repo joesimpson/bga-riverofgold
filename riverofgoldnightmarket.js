@@ -1573,6 +1573,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 _('${you} must select a city card') :
                 _('${actplayer} must select a city card')
             );
+
+            let from = this.getCitySpaceFfromLocation(args.cbd.location);
+            from.classList.add('selected');
             
             if(! active) return;
 
@@ -3276,6 +3279,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 if('action_card_name' in args){
                     args.action_card_name = '<b><i>'+_(args.action_card_name) + '</i></b>';
                 }
+                if('card_name' in args){
+                    args.card_name = '<b><i>'+_(args.card_name) + '</i></b>';
+                }
 
                 if('cards_list' in args && 'cards' in args){
                     let listDiv = '<ul>';
@@ -4383,17 +4389,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 return $(`rog_region_cards_space_${region}`);
             }
             
-            if (card.location == CARD_CITY_LOCATION_OUTER_1) {
-                return $(`rog_city_card_space_1`);
-            }
-            if (card.location == CARD_CITY_LOCATION_OUTER_2) {
-                return $(`rog_city_card_space_2`);
-            }
-            if (card.location == CARD_CITY_LOCATION_INNER_1) {
-                return $(`rog_city_card_space_3`);
-            }
-            if (card.location == CARD_CITY_LOCATION_INNER_2) {
-                return $(`rog_city_card_space_4`);
+            if ( 
+                [CARD_CITY_LOCATION_OUTER_1, CARD_CITY_LOCATION_OUTER_2, CARD_CITY_LOCATION_INNER_1, CARD_CITY_LOCATION_INNER_2].includes(card.location)
+            ) {
+                return this.getCitySpaceFfromLocation(card.location);
             }
     
             console.error('Trying to get container of a card', card);
@@ -5098,6 +5097,20 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             </div>`;
         },
 
+        getCitySpaceFfromLocation(location) {
+            if (location == CARD_CITY_LOCATION_OUTER_1) {
+                return $(`rog_city_card_space_1`);
+            }
+            if (location == CARD_CITY_LOCATION_OUTER_2) {
+                return $(`rog_city_card_space_2`);
+            }
+            if (location == CARD_CITY_LOCATION_INNER_1) {
+                return $(`rog_city_card_space_3`);
+            }
+            if (location == CARD_CITY_LOCATION_INNER_2) {
+                return $(`rog_city_card_space_4`);
+            }
+        },
         ////////////////////////////////////////////////////////
         //  _____ _ _
         // |_   _(_) | ___  ___

@@ -19,6 +19,7 @@ class GameMock extends RiverOfGoldNightMarket {
         $this->gamestate = new GamestateMachineMock();
         $this->notify = new Notify($this);
         $this->bga = new Bga($this);
+        $this->bga->notify = $this->notify;
         $this->player_preferences =[];
         //DB_Manager::startLog();
         Globals::fetch();
