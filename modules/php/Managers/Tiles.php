@@ -116,7 +116,7 @@ class Tiles extends \ROG\Helpers\Pieces
   public static function getIdsByType($subType,$tilesTypes)
   {
     return self::DB()->select([self::$prefix.'id'])
-      ->where( 'subType', $subType)
+      ->where( 'subtype', $subType)
       ->whereIn( 'type', $tilesTypes)
       ->get()
       ->map(function ($tile) {
@@ -132,7 +132,7 @@ class Tiles extends \ROG\Helpers\Pieces
   public static function getAllByType($subType, $tilesTypes)
   {
     return self::DB()
-      ->where( 'subType', $subType)
+      ->where( 'subtype', $subType)
       ->whereIn( 'type', $tilesTypes)
       ->get();
   } 

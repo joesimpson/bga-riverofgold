@@ -136,6 +136,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const CARD_CITY_LOCATION_OUTER_2 = 'city_out_2';
     const CARD_CITY_LOCATION_INNER_1 = 'city_in_1';
     const CARD_CITY_LOCATION_INNER_2 = 'city_in_2';
+    const CARD_CITY_LOCATION_HAND = 'city_h';
 
     const PATRON_MASTER_ENGINEER = 1;
     const PATRON_TRADER          = 2;
@@ -269,6 +270,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['giveCardToPublic', 10],
                 ['giveCardTo', 1000],
                 ['giveActionCardToAutoma', 1000],
+                ['giveCityCardTo', 1000],
                 ['initCustomersDeck', 1000],
                 ['masteryDeck', null],
                 ['giveMasteriesTo', null],
@@ -1574,7 +1576,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 _('${actplayer} must select a city card')
             );
 
-            let from = this.getCitySpaceFfromLocation(args.cbd.location);
+            let from = this.getCitySpaceFromLocation(args.cbd.location);
             from.classList.add('selected');
             
             if(! active) return;
@@ -2230,11 +2232,23 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this._counters['deckSizeCustomers'].incValue(-1);
         },
         notif_giveCardTo(n) {
-            debug('notif_giveCardTo: receiving a new card', n);
+            debug('notif_giveCardTo: receiving a new customer card', n);
             let cardDiv = this.addCard(n.args.card, this.getCardContainer(n.args.card));
             this.animationManager.slideIn(cardDiv, document.getElementById(`rog_customers_deck_size`), {duration: 700})
                 .then(() => {
                 });
+        },
+        
+        notif_giveCityCardTo(n) {
+            debug('notif_giveCityCardTo: receiving a new city card', n);
+            let card = n.args.card;
+            if(card){
+                let cardDiv = this.addCard(card, this.getCardContainer(card));
+                this.animationManager.slideAndAttach(cardDiv, this.getCardContainer(card), {duration: 700})
+                //this.animationManager.slideIn(cardDiv, document.getElementById(`rog_select_piece_container`), {duration: 700})
+                .then(() => {
+                });
+            }
         },
         
         notif_placeCustomerOnRegion(n) {
@@ -4392,7 +4406,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if ( 
                 [CARD_CITY_LOCATION_OUTER_1, CARD_CITY_LOCATION_OUTER_2, CARD_CITY_LOCATION_INNER_1, CARD_CITY_LOCATION_INNER_2].includes(card.location)
             ) {
-                return this.getCitySpaceFfromLocation(card.location);
+                return this.getCitySpaceFromLocation(card.location);
+            }
+            if ( 
+                [CARD_CITY_LOCATION_HAND].includes(card.location)
+            ) {
+                return $(`rog_cards_hand-${card.pId}`);
             }
     
             console.error('Trying to get container of a card', card);
@@ -5046,6 +5065,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         ////////////////////////////////////////////////////////
         addCityCard(card, location = null) {
             debug('addCityCard',card);
+            let div = document.getElementById('rog_city_card-' + card.id);
+            if (div) return div;
             
             let o = this.place('tplCityCard', card, location == null ? this.getCardContainer(card) : location);
             let tooltipDesc = this.getCityCardTooltip(card);
@@ -5097,7 +5118,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             </div>`;
         },
 
-        getCitySpaceFfromLocation(location) {
+        getCitySpaceFromLocation(location) {
             if (location == CARD_CITY_LOCATION_OUTER_1) {
                 return $(`rog_city_card_space_1`);
             }

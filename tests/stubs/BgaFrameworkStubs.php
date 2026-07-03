@@ -180,7 +180,7 @@ abstract class Table
             logForTests("getUniqueValueFromDb: count is $count ");
             return $count;
         }
-        if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `subType` = (?P<subtype>.*) AND `card_location` = '(?P<card_location>.*)'$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `subtype` = (?P<subtype>.*) AND `card_location` = '(?P<card_location>.*)'$/", $sql, $matches) == 1) {
             $subtype = $matches['subtype'];
             $card_location = $matches['card_location'];
             $count = count(array_filter(TestDatas::$cards,function ($card) use( $card_location, $subtype ) {return $card['card_location'] == $card_location && $card['subtype'] == $subtype ;}));
@@ -629,11 +629,11 @@ abstract class Table
             $filtered = array_filter(TestDatas::$tiles,function ($t) use($tile_location, $tile_states) {return $t['tile_location'] == $tile_location && in_array($t['tile_state'], $tile_states);});
             return $filtered;
         }
-        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE `subType` = (?P<subType>\d+) AND \(`type` IN \((?P<types>.*)\)\)$/", $sql, $matches) == 1) {
-            $subType = intval($matches['subType']);
+        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE `subtype` = (?P<subtype>\d+) AND \(`type` IN \((?P<types>.*)\)\)$/", $sql, $matches) == 1) {
+            $subtype = intval($matches['subtype']);
             $types = explode(',',str_replace("'","",$matches['types']));
-            $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($types, $subType){return in_array($tile['type'],$types) && $tile['subtype'] == $subType ;});
-            logForTests("MOCK select tiles with subType $subType and types ".json_encode($types).": ".json_encode($filtered));
+            $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($types, $subtype){return in_array($tile['type'],$types) && $tile['subtype'] == $subtype ;});
+            logForTests("MOCK select tiles with subtype $subtype and types ".json_encode($types).": ".json_encode($filtered));
             return $filtered;
         }
         if (preg_match("/^SELECT (.*) FROM `tiles` WHERE `player_id` = (?P<player_id>.*) AND `tile_location` = '(?P<tile_location>.*)'$/", $sql, $matches) == 1) {

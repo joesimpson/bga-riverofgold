@@ -68,6 +68,7 @@ class Cards extends \ROG\Helpers\Pieces
   public static function getUiData(int $currentPlayerId): array
   {
     $privateCards = self::getPlayerHandOrders($currentPlayerId);
+    $privateCityCards = CityCards::getPlayerHand($currentPlayerId);
 
     return self::getInLocation(CARD_LOCATION_DELIVERED)
       ->merge(self::getInLocationOrdered(CARD_LOCATION_MAP_REGION."%"))
@@ -75,6 +76,7 @@ class Cards extends \ROG\Helpers\Pieces
       ->merge(self::getInLocation(CARD_SCENARIO_LOCATION_ASSIGNED))
       ->merge(self::getInLocationOrdered(CARD_AUTOMA_LOCATION_PLAYED))
       ->merge($privateCards)
+      ->merge($privateCityCards)
       ->map(function ($card) {
         return $card->getUiData();
       })
@@ -157,7 +159,9 @@ class Cards extends \ROG\Helpers\Pieces
   {
     foreach ($players as $pid => $player) {
       if(isset($player['is_automa']) && $player['is_automa']) continue;
-      Notifications::refreshHand($pid,Cards::getPlayerHandOrders($pid));
+      $hand = Cards::getPlayerHandOrders($pid);
+      $hand = $hand->merge(CityCards::getPlayerHand($pid));
+      Notifications::refreshHand($pid,$hand);
     }
   }
   /**

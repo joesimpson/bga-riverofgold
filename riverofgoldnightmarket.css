@@ -3236,6 +3236,10 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: 148px;
   height: 200px;
 }
+.rog_player_hand_resizable .rog_city_card {
+  width: calc(var(--rog_hand_scale) * 132px);
+  height: calc(var(--rog_hand_scale) * 200px);
+}
 
 #rog_players_deliveries {
   display: flex;
@@ -5067,6 +5071,286 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_card[data-type="60"],
 .rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_customer_card_resizeable[data-type="60"] {
   order: 60;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="1"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="1"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="1"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="1"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="1"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="1"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="1"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="1"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="1"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="1"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="1"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="1"] {
+  order: 101;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="2"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="2"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="2"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="2"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="2"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="2"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="2"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="2"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="2"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="2"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="2"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="2"] {
+  order: 102;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="3"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="3"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="3"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="3"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="3"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="3"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="3"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="3"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="3"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="3"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="3"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="3"] {
+  order: 103;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="4"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="4"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="4"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="4"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="4"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="4"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="4"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="4"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="4"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="4"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="4"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="4"] {
+  order: 104;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="5"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="5"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="5"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="5"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="5"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="5"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="5"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="5"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="5"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="5"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="5"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="5"] {
+  order: 105;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="6"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="6"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="6"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="6"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="6"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="6"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="6"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="6"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="6"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="6"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="6"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="6"] {
+  order: 106;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="7"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="7"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="7"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="7"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="7"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="7"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="7"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="7"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="7"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="7"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="7"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="7"] {
+  order: 107;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="8"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="8"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="8"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="8"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="8"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="8"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="8"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="8"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="8"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="8"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="8"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="8"] {
+  order: 108;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="9"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="9"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="9"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="9"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="9"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="9"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="9"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="9"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="9"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="9"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="9"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="9"] {
+  order: 109;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="10"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="10"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="10"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="10"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="10"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="10"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="10"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="10"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="10"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="10"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="10"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="10"] {
+  order: 110;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="11"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="11"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="11"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="11"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="11"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="11"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="11"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="11"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="11"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="11"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="11"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="11"] {
+  order: 111;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="12"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="12"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="12"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="12"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="12"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="12"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="12"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="12"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="12"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="12"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="12"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="12"] {
+  order: 112;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="13"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="13"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="13"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="13"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="13"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="13"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="13"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="13"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="13"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="13"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="13"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="13"] {
+  order: 113;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="14"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="14"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="14"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="14"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="14"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="14"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="14"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="14"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="14"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="14"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="14"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="14"] {
+  order: 114;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="15"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="15"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="15"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="15"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="15"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="15"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="15"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="15"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="15"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="15"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="15"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="15"] {
+  order: 115;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="16"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="16"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="16"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="16"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="16"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="16"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="16"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="16"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="16"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="16"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="16"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="16"] {
+  order: 116;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="17"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="17"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="17"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="17"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="17"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="17"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="17"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="17"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="17"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="17"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="17"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="17"] {
+  order: 117;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="18"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="18"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="18"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="18"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="18"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="18"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="18"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="18"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="18"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="18"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="18"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="18"] {
+  order: 118;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="19"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="19"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="19"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="19"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="19"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="19"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="19"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="19"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="19"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="19"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="19"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="19"] {
+  order: 119;
+}
+.rog_player_hand_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="20"],
+.rog_player_hand_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="20"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="20"],
+.rog_player_hand_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="20"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="20"],
+.rog_player_hand_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="20"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_hand .rog_city_card[data-type="20"],
+.rog_player_delivered_resizable .rog_player_hand .rog_cards_delivered .rog_city_card[data-type="20"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_hand .rog_city_card[data-type="20"],
+.rog_player_delivered_resizable .rog_player_actions_container .rog_cards_delivered .rog_city_card[data-type="20"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_hand .rog_city_card[data-type="20"],
+.rog_player_delivered_resizable .rog_player_delivered .rog_cards_delivered .rog_city_card[data-type="20"] {
+  order: 120;
 }
 
 .rog_region_cards_space .rog_customer_card_resizeable {

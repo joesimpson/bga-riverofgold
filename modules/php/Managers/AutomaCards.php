@@ -18,7 +18,7 @@ class AutomaCards extends Cards
     public static function countAutomaActionSize(string $deckLocation) : int
     {
         return self::DB()
-                ->where('subType', CARD_TYPE_AUTOMA_ACTION)
+                ->where('subtype', CARD_TYPE_AUTOMA_ACTION)
                 ->where(static::$prefix . 'location', $deckLocation)
                 ->count();
     }

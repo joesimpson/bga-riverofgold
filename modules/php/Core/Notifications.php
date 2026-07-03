@@ -85,7 +85,7 @@ class Notifications
         $player,
         clienttranslate('You get the city card ${card_name}'),
         [
-          'card' => $card,
+          'card' => $card->getUiData(),
           'card_name' => $card->getTitle(),
           'i18n' => ['card_name']
         ],
@@ -1444,6 +1444,7 @@ class Notifications
     foreach ($gameDatas['cards'] as $index=> &$card) {
       // Hide hand !
       if( CARD_LOCATION_HAND == $card['location']) unset($gameDatas['cards'][$index]);
+      if( CARD_CITY_LOCATION_HAND == $card['location']) unset($gameDatas['cards'][$index]);
     }
 
     self::notifyAll('refreshUI', '', [

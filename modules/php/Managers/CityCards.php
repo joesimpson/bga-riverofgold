@@ -5,6 +5,7 @@ namespace ROG\Managers;
 use ROG\Core\Game;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
+use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
 use ROG\Models\CITY_CARD_EFFECT;
 use ROG\Models\CITY_CARD_TYPE;
@@ -29,7 +30,7 @@ class CityCards extends Cards
     public static function countSize(string $deckLocation) : int
     {
         return self::DB()
-                ->where('subType', CARD_TYPE_CITY)
+                ->where('subtype', CARD_TYPE_CITY)
                 ->where(static::$prefix . 'location', $deckLocation)
                 ->count();
     }
@@ -47,6 +48,15 @@ class CityCards extends Cards
     public static function getCityCard(int $id) : ?CityCard
     {
         return self::get($id);
+    }
+    
+    public static function getPlayerHand(int $playerId) : Collection
+    {
+        return self::DB()
+                ->wherePlayer($playerId)
+                ->where('subtype', CARD_TYPE_CITY)
+                ->where(static::$prefix . 'location', CARD_CITY_LOCATION_HAND)
+                ->get();
     }
 
     ///////////////////////////////////////////////////////////////////////////////////////

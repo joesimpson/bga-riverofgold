@@ -916,6 +916,11 @@
             }
         }
     }
+
+    .rog_city_card{
+        width: calc(var(--rog_hand_scale) * 132px);
+        height: calc(var(--rog_hand_scale) * 200px);
+    }
     
 }
 
@@ -1019,6 +1024,15 @@
                 @for $i from 1 through 60 {
                     &[data-type="#{$i}"] {
                         order: $i;
+                    }
+                }
+            }
+            .rog_city_card{
+                //ORDER CARDS by type :
+                $spaceForCustomerCards: 100;
+                @for $i from 1 through 20 {
+                    &[data-type="#{$i}"] {
+                        order: $i + $spaceForCustomerCards;
                     }
                 }
             }
