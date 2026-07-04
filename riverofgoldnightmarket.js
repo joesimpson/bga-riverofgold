@@ -1590,7 +1590,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             $(`btnConfirm`).classList.add('disabled');
 
             let cards = args._private.cards;
-            Object.values(cards).forEach((card) => {
+            Object.values(cards).sort((a,b) =>  a.state - b.state ).forEach((card) => {
                 let div = this.addCityCard(card, $('rog_select_piece_container'));
                 this.onClick(div.id, () => {
                     if (selectedCard){
@@ -5098,7 +5098,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 </div>`;
         },
         tplCityCard(card, prefix ='') {
-            return `<div class="rog_card rog_city_card" id="rog_city_card-${card.id}" data-inner="${card.inner}" data-type="${card.type}">
+            return `<div class="rog_card rog_city_card" id="rog_city_card-${card.id}" data-inner="${card.inner}" data-type="${card.type}" data-state="${card.state}">
                 </div>`;
         },
         

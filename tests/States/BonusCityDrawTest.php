@@ -48,7 +48,7 @@ final class BonusCityDrawTest extends TestCase
                             'effect' => CITY_CARD_EFFECT::REVEAL->value,
                             'title' => 'Bribery',
                             'subtype' => CARD_TYPE_CITY,
-                            'state' => 1,
+                            'state' => 3,
                         ],
                         222 => [
                             'id' => 222,
@@ -70,7 +70,7 @@ final class BonusCityDrawTest extends TestCase
                             'effect' => CITY_CARD_EFFECT::PREDICT->value,
                             'title' => 'Shared Clients',
                             'subtype' => CARD_TYPE_CITY,
-                            'state' => 3,
+                            'state' => 1,
                         ],
 
                     ],
@@ -124,6 +124,11 @@ final class BonusCityDrawTest extends TestCase
         assertSame(ST_BONUS_CHOICE, $newState);
         assertSame(CARD_CITY_LOCATION_HAND, TestDatas::$cards[$cardId]['card_location']);
         assertSame(1, TestDatas::$cards[$cardId]['player_id']);
+        //others unchanged
+        assertSame(CARD_CITY_LOCATION_OUTER_1, TestDatas::$cards[222]['card_location']);
+        assertSame(CARD_CITY_LOCATION_OUTER_1, TestDatas::$cards[223]['card_location']);
+        assertSame(2, TestDatas::$cards[222]['card_state']);
+        assertSame(1, TestDatas::$cards[223]['card_state']);
     }
 
     public function test_actTakeCityCard_KO_WrongCard(): void

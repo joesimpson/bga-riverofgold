@@ -92,7 +92,6 @@ class BonusCityDraw extends GameState
 
     $card = CityCards::getCityCard($cardId);
     $fromLocation = $card->getLocation();
-    CityCards::shuffle($fromLocation);
     $card->setPId($player->getId());
     $card->setLocation(CARD_CITY_LOCATION_HAND);
     Notifications::giveCityCardTo($player,$card,$fromLocation);
