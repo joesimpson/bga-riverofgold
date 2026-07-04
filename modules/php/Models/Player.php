@@ -8,6 +8,7 @@ use ROG\Core\Stats;
 use ROG\Core\Preferences;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
+use ROG\Managers\CityCards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 
@@ -68,6 +69,12 @@ class Player extends \ROG\Helpers\DB_Model
     $data['customers'] = [];
     foreach (ALL_CUSTOMER_TYPES as $customer){
       $data['customers'][$customer] = $this->getNbDeliveredCustomerByType($customer);
+    }
+
+    if(Utils::isGameWithCityOfLies()){
+      $cityCards = CityCards::getPlayerHand($this->getId());
+      $data['city_hand']['inner'] = $cityCards->filter(function (CityCard $c) {return $c->isInner();})->count();
+      $data['city_hand']['outer'] = $cityCards->filter(function (CityCard $c) {return !($c->isInner());})->count();
     }
     return $data;
   }
@@ -335,6 +342,13 @@ class Player extends \ROG\Helpers\DB_Model
   {
     return Cards::countDeliveredCardsByCustomerRegion($this->getId(),$region);
   }
+  
+  /*
+  public function getNbCityCardsUnplayed() : int
+  {
+    return CityCards::countPlayerHand($this->getId());
+  }
+    */
 
   /**
    * @return ?ClanPatronCard 

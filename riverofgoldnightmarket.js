@@ -2242,12 +2242,26 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         notif_giveCityCardTo(n) {
             debug('notif_giveCityCardTo: receiving a new city card', n);
             let card = n.args.card;
+            let isInner = n.args.inner;
+            let from = n.args.from;
             if(card){
                 let cardDiv = this.addCard(card, this.getCardContainer(card));
                 this.animationManager.slideAndAttach(cardDiv, this.getCardContainer(card), {duration: 700})
                 //this.animationManager.slideIn(cardDiv, document.getElementById(`rog_select_piece_container`), {duration: 700})
                 .then(() => {
                 });
+            }
+            else {
+                //Opponents view
+                this.addCityCardBackInPlayerHand(n.args.player_id, isInner);
+            }
+            //Remove 1 rog_city_card_back from city space
+            let citySpace = this.getCitySpaceFromLocation(from);
+            if(citySpace){
+                let back = citySpace.querySelector('.rog_city_card_back');
+                if(back) {
+                    this.destroy(back);
+                }
             }
         },
         
@@ -3296,6 +3310,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 if('card_name' in args){
                     args.card_name = '<b><i>'+_(args.card_name) + '</i></b>';
                 }
+                
+                if('card_icon' in args && 'inner' in args) {
+                    args.card_icon = this.formatCityCardIcon(args.inner,'_log');
+                }
 
                 if('cards_list' in args && 'cards' in args){
                     let listDiv = '<ul>';
@@ -4034,8 +4052,21 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 this.destroy(oCard);
             });
             if(!keepHand){
-                document.querySelectorAll('.rog_cards_hand').forEach((div) => {
+                document.querySelectorAll('.rog_cards_hand, .rog_player_city_cards_hand').forEach((div) => {
                     this.empty(div);
+                });
+
+                this.forEachPlayer((player) => {
+                    //DISPLAY opponents city cards counter
+                    if(player.id == this.player_id) return;
+                    if(player.city_hand){
+                        for(let k=1; k<= player.city_hand.outer;k++){
+                            this.addCityCardBackInPlayerHand(player.id, false);
+                        }
+                        for(let k=1; k<= player.city_hand.inner;k++){
+                            this.addCityCardBackInPlayerHand(player.id, true);
+                        }
+                    }
                 });
             }
             if(!keepOthers){
@@ -4054,7 +4085,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 if(this.gamedatas.deckSize.city){
                     Object.entries(this.gamedatas.deckSize.city).forEach( ([cityLocation, locSize]) => {
                         for(let k=1; k<= locSize;k++){
-                            this.addCityCardBackInSpace( cityLocation,k,false);
+                            this.addCityCardBackInSpace( cityLocation,k);
                         }
                     });
                 }
@@ -4411,6 +4442,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if ( 
                 [CARD_CITY_LOCATION_HAND].includes(card.location)
             ) {
+                if(card.opponent){
+                    return $(`rog_player_city_cards_hand-${card.pId}`);
+                }
                 return $(`rog_cards_hand-${card.pId}`);
             }
     
@@ -4435,6 +4469,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <h3 class='rog_title' >${this.fsr(_('${player_name} delivered'), { player_name:this.coloredPlayerName(player.name)}) }</h3>
                     <div class='rog_cards_delivered' id='rog_cards_delivered-${player.id}'></div>
                 </div>
+                ${this.tplPlayerCityCards(player)}
             </div>`;
         },
         tplPlayerActionCards(player) {
@@ -4442,6 +4477,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             return `<div id='rog_player_actions_container-${player.id}' class='rog_player_actions_container'>
                     <h3 class='rog_title' >${this.fsr(_('${player_name} actions'), { 'player_name':this.coloredPlayerName(player.name)}) }</h3>
                     <div class='rog_player_action_cards' id='rog_player_action_cards-${player.id}'></div>
+                </div>`;
+        },
+        tplPlayerCityCards(player) {
+            if(! player.city_hand) return '';
+            return `<div id='rog_player_city_container-${player.id}' class='rog_player_city_container'>
+                    <h3 class='rog_title' >${this.fsr(_('${player_name} city cards'), { 'player_name':this.coloredPlayerName(player.name)}) }</h3>
+                    <div class='rog_player_city_cards rog_player_city_cards_hand' id='rog_player_city_cards_hand-${player.id}'></div>
+                    <div class='rog_player_city_cards rog_player_city_cards_revealed' id='rog_player_city_cards_revealed-${player.id}'></div>
                 </div>`;
         },
         /**
@@ -5077,33 +5120,56 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         addCityCardBack(card) {
             debug('addCityCardBack',card);
             let o = this.place('tplCityCardBack', card, this.getCardContainer(card));
+            let tooltipDesc = _('City of Lies : inner card');
+            if(!card.inner){
+                tooltipDesc = _('City of Lies : outer card');
+            }
+            this.addCustomTooltip(o.id, tooltipDesc);
             return o;
         },
-        addCityCardBackInSpace(location, index, card_pId){
-            debug("addCityCardBackInSpace",location, index, card_pId);
-            let fakeId = `${card_pId}_${location}_${index}`;
+        addCityCardBackInSpace(location, index){
+            debug("addCityCardBackInSpace",location, index);
+            let fakeId = `${location}_${index}`;
             let isInner = (location == CARD_CITY_LOCATION_INNER_1 || location == CARD_CITY_LOCATION_INNER_2);
             let cardDatas = {
                 'id': fakeId, 
                 'subtype':CARD_TYPE_CITY ,
                 'location': location, 
-                'pId': card_pId,
+                'pId': null,
                 'inner': isInner,
             };
             let cardDiv = this.addCityCardBack(cardDatas);
             
         },
+        addCityCardBackInPlayerHand(card_pId, isInner ){
+            debug("addCityCardBackInPlayerHand",card_pId, isInner );
+            let index = 1 + document.getElementById(`rog_player_city_cards_hand-${card_pId}`).querySelectorAll('.rog_city_card_back').length;
+            let fakeId = `${card_pId}_${isInner}_${index}`;
+            let cardDatas = {
+                'id': fakeId, 
+                'subtype':CARD_TYPE_CITY ,
+                'location': CARD_CITY_LOCATION_HAND, 
+                'pId': card_pId,
+                'inner': isInner,
+                'opponent' : true,
+            };
+            let cardDiv = this.addCityCardBack(cardDatas);
+            
+        },
         tplCityCardBack(card, prefix ='') {
-            return `<div class="rog_card rog_city_card rog_city_card_back" id="rog_city_card_back-${card.id}" data-inner="${card.inner}">
+            return `<div class="rog_card rog_card${prefix} rog_city_card rog_city_card_back" id="rog_city_card_back-${card.id}" data-inner="${card.inner}">
                 </div>`;
         },
         tplCityCard(card, prefix ='') {
-            return `<div class="rog_card rog_city_card" id="rog_city_card-${card.id}" data-inner="${card.inner}" data-type="${card.type}" data-state="${card.state}">
+            return `<div class="rog_card rog_card${prefix} rog_city_card" id="rog_city_card-${card.id}" data-inner="${card.inner}" data-type="${card.type}" data-state="${card.state}">
                 </div>`;
         },
         
         getCityCardTooltip(card) {
-            let typeName = this.fsr(_('City of Lies card') ,{ })
+            let typeName = _('City of Lies : inner card');
+            if(!card.inner){
+                typeName = _('City of Lies : outer card');
+            }
             let actionName = _(card.title);
             let descriptionMap = new Map([
                 [ 1 ,  ``
@@ -5131,6 +5197,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if (location == CARD_CITY_LOCATION_INNER_2) {
                 return $(`rog_city_card_space_4`);
             }
+        },
+
+        formatCityCardIcon(isInner, prefix =''){
+            return this.tplCityCardBack({
+                    'id': `${prefix}_${isInner}`, 
+                    'inner': isInner,
+                },prefix);
         },
         ////////////////////////////////////////////////////////
         //  _____ _ _

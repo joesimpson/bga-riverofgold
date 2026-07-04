@@ -58,6 +58,9 @@
     }
     
     &.rog_city_card{
+        &:not(.rog_city_card_back){
+            border: unset;
+        }
         width: 132px;
         height: 200px;
         background-size: 500% 400%;
@@ -446,6 +449,16 @@
     }
  
 }
+.rog_card_log{
+    display: inline-block;
+    vertical-align: middle;
+    $cardScaleInLogs: 0.25;
+    &.rog_city_card{
+        width: calc($cardScaleInLogs * 132px);
+        height: calc($cardScaleInLogs * 200px);
+    }
+}
+
 .rog_clan_card {
     width: calc(0.2 * 770px);
     height: calc(0.2 * 1065px);
@@ -969,8 +982,12 @@
         min-width: calc(var(--rog_delivered_scale) * 148px);
         min-height: calc(var(--rog_delivered_scale) * 200px);
     }
+    .rog_player_city_container{
+        min-height: calc(var(--rog_delivered_scale) * 200px);
+    }
     .rog_player_hand,
     .rog_player_actions_container,
+    .rog_player_city_container,
     .rog_player_delivered{
         display: flex;
         flex-flow: column;
@@ -1104,6 +1121,17 @@
             left: 60%;
         }
     }
+}
+
+.rog_player_city_cards{
+    display: flex;
+    flex-flow: row;
+    flex-direction: row;
+    flex-wrap: wrap;
+    position: relative;
+    align-content: center;
+    align-items: center;
+
 }
 
 .rog_scenario_card_desc{

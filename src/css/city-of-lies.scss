@@ -245,8 +245,8 @@ $cityHeight: 797px;
                     
                     @for $i from 0 through 20 {
                         &:nth-child(#{$i}){
-                            left: calc(1px * $i);
-                            top: calc(2px * $i);
+                            left: calc(2px * $i);
+                            top: calc(4px * $i);
                         }
                     }
                 }

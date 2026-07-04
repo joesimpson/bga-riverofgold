@@ -78,12 +78,15 @@ class Notifications
   
   public static function giveCityCardTo(Player $player, CityCard $card, string $fromLocation)
   {
-    self::notifyAllWithPrivateDatas('giveCityCardTo', clienttranslate('${player_name} gets a new city card'), [
+    self::notifyAllWithPrivateDatas('giveCityCardTo', clienttranslate('${player_name} gets a new city card ${card_icon}'), [
       'player' => $player,
       'from' => $fromLocation,
+      'inner' => $card->isInner(),
+      'card_icon' =>'',
+      'preserve' => ['inner'],
     ],
         $player,
-        clienttranslate('You get the city card ${card_name}'),
+        clienttranslate('You get the city card ${card_icon} ${card_name}'),
         [
           'card' => $card->getUiData(),
           'card_name' => $card->getTitle(),
