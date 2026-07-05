@@ -49,7 +49,7 @@
 #pagemaintitletext,
 #gameaction_status 
 {
-    .rog_card,
+    .rog_card:not(.rog_card_log),
     .rog_meeple{
         position: absolute;
     }

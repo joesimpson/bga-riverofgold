@@ -1581,24 +1581,56 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             
             if(! active) return;
 
+            let cards = args._private.cards;
             let selectedCard = null;
+            let selectMarkerPid = null;
             let confirmMessage = _('Confirm');
             this.addPrimaryActionButton('btnConfirm', this.fsr(confirmMessage, {'name':''}), () => {
-                this.takeAction('actTakeCityCard', { 'c': selectedCard, });
+                this.takeAction('actTakeCityCard', { 'c': selectedCard.id, 'p': selectMarkerPid });
             }); 
             //DISABLED by default
             $(`btnConfirm`).classList.add('disabled');
 
-            let cards = args._private.cards;
+            let tempButtons = [];
+
             Object.values(cards).sort((a,b) =>  a.state - b.state ).forEach((card) => {
                 let div = this.addCityCard(card, $('rog_select_piece_container'));
                 this.onClick(div.id, () => {
+                    $(`btnConfirm`).classList.add('disabled');
                     if (selectedCard){
-                        $(`rog_city_card-${selectedCard}`).classList.remove('selected');
+                        $(`rog_card-${selectedCard.id}`).classList.remove('selected');
+                        tempButtons.forEach((button) => {
+                            this.destroy(document.getElementById(button));
+                        });
+                        tempButtons = [];
                     }
-                    selectedCard = card.id;
+                    selectedCard = card;
+                    selectMarkerPid = null;
                     div.classList.add('selected');
-                    $(`btnConfirm`).classList.remove('disabled');
+
+                    let possibleClanMarkerPlayerIds = selectedCard.pos_clan;
+                    if(possibleClanMarkerPlayerIds.length>0){
+                        //ANOTHER SELECTION
+                        Object.values(possibleClanMarkerPlayerIds).forEach((other_pid) => {
+                            let coloredPlayerName = this.coloredPlayerName(this.gamedatas.players[other_pid].name);
+                            let buttonId = `btnPlayerMarker_${other_pid}`;
+                            let callbackSelection = (evt) => {
+                                tempButtons.forEach((button) => {
+                                    $(button).classList.remove('rog_selected_button');
+                                });
+                                $(`btnConfirm`).classList.remove('disabled');
+                                $(buttonId).classList.add('rog_selected_button');
+                                selectMarkerPid = other_pid;
+                            };
+                            this.addSecondaryActionButton(buttonId, coloredPlayerName, callbackSelection); 
+                            tempButtons.push(buttonId);
+                        });
+                    }
+                    else {
+                        //Selection complete
+                        $(`btnConfirm`).classList.remove('disabled');
+                    }
+
                 });
             });
         },
@@ -4046,7 +4078,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             // This function is refreshUI compatible
             //destroy previous cards
             document.querySelectorAll('.rog_card[id^="rog_card-"], .rog_clan_card[id^="rog_clan_card-"], .rog_btnShowCard').forEach((oCard) => {
-                let inHand = oCard.parentNode.parentNode.parentNode.classList.contains('rog_cards_hand');
+                let inHand = oCard.parentNode.classList.contains('rog_cards_hand') // rog_city_card
+                    || oCard.parentNode.parentNode.parentNode.classList.contains('rog_cards_hand');
                 if(keepHand && inHand) return;
                 if(keepOthers && !inHand) return;
                 this.destroy(oCard);
@@ -5108,7 +5141,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         ////////////////////////////////////////////////////////
         addCityCard(card, location = null) {
             debug('addCityCard',card);
-            let div = document.getElementById('rog_city_card-' + card.id);
+            let div = document.getElementById('rog_card-' + card.id);
             if (div) return div;
             
             let o = this.place('tplCityCard', card, location == null ? this.getCardContainer(card) : location);
@@ -5161,7 +5194,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 </div>`;
         },
         tplCityCard(card, prefix ='') {
-            return `<div class="rog_card rog_card${prefix} rog_city_card" id="rog_city_card-${card.id}" data-inner="${card.inner}" data-type="${card.type}" data-state="${card.state}">
+            return `<div class="rog_card rog_card${prefix} rog_city_card" id="rog_card-${card.id}" data-inner="${card.inner}" data-type="${card.type}" data-state="${card.state}">
                 </div>`;
         },
         

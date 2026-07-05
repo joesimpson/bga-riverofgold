@@ -388,6 +388,21 @@ body[data-rog_anim_ship_selected='2']{//PREF_ANIMATION_SHIP_SELECTED_BOUNCE
         }
     }
 }
+.rog_city_card{
+    //Clan marker on a card (ex for Shared XXX)
+    .rog_meeple{
+        position: absolute;
+        top: 15%;
+        right: 0;
+        height: 20%;
+        width: calc(20% * calc(200px/132px)); 
+    }
+    &:hover{
+        .rog_meeple{
+            opacity: 0.3;
+        }
+    }
+}
 .rog_shore_space{
     .rog_near_shore_space{
         .rog_meeple{

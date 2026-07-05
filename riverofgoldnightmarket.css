@@ -7754,6 +7754,17 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   opacity: 0.3;
 }
 
+.rog_city_card .rog_meeple {
+  position: absolute;
+  top: 15%;
+  right: 0;
+  height: 20%;
+  width: 30.303030303%;
+}
+.rog_city_card:hover .rog_meeple {
+  opacity: 0.3;
+}
+
 .rog_shore_space .rog_near_shore_space .rog_meeple {
   margin-right: -35px;
 }
@@ -9926,9 +9937,9 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   visibility: hidden;
 }
 
-#pagemaintitletext .rog_card,
+#pagemaintitletext .rog_card:not(.rog_card_log),
 #pagemaintitletext .rog_meeple,
-#gameaction_status .rog_card,
+#gameaction_status .rog_card:not(.rog_card_log),
 #gameaction_status .rog_meeple {
   position: absolute;
 }

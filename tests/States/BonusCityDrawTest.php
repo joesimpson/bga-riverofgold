@@ -49,6 +49,7 @@ final class BonusCityDrawTest extends TestCase
                             'title' => 'Bribery',
                             'subtype' => CARD_TYPE_CITY,
                             'state' => 3,
+                            'pos_clan' => [],
                         ],
                         222 => [
                             'id' => 222,
@@ -60,6 +61,7 @@ final class BonusCityDrawTest extends TestCase
                             'title' => 'Black Market',
                             'subtype' => CARD_TYPE_CITY,
                             'state' => 2,
+                            'pos_clan' => [],
                         ],
                         223 => [
                             'id' => 223,
@@ -71,6 +73,77 @@ final class BonusCityDrawTest extends TestCase
                             'title' => 'Shared Clients',
                             'subtype' => CARD_TYPE_CITY,
                             'state' => 1,
+                            'pos_clan' => [
+                                //opponents ids
+                                2,
+                            ],
+                        ],
+
+                    ],
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertEquals($expectedArgs, $args);
+    }
+     public function test_Args_WithSeishin(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusCityDraw($game);
+        $currentBonus = BONUS_TYPE_CITY_CARD_DRAW;
+        $currentBonusDatas = [ 'bonusQuantity'=>1, 'location' => CARD_CITY_LOCATION_OUTER_1];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        $expectedArgs = [
+            'c' => $currentBonus,
+            'cbd' => $currentBonusDatas,
+            '_private' => [ 
+                1 => [
+                    'cards' => [ 
+                        221 => [
+                            'id' => 221,
+                            'location' => CARD_CITY_LOCATION_OUTER_1,
+                            'pId' => null,
+                            'type' => CITY_CARD_TYPE::BRIBERY->value,
+                            'inner' => false,
+                            'effect' => CITY_CARD_EFFECT::REVEAL->value,
+                            'title' => 'Bribery',
+                            'subtype' => CARD_TYPE_CITY,
+                            'state' => 3,
+                            'pos_clan' => [],
+                        ],
+                        222 => [
+                            'id' => 222,
+                            'location' => CARD_CITY_LOCATION_OUTER_1,
+                            'pId' => null,
+                            'type' => CITY_CARD_TYPE::BLACK_MARKET->value,
+                            'inner' => false,
+                            'effect' => CITY_CARD_EFFECT::REVEAL->value,
+                            'title' => 'Black Market',
+                            'subtype' => CARD_TYPE_CITY,
+                            'state' => 2,
+                            'pos_clan' => [],
+                        ],
+                        223 => [
+                            'id' => 223,
+                            'location' => CARD_CITY_LOCATION_OUTER_1,
+                            'pId' => null,
+                            'type' => CITY_CARD_TYPE::SHARED_CLI->value,
+                            'inner' => false,
+                            'effect' => CITY_CARD_EFFECT::PREDICT->value,
+                            'title' => 'Shared Clients',
+                            'subtype' => CARD_TYPE_CITY,
+                            'state' => 1,
+                            'pos_clan' => [
+                                //opponents ids
+                                2, AUTOMA_PLAYER_ID
+                            ],
                         ],
 
                     ],
@@ -114,8 +187,9 @@ final class BonusCityDrawTest extends TestCase
         Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
         $cardId = 221;
+        $markerPid = null;
 
-        $newState = $state->actTakeCityCard($cardId, 999999, 1, $args);
+        $newState = $state->actTakeCityCard($cardId, $markerPid, 999999, 1, $args);
         
         $expectedNotifs = [
             "giveCityCardTo-1",
@@ -124,11 +198,88 @@ final class BonusCityDrawTest extends TestCase
         assertSame(ST_BONUS_CHOICE, $newState);
         assertSame(CARD_CITY_LOCATION_HAND, TestDatas::$cards[$cardId]['card_location']);
         assertSame(1, TestDatas::$cards[$cardId]['player_id']);
-        //others unchanged
+        //other cards unchanged
         assertSame(CARD_CITY_LOCATION_OUTER_1, TestDatas::$cards[222]['card_location']);
         assertSame(CARD_CITY_LOCATION_OUTER_1, TestDatas::$cards[223]['card_location']);
         assertSame(2, TestDatas::$cards[222]['card_state']);
         assertSame(1, TestDatas::$cards[223]['card_state']);
+        //No New Marker
+        assertSame(1, TestDatas::$lastInsertedId);
+    }
+    
+    public function test_actTakeCityCard_Pass_WithOpponentMarker(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusCityDraw($game);
+        $currentBonus = BONUS_TYPE_CITY_CARD_DRAW;
+        $currentBonusDatas = [ 'bonusQuantity'=>1, 'location' => CARD_CITY_LOCATION_OUTER_1];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        $args = $state->getArgs();
+        $cardId = 223;
+        $markerPid = 2;
+
+        $newState = $state->actTakeCityCard($cardId, $markerPid, 999999, 1, $args);
+        
+        $expectedNotifs = [
+            "giveCityCardTo-1",
+            "newClanMarker-$markerPid",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, $newState);
+        assertSame(CARD_CITY_LOCATION_HAND, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1, TestDatas::$cards[$cardId]['player_id']);
+        //other cards unchanged
+        assertSame(CARD_CITY_LOCATION_OUTER_1, TestDatas::$cards[221]['card_location']);
+        assertSame(CARD_CITY_LOCATION_OUTER_1, TestDatas::$cards[222]['card_location']);
+        assertSame(3, TestDatas::$cards[221]['card_state']);
+        assertSame(2, TestDatas::$cards[222]['card_state']);
+        //New Marker on card
+        assertSame(43, TestDatas::$lastInsertedId);
+        $newClanMarker = TestDatas::$tokens[43];
+        assertSame(MEEPLE_LOCATION_CARD."$cardId", $newClanMarker['meeple_location']);
+        assertSame(1, $newClanMarker['meeple_state']);
+        assertSame($markerPid, $newClanMarker['player_id']);
+        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+    }
+    
+    public function test_actTakeCityCard_Pass_WitSeishinMarker(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusCityDraw($game);
+        $currentBonus = BONUS_TYPE_CITY_CARD_DRAW;
+        $currentBonusDatas = [ 'bonusQuantity'=>1, 'location' => CARD_CITY_LOCATION_OUTER_1];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        $args = $state->getArgs();
+        $cardId = 223;
+        $markerPid = AUTOMA_PLAYER_ID;
+
+        $newState = $state->actTakeCityCard($cardId, $markerPid, 999999, 1, $args);
+        
+        $expectedNotifs = [
+            "giveCityCardTo-1",
+            "newClanMarker-$markerPid",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, $newState);
+        assertSame(CARD_CITY_LOCATION_HAND, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1, TestDatas::$cards[$cardId]['player_id']);
+        //other cards unchanged
+        assertSame(CARD_CITY_LOCATION_OUTER_1, TestDatas::$cards[221]['card_location']);
+        assertSame(CARD_CITY_LOCATION_OUTER_1, TestDatas::$cards[222]['card_location']);
+        assertSame(3, TestDatas::$cards[221]['card_state']);
+        assertSame(2, TestDatas::$cards[222]['card_state']);
+        //New Marker on card
+        assertSame(43, TestDatas::$lastInsertedId);
+        $newClanMarker = TestDatas::$tokens[43];
+        assertSame(MEEPLE_LOCATION_CARD."$cardId", $newClanMarker['meeple_location']);
+        assertSame(1, $newClanMarker['meeple_state']);
+        assertSame($markerPid, $newClanMarker['player_id']);
+        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
     }
 
     public function test_actTakeCityCard_KO_WrongCard(): void
@@ -142,10 +293,63 @@ final class BonusCityDrawTest extends TestCase
         Globals::setCurrentBonusDatas($currentBonusDatas);
         $args = $state->getArgs();
         $cardId = 221;
+        $markerPid = null;
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Card $cardId is not selectable");
-        $newState = $state->actTakeCityCard($cardId, 999999, 1, $args);
+        $newState = $state->actTakeCityCard($cardId, $markerPid, 999999, 1, $args);
+    } 
+    
+    public function test_actTakeCityCard_KO_NoMarker(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusCityDraw($game);
+        $currentBonus = BONUS_TYPE_CITY_CARD_DRAW;
+        $currentBonusDatas = [ 'bonusQuantity'=>1, 'location' => CARD_CITY_LOCATION_OUTER_1];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        $args = $state->getArgs();
+        $cardId = 221;
+        $markerPid = 2;
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Card $cardId cannot receive a clan marker");
+        $newState = $state->actTakeCityCard($cardId, $markerPid, 999999, 1, $args);
+    } 
+    public function test_actTakeCityCard_KO_MissingMarker(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusCityDraw($game);
+        $currentBonus = BONUS_TYPE_CITY_CARD_DRAW;
+        $currentBonusDatas = [ 'bonusQuantity'=>1, 'location' => CARD_CITY_LOCATION_OUTER_1];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        $args = $state->getArgs();
+        $cardId = 223;
+        $markerPid = null;
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Card $cardId must receive a clan marker");
+        $newState = $state->actTakeCityCard($cardId, $markerPid, 999999, 1, $args);
+    } 
+    public function test_actTakeCityCard_KO_WrongMarker(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusCityDraw($game);
+        $currentBonus = BONUS_TYPE_CITY_CARD_DRAW;
+        $currentBonusDatas = [ 'bonusQuantity'=>1, 'location' => CARD_CITY_LOCATION_OUTER_1];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        $args = $state->getArgs();
+        $cardId = 223;
+        $markerPid = 1;
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Card $cardId must receive a clan marker from ");
+        $newState = $state->actTakeCityCard($cardId, $markerPid, 999999, 1, $args);
     } 
     // -------------------------------------------------
  
