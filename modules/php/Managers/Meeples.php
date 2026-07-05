@@ -206,6 +206,27 @@ class Meeples extends \ROG\Helpers\Pieces
     return $elt;
   }
   
+  public static function addClanMarkerOnHiddenCard(Player $player, Card $card)
+  {
+    Game::get()->trace("addClanMarkerOnHiddenCard()...".json_encode($card));
+    $locationIdentifier = MEEPLE_LOCATION_HIDDEN_CARD
+      .$card->getPId()
+      ."-".$card->getSubtype()
+      ."-".$card->getState()
+      ."-".$card->getLocation()
+      ;
+
+    $meeple = [
+      'type' => MEEPLE_TYPE_CLAN_MARKER,
+      'location' => $locationIdentifier,
+      'player_id' => $player->getId(),
+      'state' => 1,
+    ];
+    $elt = self::singleCreate($meeple);
+    Notifications::newClanMarker($player,$elt);
+    return $elt;
+  }
+
   public static function addClanMarkerOnCity(Player $player,int $column, int $row)
   {
     $meeple = [

@@ -59,7 +59,6 @@ class CityCards extends Cards
                 ->get();
     }
 
-    /*
     public static function countPlayerHand(int $playerId) : int
     {
         return self::DB()
@@ -68,7 +67,15 @@ class CityCards extends Cards
                 ->where(static::$prefix . 'location', CARD_CITY_LOCATION_HAND)
                 ->count();
     }
-    */
+
+    public static function maxStateInPlayerHand(int $playerId) : int
+    {
+        return self::DB()
+                ->wherePlayer($playerId)
+                ->where('subtype', CARD_TYPE_CITY)
+                ->where(static::$prefix . 'location', CARD_CITY_LOCATION_HAND)
+                ->max(static::$prefix . 'state');
+    }
 
     ///////////////////////////////////////////////////////////////////////////////////////
     

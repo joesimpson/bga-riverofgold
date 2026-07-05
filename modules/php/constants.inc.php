@@ -498,6 +498,7 @@ const MEEPLE_TYPE_RESOURCE_RICE     = 7;
 
 const MEEPLE_LOCATION_TILE = 'tile-';//To be followed by tile id
 const MEEPLE_LOCATION_CARD = 'card-';//To be followed by card id
+const MEEPLE_LOCATION_HIDDEN_CARD = 'hcard-';//To be followed by card locations datas in order to place the meeple on the right card back
 CONST MEEPLE_LOCATION_INFLUENCE = 'i-';//To be followed by region number
 const MEEPLE_LOCATION_RIVER = 'r';
 CONST MEEPLE_LOCATION_ARTISAN = 'artisan-';//To be followed by region number

@@ -128,6 +128,7 @@ final class GameTest extends TestCase
                     'location' => 'h',
                     'pId' => 1,
                     'type' => 1,
+                    'subtype' => CARD_TYPE_CUSTOMER,
                     'customerType' => 1,
                     'region' => 1,
                     'cost' => [
@@ -135,7 +136,6 @@ final class GameTest extends TestCase
                     ],
                     'title' => 'Artisan',
                     'desc' => '',
-                    'subtype' => 1,
                     'monkType' => null,
                 ],
                 1 => [
@@ -144,6 +144,7 @@ final class GameTest extends TestCase
                     'location' => 'h',
                     'pId' => 1,
                     'type' => 3,
+                    'subtype' => CARD_TYPE_CUSTOMER,
                     'customerType' => 1,
                     'region' => 3,
                     'cost' => [
@@ -151,7 +152,6 @@ final class GameTest extends TestCase
                     ],
                     'title' => 'Artisan',
                     'desc' => '',
-                    'subtype' => 1,
                     'monkType' => null,
                 ],
             ],
@@ -942,6 +942,9 @@ final class GameTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         Globals::setOptionCity(OPTION_CITY_OF_LIES_ON);
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['card_state'] = 1;
 
         $datas = $game->getAllDatas();
         
@@ -1134,12 +1137,14 @@ final class GameTest extends TestCase
                     ];
         assertSame($city_track, $datas['city_track']);
         $expectedDeckSizeCity =  [
-            CARD_CITY_LOCATION_OUTER_1 => 3,
+            CARD_CITY_LOCATION_OUTER_1 => 2,
             CARD_CITY_LOCATION_OUTER_2 => 3,
             CARD_CITY_LOCATION_INNER_1 => 3,
             CARD_CITY_LOCATION_INNER_2 => 3,
         ];
         assertSame($expectedDeckSizeCity, $datas['deckSize']['city']);
+        assertSame(['inner' =>[],'outer' =>[['state' => 1,]],], $datas['players'][1]['city_hand']);
+        assertSame(['inner' =>[],'outer' =>[],], $datas['players'][2]['city_hand']);
     }
     // -------------------------------------------------
     

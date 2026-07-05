@@ -49,7 +49,7 @@ class CityCard extends Card
       case CITY_CARD_EFFECT::PREDICT->value : 
         //When you take this card, place a clan marker from another clan on it.
         $otherPlayer = Players::get($markerId);
-        Meeples::addClanMarkerOnCard($otherPlayer,$this);
+        Meeples::addClanMarkerOnHiddenCard($otherPlayer,$this);
         break;
     }
   }

@@ -180,12 +180,33 @@ abstract class Table
             logForTests("getUniqueValueFromDb: count is $count ");
             return $count;
         }
+        if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND `subtype` = (?P<subtype>.*) AND `card_location` = '(?P<card_location>.*)'$/", $sql, $matches) == 1) {
+            $player_id = $matches['player_id'];
+            $subtype = $matches['subtype'];
+            $card_location = $matches['card_location'];
+            $count = count(array_filter(TestDatas::$cards,function ($card) use($player_id, $card_location, $subtype ) {return $card['player_id'] == $player_id && $card['card_location'] == $card_location && $card['subtype'] == $subtype ;}));
+            logForTests("getUniqueValueFromDb: count is $count  ");
+            return $count;
+        }
         if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `subtype` = (?P<subtype>.*) AND `card_location` = '(?P<card_location>.*)'$/", $sql, $matches) == 1) {
             $subtype = $matches['subtype'];
             $card_location = $matches['card_location'];
             $count = count(array_filter(TestDatas::$cards,function ($card) use( $card_location, $subtype ) {return $card['card_location'] == $card_location && $card['subtype'] == $subtype ;}));
             logForTests("getUniqueValueFromDb: count is $count  ");
             return $count;
+        }
+        if (preg_match("/^SELECT MAX\(`(?P<field>.*)`\) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND `subtype` = (?P<subtype>.*) AND `card_location` = '(?P<card_location>.*)'$/", $sql, $matches) == 1) {
+            $field = $matches['field'];
+            $player_id = $matches['player_id'];
+            $subtype = $matches['subtype'];
+            $card_location = $matches['card_location'];
+            $filtered = (array_filter(TestDatas::$cards,function ($card) use($player_id, $card_location, $subtype ) {return $card['player_id'] == $player_id && $card['card_location'] == $card_location && $card['subtype'] == $subtype ;}));
+            $max = 0;
+            foreach($filtered as $card) {
+                $max = max($max, $card[$field]);
+            }
+            logForTests("getUniqueValueFromDb: MAX($field ) is $max  ");
+            return $max;
         }
         if (preg_match("/^SELECT MAX\(`(?P<field>.*)`\) FROM `cards` WHERE \(`card_location` = '(?P<card_location>.*)'\)$/", $sql, $matches) == 1) {
             $field = $matches['field'];
@@ -961,6 +982,13 @@ abstract class Table
             $card_id = $matches['card_id'];
             logForTests("DbQuery --- updated card_played for card $card_id : $card_played");
             TestDatas::$cards[$card_id]['card_played'] = $card_played;
+            return true;
+        }
+        if (preg_match("/^UPDATE `cards` SET `card_state` = '(?P<card_state>.*)' WHERE  `card_id` = (?P<card_id>.*)$/", $sql, $matches) == 1) {
+            $card_state = $matches['card_state'];
+            $card_id = intval($matches['card_id']);
+            logForTests("DbQuery --- updated card_state for card $card_id : $card_state");
+            TestDatas::$cards[$card_id]['card_state'] = intval($card_state);
             return true;
         }
         if (preg_match("/^UPDATE `cards` SET `card_state` = '(?P<card_state>.*)' WHERE \(`card_id` IN \((?P<card_ids>.*)\)\)$/", $sql, $matches) == 1) {

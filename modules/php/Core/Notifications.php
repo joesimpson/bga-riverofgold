@@ -81,7 +81,9 @@ class Notifications
     self::notifyAllWithPrivateDatas('giveCityCardTo', clienttranslate('${player_name} gets a new city card ${card_icon}'), [
       'player' => $player,
       'from' => $fromLocation,
+      //'to' => $card->getLocation(),
       'inner' => $card->isInner(),
+      'state' => $card->getState(),
       'card_icon' =>'',
       'preserve' => ['inner'],
     ],

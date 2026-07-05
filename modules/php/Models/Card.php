@@ -19,6 +19,7 @@ class Card extends \ROG\Helpers\DB_Model
     'location' => 'card_location',
     'pId' => ['player_id', 'int'],
     'type' => ['type', 'int'],
+    'subtype' => ['subtype', 'int'],
 
     //array of numbers of resources (money/trade goods placed on the card)
     'resources' => ['resources', 'obj'],

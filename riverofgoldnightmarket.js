@@ -2275,6 +2275,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             debug('notif_giveCityCardTo: receiving a new city card', n);
             let card = n.args.card;
             let isInner = n.args.inner;
+            let state = n.args.state;
             let from = n.args.from;
             if(card){
                 let cardDiv = this.addCard(card, this.getCardContainer(card));
@@ -2285,7 +2286,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
             else {
                 //Opponents view
-                this.addCityCardBackInPlayerHand(n.args.player_id, isInner);
+                this.addCityCardBackInPlayerHand(n.args.player_id, isInner,state);
             }
             //Remove 1 rog_city_card_back from city space
             let citySpace = this.getCitySpaceFromLocation(from);
@@ -4093,12 +4094,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     //DISPLAY opponents city cards counter
                     if(player.id == this.player_id) return;
                     if(player.city_hand){
-                        for(let k=1; k<= player.city_hand.outer;k++){
-                            this.addCityCardBackInPlayerHand(player.id, false);
-                        }
-                        for(let k=1; k<= player.city_hand.inner;k++){
-                            this.addCityCardBackInPlayerHand(player.id, true);
-                        }
+                        Object.values( player.city_hand.outer).forEach((datas) =>{
+                            this.addCityCardBackInPlayerHand(player.id, false, datas.state );
+                        });
+                        Object.values( player.city_hand.inner).forEach((datas) =>{
+                            this.addCityCardBackInPlayerHand(player.id, true, datas.state );
+                        });
                     }
                 });
             }
@@ -5142,7 +5143,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         addCityCard(card, location = null) {
             debug('addCityCard',card);
             let div = document.getElementById('rog_card-' + card.id);
-            if (div) return div;
+            if (div){
+                //refresh datas
+                div.dataset.state = card.state;
+                div.dataset.location = card.location;
+                div.dataset.pid = card.pId;
+                return div;
+            }
             
             let o = this.place('tplCityCard', card, location == null ? this.getCardContainer(card) : location);
             let tooltipDesc = this.getCityCardTooltip(card);
@@ -5174,14 +5181,15 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let cardDiv = this.addCityCardBack(cardDatas);
             
         },
-        addCityCardBackInPlayerHand(card_pId, isInner ){
-            debug("addCityCardBackInPlayerHand",card_pId, isInner );
+        addCityCardBackInPlayerHand(card_pId, isInner, state ){
+            debug("addCityCardBackInPlayerHand",card_pId, isInner, state );
             let index = 1 + document.getElementById(`rog_player_city_cards_hand-${card_pId}`).querySelectorAll('.rog_city_card_back').length;
             let fakeId = `${card_pId}_${isInner}_${index}`;
             let cardDatas = {
                 'id': fakeId, 
                 'subtype':CARD_TYPE_CITY ,
                 'location': CARD_CITY_LOCATION_HAND, 
+                'state' : state,
                 'pId': card_pId,
                 'inner': isInner,
                 'opponent' : true,
@@ -5190,11 +5198,24 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             
         },
         tplCityCardBack(card, prefix ='') {
-            return `<div class="rog_card rog_card${prefix} rog_city_card rog_city_card_back" id="rog_city_card_back-${card.id}" data-inner="${card.inner}">
+            return `<div class="rog_card rog_card${prefix} rog_city_card rog_city_card_back" id="rog_city_card_back-${card.id}" 
+                data-inner="${card.inner}"
+                data-subtype="${CARD_TYPE_CITY}"
+                data-state="${card.state}"
+                data-location="${card.location}"
+                data-pid="${card.pId}"
+            >
                 </div>`;
         },
         tplCityCard(card, prefix ='') {
-            return `<div class="rog_card rog_card${prefix} rog_city_card" id="rog_card-${card.id}" data-inner="${card.inner}" data-type="${card.type}" data-state="${card.state}">
+            return `<div class="rog_card rog_card${prefix} rog_city_card" id="rog_card-${card.id}" 
+                    data-inner="${card.inner}"
+                    data-type="${card.type}" 
+                    data-subtype="${CARD_TYPE_CITY}"
+                    data-state="${card.state}"
+                    data-location="${card.location}"
+                    data-pid="${card.pId}"
+                >
                 </div>`;
         },
         
@@ -5731,7 +5752,17 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 this.cardsMeeples.set(meeple.id,meeple);
                 return tileElt;
             }
-    
+
+            if (locationParts[0] == 'hcard') {//MEEPLE_LOCATION_HIDDEN_CARD
+                // on card
+                let cardPid         = locationParts[1];
+                let cardSubtype     = locationParts[2];
+                let cardState       = locationParts[3];
+                let cardLoc         = locationParts[4];
+                let div = document.querySelector(`.rog_card[data-pid="${cardPid}"][data-subtype="${cardSubtype}"][data-state="${cardState}"][data-location="${cardLoc}"]`);
+                return div;
+            }
+             
             console.error('Trying to get container of a meeple', meeple);
             return 'game_play_area';
         },

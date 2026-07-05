@@ -113,7 +113,9 @@ class BonusCityDraw extends GameState
     $card = CityCards::getCityCard($cardId);
     $fromLocation = $card->getLocation();
     $card->setPId($player->getId());
-    $card->setState(1);
+    $currentMaxState = CityCards::maxStateInPlayerHand($player->getId());
+    //$card->setState(1 + $player->getNbCityCardsUnplayed());
+    $card->setState(1 + $currentMaxState);
     $card->setLocation(CARD_CITY_LOCATION_HAND);
     Notifications::giveCityCardTo($player,$card,$fromLocation);
     $card->onAssignment($player,$markerPid);

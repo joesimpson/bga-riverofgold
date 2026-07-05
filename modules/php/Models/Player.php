@@ -73,8 +73,12 @@ class Player extends \ROG\Helpers\DB_Model
 
     if(Utils::isGameWithCityOfLies()){
       $cityCards = CityCards::getPlayerHand($this->getId());
-      $data['city_hand']['inner'] = $cityCards->filter(function (CityCard $c) {return $c->isInner();})->count();
-      $data['city_hand']['outer'] = $cityCards->filter(function (CityCard $c) {return !($c->isInner());})->count();
+      $data['city_hand']['inner'] = $cityCards->filter(function (CityCard $c) {return $c->isInner();})->map(function (CityCard $c) {
+          return ['state' => $c->getState()];
+        })->toArray();
+      $data['city_hand']['outer'] = $cityCards->filter(function (CityCard $c) {return !($c->isInner());})->map(function (CityCard $c) {
+          return ['state' => $c->getState()];
+        })->toArray();
     }
     return $data;
   }
@@ -343,12 +347,10 @@ class Player extends \ROG\Helpers\DB_Model
     return Cards::countDeliveredCardsByCustomerRegion($this->getId(),$region);
   }
   
-  /*
   public function getNbCityCardsUnplayed() : int
   {
     return CityCards::countPlayerHand($this->getId());
   }
-    */
 
   /**
    * @return ?ClanPatronCard 
