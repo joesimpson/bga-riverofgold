@@ -96,6 +96,19 @@ class Notifications
         ],
     );
   }
+  
+  
+  public static function revealCityCard(Player $player, CityCard $card,)
+  {
+    self::notifyAll('revealCityCard', clienttranslate('${player_name} reveals city card ${card_name}'), [
+        'player' => $player,
+        'card' => $card->getUiData(),
+        'card_name' => $card->getTitle(),
+        'preserve' => ['card'],
+        'i18n' => ['card_name']
+      ],
+    );
+  }
 
   public static function initCustomersDeck(array $customerTypes)
   {

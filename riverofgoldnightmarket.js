@@ -137,6 +137,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const CARD_CITY_LOCATION_INNER_1 = 'city_in_1';
     const CARD_CITY_LOCATION_INNER_2 = 'city_in_2';
     const CARD_CITY_LOCATION_HAND = 'city_h';
+    const CARD_CITY_LOCATION_REVEALED = 'city_r';
 
     const PATRON_MASTER_ENGINEER = 1;
     const PATRON_TRADER          = 2;
@@ -271,6 +272,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['giveCardTo', 1000],
                 ['giveActionCardToAutoma', 1000],
                 ['giveCityCardTo', 1000],
+                ['revealCityCard', 1000],
                 ['initCustomersDeck', 1000],
                 ['masteryDeck', null],
                 ['giveMasteriesTo', null],
@@ -2029,6 +2031,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                                 'space': space,
                                 'selectedDiv' : divSpace,
                                 'costs': datas.cost,
+                                'possibleCityCards' : args._private.cityCards,
                                 'actionName': 'actSelectAdvanceDest',
                                 'actionDatas': { 
                                     'space': space,
@@ -2055,6 +2058,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             selectedDiv.classList.add('selected');
             let costs = Array.from(args.costs);
             let selectedRegions = [];
+            let selectedCardsIds = [];
+            let answeredCardsIds = [];
             this.tmpRegionCounters = new Map(); 
             Object.values(REGIONS).forEach((region) => {
                 this.tmpRegionCounters.set(region , this._counters[this.player_id].influence[region].getValue());
@@ -2117,6 +2122,55 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     });
                 }
             };
+            let callbackConfirm = async (actionDatas) => {
+                while( document.getElementById('multipleChoice_dialog') ) {
+                    //wait for close
+                    await this.wait(500);
+                }
+                if( Object.keys(args.possibleCityCards).length > answeredCardsIds.length){
+                    //Object.entries(args.possibleCityCards).forEach(([cId, cardDatas])=>{
+                    for (const [cId, cardDatas] of Object.entries(args.possibleCityCards)) {
+                        if(! answeredCardsIds.includes(cId)){
+                            //this.confirmationDialog(
+                            //    this.fsr(_('Do you want to play your ${card_name} ?'), 
+                            //    {'card_name': cardDatas.name}), 
+                            //    () => {
+                            //        selectedCardsIds.push(cId);
+                            //        answeredCardsIds.push(cId);
+                            //        callbackConfirm(actionDatas);
+                            //    },
+                            //    () => {
+                            //        answeredCardsIds.push(cId);
+                            //        callbackConfirm(actionDatas);
+                            //    }
+                            //);
+                            let choices = [_("Cancel"), _("No"), _("Yes")];
+                            await this.bga.dialogs.multipleChoice(this.fsr(_('Do you want to play your ${card_name} ?'), {'card_name': cardDatas.name}), choices).then(choice => {
+                                if (choice === null) { return; } 
+                                let selectedChoice = parseInt(choice); // choice will be 0,1,2
+                                switch(selectedChoice){
+                                    case 0: return;
+                                    case 1: 
+                                        answeredCardsIds.push(cId);
+                                        callbackConfirm(actionDatas);
+                                        return;//NO
+                                    case 2: 
+                                        selectedCardsIds.push(cId);
+                                        answeredCardsIds.push(cId);
+                                        callbackConfirm(actionDatas);
+                                        return;//YES
+                                }
+                            });
+                            break;
+                        }
+                    }
+                    //});
+                }
+                else {
+                    actionDatas.ci = selectedCardsIds.join(',');
+                    this.takeAction(args.actionName, actionDatas);
+                }
+            };
             
             this.addImageActionButton(`btnRecapRegions`, 
                         `<div class='rog_trade'>
@@ -2126,7 +2180,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                             //naturally sorted by selection order
                             let sortedRegions = Object.values(selectedRegions).map((datas) => { return datas.region });
                             actionDatas.sr = sortedRegions.join(',');
-                            this.takeAction(args.actionName, actionDatas);
+
+                            callbackConfirm(actionDatas);
                         }
                     );
             document.getElementById('btnRecapRegions').classList.add('disabled');
@@ -2296,6 +2351,15 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     this.destroy(back);
                 }
             }
+        },
+        
+        notif_revealCityCard(n) {
+            debug('notif_revealCityCard: ', n);
+            let card = n.args.card;
+            let cardDiv = this.addCard(card, this.getCardContainer(card));
+            this.animationManager.slideAndAttach(cardDiv, this.getCardContainer(card), {duration: 700})
+                .then(() => {
+                });
         },
         
         notif_placeCustomerOnRegion(n) {
@@ -4482,6 +4546,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 }
                 return $(`rog_cards_hand-${card.pId}`);
             }
+            if ( 
+                [CARD_CITY_LOCATION_REVEALED].includes(card.location)
+            ) {
+                return $(`rog_player_city_cards_revealed-${card.pId}`);
+            }
     
             console.error('Trying to get container of a card', card);
             return 'rog_select_piece_container';
@@ -5226,6 +5295,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     data-state="${card.state}"
                     data-location="${card.location}"
                     data-pid="${card.pId}"
+                    data-name="${card.title}"
                 >
                 </div>`;
         },
@@ -5237,14 +5307,38 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
             let actionName = _(card.title);
             let descriptionMap = new Map([
-                [ 1 ,  ``
-                    //TODO JSA TOOLTIPS
-                ],
+                //TODO JSA TOOLTIPS
+                [ this.gamedatas.enums.CITY_CARD_TYPE.BRIBERY       , this.fsr(_("When you advance in the City of Lies, you may reveal this card to gain ${n} ${koku} for each ${influence} lost in this action."), {'n':1,'koku':'', 'influence':''  }) ],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.OFFLOAD       ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.BLACK_MARKET  ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_CLI    ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_ENG    ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_ENV    ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.CARTEL        ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.SUMMONS       ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.FULL_STOR     ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.KIMONO_DRESS  ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.NIGHT_MARKET  ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.CALL_TO_PORT  ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.SHRINE_PIL    ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.OPPORTUNIST   ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.TEAHOUSE      ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.SAKE_BREW     ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.TRAVEL_TRO    ,  this.fsr(_(""), {})],
             ]);
-            descriptionLine = '';
+            descriptionLine = descriptionMap.get(card.type);
+            let effectMap = new Map([
+                [ this.gamedatas.enums.CITY_CARD_EFFECT.REVEAL   , this.fsr(_("Reveal: Some cards are optionally revealed when an event occurs for a one-time benefit."), {}) ],
+                [ this.gamedatas.enums.CITY_CARD_EFFECT.PREDICT  , this.fsr(_("Predict: Some cards require placing a clan marker from any other clan on them when gained."), {})],
+                [ this.gamedatas.enums.CITY_CARD_EFFECT.END      , this.fsr(_("End Game: Some cards are revealed only at the end of the game."), {})],
+            ]);
+            effectDesc = effectMap.get(card.effect);
             return `<div class='rog_card_tooltip'>
-                <h1>${typeName}</h1>
-                <h2>${actionName}</h2>
+                <h2 class='rog_city_card_side_name'>${typeName}</h2>
+                <h1 class='rog_city_card_name'>${actionName}</h1>
+                <hr>
+                <div class='rog_city_card_effect'>${effectDesc}</div>
+                <hr>
                 ${descriptionLine}
             </div>`;
         },

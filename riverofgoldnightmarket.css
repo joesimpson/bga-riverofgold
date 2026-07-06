@@ -3068,6 +3068,15 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_card_tooltip .rog_clan_card[data-type="11"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="12"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="13"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="14"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="15"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="16"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="17"] .rog_patron_ability, .rog_card_tooltip .rog_clan_card[data-type="18"] .rog_patron_ability {
   top: 16%;
 }
+.rog_card_tooltip .rog_city_card_side_name {
+  text-align: center;
+}
+.rog_card_tooltip .rog_city_card_name {
+  text-align: center;
+}
+.rog_card_tooltip .rog_city_card_effect {
+  font-style: italic;
+}
 
 .rog_panel .rog_clan_card {
   background-size: 1352.7272727273% 945.4545454545%;

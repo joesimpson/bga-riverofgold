@@ -19,6 +19,7 @@ use ROG\Managers\CityCards;
 use ROG\Managers\CitySpaces;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
+use ROG\Models\CityCard;
 use ROG\Models\CitySpace;
 use ROG\Models\CityTileSpace;
 use ROG\Models\MAIN_ACTION;
@@ -48,8 +49,20 @@ class AdvanceCity extends GameState
     
     $possibleSpaces = AdvanceCity::listPossibleSpacesToAdvance($player);
 
+    $cityCards = CityCards::getPlayerHand($player_id);
+    $possibleCityCardsPlay = $cityCards->filter(function(CityCard $c) use ($player){ return $c->canPlayOnAdvance($player);})
+      ->map(function(CityCard $c){ return ['name' => $c->getTitle()];})
+      ->toAssoc();
+
+    $privateDatas = [];
+    $privateDatas[$player_id] = [
+      'cityCards' => $possibleCityCardsPlay,
+    ];
+
     $args = [
       'citySpaces' => $possibleSpaces,
+      //'cityCards' => $possibleCityCardsPlay,
+      '_private' => $privateDatas,
     ];
 
     $this->game->addArgsForUndo($args);
@@ -68,6 +81,7 @@ class AdvanceCity extends GameState
       int $space, 
       int $markerId,
       #[IntArrayParam(name:'sr')] array $regionsToPayLanterns, 
+      #[IntArrayParam(name:'ci')] array $cards_ids, 
       int $version,
       int $activePlayerId, array $args,
     )
@@ -98,20 +112,35 @@ class AdvanceCity extends GameState
     if($regionsToPayLanterns == null || count($regionsToPayLanterns) !== count($lanternCosts)){
       throw new UnexpectedException(504,"Invalid number of influence to pay lanterns");
     }
+    
+    $privateDatas = $args['_private'][$activePlayerId];
+    $possibleCityCardsPlay = $privateDatas['cityCards'];
+    foreach($cards_ids as $card_id){
+      if(!in_array($card_id,array_keys($possibleCityCardsPlay))){
+        throw new UnexpectedException(515,"Invalid card $card_id to play now");
+      }
+    }
 
     // game logic  
     Log::addStep();
 
     $index = 0;
+    $sumInfluenceLost = 0;
     foreach($lanternCosts as $cost){
       $region = $regionsToPayLanterns[$index];
       Players::spendInfluence($player,$region, $cost);
+      $sumInfluenceLost += $cost;
       $index++;
     }
 
     $clanMarker = Meeples::get($markerId);
     $citySpace = CitySpaces::getCitySpaceById($space);
     Meeples::moveClanMarkerOnCity($player,$clanMarker,$citySpace);
+
+    foreach($cards_ids as $card_id){
+      $cityCard = CityCards::get($card_id);
+      $cityCard->reveal($player, $sumInfluenceLost);
+    }
 
     //Next, that player gains rewards from the space or tile they advanced to
     $rewards = $citySpace->rewards;

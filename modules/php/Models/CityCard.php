@@ -44,6 +44,17 @@ class CityCard extends Card
     return $list;
   }
 
+  public function canPlayOnAdvance(Player $player,) : bool
+  {
+    $canPlay = false;
+    switch($this->getType()){
+      case CITY_CARD_TYPE::BRIBERY->value : 
+        $canPlay = ! $this->isPlayed();
+        break;
+    }
+    return $canPlay;
+  }
+
   public function onAssignment(Player $player, ?int $markerId)
   {
     switch($this->getEffect()){
@@ -52,6 +63,18 @@ class CityCard extends Card
         $otherPlayer = Players::get($markerId);
         $clanMarker = Meeples::addClanMarkerOnHiddenCard($otherPlayer,$this,false);
         Notifications::cityCardPredict($player,$clanMarker, $otherPlayer);
+        break;
+    }
+  }
+  
+  public function reveal(Player &$player, int $sumInfluence)
+  {
+    $this->setLocation(CARD_CITY_LOCATION_REVEALED);
+    $this->setPlayed(true);
+    Notifications::revealCityCard($player,$this);
+    switch($this->getType()){
+      case CITY_CARD_TYPE::BRIBERY->value : 
+        Players::giveMoney($player, $sumInfluence);
         break;
     }
   }

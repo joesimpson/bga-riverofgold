@@ -11,6 +11,8 @@ use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 use ROG\Models\AutomaActionType;
 use ROG\Models\AutomaPlayer;
+use ROG\Models\CITY_CARD_EFFECT;
+use ROG\Models\CITY_CARD_TYPE;
 use ROG\Models\CustomerCard;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Meeple;
@@ -275,6 +277,8 @@ abstract class Utils
         return [
             'AutomaActionType' => AutomaActionType::ui(),
             'ScenarioType' => ScenarioType::ui(),
+            'CITY_CARD_TYPE' => CITY_CARD_TYPE::ui(),
+            'CITY_CARD_EFFECT' => CITY_CARD_EFFECT::ui(),
         ];
     }
 

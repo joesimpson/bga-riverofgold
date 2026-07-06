@@ -75,6 +75,7 @@ class Cards extends \ROG\Helpers\Pieces
       ->merge(self::getInLocation(CARD_CLAN_LOCATION_ASSIGNED))
       ->merge(self::getInLocation(CARD_SCENARIO_LOCATION_ASSIGNED))
       ->merge(self::getInLocationOrdered(CARD_AUTOMA_LOCATION_PLAYED))
+      ->merge(self::getInLocationOrdered(CARD_CITY_LOCATION_REVEALED))
       ->merge($privateCards)
       ->merge($privateCityCards)
       ->map(function ($card) {
