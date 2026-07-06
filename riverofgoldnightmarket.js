@@ -4077,6 +4077,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         setupCards(keepHand = false, keepOthers = false) {
             debug("setupCards",keepHand,keepOthers);
             // This function is refreshUI compatible
+            if(this.bga.players.isCurrentPlayerSpectator()) keepHand = false;
             //destroy previous cards
             document.querySelectorAll('.rog_card[id^="rog_card-"], .rog_clan_card[id^="rog_clan_card-"], .rog_btnShowCard').forEach((oCard) => {
                 let inHand = oCard.parentNode.classList.contains('rog_cards_hand') // rog_city_card
@@ -5155,6 +5156,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let tooltipDesc = this.getCityCardTooltip(card);
             this.addCustomTooltip(o.id, tooltipDesc );
             this.reduceTextSizeOnCardElements(o);
+            this.readdCityCardsMeeples(card);
             return o;
         },
         addCityCardBack(card) {
@@ -5164,6 +5166,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if(!card.inner){
                 tooltipDesc = _('City of Lies : outer card');
             }
+            this.readdCityCardsMeeples(card);
             this.addCustomTooltip(o.id, tooltipDesc);
             return o;
         },
@@ -5196,6 +5199,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             };
             let cardDiv = this.addCityCardBack(cardDatas);
             
+        },
+        readdCityCardsMeeples(card){
+            this.cardsMeeples.forEach((meeple) => {
+                if(meeple.location == `hcard-${card.pId}-${card.subtype}-${card.state}-${card.location}` ){//MEEPLE_LOCATION_HIDDEN_CARD
+                    //add meeple again in case of refreshUI/refreshHand
+                    this.addMeeple(meeple);
+                }
+            });
         },
         tplCityCardBack(card, prefix ='') {
             return `<div class="rog_card rog_card${prefix} rog_city_card rog_city_card_back" id="rog_city_card_back-${card.id}" 
@@ -5754,11 +5765,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
 
             if (locationParts[0] == 'hcard') {//MEEPLE_LOCATION_HIDDEN_CARD
-                // on card
                 let cardPid         = locationParts[1];
                 let cardSubtype     = locationParts[2];
                 let cardState       = locationParts[3];
                 let cardLoc         = locationParts[4];
+                this.cardsMeeples.set(meeple.id,meeple);
                 let div = document.querySelector(`.rog_card[data-pid="${cardPid}"][data-subtype="${cardSubtype}"][data-state="${cardState}"][data-location="${cardLoc}"]`);
                 return div;
             }

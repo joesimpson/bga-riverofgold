@@ -651,7 +651,7 @@ class Notifications
     Player $otherPlayer,
   )
   {
-    $msg = clienttranslate('${player_name} places a ${player_name2} ${clan_marker} marker on the city card');
+    $msg = clienttranslate('${player_name} places a ${player_name2} marker ${clan_marker} on the city card');
 
     self::notifyAll('newClanMarker', $msg, [
       'player' => $player,
