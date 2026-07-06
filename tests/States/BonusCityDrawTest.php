@@ -243,6 +243,48 @@ final class BonusCityDrawTest extends TestCase
         assertSame(1, TestDatas::$lastInsertedId);
     }
     
+    public function test_actTakeCityCard_Pass_SecondCard_WithOpponentMarker(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusCityDraw($game);
+        $currentBonus = BONUS_TYPE_CITY_CARD_DRAW;
+        $currentBonusDatas = [ 'bonusQuantity'=>1, 'location' => CARD_CITY_LOCATION_OUTER_1];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['card_state'] = 1;
+        $args = $state->getArgs();
+        $cardId = 223;
+        $markerPid = 2;
+
+        $newState = $state->actTakeCityCard($cardId, $markerPid, 999999, 1, $args);
+        
+        $expectedNotifs = [
+            "giveCityCardTo-1",
+            //"newClanMarker-$markerPid",
+            //"cityCardPredict-1",
+            "newClanMarker-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, $newState);
+        assertSame(CARD_CITY_LOCATION_HAND, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1, TestDatas::$cards[$cardId]['player_id']);
+        assertSame(2, TestDatas::$cards[$cardId]['card_state']);//+1
+        //other cards unchanged
+        assertSame(CARD_CITY_LOCATION_HAND, TestDatas::$cards[221]['card_location']);
+        assertSame(CARD_CITY_LOCATION_OUTER_1, TestDatas::$cards[222]['card_location']);
+        assertSame(1, TestDatas::$cards[221]['card_state']);
+        assertSame(2, TestDatas::$cards[222]['card_state']);
+        //New Marker on card
+        assertSame(43, TestDatas::$lastInsertedId);
+        $newClanMarker = TestDatas::$tokens[43];
+        assertSame(MEEPLE_LOCATION_HIDDEN_CARD."1-".CARD_TYPE_CITY."-2-city_h", $newClanMarker['meeple_location']);
+        assertSame(1, $newClanMarker['meeple_state']);
+        assertSame($markerPid, $newClanMarker['player_id']);
+        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+    }
     public function test_actTakeCityCard_Pass_WithOpponentMarker(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -260,7 +302,9 @@ final class BonusCityDrawTest extends TestCase
         
         $expectedNotifs = [
             "giveCityCardTo-1",
-            "newClanMarker-$markerPid",
+            //"newClanMarker-$markerPid",
+            //"cityCardPredict-1",
+            "newClanMarker-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(ST_BONUS_CHOICE, $newState);
@@ -299,7 +343,9 @@ final class BonusCityDrawTest extends TestCase
         
         $expectedNotifs = [
             "giveCityCardTo-1",
-            "newClanMarker-$markerPid",
+            //"newClanMarker-$markerPid",
+            //"cityCardPredict-1",
+            "newClanMarker-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(ST_BONUS_CHOICE, $newState);

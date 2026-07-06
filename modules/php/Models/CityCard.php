@@ -2,6 +2,7 @@
 
 namespace ROG\Models;
 
+use ROG\Core\Notifications;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 
@@ -49,7 +50,8 @@ class CityCard extends Card
       case CITY_CARD_EFFECT::PREDICT->value : 
         //When you take this card, place a clan marker from another clan on it.
         $otherPlayer = Players::get($markerId);
-        Meeples::addClanMarkerOnHiddenCard($otherPlayer,$this);
+        $clanMarker = Meeples::addClanMarkerOnHiddenCard($otherPlayer,$this,false);
+        Notifications::cityCardPredict($player,$clanMarker, $otherPlayer);
         break;
     }
   }

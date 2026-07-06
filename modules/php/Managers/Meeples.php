@@ -206,7 +206,7 @@ class Meeples extends \ROG\Helpers\Pieces
     return $elt;
   }
   
-  public static function addClanMarkerOnHiddenCard(Player $player, Card $card)
+  public static function addClanMarkerOnHiddenCard(Player $player, Card $card, bool $sendNotif = true) : Meeple
   {
     Game::get()->trace("addClanMarkerOnHiddenCard()...".json_encode($card));
     $locationIdentifier = MEEPLE_LOCATION_HIDDEN_CARD
@@ -223,7 +223,7 @@ class Meeples extends \ROG\Helpers\Pieces
       'state' => 1,
     ];
     $elt = self::singleCreate($meeple);
-    Notifications::newClanMarker($player,$elt);
+    if($sendNotif) Notifications::newClanMarker($player,$elt);
     return $elt;
   }
 

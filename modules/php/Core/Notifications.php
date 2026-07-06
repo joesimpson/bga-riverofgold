@@ -645,6 +645,23 @@ class Notifications
     ]);
   }
   
+  public static function cityCardPredict(
+    Player $player,
+    Meeple $clanMarker,
+    Player $otherPlayer,
+  )
+  {
+    $msg = clienttranslate('${player_name} places a ${player_name2} ${clan_marker} marker on the city card');
+
+    self::notifyAll('newClanMarker', $msg, [
+      'player' => $player,
+      'player2' => $otherPlayer,
+      'meeple' => $clanMarker->getUiData(),
+      'clan_marker' => '',
+      'preserve' => ['meeple'],
+    ]);
+  }
+  
   public static function newAssassin(
     Player $player,
     Meeple $meeple,
