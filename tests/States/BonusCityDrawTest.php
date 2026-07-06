@@ -172,7 +172,112 @@ final class BonusCityDrawTest extends TestCase
 
         $newState = $state->onEnteringState(1, $args);
         
+        $expectedNotifs = [
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
         assertSame(null, $newState);
+    }
+    public function test_EnteringState_Pass_0PossibleCard_AutoSkip(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusCityDraw($game);
+        $currentBonus = BONUS_TYPE_CITY_CARD_DRAW;
+        $currentBonusDatas = [ 'bonusQuantity'=>1, 'location' => CARD_CITY_LOCATION_OUTER_1];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[222]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[223]['card_location'] = CARD_CITY_LOCATION_HAND;
+        $args = $state->getArgs();
+
+        $newState = $state->onEnteringState(1, $args);
+        
+        $expectedNotifs = [
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, $newState);
+    }
+    public function test_EnteringState_Pass_1PossibleCard_AutoChoice(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusCityDraw($game);
+        $currentBonus = BONUS_TYPE_CITY_CARD_DRAW;
+        $currentBonusDatas = [ 'bonusQuantity'=>1, 'location' => CARD_CITY_LOCATION_OUTER_1];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[223]['card_location'] = CARD_CITY_LOCATION_HAND;
+        $args = $state->getArgs();
+
+        $newState = $state->onEnteringState(1, $args);
+        
+        $expectedNotifs = [
+            "giveCityCardTo-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, $newState);
+    }
+    public function test_EnteringState_Pass_1PossibleCardPredict_AutoChoice(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusCityDraw($game);
+        $currentBonus = BONUS_TYPE_CITY_CARD_DRAW;
+        $currentBonusDatas = [ 'bonusQuantity'=>1, 'location' => CARD_CITY_LOCATION_OUTER_1];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[222]['card_location'] = CARD_CITY_LOCATION_HAND;
+        $args = $state->getArgs();
+        $markerPid = 2;
+        $cardId = 223;
+
+        $newState = $state->onEnteringState(1, $args);
+        
+        $expectedNotifs = [
+            "giveCityCardTo-1",
+            "newClanMarker-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, $newState);
+        assertSame(CARD_CITY_LOCATION_HAND, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1, TestDatas::$cards[$cardId]['player_id']);
+        //New Marker on card
+        assertSame(43, TestDatas::$lastInsertedId);
+        $newClanMarker = TestDatas::$tokens[43];
+        //assertSame(MEEPLE_LOCATION_CARD."$cardId", $newClanMarker['meeple_location']);
+        assertSame(MEEPLE_LOCATION_HIDDEN_CARD."1-".CARD_TYPE_CITY."-1-city_h", $newClanMarker['meeple_location']);
+        assertSame(1, $newClanMarker['meeple_state']);
+        assertSame($markerPid, $newClanMarker['player_id']);
+        assertSame(MEEPLE_TYPE_CLAN_MARKER, $newClanMarker['type']);
+    }
+    public function test_EnteringState_Pass_1PossibleCardPredict_NoAutoChoice(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusCityDraw($game);
+        $currentBonus = BONUS_TYPE_CITY_CARD_DRAW;
+        $currentBonusDatas = [ 'bonusQuantity'=>1, 'location' => CARD_CITY_LOCATION_OUTER_1];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[222]['card_location'] = CARD_CITY_LOCATION_HAND;
+        $args = $state->getArgs();
+        $cardId = 223;
+
+        $newState = $state->onEnteringState(1, $args);
+        
+        $expectedNotifs = [
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(null, $newState);
+        assertSame(CARD_CITY_LOCATION_OUTER_1, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(null, TestDatas::$cards[$cardId]['player_id']);
+        //no New Marker on card
+        assertSame(1, TestDatas::$lastInsertedId);
     }
     // -------------------------------------------------
  

@@ -71,6 +71,23 @@ class BonusCityDraw extends GameState
   
   public function onEnteringState(int $activePlayerId, array $args) {
     $this->game->trace(__CLASS__.".".__FUNCTION__."($activePlayerId)");
+    
+    $privateArgs = $args['_private'][$activePlayerId];
+    $possibleCards = isset($privateArgs['cards']) ? $privateArgs['cards'] : [];
+    if(count($possibleCards) == 0){
+      //AUTO SKIP state
+      return ST_BONUS_CHOICE;
+    } else if(count($possibleCards) == 1){
+      //AUTO CHOICE if no marker to select
+      $cardId = array_keys($possibleCards)[0];
+      $cardArgs = $possibleCards[$cardId];
+      $possibleClanIds = $cardArgs['pos_clan'];
+      if(count($possibleClanIds) == 0 ){
+        return $this->actTakeCityCard($cardId, null, Utils::gameVersion(), $activePlayerId,$args, true);
+      } else if(count($possibleClanIds) == 1){
+        return $this->actTakeCityCard($cardId, $possibleClanIds[0], Utils::gameVersion(), $activePlayerId,$args, true);
+      }
+    }
   }
 
   /**
@@ -82,6 +99,7 @@ class BonusCityDraw extends GameState
       #[IntParam(name: 'p')] ?int $markerPid,
       int $version,
       int $activePlayerId, array $args,
+      bool $auto = false,
       )
   {
     $this->game->checkVersion($version);
@@ -108,7 +126,7 @@ class BonusCityDraw extends GameState
     }
 
     // game logic  
-    Log::addStep();
+    if(!$auto) Log::addStep();
 
     $card = CityCards::getCityCard($cardId);
     $fromLocation = $card->getLocation();
