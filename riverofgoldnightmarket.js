@@ -5371,7 +5371,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     `
                     <span>${this.fsr(_("When the game ends, reveal this card to gain ${icon_score} for each ${icon_building} building adjacent to your ships"), {
                         'icon_score': this.formatIcon('score',2),
-                        'icon_building': this.formatIcon('manor'),
+                        'icon_building': this.formatIcon('manor_simple'),
                     })}</span>
                     `
                 ],
@@ -5391,7 +5391,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     `
                     <span>${this.fsr(_("When the game ends, reveal this card to gain ${icon_score} for each ${icon_building} building adjacent to your ships"), {
                         'icon_score': this.formatIcon('score',2),
-                        'icon_building': this.formatIcon('port'),
+                        'icon_building': this.formatIcon('port_simple'),
                     })}</span>
                     `
                 ],
@@ -5399,7 +5399,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     `
                     <span>${this.fsr(_("When the game ends, reveal this card to gain ${icon_score} for each ${icon_building} building adjacent to your ships"), {
                         'icon_score': this.formatIcon('score',2),
-                        'icon_building': this.formatIcon('shrine'),
+                        'icon_building': this.formatIcon('shrine_simple'),
                     })}</span>
                     `
                 ],

@@ -135,7 +135,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -32.1818181818px;
   background-position-y: -554.0697674419px;
-  background-size: 1905.4545454545% 2330.2325581395%;
+  background-size: 1990.9090909091% 2330.2325581395%;
 }
 .player_board_inner .player_score .fa-star::before {
   content: unset;
@@ -147,7 +147,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -32.1818181818px;
   background-position-y: -554.0697674419px;
-  background-size: 1905.4545454545% 2330.2325581395%;
+  background-size: 1990.9090909091% 2330.2325581395%;
 }
 .rog_icon_score span {
   color: white;
@@ -428,7 +428,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -30.3px;
   background-position-y: -38.4px;
-  background-size: 349.3333333333% 334%;
+  background-size: 365% 334%;
 }
 .rog_icon_container .rog_icon.rog_icon_favor, .rog_icon_container .rog_icon.rog_icon_influence-1, .rog_icon_container .rog_icon.rog_icon_influence-2, .rog_icon_container .rog_icon.rog_icon_influence-3, .rog_icon_container .rog_icon.rog_icon_influence-4, .rog_icon_container .rog_icon.rog_icon_influence-5, .rog_icon_container .rog_icon.rog_icon_influence-6 {
   width: 2.5em;
@@ -448,7 +448,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -210.4545454545px;
   background-position-y: -139.8461538462px;
-  background-size: 1587.8787878788% 1541.5384615385%;
+  background-size: 1659.0909090909% 1541.5384615385%;
 }
 .rog_icon_container .rog_icon.rog_icon_silk {
   width: 30px;
@@ -456,7 +456,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -62.5862068966px;
   background-position-y: -39.8769230769px;
-  background-size: 361.3793103448% 385.3846153846%;
+  background-size: 377.5862068966% 385.3846153846%;
 }
 .rog_icon_container .rog_icon.rog_icon_rice {
   width: 30px;
@@ -464,7 +464,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -30.3461538462px;
   background-position-y: -79.7307692308px;
-  background-size: 403.0769230769% 385.3846153846%;
+  background-size: 421.1538461538% 385.3846153846%;
 }
 .rog_icon_container .rog_icon.rog_icon_pottery {
   width: 30px;
@@ -472,7 +472,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -0.1153846154px;
   background-position-y: -79.7307692308px;
-  background-size: 403.0769230769% 385.3846153846%;
+  background-size: 421.1538461538% 385.3846153846%;
 }
 .rog_icon_container .rog_icon.rog_icon_port {
   width: 27px;
@@ -480,7 +480,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -283.2857142857px;
   background-position-y: -148.5294117647px;
-  background-size: 1663.4920634921% 1964.7058823529%;
+  background-size: 1738.0952380952% 1964.7058823529%;
 }
 .rog_icon_container .rog_icon.rog_icon_market {
   width: 27px;
@@ -488,7 +488,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -369.5901639344px;
   background-position-y: -452.6041666667px;
-  background-size: 1718.0327868852% 2087.5%;
+  background-size: 1795.0819672131% 2087.5%;
 }
 .rog_icon_container .rog_icon.rog_icon_manor {
   width: 27px;
@@ -496,7 +496,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -410.9491525424px;
   background-position-y: -462.2340425532px;
-  background-size: 1776.2711864407% 2131.914893617%;
+  background-size: 1855.9322033898% 2131.914893617%;
 }
 .rog_icon_container .rog_icon.rog_icon_shrine {
   width: 27px;
@@ -504,7 +504,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -0.4821428571px;
   background-position-y: -496.3541666667px;
-  background-size: 1871.4285714286% 2087.5%;
+  background-size: 1955.3571428571% 2087.5%;
 }
 .rog_icon_container .rog_icon.rog_icon_influence-1 {
   width: 30px;
@@ -512,7 +512,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -416.25px;
   background-position-y: -465.5357142857px;
-  background-size: 1871.4285714286% 1789.2857142857%;
+  background-size: 1955.3571428571% 1789.2857142857%;
 }
 .rog_icon_container .rog_icon.rog_icon_influence-2 {
   width: 30px;
@@ -520,7 +520,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -435.7894736842px;
   background-position-y: -417.3684210526px;
-  background-size: 1838.5964912281% 1757.8947368421%;
+  background-size: 1921.0526315789% 1757.8947368421%;
 }
 .rog_icon_container .rog_icon.rog_icon_influence-3 {
   width: 30px;
@@ -528,7 +528,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -475.1785714286px;
   background-position-y: -417.3684210526px;
-  background-size: 1871.4285714286% 1757.8947368421%;
+  background-size: 1955.3571428571% 1757.8947368421%;
 }
 .rog_icon_container .rog_icon.rog_icon_influence-4 {
   width: 30px;
@@ -536,7 +536,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -322.5px;
   background-position-y: -449.4827586207px;
-  background-size: 1871.4285714286% 1727.5862068966%;
+  background-size: 1955.3571428571% 1727.5862068966%;
 }
 .rog_icon_container .rog_icon.rog_icon_influence-5 {
   width: 30px;
@@ -544,7 +544,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -377.8947368421px;
   background-position-y: -465.5357142857px;
-  background-size: 1838.5964912281% 1789.2857142857%;
+  background-size: 1921.0526315789% 1789.2857142857%;
 }
 .rog_icon_container .rog_icon.rog_icon_influence-6 {
   width: 30px;
@@ -552,7 +552,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -353.5714285714px;
   background-position-y: -449.4827586207px;
-  background-size: 1871.4285714286% 1727.5862068966%;
+  background-size: 1955.3571428571% 1727.5862068966%;
 }
 .rog_icon_container .rog_icon.rog_icon_customer-1, .rog_icon_container .rog_icon.rog_icon_customer-2, .rog_icon_container .rog_icon.rog_icon_customer-3, .rog_icon_container .rog_icon.rog_icon_customer-4, .rog_icon_container .rog_icon.rog_icon_customer-5, .rog_icon_container .rog_icon.rog_icon_customer-6, .rog_icon_container .rog_icon.rog_icon_customer-7, .rog_icon_container .rog_icon.rog_icon_customer-8, .rog_icon_container .rog_icon.rog_icon_customer-9, .rog_icon_container .rog_icon.rog_icon_customer-10 {
   border-radius: 50%;
@@ -564,7 +564,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -210px;
   background-position-y: -347.6px;
-  background-size: 1397.3333333333% 1336%;
+  background-size: 1460% 1336%;
 }
 .rog_icon_container .rog_icon.rog_icon_customer-2 {
   width: 30px;
@@ -572,7 +572,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -249.3px;
   background-position-y: -207.3px;
-  background-size: 1048% 1002%;
+  background-size: 1095% 1002%;
 }
 .rog_icon_container .rog_icon.rog_icon_customer-3 {
   width: 30px;
@@ -580,7 +580,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -218.7px;
   background-position-y: -207.3px;
-  background-size: 1048% 1002%;
+  background-size: 1095% 1002%;
 }
 .rog_icon_container .rog_icon.rog_icon_customer-4 {
   width: 30px;
@@ -588,7 +588,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -157.5px;
   background-position-y: -207.3px;
-  background-size: 1048% 1002%;
+  background-size: 1095% 1002%;
 }
 .rog_icon_container .rog_icon.rog_icon_customer-5 {
   width: 30px;
@@ -596,7 +596,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -188.1px;
   background-position-y: -207.3px;
-  background-size: 1048% 1002%;
+  background-size: 1095% 1002%;
 }
 .rog_icon_container .rog_icon.rog_icon_customer-6, .rog_icon_container .rog_icon.rog_icon_customer-7, .rog_icon_container .rog_icon.rog_icon_customer-8, .rog_icon_container .rog_icon.rog_icon_customer-9, .rog_icon_container .rog_icon.rog_icon_customer-10 {
   width: 30px;
@@ -626,7 +626,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -278.6184210526px;
   background-position-y: -321.4864864865px;
-  background-size: 1378.9473684211% 1354.0540540541%;
+  background-size: 1440.7894736842% 1354.0540540541%;
 }
 .rog_icon_container .rog_icon.rog_icon_clan-2 {
   width: 35px;
@@ -634,7 +634,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -378px;
   background-position-y: -335.0704225352px;
-  background-size: 1497.1428571429% 1411.2676056338%;
+  background-size: 1564.2857142857% 1411.2676056338%;
 }
 .rog_icon_container .rog_icon.rog_icon_clan-3 {
   width: 35px;
@@ -642,7 +642,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -235.5769230769px;
   background-position-y: -321.4864864865px;
-  background-size: 1343.5897435897% 1354.0540540541%;
+  background-size: 1403.8461538462% 1354.0540540541%;
 }
 .rog_icon_container .rog_icon.rog_icon_clan-4 {
   width: 35px;
@@ -650,7 +650,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -336.6901408451px;
   background-position-y: -335.0704225352px;
-  background-size: 1476.0563380282% 1411.2676056338%;
+  background-size: 1542.2535211268% 1411.2676056338%;
 }
 .rog_icon_container .rog_icon.rog_icon_clan-5, .rog_icon_container .rog_icon.rog_icon_clan-6, .rog_icon_container .rog_icon.rog_icon_clan-7, .rog_icon_container .rog_icon.rog_icon_clan-8 {
   background-size: 100% 100%;
@@ -771,7 +771,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -24.9px;
   background-position-y: -0.0666666667px;
-  background-size: 262% 334%;
+  background-size: 273.75% 334%;
 }
 
 .rog_icon_influence {
@@ -780,7 +780,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -85.0193050193px;
   background-position-y: -0.1108033241px;
-  background-size: 404.6332046332% 277.5623268698%;
+  background-size: 422.7799227799% 277.5623268698%;
 }
 .rog_icon_influence span {
   color: white;
@@ -803,7 +803,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -45.3436293436px;
   background-position-y: -0.0637119114px;
-  background-size: 404.6332046332% 277.5623268698%;
+  background-size: 422.7799227799% 277.5623268698%;
   position: absolute;
   top: 6px;
 }
@@ -2586,7 +2586,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -50.0689655172px;
   background-position-y: -31.9015384615px;
-  background-size: 361.3793103448% 385.3846153846%;
+  background-size: 377.5862068966% 385.3846153846%;
 }
 .rog_card .rog_card_wrapper .rog_customer_cost .rog_icon_container .rog_icon_rice {
   width: 24px;
@@ -2594,7 +2594,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -24.2769230769px;
   background-position-y: -63.7846153846px;
-  background-size: 403.0769230769% 385.3846153846%;
+  background-size: 421.1538461538% 385.3846153846%;
 }
 .rog_card .rog_card_wrapper .rog_customer_cost .rog_icon_container .rog_icon_pottery {
   width: 24px;
@@ -2602,7 +2602,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -0.0923076923px;
   background-position-y: -63.7846153846px;
-  background-size: 403.0769230769% 385.3846153846%;
+  background-size: 421.1538461538% 385.3846153846%;
 }
 .rog_card .rog_card_wrapper .rog_customer_cost .rog_icon_container .rog_icon_rice {
   transform: rotate(90deg);
@@ -2613,7 +2613,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -168.3636363636px;
   background-position-y: -111.8769230769px;
-  background-size: 1587.8787878788% 1541.5384615385%;
+  background-size: 1659.0909090909% 1541.5384615385%;
 }
 .rog_card .rog_card_wrapper .rog_delivery_ability,
 .rog_card .rog_card_wrapper .rog_ongoing_ability,
@@ -7614,7 +7614,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -187.7586206897px;
   background-position-y: -119.6307692308px;
-  background-size: 361.3793103448% 385.3846153846%;
+  background-size: 377.5862068966% 385.3846153846%;
 }
 .rog_meeple[data-type="6"] {
   width: 90px;
@@ -7622,7 +7622,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -0.3461538462px;
   background-position-y: -239.1923076923px;
-  background-size: 403.0769230769% 385.3846153846%;
+  background-size: 421.1538461538% 385.3846153846%;
 }
 .rog_meeple[data-type="7"] {
   width: 90px;
@@ -7630,7 +7630,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -91.0384615385px;
   background-position-y: -239.1923076923px;
-  background-size: 403.0769230769% 385.3846153846%;
+  background-size: 421.1538461538% 385.3846153846%;
 }
 .rog_meeple.rog_score_meeple {
   background-image: url("img/score_markers.png");
@@ -8937,7 +8937,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -0.07px;
   background-position-y: -0.07px;
-  background-size: 318.5410334347% 262.9921259843%;
+  background-size: 332.8267477204% 262.9921259843%;
 }
 
 .rog_icon_automa_action_card {
@@ -8956,7 +8956,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -0.1px;
   background-position-y: -38.4px;
-  background-size: 349.3333333333% 328.5245901639%;
+  background-size: 365% 328.5245901639%;
 }
 
 .rog_icon_bonus-21 {
@@ -8965,7 +8965,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -477.9px;
   background-position-y: -272.7px;
-  background-size: 1637.5% 1670%;
+  background-size: 1710.9375% 1670%;
 }
 
 .rog_icon_bonus-23 {
@@ -8974,7 +8974,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -358.8px;
   background-position-y: -153.6px;
-  background-size: 1114.8936170213% 603.6144578313%;
+  background-size: 1164.8936170213% 603.6144578313%;
 }
 
 .rog_icon_container_bonus-24 {
@@ -8987,7 +8987,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -166px;
   background-position-y: -151.5px;
-  background-size: 812.4031007752% 1473.5294117647%;
+  background-size: 848.8372093023% 1473.5294117647%;
 }
 
 .rog_icon_own_building,
@@ -8997,7 +8997,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -318.4210526316px;
   background-position-y: -285px;
-  background-size: 1838.5964912281% 2947.0588235294%;
+  background-size: 1921.0526315789% 2947.0588235294%;
 }
 
 .rog_icon_opponent_building,
@@ -9007,7 +9007,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -349.4736842105px;
   background-position-y: -334.1379310345px;
-  background-size: 1838.5964912281% 3455.1724137931%;
+  background-size: 1921.0526315789% 3455.1724137931%;
 }
 
 .rog_icon_bonus-27 {
@@ -9202,7 +9202,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -491.0526315789px;
   background-position-y: -357.4137931034px;
-  background-size: 1838.5964912281% 1727.5862068966%;
+  background-size: 1921.0526315789% 1727.5862068966%;
 }
 
 .rog_icon_moon_up {
@@ -9211,7 +9211,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -349.4805194805px;
   background-position-y: -212.3076923077px;
-  background-size: 1361.038961039% 1284.6153846154%;
+  background-size: 1422.0779220779% 1284.6153846154%;
 }
 
 .rog_icon_score_1 {
@@ -9220,7 +9220,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -63.2727272727px;
   background-position-y: -554.0697674419px;
-  background-size: 1905.4545454545% 2330.2325581395%;
+  background-size: 1990.9090909091% 2330.2325581395%;
 }
 
 .rog_icon_customer_delivery {
@@ -9229,7 +9229,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -288.8709677419px;
   background-position-y: -162.3214285714px;
-  background-size: 1690.3225806452% 1789.2857142857%;
+  background-size: 1766.1290322581% 1789.2857142857%;
 }
 
 .rog_icon_market_simple {
@@ -9238,7 +9238,34 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   background-image: url("img/icons/icons_sprite.png");
   background-position-x: -574.0384615385px;
   background-position-y: -0.5660377358px;
-  background-size: 2015.3846153846% 1890.5660377358%;
+  background-size: 2105.7692307692% 1890.5660377358%;
+}
+
+.rog_icon_port_simple {
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -297.9px;
+  background-position-y: -21px;
+  background-size: 1095% 1002%;
+}
+
+.rog_icon_shrine_simple {
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -297.9px;
+  background-position-y: -56.1px;
+  background-size: 1095% 1002%;
+}
+
+.rog_icon_manor_simple {
+  width: 30px;
+  height: 30px;
+  background-image: url("img/icons/icons_sprite.png");
+  background-position-x: -298.5px;
+  background-position-y: -87px;
+  background-size: 1095% 1002%;
 }
 
 .customimagebutton .rog_icon_bonus-21 {

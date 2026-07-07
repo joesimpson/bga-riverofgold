@@ -220,6 +220,15 @@
 .rog_icon_market_simple{//SIMPLE : with no check mark on it
     @include rog_icons_sprite(-995px,-1px,30px,30px,52px,53px);
 }
+.rog_icon_port_simple{//SIMPLE : with no check mark on it
+    @include rog_icons_sprite(-993px,-70px,30px,30px,100px,100px);
+}
+.rog_icon_shrine_simple{//SIMPLE : with no check mark on it
+    @include rog_icons_sprite(-993px,-187px,30px,30px,100px,100px);
+}
+.rog_icon_manor_simple{//SIMPLE : with no check mark on it
+    @include rog_icons_sprite(-995px,-290px,30px,30px,100px,100px);
+}
 
 // In buttons ///////////////////////////
 .customimagebutton{
