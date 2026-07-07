@@ -5387,8 +5387,22 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     `
                 ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.NIGHT_MARKET  ,  this.fsr(_(""), {})],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.CALL_TO_PORT  ,  this.fsr(_(""), {})],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.SHRINE_PIL    ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.CALL_TO_PORT  ,  
+                    `
+                    <span>${this.fsr(_("When the game ends, reveal this card to gain ${icon_score} for each ${icon_building} building adjacent to your ships"), {
+                        'icon_score': this.formatIcon('score',2),
+                        'icon_building': this.formatIcon('port'),
+                    })}</span>
+                    `
+                ],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.SHRINE_PIL    ,  
+                    `
+                    <span>${this.fsr(_("When the game ends, reveal this card to gain ${icon_score} for each ${icon_building} building adjacent to your ships"), {
+                        'icon_score': this.formatIcon('score',2),
+                        'icon_building': this.formatIcon('shrine'),
+                    })}</span>
+                    `
+                ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.OPPORTUNIST   ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.TEAHOUSE      ,  
                     `

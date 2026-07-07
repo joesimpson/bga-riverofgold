@@ -9,6 +9,7 @@ use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
 use ROG\Models\BuildingTile;
 use ROG\Models\MAIN_ACTION;
+use ROG\Models\Meeple;
 use ROG\Models\Player;
 use ROG\Models\Reward;
 use ROG\Models\SCORING_CITY_TYPE;
@@ -108,6 +109,17 @@ class Tiles extends \ROG\Helpers\Pieces
       ->whereIn(static::$prefix . 'state', $spaces)
       ->get()
       ->getIds();
+  }
+  
+  public static function countBuiltTilesNearPlayerShips(int $player_id, int $buildingType) : int
+  {
+    $boats = Meeples::getBoats($player_id);
+    $boatsRiverSpaces = array_unique($boats->map(function(Meeple $b) {return $b->getPosition();})->toArray());
+    $tilesIds = Tiles::getBuiltTilesIdsNearRiverSpaces($boatsRiverSpaces);
+    $nbTiles = Tiles::getMany($tilesIds)->filter(function(BuildingTile $t) use ($buildingType){
+        return ($buildingType == $t->getBuildingType());
+      })->count();
+      return $nbTiles;
   }
   
   public static function getBuiltTilesIdsInRegion(int $region) : array

@@ -120,15 +120,9 @@ class CityCard extends Card
         break;
       case CITY_CARD_TYPE::SUMMONS->value : 
         //LOOK FOR each manor adjacent to ships
-        $score = 0;
         $scorePerElement = 2;
-        $boats = Meeples::getBoats($this->getPId());
-        $boatsRiverSpaces = array_unique($boats->map(function(Meeple $b) {return $b->getPosition();})->toArray());
-        $tilesIds = Tiles::getBuiltTilesIdsNearRiverSpaces($boatsRiverSpaces);
-        $nbTiles = Tiles::getMany($tilesIds)->filter(function(BuildingTile $t) {
-            return (BUILDING_TYPE_MANOR == $t->getBuildingType());
-          })->count();
-        $score += $scorePerElement * $nbTiles;
+        $nbTiles = Tiles::countBuiltTilesNearPlayerShips($this->getPId(),BUILDING_TYPE_MANOR,);
+        $score = $scorePerElement * $nbTiles;
         break;
       case CITY_CARD_TYPE::FULL_STOR->value : 
         $scorePerFullStorage = 5;
@@ -146,6 +140,16 @@ class CityCard extends Card
       case CITY_CARD_TYPE::KIMONO_DRESS->value : 
         $scorePerElement = 1;
         $score = $scorePerElement * $player->getResource(RESOURCE_TYPE_SILK);
+        break;
+      case CITY_CARD_TYPE::CALL_TO_PORT->value : 
+        $scorePerElement = 2;
+        $nbTiles = Tiles::countBuiltTilesNearPlayerShips($this->getPId(),BUILDING_TYPE_PORT,);
+        $score = $scorePerElement * $nbTiles;
+        break;
+      case CITY_CARD_TYPE::SHRINE_PIL->value : 
+        $scorePerElement = 2;
+        $nbTiles = Tiles::countBuiltTilesNearPlayerShips($this->getPId(),BUILDING_TYPE_SHRINE,);
+        $score = $scorePerElement * $nbTiles;
         break;
       case CITY_CARD_TYPE::TEAHOUSE->value : 
         $scorePerElement = 1;
