@@ -197,6 +197,7 @@ trait DebugTrait
     int $sun      = 2, 
     int $moon     = 6, 
     int $dieFace  = 6, 
+    int $score    = 10, 
   ){
     $this->addStep();
     $player = Players::getCurrent();
@@ -209,6 +210,7 @@ trait DebugTrait
       RESOURCE_TYPE_MOON    => $moon   ,
     ]);
     $player->setDie($dieFace);
+    $player->setScore($score);
     $this->debug_UI();
     $this->refresh_state();
   }

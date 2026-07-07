@@ -110,6 +110,14 @@ class CityCard extends Card
           $score += 4;
         }
         break;
+      case CITY_CARD_TYPE::SHARED_ENV->value : 
+        //If that clan has the most score
+        $score = 0;
+        $targetPid = $meeples->first()->getPId();
+        if(Players::isPlayerWithMaxScore($targetPid)){
+          $score += 4;
+        }
+        break;
       case CITY_CARD_TYPE::SUMMONS->value : 
         //LOOK FOR each manor adjacent to ships
         $score = 0;
@@ -145,5 +153,15 @@ class CityCard extends Card
     }
     return $score;
   }
+  
+  public function scoreAsFirstCityCard() : bool
+  {
+    switch($this->getType()){
+      case CITY_CARD_TYPE::SHARED_ENV->value : 
+        return true;
+    }
+    return false;
+  }
+
 
 }

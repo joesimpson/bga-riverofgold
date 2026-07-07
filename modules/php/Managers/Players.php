@@ -131,6 +131,7 @@ class Players extends \ROG\Helpers\DB_Manager
   public static function getUpdatedPlayerScore(int $pId) : int
   {
     Game::get()->trace("getUpdatedPlayerScore($pId)");
+    if($pId == AUTOMA_PLAYER_ID) return Globals::getAutomaScore();
 
     return self::DB()
       ->select(['player_score'])
@@ -766,6 +767,20 @@ class Players extends \ROG\Helpers\DB_Manager
     $betterPlayers = $players->filter(function(Player $p) use ($targetPid, $nbTarget){
       if($p->getId() == $targetPid) return false;
       $nb = $p->getNbBuildings();
+      if($nbTarget <= $nb){
+        return true;
+      }
+      return false;
+    });
+    return $betterPlayers->count() == 0;
+  }
+  public static function isPlayerWithMaxScore(int $targetPid) : bool
+  {
+    $players = Players::getAllWithAutoma();
+    $nbTarget = Players::getUpdatedPlayerScore($targetPid);
+    $betterPlayers = $players->filter(function(Player $p) use ($targetPid, $nbTarget){
+      if($p->getId() == $targetPid) return false;
+      $nb = Players::getUpdatedPlayerScore($p->getId());
       if($nbTarget <= $nb){
         return true;
       }

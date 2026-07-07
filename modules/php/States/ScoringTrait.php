@@ -80,12 +80,18 @@ trait ScoringTrait
         $endScoringDatas[$pid][SCORING_CITY_CARD] = 0;
       }
     }
-    
-    //Reveal hidden city cards
-    foreach($players as $pid => $player){
-      $cityCards = CityCards::getPlayerHand($pid);
-      if(Utils::isGameWithCityOfLies()){
-        $endScoringDatas[$pid][SCORING_CITY_CARD] = $cityCards->map(function(CityCard $c) use ($player){ return $c->onEndReveal($player);})->reduce(function ($ax, $dx) {  return $ax + (int)$dx;}, 0);
+  
+    if(Utils::isGameWithCityOfLies()){
+      //Reveal city cards SHARED ENV FIRST because it depends on score
+      foreach($players as $pid => $player){
+        $cityCards = CityCards::getPlayerHand($pid);
+        $endScoringDatas[$pid][SCORING_CITY_CARD] += $cityCards->filter(function(CityCard $c){ return $c->scoreAsFirstCityCard();})->map(function(CityCard $c) use ($player){ return $c->onEndReveal($player);})->reduce(function ($ax, $dx) {  return $ax + (int)$dx;}, 0);
+      }
+
+      //Reveal all hidden city cards
+      foreach($players as $pid => $player){
+        $cityCards = CityCards::getPlayerHand($pid);
+        $endScoringDatas[$pid][SCORING_CITY_CARD] += $cityCards->map(function(CityCard $c) use ($player){ return $c->onEndReveal($player);})->reduce(function ($ax, $dx) {  return $ax + (int)$dx;}, 0);
       }
     }
 
