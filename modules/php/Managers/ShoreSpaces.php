@@ -2,6 +2,7 @@
 
 namespace ROG\Managers;
 
+use ROG\Core\Game;
 use ROG\Helpers\Collection;
 use ROG\Models\SHORE_SIDE;
 use ROG\Models\ShoreSpace;
@@ -155,6 +156,21 @@ class ShoreSpaces
     }
     $usedSpaces = Tiles::getUsedPositionsOnShore();
     return array_diff($spaces, $usedSpaces);
+  }
+
+  public static function getUniqueSpacesAdjacentToRiver(array $riverSpaces ) : array{
+
+    $spaces = [];
+    foreach($riverSpaces as $riverSpace) {
+      $shoreSpaces = ShoreSpaces::getAdjacentSpaces($riverSpace);
+      foreach($shoreSpaces as $shoreSpace) {
+        if(!in_array($shoreSpace,$spaces)){
+          $spaces[] = $shoreSpace;
+        }
+      }
+    }
+    Game::get()->trace("getUniqueSpacesAdjacentToRiver(".json_encode($riverSpaces).") = ".json_encode($spaces));
+    return $spaces;
   }
 
   public static function getLastRiverSpace() : int

@@ -133,7 +133,6 @@ trait DebugTrait
   }
   
   public function debug_goToState(int $state = ST_PLAYER_TURN) {
-    $this->addStep();
     $this->gamestate->jumpToState($state);
   }
   

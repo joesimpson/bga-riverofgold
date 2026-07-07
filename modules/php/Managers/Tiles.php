@@ -7,6 +7,7 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
+use ROG\Models\BuildingTile;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
 use ROG\Models\Reward;
@@ -93,9 +94,20 @@ class Tiles extends \ROG\Helpers\Pieces
    * @param int $position
    * @return ?BuildingTile tile or null
    */
-  public static function getTileOnShoreSpace($position)
+  public static function getTileOnShoreSpace($position) : ?BuildingTile
   {
     return self::getInLocation(TILE_LOCATION_BUILDING_SHORE,$position)->first();
+  }
+  
+  public static function getBuiltTilesIdsNearRiverSpaces(array $riverSpaces) : array
+  {
+    Game::get()->trace("getBuiltTilesIdsNearRiverSpaces()".json_encode($riverSpaces));
+    $spaces = ShoreSpaces::getUniqueSpacesAdjacentToRiver($riverSpaces);
+    return self::DB()->select([self::$prefix.'id'])
+      ->where(static::$prefix . 'location', TILE_LOCATION_BUILDING_SHORE)
+      ->whereIn(static::$prefix . 'state', $spaces)
+      ->get()
+      ->getIds();
   }
   
   public static function getBuiltTilesIdsInRegion(int $region) : array

@@ -273,7 +273,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['giveCardTo', 1000],
                 ['giveActionCardToAutoma', 1000],
                 ['giveCityCardTo', 1000],
-                ['revealCityCard', 1000],
+                ['revealCityCard', 2000],
                 ['initCustomersDeck', 1000],
                 ['masteryDeck', null],
                 ['giveMasteriesTo', null],
@@ -314,7 +314,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['scoreMerchants', 1200],
                 ['scoreMultiCustomers', 1200],
                 ['scoreCustomer', 1200],
-                ['scoreCityCard', 1200],
+                ['scoreCityCard', 2000],
                 ['addPoints', 1200],
                 ['scorePatron', 1200],
                 ['scenarioCompleted', 1200],
@@ -4192,7 +4192,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 });
             }
             if(!keepOthers){
-                document.querySelectorAll('.rog_cards_delivered, .rog_player_action_cards, .rog_region_cards_space, .rog_city_card_space').forEach((div) => {
+                document.querySelectorAll('.rog_cards_delivered, .rog_player_action_cards, .rog_player_city_cards_revealed, .rog_region_cards_space, .rog_city_card_space').forEach((div) => {
                     this.empty(div);
                 });
 
@@ -5346,7 +5346,11 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_ENG    ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_ENV    ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.CARTEL        ,  this.fsr(_(""), {})],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.SUMMONS       ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.SUMMONS       ,  this.fsr(_("When the game ends, reveal this card to gain ${icon_score} for each ${icon_building} building adjacent to your ships"), {
+                        'icon_score': this.formatIcon('score',2),
+                        'icon_building': this.formatIcon('manor'),
+                    })
+                ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.FULL_STOR     ,  this.fsr(_("When the game ends, gain ${icon_score} for each type of ${resource} you have ${x} of."), {
                         'icon_score': this.formatIcon('score',5),
                         'resource': this.formatIcon('bonus-'+BONUS_TYPE_CHOICE), 

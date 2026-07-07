@@ -2,9 +2,12 @@
 
 namespace ROG\Models;
 
+use ROG\Core\Game;
 use ROG\Core\Notifications;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
+use ROG\Managers\ShoreSpaces;
+use ROG\Managers\Tiles;
 
 class CityCard extends Card
 { 
@@ -86,9 +89,20 @@ class CityCard extends Card
   {
     $score = null;
     $this->setLocation(CARD_CITY_LOCATION_REVEALED);
-    $this->setPlayed(true);
     Notifications::revealCityCard($player,$this);
     switch($this->getType()){
+      case CITY_CARD_TYPE::SUMMONS->value : 
+        //LOOK FOR each manor adjacent to ships
+        $score = 0;
+        $scorePerElement = 2;
+        $boats = Meeples::getBoats($this->getPId());
+        $boatsRiverSpaces = array_unique($boats->map(function(Meeple $b) {return $b->getPosition();})->toArray());
+        $tilesIds = Tiles::getBuiltTilesIdsNearRiverSpaces($boatsRiverSpaces);
+        $nbTiles = Tiles::getMany($tilesIds)->filter(function(BuildingTile $t) {
+            return (BUILDING_TYPE_MANOR == $t->getBuildingType());
+          })->count();
+        $score += $scorePerElement * $nbTiles;
+        break;
       case CITY_CARD_TYPE::FULL_STOR->value : 
         $scorePerFullStorage = 5;
         $score = 0;
@@ -101,10 +115,10 @@ class CityCard extends Card
         if($player->getResource(RESOURCE_TYPE_RICE)>= NB_MAX_RESOURCE) {
           $score += $scorePerFullStorage;
         }
-        $player->addPoints($score,false);
         break;
     }
     if(isset($score)){
+      $player->addPoints($score,false);
       Notifications::scoreCityCard($player,$this,$score);
     }
     else {
