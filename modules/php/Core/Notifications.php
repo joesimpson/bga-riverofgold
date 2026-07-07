@@ -100,8 +100,9 @@ class Notifications
   
   public static function revealCityCard(Player $player, CityCard $card,)
   {
-    self::notifyAll('revealCityCard', clienttranslate('${player_name} reveals city card ${card_name}'), [
+    self::notifyAll('revealCityCard', clienttranslate('${player_name} reveals city card ${card_icon} ${card_name}'), [
         'player' => $player,
+        'card_icon' =>'',
         'card' => $card->getUiData(),
         'card_name' => $card->getTitle(),
         'preserve' => ['card'],
