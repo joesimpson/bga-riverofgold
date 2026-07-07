@@ -5381,13 +5381,25 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         'x': 6,
                     })
                 ],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.KIMONO_DRESS  ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.KIMONO_DRESS  ,  
+                    `
+                    <span>${this.fsr(_("When the game ends, gain ${icon_score} for each ${resource} you have."), {'icon_score': this.formatIcon('score',1), 'resource': this.formatIcon(RESOURCES[RESOURCE_TYPE_SILK])})}</span>
+                    `
+                ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.NIGHT_MARKET  ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.CALL_TO_PORT  ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SHRINE_PIL    ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.OPPORTUNIST   ,  this.fsr(_(""), {})],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.TEAHOUSE      ,  this.fsr(_(""), {})],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.SAKE_BREW     ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.TEAHOUSE      ,  
+                    `
+                    <span>${this.fsr(_("When the game ends, gain ${icon_score} for each ${resource} you have."), {'icon_score': this.formatIcon('score',1), 'resource': this.formatIcon(RESOURCES[RESOURCE_TYPE_POTTERY])})}</span>
+                    `
+                ],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.SAKE_BREW     ,  
+                    `
+                    <span>${this.fsr(_("When the game ends, gain ${icon_score} for each ${resource} you have."), {'icon_score': this.formatIcon('score',1), 'resource': this.formatIcon(RESOURCES[RESOURCE_TYPE_RICE])})}</span>
+                    `
+                ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.TRAVEL_TRO    ,  this.fsr(_(""), {})],
             ]);
             descriptionLine = descriptionMap.get(card.type);

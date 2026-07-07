@@ -143,6 +143,18 @@ class CityCard extends Card
           $score += $scorePerFullStorage;
         }
         break;
+      case CITY_CARD_TYPE::KIMONO_DRESS->value : 
+        $scorePerElement = 1;
+        $score = $scorePerElement * $player->getResource(RESOURCE_TYPE_SILK);
+        break;
+      case CITY_CARD_TYPE::TEAHOUSE->value : 
+        $scorePerElement = 1;
+        $score = $scorePerElement * $player->getResource(RESOURCE_TYPE_POTTERY);
+        break;
+      case CITY_CARD_TYPE::SAKE_BREW->value : 
+        $scorePerElement = 1;
+        $score = $scorePerElement * $player->getResource(RESOURCE_TYPE_RICE);
+        break;
     }
     if(isset($score)){
       $player->addPoints($score,false);
