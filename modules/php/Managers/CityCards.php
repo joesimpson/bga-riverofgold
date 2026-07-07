@@ -56,6 +56,7 @@ class CityCards extends Cards
                 ->wherePlayer($playerId)
                 ->where('subtype', CARD_TYPE_CITY)
                 ->where(static::$prefix . 'location', CARD_CITY_LOCATION_HAND)
+                ->orderBy( [static::$prefix . 'state', 'ASC'])
                 ->get();
     }
 

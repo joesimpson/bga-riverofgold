@@ -529,7 +529,8 @@ abstract class Table
             $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location, $player_id, ){return $card['card_location'] == $card_location && $card['player_id'] == $player_id ;});
             return $filtered;
         }
-        if (preg_match("/^SELECT (.*) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND `subtype` = (?P<subtype>.*) AND `card_location` = '(?P<card_location>.*)'$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT (.*) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND `subtype` = (?P<subtype>.*) AND `card_location` = '(?P<card_location>.*)'( ORDER BY card_state (ASC|DESC))?$/", $sql, $matches) == 1) {
+            //TODO SORT card_state
             $card_location = $matches['card_location'];
             $player_id = $matches['player_id'];
             $subtype = $matches['subtype'];

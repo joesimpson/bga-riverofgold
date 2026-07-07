@@ -3297,6 +3297,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                             <th>${_('In-game score')}</th>
                             ${playersIngameScore}
                         </tr>
+                        <tr id="rog_recap_cityCards_row" class ="rog_nodisplay" s>
+                            <th>${_('City cards')}</th>
+                            ${playersCityCards}
+                        </tr>
                         ${regionsInfluence}
                         <tr>
                             <th>${_('Delivered customers')} <div class='rog_icon_customer_delivery'></div></th>
@@ -3305,10 +3309,6 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         <tr>
                             <th>${_('Customers bonuses')}${customersIcons}</th>
                             ${playersCustomerBonuses}
-                        </tr>
-                        <tr id="rog_recap_cityCards_row" class ="rog_nodisplay" s>
-                            <th>${_('City cards')}</th>
-                            ${playersCityCards}
                         </tr>
                         <tr id="rog_recap_scenario_row" class ="rog_nodisplay" >
                             <th>${_('Completed Scenario ?')}</th>
