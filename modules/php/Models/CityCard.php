@@ -102,6 +102,14 @@ class CityCard extends Card
           $score += 4;
         }
         break;
+      case CITY_CARD_TYPE::SHARED_ENG->value : 
+        //If that clan has the most buildings
+        $score = 0;
+        $targetPid = $meeples->first()->getPId();
+        if(Players::isPlayerWithMaxBuildings($targetPid)){
+          $score += 4;
+        }
+        break;
       case CITY_CARD_TYPE::SUMMONS->value : 
         //LOOK FOR each manor adjacent to ships
         $score = 0;

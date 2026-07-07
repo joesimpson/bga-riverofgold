@@ -387,4 +387,9 @@ class Player extends \ROG\Helpers\DB_Model
     Game::get()->trace("getBuiltRegions()".$this->getId().":". json_encode($regions));
     return $regions;
   }
+  
+  public function getNbBuildings() : int
+  {
+    return Meeples::countPlayerBuildings($this->getId());
+  }
 }

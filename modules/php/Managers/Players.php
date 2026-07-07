@@ -747,14 +747,31 @@ class Players extends \ROG\Helpers\DB_Manager
     $players = Players::getAllWithAutoma();
     $target = $players[$targetPid];
     $nbTargetDeliveries = $target->getNbDeliveredCustomers();
-    foreach($players as $pid => $tmp_player){
-      if( $pid == $targetPid ) continue;
-      $nbDeliveries = $tmp_player->getNbDeliveredCustomers();
+    $betterPlayers = $players->filter(function(Player $p) use ($targetPid, $nbTargetDeliveries){
+      if($p->getId() == $targetPid) return false;
+      $nbDeliveries = $p->getNbDeliveredCustomers();
       if($nbTargetDeliveries <= $nbDeliveries){
-        return false;
+        return true;
       }
-    }
-    return true;
+      return false;
+    });
+    return $betterPlayers->count() == 0;
+  }
+  
+  public static function isPlayerWithMaxBuildings(int $targetPid) : bool
+  {
+    $players = Players::getAllWithAutoma();
+    $target = $players[$targetPid];
+    $nbTarget = $target->getNbBuildings();
+    $betterPlayers = $players->filter(function(Player $p) use ($targetPid, $nbTarget){
+      if($p->getId() == $targetPid) return false;
+      $nb = $p->getNbBuildings();
+      if($nbTarget <= $nb){
+        return true;
+      }
+      return false;
+    });
+    return $betterPlayers->count() == 0;
   }
 }
 

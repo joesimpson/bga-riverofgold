@@ -5354,7 +5354,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <span>${this.fsr(_("When the game ends, reveal this card. If that clan has the most customers, gain ${icon_score}."), {'icon_score': this.formatIcon('score',4),})}</span>
                     `
                 ],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_ENG    ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_ENG    , 
+                    `
+                    <span>${this.fsr(_("When you take this card, place a clan marker from another clan on it."), {})}</span>
+                    <span>${this.fsr(_("When the game ends, reveal this card. If that clan has the most buildings, gain ${icon_score}."), {'icon_score': this.formatIcon('score',4),})}</span>
+                    `
+                ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_ENV    ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.CARTEL        ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SUMMONS       ,  
