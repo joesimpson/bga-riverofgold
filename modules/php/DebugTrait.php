@@ -133,6 +133,7 @@ trait DebugTrait
   }
   
   public function debug_goToState(int $state = ST_PLAYER_TURN) {
+    $this->addStep();
     $this->gamestate->jumpToState($state);
   }
   
@@ -179,7 +180,7 @@ trait DebugTrait
     $this->debug_UI();
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
-
+  /*
   function debug_Money(){
     $this->addStep();
     $player = Players::getCurrent();
@@ -187,6 +188,7 @@ trait DebugTrait
     Notifications::spendMoney($player,23);
     $this->refresh_state();
   }
+  */
 
   function debug_Resources( 
     int $money    = 10, 
@@ -219,7 +221,7 @@ trait DebugTrait
     $this->automaEngine->playTurn($automaP);
     $this->refresh_state();
   }
-  
+  /*
   function debug_Trade(){
     $this->addStep();
     $player = Players::getCurrent();
@@ -234,6 +236,7 @@ trait DebugTrait
     $this->debug_UI();
     $this->gamestate->jumpToState(ST_PLAYER_TURN_TRADE);
   }
+  */
   /*
   //Simulate a meeple in each influence space to test UI
   function debug_InfluenceMeeples(){
@@ -379,6 +382,7 @@ trait DebugTrait
     $this->gamestate->jumpToState(ST_PLAYER_TURN_SAIL);
   }
 
+  /*
   function debug_UpgradeShip(){
     $this->addStep();
     $player = Players::getCurrent();
@@ -452,6 +456,7 @@ trait DebugTrait
     Players::claimMasteries($player);
     $this->refresh_state();
   }
+  */
   
   function debug_BuildMore(int $nbBuildingsToAdd = 2){
     $this->addStep();
@@ -476,7 +481,7 @@ trait DebugTrait
     $this->debug_UI();
     $this->refresh_state();
   }
-  
+  /*
   function debug_Merchants(){
     $this->addStep();
     $player = Players::getCurrent();
@@ -491,6 +496,7 @@ trait DebugTrait
     CustomerCard::playOngoingAbility($player,CARD_MERCHANT_6);
     $this->gamestate->jumpToState(ST_BONUS_CHOICE);
   }
+  */
   
   function debug_EmperorVisit(){
     $this->addStep();
@@ -516,10 +522,6 @@ trait DebugTrait
     $this->refresh_state();
   }
   
-  function debug_GoToScoring(){
-    $this->addStep();
-    $this->gamestate->jumpToState(ST_END_SCORING);
-  }
   function debug_Scoring(){
     $this->addStep();
     $players = Players::getAllWithAutoma();
@@ -534,6 +536,7 @@ trait DebugTrait
     $this->refresh_state();
   }
 
+  /*
   function debug_ManualScoring(){
     $this->addStep();
     $player = Players::getCurrent(); 
@@ -620,6 +623,7 @@ trait DebugTrait
   function debug_assignAutomaClan(){
     Players::assignAutomaClan();
   }
+  */
   //----------------------------------------------------------------
   //Clear logs
   function debug_CLS(){

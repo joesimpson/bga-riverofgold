@@ -5,12 +5,15 @@ namespace ROG\States;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
+use ROG\Managers\CityCards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\AutomaPlayer;
+use ROG\Models\CityCard;
 use ROG\Models\Meeple;
 use ROG\Models\CustomerCard;
 
@@ -36,7 +39,7 @@ trait ScoringTrait
     $this->gamestate->nextState('next');
   }
   
-  public function checkBeforeScoring($players)
+  public function checkBeforeScoring(Collection $players)
   {
     self::trace("checkBeforeScoring()");
     foreach($players as $pid => $player){
@@ -47,7 +50,7 @@ trait ScoringTrait
     }
   }
 
-  public function computeFinalScore($players)
+  public function computeFinalScore(Collection $players)
   {
     self::trace("computeFinalScore()");
     Notifications::computeFinalScore();
@@ -71,6 +74,18 @@ trait ScoringTrait
       //$this->trace("player::class = ".($player::class));
       if($player instanceof AutomaPlayer){
         Cards::deliverHiddenCards($player);
+      }
+
+      if(Utils::isGameWithCityOfLies()){
+        $endScoringDatas[$pid][SCORING_CITY_CARD] = 0;
+      }
+    }
+    
+    //Reveal hidden city cards
+    foreach($players as $pid => $player){
+      $cityCards = CityCards::getPlayerHand($pid);
+      if(Utils::isGameWithCityOfLies()){
+        $endScoringDatas[$pid][SCORING_CITY_CARD] = $cityCards->map(function(CityCard $c) use ($player){ return $c->onEndReveal($player);})->reduce(function ($ax, $dx) {  return $ax + (int)$dx;}, 0);
       }
     }
 
@@ -204,7 +219,7 @@ trait ScoringTrait
     Globals::setEndScoring($endScoringDatas);
   }
   
-  public function checkCoopVictory($players)
+  public function checkCoopVictory(Collection $players)
   {
     if(!Utils::isGameWithAutoma()) return;
 

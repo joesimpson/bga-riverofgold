@@ -226,6 +226,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const SCORING_INFLUENCE = 2;
     const SCORING_DELIVERED = 3;
     const SCORING_CUSTOMERS = 4;
+    const SCORING_CITY_CARD = 5;
     const SCORING_COMPLETE_SCENARIO = 10;
 
     const PREF_PLAYER_PANEL_DETAILS = 100;
@@ -313,6 +314,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['scoreMerchants', 1200],
                 ['scoreMultiCustomers', 1200],
                 ['scoreCustomer', 1200],
+                ['scoreCityCard', 1200],
                 ['addPoints', 1200],
                 ['scorePatron', 1200],
                 ['scenarioCompleted', 1200],
@@ -2790,6 +2792,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_card-${n.args.card_id}`));
             this._counters[n.args.player_id].scoringRecap.customerBonuses.incValue(n.args.n);
         },
+        notif_scoreCityCard(n) {
+            debug('notif_scoreCityCard', n);
+            this.gainPoints(n.args.player_id,n.args.n,$(`rog_card-${n.args.card_id}`));
+            if(this._counters[n.args.player_id].scoringRecap !=undefined){
+                this._counters[n.args.player_id].scoringRecap.cityCards.incValue(n.args.n);
+            }
+        },
         notif_scorePatron(n) {
             debug('notif_scorePatron', n);
             this.gainPoints(n.args.player_id,n.args.n,$(`rog_clan_card-${n.args.card_id}`));
@@ -3215,12 +3224,17 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 recomputeTotal += this._counters[pId].scoringRecap.customerDeliv.getValue();
                 this._counters[pId].scoringRecap.customerBonuses = this.createCounter(`rog_recap_customers_${pId}`,endScoreDatas ? endScoreDatas[SCORING_CUSTOMERS] : 0);
                 recomputeTotal += this._counters[pId].scoringRecap.customerBonuses.getValue();
+                this._counters[pId].scoringRecap.cityCards = this.createCounter(`rog_recap_cityCards_${pId}`,endScoreDatas ? endScoreDatas[SCORING_CITY_CARD] : 0);
+                recomputeTotal += this._counters[pId].scoringRecap.cityCards.getValue();
                 this._counters[pId].scoringRecap.ingame = this.createCounter(`rog_recap_ingame_${pId}`,endScoreDatas ? endScoreDatas[SCORING_INGAME]: player.score);
                 recomputeTotal += this._counters[pId].scoringRecap.ingame.getValue();
                 this._counters[pId].scoringRecap.total = this.createCounter(`rog_recap_total_${pId}`,player.score);
                 
                 if(endScoreDatas){
                     this.updateScoringScenario(pId, endScoreDatas[SCORING_COMPLETE_SCENARIO]);
+                }
+                if(this.gamedatas.city_of_lies){
+                    document.getElementById(`rog_recap_cityCards_row`).classList.remove('rog_nodisplay');
                 }
                 //if(this._counters[pId].scoringRecap.total.getValue() == -1){//SCORE_FAIL
                     //IF negative score to save a BGA defeat, recomputes the score with all other values from table :
@@ -3236,6 +3250,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             let playersIngameScore = '';
             let playersDeliveries = '';
             let playersCustomerBonuses = '';
+            let playersCityCards = '';
             let playersScenarioRecap = '';
             let playersTotal = '';
             let regionsInfluence = '';
@@ -3255,6 +3270,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 playersIngameScore +=`<td><div id='rog_recap_ingame_${player.id}'></div></td>`;
                 playersDeliveries +=`<td><div id='rog_recap_deliv_${player.id}'></div></td>`;
                 playersCustomerBonuses += `<td><div id='rog_recap_customers_${player.id}'></div></td>`;
+                playersCityCards += `<td><div id='rog_recap_cityCards_${player.id}'></div></td>`;
                 playersScenarioRecap += `<td><div id='rog_recap_scenario_${player.id}'></div></td>`;
                 playersTotal +=`<td><div id='rog_recap_total_${player.id}'></div></td>`;
             });
@@ -3289,6 +3305,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         <tr>
                             <th>${_('Customers bonuses')}${customersIcons}</th>
                             ${playersCustomerBonuses}
+                        </tr>
+                        <tr id="rog_recap_cityCards_row" class ="rog_nodisplay" s>
+                            <th>${_('City cards')}</th>
+                            ${playersCityCards}
                         </tr>
                         <tr id="rog_recap_scenario_row" class ="rog_nodisplay" >
                             <th>${_('Completed Scenario ?')}</th>
@@ -5327,7 +5347,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_ENV    ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.CARTEL        ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SUMMONS       ,  this.fsr(_(""), {})],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.FULL_STOR     ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.FULL_STOR     ,  this.fsr(_("When the game ends, gain ${icon_score} for each type of ${resource} you have ${x} of."), {
+                        'icon_score': this.formatIcon('score',5),
+                        'resource': this.formatIcon('bonus-'+BONUS_TYPE_CHOICE), 
+                        'x': 6,
+                    })
+                ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.KIMONO_DRESS  ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.NIGHT_MARKET  ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.CALL_TO_PORT  ,  this.fsr(_(""), {})],

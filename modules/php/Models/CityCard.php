@@ -67,7 +67,7 @@ class CityCard extends Card
     }
   }
   
-  public function reveal(Player &$player, int $sumInfluence)
+  public function reveal(Player &$player, int $sumInfluence = 0)
   {
     $this->setLocation(CARD_CITY_LOCATION_REVEALED);
     $this->setPlayed(true);
@@ -77,5 +77,39 @@ class CityCard extends Card
         Players::giveMoney($player, $sumInfluence);
         break;
     }
+  }
+  
+  /**
+   * @return int score gained here
+   */
+  public function onEndReveal(Player &$player,) : int
+  {
+    $score = null;
+    $this->setLocation(CARD_CITY_LOCATION_REVEALED);
+    $this->setPlayed(true);
+    Notifications::revealCityCard($player,$this);
+    switch($this->getType()){
+      case CITY_CARD_TYPE::FULL_STOR->value : 
+        $scorePerFullStorage = 5;
+        $score = 0;
+        if($player->getResource(RESOURCE_TYPE_SILK)>= NB_MAX_RESOURCE) {
+          $score += $scorePerFullStorage;
+        }
+        if($player->getResource(RESOURCE_TYPE_POTTERY)>= NB_MAX_RESOURCE) {
+          $score += $scorePerFullStorage;
+        }
+        if($player->getResource(RESOURCE_TYPE_RICE)>= NB_MAX_RESOURCE) {
+          $score += $scorePerFullStorage;
+        }
+        $player->addPoints($score,false);
+        break;
+    }
+    if(isset($score)){
+      Notifications::scoreCityCard($player,$this,$score);
+    }
+    else {
+      $score = 0;
+    }
+    return $score;
   }
 }

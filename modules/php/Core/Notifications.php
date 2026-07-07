@@ -1049,6 +1049,19 @@ class Notifications
     );
   }
   
+  public static function scoreCityCard(Player $player,CityCard $card,int $points){
+    $msg = clienttranslate('${player_name} scores ${n} ${points} with city card ${card_name}');
+    self::notifyAll('scoreCityCard',$msg,[ 
+        'player' => $player,
+        'n' => $points,
+        'points' => clienttranslate('Points'),
+        'i18n' => ['points'],
+        'card_id' => $card->getId(),
+        'card_name' => $card->getTitle(), 
+      ],
+    );
+  }
+  
   public static function scoreMultiCustomers(Player $player,int $customer_type, int $nbCustomers,int $typeResource,int $amountResources,int $points){
     $msg = clienttranslate('${player_name} scores ${n} ${points} with ${n2} ${customer_name} and ${n3} remaining ${res_icon}');
     self::notifyAll('scoreMultiCustomers',$msg,[ 
