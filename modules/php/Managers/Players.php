@@ -741,5 +741,20 @@ class Players extends \ROG\Helpers\DB_Manager
         ->func('MAX', 'player_no');
     return $no_max ?? 0;
   }
+  
+  public static function isPlayerWithMaxDeliveries(int $targetPid) : bool
+  {
+    $players = Players::getAllWithAutoma();
+    $target = $players[$targetPid];
+    $nbTargetDeliveries = $target->getNbDeliveredCustomers();
+    foreach($players as $pid => $tmp_player){
+      if( $pid == $targetPid ) continue;
+      $nbDeliveries = $tmp_player->getNbDeliveredCustomers();
+      if($nbTargetDeliveries <= $nbDeliveries){
+        return false;
+      }
+    }
+    return true;
+  }
 }
 

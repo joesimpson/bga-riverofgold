@@ -98,11 +98,12 @@ class Notifications
   }
   
   
-  public static function revealCityCard(Player $player, CityCard $card,)
+  public static function revealCityCard(Player $player, CityCard $card, Collection $meeples)
   {
     self::notifyAll('revealCityCard', clienttranslate('${player_name} reveals city card ${card_icon} ${card_name}'), [
         'player' => $player,
         'card_icon' =>'',
+        'meeples' => $meeples->ui(),
         'card' => $card->getUiData(),
         'card_name' => $card->getTitle(),
         'preserve' => ['card'],

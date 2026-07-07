@@ -2363,6 +2363,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             this.animationManager.slideAndAttach(cardDiv, this.getCardContainer(card), {duration: 700})
                 .then(() => {
                 });
+            //refresh card meeples if any
+            Promise.all(
+                Object.values(n.args.meeples).map((meeple, i) => {
+                    let divMeeple = this.addMeeple(meeple);
+                })
+            );
         },
         
         notif_placeCustomerOnRegion(n) {
@@ -5342,14 +5348,22 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [ this.gamedatas.enums.CITY_CARD_TYPE.BRIBERY       , this.fsr(_("When you advance in the City of Lies, you may reveal this card to gain ${n} ${koku} for each ${influence} lost in this action."), {'n':1,'koku':'', 'influence':''  }) ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.OFFLOAD       ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.BLACK_MARKET  ,  this.fsr(_(""), {})],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_CLI    ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_CLI    , 
+                    `
+                    <span>${this.fsr(_("When you take this card, place a clan marker from another clan on it."), {})}</span>
+                    <span>${this.fsr(_("When the game ends, reveal this card. If that clan has the most customers, gain ${icon_score}."), {'icon_score': this.formatIcon('score',4),})}</span>
+                    `
+                ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_ENG    ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_ENV    ,  this.fsr(_(""), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.CARTEL        ,  this.fsr(_(""), {})],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.SUMMONS       ,  this.fsr(_("When the game ends, reveal this card to gain ${icon_score} for each ${icon_building} building adjacent to your ships"), {
+                [ this.gamedatas.enums.CITY_CARD_TYPE.SUMMONS       ,  
+                    `
+                    <span>${this.fsr(_("When the game ends, reveal this card to gain ${icon_score} for each ${icon_building} building adjacent to your ships"), {
                         'icon_score': this.formatIcon('score',2),
                         'icon_building': this.formatIcon('manor'),
-                    })
+                    })}</span>
+                    `
                 ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.FULL_STOR     ,  this.fsr(_("When the game ends, gain ${icon_score} for each type of ${resource} you have ${x} of."), {
                         'icon_score': this.formatIcon('score',5),

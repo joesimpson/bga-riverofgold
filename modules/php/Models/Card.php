@@ -4,6 +4,8 @@ namespace ROG\Models;
 
 use ROG\Core\Game;
 use ROG\Core\Notifications;
+use ROG\Helpers\Collection;
+use ROG\Managers\Meeples;
 
 /*
  * Card: all utility functions concerning a card
@@ -80,5 +82,13 @@ class Card extends \ROG\Helpers\DB_Model
     if(!isset($resources) ) return 0;
     if(!isset($resources[$type]) ) return 0;
     return $resources[$type];
+  }
+  
+  public function getMeeplesWhenHidden() : Collection
+  {
+    return Meeples::getInLocation(MEEPLE_LOCATION_HIDDEN_CARD .$this->getPId()
+      ."-".$this->getSubtype()
+      ."-".$this->getState()
+      ."-".$this->getLocation());
   }
 }

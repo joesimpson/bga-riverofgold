@@ -2,11 +2,9 @@
 
 namespace ROG\Models;
 
-use ROG\Core\Game;
 use ROG\Core\Notifications;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
-use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 
 class CityCard extends Card
@@ -72,9 +70,10 @@ class CityCard extends Card
   
   public function reveal(Player &$player, int $sumInfluence = 0)
   {
+    $meeples = $this->getMeeplesWhenHidden();
     $this->setLocation(CARD_CITY_LOCATION_REVEALED);
     $this->setPlayed(true);
-    Notifications::revealCityCard($player,$this);
+    Notifications::revealCityCard($player,$this,$meeples);
     switch($this->getType()){
       case CITY_CARD_TYPE::BRIBERY->value : 
         Players::giveMoney($player, $sumInfluence);
@@ -88,9 +87,21 @@ class CityCard extends Card
   public function onEndReveal(Player &$player,) : int
   {
     $score = null;
+    $meeples = $this->getMeeplesWhenHidden();
     $this->setLocation(CARD_CITY_LOCATION_REVEALED);
-    Notifications::revealCityCard($player,$this);
+    foreach($meeples as $meeple){
+      $meeple->setLocation(MEEPLE_LOCATION_CARD.$this->getId());
+    }
+    Notifications::revealCityCard($player,$this,$meeples);
     switch($this->getType()){
+      case CITY_CARD_TYPE::SHARED_CLI->value : 
+        //If that clan has the most customers
+        $score = 0;
+        $targetPid = $meeples->first()->getPId();
+        if(Players::isPlayerWithMaxDeliveries($targetPid)){
+          $score += 4;
+        }
+        break;
       case CITY_CARD_TYPE::SUMMONS->value : 
         //LOOK FOR each manor adjacent to ships
         $score = 0;
@@ -126,4 +137,5 @@ class CityCard extends Card
     }
     return $score;
   }
+
 }
