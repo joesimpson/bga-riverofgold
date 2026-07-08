@@ -700,6 +700,8 @@ final class SetupTest extends TestCase
         assertSame($expectedCardsNames, $cardsNames);
         //City tiles
         assertSame(4, Tiles::countInLocation(TILE_LOCATION_CITYSCORING_BOARD));
+        $uniqueRegions = array_unique(Tiles::getInLocation(TILE_LOCATION_CITYSCORING_BOARD)->map(function($t){return $t->getRegion();})->toArray());
+        assertSame(4, count($uniqueRegions));
         //City Cards
         assertSame(3, Cards::countInLocation(CARD_CITY_LOCATION_OUTER_1));
         assertSame(3, Cards::countInLocation(CARD_CITY_LOCATION_OUTER_2));
@@ -732,6 +734,8 @@ final class SetupTest extends TestCase
 
         //City tiles
         assertSame(4, Tiles::countInLocation(TILE_LOCATION_CITYSCORING_BOARD));
+        $uniqueRegions = array_unique(Tiles::getInLocation(TILE_LOCATION_CITYSCORING_BOARD)->map(function($t){return $t->getRegion();})->toArray());
+        assertSame(4, count($uniqueRegions));
     }
     public function test_setupNewGame_CityOfLies_4p(): void
     {
@@ -762,6 +766,8 @@ final class SetupTest extends TestCase
 
         //City tiles
         assertSame(5, Tiles::countInLocation(TILE_LOCATION_CITYSCORING_BOARD));
+        $uniqueRegions = array_unique(Tiles::getInLocation(TILE_LOCATION_CITYSCORING_BOARD)->map(function($t){return $t->getRegion();})->toArray());
+        assertSame(5, count($uniqueRegions));
         //City Cards
         assertSame(4, Cards::countInLocation(CARD_CITY_LOCATION_OUTER_1));
         assertSame(4, Cards::countInLocation(CARD_CITY_LOCATION_OUTER_2));
@@ -801,6 +807,8 @@ final class SetupTest extends TestCase
 
         //City tiles
         assertSame(5, Tiles::countInLocation(TILE_LOCATION_CITYSCORING_BOARD));
+        $uniqueRegions = array_unique(Tiles::getInLocation(TILE_LOCATION_CITYSCORING_BOARD)->map(function($t){return $t->getRegion();})->toArray());
+        assertSame(5, count($uniqueRegions));
         //City Cards
         assertSame(4, Cards::countInLocation(CARD_CITY_LOCATION_OUTER_1));
         assertSame(4, Cards::countInLocation(CARD_CITY_LOCATION_OUTER_2));

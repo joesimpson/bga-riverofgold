@@ -419,10 +419,24 @@ class Tiles extends \ROG\Helpers\Pieces
       
       if(Utils::isGameWithCityOfLies()){
         $nbScoringCityTiles = [1=>3, 2=>3, 3=>4, 4=>5, 5=>5,];
-        $scoringCityTiles = self::pickForLocation($nbScoringCityTiles[$nbPlayersWithAutoma],TILE_LOCATION_CITYSCORING_DECK,TILE_LOCATION_CITYSCORING_BOARD);
+        //$scoringCityTiles = self::pickForLocation($nbScoringCityTiles[$nbPlayersWithAutoma],TILE_LOCATION_CITYSCORING_DECK,TILE_LOCATION_CITYSCORING_BOARD);
+          //only 1 tile per region : 
+          $nbRegionsToPick = $nbScoringCityTiles[$nbPlayersWithAutoma];
+          $pickedRegions = array_rand(array_flip(REGIONS), $nbRegionsToPick);
+          $randomTypes = [];
+          foreach ($pickedRegions as $region) {
+            $tilesTypesfromRegion = Tiles::getScoringCityTilesTypesByRegion($region);
+            $randomTypes[] = $tilesTypesfromRegion[array_rand($tilesTypesfromRegion)];
+          }
+          $scoringCityTiles = self::DB()
+            ->where( 'subtype', TILE_TYPE_CITY_SCORING)
+            ->whereIn('type', $randomTypes)
+            ->where(static::$prefix . 'location', TILE_LOCATION_CITYSCORING_DECK)
+            ->get();
         $k = 0;
         foreach ($scoringCityTiles as $tileId => $tile) {
           $k++;
+          $tile->setLocation(TILE_LOCATION_CITYSCORING_BOARD);
           $tile->setState($k);
         }
       }
@@ -699,6 +713,16 @@ class Tiles extends \ROG\Helpers\Pieces
     return $types;
   }
 
+  public static function getScoringCityTilesTypesByRegion(int $region) : array {
+    $types = [];
+    $datas = self::getScoringCityTilesTypes();
+    foreach ($datas as $type => $data) {
+      if($region == $data['region']){
+        $types[] = $type;
+      }
+    }
+    return $types;
+  }
   
   /**
    * @return array of all the different types of Scoring City Tiles

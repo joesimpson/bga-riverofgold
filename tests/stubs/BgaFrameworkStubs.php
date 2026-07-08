@@ -651,10 +651,11 @@ abstract class Table
             $filtered = array_filter(TestDatas::$tiles,function ($t) use($tile_location, $tile_states) {return $t['tile_location'] == $tile_location && in_array($t['tile_state'], $tile_states);});
             return $filtered;
         }
-        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE `subtype` = (?P<subtype>\d+) AND \(`type` IN \((?P<types>.*)\)\)$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT (.*) FROM `tiles` WHERE `subtype` = (?P<subtype>\d+) AND \(`type` IN \((?P<types>.*)\)\)( AND `tile_location` = '(?P<tile_location>.*)')?$/", $sql, $matches) == 1) {
             $subtype = intval($matches['subtype']);
             $types = explode(',',str_replace("'","",$matches['types']));
-            $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($types, $subtype){return in_array($tile['type'],$types) && $tile['subtype'] == $subtype ;});
+            $tile_location = array_key_exists('tile_location',$matches) ? $matches['tile_location'] : null;
+            $filtered = array_filter(TestDatas::$tiles,function ($tile) use ($types, $subtype, $tile_location){return in_array($tile['type'],$types) && $tile['subtype'] == $subtype && (!isset($tile_location) || $tile['tile_location'] == $tile_location) ;});
             logForTests("MOCK select tiles with subtype $subtype and types ".json_encode($types).": ".json_encode($filtered));
             return $filtered;
         }
