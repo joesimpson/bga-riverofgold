@@ -63,7 +63,7 @@ class Tiles extends \ROG\Helpers\Pieces
       ->merge(self::getInLocation(TILE_LOCATION_MASTERY_RESERVED))
       ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_ROW))
       ->merge(self::getInLocationOrdered(TILE_LOCATION_BUILDING_SHORE))
-      ->merge(self::getInLocationOrdered(TILE_LOCATION_SCORING_BOARD))
+      ->merge(self::getInLocationOrdered(TILE_LOCATION_CITYSCORING_BOARD))
       ;
     if(isset($nextEra1Card) && !Utils::hideTopEraDeck(1)) $cards->append($nextEra1Card);
     if(isset($nextEra2Card) && !Utils::hideTopEraDeck(2)) $cards->append($nextEra2Card);
@@ -266,7 +266,7 @@ class Tiles extends \ROG\Helpers\Pieces
   public static function getCityBoardTile(int $row, int $col) : ?ScoringCityTile
   {
     return self::DB()
-        ->where(static::$prefix . 'location', TILE_LOCATION_SCORING_BOARD)
+        ->where(static::$prefix . 'location', TILE_LOCATION_CITYSCORING_BOARD)
         ->where(static::$prefix . 'state', $row)
         ->get()
         ->first();
@@ -352,7 +352,7 @@ class Tiles extends \ROG\Helpers\Pieces
       $scoringCityTiles = self::getScoringCityTilesTypes();
       foreach ($scoringCityTiles as $type => $tile) {
         $tiles[] = [
-          'location' => TILE_LOCATION_SCORING_DECK,
+          'location' => TILE_LOCATION_CITYSCORING_DECK,
           'type' => $type,
           'subtype' => TILE_TYPE_CITY_SCORING,
         ];
@@ -366,7 +366,7 @@ class Tiles extends \ROG\Helpers\Pieces
       self::shuffle(TILE_LOCATION_BUILDING_SHORE);
       self::shuffle(TILE_LOCATION_BUILDING_DECK_ERA_1);
       self::shuffle(TILE_LOCATION_BUILDING_DECK_ERA_2);
-      self::shuffle(TILE_LOCATION_SCORING_DECK);
+      self::shuffle(TILE_LOCATION_CITYSCORING_DECK);
 
       //Pick 3 mastery cards for the game
       $masteryCards = self::pickForLocation(3,TILE_LOCATION_MASTERY_DECK,TILE_LOCATION_MASTERY_CARD);
@@ -419,7 +419,7 @@ class Tiles extends \ROG\Helpers\Pieces
       
       if(Utils::isGameWithCityOfLies()){
         $nbScoringCityTiles = [1=>3, 2=>3, 3=>4, 4=>5, 5=>5,];
-        $scoringCityTiles = self::pickForLocation($nbScoringCityTiles[$nbPlayersWithAutoma],TILE_LOCATION_SCORING_DECK,TILE_LOCATION_SCORING_BOARD);
+        $scoringCityTiles = self::pickForLocation($nbScoringCityTiles[$nbPlayersWithAutoma],TILE_LOCATION_CITYSCORING_DECK,TILE_LOCATION_CITYSCORING_BOARD);
         $k = 0;
         foreach ($scoringCityTiles as $tileId => $tile) {
           $k++;

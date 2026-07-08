@@ -183,9 +183,9 @@ class TestDatas {
             46 => ['result_associative_index' => 46,'tile_id' => 46, 'tile_location' => TILE_LOCATION_BUILDING_SHORE, 'tile_state' => 29,  'type' => 46, 'subtype' => TILE_TYPE_BUILDING, ],
 
             
-            51 => ['result_associative_index' => 51,'tile_id' => 51, 'tile_location' => TILE_LOCATION_SCORING_BOARD, 'tile_state' => 1,  'type' => 1, 'subtype' => TILE_TYPE_CITY_SCORING, ],
-            52 => ['result_associative_index' => 52,'tile_id' => 52, 'tile_location' => TILE_LOCATION_SCORING_BOARD, 'tile_state' => 2,  'type' => 2, 'subtype' => TILE_TYPE_CITY_SCORING, ],
-            53 => ['result_associative_index' => 53,'tile_id' => 53, 'tile_location' => TILE_LOCATION_SCORING_BOARD, 'tile_state' => 3,  'type' => 3, 'subtype' => TILE_TYPE_CITY_SCORING, ],
+            51 => ['result_associative_index' => 51,'tile_id' => 51, 'tile_location' => TILE_LOCATION_CITYSCORING_BOARD, 'tile_state' => 1,  'type' => 1, 'subtype' => TILE_TYPE_CITY_SCORING, ],
+            52 => ['result_associative_index' => 52,'tile_id' => 52, 'tile_location' => TILE_LOCATION_CITYSCORING_BOARD, 'tile_state' => 2,  'type' => 2, 'subtype' => TILE_TYPE_CITY_SCORING, ],
+            53 => ['result_associative_index' => 53,'tile_id' => 53, 'tile_location' => TILE_LOCATION_CITYSCORING_BOARD, 'tile_state' => 3,  'type' => 3, 'subtype' => TILE_TYPE_CITY_SCORING, ],
 
             101 => ['result_associative_index' => 101,'tile_id' => 101, 'tile_location' => TILE_LOCATION_BUILDING_DECK_ERA_2, 'tile_state' => 0,  'type' => 11, 'subtype' => TILE_TYPE_BUILDING, ],
             102 => ['result_associative_index' => 102,'tile_id' => 102, 'tile_location' => TILE_LOCATION_BUILDING_DECK_ERA_2, 'tile_state' => 0,  'type' => 12, 'subtype' => TILE_TYPE_BUILDING, ],

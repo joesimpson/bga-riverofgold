@@ -113,7 +113,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const MASTERY_TYPE_LIGHTNING = 9;
 
     const TILE_LOCATION_SCORING = 's';
-    const TILE_LOCATION_SCORING_BOARD = 'city_b';
+    const TILE_LOCATION_CITYSCORING_BOARD = 'city_b';
     const TILE_LOCATION_MASTERY_CARD = 'm';
     const TILE_LOCATION_MASTERY_RESERVED = 'm_reserved';
     const TILE_LOCATION_BUILDING_DECK = 'bd';
@@ -5781,7 +5781,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if (tile.location == TILE_LOCATION_SCORING) {
                 return $(`rog_scoring_tile-${tile.pos}`);
             }
-            if (tile.location == TILE_LOCATION_SCORING_BOARD) {
+            if (tile.location == TILE_LOCATION_CITYSCORING_BOARD) {
                 return $(`rog_city_space_5_${tile.pos}`);
             }
             if (tile.location == TILE_LOCATION_MASTERY_CARD) {

@@ -699,7 +699,7 @@ final class SetupTest extends TestCase
         $cardsNames = $automaCards->map(function($card) {return $card->getTitle();})->toArray();
         assertSame($expectedCardsNames, $cardsNames);
         //City tiles
-        assertSame(4, Tiles::countInLocation(TILE_LOCATION_SCORING_BOARD));
+        assertSame(4, Tiles::countInLocation(TILE_LOCATION_CITYSCORING_BOARD));
         //City Cards
         assertSame(3, Cards::countInLocation(CARD_CITY_LOCATION_OUTER_1));
         assertSame(3, Cards::countInLocation(CARD_CITY_LOCATION_OUTER_2));
@@ -731,7 +731,7 @@ final class SetupTest extends TestCase
         $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
         //City tiles
-        assertSame(4, Tiles::countInLocation(TILE_LOCATION_SCORING_BOARD));
+        assertSame(4, Tiles::countInLocation(TILE_LOCATION_CITYSCORING_BOARD));
     }
     public function test_setupNewGame_CityOfLies_4p(): void
     {
@@ -761,7 +761,7 @@ final class SetupTest extends TestCase
         $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
         //City tiles
-        assertSame(5, Tiles::countInLocation(TILE_LOCATION_SCORING_BOARD));
+        assertSame(5, Tiles::countInLocation(TILE_LOCATION_CITYSCORING_BOARD));
         //City Cards
         assertSame(4, Cards::countInLocation(CARD_CITY_LOCATION_OUTER_1));
         assertSame(4, Cards::countInLocation(CARD_CITY_LOCATION_OUTER_2));
@@ -800,7 +800,7 @@ final class SetupTest extends TestCase
         $returnState = PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
         //City tiles
-        assertSame(5, Tiles::countInLocation(TILE_LOCATION_SCORING_BOARD));
+        assertSame(5, Tiles::countInLocation(TILE_LOCATION_CITYSCORING_BOARD));
         //City Cards
         assertSame(4, Cards::countInLocation(CARD_CITY_LOCATION_OUTER_1));
         assertSame(4, Cards::countInLocation(CARD_CITY_LOCATION_OUTER_2));

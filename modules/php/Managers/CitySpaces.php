@@ -70,7 +70,7 @@ class CitySpaces
 
     //Game::get()->trace("getSpacesByRegion($pRegion)... before tiles spaces : ".json_encode($spaceIds));
 
-    $cityTiles = Tiles::getInLocation(TILE_LOCATION_SCORING_BOARD);
+    $cityTiles = Tiles::getInLocation(TILE_LOCATION_CITYSCORING_BOARD);
     $cityTiles->map(function(ScoringCityTile $t) use ($pRegion, &$spaceIds) { 
       if($t->getRegion() == $pRegion){
         $spaceIds[] = $t->getCitySpace()->id; 
