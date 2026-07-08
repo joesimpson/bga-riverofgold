@@ -59,7 +59,7 @@
 
     //sprite positions
     background-size: 200% 600%;
-    background-image: url("img/cityOfLies/scoring.png");
+    background-image: url("img/cityOfLies/scoring.webp");
     @for $i from 0 through 11 {
         &[data-type="#{$i + 1}"] {
             background-position-y: ($i % 6) * 100% / 5;

@@ -6319,7 +6319,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: 349px;
   height: 140px;
   background-size: 200% 600%;
-  background-image: url("img/cityOfLies/scoring.png");
+  background-image: url("img/cityOfLies/scoring.webp");
 }
 .rog_tile[data-subtype="4"][data-type="1"] {
   background-position-y: 0%;

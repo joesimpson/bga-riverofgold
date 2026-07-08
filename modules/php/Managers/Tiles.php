@@ -741,14 +741,14 @@ class Tiles extends \ROG\Helpers\Pieces
       1  => $f([ REGION_1,  2,   SCORING_CITY_TYPE::BUILDING        ]), 
       2  => $f([ REGION_1,  1,   SCORING_CITY_TYPE::TRADE_GOOD      ]), 
       3  => $f([ REGION_2,  3,   SCORING_CITY_TYPE::PORT            ]), 
-      4  => $f([ REGION_2,  10,  SCORING_CITY_TYPE::NOTHING         ]), 
-      5  => $f([ REGION_3,  3,   SCORING_CITY_TYPE::MARKET          ]), 
+      4  => $f([ REGION_2,  3,   SCORING_CITY_TYPE::MARKET          ]), 
+      5  => $f([ REGION_3,  10,  SCORING_CITY_TYPE::NOTHING         ]), 
       6  => $f([ REGION_3,  4,   SCORING_CITY_TYPE::IMPERIAL_FLOWER ]), 
       7  => $f([ REGION_4,  3,   SCORING_CITY_TYPE::SHRINE          ]), 
-      8  => $f([ REGION_4,  3,   SCORING_CITY_TYPE::SUN             ]), 
+      8  => $f([ REGION_4,  3,   SCORING_CITY_TYPE::MANOR           ]), 
       9  => $f([ REGION_5,  3,   SCORING_CITY_TYPE::MONEY           ]), 
       10 => $f([ REGION_5,  3,   SCORING_CITY_TYPE::DELIVERIES      ]), 
-      11 => $f([ REGION_6,  3,   SCORING_CITY_TYPE::MANOR           ]), 
+      11 => $f([ REGION_6,  3,   SCORING_CITY_TYPE::SUN             ]), 
       12 => $f([ REGION_6,  4,   SCORING_CITY_TYPE::MASTERIES       ]), 
     ];
   }
