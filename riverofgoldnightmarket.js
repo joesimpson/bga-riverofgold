@@ -3713,14 +3713,20 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 divHand.querySelector(`.player-name`).style.color = `#${color}`;
                 divHand.querySelector(`.player-name`).dataset.color = color;
             }
+            let coloredPlayerName = this.coloredPlayerName(this.gamedatas.players[pid].name);
             let divDelivered =  $(`rog_player_delivered-${pid}`);
             divDelivered.dataset.color = color;
-            divDelivered.querySelector(`.rog_title`).innerHTML = this.fsr(_('${player_name} delivered'), { player_name:this.coloredPlayerName(this.gamedatas.players[pid].name)});
+            divDelivered.querySelector(`.rog_title`).innerHTML = this.fsr(_('${player_name} delivered'), { 'player_name':coloredPlayerName});
             $(`rog_player_delivered_resizable-${pid}`).style['border-color'] ='#'+ color;
             let divActionCards =  $(`rog_player_actions_container-${pid}`);
             if(divActionCards){
                 divActionCards.dataset.color = color;
-                divActionCards.querySelector(`.rog_title`).innerHTML = this.fsr(_('${player_name} actions'), { 'player_name':this.coloredPlayerName(this.gamedatas.players[pid].name)});
+                divActionCards.querySelector(`.rog_title`).innerHTML = this.fsr(_('${player_name} actions'), { 'player_name':coloredPlayerName});
+            }
+            let divCityCards =  $(`rog_player_city_container-${pid}`);
+            if(divCityCards){
+                divCityCards.dataset.color = color;
+                divCityCards.querySelector(`.rog_title`).innerHTML = this.fsr(_('${player_name} city cards'), { 'player_name':coloredPlayerName});
             }
             this.updateScoreMarkerColor(pid,color,clan);
         },
