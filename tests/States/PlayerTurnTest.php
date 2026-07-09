@@ -40,7 +40,6 @@ final class PlayerTurnTest extends TestCase
                 'actSail',
             ],
             'die_face' => 1,
-            'p_cards' => [],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -65,7 +64,6 @@ final class PlayerTurnTest extends TestCase
                 'actSail',
             ],
             'die_face' => 1,
-            'p_cards' => [],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -90,7 +88,6 @@ final class PlayerTurnTest extends TestCase
                 'actSail',
             ],
             'die_face' => 1,
-            'p_cards' => [],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -115,7 +112,6 @@ final class PlayerTurnTest extends TestCase
                 'actSail',
             ],
             'die_face' => 1,
-            'p_cards' => [],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -143,7 +139,6 @@ final class PlayerTurnTest extends TestCase
                 'actDeliver',
             ],
             'die_face' => 1,
-            'p_cards' => [],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -168,7 +163,6 @@ final class PlayerTurnTest extends TestCase
                 'actAdvance',
             ],
             'die_face' => 1,
-            'p_cards' => [],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -370,8 +364,6 @@ final class PlayerTurnTest extends TestCase
                 'actSail',
             ],
             'die_face' => 1,
-            'p_cards' => [ 
-            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];
@@ -395,8 +387,6 @@ final class PlayerTurnTest extends TestCase
                 'actSail',
             ],
             'die_face' => 1,
-            'p_cards' => [ 
-            ],
             'previousSteps' => [],
             'previousChoices' => 0,
         ];

@@ -742,7 +742,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 btnAdvance.classList.add('disabled');
             }
             
-            this.updatePlayableCards(possibleActions, args.p_cards);
+            this.updatePlayableCards(possibleActions, args);
         },
         
         //CLIENT STATE
@@ -1059,7 +1059,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 $('btnTrade').classList.add('disabled');
             }
             
-            this.updatePlayableCards(args.a, args.p_cards, args._private);
+            this.updatePlayableCards(args.a, args);
 
             let possibleBonuses = args.p;
             let k=0;
@@ -2233,7 +2233,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 $('btnTrade').classList.add('disabled');
             }
             
-            this.updatePlayableCards(args.a, args.p_cards);
+            this.updatePlayableCards(args.a, args);
 
             let confirmText = _('Confirm');
             if(this.player_id == args.c ) confirmText = _('End turn');
@@ -5184,11 +5184,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
 
         ////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////
-        updatePlayableCards(possibleActions, playable_cards, private_args) {
-            debug('updatePlayableCards', possibleActions, playable_cards,private_args);
+        updatePlayableCards(possibleActions, args) {
+            debug('updatePlayableCards', possibleActions, args);
+            let playable_cards = args.p_cards; 
+            let private_args = args._private;
+            let private_playable_cards = private_args ? private_args.p_cards : null;
             if(! possibleActions) return;
             if(! possibleActions.includes('actPlayCard')) return;
-            let private_playable_cards = private_args ? private_args.p_cards : null;
             if(! playable_cards && !private_playable_cards ) return;
             
             let callbackCardEntries = ([cardId, cardDatas]) => {

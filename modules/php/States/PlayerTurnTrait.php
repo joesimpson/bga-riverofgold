@@ -55,21 +55,12 @@ trait PlayerTurnTrait
     ){
       $actions[] = 'actAdvance';
     }
-    $playableCards = $this->listPossibleCardsToPlay($activePlayer);
-    if(count($playableCards)>0 ){
-      $actions[] = 'actPlayCard';
-    }
     $die_face = $activePlayer->getDie();
     $args = [
       'a' => $actions,
       'die_face' => $die_face,
-      'p_cards' => $playableCards,
     ];
-    $playablePrivateCards = $this->listPossiblePrivateCardsToPlay($activePlayer);
-    if(count($playablePrivateCards)>0 ){
-      $args['a'][] = 'actPlayCard';
-      $args['_private'][$activePlayer->getId()]['p_cards'] = $playablePrivateCards;
-    }
+    $this->addArgsForPlayCards($args,$activePlayer);
     $this->addArgsForUndo($args);
     return $args;
   } 
@@ -163,8 +154,8 @@ trait PlayerTurnTrait
     $dest = $answer->dest;
     
     $args = $this->argPlayerTurn();
+    $possibleCards = isset($args['p_cards']) ? $args['p_cards'] : [];
     $privateArgs = isset($args['_private']) ? $args['_private'][$player->getId()] : [];
-    $possibleCards = $args['p_cards'];
     if(isset($privateArgs['p_cards'])){
       $possiblePrivateCards = $privateArgs['p_cards'];
       foreach($possiblePrivateCards as $i => $d){
@@ -356,5 +347,23 @@ trait PlayerTurnTrait
     } 
 
     return $cards;
+  }
+
+  /**
+   * Update state args with some parameters used for playing cards actions. 
+   * 
+   */
+  public function addArgsForPlayCards(array &$args, Player $activePlayer)
+  {
+    $playableCards = $this->listPossibleCardsToPlay($activePlayer);
+    if(count($playableCards)>0 ){
+      $args['a'][] = 'actPlayCard';
+      $args['p_cards'] = $playableCards;
+    }
+    $playablePrivateCards = $this->listPossiblePrivateCardsToPlay($activePlayer);
+    if(count($playablePrivateCards)>0 ){
+      $args['a'][] = 'actPlayCard';
+      $args['_private'][$activePlayer->getId()]['p_cards'] = $playablePrivateCards;
+    }
   }
 }

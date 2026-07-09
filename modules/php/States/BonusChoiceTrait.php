@@ -52,16 +52,7 @@ trait BonusChoiceTrait
       'canSkip' => $this->canSkipBonuses($activePlayer),
       'cannotSetDie' => $cannotSetDie,
     ];
-    $playableCards = $this->listPossibleCardsToPlay($activePlayer);
-    if(count($playableCards)>0 ){
-      $args['a'][] = 'actPlayCard';
-      $args['p_cards'] = $playableCards;
-    }
-    $playablePrivateCards = $this->listPossiblePrivateCardsToPlay($activePlayer);
-    if(count($playablePrivateCards)>0 ){
-      $args['a'][] = 'actPlayCard';
-      $args['_private'][$activePlayer->getId()]['p_cards'] = $playablePrivateCards;
-    }
+    $this->addArgsForPlayCards($args,$activePlayer);
     $this->addArgsForUndo($args);
     return $args;
   } 
