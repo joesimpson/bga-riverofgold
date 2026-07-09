@@ -11,11 +11,13 @@ use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Collection;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
+use ROG\Managers\CityCards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 use ROG\Models\AutomaPlayer;
+use ROG\Models\CityCard;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
 use ROG\Models\ScenarioType;
@@ -89,7 +91,7 @@ trait BuildTrait
     $this->gamestate->nextState('next');
   }
 
-  public function processBuild(Player $player, int $position, int $tileId, array $args, bool $free = false){
+  public function processBuild(Player &$player, int $position, int $tileId, array $args, bool $free = false){
     $pId = $player->id;
     self::trace("processBuild($pId, $position,$tileId)");
 
@@ -137,6 +139,15 @@ trait BuildTrait
     }
 
     Players::gainInfluence($player,$shoreSpace->region,$tile->getBonus());
+
+    $cityCards = CityCards::getPlayerHand($player->getId());
+    $cityCards->map(function(CityCard $c) use (&$player, $shoreSpace ){
+        $playableDatas = $c->playCardActionOnBuild($player, $shoreSpace);
+        if(count($playableDatas) > 0){
+          Globals::addPrivateBonusWithDatas($player,BONUS_TYPE_REVEAL_CARD,['cardId' => $c->getId(), 'actions' => $playableDatas, ]);
+        }
+      });
+      
     Utils::moveRogueShipFrom($player,$adjacentRiverSpaces);
     Players::claimMasteries($player);
     

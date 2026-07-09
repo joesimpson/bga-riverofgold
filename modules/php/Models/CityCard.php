@@ -5,6 +5,7 @@ namespace ROG\Models;
 use ROG\Core\Notifications;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
+use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 
 class CityCard extends Card
@@ -67,6 +68,25 @@ class CityCard extends Card
         $nbBuildingsInRegion = $player->getNbBuildingsInRegion($region);
         $playDatas['n'] = 2 * $nbBuildingsInRegion; 
         $playDatas['region'] = $region; 
+        if($playDatas['n'] > 0){
+          $actions[AFTER_ACTION::GAIN_INFLUENCE->value] = $playDatas;
+        }
+        break;
+    }
+    return $actions;
+  }
+  
+  /**
+   * @return array datas used by actPlayCard and args
+   */
+  public function playCardActionOnBuild(Player $player, ShoreSpace $shoreSpace) : array
+  {
+    $actions = [];
+    switch($this->getType()){
+      case CITY_CARD_TYPE::OPPORTUNIST->value : 
+        $nbShipsNearBuilding = Meeples::countPlayerShipsNearShoreSpace($shoreSpace, $player->getId());
+        $playDatas['n'] = 1 * $nbShipsNearBuilding; 
+        $playDatas['region'] = $shoreSpace->region; 
         if($playDatas['n'] > 0){
           $actions[AFTER_ACTION::GAIN_INFLUENCE->value] = $playDatas;
         }

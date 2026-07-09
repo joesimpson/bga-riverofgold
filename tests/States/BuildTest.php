@@ -13,6 +13,8 @@ use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Collection;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
+use ROG\Models\AFTER_ACTION;
+use ROG\Models\CITY_CARD_TYPE;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
@@ -821,6 +823,80 @@ final class BuildTest extends TestCase
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
         assertFalse(array_key_exists(44,TestDatas::$tokens));//deleted clan marker
         assertFalse(array_key_exists(43,TestDatas::$tokens));
+    }
+    
+    public function test_actBuildSelect_CityCard_Pass_Opportunist_0Ships(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":20}';
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::OPPORTUNIST->value;
+        $position = 1;
+        $tileId = 31;
+
+        $game->actBuildSelect($position,$tileId,999999);
+        
+        $expectedNotifs = [
+            "spendMoney-1",
+            "build-1",
+            "newClanMarker-1",
+            "gainInfluence-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+        $expectedBonuses = [
+        ];
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
+    }
+
+    public function test_actBuildSelect_CityCard_Pass_Opportunist_1Ship(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_BUILD;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":4,"5":0,"6":20}';
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::OPPORTUNIST->value;
+        TestDatas::$tokens[21]['meeple_state'] = 1;
+        TestDatas::$tokens[22]['meeple_state'] = 2;
+        TestDatas::$tokens[24]['meeple_state'] = 1;
+        TestDatas::$tokens[26]['meeple_state'] = 1;
+        $position = 1;
+        $tileId = 31;
+
+        $game->actBuildSelect($position,$tileId,999999);
+        
+        $expectedNotifs = [
+            "spendMoney-1",
+            "build-1",
+            "newClanMarker-1",
+            "gainInfluence-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        $expectedBonuses = [
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => 221,
+                        'actions' => [
+                            AFTER_ACTION::GAIN_INFLUENCE->value => [
+                                'n' => 1,
+                                'region' => 1,
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
     }
     // -------------------------------------------------
 }

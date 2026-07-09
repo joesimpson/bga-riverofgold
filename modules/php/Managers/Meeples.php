@@ -366,6 +366,16 @@ class Meeples extends \ROG\Helpers\Pieces
     return self::getFilteredQuery($pId, MEEPLE_LOCATION_NEAR_SHORE.$shoreSpace,)->get();
   }
 
+  public static function countPlayerShipsNearShoreSpace(ShoreSpace $shoreSpace, int $pId, ) : int
+  {
+    $ships = Meeples::getBoats($pId);
+    $nbShips = $ships->filter(function (Meeple $s) use ($shoreSpace){ 
+        return ShoreSpaces::isAdjacent($shoreSpace->id, $s->getPosition()); 
+      })->count();
+    Game::get()->trace("countPlayerShipsNearShoreSpace($pId, $shoreSpace->id) = $nbShips");
+    return $nbShips;
+  }
+
   public static function countPlayerShipsInLocation(?int $pId, int $position) : int
   {
     Game::get()->trace("countPlayerShipsInLocation($pId, $position)...");

@@ -256,6 +256,16 @@ class ShoreSpaces
     return [];
   }
   
+  public static function isAdjacent(int $shoreSpace, int $riverSpace) : bool
+  {
+    //$riverSpaces = ShoreSpaces::getAdjacentRiverSpaces($shoreSpace);
+    //if(in_array($riverSpace, $riverSpaces)) return true;
+    if(in_array($shoreSpace, ShoreSpaces::getAdjacentSpaces($riverSpace))) return true;
+    //Game::get()->trace("isAdjacent($shoreSpace, $riverSpace) = FALSE !:");
+    return false;
+  }
+  
+  
   public static function getAdjacentRiverSpaces(int $shoreSpace) : array 
   {
     $riverSpaces = [];

@@ -5460,7 +5460,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     })}</span>
                     `
                 ],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.OPPORTUNIST   ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.OPPORTUNIST   ,  this.fsr(_("When you build, you may reveal this card to gain ${influence} for each ship adjacent to the building."), {'influence':'','n2':1 })],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.TEAHOUSE      ,  
                     `
                     <span>${this.fsr(_("When the game ends, gain ${icon_score} for each ${resource} you have."), {'icon_score': this.formatIcon('score',1), 'resource': this.formatIcon(RESOURCES[RESOURCE_TYPE_POTTERY])})}</span>
