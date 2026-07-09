@@ -32,6 +32,13 @@ enum TURN_ACTION: string
   case DIVINE_CYCLING     = 'DIVINE_CYCLING';
 }
 
+enum AFTER_ACTION: string
+{
+  use EnumUtilsTrait;
+  
+  case GAIN_INFLUENCE     = 'GAIN_INFLUENCE';
+}
+
 enum AutomaActionType: int
 {
   use EnumUtilsTrait;

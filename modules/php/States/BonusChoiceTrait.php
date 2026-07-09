@@ -20,9 +20,12 @@ trait BonusChoiceTrait
   public function stBonusChoice()
   {  
     self::trace("stBonusChoice()");
+    $activePlayer = Players::getActive();
     Globals::setCurrentBonus(null);
-    $nbPossibleActions = count($this->argBonusChoice()['p']);
-    if($nbPossibleActions == 0){
+    $args = $this->argBonusChoice();
+    $nbPossibleActions = count($args['p']);
+    $nbPossiblePrivateActions = count($args['_private'][$activePlayer->getId()]['p']);
+    if($nbPossibleActions == 0 && $nbPossiblePrivateActions == 0){
       $this->gamestate->nextState('next');
       return;
     }
@@ -30,7 +33,8 @@ trait BonusChoiceTrait
   public function argBonusChoice()
   { 
     $activePlayer = Players::getActive();
-    $possibles = $this->listPossibleBonusTypes($activePlayer);
+    $possibles = $activePlayer->filterPossibleBonuses(true);
+    $privateBonuses = $activePlayer->filterPossibleBonuses(false);
     $trade = false;
     if(count($this->listPossibleTrades($activePlayer))>0 ){
       $trade = true;
@@ -38,6 +42,12 @@ trait BonusChoiceTrait
     $cannotSetDie = count($this->listPossibleDieFacesToSet($activePlayer)) ==0;
     $args = [
       'p' => $possibles,
+      '_private' => [ 
+        $activePlayer->getId() => [
+          'p' => $privateBonuses,
+        ],
+      ],
+      //'_merge_private' => true,
       'trade' => $trade,
       'canSkip' => $this->canSkipBonuses($activePlayer),
       'cannotSetDie' => $cannotSetDie,
@@ -46,6 +56,11 @@ trait BonusChoiceTrait
     if(count($playableCards)>0 ){
       $args['a'][] = 'actPlayCard';
       $args['p_cards'] = $playableCards;
+    }
+    $playablePrivateCards = $this->listPossiblePrivateCardsToPlay($activePlayer);
+    if(count($playablePrivateCards)>0 ){
+      $args['a'][] = 'actPlayCard';
+      $args['_private'][$activePlayer->getId()]['p_cards'] = $playablePrivateCards;
     }
     $this->addArgsForUndo($args);
     return $args;
@@ -193,6 +208,8 @@ trait BonusChoiceTrait
         //checkpoint because we reveal cards
         $this->addCheckpoint(ST_BONUS_CITY_DRAW);
         break;
+      case BONUS_TYPE_REVEAL_CARD:
+        //Will be played as a card
       default:
         throw new UnexpectedException(900,"Not supported bonus type $bonusType");
     }
@@ -200,11 +217,7 @@ trait BonusChoiceTrait
     $this->gamestate->nextState($nextState);
   } 
 
-  /**
-   * @param Player $player
-   * @return array of int
-   */
-  public function listPossibleBonusTypes(Player $player)
+  public function listPossibleBonusTypes(Player $player) : array
   { 
     return $player->getBonuses();
   }

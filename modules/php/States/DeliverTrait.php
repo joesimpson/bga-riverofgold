@@ -12,10 +12,13 @@ use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\ClientCardResources;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
+use ROG\Managers\CityCards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
+use ROG\Models\AFTER_ACTION;
 use ROG\Models\AutomaPlayer;
+use ROG\Models\CityCard;
 use ROG\Models\CustomerCard;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
@@ -162,6 +165,16 @@ trait DeliverTrait
       //Delay Draw 2 cards
       Globals::addBonus($player,BONUS_TYPE_REFILL_HAND,'',false);
     }
+    
+    $cityCards = CityCards::getPlayerHand($player->getId());
+    $cityCards
+      //->filter(function(CityCard $c) use ($player, $card){ return $c->canPlayOnDeliver($player);})
+      ->map(function(CityCard $c) use (&$player, $card){
+        $playableDatas = $c->playCardActionOnDeliver($player, $card->getRegion());
+        if(count($playableDatas) > 0){
+          Globals::addPrivateBonusWithDatas($player,BONUS_TYPE_REVEAL_CARD,['cardId' => $c->getId(), 'actions' => $playableDatas, ]);
+        }
+      });
 
   }
 

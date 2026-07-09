@@ -324,6 +324,7 @@ const BONUS_TYPE_BUILDING_ROW_REWARDS  = 52;
 const BONUS_TYPE_BUILD_NEAR_SHIPS      = 53;
 const BONUS_TYPE_FREE_SAIL             = 54;
 const BONUS_TYPE_CITY_CARD_DRAW        = 55;
+const BONUS_TYPE_REVEAL_CARD           = 56;
 
 const RESOURCES = [
     0,

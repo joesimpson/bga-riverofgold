@@ -10,6 +10,8 @@ use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\ClientCardResources;
+use ROG\Models\AFTER_ACTION;
+use ROG\Models\CITY_CARD_TYPE;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
@@ -663,6 +665,10 @@ final class DeliverTest extends TestCase
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsDeliver']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
         assertSame(MAIN_ACTION::DELIVER->value, Globals::getTurnMainActionDone());
+        $expectedBonuses = [
+            BONUS_TYPE_REFILL_HAND,
+        ];
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
     }
     
     public function test_ActionDeliver_KO_WrongLocation(): void
@@ -1006,6 +1012,84 @@ final class DeliverTest extends TestCase
         assertFalse(array_key_exists(RESOURCE_TYPE_POTTERY,$resourcesCard));
         assertSame(0, $resourcesCard[RESOURCE_TYPE_RICE]);//-1
         assertTrue(array_key_exists(43,TestDatas::$tokens));
+    }
+
+    public function test_ActionDeliver_Pass_CityCard_Cartel_NoBuildings(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        $cardId = 13;
+        TestDatas::$players[1]['die_face'] = 3;
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::CARTEL->value;
+
+        $game->actDeliverSelect($cardId,999999);
+        
+        $expectedNotifs = [
+            "deliver-1",
+            "spendResource-1",
+            //elder :
+            "gainInfluence-1",
+            "giveResource-1",
+            "newClanMarker-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        $expectedBonuses = [
+            BONUS_TYPE_REFILL_HAND,
+        ];
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
+    }
+    
+    public function test_ActionDeliver_Pass_CityCard_Cartel_2Buildings(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        $cardId = 13;
+        TestDatas::$players[1]['die_face'] = 3;
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":0,"3":2,"4":0,"5":0,"6":0}';
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::CARTEL->value;
+        //2 buildings in region 3
+        TestDatas::$tiles[41]['tile_state'] = 13;
+        TestDatas::$tiles[42]['player_id'] = 1;
+        TestDatas::$tiles[42]['tile_state'] = 14;
+
+        $game->actDeliverSelect($cardId,999999);
+        
+        $expectedNotifs = [
+            "deliver-1",
+            "spendResource-1",
+            //elder :
+            "gainInfluence-1",
+            "giveResource-1",
+            "newClanMarker-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        $expectedBonuses = [
+            BONUS_TYPE_REFILL_HAND,
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => 221,
+                        'actions' => [
+                            AFTER_ACTION::GAIN_INFLUENCE->value => [
+                                'n' => 2,
+                                'region' => 3,
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        assertSame($expectedBonuses, json_decode(TestDatas::$players[1]['bonuses'], true));
     }
     
     // -------------------------------------------------

@@ -45,6 +45,36 @@ class CityCard extends Card
     return $list;
   }
 
+  //public function canPlayOnDeliver(Player $player,) : bool
+  //{
+  //  $canPlay = false;
+  //  switch($this->getType()){
+  //    case CITY_CARD_TYPE::CARTEL->value : 
+  //      $canPlay = true;
+  //      break;
+  //  }
+  //  return $canPlay;
+  //}
+  
+  /**
+   * @return array datas used by actPlayCard and args
+   */
+  public function playCardActionOnDeliver(Player $player, int $region) : array
+  {
+    $actions = [];
+    switch($this->getType()){
+      case CITY_CARD_TYPE::CARTEL->value : 
+        $nbBuildingsInRegion = $player->getNbBuildingsInRegion($region);
+        $playDatas['n'] = 2 * $nbBuildingsInRegion; 
+        $playDatas['region'] = $region; 
+        if($playDatas['n'] > 0){
+          $actions[AFTER_ACTION::GAIN_INFLUENCE->value] = $playDatas;
+        }
+        break;
+    }
+    return $actions;
+  }
+
   public function canPlayOnAdvance(Player $player,) : bool
   {
     $canPlay = false;
@@ -68,7 +98,7 @@ class CityCard extends Card
     }
   }
   
-  public function reveal(Player &$player, int $sumInfluence = 0)
+  public function reveal(Player &$player, ?int $sumInfluence = 0,)
   {
     $meeples = $this->getMeeplesWhenHidden();
     $this->setLocation(CARD_CITY_LOCATION_REVEALED);
@@ -77,6 +107,10 @@ class CityCard extends Card
     switch($this->getType()){
       case CITY_CARD_TYPE::BRIBERY->value : 
         Players::giveMoney($player, $sumInfluence);
+        break;
+      case CITY_CARD_TYPE::CARTEL->value : 
+        //Done in actPlayCard
+        //Players::gainInfluence($player,$region,$amount);
         break;
     }
   }

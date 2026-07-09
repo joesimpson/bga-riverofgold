@@ -390,7 +390,7 @@ class Meeples extends \ROG\Helpers\Pieces
   }
   /**
    * @param int $pId
-   * @param int $type of building to search for
+   * @param int $type (Optional) of building to search for
    * @return int number of DISTINCT buildings of that type (even if we have 2 meeples on the same)
    */
   public static function countPlayerBuildings(int $pId, ?int $type = null) : int

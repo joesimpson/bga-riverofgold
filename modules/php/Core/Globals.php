@@ -280,6 +280,13 @@ class Globals extends \ROG\Helpers\DB_Manager
     $player->setBonuses($bonuses);
     if($sendNotif) Notifications::addBonus($player, $type, $typeText,$datas['bonusQuantity']);
   }
+  
+  public static function addPrivateBonusWithDatas(Player &$player,int $type,array $datas)
+  {
+    $datas['private'] = true;
+    Globals::addBonusWithDatas($player,$type,$datas,'',false);
+  }
+
   /**
    * Remove bonus from player pending list while we treat the bonus
    * @param Player $player
@@ -287,7 +294,7 @@ class Globals extends \ROG\Helpers\DB_Manager
    * @param ?int $bonusKey (Optional) key to remove in 'datas' array
    * @return array|int|null removed datas
    */
-  public static function removeBonus(Player $player, int $type,?int $bonusKey = null) : array|int|null
+  public static function removeBonus(Player &$player, int $type,?int $bonusKey = null) : array|int|null
   {
     $bonuses = $player->getBonuses();
     if(isset($bonusKey)){

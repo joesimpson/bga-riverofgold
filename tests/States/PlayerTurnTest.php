@@ -12,7 +12,9 @@ use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\ClientAnswer;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
+use ROG\Models\AFTER_ACTION;
 use ROG\Models\BEFORE_ACTION;
+use ROG\Models\CITY_CARD_TYPE;
 use ROG\Models\ScenarioType;
 use ROG\Models\TURN_ACTION;
 use Tests\Utils\TestDatas;
@@ -882,6 +884,135 @@ final class PlayerTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("You cannot move tile $source to $dest");
+        $game->actPlayCard($answer,999999);
+    }
+    // -------------------------------------------------
+    public function test_ActionPlayCard_GainInfluence_Pass_City_Cartel(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::CARTEL->value;
+        $bonuses = [
+            BONUS_TYPE_REFILL_HAND,
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => 221,
+                        'actions' => [
+                            AFTER_ACTION::GAIN_INFLUENCE->value => [
+                                'n' => 2,
+                                'region' => 3,
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $markerId = 1;
+        $action = AFTER_ACTION::GAIN_INFLUENCE->value;
+        $source = BONUS_TYPE_REVEAL_CARD;
+        $dest = null;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $game->actPlayCard($answer,999999);
+        
+        $expectedNotifs = [
+            "revealCityCard-1",
+            "gainInfluence-1",
+            "giveResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test moved card: 
+        assertSame(CARD_CITY_LOCATION_REVEALED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
+        //Test gained influence :
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(2, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        //updated bonuses :
+        assertSame(json_encode([BONUS_TYPE_REFILL_HAND]), TestDatas::$players[1]['bonuses']);
+    }
+    public function test_ActionPlayCard_GainInfluence_KO_Bonuskey(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::CARTEL->value;
+        $bonuses = [
+            BONUS_TYPE_REFILL_HAND,
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => 221,
+                        'actions' => [
+                            AFTER_ACTION::GAIN_INFLUENCE->value => [
+                                'n' => 2,
+                                'region' => 3,
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $markerId = 99;
+        $action = AFTER_ACTION::GAIN_INFLUENCE->value;
+        $source = BONUS_TYPE_REVEAL_CARD;
+        $dest = null;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot play card $cardId with marker $markerId");
+        $game->actPlayCard($answer,999999);
+    }
+    public function test_ActionPlayCard_GainInfluence_KO_BonusType(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::CARTEL->value;
+        $bonuses = [
+            BONUS_TYPE_REFILL_HAND,
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => 221,
+                        'actions' => [
+                            AFTER_ACTION::GAIN_INFLUENCE->value => [
+                                'n' => 2,
+                                'region' => 3,
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $markerId = 1;
+        $action = AFTER_ACTION::GAIN_INFLUENCE->value;
+        $source = 5;
+        $dest = null;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Missing informations to gain influence with card $cardId");
         $game->actPlayCard($answer,999999);
     }
     // -------------------------------------------------

@@ -44,6 +44,11 @@ trait ConfirmUndoTrait
             $data['a'][] = 'actPlayCard';
             $data['p_cards'] = $playableCards;
         }
+        $playablePrivateCards = $this->listPossiblePrivateCardsToPlay($activePlayer);
+        if(count($playablePrivateCards)>0 ){
+            $args['a'][] = 'actPlayCard';
+            $args['_private'][$activePlayer->getId()]['p_cards'] = $playablePrivateCards;
+        }
         $this->addArgsForUndo($data);
         return $data;
     }

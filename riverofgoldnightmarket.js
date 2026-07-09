@@ -903,6 +903,38 @@ function (dojo, declare, BgaAnimations, BgaDice) {
 
         },
         
+        //CLIENT STATE
+        onEnteringStatePlayCardGainInfluence(args) {
+            debug('onEnteringStatePlayCardGainInfluence', args);
+
+            let cardId = parseInt(args.cardId);
+            let markerId = parseInt(args.markerId);
+            let amount = args.actionDatas.n;
+            let region = args.actionDatas.region;
+            let iconRegion = this.formatIcon("influence-"+region, region);
+            let iconInfluence = this.formatIcon('influence', amount);
+
+            document.getElementById(`rog_card-${cardId}`).classList.add('selected');
+
+            this.addCancelStateBtn(_('Return'));
+
+            this.addImageActionButton(`btnPlayCard`, `<div class='rog_trade'>
+                    ${iconRegion} ${iconInfluence}
+                </div>`,
+                () =>  { 
+                    this.takeAction('actPlayCard', { 
+                        //ClientAnswer
+                        'answer': JSON.stringify({
+                            'cardId': parseInt(cardId), 
+                            'markerId': markerId, 
+                            'action': args.action,
+                            'source': args.source,
+                            'dest': null,
+                        }),
+                    });
+                });
+        },
+        
         onEnteringStateBeforeTurn(args){
             debug('onEnteringStateBeforeTurn', args);
             this.initFavorSelection(args.p,'actBonusSetDie');
@@ -1027,7 +1059,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 $('btnTrade').classList.add('disabled');
             }
             
-            this.updatePlayableCards(args.a, args.p_cards);
+            this.updatePlayableCards(args.a, args.p_cards, args._private);
 
             let possibleBonuses = args.p;
             let k=0;
@@ -5152,12 +5184,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
 
         ////////////////////////////////////////////////////////
         ////////////////////////////////////////////////////////
-        updatePlayableCards(possibleActions, playable_cards) {
+        updatePlayableCards(possibleActions, playable_cards, private_args) {
+            debug('updatePlayableCards', possibleActions, playable_cards,private_args);
             if(! possibleActions) return;
             if(! possibleActions.includes('actPlayCard')) return;
-            if(! playable_cards) return;
+            let private_playable_cards = private_args ? private_args.p_cards : null;
+            if(! playable_cards && !private_playable_cards ) return;
             
-            Object.entries(playable_cards).forEach( ([cardId, cardDatas]) => {
+            let callbackCardEntries = ([cardId, cardDatas]) => {
                 let markerId = cardDatas['marker'];
                 let actions = cardDatas['actions'];
                 let div = $(`rog_card-${cardId}`);
@@ -5201,10 +5235,24 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                                 });
                             });
                             break;
+                        case 'GAIN_INFLUENCE'://AFTER_ACTION::GAIN_INFLUENCE
+                            callbackCardSelection = () => {
+                                this.clientState('playCardGainInfluence','', {
+                                    'cardId': cardId,
+                                    'markerId': markerId, 
+                                    'action': action,
+                                    'actionDatas': actionDatas,
+                                    'source': cardDatas.source,
+                                });
+                            };
+                            break;
                     }
                 });
                 if(callbackCardSelection) this.onClick(`${div.id}`, callbackCardSelection);
-            });
+            };
+
+            if(playable_cards ) Object.entries(playable_cards).forEach(callbackCardEntries);
+            if(private_playable_cards ) Object.entries(private_playable_cards).forEach(callbackCardEntries);
         },
 
         updateCardEnemiesCount(cardId, delta){
@@ -5373,7 +5421,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <span>${this.fsr(_("When the game ends, reveal this card. If that clan has the most victory points (before region influence or customer scoring), gain ${icon_score}."), {'icon_score': this.formatIcon('score',4),})}</span>
                     `
                 ],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.CARTEL        ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.CARTEL        ,  this.fsr(_("When you deliver, you may reveal this card to gain ${influence} for each building you own in that customer’s region."), {'influence':'','n2':2 })],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SUMMONS       ,  
                     `
                     <span>${this.fsr(_("When the game ends, reveal this card to gain ${icon_score} for each ${icon_building} building adjacent to your ships"), {

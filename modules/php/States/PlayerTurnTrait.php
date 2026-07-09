@@ -16,7 +16,9 @@ use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
+use ROG\Models\AFTER_ACTION;
 use ROG\Models\BEFORE_ACTION;
+use ROG\Models\CityCard;
 use ROG\Models\CustomerCard;
 use ROG\Models\Player;
 use ROG\Models\ScenarioCard;
@@ -63,6 +65,11 @@ trait PlayerTurnTrait
       'die_face' => $die_face,
       'p_cards' => $playableCards,
     ];
+    $playablePrivateCards = $this->listPossiblePrivateCardsToPlay($activePlayer);
+    if(count($playablePrivateCards)>0 ){
+      $args['a'][] = 'actPlayCard';
+      $args['_private'][$activePlayer->getId()]['p_cards'] = $playablePrivateCards;
+    }
     $this->addArgsForUndo($args);
     return $args;
   } 
@@ -156,7 +163,14 @@ trait PlayerTurnTrait
     $dest = $answer->dest;
     
     $args = $this->argPlayerTurn();
+    $privateArgs = isset($args['_private']) ? $args['_private'][$player->getId()] : [];
     $possibleCards = $args['p_cards'];
+    if(isset($privateArgs['p_cards'])){
+      $possiblePrivateCards = $privateArgs['p_cards'];
+      foreach($possiblePrivateCards as $i => $d){
+        $possibleCards[$i] = $d;
+      }
+    }
     if(!in_array($cardId, array_keys($possibleCards))){
       throw new UnexpectedException(45,"You cannot play card $cardId");
     }
@@ -179,6 +193,11 @@ trait PlayerTurnTrait
     }
     else if($card instanceof ScenarioCard){
       Notifications::scenarioAbility($player,$card);
+    }
+    else if($card instanceof CityCard){
+      $bonusDatas = Globals::removeBonus($player,$source,$markerId);
+      self::trace("actPlayCard(CityCard $cardId) ... bonusDatas=".json_encode($bonusDatas).")");
+      $card->reveal($player,null, $bonusDatas);
     }
     
     switch($action){
@@ -235,6 +254,15 @@ trait PlayerTurnTrait
         //try to claim next mastery (and cascade...)
         Players::claimMasteries($player);
         $doCheckPoint = true;
+        break;
+      case AFTER_ACTION::GAIN_INFLUENCE->value:
+        if(!isset($bonusDatas)){
+          throw new UnexpectedException(47,"Missing informations to gain influence with card $cardId");
+        }
+        $region = $bonusDatas['actions'][$action]['region'];
+        $amount = $bonusDatas['actions'][$action]['n'];
+        Players::gainInfluence($player,$region,$amount);
+        Players::claimMasteries($player);
         break;
     }
 
@@ -304,6 +332,28 @@ trait PlayerTurnTrait
         $cards[$cardId]['actions'] = $actions;
       }
     }
+    return $cards;
+  }
+
+  
+  function listPossiblePrivateCardsToPlay(Player $player) : array{
+    $cards = [];
+
+    $privateBonuses = $player->filterPossibleBonuses(false);
+    if(!isset($privateBonuses['datas'])) return [];
+    $privateBonuses = $privateBonuses['datas'];
+    foreach($privateBonuses as $type => $list){
+      foreach($list as $key => $data){
+        switch($type){
+          case BONUS_TYPE_REVEAL_CARD: 
+            $cardId = $data['cardId'];
+            $cards[$cardId]['marker'] = $key;
+            $cards[$cardId]['source'] = $type;
+            $cards[$cardId]['actions'] = $data['actions'];
+            break;
+        }
+      }
+    } 
 
     return $cards;
   }

@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Managers\Cards;
+use ROG\Models\AFTER_ACTION;
 use ROG\Models\ScenarioType;
 use ROG\Models\TURN_ACTION;
 use Tests\Utils\TestDatas;
@@ -56,6 +57,11 @@ final class BonusChoiceTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
         $expectedArgs = [
             'p' => $bonuses,
+            '_private' => [
+                1 => [
+                    'p' => [],
+                ],
+            ],
             'trade' => false,
             'canSkip' => true,
             'cannotSetDie' => true,
@@ -77,6 +83,11 @@ final class BonusChoiceTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
         $expectedArgs = [
             'p' => $bonuses,
+            '_private' => [
+                1 => [
+                    'p' => [],
+                ],
+            ],
             'trade' => false,
             'canSkip' => false,
             'cannotSetDie' => true,
@@ -98,6 +109,11 @@ final class BonusChoiceTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
         $expectedArgs = [
             'p' => $bonuses,
+            '_private' => [
+                1 => [
+                    'p' => [],
+                ],
+            ],
             'trade' => false,
             'canSkip' => false,
             'cannotSetDie' => true,
@@ -120,6 +136,11 @@ final class BonusChoiceTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
         $expectedArgs = [
             'p' => $bonuses,
+            '_private' => [
+                1 => [
+                    'p' => [],
+                ],
+            ],
             'trade' => false,
             'canSkip' => false,
             'cannotSetDie' => true,
@@ -150,6 +171,11 @@ final class BonusChoiceTest extends TestCase
         }
         $expectedArgs = [
             'p' => $bonuses,
+            '_private' => [
+                1 => [
+                    'p' => [],
+                ],
+            ],
             'trade' => false,
             'canSkip' => true,
             'cannotSetDie' => true,
@@ -172,6 +198,11 @@ final class BonusChoiceTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
         $expectedArgs = [
             'p' => $bonuses,
+            '_private' => [
+                1 => [
+                    'p' => [],
+                ],
+            ],
             'trade' => true,
             'canSkip' => true,
             'cannotSetDie' => true,
@@ -194,6 +225,11 @@ final class BonusChoiceTest extends TestCase
         TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode($bonuses);
         $expectedArgs = [
             'p' => $bonuses,
+            '_private' => [
+                1 => [
+                    'p' => [],
+                ],
+            ],
             'trade' => true,
             'canSkip' => true,
             'cannotSetDie' => false,
@@ -217,6 +253,11 @@ final class BonusChoiceTest extends TestCase
         TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::PHOENIX_1->value,   'subtype' => CARD_TYPE_SCENARIO, 'card_played' => false];
         $expectedArgs = [
             'p' => $bonuses,
+            '_private' => [
+                1 => [
+                    'p' => [],
+                ],
+            ],
             'trade' => true,
             'canSkip' => true,
             'cannotSetDie' => false,
@@ -236,6 +277,77 @@ final class BonusChoiceTest extends TestCase
 
         $args = $game->argBonusChoice();
         
+        assertSame($expectedArgs, $args);
+    }   
+    public function test_Args_WithRevealCard(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $bonuses = [
+            BONUS_TYPE_REFILL_HAND,
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => 221,
+                        'actions' => [
+                            AFTER_ACTION::GAIN_INFLUENCE->value => [
+                                'n' => 2,
+                                'region' => 3,
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+
+        $args = $game->argBonusChoice();
+        
+        $expectedArgs = [
+            'p' => [BONUS_TYPE_REFILL_HAND],
+            '_private' => [
+                1 => [
+                    'p' => [
+                        'datas' => [
+                            BONUS_TYPE_REVEAL_CARD => [
+                                1 => [
+                                    'cardId' => 221,
+                                    'actions' => [
+                                        AFTER_ACTION::GAIN_INFLUENCE->value => [
+                                            'n' => 2,
+                                            'region' => 3,
+                                        ],
+                                    ],
+                                    'private' => true,
+                                ],
+                            ],
+                        ],
+                    ],
+                    'p_cards' => [
+                        221 => [ 
+                            'marker' => 1,
+                            'source' => BONUS_TYPE_REVEAL_CARD,
+                            'actions' => [
+                                AFTER_ACTION::GAIN_INFLUENCE->value => [
+                                    'n' => 2,
+                                    'region' => 3,
+                                ],
+                            ],
+                        ],
+                    ]
+                ],
+            ],
+            'trade' => false,
+            'canSkip' => false,
+            'cannotSetDie' => true,
+            'a' =>  [
+                'actPlayCard',
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
         assertSame($expectedArgs, $args);
     }   
     // -------------------------------------------------

@@ -392,4 +392,31 @@ class Player extends \ROG\Helpers\DB_Model
   {
     return Meeples::countPlayerBuildings($this->getId());
   }
+  public function getNbBuildingsInRegion(int $region) : int
+  {
+    return Meeples::countPlayerBuildingsInRegion($this->getId(),$region);
+  }
+  
+  public function filterPossibleBonuses(bool $public) : array
+  { 
+    $all = $this->getBonuses();
+    $filtered = $public ? $all : [];
+    if(array_key_exists('datas',$all))
+    {
+      $filteredDatas = [];
+      foreach($all['datas'] as $type => $bonuses){
+        foreach($bonuses as $key => $bonus){
+          $privateBonus = isset($bonus['private']) ? true : false;
+          if( ($public && !$privateBonus) || (!$public && $privateBonus) ){
+            $filteredDatas[$type][$key] = $bonus;
+          }
+        }
+      }
+      $filtered['datas'] = $filteredDatas;
+      if(count($filtered['datas']) == 0) {
+        unset($filtered['datas']);
+      }
+    }
+    return $filtered;
+  }
 }
