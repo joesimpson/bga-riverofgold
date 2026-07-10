@@ -3,6 +3,7 @@
 namespace ROG\Models;
 
 use ROG\Core\Notifications;
+use ROG\Helpers\Collection;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
@@ -105,6 +106,22 @@ class CityCard extends Card
     }
     return $canPlay;
   }
+  
+  public function playCardDatasOnTurn(Player $player,) : array
+  {
+    $playDatas = [];
+    switch($this->getType()){
+      case CITY_CARD_TYPE::TRAVEL_TRO->value : 
+        //$playDatas['dest'] = REGIONS;
+        $actionDatas = [];
+          $actionDatas['n'] = 1; 
+          $actionDatas['regions'] = REGIONS; 
+        $playDatas['actions'][BEFORE_ACTION::GAIN_INFLUENCE->value] = $actionDatas;
+        $playDatas['marker'] = null;
+        break;
+    }
+    return $playDatas;
+  }
 
   public function onAssignment(Player $player, ?int $markerId)
   {
@@ -117,20 +134,30 @@ class CityCard extends Card
         break;
     }
   }
-  
-  public function reveal(Player &$player, ?int $sumInfluence = 0,)
+
+  public function revealUpdate(Player $player,) : Collection
   {
     $meeples = $this->getMeeplesWhenHidden();
     $this->setLocation(CARD_CITY_LOCATION_REVEALED);
-    $this->setPlayed(true);
+    foreach($meeples as $meeple){
+      $meeple->setLocation(MEEPLE_LOCATION_CARD.$this->getId());
+    }
     Notifications::revealCityCard($player,$this,$meeples);
+    return $meeples;
+  }
+  
+  public function reveal(Player &$player, ?int $sumInfluence = 0,)
+  {
+    $this->setPlayed(true);
+    $meeples = $this->revealUpdate($player);
     switch($this->getType()){
       case CITY_CARD_TYPE::BRIBERY->value : 
         Players::giveMoney($player, $sumInfluence);
         break;
       case CITY_CARD_TYPE::CARTEL->value : 
+      case CITY_CARD_TYPE::OPPORTUNIST->value : 
+      case CITY_CARD_TYPE::TRAVEL_TRO->value : 
         //Done in actPlayCard
-        //Players::gainInfluence($player,$region,$amount);
         break;
     }
   }
@@ -141,12 +168,7 @@ class CityCard extends Card
   public function onEndReveal(Player &$player,) : int
   {
     $score = null;
-    $meeples = $this->getMeeplesWhenHidden();
-    $this->setLocation(CARD_CITY_LOCATION_REVEALED);
-    foreach($meeples as $meeple){
-      $meeple->setLocation(MEEPLE_LOCATION_CARD.$this->getId());
-    }
-    Notifications::revealCityCard($player,$this,$meeples);
+    $meeples = $this->revealUpdate($player);
     switch($this->getType()){
       case CITY_CARD_TYPE::SHARED_CLI->value : 
         //If that clan has the most customers

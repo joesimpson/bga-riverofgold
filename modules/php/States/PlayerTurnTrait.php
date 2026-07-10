@@ -12,6 +12,7 @@ use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\ClientAnswer;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
+use ROG\Managers\CityCards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
@@ -186,9 +187,7 @@ trait PlayerTurnTrait
       Notifications::scenarioAbility($player,$card);
     }
     else if($card instanceof CityCard){
-      $bonusDatas = Globals::removeBonus($player,$source,$markerId);
-      self::trace("actPlayCard(CityCard $cardId) ... bonusDatas=".json_encode($bonusDatas).")");
-      $card->reveal($player,null, $bonusDatas);
+      $card->reveal($player,);
     }
     
     switch($action){
@@ -246,7 +245,19 @@ trait PlayerTurnTrait
         Players::claimMasteries($player);
         $doCheckPoint = true;
         break;
+      case BEFORE_ACTION::GAIN_INFLUENCE->value:
+        $destRegions = $actionDatas['regions'];
+        if(!in_array($dest, $destRegions)){
+          throw new UnexpectedException(48,"You cannot gain influence in region $dest");
+        }
+        $region = $dest;
+        $amount = $actionDatas['n'];
+        Players::gainInfluence($player,$region,$amount);
+        //We may go to bonus choice if needed BEFORE MAIN ACTION 
+        break;
       case AFTER_ACTION::GAIN_INFLUENCE->value:
+        $bonusDatas = Globals::removeBonus($player,$source,$markerId);
+        self::trace("actPlayCard(CityCard $cardId) ... bonusDatas=".json_encode($bonusDatas).")");
         if(!isset($bonusDatas)){
           throw new UnexpectedException(47,"Missing informations to gain influence with card $cardId");
         }
@@ -260,6 +271,7 @@ trait PlayerTurnTrait
     if($doCheckPoint){
       $this->addCheckpoint($this->gamestate->getCurrentMainStateId());
     }
+    if($this->goToBonusStepIfNeeded($player)) return;
     //stay in this state 
     $this->gamestate->nextState('continue');
   }
@@ -286,8 +298,7 @@ trait PlayerTurnTrait
    */
   function listPossibleCardsToPlay(Player $player) : array{
     $cards = [];
-    $mainActionDone = Globals::getTurnMainActionDone();
-    $mainActionDone = isset($mainActionDone) && $mainActionDone !='null' && $mainActionDone !='';
+    $mainActionDone = Utils::isPlayerActionDone();
     if(!$mainActionDone){
       //ACTIONS to take BEFORE main action :
       $shindoshi4 = Utils::getShindoshiMarker($player->getId(),CARD_SHINDOSHI_4);
@@ -331,20 +342,29 @@ trait PlayerTurnTrait
     $cards = [];
 
     $privateBonuses = $player->filterPossibleBonuses(false);
-    if(!isset($privateBonuses['datas'])) return [];
-    $privateBonuses = $privateBonuses['datas'];
-    foreach($privateBonuses as $type => $list){
-      foreach($list as $key => $data){
-        switch($type){
-          case BONUS_TYPE_REVEAL_CARD: 
-            $cardId = $data['cardId'];
-            $cards[$cardId]['marker'] = $key;
-            $cards[$cardId]['source'] = $type;
-            $cards[$cardId]['actions'] = $data['actions'];
-            break;
+    if(isset($privateBonuses['datas'])){
+      $privateBonuses = $privateBonuses['datas'];
+      foreach($privateBonuses as $type => $list){
+        foreach($list as $key => $data){
+          switch($type){
+            case BONUS_TYPE_REVEAL_CARD: 
+              $cardId = $data['cardId'];
+              $cards[$cardId]['marker'] = $key;
+              $cards[$cardId]['source'] = $type;
+              $cards[$cardId]['actions'] = $data['actions'];
+              break;
+          }
         }
-      }
-    } 
+      } 
+    }
+    
+    $cityCards = CityCards::getPlayerHand($player->getId());
+    $cityCards->map(function(CityCard $c) use (&$player, &$cards){
+        $playableDatas = $c->playCardDatasOnTurn($player,);
+        if(count($playableDatas) > 0){
+          $cards[$c->getId()] = $playableDatas;
+        }
+      });
 
     return $cards;
   }

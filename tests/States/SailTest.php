@@ -360,6 +360,7 @@ final class SailTest extends TestCase
         $expectedBonuses = json_encode([BONUS_TYPE_MONEY_OR_GOOD]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertSame(ST_PLAYER_TURN_SAIL, Globals::getStateBeforeBonus());
         assertSame(TILE_LOCATION_DISCARD, TestDatas::$tiles[34]['tile_location']);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
         assertSame(7, $resources[RESOURCE_TYPE_MONEY]);//EMPTY_SPACE_REWARD*3 + 1 as owner reward + 3 as visitor reward

@@ -401,7 +401,7 @@ class Player extends \ROG\Helpers\DB_Model
   { 
     $all = $this->getBonuses();
     $filtered = $public ? $all : [];
-    if(array_key_exists('datas',$all))
+    if(isset($all) && array_key_exists('datas',$all))
     {
       $filteredDatas = [];
       foreach($all['datas'] as $type => $bonuses){

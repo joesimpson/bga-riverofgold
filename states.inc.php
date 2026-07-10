@@ -81,13 +81,13 @@ require_once 'modules/php/constants.inc.php';
  |   |          |                                     |
  |   |          v                                     |
  |   |    /---> playerTurn --\                        |
- |   |    |     |            |                        |
- |   |    |     |            |                        |
- |   |    |     v            v                        |
- |   |    \--- trade/favor  build/sail/deliver/advance|
- |   |                       |                        |
- |   |                       v                        |
- |   |                      bonusChoice <----\        |
+ |   |    |     |          |  |                       |
+ |   |    |     |          |  |                       |
+ |   |    |     v          |  v                       |
+ |   |    \--- trade/favor |build/sail/deliver/advance|
+ |   |    ^                | |                        |
+ |   |    |                v v                        |
+ |   |    \--------------  bonusChoice <----\         |
  |   |                       |               ^        |
  |   |                       v               |        |
  |   |                       confirm         |        |
@@ -227,6 +227,8 @@ $machinestates = array(
             "favor" => ST_PLAYER_TURN_DIVINE_FAVOR, 
             //"next" => ST_CONFIRM_CHOICES, 
             "zombiePass" => ST_CONFIRM_CHOICES,
+            //bonus step BEFORE taking action should come back after
+            "bonus" => ST_BONUS_CHOICE, 
         ],
     ),
     
@@ -283,6 +285,9 @@ $machinestates = array(
             "trade" => ST_PLAYER_TURN_TRADE, 
             'next' => ST_CONFIRM_CHOICES,
             'zombiePass'=> ST_CONFIRM_CHOICES,
+            'backToPlayerTurn' => ST_PLAYER_TURN,
+            //if we play cards now :
+            "bonus" => ST_BONUS_CHOICE, 
         ],
     ],
     
@@ -496,6 +501,8 @@ $machinestates = array(
           'confirm' => ST_END_TURN,
           'zombiePass'=> ST_END_TURN,
           'refillHand' => ST_DISCARD_CARD,
+            //if we play cards now :
+            "bonus" => ST_BONUS_CHOICE, 
         ],
     ],
 

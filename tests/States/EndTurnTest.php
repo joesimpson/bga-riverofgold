@@ -34,6 +34,7 @@ final class EndTurnTest extends TestCase
         $game->stEndTurn();
         
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertSame(ST_END_TURN, Globals::getStateBeforeBonus());
         assertSame(2, TestDatas::$test_activePlayerId);
     }
     public function test_EnteringState(): void

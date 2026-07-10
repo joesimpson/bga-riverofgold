@@ -23,6 +23,7 @@ enum BEFORE_ACTION: string
   
   case SWAP_BOATS     = 'SWAP_BOATS';
   case MOVE_BUILDING  = 'MOVE_BUILDING';
+  case GAIN_INFLUENCE     = 'B_GAIN_INFLUENCE';
 }
 
 enum TURN_ACTION: string
@@ -36,7 +37,7 @@ enum AFTER_ACTION: string
 {
   use EnumUtilsTrait;
   
-  case GAIN_INFLUENCE     = 'GAIN_INFLUENCE';
+  case GAIN_INFLUENCE     = 'A_GAIN_INFLUENCE';
 }
 
 enum AutomaActionType: int

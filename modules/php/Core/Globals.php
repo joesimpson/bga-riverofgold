@@ -32,6 +32,8 @@ class Globals extends \ROG\Helpers\DB_Manager
     
     //Trade is possible in many states, thus we need to keep a trace of the previous state
     'stateBeforeTrade' => 'int',
+    //Track state before having choice of bonuses in order to be able to "go back" to the right place
+    'stateBeforeBonus' => 'int',
 
     'currentBonus' => 'int',
     'currentBonusDatas' => 'obj',
@@ -79,6 +81,7 @@ class Globals extends \ROG\Helpers\DB_Manager
     self::setCurrentBonus(null);
     self::setCurrentBonusDatas(null);
     self::setStateBeforeTrade(null);
+    self::setStateBeforeBonus(null);
 
     self::setEndPlayer(null);
     self::setEndScoring([]);

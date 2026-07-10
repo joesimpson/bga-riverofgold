@@ -907,32 +907,39 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         onEnteringStatePlayCardGainInfluence(args) {
             debug('onEnteringStatePlayCardGainInfluence', args);
 
-            let cardId = parseInt(args.cardId);
-            let markerId = parseInt(args.markerId);
-            let amount = args.actionDatas.n;
-            let region = args.actionDatas.region;
-            let iconRegion = this.formatIcon("influence-"+region, region);
-            let iconInfluence = this.formatIcon('influence', amount);
-
-            document.getElementById(`rog_card-${cardId}`).classList.add('selected');
-
             this.addCancelStateBtn(_('Return'));
 
-            this.addImageActionButton(`btnPlayCard`, `<div class='rog_trade'>
-                    ${iconRegion} ${iconInfluence}
-                </div>`,
-                () =>  { 
-                    this.takeAction('actPlayCard', { 
-                        //ClientAnswer
-                        'answer': JSON.stringify({
-                            'cardId': parseInt(cardId), 
-                            'markerId': markerId, 
-                            'action': args.action,
-                            'source': args.source,
-                            'dest': null,
-                        }),
+            let cardId = parseInt(args.cardId);
+            document.getElementById(`rog_card-${cardId}`).classList.add('selected');
+            let markerId = parseInt(args.markerId);
+            let amount = args.actionDatas.n;
+            let action = args.action;
+            let source = (args.source ? args.source : null);
+            //let region = args.actionDatas.region;
+            let regions = args.actionDatas.regions;
+            
+            Object.values(regions).forEach((region) => {
+
+                let iconRegion = this.formatIcon("influence-"+region, region);
+                let iconInfluence = this.formatIcon('influence', amount);
+
+                this.addImageActionButton(`btnPlayCard_${region}`, `<div class='rog_trade'>
+                        ${iconRegion} ${iconInfluence}
+                    </div>`,
+                    () =>  { 
+                        this.takeAction('actPlayCard', { 
+                            //ClientAnswer
+                            'answer': JSON.stringify({
+                                'cardId': parseInt(cardId), 
+                                'markerId': markerId, 
+                                'action': action,
+                                'source': source,
+                                'dest': region,
+                            }),
+                        });
                     });
-                });
+
+            });
         },
         
         onEnteringStateBeforeTurn(args){
@@ -5237,7 +5244,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                                 });
                             });
                             break;
-                        case 'GAIN_INFLUENCE'://AFTER_ACTION::GAIN_INFLUENCE
+                        case 'A_GAIN_INFLUENCE'://AFTER_ACTION::GAIN_INFLUENCE
+                        case 'B_GAIN_INFLUENCE'://BEFORE_ACTION::GAIN_INFLUENCE
                             callbackCardSelection = () => {
                                 this.clientState('playCardGainInfluence','', {
                                     'cardId': cardId,
@@ -5471,7 +5479,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <span>${this.fsr(_("When the game ends, gain ${icon_score} for each ${resource} you have."), {'icon_score': this.formatIcon('score',1), 'resource': this.formatIcon(RESOURCES[RESOURCE_TYPE_RICE])})}</span>
                     `
                 ],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.TRAVEL_TRO    ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.TRAVEL_TRO    ,  this.fsr(_("Reveal this card to gain ${influence} in any region"), {'influence':'','n2':1 })],
             ]);
             descriptionLine = descriptionMap.get(card.type);
             let effectMap = new Map([

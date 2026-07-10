@@ -395,6 +395,47 @@ final class PlayerTurnTest extends TestCase
         
         assertSame($expectedArgs, $args);
     }
+    
+    public function test_Args_PlayableCards_CityCard_TravelTroupe(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":0,"5":0,"6":20}';
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::TRAVEL_TRO->value;
+        $expectedArgs = [
+            'a' => [
+                'actBuild',
+                'actSail',
+                'actPlayCard',
+            ],
+            'die_face' => 1,
+            '_private' => [
+                1 => [
+                    'p_cards' => [
+                        221 => [ 
+                            'actions' => [
+                                BEFORE_ACTION::GAIN_INFLUENCE->value => [
+                                    'n' => 1,
+                                    'regions' => [ 1,2,3,4,5,6 ],
+                                ],
+                            ],
+                            'marker' => null,
+                        ],
+                    ]
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
     // -------------------------------------------------
  
     public function test_ActionSpendFavor(): void
@@ -877,11 +918,109 @@ final class PlayerTurnTest extends TestCase
         $game->actPlayCard($answer,999999);
     }
     // -------------------------------------------------
-    public function test_ActionPlayCard_GainInfluence_Pass_City_Cartel(): void
+    public function test_ActionPlayCard_GainInfluenceBeforeAction_Pass_City_TravelTroupe(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::TRAVEL_TRO->value;
+        TestDatas::$players[1]['bonuses'] = json_encode([]);
+        $markerId = null;
+        $action = BEFORE_ACTION::GAIN_INFLUENCE->value;
+        $source = null;
+        $dest = 2;//region
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $game->actPlayCard($answer,999999);
+        
+        $expectedNotifs = [
+            "revealCityCard-1",
+            "gainInfluence-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test moved card: 
+        assertSame(CARD_CITY_LOCATION_REVEALED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
+        //Test gained influence :
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(1, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        //no bonuses :
+        assertSame(json_encode([]), TestDatas::$players[1]['bonuses']);
+        assertSame(0, Globals::getStateBeforeBonus());
+    }
+    
+    public function test_ActionPlayCard_GainInfluenceBeforeAction_Pass_City_TravelTroupe_GainBonus(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::TRAVEL_TRO->value;
+        TestDatas::$players[1]['bonuses'] = json_encode([]);
+        $markerId = null;
+        $action = BEFORE_ACTION::GAIN_INFLUENCE->value;
+        $source = null;
+        $dest = 1;//region
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+        TestDatas::$tokens[$dest]['meeple_state'] = 17;
+
+        $game->actPlayCard($answer,999999);
+        
+        $expectedNotifs = [
+            "revealCityCard-1",
+            "gainInfluence-1",
+            "addBonus-1",
+            "addPoints-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test moved card: 
+        assertSame(CARD_CITY_LOCATION_REVEALED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
+        //Test gained influence :
+        assertSame(18, TestDatas::$tokens[1]['meeple_state']);//+1
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        // bonuses :
+        assertSame(json_encode([BONUS_TYPE_CHOICE]), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertSame(ST_PLAYER_TURN, Globals::getStateBeforeBonus());
+    }
+    public function test_ActionPlayCard_GainInfluenceBeforeAction_KO_WrongRegion(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::TRAVEL_TRO->value;
+        TestDatas::$players[1]['bonuses'] = json_encode([]);
+        $markerId = null;
+        $action = BEFORE_ACTION::GAIN_INFLUENCE->value;
+        $source = null;
+        $dest = 7;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot gain influence in region $dest");
+        $game->actPlayCard($answer,999999);
+    }
+    public function test_ActionPlayCard_GainInfluenceAfter_Pass_City_Cartel(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
         $cardId = 221;
         TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
         TestDatas::$cards[$cardId]['player_id'] = 1;
@@ -931,11 +1070,11 @@ final class PlayerTurnTest extends TestCase
         //updated bonuses :
         assertSame(json_encode([BONUS_TYPE_REFILL_HAND]), TestDatas::$players[1]['bonuses']);
     }
-    public function test_ActionPlayCard_GainInfluence_KO_Bonuskey(): void
+    public function test_ActionPlayCard_GainInfluenceAfter_KO_Bonuskey(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
-        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
         $cardId = 221;
         TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
         TestDatas::$cards[$cardId]['player_id'] = 1;
@@ -968,11 +1107,11 @@ final class PlayerTurnTest extends TestCase
         $this->expectExceptionMessage("You cannot play card $cardId with marker $markerId");
         $game->actPlayCard($answer,999999);
     }
-    public function test_ActionPlayCard_GainInfluence_KO_BonusType(): void
+    public function test_ActionPlayCard_GainInfluenceAfter_KO_BonusType(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
-        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
         $cardId = 221;
         TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
         TestDatas::$cards[$cardId]['player_id'] = 1;
@@ -1032,6 +1171,7 @@ final class PlayerTurnTest extends TestCase
         
         //Test go to bonus state
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertSame(ST_PLAYER_TURN_BUILD, Globals::getStateBeforeBonus());
     }
     
     public function test_goToBonusStepIfNeeded_TrueChangePlayer(): void

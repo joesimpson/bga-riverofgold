@@ -9,8 +9,12 @@ use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Helpers\ClientAnswer;
 use ROG\Managers\Cards;
 use ROG\Models\AFTER_ACTION;
+use ROG\Models\BEFORE_ACTION;
+use ROG\Models\CITY_CARD_TYPE;
+use ROG\Models\MAIN_ACTION;
 use ROG\Models\ScenarioType;
 use ROG\Models\TURN_ACTION;
 use Tests\Utils\TestDatas;
@@ -46,6 +50,37 @@ final class BonusChoiceTest extends TestCase
         //skip state when 0 possible actions
         assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
     }
+
+    public function test_EnteringState_GoBackToPlayerTurn(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode([]);
+        Globals::setStateBeforeBonus(ST_PLAYER_TURN);
+
+        $game->stBonusChoice();
+        
+        //skip state when 0 possible actions
+        assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+    }
+
+    // I don't know if it is a real use case, but just to be sure...
+    public function test_EnteringState_DontGoBackToPlayerTurn(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses'] = json_encode([]);
+        Globals::setStateBeforeBonus(ST_PLAYER_TURN);
+        Globals::setTurnMainActionDone(MAIN_ACTION::BUILD->value);
+
+        $game->stBonusChoice();
+        
+        //skip state when 0 possible actions
+        assertSame(ST_CONFIRM_CHOICES, GamestateMachine::$test_current_state);
+    }
+    
     // -------------------------------------------------
     public function test_Args_Skippable(): void
     {
@@ -279,7 +314,7 @@ final class BonusChoiceTest extends TestCase
         
         assertSame($expectedArgs, $args);
     }   
-    public function test_Args_WithRevealCard(): void
+    public function test_Args_WithRevealCard_1(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
@@ -335,6 +370,50 @@ final class BonusChoiceTest extends TestCase
                                     'region' => 3,
                                 ],
                             ],
+                        ],
+                    ]
+                ],
+            ],
+            'trade' => false,
+            'canSkip' => false,
+            'cannotSetDie' => true,
+            'a' =>  [
+                'actPlayCard',
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+        assertSame($expectedArgs, $args);
+    }   
+    public function test_Args_WithRevealCard_2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::TRAVEL_TRO->value;
+        $bonuses = [
+            BONUS_TYPE_REFILL_HAND,
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+
+        $args = $game->argBonusChoice();
+        
+        $expectedArgs = [
+            'p' => [BONUS_TYPE_REFILL_HAND],
+            '_private' => [
+                1 => [
+                    'p' => [],
+                    'p_cards' => [
+                        221 => [ 
+                            'actions' => [
+                                BEFORE_ACTION::GAIN_INFLUENCE->value => [
+                                    'n' => 1,
+                                    'regions' => [ 1,2,3,4,5,6 ],
+                                ],
+                            ],
+                            'marker' => null,
                         ],
                     ]
                 ],
@@ -1074,6 +1153,53 @@ final class BonusChoiceTest extends TestCase
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Not supported bonus type $bonusType");
         $game->actBonus(999999,$bonusType);
+    }
+    // -------------------------------------------------
+    
+    // -------------------------------------------------
+    // actPlayCard defined in PlayerTurnTrait
+    // -------------------------------------------------
+    
+    public function test_ActionPlayCard_GainInfluenceBeforeAction_Pass_City_TravelTroupe_GainBonus(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::TRAVEL_TRO->value;
+        TestDatas::$players[1]['bonuses'] = json_encode([]);
+        $markerId = null;
+        $action = BEFORE_ACTION::GAIN_INFLUENCE->value;
+        $source = null;
+        $dest = 6;//region
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+        TestDatas::$tokens[$dest]['meeple_state'] = 17;
+
+        $game->actPlayCard($answer,999999);
+        
+        $expectedNotifs = [
+            "revealCityCard-1",
+            "gainInfluence-1",
+            "addBonus-1",
+            "addPoints-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test moved card: 
+        assertSame(CARD_CITY_LOCATION_REVEALED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
+        //Test gained influence :
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(18, TestDatas::$tokens[6]['meeple_state']);
+        // bonuses :
+        assertSame(json_encode([BONUS_TYPE_CHOICE]), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertSame(ST_BONUS_CHOICE, Globals::getStateBeforeBonus());
     }
     // -------------------------------------------------
 }

@@ -145,6 +145,13 @@ abstract class Utils
         return null;
     }
     
+    public static function isPlayerActionDone() : bool
+    {
+        $mainActionDone = Globals::getTurnMainActionDone();
+        $mainActionDone = isset($mainActionDone) && $mainActionDone !='null' && $mainActionDone !='';
+        return $mainActionDone;
+    }
+
     /**
      * @param int $stack : 1 or 2
      * @return bool true if we don't want to see next tiles in that stack until some actions
@@ -353,6 +360,8 @@ abstract class Utils
                 Players::changeActive($updatedPlayer->getId());
                 Game::get()->addCheckpoint(ST_BONUS_CHOICE);
             }
+            $currentState = Game::get()->gamestate->getCurrentMainStateId();
+            Globals::setStateBeforeBonus($currentState);
             if($applyNextState) Game::get()->gamestate->nextState('bonus');
             return true;
         }

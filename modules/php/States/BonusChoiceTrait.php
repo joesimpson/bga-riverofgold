@@ -9,6 +9,7 @@ use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Collection;
 use ROG\Helpers\Log;
+use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
@@ -26,7 +27,7 @@ trait BonusChoiceTrait
     $nbPossibleActions = count($args['p']);
     $nbPossiblePrivateActions = count($args['_private'][$activePlayer->getId()]['p']);
     if($nbPossibleActions == 0 && $nbPossiblePrivateActions == 0){
-      $this->gamestate->nextState('next');
+      $this->goToStateAfterBonuses();
       return;
     }
   } 
@@ -73,7 +74,7 @@ trait BonusChoiceTrait
       throw new UnexpectedException(405,"You should not skip these bonuses !");
     }
     $player->setBonuses([]);
-    $this->gamestate->nextState('next');
+    $this->goToStateAfterBonuses();
   } 
   /**
    * @param int $bonusType
@@ -258,5 +259,25 @@ trait BonusChoiceTrait
     }
     return true;
   }
+
+  public function goToStateAfterBonuses()
+  {  
+    $previousState = Globals::getStateBeforeBonus();
+    switch($previousState){
+      case ST_PLAYER_TURN:
+        if(Utils::isPlayerActionDone()){
+          //player action already done
+          $nextState = 'next';
+        }
+        else {
+          $nextState = 'backToPlayerTurn';
+        }
+        break;
+      default:
+        $nextState = 'next';
+        break;
+    }
+    Globals::setStateBeforeBonus(null);
+    $this->gamestate->nextState($nextState);
+  }
 }
-;

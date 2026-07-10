@@ -664,6 +664,7 @@ final class DeliverTest extends TestCase
         assertSame(json_encode([BONUS_TYPE_REFILL_HAND]), TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame(1, TestDatas::$stats[TestDatas::$test_activePlayerId]['nbActionsDeliver']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertSame(ST_PLAYER_TURN_DELIVER, Globals::getStateBeforeBonus());
         assertSame(MAIN_ACTION::DELIVER->value, Globals::getTurnMainActionDone());
         $expectedBonuses = [
             BONUS_TYPE_REFILL_HAND,

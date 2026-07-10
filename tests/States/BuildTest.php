@@ -516,6 +516,7 @@ final class BuildTest extends TestCase
         $expectedBonuses = json_encode([BONUS_TYPE_SET_DIE]);
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertSame(ST_PLAYER_TURN_BUILD, Globals::getStateBeforeBonus());
     }
     
     public function test_actBuildSelect_Pass_LadyOfLions(): void
@@ -542,6 +543,7 @@ final class BuildTest extends TestCase
         
         assertSame(json_encode($expectedBonuses), TestDatas::$players[1]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+        assertSame(ST_PLAYER_TURN_BUILD, Globals::getStateBeforeBonus());
         assertFalse( array_key_exists(101,TestDatas::$tokens));//deleted clan marker
         assertSame($tileId, Globals::getLastBuiltTile());
     }
