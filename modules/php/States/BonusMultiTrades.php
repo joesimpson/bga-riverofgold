@@ -39,7 +39,6 @@ class BonusMultiTrades extends GameState
 
     $canSkip = true;
     $trades = [];
-    $possibleTrades = [];
     $nbTrades = 0;
     if(isset($currentBonusDatas)){
       $nbTrades = $currentBonusDatas['bonusQuantity'];
@@ -89,7 +88,24 @@ class BonusMultiTrades extends GameState
     if($nbTrades < 1){
       $trades = [];
     }
-    
+
+    $possibleTrades = BonusMultiTrades::formatTradesForUI($player,$trades);
+
+    $args = [
+      'skip' => $canSkip,
+      'c' => $currentBonus,
+      'nb' => $nbTrades,
+      'trades' => $possibleTrades,
+    ];
+
+    $this->game->addArgsForUndo($args);
+    return $args;
+  }     
+
+  public static function formatTradesForUI(Player $player, array $trades) : array {
+
+    $possibleTrades = [];
+
     // FILTER ON player min/max 
     $possibleSrc = [];
     $possibleDest = [];
@@ -125,17 +141,8 @@ class BonusMultiTrades extends GameState
         ];
       }
     }
-
-    $args = [
-      'skip' => $canSkip,
-      'c' => $currentBonus,
-      'nb' => $nbTrades,
-      'trades' => $possibleTrades,
-    ];
-
-    $this->game->addArgsForUndo($args);
-    return $args;
-  }     
+    return $possibleTrades;
+  }
   
   public function onEnteringState(int $activePlayerId, array $args) {
     $this->game->trace(__CLASS__.".".__FUNCTION__."($activePlayerId)");

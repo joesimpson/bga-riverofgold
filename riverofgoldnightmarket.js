@@ -942,6 +942,112 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             });
         },
         
+        //CLIENT STATE
+        onEnteringStatePlayCardTradeResources(args) {
+            debug('onEnteringStatePlayCardTradeResources', args);
+            let callbackReset = () => {
+                this.clientState('playCardTradeResources','', args);
+            };
+
+            this.addCancelStateBtn(_('Return'));
+            this.addSecondaryActionButton(`btnReset`, _('Reset'), () => callbackReset()); 
+
+            let cardId = parseInt(args.cardId);
+            document.getElementById(`rog_card-${cardId}`).classList.add('selected');
+            let markerId = parseInt(args.markerId);
+            let action = args.action;
+            let allRes = [RESOURCE_TYPE_SILK, RESOURCE_TYPE_RICE, RESOURCE_TYPE_POTTERY, RESOURCE_TYPE_MONEY];
+            this.quantities = new Map([
+            ]);
+            this.initialQuantities = new Map([
+            ]);
+            this.deltas = new Map([
+            ]);
+
+            let initialGoods = 0;
+            let initialMoney = 0;
+            Object.values(allRes).forEach((res_type)=>{
+                count = this._counters[this.player_id][RESOURCES[res_type]].getValue();
+                this.quantities.set(res_type,count);
+                this.initialQuantities.set(res_type,count);
+                if(res_type == RESOURCE_TYPE_MONEY) {
+                    initialMoney = count;
+                }
+                else {
+                    initialGoods += count;
+                }
+            });
+
+            let iconSilk = this.formatIcon(RESOURCES[RESOURCE_TYPE_SILK]);
+            let iconRice = this.formatIcon(RESOURCES[RESOURCE_TYPE_RICE]);
+            let iconPottery = this.formatIcon(RESOURCES[RESOURCE_TYPE_POTTERY]);
+            let iconMoney = this.formatIcon(RESOURCES[RESOURCE_TYPE_MONEY]);
+            this.addImageActionButton(`btnReplaceGood`, `<div class='rog_trade'>
+                    <div class='rog_button_qty' id='qtyReplaceGood_${RESOURCE_TYPE_SILK}'>${   this.quantities.get(RESOURCE_TYPE_SILK)}</div>${iconSilk}
+                    <div class='rog_button_qty' id='qtyReplaceGood_${RESOURCE_TYPE_RICE}'>${   this.quantities.get(RESOURCE_TYPE_RICE)}</div>${iconRice}
+                    <div class='rog_button_qty' id='qtyReplaceGood_${RESOURCE_TYPE_POTTERY}'>${this.quantities.get(RESOURCE_TYPE_POTTERY)}</div>${iconPottery}
+                    <div class='rog_button_qty' id='qtyReplaceGood_${RESOURCE_TYPE_MONEY}'>${  this.quantities.get(RESOURCE_TYPE_MONEY)}</div>${iconMoney}
+                </div>`, () =>  {
+                    let actionName = 'actPlayCard';
+                    let actionArgs = {
+                        //ClientAnswer
+                        'answer': JSON.stringify({
+                            'cardId': parseInt(cardId), 
+                            'markerId': markerId, 
+                            'action': action,
+                            'source': null,
+                            'dest': null,
+                            'res': {
+                                'silk': this.quantities.get(RESOURCE_TYPE_SILK  ),
+                                'rice': this.quantities.get(RESOURCE_TYPE_RICE  ),
+                                'pottery': this.quantities.get(RESOURCE_TYPE_POTTERY),
+                                'money': this.quantities.get(RESOURCE_TYPE_MONEY),
+                            },
+                        }),
+                    };
+                    this.takeAction(actionName, actionArgs);
+                });
+            $(`btnReplaceGood`).classList.add('disabled');
+            let callbackIncreaseResource = (res_type, delta = 1, min, max) => {
+                let count = this.quantities.get(res_type);
+                count += delta;
+                if(count > max || count < min) return; 
+                this.quantities.set(res_type,count);
+                document.getElementById(`qtyReplaceGood_${res_type}`).innerHTML = this.quantities.get(res_type);
+                let moneyDelta = this.deltas.get(RESOURCE_TYPE_MONEY);
+                this.totalCount = this.quantities.get(RESOURCE_TYPE_SILK)
+                                + this.quantities.get(RESOURCE_TYPE_RICE) 
+                                + this.quantities.get(RESOURCE_TYPE_POTTERY) 
+                                + ( this.quantities.get(RESOURCE_TYPE_MONEY) - initialMoney) / moneyDelta 
+                                ;
+                let someDiff = false;
+                for (let [key, val] of this.quantities ) if( this.initialQuantities.get(key) != val) someDiff=true;
+                if(this.totalCount == initialGoods && someDiff){
+                    $(`btnReplaceGood`).classList.remove('disabled');
+                } 
+                else {
+                    $(`btnReplaceGood`).classList.add('disabled');
+                }
+            };
+
+            let possibles = args.actionDatas.trades;
+            Object.values(possibles).forEach((trade) => {
+                let type = parseInt(trade.type);
+                let incDelta = parseInt(trade.delta);
+                let min = parseInt(trade.min);
+                let max = parseInt(trade.max);
+                let iconRes = this.formatIcon(RESOURCES[type]);
+                this.deltas.set(type,incDelta);
+                    
+                this.addSecondaryActionButton(`btnInc_${type}`, `<div class='rog_trade'>
+                        <div class='rog_button_qty'>+${incDelta}</div>${iconRes}
+                    </div>`, () => callbackIncreaseResource(type,incDelta, min, max)); 
+                this.addSecondaryActionButton(`btnDec_${type}`, `<div class='rog_trade'>
+                        <div class='rog_button_qty'>-${incDelta}</div>${iconRes}
+                    </div>`, () => callbackIncreaseResource(type,-incDelta, min, max)); 
+            });
+        },
+        
         onEnteringStateBeforeTurn(args){
             debug('onEnteringStateBeforeTurn', args);
             this.initFavorSelection(args.p,'actBonusSetDie');
@@ -5256,6 +5362,16 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                                 });
                             };
                             break;
+                        case 'TRADE_FOR_RESOURCES'://BEFORE_ACTION::TRADE_FOR_RESOURCES
+                            callbackCardSelection = () => {
+                                this.clientState('playCardTradeResources','', {
+                                    'cardId': cardId,
+                                    'markerId': markerId, 
+                                    'action': action,
+                                    'actionDatas': actionDatas,
+                                });
+                            };
+                            break;
                     }
                 });
                 if(callbackCardSelection) this.onClick(`${div.id}`, callbackCardSelection);
@@ -5412,7 +5528,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 //TODO JSA TOOLTIPS
                 [ this.gamedatas.enums.CITY_CARD_TYPE.BRIBERY       , this.fsr(_("When you advance in the City of Lies, you may reveal this card to gain ${n} ${koku} for each ${influence} lost in this action."), {'n':1,'koku':'', 'influence':''  }) ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.OFFLOAD       ,  this.fsr(_(""), {})],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.BLACK_MARKET  ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.BLACK_MARKET  ,  this.fsr(_("Reveal this card on your turn and spend any number of trade goods. For each one spent, gain ${n} ${bonus} of your choice or ${x} ${resource} (in any combination)."), {'n':1, 'bonus': this.formatIcon('bonus-'+BONUS_TYPE_CHOICE), 'x':2, 'resource': this.formatIcon(RESOURCES[RESOURCE_TYPE_MONEY]),}) ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_CLI    , 
                     `
                     <span>${this.fsr(_("When you take this card, place a clan marker from another clan on it."), {})}</span>
@@ -5479,7 +5595,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <span>${this.fsr(_("When the game ends, gain ${icon_score} for each ${resource} you have."), {'icon_score': this.formatIcon('score',1), 'resource': this.formatIcon(RESOURCES[RESOURCE_TYPE_RICE])})}</span>
                     `
                 ],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.TRAVEL_TRO    ,  this.fsr(_("Reveal this card to gain ${influence} in any region"), {'influence':'','n2':1 })],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.TRAVEL_TRO    ,  this.fsr(_("Reveal this card to gain ${influence} in any region."), {'influence':'','n2':1 })],
             ]);
             descriptionLine = descriptionMap.get(card.type);
             let effectMap = new Map([

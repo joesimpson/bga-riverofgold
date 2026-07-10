@@ -10,6 +10,7 @@ use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\ClientAnswer;
+use ROG\Helpers\ClientResourcesCount;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\AFTER_ACTION;
@@ -420,6 +421,53 @@ final class PlayerTurnTest extends TestCase
                                 BEFORE_ACTION::GAIN_INFLUENCE->value => [
                                     'n' => 1,
                                     'regions' => [ 1,2,3,4,5,6 ],
+                                ],
+                            ],
+                            'marker' => null,
+                        ],
+                    ]
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_PlayableCards_CityCard_BlackMarket(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":4,"3":3,"4":3,"5":2,"6":16}';
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::BLACK_MARKET->value;
+        $expectedArgs = [
+            'a' => [
+                'actSpendFavor',
+                'actTrade',
+                'actBuild',
+                'actSail',
+                'actDeliver',
+                'actPlayCard',
+            ],
+            'die_face' => 1,
+            '_private' => [
+                1 => [
+                    'p_cards' => [
+                        221 => [ 
+                            'actions' => [
+                                BEFORE_ACTION::TRADE_FOR_RESOURCES->value => [
+                                    'trades' => [
+                                        RESOURCE_TYPE_SILK    => ['type' => 1   , 'delta'=>1, 'min' =>0, 'max'=>6, ],
+                                        RESOURCE_TYPE_RICE    => ['type' => 3   , 'delta'=>1, 'min' =>0, 'max'=>6, ],
+                                        RESOURCE_TYPE_POTTERY => ['type' => 2   , 'delta'=>1, 'min' =>0, 'max'=>6, ],
+                                        RESOURCE_TYPE_MONEY   => ['type' => 6   , 'delta'=>2, 'min' =>16, 'max'=>25, ],
+                                    ]
                                 ],
                             ],
                             'marker' => null,
@@ -1179,6 +1227,175 @@ final class PlayerTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Missing informations to gain influence with card $cardId");
+        $game->actPlayCard($answer,999999);
+    }
+    public function test_ActionPlayCard_TradeForResources_Pass_City_BlackMarket(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":4,"3":3,"4":3,"5":2,"6":16}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::BLACK_MARKET->value;
+        $markerId = null;
+        $action = BEFORE_ACTION::TRADE_FOR_RESOURCES->value;
+        $source = null;
+        $dest = null;
+        $clientResourcesCount = new ClientResourcesCount(1, 3, 4, 24);
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, $clientResourcesCount );
+
+        $game->actPlayCard($answer,999999);
+        
+        $expectedNotifs = [
+            "revealCityCard-1",
+            "spendResource-1",
+            "spendResource-1",
+            "giveResource-1",
+            "giveResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test moved card: 
+        assertSame(CARD_CITY_LOCATION_REVEALED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
+        // no bonuses :
+        assertSame(json_encode([]), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_PLAYER_TURN, GamestateMachine::$test_current_state);
+        assertSame(0, Globals::getStateBeforeBonus());
+        //RESOURCES
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(4, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(2, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(24, $resourcesP1[RESOURCE_TYPE_MONEY]);
+    }
+    public function test_ActionPlayCard_TradeForResources_KO_City_BlackMarket_NoResources(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":4,"3":3,"4":3,"5":2,"6":16}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::BLACK_MARKET->value;
+        $markerId = null;
+        $action = BEFORE_ACTION::TRADE_FOR_RESOURCES->value;
+        $source = null;
+        $dest = null;
+        $clientResourcesCount = null;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, $clientResourcesCount );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Missing resources");
+        $game->actPlayCard($answer,999999);
+    }
+    public function test_ActionPlayCard_TradeForResources_KO_City_BlackMarket_Max(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":4,"3":3,"4":3,"5":2,"6":16}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::BLACK_MARKET->value;
+        $markerId = null;
+        $action = BEFORE_ACTION::TRADE_FOR_RESOURCES->value;
+        $source = null;
+        $dest = null;
+        $clientResourcesCount = new ClientResourcesCount(1, 3, 4, 28);
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, $clientResourcesCount );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid amount of 6 : 28, see max");
+        $game->actPlayCard($answer,999999);
+    }
+    public function test_ActionPlayCard_TradeForResources_KO_City_BlackMarket_Min(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":4,"3":3,"4":3,"5":2,"6":16}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::BLACK_MARKET->value;
+        $markerId = null;
+        $action = BEFORE_ACTION::TRADE_FOR_RESOURCES->value;
+        $source = null;
+        $dest = null;
+        $clientResourcesCount = new ClientResourcesCount(1, 3, 4, 14);
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, $clientResourcesCount );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid amount of 6 : 14, see min");
+        $game->actPlayCard($answer,999999);
+    }
+    public function test_ActionPlayCard_TradeForResources_KO_City_BlackMarket_NoChange(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":4,"3":3,"4":3,"5":2,"6":16}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::BLACK_MARKET->value;
+        $markerId = null;
+        $action = BEFORE_ACTION::TRADE_FOR_RESOURCES->value;
+        $source = null;
+        $dest = null;
+        $clientResourcesCount = new ClientResourcesCount(5, 4, 3, 16);
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, $clientResourcesCount );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Don't use this card if you don't change your resources");
+        $game->actPlayCard($answer,999999);
+    }
+    public function test_ActionPlayCard_TradeForResources_KO_City_BlackMarket_BigBalance(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":4,"3":3,"4":3,"5":2,"6":16}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::BLACK_MARKET->value;
+        $markerId = null;
+        $action = BEFORE_ACTION::TRADE_FOR_RESOURCES->value;
+        $source = null;
+        $dest = null;
+        $clientResourcesCount = new ClientResourcesCount(5, 4, 4, 20);
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, $clientResourcesCount );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid balance of resources : 3");
+        $game->actPlayCard($answer,999999);
+    }
+    public function test_ActionPlayCard_TradeForResources_KO_City_BlackMarket_LowBalance(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":4,"3":3,"4":3,"5":2,"6":16}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::BLACK_MARKET->value;
+        $markerId = null;
+        $action = BEFORE_ACTION::TRADE_FOR_RESOURCES->value;
+        $source = null;
+        $dest = null;
+        $clientResourcesCount = new ClientResourcesCount(4, 4, 3, 16);
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, $clientResourcesCount );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Invalid balance of resources : -1");
         $game->actPlayCard($answer,999999);
     }
     // -------------------------------------------------

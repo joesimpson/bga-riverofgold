@@ -2,6 +2,8 @@
 
 namespace ROG\Models;
 
+use Bga\Games\RiverOfGoldNightMarket\States\BonusMultiTrades;
+use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
 use ROG\Managers\Meeples;
@@ -107,10 +109,23 @@ class CityCard extends Card
     return $canPlay;
   }
   
-  public function playCardDatasOnTurn(Player $player,) : array
+  public function playCardDatasOnTurn(Player &$player,) : array
   {
     $playDatas = [];
+    if($this->isPlayed()) return [];
     switch($this->getType()){
+      case CITY_CARD_TYPE::BLACK_MARKET->value : 
+        $actionDatas = [];
+        $actionDatas['trades'] = [
+          RESOURCE_TYPE_SILK    => ['type' => RESOURCE_TYPE_SILK   , 'delta'=>1, 'min' =>0, 'max'=>RESOURCES_LIMIT[RESOURCE_TYPE_SILK   ], ],
+          RESOURCE_TYPE_RICE    => ['type' => RESOURCE_TYPE_RICE   , 'delta'=>1, 'min' =>0, 'max'=>RESOURCES_LIMIT[RESOURCE_TYPE_RICE   ], ],
+          RESOURCE_TYPE_POTTERY => ['type' => RESOURCE_TYPE_POTTERY, 'delta'=>1, 'min' =>0, 'max'=>RESOURCES_LIMIT[RESOURCE_TYPE_POTTERY], ],
+          RESOURCE_TYPE_MONEY   => ['type' => RESOURCE_TYPE_MONEY  , 'delta'=>2, 'min' =>$player->getResource(RESOURCE_TYPE_MONEY), 'max'=> RESOURCES_LIMIT[RESOURCE_TYPE_MONEY], ],
+        ];
+
+        $playDatas['actions'][BEFORE_ACTION::TRADE_FOR_RESOURCES->value] = $actionDatas;
+        $playDatas['marker'] = null;
+        break;
       case CITY_CARD_TYPE::TRAVEL_TRO->value : 
         $actionDatas = [];
           $actionDatas['n'] = 1; 

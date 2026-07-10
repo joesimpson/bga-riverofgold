@@ -270,6 +270,43 @@ trait PlayerTurnTrait
         Players::gainInfluence($player,$region,$amount);
         Players::claimMasteries($player);
         break;
+      case BEFORE_ACTION::TRADE_FOR_RESOURCES->value:
+        $trades = $actionDatas['trades'];
+        // MULTIPLES TRADES AT ONCE to keep card secret (and because we don't know how many we will do)
+        $wantedResources = $answer->res;
+        if(!isset($wantedResources)){
+          throw new UnexpectedException(404,"Missing resources");
+        }
+        $checkresources = [ 
+          RESOURCE_TYPE_SILK    => $wantedResources->silk, 
+          RESOURCE_TYPE_POTTERY => $wantedResources->pottery, 
+          RESOURCE_TYPE_RICE    => $wantedResources->rice, 
+          RESOURCE_TYPE_MONEY   => $wantedResources->money, 
+        ];
+        $balanceResources = 0;
+        $totalChange = 0;
+        foreach($checkresources as $res_type => $amount){
+          $tradeDatas = $trades[$res_type];
+          if($tradeDatas['max'] < $amount){
+            throw new UnexpectedException(503,"Invalid amount of $res_type : $amount, see max in ".json_encode($tradeDatas));
+          }
+          if(intval($tradeDatas['min']) > intval($amount)){
+            throw new UnexpectedException(503,"Invalid amount of $res_type : $amount, see min in ".json_encode($tradeDatas));
+          }
+          $current = $player->getResource($res_type);
+          $quantity = $amount - $current;
+          $player->giveResource($quantity, $res_type);
+          $totalChange += abs($quantity);
+          $balanceResources += $quantity / $tradeDatas['delta'];
+        }
+        if($totalChange == 0){
+          throw new UnexpectedException(503,"Don't use this card if you don't change your resources !");
+        }
+        if($balanceResources != 0){
+          //We want a 0 balance because we exchange a*x to b*y
+          throw new UnexpectedException(503,"Invalid balance of resources : $balanceResources");
+        }
+        break;
     }
 
     if($doCheckPoint){

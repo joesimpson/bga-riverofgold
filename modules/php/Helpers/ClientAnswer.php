@@ -11,7 +11,11 @@ class ClientAnswer {
          * @see enum BEFORE_ACTION 
          **/
         public string $action,
-        public ?int $source,
-        public ?int $dest,
-    ) {}
+        public ?int $source = null,
+        public ?int $dest = null,
+        
+        public ?ClientResourcesCount $res = null,
+    ) {
+
+    }
 }
