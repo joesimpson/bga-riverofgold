@@ -890,7 +890,7 @@ final class BuildTest extends TestCase
                         'actions' => [
                             AFTER_ACTION::GAIN_INFLUENCE->value => [
                                 'n' => 1,
-                                'region' => 1,
+                                'regions' => [1],
                             ],
                         ],
                         'private' => true,

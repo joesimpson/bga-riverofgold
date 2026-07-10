@@ -1082,7 +1082,7 @@ final class DeliverTest extends TestCase
                         'actions' => [
                             AFTER_ACTION::GAIN_INFLUENCE->value => [
                                 'n' => 2,
-                                'region' => 3,
+                                'regions' => [3],
                             ],
                         ],
                         'private' => true,

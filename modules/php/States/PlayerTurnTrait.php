@@ -256,13 +256,17 @@ trait PlayerTurnTrait
         //We may go to bonus choice if needed BEFORE MAIN ACTION 
         break;
       case AFTER_ACTION::GAIN_INFLUENCE->value:
+        $destRegions = $actionDatas['regions'];
+        if(!in_array($dest, $destRegions)){
+          throw new UnexpectedException(48,"You cannot gain influence in region $dest");
+        }
         $bonusDatas = Globals::removeBonus($player,$source,$markerId);
         self::trace("actPlayCard(CityCard $cardId) ... bonusDatas=".json_encode($bonusDatas).")");
         if(!isset($bonusDatas)){
           throw new UnexpectedException(47,"Missing informations to gain influence with card $cardId");
         }
-        $region = $bonusDatas['actions'][$action]['region'];
-        $amount = $bonusDatas['actions'][$action]['n'];
+        $region = $dest;
+        $amount = $actionDatas['n'];
         Players::gainInfluence($player,$region,$amount);
         Players::claimMasteries($player);
         break;

@@ -1034,7 +1034,7 @@ final class PlayerTurnTest extends TestCase
                         'actions' => [
                             AFTER_ACTION::GAIN_INFLUENCE->value => [
                                 'n' => 2,
-                                'region' => 3,
+                                'regions' => [3],
                             ],
                         ],
                         'private' => true,
@@ -1046,7 +1046,7 @@ final class PlayerTurnTest extends TestCase
         $markerId = 1;
         $action = AFTER_ACTION::GAIN_INFLUENCE->value;
         $source = BONUS_TYPE_REVEAL_CARD;
-        $dest = null;
+        $dest = 3;
         $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
 
         $game->actPlayCard($answer,999999);
@@ -1070,6 +1070,43 @@ final class PlayerTurnTest extends TestCase
         //updated bonuses :
         assertSame(json_encode([BONUS_TYPE_REFILL_HAND]), TestDatas::$players[1]['bonuses']);
     }
+    public function test_ActionPlayCard_GainInfluenceAfter_KO_WrongRegion(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::CARTEL->value;
+        $bonuses = [
+            BONUS_TYPE_REFILL_HAND,
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => 221,
+                        'actions' => [
+                            AFTER_ACTION::GAIN_INFLUENCE->value => [
+                                'n' => 2,
+                                'regions' => [3],
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $markerId = 1;
+        $action = AFTER_ACTION::GAIN_INFLUENCE->value;
+        $source = BONUS_TYPE_REVEAL_CARD;
+        $dest = null;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot gain influence in region $dest");
+        $game->actPlayCard($answer,999999);
+    }
     public function test_ActionPlayCard_GainInfluenceAfter_KO_Bonuskey(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -1088,7 +1125,7 @@ final class PlayerTurnTest extends TestCase
                         'actions' => [
                             AFTER_ACTION::GAIN_INFLUENCE->value => [
                                 'n' => 2,
-                                'region' => 3,
+                                'regions' => [3],
                             ],
                         ],
                         'private' => true,
@@ -1100,7 +1137,7 @@ final class PlayerTurnTest extends TestCase
         $markerId = 99;
         $action = AFTER_ACTION::GAIN_INFLUENCE->value;
         $source = BONUS_TYPE_REVEAL_CARD;
-        $dest = null;
+        $dest = 3;
         $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
 
         $this->expectException(UnexpectedException::class);
@@ -1125,7 +1162,7 @@ final class PlayerTurnTest extends TestCase
                         'actions' => [
                             AFTER_ACTION::GAIN_INFLUENCE->value => [
                                 'n' => 2,
-                                'region' => 3,
+                                'regions' => [3],
                             ],
                         ],
                         'private' => true,
@@ -1137,7 +1174,7 @@ final class PlayerTurnTest extends TestCase
         $markerId = 1;
         $action = AFTER_ACTION::GAIN_INFLUENCE->value;
         $source = 5;
-        $dest = null;
+        $dest = 3;
         $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest );
 
         $this->expectException(UnexpectedException::class);

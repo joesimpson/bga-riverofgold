@@ -68,7 +68,7 @@ class CityCard extends Card
       case CITY_CARD_TYPE::CARTEL->value : 
         $nbBuildingsInRegion = $player->getNbBuildingsInRegion($region);
         $playDatas['n'] = 2 * $nbBuildingsInRegion; 
-        $playDatas['region'] = $region; 
+        $playDatas['regions'] = [$region]; 
         if($playDatas['n'] > 0){
           $actions[AFTER_ACTION::GAIN_INFLUENCE->value] = $playDatas;
         }
@@ -87,7 +87,7 @@ class CityCard extends Card
       case CITY_CARD_TYPE::OPPORTUNIST->value : 
         $nbShipsNearBuilding = Meeples::countPlayerShipsNearShoreSpace($shoreSpace, $player->getId());
         $playDatas['n'] = 1 * $nbShipsNearBuilding; 
-        $playDatas['region'] = $shoreSpace->region; 
+        $playDatas['regions'] = [$shoreSpace->region]; 
         if($playDatas['n'] > 0){
           $actions[AFTER_ACTION::GAIN_INFLUENCE->value] = $playDatas;
         }
@@ -112,7 +112,6 @@ class CityCard extends Card
     $playDatas = [];
     switch($this->getType()){
       case CITY_CARD_TYPE::TRAVEL_TRO->value : 
-        //$playDatas['dest'] = REGIONS;
         $actionDatas = [];
           $actionDatas['n'] = 1; 
           $actionDatas['regions'] = REGIONS; 
