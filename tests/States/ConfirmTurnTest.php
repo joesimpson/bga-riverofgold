@@ -12,6 +12,7 @@ use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\ClientAnswer;
 use ROG\Models\BEFORE_ACTION;
 use ROG\Models\CITY_CARD_TYPE;
+use ROG\Models\MAIN_ACTION;
 use ROG\Models\ScenarioType;
 use ROG\Models\TURN_ACTION;
 use Tests\Utils\TestDatas;
@@ -227,6 +228,7 @@ final class ConfirmTurnTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_CONFIRM_TURN;
+        Globals::setTurnMainActionDone(MAIN_ACTION::SAIL->value);
         $cardId = 221;
         TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
         TestDatas::$cards[$cardId]['player_id'] = 1;
@@ -246,6 +248,8 @@ final class ConfirmTurnTest extends TestCase
             "gainInfluence-1",
             "addBonus-1",
             "addPoints-1",
+            "newClanMarker-1",
+            "claimMC-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         //Test moved card: 

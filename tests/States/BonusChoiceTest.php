@@ -1165,6 +1165,7 @@ final class BonusChoiceTest extends TestCase
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        Globals::setTurnMainActionDone(MAIN_ACTION::SAIL->value);
         $cardId = 221;
         TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
         TestDatas::$cards[$cardId]['player_id'] = 1;
@@ -1184,6 +1185,8 @@ final class BonusChoiceTest extends TestCase
             "gainInfluence-1",
             "addBonus-1",
             "addPoints-1",
+            "newClanMarker-1",
+            "claimMC-1",
         ];
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         //Test moved card: 

@@ -254,6 +254,9 @@ trait PlayerTurnTrait
         $amount = $actionDatas['n'];
         Players::gainInfluence($player,$region,$amount);
         //We may go to bonus choice if needed BEFORE MAIN ACTION 
+        if(Utils::isPlayerActionDone()){
+          Players::claimMasteries($player);
+        }
         break;
       case AFTER_ACTION::GAIN_INFLUENCE->value:
         $destRegions = $actionDatas['regions'];
