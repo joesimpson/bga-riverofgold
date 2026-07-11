@@ -427,7 +427,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
             $('ebd-body').setAttribute('data-city_of_lies', this.gamedatas.city_of_lies);
             if(this.gamedatas.city_of_lies){
-                toPreloadList.push('cityOfLies/board_city.png');
+                toPreloadList.push('cityOfLies/board_city.webp');
                 toPreloadList.push('cityOfLies/city_cards.webp');
                 toPreloadList.push('cityOfLies/scoring.webp');
             }

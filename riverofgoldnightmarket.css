@@ -1993,7 +1993,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   position: absolute;
   width: 886px;
   height: 797px;
-  background-image: url("img/cityOfLies/board_city.png");
+  background-image: url("img/cityOfLies/board_city.webp");
   background-size: 100% auto;
   background-repeat: no-repeat;
 }
@@ -9134,7 +9134,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
 .rog_icon_bonus-48 {
   width: 86px;
   height: 48px;
-  background-image: url("img/cityOfLies/board_city.png");
+  background-image: url("img/cityOfLies/board_city.webp");
   background-position-x: -268px;
   background-position-y: -534px;
   background-size: 1009.3023255814% 1660.4166666667%;
@@ -9144,7 +9144,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
 .rog_icon_bonus-49 {
   width: 86px;
   height: 48px;
-  background-image: url("img/cityOfLies/board_city.png");
+  background-image: url("img/cityOfLies/board_city.webp");
   background-position-x: -600px;
   background-position-y: -385px;
   background-size: 1009.3023255814% 1660.4166666667%;
@@ -9154,7 +9154,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
 .rog_icon_bonus-51 {
   width: 90px;
   height: 40px;
-  background-image: url("img/cityOfLies/board_city.png");
+  background-image: url("img/cityOfLies/board_city.webp");
   background-position-x: -435px;
   background-position-y: -697px;
   background-size: 964.4444444444% 1992.5%;
@@ -9167,7 +9167,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
 .rog_icon_bonus-53 {
   width: 86px;
   height: 50px;
-  background-image: url("img/cityOfLies/board_city.png");
+  background-image: url("img/cityOfLies/board_city.webp");
   background-position-x: -602px;
   background-position-y: -539px;
   background-size: 1009.3023255814% 1594%;
@@ -9180,7 +9180,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
 .rog_icon_bonus-54 {
   width: 80px;
   height: 55px;
-  background-image: url("img/cityOfLies/board_city.png");
+  background-image: url("img/cityOfLies/board_city.webp");
   background-position-x: -605px;
   background-position-y: -689px;
   background-size: 1085% 1449.0909090909%;
