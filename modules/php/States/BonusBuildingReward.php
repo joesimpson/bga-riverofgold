@@ -13,13 +13,9 @@ use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Log;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
+use ROG\Models\BonusBuildingRewardChoice;
 use ROG\Models\Player;
 
-enum BonusBuildingRewardChoice: int
-{
-    case OWNER     = 1;
-    case VISITOR   = 2;
-}
 class BonusBuildingReward extends GameState
 {
    
@@ -117,6 +113,13 @@ class BonusBuildingReward extends GameState
 
     // game logic  
     Log::addStep();
+    BonusBuildingReward::processBuildingReward($player,BonusBuildingRewardChoice::from($choice), $tileId);
+
+    return ST_BONUS_CHOICE;
+  }
+
+  public static function processBuildingReward(Player &$player, BonusBuildingRewardChoice $choice, int $tileId) {
+    $rewards = [];
     $tile = Tiles::get($tileId);
     $region = $tile->getRegion();
     $multiplier = 0;
@@ -124,30 +127,24 @@ class BonusBuildingReward extends GameState
     foreach($clanMarkers as $clanMarker){
       if($clanMarker->getPId() == $player->getId()) $multiplier++;
     }
+    //in case of not owned building :
+    $multiplier = max(1, $multiplier);
     switch($choice){
-      case BonusBuildingRewardChoice::OWNER->value:
+      case BonusBuildingRewardChoice::OWNER:
         Notifications::buildingOwnerRewards($player,$tile);
         $rewards = $tile->ownerReward;
-        foreach($rewards->entries as $reward){
-          for($k=1;$k<=$multiplier;$k++){
-            $reward->rewardPlayer($player,$region,$tile);
-          }
-        }
-        Players::claimMasteries($player);
         break;
-      case BonusBuildingRewardChoice::VISITOR->value:
+      case BonusBuildingRewardChoice::VISITOR:
         Notifications::buildingVisitorRewards($player,$tile);
         $rewards = $tile->visitorReward;
-        foreach($rewards->entries as $reward){
-          for($k=1;$k<=$multiplier;$k++){
-            $reward->rewardPlayer($player,$region,$tile);
-          }
-        }
-        Players::claimMasteries($player);
         break;
+    } 
+    foreach($rewards->entries as $reward){
+      for($k=1;$k<=$multiplier;$k++){
+        $reward->rewardPlayer($player,$region,$tile);
+      }
     }
-
-    return ST_BONUS_CHOICE;
+    Players::claimMasteries($player);
   }
 
   function zombie(int $playerId, array $args) {

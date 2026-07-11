@@ -11,6 +11,7 @@ use ROG\Core\Stats;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Utils;
 use ROG\Managers\Cards;
+use ROG\Managers\CityCards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\ShoreSpaces;
@@ -18,6 +19,7 @@ use ROG\Managers\Tiles;
 use ROG\Models\AutomaPlayer;
 use ROG\Models\Meeple;
 use ROG\Models\BuildingTile;
+use ROG\Models\CityCard;
 use ROG\Models\CustomerCard;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\Player;
@@ -347,7 +349,7 @@ trait SailTrait
       Globals::addBonus($player,BONUS_TYPE_MONEY_OR_GOOD);
     }
 
-    Tiles::removeLastInBuildingRow();
+    $removedTile = Tiles::removeLastInBuildingRow();
 
     foreach(MERCHANT_TYPES as $merchantType){
       if(Cards::hasPlayerDeliveredOrder($player->getId(),$merchantType)){
@@ -358,6 +360,14 @@ trait SailTrait
     if(isset($playerScenario) ){
       $playerScenario->abilityOnCompleteJourney($player);
     }
+
+    $cityCards = CityCards::getPlayerHand($player->getId());
+    $cityCards->map(function(CityCard $c) use (&$player, $removedTile ){
+        $playableDatas = $c->playCardActionOnCompleteJourney($player, $removedTile);
+        if(count($playableDatas) > 0){
+          Globals::addPrivateBonusWithDatas($player,BONUS_TYPE_REVEAL_CARD,['cardId' => $c->getId(), 'actions' => $playableDatas, ]);
+        }
+      });
   }
 
 }

@@ -15,6 +15,8 @@ class ClientAnswer {
         public ?int $dest = null,
         
         public ?ClientResourcesCount $res = null,
+        
+        public ?int $tileId = null,
     ) {
 
     }

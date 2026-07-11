@@ -39,6 +39,7 @@ enum AFTER_ACTION: string
   use EnumUtilsTrait;
   
   case GAIN_INFLUENCE     = 'A_GAIN_INFLUENCE';
+  case BUILDING_REWARD    = 'BUILDING_REWARD';
 }
 
 enum AutomaActionType: int
@@ -125,4 +126,12 @@ enum CITY_CARD_EFFECT: string
   case REVEAL    = 'REVEAL';
   case PREDICT   = 'PREDICT';
   case END       = 'END';
+}
+
+enum BonusBuildingRewardChoice: int
+{
+  use EnumUtilsTrait;
+  
+  case OWNER     = 1;
+  case VISITOR   = 2;
 }

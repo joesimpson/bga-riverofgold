@@ -239,7 +239,7 @@ class Tiles extends \ROG\Helpers\Pieces
   } 
   /**
    */
-  public static function removeLastInBuildingRow()
+  public static function removeLastInBuildingRow() : ?BuildingTile
   {
     $tile = self::getInLocation(TILE_LOCATION_BUILDING_ROW,BUILDING_ROW_END)->first();
     if(isset($tile)){
@@ -247,6 +247,7 @@ class Tiles extends \ROG\Helpers\Pieces
       //self::DB()->delete($tile->getId())->run();
       $tile->setLocation(TILE_LOCATION_DISCARD);
     }
+    return $tile;
   } 
   
   public static function discardStartingBuildings()

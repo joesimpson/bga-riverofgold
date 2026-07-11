@@ -943,6 +943,40 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         
         //CLIENT STATE
+        onEnteringStatePlayCardBuildingReward(args) {
+            debug('onEnteringStatePlayCardBuildingReward', args);
+
+            let callbackReset = () => {
+                this.clientState('playCardBuildingReward','', args);
+            };
+
+            this.addCancelStateBtn(_('Return'));
+            this.addSecondaryActionButton(`btnReset`, _('Reset'), () => callbackReset()); 
+
+            let cardId = parseInt(args.cardId);
+            document.getElementById(`rog_card-${cardId}`).classList.add('selected');
+            let markerId = parseInt(args.markerId);
+            let action = args.action;
+            let tiles = args.actionDatas.tiles;
+            
+            let callbackSelection = (choice,tileId) => {
+                this.takeAction('actPlayCard', { 
+                    //ClientAnswer
+                    'answer': JSON.stringify({
+                        'cardId': parseInt(cardId), 
+                        'markerId': markerId, 
+                        'action': action,
+                        'source': args.source,
+                        'dest': choice,
+                        'tileId': parseInt(tileId),
+                    }),
+                });
+            };
+            args.p = tiles;
+            this.displayBuildingRewardsSelection(args,callbackSelection);
+        },
+        
+        //CLIENT STATE
         onEnteringStatePlayCardTradeResources(args) {
             debug('onEnteringStatePlayCardTradeResources', args);
             let callbackReset = () => {
@@ -1379,13 +1413,21 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         onEnteringStateBonusBuildingReward(args){
             debug('onEnteringStateBonusBuildingReward', args);
 
+            this.addSecondaryActionButton('btnClear', '<i class="fa fa-undo"></i>', () => this.clearClientState());
+
+            let callbackSelection = (choice,tileId) => {
+                this.takeAction('actSelectReward', { 'choice': choice, 'tileId':tileId});
+            };
+            this.displayBuildingRewardsSelection(args, callbackSelection);
+        },
+        displayBuildingRewardsSelection(args, callbackSelection) {
+            debug('displayBuildingRewardsSelection', args);
+            
             this.bga.statusBar.setTitle(this.bga.players.isCurrentPlayerActive() ? 
                 _('${you} must select a building reward') :
                 _('${actplayer} must select a building reward')
             );
-            this.addSecondaryActionButton('btnClear', '<i class="fa fa-undo"></i>', () => this.clearClientState());
 
-            let tilesDatas = args.t;
             let nbTiles = Object.keys(args.p).length;
             this.selectedTileId = null;
             let shoreSpacesDiv = $(`rog_shore_spaces`);
@@ -1395,18 +1437,17 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     Object.values(datas.choices).forEach((choice) => {
                         let buttonText = '';
                         switch(choice){
+                            //BonusBuildingRewardChoice::OWNER
                             case 1: buttonText = _('Owner Rewards'); break;
+                            //BonusBuildingRewardChoice::VISITOR
                             case 2: buttonText = _('Visitor Rewards'); imageBefore=true; break;
                         }
-                        let callbackSelection = (evt) => {
-                            this.takeAction('actSelectReward', { 'choice': choice, 'tileId':tileId});
-                        };
                         
                         buttonText = this.fsr(buttonText, {});
                         let imageDiv = `<div class='rog_button_building_tile_image' data-type='${datas.type}' data-id='${tileId}'></div>`;
                         if(imageBefore) buttonText = imageDiv + buttonText;
                         else buttonText = buttonText + imageDiv;
-                        this.addImageActionButton(`btnBReward_${tileId}_${choice}`, buttonText, callbackSelection);
+                        this.addImageActionButton(`btnBReward_${tileId}_${choice}`, buttonText, () => callbackSelection(choice,tileId));
                     });
                 };
                 //display actions as buttons if not too many
@@ -1427,6 +1468,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         callbackDisplayButtons();
                     };
                     this.onClick(`${tileDiv.id}`, callbackTileSelection);
+                }
+                else {
+                    callbackDisplayButtons();
                 }
             });
             
@@ -5362,6 +5406,17 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                                 });
                             };
                             break;
+                        case 'BUILDING_REWARD'://AFTER_ACTION::BUILDING_REWARD
+                            callbackCardSelection = () => {
+                                this.clientState('playCardBuildingReward','', {
+                                    'cardId': cardId,
+                                    'markerId': markerId, 
+                                    'action': action,
+                                    'actionDatas': actionDatas,
+                                    'source': cardDatas.source,
+                                });
+                            };
+                            break;
                         case 'TRADE_FOR_RESOURCES'://BEFORE_ACTION::TRADE_FOR_RESOURCES
                             callbackCardSelection = () => {
                                 this.clientState('playCardTradeResources','', {
@@ -5567,7 +5622,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <span>${this.fsr(_("When the game ends, gain ${icon_score} for each ${resource} you have."), {'icon_score': this.formatIcon('score',1), 'resource': this.formatIcon(RESOURCES[RESOURCE_TYPE_SILK])})}</span>
                     `
                 ],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.NIGHT_MARKET  ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.NIGHT_MARKET  ,  this.fsr(_("When you complete your journey, you may reveal this card to gain the visitor or owner reward of the building you discarded."), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.CALL_TO_PORT  ,  
                     `
                     <span>${this.fsr(_("When the game ends, reveal this card to gain ${icon_score} for each ${icon_building} building adjacent to your ships"), {

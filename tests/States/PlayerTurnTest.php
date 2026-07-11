@@ -15,6 +15,7 @@ use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\AFTER_ACTION;
 use ROG\Models\BEFORE_ACTION;
+use ROG\Models\BonusBuildingRewardChoice;
 use ROG\Models\CITY_CARD_TYPE;
 use ROG\Models\ScenarioType;
 use ROG\Models\TURN_ACTION;
@@ -471,6 +472,73 @@ final class PlayerTurnTest extends TestCase
                                 ],
                             ],
                             'marker' => null,
+                        ],
+                    ]
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_PlayableCards_CityCard_NightMarket(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::NIGHT_MARKET->value;
+        $bonuses = [
+            BONUS_TYPE_MONEY_OR_GOOD, 
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => 221,
+                        'actions' => [
+                            AFTER_ACTION::BUILDING_REWARD->value => [
+                                'tiles' => [ 
+                                    34 => [
+                                        'id'=>34, 
+                                        'type'=>14,
+                                        'choices' => [ BonusBuildingRewardChoice::OWNER->value, BonusBuildingRewardChoice::VISITOR->value, ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $expectedArgs = [
+            'a' => [
+                'actSail',
+                'actPlayCard',
+            ],
+            'die_face' => 1,
+            '_private' => [
+                1 => [
+                    'p_cards' => [
+                        221 => [ 
+                            'marker' => 1,
+                            'source' => BONUS_TYPE_REVEAL_CARD,
+                            'actions' => [
+                            AFTER_ACTION::BUILDING_REWARD->value => [
+                                'tiles' => [ 
+                                    34 => [
+                                        'id'=>34, 
+                                        'type'=>14,
+                                        'choices' => [ BonusBuildingRewardChoice::OWNER->value, BonusBuildingRewardChoice::VISITOR->value, ],
+                                    ],
+                                ],
+                            ],
+                            ],
                         ],
                     ]
                 ],
@@ -1227,6 +1295,325 @@ final class PlayerTurnTest extends TestCase
 
         $this->expectException(UnexpectedException::class);
         $this->expectExceptionMessage("Missing informations to gain influence with card $cardId");
+        $game->actPlayCard($answer,999999);
+    }
+    public function test_ActionPlayCard_BuildingReward_Pass_City_NightMarket_OwnerReward(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::NIGHT_MARKET->value;
+        TestDatas::$tiles[34]['tile_location'] = TILE_LOCATION_DISCARD;
+        $bonuses = [
+            BONUS_TYPE_MONEY_OR_GOOD, 
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => $cardId,
+                        'actions' => [
+                            AFTER_ACTION::BUILDING_REWARD->value => [
+                                'tiles' => [ 
+                                    34 => [
+                                        'id'=>34, 
+                                        'type'=>14,
+                                        'choices' => [ BonusBuildingRewardChoice::OWNER->value, BonusBuildingRewardChoice::VISITOR->value, ],
+                                    ],
+                                ],
+                                
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $markerId = 1;
+        $action = AFTER_ACTION::BUILDING_REWARD->value;
+        $source = BONUS_TYPE_REVEAL_CARD;
+        $dest = BonusBuildingRewardChoice::OWNER->value;
+        $tileId = 34;//tileId owner reward [RESOURCE_TYPE_SILK=>1],  visitor [BONUS_TYPE_INFLUENCE=>2]
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, null, $tileId );
+
+        $game->actPlayCard($answer,999999);
+        
+        $expectedNotifs = [
+            "revealCityCard-1",
+            "buildingOwnerRewards-1",
+            "giveResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test moved card: 
+        assertSame(CARD_CITY_LOCATION_REVEALED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
+        //updated bonuses :
+        assertSame(json_encode([BONUS_TYPE_MONEY_OR_GOOD]), TestDatas::$players[1]['bonuses']);
+        //RESOURCES
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resourcesP1[RESOURCE_TYPE_SILK ]);//+1
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_MONEY]);
+        //INFLUENCE
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+    }
+    
+    public function test_ActionPlayCard_BuildingReward_Pass_City_NightMarket_VisitorReward(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::NIGHT_MARKET->value;
+        TestDatas::$tiles[34]['tile_location'] = TILE_LOCATION_DISCARD;
+        $bonuses = [
+            BONUS_TYPE_MONEY_OR_GOOD, 
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => $cardId,
+                        'actions' => [
+                            AFTER_ACTION::BUILDING_REWARD->value => [
+                                'tiles' => [ 
+                                    34 => [
+                                        'id'=>34, 
+                                        'type'=>14,
+                                        'choices' => [ BonusBuildingRewardChoice::OWNER->value, BonusBuildingRewardChoice::VISITOR->value, ],
+                                    ],
+                                ],
+                                
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $markerId = 1;
+        $action = AFTER_ACTION::BUILDING_REWARD->value;
+        $source = BONUS_TYPE_REVEAL_CARD;
+        $dest = BonusBuildingRewardChoice::VISITOR->value;
+        $tileId = 34;//tileId owner reward [RESOURCE_TYPE_SILK=>1],  visitor [BONUS_TYPE_INFLUENCE=>2]
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, null, $tileId );
+
+        $game->actPlayCard($answer,999999);
+        
+        $expectedNotifs = [
+            "revealCityCard-1",
+            "buildingVisitorRewards-1",
+            "gainInfluence-1",
+            "giveResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test moved card: 
+        assertSame(CARD_CITY_LOCATION_REVEALED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
+        //updated bonuses :
+        assertSame(json_encode([BONUS_TYPE_MONEY_OR_GOOD]), TestDatas::$players[1]['bonuses']);
+        //RESOURCES
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);//+0
+        assertSame(1, $resourcesP1[RESOURCE_TYPE_POTTERY]);//++1
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_MONEY]);
+        //INFLUENCE
+        assertSame(2, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+    }
+    
+    public function test_ActionPlayCard_BuildingReward_KO_City_NightMarket_BonusType(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::NIGHT_MARKET->value;
+        $bonuses = [
+            BONUS_TYPE_MONEY_OR_GOOD, 
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => $cardId,
+                        'actions' => [
+                            AFTER_ACTION::BUILDING_REWARD->value => [
+                                'tiles' => [ 
+                                    34 => [
+                                        'id'=>34, 
+                                        'type'=>14,
+                                        'choices' => [ BonusBuildingRewardChoice::OWNER->value, BonusBuildingRewardChoice::VISITOR->value, ],
+                                    ],
+                                ],
+                                
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $markerId = 1;
+        $action = AFTER_ACTION::BUILDING_REWARD->value;
+        $source = 99;
+        $dest = BonusBuildingRewardChoice::VISITOR->value;
+        $tileId = 34;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, null, $tileId );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("Missing informations with card $cardId");
+        $game->actPlayCard($answer,999999);
+    }
+    public function test_ActionPlayCard_BuildingReward_KO_City_NightMarket_WrongBonus(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::NIGHT_MARKET->value;
+        $bonuses = [
+            BONUS_TYPE_REFILL_HAND,
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => 221,
+                        'actions' => [
+                            AFTER_ACTION::GAIN_INFLUENCE->value => [
+                                'n' => 2,
+                                'regions' => [3],
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $markerId = 1;
+        $action = AFTER_ACTION::BUILDING_REWARD->value;
+        $source = BONUS_TYPE_REVEAL_CARD;
+        $dest = BonusBuildingRewardChoice::VISITOR->value;
+        $tileId = 34;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, null, $tileId );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot play card $cardId with Action");
+        $game->actPlayCard($answer,999999);
+    }
+    public function test_ActionPlayCard_BuildingReward_KO_City_NightMarket_WrongTile(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::NIGHT_MARKET->value;
+        $bonuses = [
+            BONUS_TYPE_MONEY_OR_GOOD, 
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => $cardId,
+                        'actions' => [
+                            AFTER_ACTION::BUILDING_REWARD->value => [
+                                'tiles' => [ 
+                                    34 => [
+                                        'id'=>34, 
+                                        'type'=>14,
+                                        'choices' => [ BonusBuildingRewardChoice::OWNER->value, BonusBuildingRewardChoice::VISITOR->value, ],
+                                    ],
+                                ],
+                                
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $markerId = 1;
+        $action = AFTER_ACTION::BUILDING_REWARD->value;
+        $source = BONUS_TYPE_REVEAL_CARD;
+        $dest = BonusBuildingRewardChoice::VISITOR->value;
+        $tileId = 33;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, null, $tileId );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot gain reward for tile $tileId");
+        $game->actPlayCard($answer,999999);
+    }
+    public function test_ActionPlayCard_BuildingReward_KO_City_NightMarket_WrongReward(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$players[1]['resources'] = '{"1":0,"2":0,"3":0,"4":3,"5":0,"6":0}';
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::NIGHT_MARKET->value;
+        $bonuses = [
+            BONUS_TYPE_MONEY_OR_GOOD, 
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => $cardId,
+                        'actions' => [
+                            AFTER_ACTION::BUILDING_REWARD->value => [
+                                'tiles' => [ 
+                                    34 => [
+                                        'id'=>34, 
+                                        'type'=>14,
+                                        'choices' => [ BonusBuildingRewardChoice::OWNER->value, BonusBuildingRewardChoice::VISITOR->value, ],
+                                    ],
+                                ],
+                                
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+        $markerId = 1;
+        $action = AFTER_ACTION::BUILDING_REWARD->value;
+        $source = BONUS_TYPE_REVEAL_CARD;
+        $dest = 0;
+        $tileId = 34;
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, null, $tileId );
+
+        $this->expectException(UnexpectedException::class);
+        $this->expectExceptionMessage("You cannot gain reward $dest for tile $tileId");
         $game->actPlayCard($answer,999999);
     }
     public function test_ActionPlayCard_TradeForResources_Pass_City_BlackMarket(): void

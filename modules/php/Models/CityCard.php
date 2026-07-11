@@ -2,13 +2,12 @@
 
 namespace ROG\Models;
 
-use Bga\Games\RiverOfGoldNightMarket\States\BonusMultiTrades;
+use ROG\Models\BonusBuildingRewardChoice;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
-use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 
 class CityCard extends Card
@@ -92,6 +91,27 @@ class CityCard extends Card
         $playDatas['regions'] = [$shoreSpace->region]; 
         if($playDatas['n'] > 0){
           $actions[AFTER_ACTION::GAIN_INFLUENCE->value] = $playDatas;
+        }
+        break;
+    }
+    return $actions;
+  }
+  
+  /**
+   * @return array datas used by actPlayCard and args
+   */
+  public function playCardActionOnCompleteJourney(Player $player, ?BuildingTile $removedTile) : array
+  {
+    $actions = [];
+    switch($this->getType()){
+      case CITY_CARD_TYPE::NIGHT_MARKET->value : 
+        if(isset($removedTile)){
+          $playDatas['tiles'][$removedTile->getId()] = [ 
+            'id' => $removedTile->getId(), 
+            'type' => $removedTile->getType(),  
+            'choices' => [ BonusBuildingRewardChoice::OWNER->value, BonusBuildingRewardChoice::VISITOR->value, ],
+          ]; 
+          $actions[AFTER_ACTION::BUILDING_REWARD->value] = $playDatas;
         }
         break;
     }

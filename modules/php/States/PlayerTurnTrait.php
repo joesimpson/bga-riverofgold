@@ -6,6 +6,8 @@ use Bga\GameFramework\Actions\Types\IntArrayParam;
 use Bga\GameFramework\Actions\Types\JsonParam;
 use Bga\GameFramework\States\PossibleAction;
 use Bga\Games\RiverOfGoldNightMarket\States\AdvanceCity;
+use Bga\Games\RiverOfGoldNightMarket\States\BonusBuildingReward;
+use ROG\Models\BonusBuildingRewardChoice;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
@@ -272,6 +274,25 @@ trait PlayerTurnTrait
         $amount = $actionDatas['n'];
         Players::gainInfluence($player,$region,$amount);
         Players::claimMasteries($player);
+        break;
+      case AFTER_ACTION::BUILDING_REWARD->value:
+        $bonusDatas = Globals::removeBonus($player,$source,$markerId);
+        self::trace("actPlayCard(CityCard $cardId) ... bonusDatas=".json_encode($bonusDatas).")");
+        if(!isset($bonusDatas)){
+          throw new UnexpectedException(47,"Missing informations with card $cardId");
+        }
+        $tileId = $answer->tileId;
+        $possibleTiles = $actionDatas['tiles'];
+        if(!array_key_exists($tileId, $possibleTiles)){
+          throw new UnexpectedException(48,"You cannot gain reward for tile $tileId");
+        }
+        $tileDatas = $possibleTiles[$tileId];
+        $rewardChoice = $dest;
+        $possibleRewards = $tileDatas['choices'];
+        if(!in_array($rewardChoice, $possibleRewards)){
+          throw new UnexpectedException(48,"You cannot gain reward $rewardChoice for tile $tileId");
+        }
+        BonusBuildingReward::processBuildingReward($player,BonusBuildingRewardChoice::from($rewardChoice), $tileId);
         break;
       case BEFORE_ACTION::TRADE_FOR_RESOURCES->value:
         $trades = $actionDatas['trades'];

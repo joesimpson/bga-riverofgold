@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace Tests\States;
 
 use Bga\Games\RiverOfGoldNightMarket\States\BonusBuildingReward;
-use Bga\Games\RiverOfGoldNightMarket\States\BonusBuildingRewardChoice;
+use ROG\Models\BonusBuildingRewardChoice;
 use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;

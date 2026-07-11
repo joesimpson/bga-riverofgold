@@ -9,6 +9,9 @@ use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Exceptions\UnexpectedException;
+use ROG\Models\AFTER_ACTION;
+use ROG\Models\BonusBuildingRewardChoice;
+use ROG\Models\CITY_CARD_TYPE;
 use ROG\Models\MAIN_ACTION;
 use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
@@ -483,6 +486,60 @@ final class SailTest extends TestCase
         assertSame($expectedBonuses, TestDatas::$players[TestDatas::$test_activePlayerId]['bonuses']);
         $resources = json_decode(TestDatas::$players[TestDatas::$test_activePlayerId]['resources'], true);
         assertSame(3 + 7, $resources[RESOURCE_TYPE_MONEY]);//3 + sail base( EMPTY_SPACE_REWARD*3 + 1 as owner reward + 3 as visitor reward )
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
+    
+    public function test_ActionSail_Pass_CompleteJourney_CityCard_NightMarket(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_SAIL;
+        TestDatas::$players[TestDatas::$test_activePlayerId]['die_face'] = 1;
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::NIGHT_MARKET->value;
+        $shipId = 22;
+        $riverSpace = 1;
+
+        $game->actSailSelect($shipId,$riverSpace,999999);
+        
+        $expectedNotifs = [
+            "sail-1",
+            "reachRiverEnd-1",
+            "addBonus-1",
+            "discardBuildingRow",
+            "checkVRewards",
+            "giveResource-1", 
+            "giveResource-1", 
+            "giveResource-1", 
+            "giveResource-1", 
+            "checkORewards",
+            "giveResource-1", 
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $expectedBonuses = json_encode([
+            BONUS_TYPE_MONEY_OR_GOOD, 
+            'datas' => [
+                BONUS_TYPE_REVEAL_CARD => [
+                    1 => [
+                        'cardId' => 221,
+                        'actions' => [
+                            AFTER_ACTION::BUILDING_REWARD->value => [
+                                'tiles' => [ 
+                                    34 => [
+                                        'id'=>34, 
+                                        'type'=>14,
+                                        'choices' => [ BonusBuildingRewardChoice::OWNER->value, BonusBuildingRewardChoice::VISITOR->value, ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                        'private' => true,
+                    ],
+                ],
+            ],
+        ]);
+        assertSame($expectedBonuses, TestDatas::$players[1]['bonuses']);
         assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
     }
     
