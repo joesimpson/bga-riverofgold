@@ -1445,6 +1445,12 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                         
                         buttonText = this.fsr(buttonText, {});
                         let imageDiv = `<div class='rog_button_building_tile_image' data-type='${datas.type}' data-id='${tileId}'></div>`;
+                        if(tileId == -1){//EMPTY_SPACE_REWARD
+                            imageDiv = `<div class='rog_trade'>
+                                <div class='rog_button_qty'>${datas.type[RESOURCE_TYPE_MONEY]}</div>${this.formatIcon(RESOURCES[RESOURCE_TYPE_MONEY])}
+                            </div>`; 
+                        
+                        }
                         if(imageBefore) buttonText = imageDiv + buttonText;
                         else buttonText = buttonText + imageDiv;
                         this.addImageActionButton(`btnBReward_${tileId}_${choice}`, buttonText, () => callbackSelection(choice,tileId));
@@ -5406,7 +5412,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                                 });
                             };
                             break;
-                        case 'BUILDING_REWARD'://AFTER_ACTION::BUILDING_REWARD
+                        case 'A_BUILDING_REWARD'://AFTER_ACTION::BUILDING_REWARD
+                        case 'B_BUILDING_REWARD'://BEFORE_ACTION::BUILDING_REWARD
                             callbackCardSelection = () => {
                                 this.clientState('playCardBuildingReward','', {
                                     'cardId': cardId,
@@ -5580,9 +5587,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             }
             let actionName = _(card.title);
             let descriptionMap = new Map([
-                //TODO JSA TOOLTIPS
                 [ this.gamedatas.enums.CITY_CARD_TYPE.BRIBERY       , this.fsr(_("When you advance in the City of Lies, you may reveal this card to gain ${n} ${koku} for each ${influence} lost in this action."), {'n':1,'koku':'', 'influence':''  }) ],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.OFFLOAD       ,  this.fsr(_(""), {})],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.OFFLOAD       ,  this.fsr(_("At the start of your turn if one of your ships is in the same river space as another player’s, you may reveal this card to gain 1 visitor reward adjacent to it."), {})],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.BLACK_MARKET  ,  this.fsr(_("Reveal this card on your turn and spend any number of trade goods. For each one spent, gain ${n} ${bonus} of your choice or ${x} ${resource} (in any combination)."), {'n':1, 'bonus': this.formatIcon('bonus-'+BONUS_TYPE_CHOICE), 'x':2, 'resource': this.formatIcon(RESOURCES[RESOURCE_TYPE_MONEY]),}) ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_CLI    , 
                     `

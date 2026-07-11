@@ -169,7 +169,7 @@ trait PlayerTurnTrait
       throw new UnexpectedException(45,"You cannot play card $cardId");
     }
     $cardPlayDatas = $possibleCards[$cardId];
-    $possibleMarker = $cardPlayDatas['marker'];
+    $possibleMarker = isset($cardPlayDatas['marker']) ? $cardPlayDatas['marker'] : null;
     if($possibleMarker != $markerId){
       throw new UnexpectedException(45,"You cannot play card $cardId with marker $markerId");
     }
@@ -275,11 +275,14 @@ trait PlayerTurnTrait
         Players::gainInfluence($player,$region,$amount);
         Players::claimMasteries($player);
         break;
+      case BEFORE_ACTION::BUILDING_REWARD->value:
       case AFTER_ACTION::BUILDING_REWARD->value:
-        $bonusDatas = Globals::removeBonus($player,$source,$markerId);
-        self::trace("actPlayCard(CityCard $cardId) ... bonusDatas=".json_encode($bonusDatas).")");
-        if(!isset($bonusDatas)){
-          throw new UnexpectedException(47,"Missing informations with card $cardId");
+        if($action == AFTER_ACTION::BUILDING_REWARD->value){
+          $bonusDatas = Globals::removeBonus($player,$source,$markerId);
+          self::trace("actPlayCard(CityCard $cardId) ... bonusDatas=".json_encode($bonusDatas).")");
+          if(!isset($bonusDatas)){
+            throw new UnexpectedException(47,"Missing informations with card $cardId");
+          }
         }
         $tileId = $answer->tileId;
         $possibleTiles = $actionDatas['tiles'];
@@ -292,7 +295,9 @@ trait PlayerTurnTrait
         if(!in_array($rewardChoice, $possibleRewards)){
           throw new UnexpectedException(48,"You cannot gain reward $rewardChoice for tile $tileId");
         }
-        BonusBuildingReward::processBuildingReward($player,BonusBuildingRewardChoice::from($rewardChoice), $tileId);
+        $fromShoreSpace = isset($tileDatas['space']) ? $tileDatas['space'] : null;
+        BonusBuildingReward::processBuildingReward($player,BonusBuildingRewardChoice::from($rewardChoice), $tileId, $fromShoreSpace);
+        //We may go to bonus choice if needed BEFORE MAIN ACTION 
         break;
       case BEFORE_ACTION::TRADE_FOR_RESOURCES->value:
         $trades = $actionDatas['trades'];

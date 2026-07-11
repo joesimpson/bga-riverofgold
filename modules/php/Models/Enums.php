@@ -25,6 +25,7 @@ enum BEFORE_ACTION: string
   case MOVE_BUILDING  = 'MOVE_BUILDING';
   case GAIN_INFLUENCE     = 'B_GAIN_INFLUENCE';
   case TRADE_FOR_RESOURCES= 'TRADE_FOR_RESOURCES';
+  case BUILDING_REWARD    = 'B_BUILDING_REWARD';
 }
 
 enum TURN_ACTION: string
@@ -39,7 +40,7 @@ enum AFTER_ACTION: string
   use EnumUtilsTrait;
   
   case GAIN_INFLUENCE     = 'A_GAIN_INFLUENCE';
-  case BUILDING_REWARD    = 'BUILDING_REWARD';
+  case BUILDING_REWARD    = 'A_BUILDING_REWARD';
 }
 
 enum AutomaActionType: int
@@ -131,7 +132,7 @@ enum CITY_CARD_EFFECT: string
 enum BonusBuildingRewardChoice: int
 {
   use EnumUtilsTrait;
-  
+
   case OWNER     = 1;
   case VISITOR   = 2;
 }

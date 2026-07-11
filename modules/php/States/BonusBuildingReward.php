@@ -15,6 +15,7 @@ use ROG\Managers\Players;
 use ROG\Managers\Tiles;
 use ROG\Models\BonusBuildingRewardChoice;
 use ROG\Models\Player;
+use ROG\Models\Reward;
 
 class BonusBuildingReward extends GameState
 {
@@ -118,25 +119,38 @@ class BonusBuildingReward extends GameState
     return ST_BONUS_CHOICE;
   }
 
-  public static function processBuildingReward(Player &$player, BonusBuildingRewardChoice $choice, int $tileId) {
-    $rewards = [];
-    $tile = Tiles::get($tileId);
-    $region = $tile->getRegion();
-    $multiplier = 0;
-    $clanMarkers = $tile->getMeeples();
-    foreach($clanMarkers as $clanMarker){
-      if($clanMarker->getPId() == $player->getId()) $multiplier++;
+  public static function processBuildingReward(Player &$player, BonusBuildingRewardChoice $choice, int $tileId, ?int $fromShoreSpace = null) {
+    $rewards = new Reward([]);
+    if($tileId == -1){
+      //EMPTY_SPACE_REWARD
     }
-    //in case of not owned building :
-    $multiplier = max(1, $multiplier);
+    else {
+      $tile = Tiles::get($tileId);
+      $region = $tile->getRegion();
+      $multiplier = 0;
+      $clanMarkers = $tile->getMeeples();
+      foreach($clanMarkers as $clanMarker){
+        if($clanMarker->getPId() == $player->getId()) $multiplier++;
+      }
+      //in case of not owned building :
+      $multiplier = max(1, $multiplier);
+    }
     switch($choice){
       case BonusBuildingRewardChoice::OWNER:
-        Notifications::buildingOwnerRewards($player,$tile);
-        $rewards = $tile->ownerReward;
+        if(isset($tile)){
+          Notifications::buildingOwnerRewards($player,$tile);
+          $rewards = $tile->ownerReward;
+        }
         break;
       case BonusBuildingRewardChoice::VISITOR:
-        Notifications::buildingVisitorRewards($player,$tile);
-        $rewards = $tile->visitorReward;
+        if(isset($tile)){
+          Notifications::buildingVisitorRewards($player,$tile);
+          $rewards = $tile->visitorReward;
+        }
+        else if($tileId == -1){
+          Notifications::emptySpaceVisitorRewards($player);
+          Players::giveMoney($player,EMPTY_SPACE_REWARD,$fromShoreSpace);
+        }
         break;
     } 
     foreach($rewards->entries as $reward){

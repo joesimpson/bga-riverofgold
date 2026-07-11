@@ -570,6 +570,12 @@ class Notifications
       'building_tile' => $tile->getType(),
     ]);
   }
+  public static function emptySpaceVisitorRewards(Player $player,)
+  {
+    self::notifyAll('buildingVisitorRewards', clienttranslate('${player_name} select visitor rewards from empty shore space'), [
+      'player' => $player,
+    ]);
+  }
   public static function checkRoyalShipAbilities()
   {
     self::notifyAll('checkRoyal', clienttranslate('Checking royal ship abilities...'), [

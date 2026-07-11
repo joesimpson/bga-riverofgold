@@ -398,6 +398,137 @@ final class PlayerTurnTest extends TestCase
         assertSame($expectedArgs, $args);
     }
     
+    public function test_Args_PlayableCards_CityCard_Offload_0SpacesWithShips(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::OFFLOAD->value;
+        TestDatas::$tokens[24]['meeple_state'] = 1;
+        $expectedArgs = [
+            'a' => [
+                'actSail',
+            ],
+            'die_face' => 1,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
+    public function test_Args_PlayableCards_CityCard_Offload_2SpacesWithShips(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::OFFLOAD->value;
+        TestDatas::$tokens[21]['meeple_state'] = 2; // NEAR [3,4,5,7];
+        TestDatas::$tokens[23]['meeple_state'] = TestDatas::$tokens[21]['meeple_state'];
+        //ships 22 and 24 already in state 14 near starting building
+        $expectedArgs = [
+            'a' => [
+                'actSail',
+                'actPlayCard',
+            ],
+            'die_face' => 1,
+            '_private' => [
+                1 => [
+                    'p_cards' => [
+                        221 => [ 
+                            'actions' => [
+                                BEFORE_ACTION::BUILDING_REWARD->value => [
+                                    'tiles' => [ 
+                                        -1 => [ //EMPTY SHORE SPACE
+                                            'id'=> -1, 
+                                            'type'=> [RESOURCE_TYPE_MONEY => EMPTY_SPACE_REWARD],
+                                            'space' => 3,
+                                            'choices' => [BonusBuildingRewardChoice::VISITOR->value, ],
+                                        ],
+                                        41 => [
+                                            'id' => 41, 
+                                            'type' => 5,
+                                            'choices' => [BonusBuildingRewardChoice::VISITOR->value, ],
+                                        ],
+                                        42 => [
+                                            'id' => 42, 
+                                            'type' => 6,
+                                            'choices' => [BonusBuildingRewardChoice::VISITOR->value, ],
+                                        ],
+                                        46 => [
+                                            'id' => 46, 
+                                            'type' => 46,
+                                            'choices' => [BonusBuildingRewardChoice::VISITOR->value, ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ]
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
+    
+    public function test_Args_PlayableCards_CityCard_Offload_1SpaceWithShips(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::OFFLOAD->value;
+        //ships 22 and 24 already in state 14 near starting building
+        $expectedArgs = [
+            'a' => [
+                'actSail',
+                'actPlayCard',
+            ],
+            'die_face' => 1,
+            '_private' => [
+                1 => [
+                    'p_cards' => [
+                        221 => [ 
+                            'actions' => [
+                                BEFORE_ACTION::BUILDING_REWARD->value => [
+                                    'tiles' => [ 
+                                        -1 => [ //EMPTY SHORE SPACE
+                                            'id'=> -1, 
+                                            'type'=> [RESOURCE_TYPE_MONEY => EMPTY_SPACE_REWARD],
+                                            'space' => 26,
+                                            'choices' => [BonusBuildingRewardChoice::VISITOR->value, ],
+                                        ],
+                                        46 => [
+                                            'id' => 46, 
+                                            'type' => 46,
+                                            'choices' => [BonusBuildingRewardChoice::VISITOR->value, ],
+                                        ],
+                                    ],
+                                ],
+                            ],
+                        ],
+                    ]
+                ],
+            ],
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $game->argPlayerTurn();
+        
+        assertSame($expectedArgs, $args);
+    }
     public function test_Args_PlayableCards_CityCard_TravelTroupe(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -1034,6 +1165,196 @@ final class PlayerTurnTest extends TestCase
         $game->actPlayCard($answer,999999);
     }
     // -------------------------------------------------
+    public function test_ActionPlayCard_BuildingRewardBeforeAction_Pass_City_Offload_0(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::OFFLOAD->value;
+        TestDatas::$tokens[21]['meeple_state'] = 2; // NEAR [3,4,5,7];
+        TestDatas::$tokens[23]['meeple_state'] = TestDatas::$tokens[21]['meeple_state'];
+        $markerId = null;
+        $action = BEFORE_ACTION::BUILDING_REWARD->value;
+        $source = BONUS_TYPE_REVEAL_CARD;
+        $dest = BonusBuildingRewardChoice::VISITOR->value;
+        $tileId = -1; //EMPTY SHORE SPACE
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, null, $tileId );
+
+        $game->actPlayCard($answer,999999);
+        
+        $expectedNotifs = [
+            "revealCityCard-1",
+            "buildingVisitorRewards-1",
+            "giveResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test moved card: 
+        assertSame(CARD_CITY_LOCATION_REVEALED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
+        //Test gained influence :
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(1, $resourcesP1[RESOURCE_TYPE_MONEY]);//+1
+        //no bonuses :
+        assertSame(json_encode([]), TestDatas::$players[1]['bonuses']);
+        assertSame(0, Globals::getStateBeforeBonus());
+    }
+    public function test_ActionPlayCard_BuildingRewardBeforeAction_Pass_City_Offload_1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::OFFLOAD->value;
+        TestDatas::$tokens[21]['meeple_state'] = 2; // NEAR [3,4,5,7];
+        TestDatas::$tokens[23]['meeple_state'] = TestDatas::$tokens[21]['meeple_state'];
+        $markerId = null;
+        $action = BEFORE_ACTION::BUILDING_REWARD->value;
+        $source = BONUS_TYPE_REVEAL_CARD;
+        $dest = BonusBuildingRewardChoice::VISITOR->value;
+        $tileId = 41; // [RESOURCE_TYPE_MONEY=>3]
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, null, $tileId );
+
+        $game->actPlayCard($answer,999999);
+        
+        $expectedNotifs = [
+            "revealCityCard-1",
+            "buildingVisitorRewards-1",
+            "giveResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test moved card: 
+        assertSame(CARD_CITY_LOCATION_REVEALED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
+        //Test gained influence :
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MONEY]);//+3
+        //no bonuses :
+        assertSame(json_encode([]), TestDatas::$players[1]['bonuses']);
+        assertSame(0, Globals::getStateBeforeBonus());
+    }
+    public function test_ActionPlayCard_BuildingRewardBeforeAction_Pass_City_Offload_2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::OFFLOAD->value;
+        TestDatas::$tokens[21]['meeple_state'] = 2; // NEAR [3,4,5,7];
+        TestDatas::$tokens[23]['meeple_state'] = TestDatas::$tokens[21]['meeple_state'];
+        $markerId = null;
+        $action = BEFORE_ACTION::BUILDING_REWARD->value;
+        $source = BONUS_TYPE_REVEAL_CARD;
+        $dest = BonusBuildingRewardChoice::VISITOR->value;
+        $tileId = 42; // [RESOURCE_TYPE_MONEY=>3]
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, null, $tileId );
+
+        $game->actPlayCard($answer,999999);
+        
+        $expectedNotifs = [
+            "revealCityCard-1",
+            "buildingVisitorRewards-1",
+            "giveResource-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test moved card: 
+        assertSame(CARD_CITY_LOCATION_REVEALED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
+        //Test gained influence :
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SILK ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MONEY]);//+3
+        //no bonuses :
+        assertSame(json_encode([]), TestDatas::$players[1]['bonuses']);
+        assertSame(0, Globals::getStateBeforeBonus());
+    }
+    public function test_ActionPlayCard_BuildingRewardBeforeAction_Pass_City_Offload_3(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN;
+        $cardId = 221;
+        TestDatas::$cards[$cardId]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[$cardId]['player_id'] = 1;
+        TestDatas::$cards[$cardId]['type'] = CITY_CARD_TYPE::OFFLOAD->value;
+        TestDatas::$tokens[21]['meeple_state'] = 2; // NEAR [3,4,5,7];
+        TestDatas::$tokens[23]['meeple_state'] = TestDatas::$tokens[21]['meeple_state'];
+        $markerId = null;
+        $action = BEFORE_ACTION::BUILDING_REWARD->value;
+        $source = BONUS_TYPE_REVEAL_CARD;
+        $dest = BonusBuildingRewardChoice::VISITOR->value;
+        $tileId = 46; // [RESOURCE_TYPE_SILK=>1,BONUS_TYPE_DRAW =>1]
+        $answer = new ClientAnswer($cardId,$markerId,$action, $source,$dest, null, $tileId );
+
+        $game->actPlayCard($answer,999999);
+        
+        $expectedNotifs = [
+            "revealCityCard-1",
+            "buildingVisitorRewards-1",
+            "giveResource-1",
+            "addBonus-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //Test moved card: 
+        assertSame(CARD_CITY_LOCATION_REVEALED, TestDatas::$cards[$cardId]['card_location']);
+        assertSame(1,  TestDatas::$cards[$cardId]['card_played']);
+        //Test gained influence :
+        assertSame(0, TestDatas::$tokens[1]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[2]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[3]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[4]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[5]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[6]['meeple_state']);
+        $resourcesP1 = json_decode(TestDatas::$players[1]['resources'], true);
+        assertSame(1, $resourcesP1[RESOURCE_TYPE_SILK ]);//+1
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_POTTERY]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_RICE ]);
+        assertSame(3, $resourcesP1[RESOURCE_TYPE_MOON]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_SUN ]);
+        assertSame(0, $resourcesP1[RESOURCE_TYPE_MONEY]);
+        //no bonuses :
+        assertSame(json_encode([BONUS_TYPE_DRAW]), TestDatas::$players[1]['bonuses']);
+        assertSame(ST_PLAYER_TURN, Globals::getStateBeforeBonus());
+        assertSame(ST_BONUS_CHOICE, GamestateMachine::$test_current_state);
+    }
     public function test_ActionPlayCard_GainInfluenceBeforeAction_Pass_City_TravelTroupe(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

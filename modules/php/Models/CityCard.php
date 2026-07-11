@@ -6,8 +6,10 @@ use ROG\Models\BonusBuildingRewardChoice;
 use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Helpers\Collection;
+use ROG\Helpers\Utils;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
+use ROG\Managers\ShoreSpaces;
 use ROG\Managers\Tiles;
 
 class CityCard extends Card
@@ -134,6 +136,51 @@ class CityCard extends Card
     $playDatas = [];
     if($this->isPlayed()) return [];
     switch($this->getType()){
+      case CITY_CARD_TYPE::OFFLOAD->value : 
+        if(!Utils::isPlayerActionDone()){
+          $actionDatas = [];
+          $actionDatas['tiles'] = [];
+          //REWARDS adjacent to river space of ships if opponents ships
+          $ships = Meeples::getBoats($player->getId());
+          $ships->map(function(Meeple $ship) use ($player) {
+              $nbOpponentShips = Meeples::countOpponentShipsInLocation($player->getId(),$ship->getPosition()); 
+              if($nbOpponentShips > 0) {
+                return $ship->getPosition();
+              }
+              return null;
+            })
+            ->filter(function(?int $pos) {return isset($pos); })
+            ->map(function(int $riverSpace) use (&$actionDatas) {
+              $adjacentSpaces = ShoreSpaces::getAdjacentSpaces($riverSpace);
+              foreach($adjacentSpaces as $adjacentSpace){
+                $tile = Tiles::getTileOnShoreSpace($adjacentSpace);
+                if(!isset($tile)){
+                  //EMPTY SHORE SPACE REWARD : 1 koku
+                  if(!array_key_exists(-1,$actionDatas['tiles'])){
+                    $actionDatas['tiles'][-1] = [ 
+                      'id' => -1, 
+                      'type' => [RESOURCE_TYPE_MONEY => EMPTY_SPACE_REWARD],  
+                      'space' => $adjacentSpace,
+                      'choices' => [ BonusBuildingRewardChoice::VISITOR->value, ],
+                    ]; 
+                  }
+                }
+                else {
+                  if(!array_key_exists($tile->getId(),$actionDatas['tiles'])){
+                    $actionDatas['tiles'][$tile->getId()] = [ 
+                      'id' => $tile->getId(), 
+                      'type' => $tile->getType(),  
+                      'choices' => [ BonusBuildingRewardChoice::VISITOR->value, ],
+                    ]; 
+                  }
+                }
+              }
+            });
+          if(count($actionDatas['tiles']) > 0){
+            $playDatas['actions'][BEFORE_ACTION::BUILDING_REWARD->value] = $actionDatas;
+          }
+        }
+        break;
       case CITY_CARD_TYPE::BLACK_MARKET->value : 
         $actionDatas = [];
         $actionDatas['trades'] = [
