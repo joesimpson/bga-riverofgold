@@ -18,6 +18,7 @@ use ROG\Models\MAIN_ACTION;
 use ROG\Models\Meeple;
 use ROG\Models\Player;
 use ROG\Models\ScenarioType;
+use ROG\Models\SCORING_CITY_TYPE;
 
 abstract class Utils 
 {
@@ -286,6 +287,7 @@ abstract class Utils
             'ScenarioType' => ScenarioType::ui(),
             'CITY_CARD_TYPE' => CITY_CARD_TYPE::ui(),
             'CITY_CARD_EFFECT' => CITY_CARD_EFFECT::ui(),
+            'SCORING_CITY_TYPE' => SCORING_CITY_TYPE::ui(),
         ];
     }
 

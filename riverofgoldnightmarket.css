@@ -2240,9 +2240,11 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   top: 80px;
 }
 
+.rog_tile_tooltip[data-subtype="4"] ul,
 .rog_city_space_tooltip ul {
   font-weight: bold;
 }
+.rog_tile_tooltip[data-subtype="4"] ul li,
 .rog_city_space_tooltip ul li {
   font-weight: normal;
 }

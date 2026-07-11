@@ -101,6 +101,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const TILE_TYPE_SCORING = 1;
     const TILE_TYPE_BUILDING = 2;
     const TILE_TYPE_MASTERY_CARD = 3;
+    const TILE_TYPE_CITY_SCORING = 4;
 
     const MASTERY_TYPE_AIR    = 1; 
     const MASTERY_TYPE_COURTS = 2;
@@ -5793,6 +5794,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             else if(cardDatas.subtype==TILE_TYPE_SCORING){
                 return this.getScoringTileTooltip(tile);
             }
+            else if(cardDatas.subtype==TILE_TYPE_CITY_SCORING){
+                return this.getCityScoringTileTooltip(tile);
+            }
             let div = this.tplTile(cardDatas,'_tmp');
             return [`<div class='rog_tile_tooltip' data-subtype='${subtype}'><${titleSize}>${typeName}</${titleSize}>${div}</div>`];
         },
@@ -5832,6 +5836,59 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ${divImage}
                 ${table}
                 ${detail}
+            </div>`];
+        },
+        getCityScoringTileTooltip(tile) {
+            let divImage = this.tplTile(tile,'_tmp');
+            let rewardsList = '';
+            let scoreBase = tile.scoreByElement;
+            switch(tile.scoredElement){
+                case this.gamedatas.enums.SCORING_CITY_TYPE.BUILDING:
+                    rewardsList += "<li>" + this.fsr( _('${n} points for each ${element}'),{'n':scoreBase,'element': _('building')} ) +"</li>";
+                    break;
+                case this.gamedatas.enums.SCORING_CITY_TYPE.TRADE_GOOD:
+                    rewardsList += "<li>" + this.fsr( _('${n} points for each ${element}'),{'n':scoreBase,'element': _('trade good')} ) +"</li>";
+                    break;
+                case this.gamedatas.enums.SCORING_CITY_TYPE.PORT:
+                    rewardsList += "<li>" + this.fsr( _('${n} points for each ${element}'),{'n':scoreBase,'element': _('Port')} ) +"</li>";
+                    break;
+                case this.gamedatas.enums.SCORING_CITY_TYPE.NOTHING:
+                    rewardsList += "<li>" + this.fsr( _('${n} Victory points'),{'n':scoreBase,} ) +"</li>";
+                    break;
+                case this.gamedatas.enums.SCORING_CITY_TYPE.MARKET:
+                    rewardsList += "<li>" + this.fsr( _('${n} points for each ${element}'),{'n':scoreBase,'element': _('Market')} ) +"</li>";
+                    break;
+                case this.gamedatas.enums.SCORING_CITY_TYPE.IMPERIAL_FLOWER:
+                    rewardsList += "<li>" + this.fsr( _('${n} points for each ${element}'),{'n':scoreBase,'element': _('Imperial flower')} ) +"</li>";
+                    break;
+                case this.gamedatas.enums.SCORING_CITY_TYPE.SHRINE:
+                    rewardsList += "<li>" + this.fsr( _('${n} points for each ${element}'),{'n':scoreBase,'element': _('Shrine')} ) +"</li>";
+                    break;
+                case this.gamedatas.enums.SCORING_CITY_TYPE.SUN:
+                    rewardsList += "<li>" + this.fsr( _('${n} points for each ${element}'),{'n':scoreBase,'element': _('Divine favor')} ) +"</li>";
+                    break;
+                case this.gamedatas.enums.SCORING_CITY_TYPE.MONEY:
+                    rewardsList += "<li>" + this.fsr( _('${n} points for each ${element}'),{
+                        'n':scoreBase,
+                        'element': this.formatReward(RESOURCE_TYPE_MONEY,5),
+                    } ) +"</li>";
+                    break;
+                case this.gamedatas.enums.SCORING_CITY_TYPE.DELIVERIES:
+                    rewardsList += "<li>" + this.fsr( _('${n} points for each ${element}'),{'n':scoreBase,'element': _( 'Delivered customers')} ) +"</li>";
+                    break;
+                case this.gamedatas.enums.SCORING_CITY_TYPE.MANOR:
+                    rewardsList += "<li>" + this.fsr( _('${n} points for each ${element}'),{'n':scoreBase,'element': _( 'Manor')} ) +"</li>";
+                    break;
+                case this.gamedatas.enums.SCORING_CITY_TYPE.MASTERIES:
+                    rewardsList += "<li>" + this.fsr( _('${n} points for each ${element}'),{'n':scoreBase,'element': _( 'Mastery cards')} ) +"</li>";
+                    break;
+            }
+            let rewardsText = (rewardsList.length==0) ? '': this.fsr( _('Rewards : ${list}'),{'list': rewardsList} );
+            return [`<div class='rog_tooltip rog_tile_tooltip' data-subtype='${tile.subtype}'>
+                <div class='rog_city_region'>${this.fsr(_('Region to match your die : ${n}'), { 'n':tile.region,})}</div>
+                <div class='rog_city_rewards'><ul>${rewardsText}</ul></div>
+                <hr>
+                ${divImage}
             </div>`];
         },
         getBuildingTileTooltip(tile) {
