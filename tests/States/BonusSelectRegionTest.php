@@ -44,6 +44,30 @@ final class BonusSelectRegionTest extends TestCase
         
         assertSame($expectedArgs, $args);
     }
+    //To test reward after BONUS_TYPE_BUILDING_ROW_REWARDS
+    public function test_Args_influenceReward_AnyRegion(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $state = new BonusSelectRegion($game);
+        Globals::setChoices(0);
+        $currentBonus = BONUS_TYPE_INF_SELECT_REGION;
+        $currentBonusDatas = ['region'=>0,'bonusQuantity'=>1,];
+        Globals::setCurrentBonus($currentBonus);
+        Globals::setCurrentBonusDatas($currentBonusDatas);
+        $expectedArgs = [
+            'c' => $currentBonus,
+            'cbd' => $currentBonusDatas,
+            'p' => [1,2,3,4,5,6],
+            'nbr' => 1,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+
+        $args = $state->getArgs();
+        
+        assertSame($expectedArgs, $args);
+    }
     public function test_Args_MultiRewards(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

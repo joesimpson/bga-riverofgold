@@ -54,14 +54,20 @@ class RewardEntry implements \JsonSerializable
    * @param int $region
    * @param BuildingTile $tile
    */
-  public function rewardPlayer(Player &$player, int $region,?BuildingTile $tile){
+  public function rewardPlayer(Player &$player, ?int $region,?BuildingTile $tile){
 
     switch($this->type){
       case BONUS_TYPE_POINTS:
         $player->addPoints($this->number);
         return;
       case BONUS_TYPE_INFLUENCE:
-        Players::gainInfluence($player,$region,$this->number);
+        if(isset($region)){
+          Players::gainInfluence($player,$region,$this->number);
+        }
+        else {
+          //let player select region for this bonus (coming from BONUS_TYPE_BUILDING_ROW_REWARDS, so number should be 1 for existing buildings)
+          Globals::addBonusWithDatas($player,BONUS_TYPE_INF_SELECT_REGION,['region'=>0, 'bonusQuantity'=>$this->number]);
+        }
         return;
       case RESOURCE_TYPE_SILK:
       case RESOURCE_TYPE_POTTERY:
@@ -137,11 +143,11 @@ class RewardEntry implements \JsonSerializable
         return;
       case BONUS_TYPE_BUILDING_ROW_REWARDS:
         $tiles = Tiles::getInLocationOrdered(TILE_LOCATION_BUILDING_ROW);
-        foreach($tiles as $tile){
+        $tiles->map(function(BuildingTile $tile) use (&$player){
           foreach($tile->ownerReward->entries as $reward){
-            $reward->rewardPlayer($player,$region,$tile);
+            $reward->rewardPlayer($player,null,$tile);
           }
-        }
+        });
         return;
       case BONUS_TYPE_BUILD_NEAR_SHIPS:
         Globals::addBonusWithDatas($player,BONUS_TYPE_BUILD_NEAR_SHIPS,[ 'bonusQuantity'=>$this->number]);
