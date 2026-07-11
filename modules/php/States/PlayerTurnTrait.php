@@ -419,6 +419,11 @@ trait PlayerTurnTrait
    */
   public function addArgsForPlayCards(array &$args, Player $activePlayer)
   {
+    $turnPlayerId = Globals::getTurnPlayer();
+    if($activePlayer->getId() != $turnPlayerId){
+      return;
+    }
+
     $playableCards = $this->listPossibleCardsToPlay($activePlayer);
     if(count($playableCards)>0 ){
       $args['a'][] = 'actPlayCard';

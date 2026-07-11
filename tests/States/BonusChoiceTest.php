@@ -429,6 +429,46 @@ final class BonusChoiceTest extends TestCase
         ];
         assertSame($expectedArgs, $args);
     }   
+    public function test_Args_CannotRevealCard_OppponentTurn(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setTurnPlayer(2);
+        GamestateMachine::$test_current_state = ST_BONUS_CHOICE;
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::TRAVEL_TRO->value;
+        $bonuses = [
+            'datas' => [
+                BONUS_TYPE_INF_SELECT_REGION => [
+                    1 => ['region'=>6,'bonusQuantity'=>1,],
+                    2 => ['region'=>6,'bonusQuantity'=>1,],
+                    3 => ['region'=>6,'bonusQuantity'=>1,],
+                    4 => ['region'=>6,'bonusQuantity'=>1,],
+                    5 => ['region'=>6,'bonusQuantity'=>3,],
+                ],
+                
+            ],
+        ];
+        TestDatas::$players[1]['bonuses'] = json_encode($bonuses);
+
+        $args = $game->argBonusChoice();
+        
+        $expectedArgs = [
+            'p' => $bonuses,
+            '_private' => [
+                1 => [
+                    'p' => [],
+                ],
+            ],
+            'trade' => false,
+            'canSkip' => true,
+            'cannotSetDie' => true,
+            'previousSteps' => [],
+            'previousChoices' => 0,
+        ];
+        assertSame($expectedArgs, $args);
+    }   
     // -------------------------------------------------
  
     public function test_ActionSkipBonuses_Pass(): void
