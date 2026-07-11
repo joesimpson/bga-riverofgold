@@ -4459,7 +4459,7 @@ final class ScoringTest extends TestCase
                 ], 
                 SCORING_DELIVERED => 2, 
                 SCORING_CUSTOMERS=> 0,
-                SCORING_CITY_CARD => 0,//+0
+                SCORING_CITY_CARD => 4,//+4
             ],
             2 => [ // PLAYER 2
                 SCORING_INGAME => 29, 
@@ -4496,11 +4496,98 @@ final class ScoringTest extends TestCase
         assertSame($expectedNotifs, TestDatas::$notifs['all']);
         $endScoringDatas = Globals::getEndScoring();
         assertSame($expectedScoring, $endScoringDatas);
-        assertSame(21,  TestDatas::$players[1]['player_score']);//19 + 2 Reduce to lowest score
+        assertSame(25,  TestDatas::$players[1]['player_score']);//19 + 6 Reduce to lowest score
         assertSame(0,  TestDatas::$players[1]['player_score_aux']);
-        assertSame(21,  TestDatas::$players[2]['player_score']);//+2 Reduce to lowest score
+        assertSame(25,  TestDatas::$players[2]['player_score']);//+2 Reduce to lowest score
         assertSame(0,  TestDatas::$players[2]['player_score_aux']);//REDUCED
         assertSame(3, Globals::getAutomaScore());
+    }
+    public function test_computeScoring_CityCard_SharedCli_Automa_Worst_KO(): void
+    {
+        
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setOptionCity(OPTION_CITY_OF_LIES_ON);
+        TestDatas::$players[2]['player_score'] = 29;
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['card_state'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::SHARED_CLI->value;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_HIDDEN_CARD."1-".CARD_TYPE_CITY."-1-".CARD_CITY_LOCATION_HAND,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['player_id'] = 1;
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['player_id'] = 1;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['player_id'] = 2;
+        $expectedNotifs = [
+            "computeFinalScore",
+            "revealCityCard-1",
+            "scoreCityCard-1",
+            "scoreDeliveries-1", 
+            "scoreDeliveries-2", 
+            "scoreDeliveries--123", 
+            "endResourcesForCustomers--123", 
+            "teamWin",
+        ];
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 5, 
+                SCORING_CUSTOMERS=> 0,
+                SCORING_CITY_CARD => 0,//+0
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 29, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, 
+                SCORING_CUSTOMERS=> 0,
+                SCORING_CITY_CARD => 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0,
+                SCORING_CUSTOMERS => 0,
+                SCORING_CITY_CARD => 0,
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(24,  TestDatas::$players[1]['player_score']);//19 + 5 Reduce to lowest score
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(24,  TestDatas::$players[2]['player_score']);//+2 Reduce to lowest score
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);//REDUCED
+        assertSame(0, Globals::getAutomaScore());
+    
     }
     public function test_computeScoring_CityCard_SharedEngineers_Automa_Leads(): void
     {
@@ -4622,6 +4709,87 @@ final class ScoringTest extends TestCase
                 ], 
                 SCORING_DELIVERED => 0, 
                 SCORING_CUSTOMERS=> 0,
+                SCORING_CITY_CARD => 4,//+4
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 29, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+                SCORING_CITY_CARD => 0,
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 0, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0,
+                SCORING_CUSTOMERS => 0,
+                SCORING_CITY_CARD => 0,
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(23,  TestDatas::$players[1]['player_score']);//19 + 4 Reduce to lowest score
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(23,  TestDatas::$players[2]['player_score']);//+0 Reduce to lowest score
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);//REDUCED
+        assertSame(0, Globals::getAutomaScore());
+    }
+        public function test_computeScoring_CityCard_SharedEngineers_Automa_Worst_KO(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setOptionCity(OPTION_CITY_OF_LIES_ON);
+        TestDatas::$players[2]['player_score'] = 29;
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['card_state'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::SHARED_ENG->value;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_HIDDEN_CARD."1-".CARD_TYPE_CITY."-1-".CARD_CITY_LOCATION_HAND,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
+        TestDatas::$tokens[41]['player_id'] = 2;
+        TestDatas::$tokens[42]['player_id'] = 2;
+        $expectedNotifs = [
+            "computeFinalScore",
+            "revealCityCard-1",
+            "scoreCityCard-1",
+            "scoreDeliveries-1", 
+            "scoreDeliveries-2", 
+            "scoreDeliveries--123", 
+            "endResourcesForCustomers--123", 
+            "teamWin",
+        ];
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
                 SCORING_CITY_CARD => 0,
             ],
             2 => [ // PLAYER 2
@@ -4665,6 +4833,7 @@ final class ScoringTest extends TestCase
         assertSame(0,  TestDatas::$players[2]['player_score_aux']);//REDUCED
         assertSame(0, Globals::getAutomaScore());
     }
+
     public function test_computeScoring_CityCard_SharedEnvoys_beforeOtherShared_KO(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
@@ -4932,6 +5101,96 @@ final class ScoringTest extends TestCase
         assertSame(25,  TestDatas::$players[1]['player_score']);//21 + 4 Reduce to lowest score
         assertSame(0,  TestDatas::$players[1]['player_score_aux']);
         assertSame(25,  TestDatas::$players[2]['player_score']);//22 + 4 Reduce to lowest score
+        assertSame(0,  TestDatas::$players[2]['player_score_aux']);//REDUCED
+        assertSame(23, Globals::getAutomaScore());
+    }
+        public function test_computeScoring_CityCard_SharedEnvoys_Automa_Ties(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setOptionCity(OPTION_CITY_OF_LIES_ON);
+        Globals::setAutomaScore(23);
+        TestDatas::$players[1]['player_score'] = 21;
+        TestDatas::$players[2]['player_score'] = 23;
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[221]['card_state'] = 1;
+        TestDatas::$cards[221]['type'] = CITY_CARD_TYPE::SHARED_ENG->value;
+        TestDatas::$tokens[43] = ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_HIDDEN_CARD."1-".CARD_TYPE_CITY."-1-".CARD_CITY_LOCATION_HAND,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
+        TestDatas::$tokens[41]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$tokens[42]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$cards[222]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[222]['player_id'] = 2;
+        TestDatas::$cards[222]['card_state'] = 2;
+        TestDatas::$cards[222]['type'] = CITY_CARD_TYPE::SHARED_ENV->value;
+        TestDatas::$tokens[44] = ['result_associative_index' => 44, 'meeple_id' => 44, 'meeple_state' => 1, 'meeple_location'=> MEEPLE_LOCATION_HIDDEN_CARD."2-".CARD_TYPE_CITY."-2-".CARD_CITY_LOCATION_HAND,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID,  ];
+        $expectedNotifs = [
+            "computeFinalScore",
+            "revealCityCard-2",
+            "scoreCityCard-2",
+            "revealCityCard-1",
+            "scoreCityCard-1",
+            "scoreDeliveries-1", 
+            "scoreDeliveries-2", 
+            "scoreDeliveries--123", 
+            "endResourcesForCustomers--123", 
+            "teamWin",
+        ];
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 21, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+                SCORING_CITY_CARD => 4,//+4
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 23, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0, 
+                SCORING_CUSTOMERS=> 0,
+                SCORING_CITY_CARD => 4,//+4
+            ],
+            AUTOMA_PLAYER_ID => [ 
+                SCORING_INGAME => 23, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 0,
+                SCORING_CUSTOMERS => 0,
+                SCORING_CITY_CARD => 0,
+            ],
+        ];
+
+        $game->stScoring();
+        
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(25,  TestDatas::$players[1]['player_score']);//21 + 4 Reduce to lowest score
+        assertSame(0,  TestDatas::$players[1]['player_score_aux']);
+        assertSame(25,  TestDatas::$players[2]['player_score']);//23 + 4 Reduce to lowest score
         assertSame(0,  TestDatas::$players[2]['player_score_aux']);//REDUCED
         assertSame(23, Globals::getAutomaScore());
     }

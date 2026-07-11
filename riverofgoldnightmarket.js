@@ -5594,19 +5594,19 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_CLI    , 
                     `
                     <span>${this.fsr(_("When you take this card, place a clan marker from another clan on it."), {})}</span>
-                    <span>${this.fsr(_("When the game ends, reveal this card. If that clan has the most customers, gain ${icon_score}."), {'icon_score': this.formatIcon('score',4),})}</span>
+                    <span>${this.fsr(_("When the game ends, reveal this card. If that clan has the most customers (including ties), gain ${icon_score}."), {'icon_score': this.formatIcon('score',4),})}</span>
                     `
                 ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_ENG    , 
                     `
                     <span>${this.fsr(_("When you take this card, place a clan marker from another clan on it."), {})}</span>
-                    <span>${this.fsr(_("When the game ends, reveal this card. If that clan has the most buildings, gain ${icon_score}."), {'icon_score': this.formatIcon('score',4),})}</span>
+                    <span>${this.fsr(_("When the game ends, reveal this card. If that clan has the most buildings (including ties), gain ${icon_score}."), {'icon_score': this.formatIcon('score',4),})}</span>
                     `
                 ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.SHARED_ENV    , 
                     `
                     <span>${this.fsr(_("When you take this card, place a clan marker from another clan on it."), {})}</span>
-                    <span>${this.fsr(_("When the game ends, reveal this card. If that clan has the most victory points (before region influence or customer scoring), gain ${icon_score}."), {'icon_score': this.formatIcon('score',4),})}</span>
+                    <span>${this.fsr(_("When the game ends, reveal this card. If that clan has the most victory points (including ties), (before region influence or customer scoring), gain ${icon_score}."), {'icon_score': this.formatIcon('score',4),})}</span>
                     `
                 ],
                 [ this.gamedatas.enums.CITY_CARD_TYPE.CARTEL        ,  this.fsr(_("When you deliver, you may reveal this card to gain ${influence} for each building you own in that customer’s region."), {'influence':'','n2':2 })],
@@ -5657,7 +5657,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     <span>${this.fsr(_("When the game ends, gain ${icon_score} for each ${resource} you have."), {'icon_score': this.formatIcon('score',1), 'resource': this.formatIcon(RESOURCES[RESOURCE_TYPE_RICE])})}</span>
                     `
                 ],
-                [ this.gamedatas.enums.CITY_CARD_TYPE.TRAVEL_TRO    ,  this.fsr(_("Reveal this card to gain ${influence} in any region."), {'influence':'','n2':1 })],
+                [ this.gamedatas.enums.CITY_CARD_TYPE.TRAVEL_TRO    ,  this.fsr(_("Reveal this card on your turn to gain ${influence} in any region."), {'influence':'','n2':1 })],
             ]);
             descriptionLine = descriptionMap.get(card.type);
             let effectMap = new Map([

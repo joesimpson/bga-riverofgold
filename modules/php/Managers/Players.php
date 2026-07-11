@@ -751,9 +751,10 @@ class Players extends \ROG\Helpers\DB_Manager
     $betterPlayers = $players->filter(function(Player $p) use ($targetPid, $nbTargetDeliveries){
       if($p->getId() == $targetPid) return false;
       $nbDeliveries = $p->getNbDeliveredCustomers();
-      if($nbTargetDeliveries <= $nbDeliveries){
+      if($nbTargetDeliveries < $nbDeliveries){
         return true;
       }
+      //INCLUDE TIES
       return false;
     });
     return $betterPlayers->count() == 0;
@@ -767,9 +768,10 @@ class Players extends \ROG\Helpers\DB_Manager
     $betterPlayers = $players->filter(function(Player $p) use ($targetPid, $nbTarget){
       if($p->getId() == $targetPid) return false;
       $nb = $p->getNbBuildings();
-      if($nbTarget <= $nb){
+      if($nbTarget < $nb){
         return true;
       }
+      //INCLUDE TIES
       return false;
     });
     return $betterPlayers->count() == 0;
@@ -781,9 +783,10 @@ class Players extends \ROG\Helpers\DB_Manager
     $betterPlayers = $players->filter(function(Player $p) use ($targetPid, $nbTarget){
       if($p->getId() == $targetPid) return false;
       $nb = Players::getUpdatedPlayerScore($p->getId());
-      if($nbTarget <= $nb){
+      if($nbTarget < $nb){
         return true;
       }
+      //INCLUDE TIES
       return false;
     });
     return $betterPlayers->count() == 0;
