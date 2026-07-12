@@ -180,11 +180,11 @@ abstract class Table
             logForTests("getUniqueValueFromDb: count is $count ");
             return $count;
         }
-        if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND `subtype` = (?P<subtype>.*) AND `card_location` = '(?P<card_location>.*)'$/", $sql, $matches) == 1) {
+        if (preg_match("/^SELECT COUNT\(\*\) FROM `cards` WHERE `player_id` = (?P<player_id>.*) AND `subtype` = (?P<subtype>\d+)( AND `card_location` = '(?P<card_location>.*)')?$/", $sql, $matches) == 1) {
             $player_id = $matches['player_id'];
             $subtype = $matches['subtype'];
-            $card_location = $matches['card_location'];
-            $count = count(array_filter(TestDatas::$cards,function ($card) use($player_id, $card_location, $subtype ) {return $card['player_id'] == $player_id && $card['card_location'] == $card_location && $card['subtype'] == $subtype ;}));
+            $card_location = isset($matches['card_location']) ? $matches['card_location'] : null;
+            $count = count(array_filter(TestDatas::$cards,function ($card) use($player_id, $card_location, $subtype ) {return $card['player_id'] == $player_id && (!isset($card_location) || $card['card_location'] == $card_location) && $card['subtype'] == $subtype ;}));
             logForTests("getUniqueValueFromDb: count is $count  ");
             return $count;
         }

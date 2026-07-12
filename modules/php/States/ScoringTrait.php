@@ -85,13 +85,13 @@ trait ScoringTrait
       //Reveal city cards SHARED ENV FIRST because it depends on score
       foreach($players as $pid => $player){
         $cityCards = CityCards::getPlayerHand($pid);
-        $endScoringDatas[$pid][SCORING_CITY_CARD] += $cityCards->filter(function(CityCard $c){ return $c->scoreAsFirstCityCard();})->map(function(CityCard $c) use ($player){ return $c->onEndReveal($player);})->reduce(function ($ax, $dx) {  return $ax + (int)$dx;}, 0);
+        $endScoringDatas[$pid][SCORING_CITY_CARD] += $cityCards->filter(function(CityCard $c){ return $c->scoreAsFirstCityCard();})->map(function(CityCard $c) use ($player){ return $c->onEndReveal($player);})->sum();
       }
 
       //Reveal all hidden city cards
       foreach($players as $pid => $player){
         $cityCards = CityCards::getPlayerHand($pid);
-        $endScoringDatas[$pid][SCORING_CITY_CARD] += $cityCards->map(function(CityCard $c) use ($player){ return $c->onEndReveal($player);})->reduce(function ($ax, $dx) {  return $ax + (int)$dx;}, 0);
+        $endScoringDatas[$pid][SCORING_CITY_CARD] += $cityCards->map(function(CityCard $c) use ($player){ return $c->onEndReveal($player);})->sum();
       }
     }
 
@@ -186,13 +186,15 @@ trait ScoringTrait
       //3.3 : Noble score is specific :
       $delivered = Cards::getPlayerDeliveredOrders($player->getId());
       $deliveredNobles = $delivered->filter(function($card) {return CUSTOMER_TYPE_NOBLE == $card->getCustomerType();});
-      $customScore = function ($deliveredNobles) use(&$player,$pid,$delivered, &$endScoringDatas){
-      foreach($deliveredNobles as $deliveredNoble){
+      $customScore = function (Collection $deliveredNobles) use(&$player,$pid,$delivered, &$endScoringDatas){
+        $deliveredNobles->map(function (CustomerCard $deliveredNoble) use(&$player,$pid,$delivered, &$endScoringDatas){
+          
         $scoreNoble = $deliveredNoble->computeScore($player,$delivered);
         $player->addPoints($scoreNoble,false);
         //Specific notif has been sent
         $endScoringDatas[$pid][SCORING_CUSTOMERS] += $scoreNoble;
-      }
+        return;
+        });
       };
       $customScore($deliveredNobles);
 
@@ -213,6 +215,16 @@ trait ScoringTrait
       //3.5 :  Smuggler Specific score 
       $deliveredSmugglers = $delivered->filter(function($card) {return CUSTOMER_TYPE_SMUGGLER == $card->getCustomerType();});
       $customScore($deliveredSmugglers);
+
+      //3.6 :  Spy : count city cards
+      $nbSpies = $player->getNbDeliveredCustomerByType(CUSTOMER_TYPE_SPY);
+      $nbCityCards = CityCards::countPlayer($pid);
+      $scoreForSpies = $nbSpies * $nbCityCards;
+      if($scoreForSpies>0) {
+        $player->addPoints($scoreForSpies,false);
+        Notifications::scoreMultiCustomers($player,CUSTOMER_TYPE_SPY,$nbSpies,RESOURCE_TYPE_CITY_CARD,$nbCityCards,$scoreForSpies);
+        $endScoringDatas[$pid][SCORING_CUSTOMERS] += $scoreForSpies;
+      }
 
       //3.7 :  Traders scores
       $deliveredTraders = $delivered->filter(function($card) {return CUSTOMER_TYPE_TRADER == $card->getCustomerType();});

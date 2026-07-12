@@ -1057,7 +1057,7 @@ class Notifications
   }
   
   public static function scoreCityCard(Player $player,CityCard $card,int $points){
-    $msg = clienttranslate('${player_name} scores ${n} ${points} with city card ${card_name}');
+    $msg = clienttranslate('${player_name} scores ${n} ${points} with the city card ${card_name}');
     self::notifyAll('scoreCityCard',$msg,[ 
         'player' => $player,
         'n' => $points,
@@ -1070,8 +1070,8 @@ class Notifications
   }
   
   public static function scoreMultiCustomers(Player $player,int $customer_type, int $nbCustomers,int $typeResource,int $amountResources,int $points){
-    $msg = clienttranslate('${player_name} scores ${n} ${points} with ${n2} ${customer_name} and ${n3} remaining ${res_icon}');
-    self::notifyAll('scoreMultiCustomers',$msg,[ 
+    $msg = clienttranslate('${player_name} scores ${n} ${points} with ${n2} ${customer_name} and ${n3} ${res_icon}');
+    $args = [ 
         'player' => $player,
         'n' => $points,
         'points' => clienttranslate('Points'),
@@ -1083,8 +1083,12 @@ class Notifications
         'customer_type' => $customer_type,
         'preserve' => ['res_type','customer_type'],
         'i18n' => ['customer_name', 'points','res_icon'],
-      ],
-    );
+      ];
+    if(RESOURCE_TYPE_CITY_CARD == $typeResource){
+      //we don't have icon for this
+      $args['res_type'] = null; 
+    }
+    self::notifyAll('scoreMultiCustomers',$msg, $args);
   }
   
   /**

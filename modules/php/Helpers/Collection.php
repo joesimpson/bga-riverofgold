@@ -57,6 +57,10 @@ class Collection extends \ArrayObject
     {
         return array_reduce($this->toArray(), $func, $init);
     }
+    public function sum() : int
+    {
+        return $this->reduce(function ($ax, $dx) {  return $ax + (int)$dx;}, 0);
+    }
 
     public function filter($func) : Collection
     {

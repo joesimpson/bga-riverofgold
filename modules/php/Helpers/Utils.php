@@ -108,6 +108,7 @@ abstract class Utils
             case RESOURCE_TYPE_MOON: $resourceName = clienttranslate('Divine favor Limit'); break;
             case RESOURCE_TYPE_SUN: $resourceName = clienttranslate('Divine favor'); break;
             case RESOURCE_TYPE_MONEY: $resourceName = clienttranslate('Koku'); break;
+            case RESOURCE_TYPE_CITY_CARD: $resourceName = clienttranslate('city card claimed'); break;
         }
         return $resourceName;
     }
@@ -120,9 +121,7 @@ abstract class Utils
             return $cost[$resourceToCount];
             }
             return 0;
-        })->reduce(function ($ax, $dx) {
-            return $ax + (int)$dx;
-        }, 0);
+        })->sum();
         return $nbResources;
     }
     

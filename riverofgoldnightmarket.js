@@ -3562,7 +3562,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 }
                 let res_icon = 'res_icon';
                 if(res_icon in args) {
-                    args.res_icon = this.formatIcon(RESOURCES[args.res_type],null);
+                    if('res_type' in args && args.res_type != null){
+                        args.res_icon = this.formatIcon(RESOURCES[args.res_type],null);
+                    }
                 }
                 let influence = 'influence';
                 if(influence in args) {
@@ -4678,6 +4680,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                             endgameAbility = this.fsr(_('${score} : ${res_icon} ${res_icon} delivered'), {'score':icon_score, 'n':'', 'res_type':resource, 'res_icon':''});
                             break;
                     }
+                    break;
+                case CUSTOMER_TYPE_SPY:
+                    endgameAbility = this.fsr(_('${score} : ${n} ${element}'), {'score':icon_score,'n':'', 'element': _('city card claimed')});
                     break;
                 case CUSTOMER_TYPE_TRADER:
                     icon_building = this.formatIcon('own_building');

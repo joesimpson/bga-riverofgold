@@ -946,6 +946,79 @@ final class ScoringTest extends TestCase
         assertSame(0, TestDatas::$players[2]['player_score_aux']);
     }
     
+    public function test_computeScoring_Spies(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionCity(OPTION_CITY_OF_LIES_ON);
+        GamestateMachine::$test_current_state = ST_END_SCORING;
+        TestDatas::$players[1]['resources'] = '{"1":3,"2":0,"3":1,"4":5,"5":3,"6":15}';
+        TestDatas::$cards[11]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[11]['type'] = 49;
+        TestDatas::$cards[13]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[13]['type'] = 50;
+        TestDatas::$players[2]['resources'] = '{"1":0,"2":6,"3":4,"4":5,"5":1,"6":17}';
+        TestDatas::$cards[12]['card_location'] = CARD_LOCATION_DELIVERED;
+        TestDatas::$cards[12]['type'] = 52;
+        TestDatas::$cards[221]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[221]['player_id'] = 1;
+        TestDatas::$cards[222]['card_location'] = CARD_CITY_LOCATION_HAND;
+        TestDatas::$cards[222]['player_id'] = 1;
+        TestDatas::$cards[223]['card_location'] = CARD_CITY_LOCATION_REVEALED;
+        TestDatas::$cards[223]['player_id'] = 1;
+        TestDatas::$cards[231]['card_location'] = CARD_CITY_LOCATION_REVEALED;
+        TestDatas::$cards[231]['player_id'] = 2;
+        $expectedScoring = [
+            1 => [ // PLAYER 1
+                SCORING_INGAME => 19, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 5, 
+                SCORING_CUSTOMERS=> 6,//2*3
+                SCORING_CITY_CARD => 0,
+            ],
+            2 => [ // PLAYER 2
+                SCORING_INGAME => 2, 
+                SCORING_INFLUENCE => [
+                    REGION_1 => 0,
+                    REGION_2 => 0,
+                    REGION_3 => 0,
+                    REGION_4 => 0,
+                    REGION_5 => 0,
+                    REGION_6 => 0,
+                ], 
+                SCORING_DELIVERED => 2, 
+                SCORING_CUSTOMERS=> 1,//1*1
+                SCORING_CITY_CARD => 0,
+            ],
+        ];
+
+        $game->stScoring();
+        
+        $expectedNotifs = [
+            "computeFinalScore",
+            "revealCityCard-1",
+            "revealCityCard-1",
+            "scoreDeliveries-1", 
+            "scoreMultiCustomers-1",
+            "scoreDeliveries-2", 
+            "scoreMultiCustomers-2",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        $endScoringDatas = Globals::getEndScoring();
+        assertSame($expectedScoring, $endScoringDatas);
+        assertSame(30, TestDatas::$players[1]['player_score']);
+        assertSame(3, TestDatas::$players[1]['player_score_aux']);
+        assertSame(5, TestDatas::$players[2]['player_score']);
+        assertSame(1, TestDatas::$players[2]['player_score_aux']);
+    }
+
     public function test_computeScoring_Shins(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);

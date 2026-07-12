@@ -2789,6 +2789,10 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: 5%;
   width: 90%;
 }
+.rog_card[data-customertype="9"] .rog_endgame_ability {
+  top: 90%;
+  height: 8%;
+}
 .rog_card[data-customertype="10"] .rog_customer_name {
   top: 35%;
 }

@@ -68,6 +68,14 @@ class CityCards extends Cards
                 ->where(static::$prefix . 'location', CARD_CITY_LOCATION_HAND)
                 ->count();
     }
+    
+    public static function countPlayer(int $playerId) : int
+    {
+        return self::DB()
+                ->wherePlayer($playerId)
+                ->where('subtype', CARD_TYPE_CITY)
+                ->count();
+    }
 
     public static function maxStateInPlayerHand(int $playerId) : int
     {
