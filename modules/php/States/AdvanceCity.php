@@ -124,6 +124,29 @@ class AdvanceCity extends GameState
     // game logic  
     Log::addStep();
 
+    AdvanceCity::processAdvance($player, $space,$markerId,$regionsToPayLanterns, $cards_ids, $lanternCosts, );
+    
+    Players::claimMasteries($player);
+    Stats::inc("nbActionsAdvance", $player->getId());
+    Globals::setTurnMainActionDone(MAIN_ACTION::ADVANCE->value);
+    Utils::playTradersAbilities($player);
+
+    if(Utils::goToBonusStepIfNeeded($player,false,false)){
+      return ST_BONUS_CHOICE;
+    }
+    return ST_CONFIRM_CHOICES;
+  }
+
+  public static function processAdvance(
+    Player &$player, 
+    int $space,
+    int $markerId,
+    array $regionsToPayLanterns, 
+    array $cards_ids, 
+    array $lanternCosts,
+   ) {
+    Game::get()->trace(__CLASS__.".".__FUNCTION__."($space, $markerId,)");
+
     $index = 0;
     $sumInfluenceLost = 0;
     foreach($lanternCosts as $cost){
@@ -158,27 +181,7 @@ class AdvanceCity extends GameState
     if($nbCityCards > 0){
       Globals::addBonusWithDatas($player,BONUS_TYPE_CITY_CARD_DRAW, ['bonusQuantity' => 1, 'location' => $cityCardLocation],clienttranslate('City cards'));
     }
-    
-    Players::claimMasteries($player);
-    Stats::inc("nbActionsAdvance", $player->getId());
-    Globals::setTurnMainActionDone(MAIN_ACTION::ADVANCE->value);
-    Utils::playTradersAbilities($player);
-
-    if(Utils::goToBonusStepIfNeeded($player,false,false)){
-      return ST_BONUS_CHOICE;
-    }
-    return ST_CONFIRM_CHOICES;
   }
-  
-  /*
-  public function process_Advance(
-    Player $player, 
-    int $citySpace, 
-  ){
-    $this->game->trace(__CLASS__.".".__FUNCTION__."( $citySpace )");
-
-  }
-  */
   
   /**
    * Player action : undo ALL

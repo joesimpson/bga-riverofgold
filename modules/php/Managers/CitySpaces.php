@@ -84,6 +84,25 @@ class CitySpaces
   }
   
   /**
+   * @param int $pColumn the column to search
+   * @return array list of spaces id
+   */
+  public static function getSpacesByColumn(int $pColumn) : array {
+    $spaceIds = [];
+    if($pColumn == CITY_COLUMN_TILES){
+      $cityTiles = Tiles::getInLocation(TILE_LOCATION_CITYSCORING_BOARD);
+      $cityTiles->map(function(ScoringCityTile $t) use ( &$spaceIds) { 
+        $spaceIds[] = $t->getCitySpace()->id; 
+      });
+    }
+    else {
+      $spaces = array_filter(CitySpaces::getAllCitySpaces(), function (CitySpace $space) use ($pColumn){ return $space->column == $pColumn;} ,);
+      $spaceIds = array_keys($spaces);
+    }
+    return $spaceIds;
+  }
+  
+  /**
    * @param int $pRegion the region to search
    * @return array list of spaces id
    */
@@ -93,4 +112,16 @@ class CitySpaces
     return array_values( array_diff($spaces, $usedSpaces) );
   }
   
+  //public static function getAllEmptySpaces() : array{
+  //  $spaces = CitySpaces::getAllCitySpaces();
+  //  $spaceIds = array_keys($spaces);
+  //  $usedSpaces = Meeples::getUsedPositionsOnCity();
+  //  return array_values( array_diff($spaceIds, $usedSpaces) );
+  //}
+  
+  public static function getEmptySpacesInColumn(int $pColumn) : array{
+    $spaces = CitySpaces::getSpacesByColumn($pColumn);
+    $usedSpaces = Meeples::getUsedPositionsOnCity();
+    return array_values( array_diff($spaces, $usedSpaces) );
+  }
 }

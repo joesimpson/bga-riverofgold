@@ -11,6 +11,9 @@ use ROG\Core\Globals;
 use ROG\Core\Notifications;
 use ROG\Exceptions\UnexpectedException;
 use ROG\Helpers\Log;
+use ROG\Helpers\Utils;
+use ROG\Managers\CitySpaces;
+use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Models\Player;
 
@@ -43,6 +46,7 @@ class BonusAdvanceCity extends GameState
     $player_id = $player->getId();
 
     $possibleActions = [];
+    $possibleSpaces = [];
     switch($currentBonus){
       default:
       case BONUS_TYPE_ADVANCE_OR_POINTS:
@@ -50,18 +54,47 @@ class BonusAdvanceCity extends GameState
           BonusAdvanceCityChoice::ADVANCE->value,
           BonusAdvanceCityChoice::POINTS->value,
         ];
+        $possibleSpaces = BonusAdvanceCity::listPossibleSpacesToAdvance($player);
         break;
     }
 
     $args = [
       'c' => $currentBonus,
       'p' => $possibleActions,
+      'citySpaces' => $possibleSpaces,
       'score' => 5,
     ];
 
     $this->game->addArgsForUndo($args);
     return $args;
   }     
+  
+  public static function listPossibleSpacesToAdvance(Player $player) : array {
+    if(! Utils::isGameWithCityOfLies() ) {
+      return [];
+    }
+    $possibleSpacesByMarker = [];
+    $cityMarker = Meeples::getCityMarker($player->getId());
+    if(isset($cityMarker)){
+      $possibleSpaces = CitySpaces::getEmptySpacesInColumn(1 + $cityMarker->getCityColumn());
+      
+      $possibleSpaces = array_map(function (int $spaceId) use ($cityMarker,) {
+        $space = CitySpaces::getCitySpaceById($spaceId);
+        //must go to the column to the right of your current space
+        $canGo = $space->column == 1 + $cityMarker->getCityColumn();
+        $lanternCosts = [];
+        return ['space' =>$spaceId, 'p' => $canGo, 'cost' =>$lanternCosts, ];
+      },$possibleSpaces,);
+      $possibleSpaces = array_filter($possibleSpaces, function (array $datas) {
+          return $datas['p'];
+        });
+      if( count($possibleSpaces) > 0){
+        $possibleSpacesByMarker[ $cityMarker->getId()] = $possibleSpaces;
+      }
+    }
+
+    return $possibleSpacesByMarker;
+  }
   
   public function onEnteringState(int $activePlayerId, array $args) {
     $this->game->trace(__CLASS__.".".__FUNCTION__."($activePlayerId)");
@@ -75,10 +108,12 @@ class BonusAdvanceCity extends GameState
       int $choice, 
       int $version,
       int $activePlayerId, array $args,
+      ?int $space = null, 
+      ?int $markerId = null,
     )
   {
     $this->game->checkVersion($version);
-    $this->game->trace(__CLASS__.".".__FUNCTION__."( $choice, $activePlayerId)");
+    $this->game->trace(__CLASS__.".".__FUNCTION__."( $choice, $activePlayerId,  $space, $markerId)");
     
     $player = Players::get($activePlayerId);
     $choices = $args['p'];
@@ -91,7 +126,19 @@ class BonusAdvanceCity extends GameState
 
     switch($choice){
       case BonusAdvanceCityChoice::ADVANCE->value:
-        throw new UnexpectedException(404,"Not Yet AVAILABLE !");
+        $citySpaces = $args['citySpaces'];
+        $possibleMarkers = array_keys($citySpaces);
+        if (!in_array($markerId,$possibleMarkers)) {
+          throw new UnexpectedException(503,"Invalid marker $markerId");
+        } 
+        $possibleSpaces = array_map(function (array $datas)  {
+          return $datas['space'];
+        },$citySpaces[$markerId],);
+        if (!in_array($space,$possibleSpaces)) {
+          throw new UnexpectedException(503,"Invalid space $space");
+        } 
+        AdvanceCity::processAdvance($player, $space, $markerId, [], [], [], );
+        Players::claimMasteries($player);
         break;
       case BonusAdvanceCityChoice::POINTS->value :
         $player->addPoints(5);

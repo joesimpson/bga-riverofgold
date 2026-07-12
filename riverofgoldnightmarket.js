@@ -1544,10 +1544,14 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 switch(choice){
                     case 1: //BonusAdvanceCityChoice::ADVANCE
                         this.addImageActionButton(`btnBonusAdvance`, _('Advance'), () =>  {
-                            this.takeAction('actSelectAdvance', {'choice':choice});
+                            this.clientState('selectCitySpace','', {
+                                'choice': choice,
+                                'citySpaces': args.citySpaces,
+                            });
                         });
-                        //Disabled until available
-                        document.getElementById(`btnBonusAdvance`).classList.add('disabled');
+                        if(! this.gamedatas.city_of_lies){
+                            document.getElementById(`btnBonusAdvance`).classList.add('disabled');
+                        }
                         break;
                     case 2: //BonusAdvanceCityChoice::POINTS
                         this.addImageActionButton(`btnBonusAdvancePoints`, scoreIcon, () =>  {
@@ -1557,8 +1561,39 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 }
                
             });
-            
+        },
+        //CLIENT STATE
+        onEnteringStateSelectCitySpace(args){
+            debug('onEnteringStateSelectCitySpace', args);
+   
+            this.addCancelStateBtn(_('Return'));
 
+            let active = this.bga.players.isCurrentPlayerActive();
+   
+            this.bga.statusBar.setTitle(active ? 
+                _('Advance : ${you} must select a space in the City of Lies') :
+                _('Advance : ${actplayer} must select a space in the City of Lies')
+            );
+            if(!active) return;
+
+            let choice = args.choice;
+            let possibleSpaces = args.citySpaces;
+            Object.entries(possibleSpaces).forEach( ([markerId, spaces]) => {
+                //only 1 markerId is expected for now 
+                Object.values(spaces).forEach((datas) => {
+                    let space = datas.space;
+                    let divSpace = document.querySelector(`.rog_city_space[data-id="${space}"]`);
+                    if(!divSpace) return;
+                    let callbackSpaceSelection = () => {
+                        this.takeAction('actSelectAdvance', {
+                            'choice':choice, 
+                            'space': space,
+                            'markerId' : markerId,
+                        });
+                    };
+                    this.onClick(divSpace.id, callbackSpaceSelection);
+                });
+            });
         },
         
         onEnteringStateBonusSelectRegion(args){
