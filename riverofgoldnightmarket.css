@@ -2308,7 +2308,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 }
 .rog_card.rog_automa_action_card {
   background-size: 200% 300%;
-  background-image: url("img/cards/seishin_deck.jpg");
+  background-image: url("img/cards/seishin_deck.webp");
 }
 .rog_card.rog_automa_action_card[data-type="1"] {
   background-position-x: 100%;
@@ -8955,7 +8955,7 @@ body[data-rog_anim_ship_selected="2"] .rog_meeple.selected[data-type="1"], body[
   height: 35px;
   border-radius: 5px;
   background-size: 200% 300%;
-  background-image: url("img/cards/seishin_deck.jpg");
+  background-image: url("img/cards/seishin_deck.webp");
   background-position-x: 0%;
   background-position-y: 0%;
 }

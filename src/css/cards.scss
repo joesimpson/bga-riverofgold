@@ -30,7 +30,7 @@
 
     &.rog_automa_action_card{
         background-size: 200% 300%;
-        background-image: url("img/cards/seishin_deck.jpg");
+        background-image: url("img/cards/seishin_deck.webp");
         @for $i from 1 through 5 {
             &[data-type="#{$i}"] {
                 background-position-x: ($i % 2) * 100% / 1;
