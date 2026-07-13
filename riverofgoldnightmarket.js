@@ -1549,7 +1549,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                                 'citySpaces': args.citySpaces,
                             });
                         });
-                        if(! this.gamedatas.city_of_lies){
+                        if( args.citySpaces.length == 0){
                             document.getElementById(`btnBonusAdvance`).classList.add('disabled');
                         }
                         break;
