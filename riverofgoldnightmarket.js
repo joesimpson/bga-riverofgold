@@ -415,7 +415,9 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 [CUSTOMER_TYPE_TRADER    , _('Trader')],
             ]);
             
-            let toPreloadList = ['cards/masterycards.jpg','cards/customers.jpg',
+            let toPreloadList = [
+                'cards/masterycards.jpg',
+                'cards/customers.webp',
                 'tiles/eraTileHolder.png',
                 'tiles/scoringtile.png',
                 'tiles/buildings.png',

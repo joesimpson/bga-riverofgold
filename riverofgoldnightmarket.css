@@ -2259,7 +2259,7 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   border: 1px solid black;
   border-radius: 5px;
   background-size: 200% 600%;
-  background-image: url("img/cards/customers.jpg");
+  background-image: url("img/cards/customers.webp");
   position: relative;
 }
 .rog_card[data-customertype="0"] {
@@ -2738,34 +2738,25 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
 .rog_card[data-customertype="5"] .rog_delivery_ability {
   height: 13%;
 }
-.rog_card[data-customertype="6"] .rog_customer_name {
-  top: 36%;
-}
 .rog_card[data-customertype="6"] .rog_customer_cost {
-  top: 44%;
+  top: 39%;
   height: 16%;
 }
 .rog_card[data-customertype="6"] .rog_delivery_ability {
-  top: 64%;
-  height: 33%;
-}
-.rog_card[data-customertype="7"] .rog_customer_name {
-  top: 34%;
+  top: 54%;
+  height: 43%;
 }
 .rog_card[data-customertype="7"] .rog_customer_cost {
-  top: 42%;
-  height: 9%;
+  top: 39%;
+  height: 15%;
 }
 .rog_card[data-customertype="7"] .rog_delivery_ability {
   left: 8%;
   width: 84%;
 }
-.rog_card[data-customertype="8"] .rog_customer_name {
-  top: 27%;
-}
 .rog_card[data-customertype="8"] .rog_customer_cost {
-  top: 37%;
-  height: 15%;
+  top: 41%;
+  height: 11%;
 }
 .rog_card[data-customertype="8"] .rog_delivery_ability {
   height: 11%;
@@ -2776,20 +2767,13 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: 4%;
   width: 92%;
 }
-.rog_card[data-customertype="9"] .rog_customer_die {
-  top: 7%;
-  left: 8%;
-}
-.rog_card[data-customertype="9"] .rog_customer_name {
-  top: 34%;
-}
 .rog_card[data-customertype="9"] .rog_customer_cost {
-  top: 43%;
-  height: 15%;
+  top: 38%;
+  height: 16%;
 }
 .rog_card[data-customertype="9"] .rog_delivery_ability {
-  top: 59%;
-  height: 30%;
+  top: 55%;
+  height: 34%;
   left: 5%;
   width: 90%;
 }
@@ -2797,12 +2781,9 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   top: 90%;
   height: 8%;
 }
-.rog_card[data-customertype="10"] .rog_customer_name {
-  top: 35%;
-}
 .rog_card[data-customertype="10"] .rog_customer_cost {
-  top: 43%;
-  height: 10%;
+  top: 39%;
+  height: 14%;
 }
 .rog_card[data-customertype="10"] .rog_ongoing_ability {
   top: 68%;

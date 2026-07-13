@@ -7,7 +7,7 @@
 
     //sprite positions
     background-size: 200% 600%;
-    background-image: url("img/cards/customers.jpg");
+    background-image: url("img/cards/customers.webp");
     &[data-customertype="0"] {
         //BACK OF CARD
         background-position-x: 0%;
@@ -351,26 +351,26 @@
 
     &[data-customertype='6'] //CUSTOMER_TYPE_MAGISTRATE
     {
-        .rog_customer_name{
-            top: 36%;
-        }
+        //.rog_customer_name{
+        //    top: 36%;
+        //}
         .rog_customer_cost{
-            top: 44%;
+            top: 39%;
             height: 16%;
         }
         .rog_delivery_ability{
-            top: 64%;
-            height: 33%;
+            top: 54%;
+            height: 43%;
         }
     }
     &[data-customertype='7'] //CUSTOMER_TYPE_SMUGGLER
     {
-        .rog_customer_name{
-            top: 34%;
-        }
+        //.rog_customer_name{
+        //    top: 34%;
+        //}
         .rog_customer_cost{
-            top: 42%;
-            height: 9%;
+            top: 39%;
+            height: 15%;
         }
         .rog_delivery_ability{
             left: 8%;
@@ -380,12 +380,12 @@
     
     &[data-customertype='8'] //CUSTOMER_TYPE_SHINDOSHI
     {
-        .rog_customer_name{
-            top: 27%;
-        }
+        //.rog_customer_name{
+        //    top: 27%;
+        //}
         .rog_customer_cost{
-            top: 37%;
-            height: 15%;
+            top: 41%;
+            height: 11%;
         }
         .rog_delivery_ability{
             height: 11%;
@@ -400,20 +400,16 @@
 
     &[data-customertype='9'] //CUSTOMER_TYPE_SPY
     {
-        .rog_customer_die{
-            top: 7%;
-            left: 8%;
-        }
-        .rog_customer_name{
-            top: 34%;
-        }
+        //.rog_customer_name{
+        //    top: 34%;
+        //}
         .rog_customer_cost{
-            top: 43%;
-            height: 15%;
+            top: 38%;
+            height: 16%;
         }
         .rog_delivery_ability{
-            top: 59%;
-            height: 30%;
+            top: 55%;
+            height: 34%;
             left: 5%;
             width: 90%;
         }
@@ -425,12 +421,12 @@
     
     &[data-customertype='10'] //CUSTOMER_TYPE_TRADER
     {
-        .rog_customer_name{
-            top: 35%;
-        }
+        //.rog_customer_name{
+        //    top: 35%;
+        //}
         .rog_customer_cost{
-            top: 43%;
-            height: 10%;
+            top: 39%;
+            height: 14%;
         }
         .rog_ongoing_ability{
             top: 68%;
