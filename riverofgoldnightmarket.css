@@ -2336,46 +2336,46 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   width: 923.4px;
   height: 450.9px;
   background-size: 100% auto;
-  background-image: url("img/scenarios/clan_1.jpg");
+  background-image: url("img/scenarios/clan_1.webp");
   background-repeat: no-repeat;
 }
 .rog_card.rog_scenario_card[data-type="1"] {
-  background-image: url("img/scenarios/clan_1.jpg");
+  background-image: url("img/scenarios/clan_1.webp");
   background-position-x: 0;
   background-position-y: 0;
 }
 .rog_card.rog_scenario_card[data-type="2"] {
-  background-image: url("img/scenarios/clan_2.jpg");
+  background-image: url("img/scenarios/clan_2.webp");
   background-position-x: 0;
   background-position-y: 0;
 }
 .rog_card.rog_scenario_card[data-type="3"] {
-  background-image: url("img/scenarios/clan_3.jpg");
+  background-image: url("img/scenarios/clan_3.webp");
   background-position-x: 0;
   background-position-y: 0;
 }
 .rog_card.rog_scenario_card[data-type="4"] {
-  background-image: url("img/scenarios/clan_4.jpg");
+  background-image: url("img/scenarios/clan_4.webp");
   background-position-x: 0;
   background-position-y: 0;
 }
 .rog_card.rog_scenario_card[data-type="5"] {
-  background-image: url("img/scenarios/clan_5.jpg");
+  background-image: url("img/scenarios/clan_5.webp");
   background-position-x: 0;
   background-position-y: 0;
 }
 .rog_card.rog_scenario_card[data-type="6"] {
-  background-image: url("img/scenarios/clan_6.jpg");
+  background-image: url("img/scenarios/clan_6.webp");
   background-position-x: 0;
   background-position-y: 0;
 }
 .rog_card.rog_scenario_card[data-type="7"] {
-  background-image: url("img/scenarios/clan_7.jpg");
+  background-image: url("img/scenarios/clan_7.webp");
   background-position-x: 0;
   background-position-y: 0;
 }
 .rog_card.rog_scenario_card[data-type="8"] {
-  background-image: url("img/scenarios/clan_8.jpg");
+  background-image: url("img/scenarios/clan_8.webp");
   background-position-x: 0;
   background-position-y: 0;
 }

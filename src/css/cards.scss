@@ -46,11 +46,11 @@
         width: calc(3078px * $scale);
         height: calc(1503px * $scale);
         background-size: 100% auto;
-        background-image: url("img/scenarios/clan_1.jpg");
+        background-image: url("img/scenarios/clan_1.webp");
         background-repeat: no-repeat;
         @for $i from 1 through 8 {
             &[data-type="#{$i}"] {
-                background-image: url("img/scenarios/clan_"+$i+".jpg");
+                background-image: url("img/scenarios/clan_"+$i+".webp");
                 background-position-x: 0;
                 background-position-y: 0;
             }
