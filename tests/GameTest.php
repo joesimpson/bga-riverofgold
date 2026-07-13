@@ -786,6 +786,7 @@ final class GameTest extends TestCase
             'customerTypes' => [1,2,3,4,5],
             'customTracks' => null,
             'automa_level' => 0,
+            'automa_level_name' => '',
             'version' => 999999,
             'constants' => [
                 'INFLUENCE_TRACK_REWARDS' => INFLUENCE_TRACK_REWARDS,

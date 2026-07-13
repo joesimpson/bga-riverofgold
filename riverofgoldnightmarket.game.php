@@ -136,6 +136,7 @@ class RiverOfGoldNightMarket extends \Bga\GameFramework\Table
           'customTracks' => Globals::getRegionCustomTracks(),
           
           'automa_level' => Globals::getOptionSeishin(),
+          'automa_level_name' => Utils::getAutomaDifficultyName(Globals::getOptionSeishin()),
           'version'=> Utils::gameVersion(),
           'constants' => [
             'INFLUENCE_TRACK_REWARDS' => INFLUENCE_TRACK_REWARDS,

@@ -3999,7 +3999,8 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if(!automa_panel){
                 this.bga.playerPanels.addAutomataPlayerPanel(
                     automa_id, 
-                    _(automa_player.name), {
+                    _(automa_player.name) + " : "+ _(this.gamedatas.automa_level_name),
+                    {
                         'color' : automa_player.color,
                         'iconClass': 'rog_avatar_automa',
                         'score': automa_player.score,
