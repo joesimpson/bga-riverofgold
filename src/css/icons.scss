@@ -217,6 +217,19 @@
     @include rog_icons_sprite(-597px,-303px,30px,30px,62px,56px);
 }
 
+.rog_icon_customer_ability{
+    @include rog_icons_sprite(-527px,-950px,30px,30px,50px,50px);
+    border-radius: 50%;
+}
+.rog_icon_customer_ongoing{
+    @include rog_icons_sprite(-583px,-946px,30px,30px,55px,55px);
+    border-radius: 50%;
+}
+.rog_icon_customer_end{
+    @include rog_icons_sprite(-640px,-943px,30px,30px,60px,60px);
+    border-radius: 50%;
+}
+
 .rog_icon_market_simple{//SIMPLE : with no check mark on it
     @include rog_icons_sprite(-995px,-1px,30px,30px,52px,53px);
 }

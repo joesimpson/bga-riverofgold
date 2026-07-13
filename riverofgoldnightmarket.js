@@ -422,7 +422,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 'tiles/scoringtile.png',
                 'tiles/buildings.png',
                 'tiles/buildings_back.png',
-                'icons/icons_sprite.png',
+                'icons/icons_sprite.webp',
             ];
             if(this.gamedatas.customTracks && Object.keys(this.gamedatas.customTracks).length>0){
                 toPreloadList.push('regions/track_back.png');
@@ -4549,9 +4549,21 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     
         getCardTooltip(card) {
             let cardDatas = card;
+            let title = _('Customer card');
             let desc = this.getCustomerCardName(cardDatas);
             let div = this.tplCard(cardDatas,'_tmp');
-            return [`<div class='rog_card_tooltip'><h1>${desc}</h1>${div}</div>`];
+            let line1 = this.fsr(_('${icon} : ${description}') , {'icon': this.formatIcon('customer_ability'), 'description': _('Ability Activates Upon Customer Delivery')} );
+            let line2 = this.fsr(_('${icon} : ${description}') , {'icon': this.formatIcon('customer_ongoing'), 'description': _('Ability is Ongoing for the Rest of the Game')} );
+            let line3 = this.fsr(_('${icon} : ${description}') , {'icon': this.formatIcon('customer_end'), 'description': _('Ability Activates at the End of the Game')} );
+            return [`<div class='rog_card_tooltip'>
+                    <div class="rog_card_title">${title}</div>
+                    <hr>
+                    <h1>${desc}</h1>
+                    <div>${line1}</div>
+                    <div>${line2}</div>
+                    <div>${line3}</div>
+                    ${div}
+                </div>`];
         },
         getCustomerCardName(cardDatas) {
             return [this.fsr(_('${customer_type} ${region}'), { customer_type: _(cardDatas.title), region: cardDatas.region })];

@@ -26,7 +26,7 @@ Icon extract in sprite with differents layers size (so % is not useful).
 @mixin rog_icons_sprite($iconPosX,$iconPosY,$width,$height,$layer_width,$layer_height){
     width: $width;
     height: $height;
-    background-image: url("img/icons/icons_sprite.png");
+    background-image: url("img/icons/icons_sprite.webp");
     background-position-x: calc(math.div($width, $layer_width) * $iconPosX);
     background-position-y: calc(math.div($height, $layer_height ) * $iconPosY);
     background-size: 
