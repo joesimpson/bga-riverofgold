@@ -39,6 +39,7 @@ class GameMock extends RiverOfGoldNightMarket {
         ],[]);
         Globals::setTurn(1);
         Globals::setTurnPlayer(TestDatas::$test_activePlayerId);
+        Globals::setAutomaDie(1);
         TestDatas::$lastInsertedId = 1;
     }
 

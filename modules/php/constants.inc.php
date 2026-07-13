@@ -486,6 +486,7 @@ const CARD_CITY_LOCATION_INNER_1 = 'city_in_1';
 const CARD_CITY_LOCATION_INNER_2 = 'city_in_2';
 const CARD_CITY_LOCATION_HAND = 'city_h';
 const CARD_CITY_LOCATION_REVEALED = 'city_r';
+const CARD_CITY_LOCATION_DISCARD = 'city_dis';
 
 /////////////////////////////////////////////////////////
 //          MEEPLES

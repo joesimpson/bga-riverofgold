@@ -275,6 +275,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 ['giveActionCardToAutoma', 1000],
                 ['giveCityCardTo', 1000],
                 ['revealCityCard', 2000],
+                ['discardCityCard', 1000],
                 ['initCustomersDeck', 1000],
                 ['masteryDeck', null],
                 ['giveMasteriesTo', null],
@@ -2602,6 +2603,22 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 })
             );
         },
+        notif_discardCityCard(n) {
+            debug('notif_discardCityCard', n);
+            let from = n.args.from;
+            let cardDiv = this.addCard(n.args.card, this.getCardContainer(n.args.card));
+            this.animationManager.slideOutAndDestroy(cardDiv, this.getVisibleTitleContainer(), {duration: 900})
+                .then(() =>{
+                })
+            //Remove 1 rog_city_card_back from city space
+            let citySpace = this.getCitySpaceFromLocation(from);
+            if(citySpace){
+                let back = citySpace.querySelector('.rog_city_card_back');
+                if(back) {
+                    this.destroy(back);
+                }
+            }
+        },
         
         notif_placeCustomerOnRegion(n) {
             debug('notif_placeCustomerOnRegion', n);
@@ -2912,6 +2929,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             debug('notif_moveCityMarker:', n);
             let meeple = n.args.meeple;
             let divMeeple = document.getElementById(`rog_meeple-${meeple.id}`);
+            if(!divMeeple) return;
             let fromDiv = divMeeple.parentNode;
             this.slide(divMeeple.id, this.getMeepleContainer(meeple), {  
                 from: fromDiv.id, 
@@ -5370,10 +5388,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     + this.fsr(_('Seishin takes another turn after this one. (Before taking this extra turn, she claims a mastery if her deck is empty and then rolls her die.)'),{})
                     + '</li>'
                     + '</ul>'
-                    + '<li>'
                     + this.fsr(_('Seishin can have multiple clan markers in the city; her markers permanently block these spaces.'),{})
-                    + '</li>'
-                    + '</ul>'
                 ],
             ]);
             descriptionLine = descriptionMap.get(card.type);

@@ -2113,6 +2113,10 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   left: 2px;
   top: 6px;
 }
+#rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space[data-col="5"] .rog_meeple {
+  left: 0px;
+  top: 28px;
+}
 #rog_resizable_city_of_lies_board #rog_city_of_lies_board_container #rog_city_of_lies_board #rog_city_spaces .rog_city_space .rog_meeple {
   position: absolute;
   width: 50px;

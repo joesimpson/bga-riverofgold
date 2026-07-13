@@ -112,13 +112,19 @@ class CitySpaces
     return array_values( array_diff($spaces, $usedSpaces) );
   }
   
-  //public static function getAllEmptySpaces() : array{
-  //  $spaces = CitySpaces::getAllCitySpaces();
-  //  $spaceIds = array_keys($spaces);
-  //  $usedSpaces = Meeples::getUsedPositionsOnCity();
-  //  return array_values( array_diff($spaceIds, $usedSpaces) );
-  //}
+  /**
+   * @return array list of spaces id
+   */
+  public static function getAllEmptySpaces() : array{
+    $spaces = CitySpaces::getAllCitySpaces();
+    $spaceIds = array_keys($spaces);
+    $usedSpaces = Meeples::getUsedPositionsOnCity();
+    return array_values( array_diff($spaceIds, $usedSpaces) );
+  }
   
+  /**
+   * @return array list of spaces id
+   */
   public static function getEmptySpacesInColumn(int $pColumn) : array{
     $spaces = CitySpaces::getSpacesByColumn($pColumn);
     $usedSpaces = Meeples::getUsedPositionsOnCity();

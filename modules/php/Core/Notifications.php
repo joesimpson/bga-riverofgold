@@ -111,6 +111,20 @@ class Notifications
       ],
     );
   }
+  
+  public static function discardCityCard(Player $player, CityCard $card, string $fromLocation )
+  {
+    self::notifyAll('discardCityCard', clienttranslate('${player_name} discards city card ${card_icon} ${card_name}'), [
+        'player' => $player,
+        'card_icon' =>'',
+        'card' => $card->getUiData(),
+        'card_name' => $card->getTitle(),
+        'from' => $fromLocation,
+        'preserve' => ['card'],
+        'i18n' => ['card_name']
+      ],
+    );
+  }
 
   public static function initCustomersDeck(array $customerTypes)
   {

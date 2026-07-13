@@ -8,6 +8,7 @@ use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
 use ROG\Managers\AutomaCards;
+use ROG\Managers\CityCards;
 use ROG\Managers\Players;
 use ROG\Models\AutomaActionCard;
 use ROG\Models\AutomaActionType;
@@ -18,6 +19,7 @@ use Tests\Utils\TestDatas;
 use function PHPUnit\Framework\assertFalse;
 use function PHPUnit\Framework\assertSame;
 use function PHPUnit\Framework\assertNotSame;
+use function PHPUnit\Framework\assertTrue;
 
 final class AutomaActionCardTest extends TestCase
 {
@@ -629,7 +631,7 @@ final class AutomaActionCardTest extends TestCase
         $pId = $player->getId();
         $player->setDie(REGION_2);
         TestDatas::resetCardsDeck();
-        $customerId = 1;
+        $customerId = 30;
         TestDatas::$cards[26]['card_location'] = CARD_LOCATION_DELIVERED;
         TestDatas::$cards[26]['player_id'] = AUTOMA_PLAYER_ID;
         $cardRow = TestDatas::$cards[206];
@@ -1123,6 +1125,372 @@ final class AutomaActionCardTest extends TestCase
         assertSame(0, TestDatas::$tokens[35]['meeple_state']);
         assertSame(4, TestDatas::$tokens[36]['meeple_state']);
     }
+    // -------------------------------------------------
+    // -------------------------------------------------
+
+    public function test_play_Advance_Region1_space1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_1);
+        $cardType = AutomaActionType::ADVANCE_CITY->value;
+        $cardRow = TestDatas::$cards[209];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        $expectedCityRow = 1;
+        $expectedCityColumn = 1;
+        TestDatas::resetCityTokens();
+
+        $playAgain = $card->play($player);
+        
+        $expectedNotifs = [
+            "newClanMarker--123",
+            "moveCityMarker--123",
+            "discardCityCard--123",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertTrue($playAgain);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        //Test new clan marker
+        assertSame(43, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.$expectedCityColumn."-".$expectedCityRow,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        //Test NO gained influence :
+        assertSame(0, TestDatas::$tokens[31]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[32]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[33]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[34]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[35]['meeple_state']);
+        assertSame(0, TestDatas::$tokens[36]['meeple_state']);
+        //Discarded card :
+        assertSame(1, CityCards::countInLocation(CARD_CITY_LOCATION_DISCARD));//+1
+        assertSame(2, CityCards::countInLocation(CARD_CITY_LOCATION_OUTER_1));//-1
+        assertSame(CARD_CITY_LOCATION_DISCARD, TestDatas::$cards[221]['card_location']);
+    }
+    public function test_play_Advance_Region1_space3(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_1);
+        $cardType = AutomaActionType::ADVANCE_CITY->value;
+        $cardRow = TestDatas::$cards[209];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        $expectedCityRow = 1;
+        $expectedCityColumn = 3;
+        TestDatas::resetCityTokens();
+        TestDatas::$tokens[37]['meeple_location'] = MEEPLE_LOCATION_CITY."1-1";
+
+        $playAgain = $card->play($player);
+        
+        $expectedNotifs = [
+            "newClanMarker--123",
+            "moveCityMarker--123",
+            "discardCityCard--123",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertTrue($playAgain);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        //Test new clan marker
+        assertSame(43, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.$expectedCityColumn."-".$expectedCityRow,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        //Discarded card :
+        assertSame(1, CityCards::countInLocation(CARD_CITY_LOCATION_DISCARD));//+1
+        assertSame(2, CityCards::countInLocation(CARD_CITY_LOCATION_INNER_1));//-1
+        assertSame(CARD_CITY_LOCATION_DISCARD, TestDatas::$cards[233]['card_location']);
+    }
+    public function test_play_Advance_Region1_tileSpace1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_1);
+        $cardType = AutomaActionType::ADVANCE_CITY->value;
+        $cardRow = TestDatas::$cards[209];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        $expectedCityRow = 1;
+        $expectedCityColumn = 5;
+        TestDatas::resetCityTokens();
+        TestDatas::$tokens[37]['meeple_location'] = MEEPLE_LOCATION_CITY."1-1";
+        TestDatas::$tokens[38]['meeple_location'] = MEEPLE_LOCATION_CITY."3-1";
+
+        $playAgain = $card->play($player);
+        
+        $expectedNotifs = [
+            "newClanMarker--123",
+            "moveCityMarker--123",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertTrue($playAgain);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        //Test new clan marker
+        assertSame(43, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.$expectedCityColumn."-".$expectedCityRow,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        //0 Discarded card :
+        assertSame(0, CityCards::countInLocation(CARD_CITY_LOCATION_DISCARD));//+0
+    }
+    public function test_play_Advance_Region1_tileSpace2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_1);
+        $cardType = AutomaActionType::ADVANCE_CITY->value;
+        $cardRow = TestDatas::$cards[209];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        $expectedCityRow = 2;
+        $expectedCityColumn = 5;
+        TestDatas::resetCityTokens();
+        TestDatas::$tokens[37]['meeple_location'] = MEEPLE_LOCATION_CITY."1-1";
+        TestDatas::$tokens[38]['meeple_location'] = MEEPLE_LOCATION_CITY."3-1";
+        TestDatas::$tokens[39]['meeple_location'] = MEEPLE_LOCATION_CITY."5-1";
+
+        $playAgain = $card->play($player);
+        
+        $expectedNotifs = [
+            "newClanMarker--123",
+            "moveCityMarker--123",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertTrue($playAgain);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        //Test new clan marker
+        assertSame(43, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.$expectedCityColumn."-".$expectedCityRow,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        //0 Discarded card :
+        assertSame(0, CityCards::countInLocation(CARD_CITY_LOCATION_DISCARD));//+0
+    }
+    
+    public function test_play_Advance_Region1_noAvailableSpace(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_1);
+        $cardType = AutomaActionType::ADVANCE_CITY->value;
+        $cardRow = TestDatas::$cards[209];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        TestDatas::resetCityTokens();
+        TestDatas::$tokens[37]['meeple_location'] = MEEPLE_LOCATION_CITY."1-1";
+        TestDatas::$tokens[37]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$tokens[38]['meeple_location'] = MEEPLE_LOCATION_CITY."3-1";
+        TestDatas::$tokens[38]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$tokens[39]['meeple_location'] = MEEPLE_LOCATION_CITY."5-1";
+        TestDatas::$tokens[39]['player_id'] = AUTOMA_PLAYER_ID;
+        TestDatas::$tiles[52]['type'] = 4;
+
+        $playAgain = $card->play($player);
+        
+        $expectedNotifs = [
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertTrue($playAgain);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        //Test NO new clan marker
+        assertSame(1, TestDatas::$lastInsertedId);
+        //0 Discarded card :
+        assertSame(0, CityCards::countInLocation(CARD_CITY_LOCATION_DISCARD));//+0
+    }
+    
+    public function test_play_Advance_Region2_space2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_2);
+        $cardType = AutomaActionType::ADVANCE_CITY->value;
+        $cardRow = TestDatas::$cards[209];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        $expectedCityRow = 1;
+        $expectedCityColumn = 2;
+        TestDatas::resetCityTokens();
+
+        $playAgain = $card->play($player);
+        
+        $expectedNotifs = [
+            "newClanMarker--123",
+            "moveCityMarker--123",
+            "discardCityCard--123",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertTrue($playAgain);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        //Test new clan marker
+        assertSame(43, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.$expectedCityColumn."-".$expectedCityRow,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        //Discarded card :
+        assertSame(1, CityCards::countInLocation(CARD_CITY_LOCATION_DISCARD));//+1
+        assertSame(2, CityCards::countInLocation(CARD_CITY_LOCATION_OUTER_2));//-1
+        assertSame(CARD_CITY_LOCATION_DISCARD, TestDatas::$cards[226]['card_location']);
+    }
+    
+    public function test_play_Advance_Region2_space4(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_2);
+        $cardType = AutomaActionType::ADVANCE_CITY->value;
+        $cardRow = TestDatas::$cards[209];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        $expectedCityRow = 1;
+        $expectedCityColumn = 4;
+        TestDatas::resetCityTokens();
+        TestDatas::$tokens[37]['meeple_location'] = MEEPLE_LOCATION_CITY."2-1";
+
+        $playAgain = $card->play($player);
+        
+        $expectedNotifs = [
+            "newClanMarker--123",
+            "moveCityMarker--123",
+            "discardCityCard--123",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertTrue($playAgain);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        //Test new clan marker
+        assertSame(43, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.$expectedCityColumn."-".$expectedCityRow,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        //Discarded card :
+        assertSame(1, CityCards::countInLocation(CARD_CITY_LOCATION_DISCARD));//+1
+        assertSame(2, CityCards::countInLocation(CARD_CITY_LOCATION_INNER_2));//-1
+        assertSame(CARD_CITY_LOCATION_DISCARD, TestDatas::$cards[236]['card_location']);
+    }
+    public function test_play_Advance_Region2_tileSpace3(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_2);
+        $cardType = AutomaActionType::ADVANCE_CITY->value;
+        $cardRow = TestDatas::$cards[209];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        $expectedCityRow = 3;
+        $expectedCityColumn = 5;
+        TestDatas::resetCityTokens();
+        TestDatas::$tokens[37]['meeple_location'] = MEEPLE_LOCATION_CITY."2-1";
+        TestDatas::$tokens[38]['meeple_location'] = MEEPLE_LOCATION_CITY."4-1";
+
+        $playAgain = $card->play($player);
+        
+        $expectedNotifs = [
+            "newClanMarker--123",
+            "moveCityMarker--123",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertTrue($playAgain);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        //Test new clan marker
+        assertSame(43, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.$expectedCityColumn."-".$expectedCityRow,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        //0 Discarded card :
+        assertSame(0, CityCards::countInLocation(CARD_CITY_LOCATION_DISCARD));//+0
+    }
+    public function test_play_Advance_Region6_space10(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_6);
+        $cardType = AutomaActionType::ADVANCE_CITY->value;
+        $cardRow = TestDatas::$cards[209];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        $expectedCityRow = 3;
+        $expectedCityColumn = 2;
+        TestDatas::resetCityTokens();
+
+        $playAgain = $card->play($player);
+        
+        $expectedNotifs = [
+            "newClanMarker--123",
+            "moveCityMarker--123",
+            "discardCityCard--123",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertTrue($playAgain);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        //Test new clan marker
+        assertSame(43, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.$expectedCityColumn."-".$expectedCityRow,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        //Discarded card :
+        assertSame(1, CityCards::countInLocation(CARD_CITY_LOCATION_DISCARD));//+1
+        assertSame(2, CityCards::countInLocation(CARD_CITY_LOCATION_OUTER_2));//-1
+        assertSame(CARD_CITY_LOCATION_DISCARD, TestDatas::$cards[226]['card_location']);
+    }
+    public function test_play_Advance_Region6_space12(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_6);
+        $cardType = AutomaActionType::ADVANCE_CITY->value;
+        $cardRow = TestDatas::$cards[209];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        $expectedCityRow = 3;
+        $expectedCityColumn = 4;
+        TestDatas::resetCityTokens();
+        TestDatas::$tokens[37]['meeple_location'] = MEEPLE_LOCATION_CITY."2-3";
+
+        $playAgain = $card->play($player);
+        
+        $expectedNotifs = [
+            "newClanMarker--123",
+            "moveCityMarker--123",
+            "discardCityCard--123",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertTrue($playAgain);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        //Test new clan marker
+        assertSame(43, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.$expectedCityColumn."-".$expectedCityRow,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        //Discarded card :
+        assertSame(1, CityCards::countInLocation(CARD_CITY_LOCATION_DISCARD));//+1
+        assertSame(2, CityCards::countInLocation(CARD_CITY_LOCATION_INNER_2));//-1
+        assertSame(CARD_CITY_LOCATION_DISCARD, TestDatas::$cards[236]['card_location']);
+    }
+    public function test_play_Advance_Region6_tileSpace3(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        $player = Players::automaPlayer();
+        $player->setDie(REGION_6);
+        $cardType = AutomaActionType::ADVANCE_CITY->value;
+        $cardRow = TestDatas::$cards[209];
+        $cardRow['type'] = $cardType;
+        $card = new AutomaActionCard($cardRow, AutomaCards::getAutomaActionCardsTypes()[$cardType]);
+        $expectedCityRow = 3;
+        $expectedCityColumn = 5;
+        TestDatas::resetCityTokens();
+        TestDatas::$tokens[37]['meeple_location'] = MEEPLE_LOCATION_CITY."2-3";
+        TestDatas::$tokens[38]['meeple_location'] = MEEPLE_LOCATION_CITY."4-3";
+        TestDatas::$tiles[53]['type'] = 12;
+
+        $playAgain = $card->play($player);
+        
+        $expectedNotifs = [
+            "newClanMarker--123",
+            "moveCityMarker--123",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertTrue($playAgain);
+        assertSame(MAIN_ACTION::ADVANCE->value, Globals::getTurnMainActionDone());
+        //Test new clan marker
+        assertSame(43, TestDatas::$lastInsertedId);
+        assertSame(TestDatas::$tokens[43], ['result_associative_index' => 43, 'meeple_id' => 43, 'meeple_state' => 0, 'meeple_location'=> MEEPLE_LOCATION_CITY.$expectedCityColumn."-".$expectedCityRow,'type' => MEEPLE_TYPE_CLAN_MARKER,  'player_id' => AUTOMA_PLAYER_ID, ] );
+        //0 Discarded card :
+        assertSame(0, CityCards::countInLocation(CARD_CITY_LOCATION_DISCARD));//+0
+    }
+    // -------------------------------------------------
     // -------------------------------------------------
 
 }

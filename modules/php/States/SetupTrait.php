@@ -145,6 +145,7 @@ trait SetupTrait
       Notifications::influenceClanMarkers($player,$influenceMeeples);
       
       if(Utils::isGameWithCityOfLies()){
+        //Not needed for automa ?
         Meeples::addClanMarkerOnCity($player, 0,Players::count()+1);
       }
 

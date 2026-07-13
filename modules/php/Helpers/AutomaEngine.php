@@ -26,13 +26,18 @@ class AutomaEngine {
 
         //$player = Players::automaPlayer();
         $actionCard = AutomaCards::giveActionCardToAutoma($player);
-        $actionCard->play($player);
+        $playAgain = $actionCard->play($player);
 
         //When Seishin’s action deck is empty, shuffle her discard pile facedown to make a new deck. Seishin then claims a mastery based on her die result
         $deckSize = AutomaCards::countAutomaActionDeckSize(CARD_AUTOMA_LOCATION_DECK);
         if($deckSize == 0){
             AutomaCards::reshuffleAutomaActionDeck($player, CARD_AUTOMA_LOCATION_PLAYED, CARD_AUTOMA_LOCATION_DECK,);
             $this->claimMasteries($player);
+        }
+
+        if($playAgain){
+            $player->rollDie();
+            $this->playTurn($player);
         }
     }
     

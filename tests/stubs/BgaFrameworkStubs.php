@@ -508,11 +508,18 @@ abstract class Table
             $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location, ){return $card['card_location'] == $card_location ;});
             return $filtered;
         }
-        if (preg_match("/^SELECT (.*) FROM `cards` WHERE \(`card_location` = '(?P<card_location>.*)'\)( ORDER BY card_state (ASC|DESC))?( LIMIT (?P<limit>\d+))?$/", $sql, $matches) == 1) {
-            //TODO SORT card_state
+        if (preg_match("/^SELECT (.*) FROM `cards` WHERE \(`card_location` = '(?P<card_location>.*)'\)( ORDER BY card_state (?P<order>ASC|DESC))?( LIMIT (?P<limit>\d+))?$/", $sql, $matches) == 1) {
             $card_location = $matches['card_location'];
+            $order = isset($matches['order']) ? $matches['order'] :null;
             $limit = array_key_exists('limit',$matches) ? intval($matches['limit']) : null;
             $filtered = array_filter(TestDatas::$cards,function ($card) use ($card_location,){return  $card['card_location'] == $card_location;});
+            if(isset($order)){
+                uasort($filtered, function ($a,$b) use ($order)  {
+                    if($order == 'DESC') return $b["card_state"] <=> $a["card_state"];
+                    return $a["card_state"] <=> $b["card_state"];
+                });
+                logForTests("MOCK select cards ordereds ");
+            }
             if(isset($limit)) $filtered = array_slice($filtered, 0, $limit, true);
             return $filtered;
         }
@@ -940,7 +947,7 @@ abstract class Table
             $player_id = null; if(isset($matches['player_id'])) $player_id =  intval($matches['player_id']);
             $meeple_ids = array_keys(TestDatas::$tokens);
             $nbMeeples = count($meeple_ids);
-            $meeple_id = 1 + (($nbMeeples >0 ) ? $meeple_ids[$nbMeeples-1] : 0 );
+            $meeple_id = 1 + (($nbMeeples >0 ) ? max($meeple_ids) : 0 );
             logForTests("DbQuery --- added token $meeple_id : $meeple_location, $meeple_state,$type, $player_id ");
             TestDatas::$tokens[$meeple_id] = ['result_associative_index' => $meeple_id, 'meeple_id' => $meeple_id, 'meeple_state' => $meeple_state, 'meeple_location'=> $meeple_location,'type' => $type,  'player_id' => $player_id, ];
             TestDatas::$lastInsertedId = $meeple_id;

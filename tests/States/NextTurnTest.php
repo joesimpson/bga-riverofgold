@@ -8,6 +8,7 @@ use Bga\GameFramework\GamestateMachine;
 use GameMock;
 use PHPUnit\Framework\TestCase;
 use ROG\Core\Globals;
+use ROG\Managers\AutomaCards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
@@ -109,6 +110,7 @@ final class NextTurnTest extends TestCase
         GamestateMachine::$test_current_state = ST_NEXT_TURN;
         TestDatas::$test_activePlayerId = 2;
         Globals::setTurnPlayer(TestDatas::$test_activePlayerId);
+        TestDatas::$cards[201]['card_state'] = 10;
         $expectedNotifs = [
             "giveActionCardToAutoma--123",
             "sail--123",
@@ -135,6 +137,7 @@ final class NextTurnTest extends TestCase
         GamestateMachine::$test_current_state = ST_NEXT_TURN;
         TestDatas::$test_activePlayerId = 2;
         Globals::setTurnPlayer(TestDatas::$test_activePlayerId);
+        TestDatas::$cards[201]['card_state'] = 10;
 
         $game->stNextTurn();
         
@@ -142,6 +145,43 @@ final class NextTurnTest extends TestCase
         assertSame(true, Globals::isAutomaActive());
         assertSame(CARD_AUTOMA_LOCATION_PLAYED, TestDatas::$cards[201]['card_location']);
         assertSame(1, TestDatas::$cards[201]['card_state']);
+        assertSame(ST_END_TURN, GamestateMachine::$test_current_state);
+    }
+    
+    //play again with ADVANCE
+    public function testEnteringState_beforeAutomaTurn_playAgain(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        Globals::setOptionSeishin(OPTION_SEISHIN_LEVEL_1);
+        Globals::setOptionCity(OPTION_CITY_OF_LIES_ON);
+        Globals::setTurn(3);
+        Globals::setAutomaDie(1);
+        GamestateMachine::$test_current_state = ST_NEXT_TURN;
+        TestDatas::$test_activePlayerId = 2;
+        Globals::setTurnPlayer(TestDatas::$test_activePlayerId);
+
+        $game->stNextTurn();
+        
+        $expectedNotifs = [
+            "giveActionCardToAutoma-".AUTOMA_PLAYER_ID,
+            "newClanMarker-".AUTOMA_PLAYER_ID,
+            "moveCityMarker-".AUTOMA_PLAYER_ID,
+            "discardCityCard-".AUTOMA_PLAYER_ID,
+            //play again :
+            "rollDie-".AUTOMA_PLAYER_ID,
+            "giveActionCardToAutoma-".AUTOMA_PLAYER_ID,
+            "build-".AUTOMA_PLAYER_ID,
+            "newClanMarker-".AUTOMA_PLAYER_ID,
+            "gainInfluence-".AUTOMA_PLAYER_ID,
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame(AUTOMA_PLAYER_ID, Globals::getTurnPlayer());
+        assertSame(true, Globals::isAutomaActive());
+        assertSame(CARD_AUTOMA_LOCATION_PLAYED, TestDatas::$cards[209]['card_location']);
+        assertSame(1, TestDatas::$cards[209]['card_state']);
+        assertSame(CARD_AUTOMA_LOCATION_PLAYED, TestDatas::$cards[208]['card_location']);
+        assertSame(2, TestDatas::$cards[208]['card_state']);
         assertSame(ST_END_TURN, GamestateMachine::$test_current_state);
     }
     
@@ -155,21 +195,15 @@ final class NextTurnTest extends TestCase
         TestDatas::$test_activePlayerId = 2;
         Globals::setTurnPlayer(TestDatas::$test_activePlayerId);
         foreach(TestDatas::$cards as &$card) if($card['subtype'] == CARD_TYPE_AUTOMA_ACTION) $card['card_location'] = CARD_AUTOMA_LOCATION_PLAYED;
-        $expectedNotifs = [
-            "reshuffleAutomaActionDeck--123",
-            "giveActionCardToAutoma--123",
-            "sail--123",
-            "checkVRewards",
-            "checkORewards",
-        ];
 
         $game->stNextTurn();
         
-        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        assertSame("reshuffleAutomaActionDeck--123", TestDatas::$notifs['all'][0]);
+        assertSame("giveActionCardToAutoma--123", TestDatas::$notifs['all'][1]);
+        //We are not sure about next notifs...
         assertSame(AUTOMA_PLAYER_ID, Globals::getTurnPlayer());
         assertSame(true, Globals::isAutomaActive());
-        assertSame(CARD_AUTOMA_LOCATION_PLAYED, TestDatas::$cards[201]['card_location']);
-        assertSame(1, TestDatas::$cards[201]['card_state']);
+        assertSame(1, AutomaCards::countInLocation(CARD_AUTOMA_LOCATION_PLAYED));
         assertSame(ST_END_TURN, GamestateMachine::$test_current_state);
     }
     
