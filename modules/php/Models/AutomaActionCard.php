@@ -226,6 +226,7 @@ class AutomaActionCard extends Card
       $cityCardLocation = CityCards::deckLocationName($space->column);
       if(!empty($cityCardLocation)) $cityCard = CityCards::getTopOf($cityCardLocation);
       if(isset($cityCard)){
+        $cityCard->setPId($player->getId());
         Notifications::discardCityCard($player, $cityCard, $cityCardLocation);
         $cityCard->setLocation(CARD_CITY_LOCATION_DISCARD);
       }

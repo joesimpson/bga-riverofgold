@@ -1166,6 +1166,7 @@ final class AutomaActionCardTest extends TestCase
         assertSame(1, CityCards::countInLocation(CARD_CITY_LOCATION_DISCARD));//+1
         assertSame(2, CityCards::countInLocation(CARD_CITY_LOCATION_OUTER_1));//-1
         assertSame(CARD_CITY_LOCATION_DISCARD, TestDatas::$cards[221]['card_location']);
+        assertSame(AUTOMA_PLAYER_ID, TestDatas::$cards[221]['player_id']);
     }
     public function test_play_Advance_Region1_space3(): void
     {
