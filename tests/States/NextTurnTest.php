@@ -12,6 +12,7 @@ use ROG\Managers\AutomaCards;
 use ROG\Managers\Meeples;
 use ROG\Managers\Players;
 use ROG\Managers\Tiles;
+use ROG\Models\AutomaActionType;
 use ROG\Models\ScenarioType;
 use Tests\Utils\TestDatas;
 
@@ -203,7 +204,16 @@ final class NextTurnTest extends TestCase
         //We are not sure about next notifs...
         assertSame(AUTOMA_PLAYER_ID, Globals::getTurnPlayer());
         assertSame(true, Globals::isAutomaActive());
-        assertSame(1, AutomaCards::countInLocation(CARD_AUTOMA_LOCATION_PLAYED));
+        $automaPlayedCards = AutomaCards::getInLocationOrdered(CARD_AUTOMA_LOCATION_PLAYED);
+        $automaPlayedTypes = $automaPlayedCards->map(function($c) {return $c->getType();} )->toArray();
+        if(in_array( AutomaActionType::ADVANCE_CITY->value,$automaPlayedTypes)){
+            logForTests("Advance played after reshuffle : ".json_encode($automaPlayedTypes));
+            assertSame(2, $automaPlayedCards->count());
+        }
+        else {
+            logForTests("Advance NOT played after reshuffle : ".json_encode($automaPlayedTypes));
+            assertSame(1, $automaPlayedCards->count());
+        }
         assertSame(ST_END_TURN, GamestateMachine::$test_current_state);
     }
     
