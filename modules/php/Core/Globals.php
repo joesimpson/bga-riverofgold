@@ -208,7 +208,17 @@ class Globals extends \ROG\Helpers\DB_Manager
         ];
         break;
       case OPTION_CUSTOMERS_RANDOM:
-        $customerTypes = array_rand(array_flip(ALL_CUSTOMER_TYPES), 6);
+        $possibleCustomers = ALL_CUSTOMER_TYPES;
+        if($optionCity == OPTION_CITY_OF_LIES_OFF){
+          // REMOVE logs from PROD
+          //Game::get()->trace("possibleCustomers BEFORE = ".json_encode($possibleCustomers));
+          $k = array_search(CUSTOMER_TYPE_SPY,$possibleCustomers);
+          unset($possibleCustomers[$k]);
+          $possibleCustomers = array_values($possibleCustomers);
+          //Game::get()->trace("possibleCustomers AFTER = ".json_encode($possibleCustomers));
+        }
+        $customerTypes = array_rand(array_flip($possibleCustomers), 6);
+        
         break;
     }
     self::setOptionCustomers($optionCustomers);

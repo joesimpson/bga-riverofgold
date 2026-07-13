@@ -183,22 +183,22 @@
             "1": {
                 "name": "Trade & Favor",
                 "tmdisplay": "Trade & Favor",
-                "description": "Play with Artisan, Monk, Noble, Smuggler, Shindōshi, Trader"
+                "description": "Play with Artisan, Monk, Noble, Smuggler*, Shindōshi*, Trader*"
             },
             "4": {
                 "name": "Building Influence",
                 "tmdisplay": "Building Influence",
-                "description": "Play with Artisan, Elder, Merchant, Magistrate, Smuggler, Trader"
+                "description": "Play with Artisan, Elder, Merchant, Magistrate*, Smuggler*, Trader*"
             },
             "2": {
                 "name": "Into the City",
                 "tmdisplay": "Into the City",
-                "description": "Play with Elder, Merchant, Monk, Noble, Magistrate, Spy (uses the City of Lies module)"
+                "description": "Play with Elder, Merchant, Monk, Noble, Magistrate*, Spy*"
             },
             "3": {
                 "name": "Night Market",
                 "tmdisplay": "Night Market",
-                "description": "Play with Monk, Magistrate, Smuggler, Shindōshi, Spy (uses the City of Lies module), Trader"
+                "description": "Play with Monk, Magistrate*, Smuggler*, Shindōshi*, Spy*, Trader*"
             },
             "10": {
                 "name": "Random",
@@ -206,7 +206,25 @@
                 "description": "Play with 6 random customer types"
             }
         },
-        "default": 0
+        "default": 0,
+        "startcondition": {
+            "2": [
+                {
+                    "type": "otheroption",
+                    "id": 113,
+                    "value": 1,
+                    "message": "City of Lies is required to play with these customers."
+                }
+            ],
+            "3": [
+                {
+                    "type": "otheroption",
+                    "id": 113,
+                    "value": 1,
+                    "message": "City of Lies is required to play with these customers."
+                }
+            ]
+        }
     },
     "130": {
         "name": "Imperial Markets",

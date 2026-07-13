@@ -29,6 +29,7 @@ require_once 'constants.inc.php';
 $messageForSeishinOff = 'Rival AI is mandatory in Solo games.';
 $warningAiInTraining = 'Coop VS rival AI is available in friendly mode only.';
 $seishinDesc = 'Cooperative : You compete against Seishin, a rival AI merchant.';
+$warningCityOfLiesNeeded = 'City of Lies is required to play with these customers.';
 
 $game_options = [
 
@@ -187,23 +188,23 @@ $game_options = [
       OPTION_CUSTOMERS_TRADEFAVOR => [
         'name' => 'Trade & Favor', 
         'tmdisplay' => 'Trade & Favor',
-        'description' => 'Play with Artisan, Monk, Noble, Smuggler, Shindōshi, Trader', 
+        'description' => 'Play with Artisan, Monk, Noble, Smuggler*, Shindōshi*, Trader*', 
       ],
       OPTION_CUSTOMERS_BUILDING_INFLUENCE => [
         'name' => 'Building Influence', 
         'tmdisplay' => 'Building Influence',
-        'description' => 'Play with Artisan, Elder, Merchant, Magistrate, Smuggler, Trader', 
+        'description' => 'Play with Artisan, Elder, Merchant, Magistrate*, Smuggler*, Trader*', 
       ],
       OPTION_CUSTOMERS_INTOCITY => [
         'name' => 'Into the City', 
         'tmdisplay' => 'Into the City',
-        'description' => 'Play with Elder, Merchant, Monk, Noble, Magistrate, Spy (uses the City of Lies module)', 
+        'description' => 'Play with Elder, Merchant, Monk, Noble, Magistrate*, Spy*', 
       ],
       
       OPTION_CUSTOMERS_NIGHT_MONKS => [
         'name' => 'Night Market', 
         'tmdisplay' => 'Night Market',
-        'description' => 'Play with Monk, Magistrate, Smuggler, Shindōshi, Spy (uses the City of Lies module), Trader', 
+        'description' => 'Play with Monk, Magistrate*, Smuggler*, Shindōshi*, Spy*, Trader*', 
       ],
       OPTION_CUSTOMERS_RANDOM => [
         'name' => 'Random', 
@@ -212,6 +213,14 @@ $game_options = [
       ],
     ],
     'default' => OPTION_CUSTOMERS_BASE,
+    'startcondition'=>  [
+      OPTION_CUSTOMERS_INTOCITY => [
+        [ "type" => "otheroption", "id" => OPTION_CITY_OF_LIES, "value"=> OPTION_CITY_OF_LIES_ON, "message"=> $warningCityOfLiesNeeded ],
+      ],
+      OPTION_CUSTOMERS_NIGHT_MONKS => [
+        [ "type" => "otheroption", "id" => OPTION_CITY_OF_LIES, "value"=> OPTION_CITY_OF_LIES_ON, "message"=> $warningCityOfLiesNeeded ],
+      ],
+    ],
      
   ), 
 

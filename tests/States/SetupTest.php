@@ -139,6 +139,7 @@ final class SetupTest extends TestCase
         
         PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
+        assertSame($expectedCustomerTypes, Globals::getCustomerTypes());
         //We need 6*5 cards
         assertSame(30, count(TestDatas::$cards));
         foreach(TestDatas::$cards as $cardRow){
@@ -168,6 +169,7 @@ final class SetupTest extends TestCase
         
         PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
+        assertSame($expectedCustomerTypes, Globals::getCustomerTypes());
         //We need 6*6 cards
         assertSame(36, count(TestDatas::$cards));
         foreach(TestDatas::$cards as $cardRow){
@@ -179,7 +181,7 @@ final class SetupTest extends TestCase
         
     }
     
-    public function test_setupNewGame_Customers_Random(): void
+    public function test_setupNewGame_Customers_Random_WithoutCity(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
@@ -191,7 +193,58 @@ final class SetupTest extends TestCase
         $options = [
             OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
             OPTION_TRACKS => OPTION_TRACKS_OFF,
-            OPTION_CUSTOMERS => OPTION_CUSTOMERS_INTOCITY,
+            OPTION_CUSTOMERS => OPTION_CUSTOMERS_RANDOM,
+            OPTION_CITY_OF_LIES => OPTION_CITY_OF_LIES_OFF,
+        ];
+        TestDatas::$cards = [];
+        TestDatas::$tiles = [];
+        $expectedCustomerTypes = [
+            CUSTOMER_TYPE_ARTISAN ,
+            CUSTOMER_TYPE_ELDER   ,
+            CUSTOMER_TYPE_MERCHANT,
+            CUSTOMER_TYPE_MONK    ,
+            CUSTOMER_TYPE_NOBLE   ,
+            
+            CUSTOMER_TYPE_MAGISTRATE,
+            CUSTOMER_TYPE_SMUGGLER  ,
+            CUSTOMER_TYPE_SHINDOSHI ,
+            //CUSTOMER_TYPE_SPY       ,
+            CUSTOMER_TYPE_TRADER    ,
+        ];
+        
+        PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
+
+        $types = Globals::getCustomerTypes();
+        foreach($types as $cType){
+            assertTrue(in_array($cType,$expectedCustomerTypes), "Customer type $cType must be in ".json_encode($expectedCustomerTypes));
+        }
+        //We need 6*6 cards
+        assertSame(36, Cards::countInLocation(CARD_LOCATION_DECK));
+        assertSame(36, count(TestDatas::$cards));
+        $cards = Cards::getInLocation(CARD_LOCATION_DECK);
+        foreach($cards as $card){
+            $cType = $card->getCustomerType();
+            assertTrue(in_array($card->getCustomerType(),$expectedCustomerTypes), "Customer type $cType must be in ".json_encode($expectedCustomerTypes));
+            assertSame(CARD_LOCATION_DECK,$card->getLocation());
+        }
+        
+    }
+    
+    public function test_setupNewGame_Customers_Random_WithCity(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_GAME_SETUP;
+        $playersDatas = [
+            1 => TestDatas::$players[1],
+            2 => TestDatas::$players[2],
+        ] ;
+        $options = [
+            OPTION_EXPANSION_CLANS => OPTION_EXPANSION_CLANS_OFF,
+            OPTION_TRACKS => OPTION_TRACKS_OFF,
+            OPTION_CUSTOMERS => OPTION_CUSTOMERS_RANDOM,
+            OPTION_CITY_OF_LIES => OPTION_CITY_OF_LIES_ON,
+
         ];
         TestDatas::$cards = [];
         TestDatas::$tiles = [];
@@ -199,10 +252,16 @@ final class SetupTest extends TestCase
         
         PHPUnitUtil::callMethod($game,'setupNewGame', [$playersDatas, $options ]);
 
+        $types = Globals::getCustomerTypes();
+        foreach($types as $cType){
+            assertTrue(in_array($cType,$expectedCustomerTypes), "Customer type $cType must be in ".json_encode($expectedCustomerTypes));
+        }
         //We need 6*6 cards
-        assertSame(36, count(TestDatas::$cards));
-        foreach(TestDatas::$cards as $cardRow){
-            $card = new CustomerCard($cardRow, Cards::getCustomerCardsTypes()[$cardRow['type']]);
+        assertSame(36, Cards::countInLocation(CARD_LOCATION_DECK));
+        //+20 city cards
+        assertSame(56, count(TestDatas::$cards));
+        $cards = Cards::getInLocation(CARD_LOCATION_DECK);
+        foreach($cards as $card){
             $cType = $card->getCustomerType();
             assertTrue(in_array($card->getCustomerType(),$expectedCustomerTypes), "Customer type $cType must be in ".json_encode($expectedCustomerTypes));
             assertSame(CARD_LOCATION_DECK,$card->getLocation());
