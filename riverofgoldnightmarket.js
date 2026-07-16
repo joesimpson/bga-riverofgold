@@ -4899,8 +4899,10 @@ function (dojo, declare, BgaAnimations, BgaDice) {
             if(player.is_automa) return '';
             return `<div id='rog_player_city_container-${player.id}' class='rog_player_city_container'>
                     <h3 class='rog_title' >${this.fsr(_('${player_name} city cards'), { 'player_name':this.coloredPlayerName(player.name)}) }</h3>
+                    <div id='rog_player_city_container_cards-${player.id}' class='rog_player_city_container_cards'>
                     <div class='rog_player_city_cards rog_player_city_cards_hand' id='rog_player_city_cards_hand-${player.id}'></div>
                     <div class='rog_player_city_cards rog_player_city_cards_revealed' id='rog_player_city_cards_revealed-${player.id}'></div>
+                    </div>
                 </div>`;
         },
         /**

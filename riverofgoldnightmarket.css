@@ -6006,6 +6006,11 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   order: 120;
 }
 
+#ebd-body[data-city_of_lies=true] #rog_players_deliveries {
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
 .rog_region_cards_space .rog_customer_card_resizeable {
   display: flex;
   width: calc(var(--rog_board_card_scale) * 148px);
@@ -6057,6 +6062,22 @@ body[data-rog_anim_lastturn_msg="2"] #rog_end_warning {
   height: 26%;
   top: 24%;
   left: 60%;
+}
+
+.rog_player_city_container {
+  align-content: center;
+  align-items: center;
+}
+
+.rog_player_city_container_cards {
+  display: flex;
+  flex-flow: row;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.rog_player_city_container_cards .rog_city_card {
+  width: calc(var(--rog_delivered_scale) * 132px);
+  height: calc(var(--rog_delivered_scale) * 200px);
 }
 
 .rog_player_city_cards {

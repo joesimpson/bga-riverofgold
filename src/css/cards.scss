@@ -1002,6 +1002,7 @@
     }
     .rog_player_city_container{
         min-height: calc(var(--rog_delivered_scale) * 200px);
+        
     }
     .rog_player_hand,
     .rog_player_actions_container,
@@ -1082,6 +1083,14 @@
     //}
 }
 
+
+#ebd-body[data-city_of_lies="true"]{
+    #rog_players_deliveries{
+        flex-direction: row;
+        flex-wrap: wrap;
+    }
+}
+
 .rog_region_cards_space{
     .rog_customer_card_resizeable{
         display: flex;
@@ -1138,6 +1147,23 @@
             top: 24%;
             left: 60%;
         }
+    }
+}
+
+.rog_player_city_container{
+    align-content: center;
+    align-items: center;
+}
+
+.rog_player_city_container_cards{
+    display: flex;
+    flex-flow: row;
+    flex-direction: row;
+    flex-wrap: wrap;
+    .rog_city_card{
+        //it is ok for now because there is not resized text on it
+        width: calc(var(--rog_delivered_scale) * 132px);
+        height: calc(var(--rog_delivered_scale) * 200px);
     }
 }
 
