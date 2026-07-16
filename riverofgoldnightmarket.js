@@ -3686,7 +3686,13 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                     args.action_card_name = '<b><i>'+_(args.action_card_name) + '</i></b>';
                 }
                 if('card_name' in args){
-                    args.card_name = '<b><i>'+_(args.card_name) + '</i></b>';
+                    if(args.card_name != null && Object.keys(args.card_name).length >0 && args.card_name.log){
+                        //Array of log with args        
+                        args.card_name = '<b><i>'+this.fsr( _(args.card_name.log), args.card_name.args) + '</i></b>';                
+                    }
+                    else {
+                        args.card_name = '<b><i>'+_(args.card_name) + '</i></b>';
+                    }
                 }
                 
                 if('card_icon' in args && 'inner' in args) {

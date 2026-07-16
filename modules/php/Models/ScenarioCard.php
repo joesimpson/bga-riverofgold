@@ -457,7 +457,7 @@ class ScenarioCard extends Card
   public function formatNameForNotif() : array
   {
     return [
-        'log'=> '${clan_icon}${clan_name} Scenario',
+        'log'=> clienttranslate('${clan_icon}${clan_name} Scenario'),
         'args'=> [
           'clan_id' => $this->getClan(),
           'clan_icon' => '',
