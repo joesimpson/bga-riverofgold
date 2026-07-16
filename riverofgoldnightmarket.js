@@ -4896,6 +4896,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
         },
         tplPlayerCityCards(player) {
             if(! player.city_hand) return '';
+            if(player.is_automa) return '';
             return `<div id='rog_player_city_container-${player.id}' class='rog_player_city_container'>
                     <h3 class='rog_title' >${this.fsr(_('${player_name} city cards'), { 'player_name':this.coloredPlayerName(player.name)}) }</h3>
                     <div class='rog_player_city_cards rog_player_city_cards_hand' id='rog_player_city_cards_hand-${player.id}'></div>
