@@ -316,10 +316,14 @@ abstract class Utils
         $moveShip = true;
         while($shipPos > 0 && $moveShip){
             $moveShip = false;
-
+            if($fromPos == $shipPos){
+                //first turn
+                $moveShip = true;
+            }
+            
             //move it upriver until it reaches a river space that does not contain your ships 
             // and is not adjacent to your buildings.
-            if(in_array($shipPos,$boatsRiverSpaces)){
+            else if(in_array($shipPos,$boatsRiverSpaces)){
                 $moveShip = true;
             }
 

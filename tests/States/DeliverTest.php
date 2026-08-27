@@ -861,6 +861,97 @@ final class DeliverTest extends TestCase
         assertSame(5, TestDatas::$tokens[26]['meeple_state']);
     }
     
+    public function test_ActionDeliver_Pass_ScenarioMantis1_moveRogueShip_region1(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        $cardId = 13;
+        TestDatas::$cards[$cardId]['type'] = CARD_SMUGGLER_1;
+        TestDatas::$players[1]['die_face'] = 1;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":5,"3":5,"4":0,"5":0,"6":9}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$tokens[21]['meeple_state'] = 6;
+        TestDatas::$tokens[26]['player_id'] = ROGUE_PLAYER_ID;
+        TestDatas::$tokens[26]['meeple_state'] = 2;
+        TestDatas::$tokens[41]['player_id'] = 2;//not my building
+       
+        $game->actDeliverSelect($cardId,999999);
+        
+        $expectedNotifs = [
+            "deliver-1",
+            "spendResource-1",
+            "spendResource-1",
+            "gainInfluence-1",
+            "giveResource-1", // influence track
+            //"addBonus-1",     //smuggler
+            "moveRogueShip-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //MOVED rogue ship
+        assertSame(1, TestDatas::$tokens[26]['meeple_state']);
+    }
+    
+    public function test_ActionDeliver_Pass_ScenarioMantis1_moveRogueShip_region2(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        $cardId = 13;
+        TestDatas::$cards[$cardId]['type'] = CARD_SMUGGLER_2;
+        TestDatas::$players[1]['die_face'] = 2;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":5,"3":5,"4":0,"5":0,"6":9}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$tokens[21]['meeple_state'] = 6;
+        TestDatas::$tokens[26]['player_id'] = ROGUE_PLAYER_ID;
+        TestDatas::$tokens[26]['meeple_state'] = 2;
+        TestDatas::$tokens[41]['player_id'] = 2;//not my building
+       
+        $game->actDeliverSelect($cardId,999999);
+        
+        $expectedNotifs = [
+            "deliver-1",
+            "spendResource-1",
+            "spendResource-1",
+            "gainInfluence-1",
+            "giveResource-1", // influence track
+            //"addBonus-1",     //smuggler
+            "moveRogueShip-1",
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //MOVED rogue ship
+        assertSame(1, TestDatas::$tokens[26]['meeple_state']);
+    }
+    
+    public function test_ActionDeliver_Pass_ScenarioMantis1_moveRogueShip_inactive(): void
+    {
+        logTestRun(__CLASS__.".".__FUNCTION__);
+        $game = new GameMock();
+        GamestateMachine::$test_current_state = ST_PLAYER_TURN_DELIVER;
+        $cardId = 13;
+        TestDatas::$cards[$cardId]['type'] = CARD_SMUGGLER_3;
+        TestDatas::$players[1]['die_face'] = 3;
+        TestDatas::$players[1]['resources'] = '{"1":5,"2":5,"3":5,"4":0,"5":0,"6":9}';
+        TestDatas::$cards[301] = ['result_associative_index' => 301,'card_id' => 301, 'card_location' => CARD_SCENARIO_LOCATION_ASSIGNED, 'card_state' => 0, 'player_id' => 1, 'type' => ScenarioType::MANTIS_1->value,   'subtype' => CARD_TYPE_SCENARIO,];
+        TestDatas::$tokens[21]['meeple_state'] = 6;
+        TestDatas::$tokens[26]['player_id'] = ROGUE_PLAYER_ID;
+        TestDatas::$tokens[26]['meeple_state'] = 2;
+        TestDatas::$tokens[41]['player_id'] = 2;//not my building
+       
+        $game->actDeliverSelect($cardId,999999);
+        
+        $expectedNotifs = [
+            "deliver-1",
+            "spendResource-1",
+            "spendResource-1",
+            "gainInfluence-1",
+            "giveResource-1", // influence track
+        ];
+        assertSame($expectedNotifs, TestDatas::$notifs['all']);
+        //NOT MOVED rogue ship 
+        assertSame(2, TestDatas::$tokens[26]['meeple_state']);
+    }
+    
     public function test_ActionDeliver_Pass_ScenarioMantis1_removeRogueShip(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
