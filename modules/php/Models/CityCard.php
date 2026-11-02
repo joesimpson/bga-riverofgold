@@ -88,7 +88,7 @@ class CityCard extends Card
     $actions = [];
     switch($this->getType()){
       case CITY_CARD_TYPE::OPPORTUNIST->value : 
-        $nbShipsNearBuilding = Meeples::countPlayerShipsNearShoreSpace($shoreSpace, $player->getId());
+        $nbShipsNearBuilding = Meeples::countPlayerShipsNearShoreSpace($shoreSpace);
         $playDatas['n'] = 1 * $nbShipsNearBuilding; 
         $playDatas['regions'] = [$shoreSpace->region]; 
         if($playDatas['n'] > 0){

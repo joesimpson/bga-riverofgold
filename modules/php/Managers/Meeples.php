@@ -298,6 +298,17 @@ class Meeples extends \ROG\Helpers\Pieces
     return self::getFilteredQuery($pId, MEEPLE_LOCATION_RIVER,null)->get();
   }
   
+  /**
+   * @return Collection of Meeple
+   */
+  public static function getAllRiverBoats() : Collection
+  {
+    return self::DB()
+      ->whereIn('type', [MEEPLE_TYPE_SHIP, MEEPLE_TYPE_SHIP_ROYAL])
+      ->where(self::$prefix.'location', MEEPLE_LOCATION_RIVER)
+      ->get();
+  }
+
   public static function getRogueShip() : ?Meeple
   {
     return self::getFilteredQuery(ROGUE_PLAYER_ID, MEEPLE_LOCATION_RIVER,null)->get()->first();
@@ -366,9 +377,9 @@ class Meeples extends \ROG\Helpers\Pieces
     return self::getFilteredQuery($pId, MEEPLE_LOCATION_NEAR_SHORE.$shoreSpace,)->get();
   }
 
-  public static function countPlayerShipsNearShoreSpace(ShoreSpace $shoreSpace, int $pId, ) : int
+  public static function countPlayerShipsNearShoreSpace(ShoreSpace $shoreSpace, ?int $pId = null, ) : int
   {
-    $ships = Meeples::getBoats($pId);
+    $ships = (isset($pId)) ? Meeples::getBoats($pId) : Meeples::getAllRiverBoats();
     $nbShips = $ships->filter(function (Meeple $s) use ($shoreSpace){ 
         return ShoreSpaces::isAdjacent($shoreSpace->id, $s->getPosition()); 
       })->count();
