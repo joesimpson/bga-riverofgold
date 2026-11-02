@@ -1231,7 +1231,7 @@ abstract class Table
  class TableOptions {
     public function get(int $optionId): ?int {
         switch($optionId){
-            case BGA_GAMESTATE_GAMEVERSION: return 999999;
+            //case BGA_GAMESTATE_GAMEVERSION: return 999999;
         }
         return 0;
     }
@@ -1241,6 +1241,14 @@ abstract class Table
     }
     function isRealTime(): bool {
         return false;
+    }
+    /**
+     * Returns the current game version.
+     * 
+     * @return int the game version
+     */
+    public function getGameVersion(): int {
+        return 999999;
     }
 }
 class Bga {
