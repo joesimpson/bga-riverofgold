@@ -171,7 +171,7 @@ class ClanPatronCard extends Card
    */
   public function abilityOnEmperorVisit(Player &$player, Collection $buildingTiles){
     switch($this->getType()){
-      case PATRON_REVEREND_SENSEI: //+1 clan marker on own buildings
+      case PATRON_REVERED_SENSEI: //+1 clan marker on own buildings
         $newMarkers = [];
         foreach($buildingTiles as $tile){
           $clanMarkers = $tile->getMeeples();

@@ -124,7 +124,7 @@ final class EndTurnTest extends TestCase
         assertSame(1, TestDatas::$test_activePlayerId);
     }
 
-    public function test_runEmperorVisit_WithoutReverendSensei(): void
+    public function test_runEmperorVisit_WithoutReveredSensei(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
@@ -159,13 +159,13 @@ final class EndTurnTest extends TestCase
         //Check PLAYER 2 owner rewards :
         assertSame(2 + 1, TestDatas::$players[2]['player_score']);
     }
-    public function test_runEmperorVisit_WithReverendSensei(): void
+    public function test_runEmperorVisit_WithReveredSensei(): void
     {
         logTestRun(__CLASS__.".".__FUNCTION__);
         $game = new GameMock();
         GamestateMachine::$test_current_state = ST_END_TURN;
         Globals::setEra(1);
-        TestDatas::$cards[101]['type'] = PATRON_REVEREND_SENSEI;
+        TestDatas::$cards[101]['type'] = PATRON_REVERED_SENSEI;
         TestDatas::$cards[101]['card_location'] = CARD_CLAN_LOCATION_ASSIGNED;
         //add a second building tile  + 2 clan markers on it
         TestDatas::$tiles[43] = TestDatas::$tiles[41];

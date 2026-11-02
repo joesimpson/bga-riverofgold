@@ -149,7 +149,7 @@ class GameMock extends RiverOfGoldNightMarket {
                 
                 "11": "Scion of Void",
                 "12": "Scion of Earth",
-                "13": "Reverend Sensei",
+                "13": "Revered Sensei",
                 "14": "Lady of Lions",
                 "15": "Imperial Envoy",
                 "16": "Ise Zumi Tattooed Monk",

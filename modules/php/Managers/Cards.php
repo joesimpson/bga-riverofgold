@@ -746,7 +746,7 @@ class Cards extends \ROG\Helpers\Pieces
       //+8 unique Clan Patron cards
       PATRON_SCION_OF_VOID      => $f([CLAN_PHOENIX,  clienttranslate('Isawa Kaede'),         clienttranslate('Scion of Void'),             '',  ]), 
       PATRON_SCION_OF_EARTH     => $f([CLAN_PHOENIX,  clienttranslate('Isawa Tadaka'),        clienttranslate('Scion of Earth'),            '',  ]), 
-      PATRON_REVEREND_SENSEI    => $f([CLAN_LION,     clienttranslate('Akodo Kage'),          clienttranslate('Reverend Sensei'),           '',  ]), 
+      PATRON_REVERED_SENSEI     => $f([CLAN_LION,     clienttranslate('Akodo Kage'),          clienttranslate('Revered Sensei'),           '',  ]), 
       PATRON_LIONS_LADY         => $f([CLAN_LION,     clienttranslate('Matsu Tsuko'),         clienttranslate('Lady of Lions'),             '',  ]), 
       PATRON_IMPERIAL_ENVOY     => $f([CLAN_DRAGON,   clienttranslate('Kitsuki Yaruma'),      clienttranslate('Imperial Envoy'),            '',  ]), 
       PATRON_TATTOOED_MONK      => $f([CLAN_DRAGON,   clienttranslate('Togashi Mitsu'),       clienttranslate('Ise Zumi Tattooed Monk'),    '',  ]), 

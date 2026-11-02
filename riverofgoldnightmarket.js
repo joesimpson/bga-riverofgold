@@ -150,7 +150,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
     const PATRON_LADY            = 8;
     const PATRON_SCION_OF_VOID     = 11;
     const PATRON_SCION_OF_EARTH    = 12;
-    const PATRON_REVEREND_SENSEI   = 13;
+    const PATRON_REVERED_SENSEI   = 13;
     const PATRON_LIONS_LADY        = 14;
     const PATRON_IMPERIAL_ENVOY    = 15;
     const PATRON_TATTOOED_MONK     = 16;
@@ -4952,7 +4952,7 @@ function (dojo, declare, BgaAnimations, BgaDice) {
                 //+8 in v2
                 [PATRON_SCION_OF_VOID       , this.fsr(_('Put ${n} random mastery cards on the 2-player side in front of you. Only you can claim those ${n} masteries.'),{ 'n':3 })],
                 [PATRON_SCION_OF_EARTH      , this.fsr(_('When you claim a mastery, ${resource} and gain ${n} ${favor}. You may claim a mastery even if all its ${score} rewards have been claimed (if they have, put a clan marker on it but do not earn any ${score}).'),{ 'resource':this.formatIcon("moon_up"),'n':3, 'favor':this.formatIcon(RESOURCES[RESOURCE_TYPE_SUN]),'score':this.formatIcon('score'), })],
-                [PATRON_REVEREND_SENSEI     , this.fsr(_('At the end of Era 1, before the Emperor\'s Visit, place a second clan marker on all buildings you own that do not already have a second clan marker.'),{ })],
+                [PATRON_REVERED_SENSEI     , this.fsr(_('At the end of Era 1, before the Emperor\'s Visit, place a second clan marker on all buildings you own that do not already have a second clan marker.'),{ })],
                 [PATRON_LIONS_LADY          , this.fsr(_('During setup, place the ${lion} token on an empty shore space. Other players cannot build there. When you build there, gain the building\'s owner reward or visitor reward, then move the token to a new empty shore space.'),{'lion': this.formatIcon('bonus-'+BONUS_TYPE_PLACE_LION) })],
                 [PATRON_IMPERIAL_ENVOY      , this.fsr(_('When you visit an Imperial Market, gain ${influence} in its region.'),{ 'influence': this.formatIcon("influence",2), 'n2':2 })],
                 [PATRON_TATTOOED_MONK       , this.fsr(_('When you discard a customer (after delivering or ${draw}), gain ${influence} in the customer\'s region.'),{ 'draw': this.formatIcon('bonus-'+BONUS_TYPE_DRAW),'influence':this.formatIcon("influence"), 'n2': 1})],
